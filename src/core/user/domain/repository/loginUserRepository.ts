@@ -1,3 +1,4 @@
+import { UserAuthDTO, type LoginParams } from "../dto/LoginAuth.dto"
 export abstract class LoginUserRepository {
-    abstract login(email: string, password: string): Promise<any>
+    abstract run({ email, password }: LoginParams): Promise<UserAuthDTO>
 }

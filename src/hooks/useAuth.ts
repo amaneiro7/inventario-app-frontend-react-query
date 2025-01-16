@@ -1,17 +1,25 @@
-import { useCallback, useLayoutEffect, useState } from "react"
-import { useLocation } from "wouter";
-import { loginService } from "../api/login"
-import { LoginParams, User } from "../types/user"
+import { useCallback, useLayoutEffect, useMemo, useState } from "react"
+import { useLocation } from "wouter"
 import { api } from "../api/api"
-import { refreshToken } from "../api/refreshToken"
 import { isTokenExpired } from "../utils/isTokenExpired"
+import { LoginService } from "@/core/user/infra/loginService"
+import { Login } from "@/core/user/application/Login"
+import { type LoginParams } from "../types/user"
+import { type LoginUserDto } from "@/core/user/domain/dto/LoginUser.dto"
+import { RefreshToken } from "@/core/user/application/RefreshToken"
+import { RefreshTokenService } from "@/core/user/infra/refreshTokenService"
 
 export function useAuth() {
-    const [user, setUser] = useState<User | null>(null)
+    const [user, setUser] = useState<LoginUserDto | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [token, setToken] = useState<string | null>(() => window.localStorage.getItem('jwt'))
     const [location] = useLocation()
+
+    const loginRepository = useMemo(() => { return new LoginService() }, [])
+    const refreshTokenRepository = useMemo(() => { return new RefreshTokenService() }, [])
+    const loginService = useMemo(() => { return new Login(loginRepository).execute }, [loginRepository])
+    const refreshToken = useMemo(() => { return new RefreshToken(refreshTokenRepository).execute }, [refreshTokenRepository])
 
     const logout = useCallback(async () => {
         setUser(null)
@@ -35,7 +43,7 @@ export function useAuth() {
                 return error.message
             })
             .finally(() => setIsLoading(false))
-    }, [])
+    }, [loginService])
 
 
     const refreshTokenValidity = useCallback(async () => {
@@ -44,7 +52,7 @@ export function useAuth() {
         setToken(response.accessToken)
         window.localStorage.setItem('jwt', response.accessToken)
         return response.accessToken
-    }, [])
+    }, [refreshToken])
 
     const checkTokenValidity = useCallback(async () => {
         // si el token esta presente y no ha expirado retorna por que es válido
@@ -62,7 +70,7 @@ export function useAuth() {
         }
 
 
-    }, [logout, token])
+    }, [logout, refreshToken, token])
 
     useLayoutEffect(() => {
         const refreshInterceptor = api.interceptors.request.use(
@@ -88,6 +96,7 @@ export function useAuth() {
     }, [logout, refreshTokenValidity])
 
     useLayoutEffect(() => {
+        if (location === '/login') return
         checkTokenValidity()
     }, [checkTokenValidity, location])
 

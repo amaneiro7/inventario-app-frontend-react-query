@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import './InputError.css'
+import './input.css'
 
 interface InputProps<T extends string | number | readonly string[]> extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     label: string
