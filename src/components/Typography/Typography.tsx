@@ -1,52 +1,66 @@
-import { ElementType, createElement } from "react"
-import { type AlignType, type ColorType, type TransformType, type VariantType, type WeightType } from "./types"
-import { typography } from "./style"
-import { twMerge } from 'tailwind-merge'
-import cn from 'classnames'
+import React, { ElementType, createElement, forwardRef } from "react";
+import cn from "classnames";
+import { twMerge } from "tailwind-merge";
+import {
+    AlignType,
+    ColorType,
+    TransformType,
+    VariantType,
+    WeightType,
+} from "./types";
+import { typography } from "./styles";
 
 type Props = VariantType & {
-    align?: AlignType,
-    as?: ElementType
-    children: React.ReactNode
-    className?: string
-    color?: ColorType
-    transform?: TransformType
-    weight: WeightType
-}
+    align?: AlignType;
+    as?: ElementType;
+    children: React.ReactNode;
+    className?: string;
+    color?: ColorType;
+    transform?: TransformType;
+    weight?: WeightType;
+};
 
-export default function Typography({
-    align,
-    as,
-    className,
-    children,
-    color,
-    option,
-    transform,
-    variant = 'p',
-    weight,
-    ...rest
-}: Props) {
-    const variantStyle = option
-        ? typography[variant]?.options[option]
-        : typography[variant].classes
-
-    const classes = twMerge(
-        cn({
-            [variantStyle]: variant,
-            [`text-${color}`]: color,
-            [`${transform}`]: transform,
-            [`text-${align}`]: align,
-            [`font-${weight}`]: weight
-        }),
-        className
-    )
-
-    return createElement(
-        as || variant,
+const Typography = forwardRef<HTMLElement, Props>(
+    (
         {
-            ...rest,
-            className: classes
+            align,
+            as,
+            className,
+            children,
+            color,
+            option,
+            transform,
+            variant = "p",
+            weight,
+            ...rest
         },
-        children
-    )
-}
+        ref
+    ) => {
+        const variantStyle = option
+            ? typography[variant]?.options[option]
+            : typography[variant].classes;
+
+        const classes = twMerge(
+            cn({
+                [variantStyle]: variant,
+                [`text-${color}`]: color,
+                [`${transform}`]: transform,
+                [`text-${align}`]: align,
+                [`font-${weight}`]: weight,
+            }),
+            className
+        );
+
+        return createElement(
+            as || variant,
+            {
+                ...rest,
+                ref,
+                className: classes,
+            },
+            children
+        );
+    }
+);
+
+export default Typography;

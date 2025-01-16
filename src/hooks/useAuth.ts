@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation } from "wouter";
 import { loginService } from "../api/login"
 import { LoginParams, User } from "../types/user"
 import { api } from "../api/api"
@@ -11,7 +11,7 @@ export function useAuth() {
     const [isLoading, setIsLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [token, setToken] = useState<string | null>(() => window.localStorage.getItem('jwt'))
-    const location = useLocation()
+    const [location] = useLocation()
 
     const logout = useCallback(async () => {
         setUser(null)
@@ -89,7 +89,7 @@ export function useAuth() {
 
     useLayoutEffect(() => {
         checkTokenValidity()
-    }, [checkTokenValidity, location.pathname])
+    }, [checkTokenValidity, location])
 
     return {
         login,

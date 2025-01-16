@@ -28,4 +28,4 @@ export const typography = {
             large: "text-2xl",
         },
     },
-}
+};
