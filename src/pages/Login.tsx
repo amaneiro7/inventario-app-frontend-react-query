@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom"
 
 const FormLogin = lazy(async () => import("@/ui/FormLogin").then(m => ({ default: m.FormLogin })))
 
-export const Login = () => {
+export default function Login() {
     const { auth: { isLogged } } = useContext(AuthContext)
 
     if (!isLogged) {
