@@ -18,8 +18,8 @@ export function useAuth() {
 
     const loginRepository = useMemo(() => { return new LoginService() }, [])
     const refreshTokenRepository = useMemo(() => { return new RefreshTokenService() }, [])
-    const loginService = useMemo(() => { return new Login(loginRepository).execute }, [loginRepository])
-    const refreshToken = useMemo(() => { return new RefreshToken(refreshTokenRepository).execute }, [refreshTokenRepository])
+    const loginService = useMemo(() => { return new Login(loginRepository) }, [loginRepository])
+    const refreshToken = useMemo(() => { return new RefreshToken(refreshTokenRepository) }, [refreshTokenRepository])
 
     const logout = useCallback(async () => {
         setUser(null)
@@ -29,10 +29,11 @@ export function useAuth() {
     }, [])
 
     const login = useCallback(async ({ email, password }: LoginParams) => {
-        setIsLoading(false)
+        setIsLoading(true)
         setHasError(false)
-        return await loginService({ email, password })
+        return await loginService.execute({ email, password })
             .then(response => {
+                console.log('response')
                 setUser(response.user)
                 setToken(response.accessToken)
                 window.localStorage.setItem('jwt', response.accessToken)
@@ -47,7 +48,7 @@ export function useAuth() {
 
 
     const refreshTokenValidity = useCallback(async () => {
-        const response = await refreshToken()
+        const response = await refreshToken.execute()
         setUser(response.user)
         setToken(response.accessToken)
         window.localStorage.setItem('jwt', response.accessToken)
@@ -61,7 +62,7 @@ export function useAuth() {
         // Si el token no esta presente o ha expirado, se refresca
         // y si da error se desconecta
         try {
-            const response = await refreshToken()
+            const response = await refreshToken.execute()
             setUser(response.user)
             setToken(response.accessToken)
             window.localStorage.setItem('jwt', response.accessToken)

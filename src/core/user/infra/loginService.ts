@@ -4,6 +4,8 @@ import { type LoginUserRepository } from "../domain/repository/loginUserReposito
 
 export class LoginService implements LoginUserRepository {
     async run({ email, password }: LoginParams): Promise<UserAuthDTO> {
+
+        console.log('Login Service Infra')
         return await fetching<UserAuthDTO>({
             method: 'POST',
             url: 'auth/login/local',

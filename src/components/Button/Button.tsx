@@ -7,7 +7,7 @@ interface Props extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLB
     buttonSize: keyof typeof BUTTONSIZE
     className?: string
     hoverTranslation?: boolean
-    icon?: JSX.Element
+    icon?: JSX.Element | null
 }
 
 const SIZE = {
