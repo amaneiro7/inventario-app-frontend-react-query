@@ -37,8 +37,8 @@ const Typography = forwardRef<HTMLElement, Props>(
         ref
     ) => {
         const variantStyle = option
-            ? typography[variant]?.options[option]
-            : typography[variant].classes;
+            ? typography[variant]?.options?.[option]
+            : typography[variant].classes
 
         const classes = twMerge(
             cn({

@@ -1,24 +1,26 @@
-import { Router } from 'wouter'
-import { AuthContextProvider } from './context/Auth/AuthContextProvider'
 import ErrorBoundary from './ErrorBoundary'
-import { Routes } from './routes/Routes'
-import { useBrowserLocation } from 'wouter/use-browser-location'
 import { Toaster } from 'sonner'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './routes/Routes'
+import { AuthContextProvider } from './context/Auth/AuthContextProvider'
 
 
 function App() {
   return (
     <ErrorBoundary>
-      <Router hook={useBrowserLocation}>
-        <AuthContextProvider>
-          <Routes />
-          <Toaster
-            richColors
-            visibleToasts={3}
-            closeButton
-          />
-        </AuthContextProvider>
-      </Router>
+      <AuthContextProvider>
+        <RouterProvider
+          router={router}
+          fallbackElement={'...loading'}
+          future={{
+            v7_startTransition: true,
+          }} />
+        <Toaster
+          richColors
+          visibleToasts={3}
+          closeButton
+        />
+      </AuthContextProvider>
     </ErrorBoundary>
   )
 }

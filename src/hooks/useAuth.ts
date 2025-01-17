@@ -1,5 +1,4 @@
 import { useCallback, useLayoutEffect, useMemo, useState } from "react"
-import { useLocation } from "wouter"
 import { api } from "../api/api"
 import { isTokenExpired } from "../utils/isTokenExpired"
 import { LoginService } from "@/core/user/infra/loginService"
@@ -14,7 +13,9 @@ export function useAuth() {
     const [isLoading, setIsLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [token, setToken] = useState<string | null>(() => window.localStorage.getItem('jwt'))
-    const [location] = useLocation()
+
+    const location = window.location.pathname
+
 
     const loginRepository = useMemo(() => { return new LoginService() }, [])
     const refreshTokenRepository = useMemo(() => { return new RefreshTokenService() }, [])
@@ -97,6 +98,7 @@ export function useAuth() {
     }, [logout, refreshTokenValidity])
 
     useLayoutEffect(() => {
+        console.log(window.location.pathname)
         if (location === '/login') return
         checkTokenValidity()
     }, [checkTokenValidity, location])

@@ -1,4 +1,6 @@
 import { type JSX, memo } from "react"
+import { twMerge } from "tailwind-merge"
+import cn from "classnames"
 
 interface Props extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     text: string
@@ -30,10 +32,22 @@ const COLOR = {
     secondary: `text-secondary border border-secondary bg-white hover:text-white hover:bg-secondary disabled:bg-secondary`
 } as const
 
+const hoverStyle = 'hover:shadow-lg disabled:translate-y-0 hover:-translate-y-1'
+
 function Button({ text, hoverTranslation, icon, className, buttonSize, size, color, ...props }: Props) {
+    const classes = twMerge(
+        cn({
+            [`${COLOR[color]}`]: color,
+            [`${BUTTONSIZE[buttonSize]}`]: buttonSize,
+            [`${SIZE[size]}`]: size,
+            [hoverStyle]: hoverTranslation
+        }),
+        'flex justify-center items-center gap-2 font-medium rounded-md cursor-pointer border border-solid transition-all duration-200 ease-in disabled:opacity-70 disabled:cursor-not-allowed',
+        className
+    )
     return (
         <button
-            className={`flex justify-center items-center gap-2 ${BUTTONSIZE[buttonSize]} ${COLOR[color]} ${SIZE[size]} font-medium rounded-md cursor-pointer border border-solid transition-all duration-200 ease-in disabled:opacity-70 disabled:cursor-not-allowed ${hoverTranslation && 'hover:shadow-lg disabled:translate-y-0 hover:-translate-y-1'} ${className}`}
+            className={classes}
             aria-label={`${text}`}
             title={`${text}`}
             {...props}

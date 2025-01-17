@@ -1,4 +1,15 @@
-export const typography = {
+export const typography: Record<
+    'h1' |
+    'h2' |
+    'h3' |
+    'h4' |
+    'h5' |
+    'h6' |
+    'p', {
+        classes: string,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        options?: Record<string, any>
+    }> = {
     h1: {
         classes: "text-4xl font-semibold leading-tight",
         options: {
