@@ -28,7 +28,7 @@ export function useAuth() {
         await logout()
     }, [])
 
-    const login = useCallback(async ({ email, password }: LoginParams) => {
+    const login = useCallback(async ({ email, password }: LoginParams): Promise<string> => {
         setIsLoading(true)
         setHasError(false)
         return await loginService.execute({ email, password })

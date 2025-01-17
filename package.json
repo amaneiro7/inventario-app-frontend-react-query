@@ -19,7 +19,7 @@
     "just-debounce-it": "3.2.0",
     "react": "19",
     "react-dom": "19",
-    "sonner": "1.7.1",
+    "sonner": "^1.7.2",
     "tailwind-merge": "^2.6.0",
     "wouter": "^3.3.5",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz",

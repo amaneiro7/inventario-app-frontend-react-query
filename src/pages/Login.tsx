@@ -3,6 +3,7 @@ import { AuthContext } from "@/context/Auth/AuthContext"
 import { type Primitives } from "@/core/shared/domain/value-objects/Primitives"
 import { UserEmail } from "@/core/user/domain/entity/UserEmail"
 import { UserPassword } from "@/core/user/domain/entity/UserPassword"
+import { toast } from "sonner"
 
 const Input = lazy(async () => await import('@/components/Input/Input').then(m => ({ default: m.Input })))
 const Typography = lazy(async () => await import('@/components/Typography'))
@@ -13,7 +14,7 @@ const MailIcon = lazy(async () => await import('@/icon/MailIcon').then(m => ({ d
 const Button = lazy(async () => await import('@/components/Button/Button'))
 
 export const Login = () => {
-    const { auth: { isLoginLoading, login, hasLoginError } } = useContext(AuthContext)
+    const { auth: { isLoginLoading, login } } = useContext(AuthContext)
     const [formData, setFormData] = useState<{
         email: Primitives<UserEmail>,
         password: Primitives<UserPassword>
@@ -40,6 +41,12 @@ export const Login = () => {
         event?.stopPropagation()
         console.log('submit', formData)
         await login({ email: formData.email, password: formData.email })
+            .then((res) => {
+                toast.success(res)
+            })
+            .catch((err) => {
+                toast.error(err)
+            })
     }
 
     useEffect(() => {
