@@ -1,10 +1,9 @@
-import { RoleDTO } from "../domain/Role.interface"
-import { RoleGetAllRepository } from "../domain/RoleGetAllRepository"
+import { GetAllBaseService } from "@/core/shared/domain/methods/getAll.abstract"
+import { type RoleDTO } from "../domain/Role.interface"
+import { type RoleGetAllRepository } from "../domain/RoleGetAllRepository"
 
-export class RoleGetAll {
-    constructor(private readonly roleGetAllRepository: RoleGetAllRepository) { }
-
-    async execute(): Promise<RoleDTO[]> {
-        return await this.roleGetAllRepository.getAll()
+export class RoleGetAll extends GetAllBaseService<RoleDTO> {
+    constructor(roleRepository: RoleGetAllRepository) {
+        super(roleRepository)
     }
 }

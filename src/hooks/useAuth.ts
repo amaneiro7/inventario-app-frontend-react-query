@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useState } from "react"
+import { useCallback, useContext, useLayoutEffect, useMemo, useState } from "react"
 import { api } from "../api/api"
 import { isTokenExpired } from "../utils/isTokenExpired"
 import { LoginService } from "@/core/user/infra/loginService"
@@ -7,19 +7,20 @@ import { type LoginParams } from "../types/user"
 import { type LoginUserDto } from "@/core/user/domain/dto/LoginUser.dto"
 import { RefreshToken } from "@/core/user/application/RefreshToken"
 import { RefreshTokenService } from "@/core/user/infra/refreshTokenService"
+import { EventContext } from "@/context/EventManager/EventContext"
 
 export function useAuth() {
     const [user, setUser] = useState<LoginUserDto | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const [hasError, setHasError] = useState(false)
     const [token, setToken] = useState<string | null>(() => window.localStorage.getItem('jwt'))
-
+    const { events } = useContext(EventContext)
     const location = window.location.pathname
 
 
     const loginRepository = useMemo(() => { return new LoginService() }, [])
     const refreshTokenRepository = useMemo(() => { return new RefreshTokenService() }, [])
-    const loginService = useMemo(() => { return new Login(loginRepository) }, [loginRepository])
+    const loginService = useMemo(() => { return new Login(loginRepository, events) }, [events, loginRepository])
     const refreshToken = useMemo(() => { return new RefreshToken(refreshTokenRepository) }, [refreshTokenRepository])
 
     const logout = useCallback(async () => {
@@ -34,11 +35,13 @@ export function useAuth() {
         setHasError(false)
         return await loginService.execute({ email, password })
             .then(response => {
-                console.log('response')
-                setUser(response.user)
-                setToken(response.accessToken)
-                window.localStorage.setItem('jwt', response.accessToken)
-                return response.message
+                if (!response) {
+                    throw new Error('')
+                }
+                setUser(response?.user)
+                setToken(response?.accessToken)
+                window.localStorage.setItem('jwt', response?.accessToken)
+                return response?.message
             })
             .catch(error => {
                 setHasError(true)
@@ -64,6 +67,7 @@ export function useAuth() {
         // y si da error se desconecta
         try {
             const response = await refreshToken.execute()
+            console.log('refreshTokenValidity', response)
             setUser(response.user)
             setToken(response.accessToken)
             window.localStorage.setItem('jwt', response.accessToken)
@@ -75,6 +79,7 @@ export function useAuth() {
     }, [logout, refreshToken, token])
 
     useLayoutEffect(() => {
+        if (location === '/login') return
         const refreshInterceptor = api.interceptors.request.use(
             response => response,
             async (error) => {
@@ -95,10 +100,9 @@ export function useAuth() {
         return () => {
             api.interceptors.request.eject(refreshInterceptor)
         }
-    }, [logout, refreshTokenValidity])
+    }, [location, logout, refreshTokenValidity])
 
     useLayoutEffect(() => {
-        console.log(window.location.pathname)
         if (location === '/login') return
         checkTokenValidity()
     }, [checkTokenValidity, location])

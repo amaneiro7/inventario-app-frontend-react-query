@@ -7,7 +7,7 @@ const FormLogin = lazy(async () => import("@/ui/FormLogin").then(m => ({ default
 export default function Login() {
     const { auth: { isLogged } } = useContext(AuthContext)
 
-    if (!isLogged) {
+    if (isLogged) {
         return <Navigate to={"/"} />
     }
 

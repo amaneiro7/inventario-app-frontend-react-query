@@ -14,6 +14,6 @@ export type VariantType =
     }
 
 export type AlignType = "left" | "center" | "right"
-export type ColorType = 'primary' | 'secondary' | 'terciary' | 'quaternary' | 'black' | 'white'
+export type ColorType = 'naranja' | 'azul' | 'verde' | 'rojo' | 'black' | 'white'
 export type TransformType = "uppercase" | "lowercase" | "capitalize"
 export type WeightType = "light" | "normal" | "medium" | "bold"

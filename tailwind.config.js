@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
+        naranja: {
           50: 'hsl(32, 100%, 96%)',
           100: 'hsl(34, 100%, 91%)',
           200: 'hsl(31, 100%, 83%)',
@@ -22,7 +22,7 @@ export default {
           950: 'hsl(11, 89%, 15%)',
           DEFAULT: 'hsl(19, 99%, 50%)',
         },
-        secondary: {
+        azul: {
           50: 'hsl(194, 100%, 96%)',
           100: 'hsl(196, 100%, 90%)',
           200: 'hsl(194, 100%, 83%)',
@@ -36,7 +36,7 @@ export default {
           950: 'hsl(213, 100%, 19%)',
           DEFAULT: 'hsl(213, 100%, 19%)'
         },
-        terciary: {
+        verde: {
           50: 'hsl(141, 100%, 97%)',
           100: 'hsl(147, 100%, 92%)',
           200: 'hsl(147, 100%, 85%)',
@@ -50,7 +50,7 @@ export default {
           950: 'hsl(149, 100%, 10%)',
           DEFAULT: 'hsl(148, 95%, 33%)'
         },
-        quaternary: {
+        rojo: {
           50: 'hsl(5, 86%, 97%)',
           100: 'hsl(2, 93%, 94%)',
           200: 'hsl(3, 100%, 89%)',
