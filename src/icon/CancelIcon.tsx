@@ -1,8 +1,8 @@
 import Cancel from './cancel.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function CancelIcon({...props}:Props) {
+export function CancelIcon({ ...props }: Props) {
   return (
     <i>
       <Cancel {...props} />

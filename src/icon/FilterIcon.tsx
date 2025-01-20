@@ -1,8 +1,8 @@
 import Filter from './filter.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function FilterIcon({...props}:Props) {
+export function FilterIcon({ ...props }: Props) {
   return (
     <i>
       <Filter {...props} />

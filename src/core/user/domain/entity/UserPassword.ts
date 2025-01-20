@@ -7,7 +7,7 @@ export class UserPassword extends StringValueObject {
     static readonly hasNumber = /\d/
     static readonly hasSpecialCharacter = /[!@#$%^&()*.]/
 
-    private static errors: string = ''
+    private static errors = ''
 
     constructor(value: string) {
         super(value)

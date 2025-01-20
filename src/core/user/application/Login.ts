@@ -1,5 +1,5 @@
 import { type EventManager } from "@/core/shared/domain/Observer/EventManager"
-import { type LoginParams, type UserAuthDTO } from "../domain/dto/LoginAuth.dto"
+import { type LoginParams } from "../domain/dto/LoginAuth.dto"
 import { type LoginUserRepository } from "../domain/repository/loginUserRepository"
 
 export class Login {
@@ -8,7 +8,7 @@ export class Login {
         private readonly events: EventManager
     ) { }
 
-    async execute({ email, password }: LoginParams): Promise<void | UserAuthDTO> {
+    async execute({ email, password }: LoginParams) {
         return await this.loginUserRepository.run({ email, password })
             .then((res => {
                 this.events.notify({ type: 'success', message: res.message })

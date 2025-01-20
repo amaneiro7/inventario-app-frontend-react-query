@@ -1,8 +1,8 @@
 import Check from './check.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function CheckIcon({...props}:Props) {
+export function CheckIcon({ ...props }: Props) {
   return (
     <i>
       <Check {...props} />

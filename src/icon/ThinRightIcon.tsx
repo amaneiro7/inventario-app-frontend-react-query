@@ -1,8 +1,8 @@
 import ThinRight from './thinRight.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function ThinRightIcon({...props}:Props) {
+export function ThinRightIcon({ ...props }: Props) {
   return (
     <i>
       <ThinRight {...props} />

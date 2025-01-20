@@ -1,8 +1,8 @@
 import Thrash from './thrash.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function ThrashIcon({...props}:Props) {
+export function ThrashIcon({ ...props }: Props) {
   return (
     <i>
       <Thrash {...props} />

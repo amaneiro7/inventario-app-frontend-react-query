@@ -67,7 +67,8 @@ export default {
         error: '#d32f2f',
         success: '#2e7d32',
         focus: '#1976d2',
-        cancel: '#77838f'
+        cancel: '#77838f',
+        gris: '#77838f',
       }
     },
     animation: {

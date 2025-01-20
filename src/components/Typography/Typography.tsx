@@ -1,24 +1,26 @@
-import React, { ElementType, createElement, forwardRef } from "react";
-import cn from "classnames";
-import { twMerge } from "tailwind-merge";
+import React, { ElementType, createElement, forwardRef } from "react"
+import cn from "classnames"
+import { twMerge } from "tailwind-merge"
 import {
-    AlignType,
-    ColorType,
-    TransformType,
-    VariantType,
-    WeightType,
-} from "./types";
-import { typography } from "./styles";
+    type AlignType,
+    type ColorType,
+    type TransformType,
+    type VariantType,
+    type BackgroundType,
+    type WeightType,
+} from "./types"
+import { typography } from "./styles"
 
 type Props = VariantType & {
-    align?: AlignType;
-    as?: ElementType;
-    children: React.ReactNode;
-    className?: string;
-    color?: ColorType;
-    transform?: TransformType;
-    weight?: WeightType;
-};
+    align?: AlignType
+    as?: ElementType
+    children: React.ReactNode
+    className?: string
+    color?: ColorType
+    background?: BackgroundType
+    transform?: TransformType
+    weight?: WeightType
+}
 
 const Typography = forwardRef<HTMLElement, Props>(
     (
@@ -28,6 +30,7 @@ const Typography = forwardRef<HTMLElement, Props>(
             className,
             children,
             color,
+            background,
             option,
             transform,
             variant = "p",
@@ -44,12 +47,13 @@ const Typography = forwardRef<HTMLElement, Props>(
             cn({
                 [variantStyle]: variant,
                 [`text-${color}`]: color,
+                [`bg-${background}`]: background,
                 [`${transform}`]: transform,
                 [`text-${align}`]: align,
                 [`font-${weight}`]: weight,
             }),
             className
-        );
+        )
 
         return createElement(
             as || variant,
@@ -59,8 +63,8 @@ const Typography = forwardRef<HTMLElement, Props>(
                 className: classes,
             },
             children
-        );
+        )
     }
-);
+)
 
-export default Typography;
+export default Typography

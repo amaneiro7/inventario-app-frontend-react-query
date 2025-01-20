@@ -1,8 +1,8 @@
 import Search from './search.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function SearchIcon( {...props }:Props) {
+export function SearchIcon({ ...props }: Props) {
   return (
     <i>
       <Search {...props} />

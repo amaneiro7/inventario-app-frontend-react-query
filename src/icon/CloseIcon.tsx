@@ -1,8 +1,8 @@
 import Close from './close.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function CloseIcon({...props}:Props) {
+export function CloseIcon({ ...props }: Props) {
   return (
     <i>
       <Close {...props} />

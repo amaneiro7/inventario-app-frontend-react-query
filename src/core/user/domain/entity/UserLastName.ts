@@ -6,7 +6,7 @@ export class UserLastName extends StringValueObject {
 
     static readonly Regex = /^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
 
-    private static errors: string = ''
+    private static errors = ''
 
     constructor(value: string) {
         super(value)

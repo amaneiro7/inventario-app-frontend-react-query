@@ -4,12 +4,12 @@ export type AccessToken = string
 
 export type Message = string
 
-export type UserAuthDTO = {
+export interface UserAuthDTO {
     user: LoginUserDto
     accessToken: AccessToken
     message: Message
 }
-export type LoginParams = {
+export interface LoginParams {
     email: string
     password: string
 }

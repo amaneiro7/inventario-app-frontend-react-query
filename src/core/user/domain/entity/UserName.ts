@@ -4,7 +4,7 @@ export class UserName extends StringValueObject {
     static readonly NAME_MIN_LENGTH = 3
     static readonly NAME_MAX_LENGTH = 30
     static readonly Regex = /^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
-    private static errors: string = ''
+    private static errors = ''
 
     constructor(value: string) {
         super(value)

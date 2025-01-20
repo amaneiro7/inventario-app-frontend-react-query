@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import { RoleGetAll } from "@/core/role/application/RoleGetAll"
 import { useQuery } from "@tanstack/react-query"
-import { RoleGetAllService } from "@/core/role/infra/roleGetAllService"
+import { RoleGetAllService } from "@/core/role/infra/roleGetAll.service"
 
 export const useRoles = () => {
     const repository = useMemo(() => new RoleGetAllService(), [])

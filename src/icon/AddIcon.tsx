@@ -1,8 +1,8 @@
 import Add from './add.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function AddIcon({...props}:Props) {
+export function AddIcon({ ...props }: Props) {
   return (
     <i>
       <Add {...props} />

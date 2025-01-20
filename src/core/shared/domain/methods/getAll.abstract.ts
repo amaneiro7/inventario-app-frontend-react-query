@@ -1,4 +1,4 @@
-import { type GetAllRepository } from "../value-objects/GetAllRepository.abstract"
+import { type GetAllRepository } from "../repository/GetAllRepository.abstract"
 
 export abstract class GetAllBaseService<T> {
     private readonly repository: GetAllRepository<T>

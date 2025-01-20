@@ -5,6 +5,7 @@ export const typography: Record<
     'h4' |
     'h5' |
     'h6' |
+    'span' |
     'p', {
         classes: string,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,8 +33,18 @@ export const typography: Record<
         classes: "text-base font-semibold",
     },
     p: {
-        classes: "text-base",
+        classes: "text-xs md:text-sm lg:text-base",
         options: {
+            tiny: "text-xs",
+            small: "text-sm",
+            medium: "text-lg",
+            large: "text-2xl",
+        },
+    },
+    span: {
+        classes: "text-xs md:text-sm",
+        options: {
+            tiny: "text-xs",
             small: "text-sm",
             medium: "text-lg",
             large: "text-2xl",

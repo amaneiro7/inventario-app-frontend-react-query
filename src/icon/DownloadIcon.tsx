@@ -1,8 +1,8 @@
 import Download from './download.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function DownloadIcon({...props}:Props) {
+export function DownloadIcon({ ...props }: Props) {
   return (
     <i>
       <Download {...props} />

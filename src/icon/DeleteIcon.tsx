@@ -1,8 +1,8 @@
 import Delete from './delete.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function DeleteIcon({...props}:Props) {
+export function DeleteIcon({ ...props }: Props) {
   return (
     <i>
       <Delete {...props} />

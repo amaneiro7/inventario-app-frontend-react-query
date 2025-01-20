@@ -1,8 +1,8 @@
 import RightArrow from './rightArrow.svg?react'
 
-interface Props extends React.SVGProps<SVGSVGElement> {}
+type Props = React.SVGProps<SVGSVGElement>
 
-export function RightArrowIcon( {...props }:Props) {
+export function RightArrowIcon({ ...props }: Props) {
   return (
     <i>
       <RightArrow {...props} />
