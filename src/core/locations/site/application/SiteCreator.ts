@@ -1,27 +1,27 @@
-import { Brand } from '../domain/entity/Brand'
-import { BrandId } from '../domain/value-object/BrandId'
+import { Site } from '../domain/entity/Site'
+import { SiteId } from '../domain/value-object/SiteId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
-import { type BrandSaveRepository } from '../domain/repository/BrandSaveRepository'
-import { type Brand as BrandParams } from '../domain/dto/Brand.dto'
+import { type SiteSaveRepository } from '../domain/repository/SiteSaveRepository'
+import { type Site as SiteParams } from '../domain/dto/Site.dto'
 
-export class BrandCreator {
+export class SiteCreator {
   constructor(
-    readonly repository: BrandSaveRepository,
+    readonly repository: SiteSaveRepository,
     private readonly events: EventManager
   ) {}
 
-  async create(params: BrandParams) {
+  async create(params: SiteParams) {
     try {
-      const payload = Brand.create(params).toPrimitives()
+      const payload = Site.create(params).toPrimitives()
       if (!params.id) {
         return await this.repository.save({ payload }).then((res) => {
           this.events.notify({ type: 'success', message: res.message })
           return res
         })
       } else {
-        const brandId = new BrandId(params.id).value
+        const siteId = new SiteId(params.id).value
         return await this.repository
-          .update({ id: brandId, payload })
+          .update({ id: siteId, payload })
           .then((res) => {
             this.events.notify({ type: 'success', message: res.message })
             return res

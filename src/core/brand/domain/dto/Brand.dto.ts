@@ -1,7 +1,12 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type BrandId } from '../value-object/BrandId'
-import { type BrandPrimitives } from './BrandPrimitives.dto'
+import { type BrandName } from '../value-object/BrandName'
 
-export type BrandDTO = BrandPrimitives & {
-    id: Primitives<BrandId>
+export interface Brand {
+  id: Primitives<BrandId>
+  name: Primitives<BrandName>
 }
+
+export type BrandPrimitives = Omit<Brand, 'id'>
+
+export type BrandDTO = Brand

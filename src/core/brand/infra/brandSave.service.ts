@@ -1,6 +1,6 @@
 import { fetching } from '@/api/api'
 import { type BrandSaveRepository } from '../domain/repository/BrandSaveRepository'
-import { type BrandPrimitives } from '../domain/dto/BrandPrimitives.dto'
+import { type BrandPrimitives } from '../domain/dto/Brand.dto'
 import { brandUrl } from '../domain/entity/baseUrl'
 
 export class BrandSaveService implements BrandSaveRepository {
@@ -9,7 +9,7 @@ export class BrandSaveService implements BrandSaveRepository {
   }: {
     payload: BrandPrimitives
   }): Promise<{ message: string }> {
-    return await fetching({ method: 'POST', url: 'brands', data: payload })
+    return await fetching({ method: 'POST', url: brandUrl, data: payload })
   }
 
   async update({
