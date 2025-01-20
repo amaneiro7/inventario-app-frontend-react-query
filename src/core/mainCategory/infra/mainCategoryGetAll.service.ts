@@ -1,9 +1,13 @@
-import { fetching } from "@/api/api"
-import { type MainCategoryGetAllRepository } from "../domain/repository/MainCategoryGetAllRepository"
-import { type MainCategoryDTO } from "../domain/dto/MainCategory.dto"
+import { fetching } from '@/api/api'
+import { type MainCategoryGetAllRepository } from '../domain/repository/MainCategoryGetAllRepository'
+import { type MainCategoryDTO } from '../domain/dto/MainCategory.dto'
+import { mainCategoryUrl } from '../domain/domain/baseUrl'
 
 export class MainCategoryGetAllService implements MainCategoryGetAllRepository {
-    async getAll(): Promise<MainCategoryDTO[]> {
-        return await fetching<MainCategoryDTO[]>({ url: 'maincategories', method: 'GET' })
-    }
+  async getAll(): Promise<MainCategoryDTO[]> {
+    return await fetching<MainCategoryDTO[]>({
+      url: mainCategoryUrl,
+      method: 'GET'
+    })
+  }
 }

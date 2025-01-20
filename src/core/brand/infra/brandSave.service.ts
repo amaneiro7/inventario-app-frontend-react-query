@@ -1,13 +1,29 @@
-import { fetching } from "@/api/api"
-import { type BrandSaveRepository } from "../domain/repository/BrandSaveRepository"
-import { type BrandPrimitives } from "../domain/dto/BrandPrimitives.dto"
+import { fetching } from '@/api/api'
+import { type BrandSaveRepository } from '../domain/repository/BrandSaveRepository'
+import { type BrandPrimitives } from '../domain/dto/BrandPrimitives.dto'
+import { brandUrl } from '../domain/entity/baseUrl'
 
 export class BrandSaveService implements BrandSaveRepository {
-    async save({ payload }: { payload: BrandPrimitives; }): Promise<{ message: string; }> {
-        return await fetching({ method: 'POST', url: 'brands', data: payload })
-    }
+  async save({
+    payload
+  }: {
+    payload: BrandPrimitives
+  }): Promise<{ message: string }> {
+    return await fetching({ method: 'POST', url: 'brands', data: payload })
+  }
 
-    async update({ id, payload }: { id: string; payload: BrandPrimitives; }): Promise<{ message: string; }> {
-        return await fetching({ method: 'PATCH', url: `brands/${id}`, data: payload, })
-    }
+  async update({
+    id,
+    payload
+  }: {
+    id: string
+    payload: BrandPrimitives
+  }): Promise<{ message: string }> {
+    return await fetching({
+      method: 'PATCH',
+      url: brandUrl,
+      data: payload,
+      params: id
+    })
+  }
 }
