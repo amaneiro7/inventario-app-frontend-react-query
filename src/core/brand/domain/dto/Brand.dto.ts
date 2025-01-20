@@ -9,4 +9,4 @@ export interface Brand {
 
 export type BrandPrimitives = Omit<Brand, 'id'>
 
-export type BrandDTO = Brand
+export type BrandDto = Brand

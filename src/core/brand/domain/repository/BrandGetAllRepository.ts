@@ -1,4 +1,4 @@
-import { GetAllRepository } from "@/core/shared/domain/repository/GetAllRepository.abstract"
-import { type BrandDTO } from "../dto/Brand.dto"
+import { GetAllRepository } from '@/core/shared/domain/repository/GetAllRepository.abstract'
+import { type BrandDto } from '../dto/Brand.dto'
 
-export abstract class BrandGetAllRepository extends GetAllRepository<BrandDTO> { }
+export abstract class BrandGetAllRepository extends GetAllRepository<BrandDto> {}

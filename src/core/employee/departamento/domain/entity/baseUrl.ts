@@ -1,0 +1,1 @@
+export const departamentoUrl = 'departamentos'
