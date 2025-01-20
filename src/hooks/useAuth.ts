@@ -50,10 +50,10 @@ export function useAuth() {
   }, [logoutRepository])
 
   const logout = useCallback(async () => {
+    await logoutService.execute()
     setUser(null)
     setToken(null)
     window.localStorage.removeItem('jwt')
-    await logoutService.execute()
   }, [])
 
   const login = useCallback(
@@ -83,14 +83,14 @@ export function useAuth() {
 
   const checkTokenValidity = useCallback(async () => {
     // si el token esta presente y no ha expirado retorna por que es válido
-    if (token && !isTokenExpired(token)) {      
+    if (token && !isTokenExpired(token)) {
       return
     }
 
     // Si el token no esta presente o ha expirado, se refresca
     // y si da error se desconecta
     try {
-      const response = await refreshToken.execute()      
+      const response = await refreshToken.execute()
       setUser(response.user)
       setToken(response.accessToken)
       window.localStorage.setItem('jwt', response.accessToken)
