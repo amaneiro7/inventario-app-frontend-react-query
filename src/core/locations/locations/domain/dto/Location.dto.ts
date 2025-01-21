@@ -8,16 +8,16 @@ import { type TypeOfSiteDto } from '@/core/locations/typeOfSites/domain/dto/Type
 import { type SiteDto } from '@/core/locations/site/domain/dto/Site.dto'
 
 export interface Location {
-  id: Primitives<LocationId>
-  name: Primitives<LocationName>
-  typeOfSiteId: Primitives<TypeOfSiteId>
-  siteId: Primitives<SiteId>
-  subnet: Primitives<Subnet>
+	id: Primitives<LocationId>
+	name: Primitives<LocationName>
+	typeOfSiteId: Primitives<TypeOfSiteId>
+	siteId: Primitives<SiteId>
+	subnet: Primitives<Subnet>
 }
 
 export type LocationPrimitives = Omit<Location, 'id'>
 
 export type LocationDto = Location & {
-  typeOtSite: TypeOfSiteDto
-  site: SiteDto
+	typeOtSite: TypeOfSiteDto
+	site: SiteDto
 }

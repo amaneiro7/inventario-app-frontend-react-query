@@ -5,14 +5,14 @@ import { type DepartamentoId } from '@/core/employee/departamento/domain/value-o
 import { type Departamento } from '@/core/employee/departamento/domain/dto/Departamento.dto'
 
 export interface Cargo {
-  id: Primitives<CargoId>
-  name: Primitives<CargoName>
+	id: Primitives<CargoId>
+	name: Primitives<CargoName>
 }
 
 export type CargoPrimitives = Omit<Cargo, 'id'> & {
-  departamentos: Primitives<DepartamentoId>[]
+	departamentos: Primitives<DepartamentoId>[]
 }
 
 export type CargoDto = Cargo & {
-  departamentos: Departamento[]
+	departamentos: Departamento[]
 }

@@ -6,11 +6,11 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type BrandId } from '../domain/value-object/BrandId'
 
 export class BrandGetService implements BrandGetRepository {
-  async getById({ id }: { id: Primitives<BrandId> }): Promise<BrandDto> {
-    return await fetching<BrandDto>({
-      url: brandUrl,
-      method: 'GET',
-      params: id
-    })
-  }
+	async getById({ id }: { id: Primitives<BrandId> }): Promise<BrandDto> {
+		return await fetching<BrandDto>({
+			url: brandUrl,
+			method: 'GET',
+			params: id
+		})
+	}
 }

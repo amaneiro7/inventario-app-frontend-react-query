@@ -3,8 +3,8 @@ import { type BrandId } from '../value-object/BrandId'
 import { type BrandName } from '../value-object/BrandName'
 
 export interface Brand {
-  id: Primitives<BrandId>
-  name: Primitives<BrandName>
+	id: Primitives<BrandId>
+	name: Primitives<BrandName>
 }
 
 export type BrandPrimitives = Omit<Brand, 'id'>

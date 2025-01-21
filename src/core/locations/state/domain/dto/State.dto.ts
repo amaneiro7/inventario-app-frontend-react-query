@@ -5,13 +5,13 @@ import { type RegionId } from '@/core/locations/region/domain/value-object/Regio
 import { type RegionDTO } from '@/core/locations/region/domain/dto/region.dto'
 
 export interface State {
-  id: Primitives<StateId>
-  name: Primitives<StateName>
-  regionId: Primitives<RegionId>
+	id: Primitives<StateId>
+	name: Primitives<StateName>
+	regionId: Primitives<RegionId>
 }
 
 export type StatePrimitves = Omit<State, 'id'>
 
 export type StateDto = State & {
-  region: RegionDTO
+	region: RegionDTO
 }

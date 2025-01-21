@@ -8,25 +8,25 @@ import { EventContextProvider } from './context/EventManager/EventContextProvide
 import { AppRoutes } from './routes/AppRoutes'
 
 function App() {
-  return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true
-          }}
-        >
-          <EventContextProvider>
-            <AuthContextProvider>
-              <AppRoutes />
-              <Toaster richColors visibleToasts={3} closeButton />
-            </AuthContextProvider>
-          </EventContextProvider>
-        </BrowserRouter>
-      </QueryClientProvider>
-    </ErrorBoundary>
-  )
+	return (
+		<ErrorBoundary>
+			<QueryClientProvider client={queryClient}>
+				<BrowserRouter
+					future={{
+						v7_startTransition: true,
+						v7_relativeSplatPath: true
+					}}
+				>
+					<EventContextProvider>
+						<AuthContextProvider>
+							<AppRoutes />
+							<Toaster richColors visibleToasts={3} closeButton />
+						</AuthContextProvider>
+					</EventContextProvider>
+				</BrowserRouter>
+			</QueryClientProvider>
+		</ErrorBoundary>
+	)
 }
 
 export default App

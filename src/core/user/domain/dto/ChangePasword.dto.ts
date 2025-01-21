@@ -1,5 +1,5 @@
 export interface ChangePassordParams {
-  password: string
-  newPassword: string
-  reTypePassword: string
+	password: string
+	newPassword: string
+	reTypePassword: string
 }

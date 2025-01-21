@@ -4,7 +4,7 @@ import { type RoleGetAllRepository } from '../domain/repository/RoleGetAllReposi
 import { roleUrl } from '../domain/entity/baseUrl'
 
 export class RoleGetAllService implements RoleGetAllRepository {
-  async getAll(): Promise<RoleDTO[]> {
-    return await fetching<RoleDTO[]>({ url: roleUrl, method: 'GET' })
-  }
+	async getAll(): Promise<RoleDTO[]> {
+		return await fetching<RoleDTO[]>({ url: roleUrl, method: 'GET' })
+	}
 }

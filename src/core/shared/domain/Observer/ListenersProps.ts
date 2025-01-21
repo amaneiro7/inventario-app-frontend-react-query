@@ -1,4 +1,4 @@
 export interface Props {
-    type: 'success' | 'error' | 'loading'
-    message: string
+	type: 'success' | 'error' | 'loading'
+	message: string
 }

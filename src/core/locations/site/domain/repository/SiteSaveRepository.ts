@@ -4,6 +4,6 @@ import { type SitePrimitives } from '../dto/Site.dto'
 import { type SiteId } from '../value-object/SiteId'
 
 export abstract class SiteSaveRepository extends SaveRepository<
-  Primitives<SiteId>,
-  SitePrimitives
+	Primitives<SiteId>,
+	SitePrimitives
 > {}

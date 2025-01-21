@@ -9,18 +9,18 @@ import { type CentroCostoDto } from '@/core/employee/centroCosto/domain/dto/Cent
 import { type Cargo } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 
 export interface Departamento {
-  id: Primitives<DepartamentoId>
-  name: Primitives<DepartamentoName>
-  vicepresidenciaEjecutivaId: Primitives<VicepresidenciaEjecutivaId>
-  centroCostoId: Primitives<CentroCostoId>
+	id: Primitives<DepartamentoId>
+	name: Primitives<DepartamentoName>
+	vicepresidenciaEjecutivaId: Primitives<VicepresidenciaEjecutivaId>
+	centroCostoId: Primitives<CentroCostoId>
 }
 
 export type DepartamentoPrimitives = Omit<Departamento, 'id'> & {
-  cargos: Primitives<CargoId>[]
+	cargos: Primitives<CargoId>[]
 }
 
 export type DepartamentoDto = Departamento & {
-  vicepresidenciaEjecutiva: VicepresidenciaEjecutivaDto
-  centroCosto: CentroCostoDto
-  cargos: Cargo[]
+	vicepresidenciaEjecutiva: VicepresidenciaEjecutivaDto
+	centroCosto: CentroCostoDto
+	cargos: Cargo[]
 }

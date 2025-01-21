@@ -4,6 +4,6 @@ import { type VicepresidenciaEjecutivaPrimitives } from '../dto/VicepresidenciaE
 import { type VicepresidenciaEjecutivaId } from '../value-object/VicepresidenciaEjecutivaId'
 
 export abstract class VicepresidenciaEjecutivaSaveRepository extends SaveRepository<
-  Primitives<VicepresidenciaEjecutivaId>,
-  VicepresidenciaEjecutivaPrimitives
+	Primitives<VicepresidenciaEjecutivaId>,
+	VicepresidenciaEjecutivaPrimitives
 > {}

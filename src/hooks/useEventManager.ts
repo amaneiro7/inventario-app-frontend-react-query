@@ -1,13 +1,13 @@
-import { EventManager } from "@/core/shared/domain/Observer/EventManager";
-import { NotificationListeners } from "@/core/shared/domain/Observer/NotificationObserver";
+import { EventManager } from '@/core/shared/domain/Observer/EventManager'
+import { NotificationListeners } from '@/core/shared/domain/Observer/NotificationObserver'
 
 export function useEventManager() {
-    const eventManager = new EventManager()
-    const notification = new NotificationListeners()
+	const eventManager = new EventManager()
+	const notification = new NotificationListeners()
 
-    eventManager.subscribe(notification)
+	eventManager.subscribe(notification)
 
-    return {
-        events: eventManager
-    }
+	return {
+		events: eventManager
+	}
 }

@@ -7,10 +7,10 @@ import { type RoleId } from '@/core/role/domain/value-object/RoleId'
 import { type RoleDTO } from '@/core/role/domain/dto/Role.dto'
 
 export interface LoginUserDto {
-  id: Primitives<UserId>
-  name: Primitives<UserName>
-  lastName: Primitives<UserLastName>
-  email: Primitives<UserEmail>
-  roleId: Primitives<RoleId>
-  role: RoleDTO
+	id: Primitives<UserId>
+	name: Primitives<UserName>
+	lastName: Primitives<UserLastName>
+	email: Primitives<UserEmail>
+	roleId: Primitives<RoleId>
+	role: RoleDTO
 }

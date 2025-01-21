@@ -6,11 +6,11 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type SiteId } from '../domain/value-object/SiteId'
 
 export class SiteGetService implements SiteGetRepository {
-  async getById({ id }: { id: Primitives<SiteId> }): Promise<SiteDto> {
-    return await fetching<SiteDto>({
-      url: siteUrl,
-      method: 'GET',
-      params: id
-    })
-  }
+	async getById({ id }: { id: Primitives<SiteId> }): Promise<SiteDto> {
+		return await fetching<SiteDto>({
+			url: siteUrl,
+			method: 'GET',
+			params: id
+		})
+	}
 }

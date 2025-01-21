@@ -6,14 +6,14 @@ import { type SiteAddress } from '../value-object/SiteAddress'
 import { type CityDto } from '@/core/locations/city/domain/dto/City.dto'
 
 export interface Site {
-  id: Primitives<SiteId>
-  name: Primitives<SiteName>
-  cityId: Primitives<CityId>
-  address: Primitives<SiteAddress>
+	id: Primitives<SiteId>
+	name: Primitives<SiteName>
+	cityId: Primitives<CityId>
+	address: Primitives<SiteAddress>
 }
 
 export type SitePrimitives = Omit<Site, 'id'>
 
 export type SiteDto = Site & {
-  city: CityDto
+	city: CityDto
 }

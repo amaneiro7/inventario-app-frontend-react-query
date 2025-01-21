@@ -4,6 +4,6 @@ import { type CargoPrimitives } from '../dto/Cargo.dto'
 import { type CargoId } from '../value-object/CargoId'
 
 export abstract class CargoSaveRepository extends SaveRepository<
-  Primitives<CargoId>,
-  CargoPrimitives
+	Primitives<CargoId>,
+	CargoPrimitives
 > {}

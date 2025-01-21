@@ -3,8 +3,8 @@ import { type DirectivaId } from '../value-object/DirectivaId'
 import { type DirectivaName } from '../value-object/DirectivaName'
 
 export interface Directiva {
-  id: Primitives<DirectivaId>
-  name: Primitives<DirectivaName>
+	id: Primitives<DirectivaId>
+	name: Primitives<DirectivaName>
 }
 
 export type DirectivaPrimitives = Omit<Directiva, 'id'>

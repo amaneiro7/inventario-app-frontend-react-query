@@ -4,6 +4,6 @@ import { type DirectivaPrimitives } from '../dto/Directiva.dto'
 import { type DirectivaId } from '../value-object/DirectivaId'
 
 export abstract class DirectivaSaveRepository extends SaveRepository<
-  Primitives<DirectivaId>,
-  DirectivaPrimitives
+	Primitives<DirectivaId>,
+	DirectivaPrimitives
 > {}

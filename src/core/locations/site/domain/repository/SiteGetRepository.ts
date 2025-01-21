@@ -4,6 +4,6 @@ import { type SiteDto } from '../dto/Site.dto'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export abstract class SiteGetRepository extends GetRepository<
-  Primitives<SiteId>,
-  SiteDto
+	Primitives<SiteId>,
+	SiteDto
 > {}

@@ -3,8 +3,8 @@ import { type RoleId } from '../value-object/RoleId'
 import { type RoleName } from '../value-object/RoleName'
 
 export interface Role {
-  id: Primitives<RoleId>
-  name: Primitives<RoleName>
+	id: Primitives<RoleId>
+	name: Primitives<RoleName>
 }
 
 export type RoleDTO = Role

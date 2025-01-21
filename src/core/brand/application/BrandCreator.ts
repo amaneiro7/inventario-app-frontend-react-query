@@ -5,30 +5,36 @@ import { type BrandSaveRepository } from '../domain/repository/BrandSaveReposito
 import { type Brand as BrandParams } from '../domain/dto/Brand.dto'
 
 export class BrandCreator {
-  constructor(
-    readonly repository: BrandSaveRepository,
-    private readonly events: EventManager
-  ) {}
+	constructor(
+		readonly repository: BrandSaveRepository,
+		private readonly events: EventManager
+	) {}
 
-  async create(params: BrandParams) {
-    try {
-      const payload = Brand.create(params).toPrimitives()
-      if (!params.id) {
-        return await this.repository.save({ payload }).then((res) => {
-          this.events.notify({ type: 'success', message: res.message })
-          return res
-        })
-      } else {
-        const brandId = new BrandId(params.id).value
-        return await this.repository
-          .update({ id: brandId, payload })
-          .then((res) => {
-            this.events.notify({ type: 'success', message: res.message })
-            return res
-          })
-      }
-    } catch (error) {
-      this.events.notify({ type: 'error', message: `${error}` })
-    }
-  }
+	async create(params: BrandParams) {
+		try {
+			const payload = Brand.create(params).toPrimitives()
+			if (!params.id) {
+				return await this.repository.save({ payload }).then(res => {
+					this.events.notify({
+						type: 'success',
+						message: res.message
+					})
+					return res
+				})
+			} else {
+				const brandId = new BrandId(params.id).value
+				return await this.repository
+					.update({ id: brandId, payload })
+					.then(res => {
+						this.events.notify({
+							type: 'success',
+							message: res.message
+						})
+						return res
+					})
+			}
+		} catch (error) {
+			this.events.notify({ type: 'error', message: `${error}` })
+		}
+	}
 }

@@ -3,8 +3,8 @@ import { type MainCategoryId } from '../value-object/MainCategorydId'
 import { MainCategoryName } from '../value-object/MainCategoryName'
 
 export interface MainCategory {
-  id: Primitives<MainCategoryId>
-  name: Primitives<MainCategoryName>
+	id: Primitives<MainCategoryId>
+	name: Primitives<MainCategoryName>
 }
 
 export type MainCategoryPrimitives = Omit<MainCategory, 'id'>

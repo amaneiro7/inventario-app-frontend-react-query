@@ -5,16 +5,16 @@ import { type DirectivaId } from '@/core/employee/directiva/domain/value-object/
 import { type DirectivaDto } from '@/core/employee/directiva/domain/dto/Directiva.dto'
 
 export interface VicepresidenciaEjecutiva {
-  id: Primitives<VicepresidenciaEjecutivaId>
-  name: Primitives<VicepresidenciaEjecutivaName>
-  directivaId: Primitives<DirectivaId>
+	id: Primitives<VicepresidenciaEjecutivaId>
+	name: Primitives<VicepresidenciaEjecutivaName>
+	directivaId: Primitives<DirectivaId>
 }
 
 export type VicepresidenciaEjecutivaPrimitives = Omit<
-  VicepresidenciaEjecutiva,
-  'id'
+	VicepresidenciaEjecutiva,
+	'id'
 >
 
 export type VicepresidenciaEjecutivaDto = VicepresidenciaEjecutiva & {
-  directiva: DirectivaDto
+	directiva: DirectivaDto
 }

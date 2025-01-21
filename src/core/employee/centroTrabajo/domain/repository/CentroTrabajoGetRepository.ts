@@ -4,6 +4,6 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type CentroTrabajoId } from '../value-object/CentroTrabajoId'
 
 export abstract class CentroTrabajoGetRepository extends GetRepository<
-  Primitives<CentroTrabajoId>,
-  CentroTrabajoDto
+	Primitives<CentroTrabajoId>,
+	CentroTrabajoDto
 > {}

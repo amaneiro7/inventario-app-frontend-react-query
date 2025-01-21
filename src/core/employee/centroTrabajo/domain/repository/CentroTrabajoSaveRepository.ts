@@ -4,6 +4,6 @@ import { type CentroTrabajoPrimitives } from '../dto/CentroTrabajo.dto'
 import { type CentroTrabajoId } from '../value-object/CentroTrabajoId'
 
 export abstract class CentroTrabajoSaveRepository extends SaveRepository<
-  Primitives<CentroTrabajoId>,
-  CentroTrabajoPrimitives
+	Primitives<CentroTrabajoId>,
+	CentroTrabajoPrimitives
 > {}

@@ -1,28 +1,30 @@
-import { useEffect } from "react"
+import { useEffect } from 'react'
 
-export function useCloseNavOnRouteChangeOrEscpae(ref: React.RefObject<HTMLInputElement | null>) {
-    const location = window.location.pathname
+export function useCloseNavOnRouteChangeOrEscpae(
+	ref: React.RefObject<HTMLInputElement | null>
+) {
+	const location = window.location.pathname
 
-    useEffect(() => {
-        function closeNavToggle() {
-            if (ref?.current) {
-                ref.current.checked = false
-            }
-        }
+	useEffect(() => {
+		function closeNavToggle() {
+			if (ref?.current) {
+				ref.current.checked = false
+			}
+		}
 
-        const handleEscape = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') {
-                closeNavToggle()
-                return
-            }
-        }
+		const handleEscape = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') {
+				closeNavToggle()
+				return
+			}
+		}
 
-        closeNavToggle()
+		closeNavToggle()
 
-        document.addEventListener("keydown", handleEscape)
+		document.addEventListener('keydown', handleEscape)
 
-        return () => {
-            document.removeEventListener("keydown", handleEscape)
-        }
-    }, [location, ref])
+		return () => {
+			document.removeEventListener('keydown', handleEscape)
+		}
+	}, [location, ref])
 }

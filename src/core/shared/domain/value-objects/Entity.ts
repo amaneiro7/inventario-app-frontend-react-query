@@ -1,4 +1,4 @@
 export interface Entity {
-    create(): Entity;
-    toPrimitives(): Record<string, string>;
+	create(): Entity
+	toPrimitives(): Record<string, string>
 }

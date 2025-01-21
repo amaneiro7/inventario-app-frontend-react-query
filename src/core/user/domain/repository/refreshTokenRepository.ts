@@ -1,4 +1,4 @@
-import { type UserAuthDTO } from "../dto/LoginAuth.dto"
+import { type UserAuthDTO } from '../dto/LoginAuth.dto'
 export abstract class RefreshTokenRepository {
-    abstract run(): Promise<UserAuthDTO>
+	abstract run(): Promise<UserAuthDTO>
 }

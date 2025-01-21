@@ -5,13 +5,13 @@ import { type MainCategoryId } from '@/core/mainCategory/domain/value-object/Mai
 import { type MainCategoryDTO } from '@/core/mainCategory/domain/dto/MainCategory.dto'
 
 export interface Category {
-  id: Primitives<CategoryId>
-  name: Primitives<CategoryName>
-  mainCategoryId: Primitives<MainCategoryId>
+	id: Primitives<CategoryId>
+	name: Primitives<CategoryName>
+	mainCategoryId: Primitives<MainCategoryId>
 }
 
 export type CategoryPrimitives = Omit<Category, 'id'>
 
 export type CategoryDTO = CategoryPrimitives & {
-  mainCategory: MainCategoryDTO
+	mainCategory: MainCategoryDTO
 }

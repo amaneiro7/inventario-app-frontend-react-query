@@ -4,6 +4,6 @@ import { type BrandId } from '../value-object/BrandId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export abstract class BrandGetRepository extends GetRepository<
-  Primitives<BrandId>,
-  BrandDto
+	Primitives<BrandId>,
+	BrandDto
 > {}

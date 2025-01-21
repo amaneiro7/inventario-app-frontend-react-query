@@ -4,6 +4,6 @@ import { type LocationDto } from '../dto/Location.dto'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export abstract class LocationGetRepository extends GetRepository<
-  Primitives<LocationId>,
-  LocationDto
+	Primitives<LocationId>,
+	LocationDto
 > {}

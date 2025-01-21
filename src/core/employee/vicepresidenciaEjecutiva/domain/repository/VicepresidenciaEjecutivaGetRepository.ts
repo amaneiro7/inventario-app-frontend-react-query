@@ -4,6 +4,6 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type VicepresidenciaEjecutivaId } from '../value-object/VicepresidenciaEjecutivaId'
 
 export abstract class VicepresidenciaEjecutivaGetRepository extends GetRepository<
-  Primitives<VicepresidenciaEjecutivaId>,
-  VicepresidenciaEjecutivaDto
+	Primitives<VicepresidenciaEjecutivaId>,
+	VicepresidenciaEjecutivaDto
 > {}

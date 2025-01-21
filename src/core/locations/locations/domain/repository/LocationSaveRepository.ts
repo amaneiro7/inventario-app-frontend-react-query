@@ -4,6 +4,6 @@ import { type LocationPrimitives } from '../dto/Location.dto'
 import { type LocationId } from '../value-object/LocationId'
 
 export abstract class LocationSaveRepository extends SaveRepository<
-  Primitives<LocationId>,
-  LocationPrimitives
+	Primitives<LocationId>,
+	LocationPrimitives
 > {}

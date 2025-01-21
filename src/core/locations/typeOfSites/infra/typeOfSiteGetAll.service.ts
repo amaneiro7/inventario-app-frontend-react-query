@@ -4,10 +4,10 @@ import { type TypeOfSiteGetAllRepository } from '../domain/repository/TypeOfSite
 import { type TypeOfSiteDto } from '../domain/dto/TypeOFSite.dto'
 
 export class TypeOfSiteGetAllService implements TypeOfSiteGetAllRepository {
-  async getAll(): Promise<TypeOfSiteDto[]> {
-    return await fetching<TypeOfSiteDto[]>({
-      url: typeOfSiteUrl,
-      method: 'GET'
-    })
-  }
+	async getAll(): Promise<TypeOfSiteDto[]> {
+		return await fetching<TypeOfSiteDto[]>({
+			url: typeOfSiteUrl,
+			method: 'GET'
+		})
+	}
 }

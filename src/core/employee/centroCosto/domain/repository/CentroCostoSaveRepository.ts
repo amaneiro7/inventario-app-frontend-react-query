@@ -4,6 +4,6 @@ import { type CentroCostoPrimitives } from '../dto/CentroCosto.dto'
 import { type CentroCostoId } from '../value-object/CentroCostoId'
 
 export abstract class CentroCostoSaveRepository extends SaveRepository<
-  Primitives<CentroCostoId>,
-  CentroCostoPrimitives
+	Primitives<CentroCostoId>,
+	CentroCostoPrimitives
 > {}
