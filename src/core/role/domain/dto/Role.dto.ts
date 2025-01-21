@@ -7,4 +7,4 @@ export interface Role {
 	name: Primitives<RoleName>
 }
 
-export type RoleDTO = Role
+export type RoleDto = Role

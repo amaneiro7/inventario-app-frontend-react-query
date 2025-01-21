@@ -1,7 +1,7 @@
 import { DepartamentoId } from '@/core/employee/departamento/domain/value-object/DepartamentoId'
 import { CargoName } from '../value-object/CargoName'
-import { CargoPrimitives } from '../dto/Cargo.dto'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type CargoPrimitives } from '../dto/Cargo.dto'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class Cargo {
 	constructor(
