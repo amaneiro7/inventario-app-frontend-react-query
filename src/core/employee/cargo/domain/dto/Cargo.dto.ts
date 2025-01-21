@@ -8,6 +8,9 @@ export interface Cargo {
 	id: Primitives<CargoId>
 	name: Primitives<CargoName>
 }
+export type CargoParams = Cargo & {
+	departamentos: Primitives<DepartamentoId>[]
+}
 
 export type CargoPrimitives = Omit<Cargo, 'id'> & {
 	departamentos: Primitives<DepartamentoId>[]

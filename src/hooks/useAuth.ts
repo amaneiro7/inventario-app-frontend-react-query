@@ -54,6 +54,7 @@ export function useAuth() {
 		setUser(null)
 		setToken(null)
 		window.localStorage.removeItem('jwt')
+		window.localStorage.removeItem('user')
 	}, [])
 
 	const login = useCallback(
@@ -68,6 +69,10 @@ export function useAuth() {
 						window.localStorage.setItem(
 							'jwt',
 							response?.accessToken
+						)
+						window.localStorage.setItem(
+							'user',
+							JSON.stringify(response?.user)
 						)
 					}
 				})
@@ -87,9 +92,13 @@ export function useAuth() {
 	const checkTokenValidity = useCallback(async () => {
 		// si el token esta presente y no ha expirado retorna por que es válido
 		if (token && !isTokenExpired(token)) {
+			if (user) {
+				return
+			}
+			const users = window.localStorage.getItem('user')
+			setUser(users ? JSON.parse(users) : null)
 			return
 		}
-
 		// Si el token no esta presente o ha expirado, se refresca
 		// y si da error se desconecta
 		try {

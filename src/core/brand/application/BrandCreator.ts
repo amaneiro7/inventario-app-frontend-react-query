@@ -22,9 +22,9 @@ export class BrandCreator {
 					return res
 				})
 			} else {
-				const brandId = new BrandId(params.id).value
+				const id = new BrandId(params.id).value
 				return await this.repository
-					.update({ id: brandId, payload })
+					.update({ id, payload })
 					.then(res => {
 						this.events.notify({
 							type: 'success',

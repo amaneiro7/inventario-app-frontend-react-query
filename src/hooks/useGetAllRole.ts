@@ -3,20 +3,19 @@ import { RoleGetAll } from '@/core/role/application/RoleGetAll'
 import { useQuery } from '@tanstack/react-query'
 import { RoleGetAllService } from '@/core/role/infra/roleGetAll.service'
 
-export const useRoles = () => {
+export const useGetAllRoles = () => {
 	const repository = useMemo(() => new RoleGetAllService(), [])
 	const getAll = useMemo(
-		() => new RoleGetAll(repository).execute,
+		() => new RoleGetAll(repository).execute(),
 		[repository]
 	)
-
 	const {
 		isLoading,
 		isError,
 		data: roles
 	} = useQuery({
 		queryKey: ['roles'],
-		queryFn: getAll
+		queryFn: () => getAll
 	})
 
 	return {

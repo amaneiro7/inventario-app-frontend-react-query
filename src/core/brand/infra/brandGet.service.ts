@@ -8,9 +8,8 @@ import { type BrandId } from '../domain/value-object/BrandId'
 export class BrandGetService implements BrandGetRepository {
 	async getById({ id }: { id: Primitives<BrandId> }): Promise<BrandDto> {
 		return await fetching<BrandDto>({
-			url: brandUrl,
-			method: 'GET',
-			params: id
+			url: `${brandUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

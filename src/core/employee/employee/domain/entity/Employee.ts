@@ -93,7 +93,7 @@ export class Employee {
 		)
 	}
 
-	toPrimitive(): EmployeePrimitives {
+	toPrimitives(): EmployeePrimitives {
 		return {
 			userName: this.userNameValue,
 			type: this.typeValue,

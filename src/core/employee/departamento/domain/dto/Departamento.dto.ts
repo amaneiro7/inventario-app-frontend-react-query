@@ -15,6 +15,9 @@ export interface Departamento {
 	centroCostoId: Primitives<CentroCostoId>
 }
 
+export type DepartamentoParams = Departamento & {
+	cargos: Primitives<CargoId>[]
+}
 export type DepartamentoPrimitives = Omit<Departamento, 'id'> & {
 	cargos: Primitives<CargoId>[]
 }
