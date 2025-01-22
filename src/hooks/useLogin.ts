@@ -1,7 +1,7 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { AuthContext } from '@/context/Auth/AuthContext'
-import { UserEmail } from '@/core/user/domain/entity/UserEmail'
-import { UserPassword } from '@/core/user/domain/entity/UserPassword'
+import { UserEmail } from '@/core/user/domain/value-objects/UserEmail'
+import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
 import { useContext, useEffect, useRef, useState } from 'react'
 
 export function useLogin() {

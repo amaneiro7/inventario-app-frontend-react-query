@@ -1,4 +1,4 @@
-export const statusOptions = {
+export const StatusOptions = {
 	INUSE: '1',
 	INALMACEN: '2',
 	PORDESINCORPORAR: '3',

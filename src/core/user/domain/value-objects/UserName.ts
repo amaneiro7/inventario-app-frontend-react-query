@@ -3,7 +3,7 @@ import { StringValueObject } from '@/core/shared/domain/value-objects/StringValu
 export class UserName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 3
 	static readonly NAME_MAX_LENGTH = 30
-	static readonly Regex =
+	private static readonly Regex =
 		/^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
 	private static errors = ''
 
@@ -23,31 +23,27 @@ export class UserName extends StringValueObject {
 	}
 
 	public static isValid(value: string): boolean {
-		const errors: string[] = []
+		const errorMessage: string[] = []
 		if (value.length < UserName.NAME_MIN_LENGTH) {
-			errors.push(
+			errorMessage.push(
 				`El nombre de usuario debe ser mayor a ${UserName.NAME_MIN_LENGTH}`
 			)
 		}
 		if (value.length > UserName.NAME_MAX_LENGTH) {
-			errors.push(
+			errorMessage.push(
 				`El nombre de usuario debe ser menor a ${UserName.NAME_MAX_LENGTH}`
 			)
 		}
 
 		if (!UserName.Regex.test(value)) {
-			errors.push(
+			errorMessage.push(
 				`La primera letra debe ser en mayúsculas, el resto en minúsculas, y no puede tener espacios al final al menos que sea un nombre compuesto`
 			)
 		}
-
-		if (errors.length > 0) {
-			UserName.updateErrors(errors.join(' '))
-			UserName.invalidMessage()
-			return false
-		} else {
-			return true
-		}
+		this.updateErrors(errorMessage.join(' '))
+		return (
+			errorMessage.length <= 0 // Si el array de errores esta vacio significa que no hay errores y el username es valido
+		)
 	}
 
 	public static invalidMessage(): string {
