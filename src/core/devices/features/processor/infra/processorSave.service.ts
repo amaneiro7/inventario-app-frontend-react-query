@@ -1,15 +1,19 @@
 import { fetching } from '@/api/api'
-import { type BrandSaveRepository } from '../domain/repository/ProcessorSaveRepository'
-import { type BrandPrimitives } from '../domain/dto/Processor.dto'
-import { brandUrl } from '../domain/entity/baseUrl'
+import { type ProcessorSaveRepository } from '../domain/repository/ProcessorSaveRepository'
+import { type ProcessorPrimitives } from '../domain/dto/Processor.dto'
+import { processorUrl } from '../domain/entity/baseUrl'
 
-export class BrandSaveService implements BrandSaveRepository {
+export class ProcessorSaveService implements ProcessorSaveRepository {
 	async save({
 		payload
 	}: {
-		payload: BrandPrimitives
+		payload: ProcessorPrimitives
 	}): Promise<{ message: string }> {
-		return await fetching({ method: 'POST', url: brandUrl, data: payload })
+		return await fetching({
+			method: 'POST',
+			url: processorUrl,
+			data: payload
+		})
 	}
 
 	async update({
@@ -17,11 +21,11 @@ export class BrandSaveService implements BrandSaveRepository {
 		payload
 	}: {
 		id: string
-		payload: BrandPrimitives
+		payload: ProcessorPrimitives
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: brandUrl,
+			url: `${processorUrl}/${id}`,
 			data: payload,
 			params: id
 		})

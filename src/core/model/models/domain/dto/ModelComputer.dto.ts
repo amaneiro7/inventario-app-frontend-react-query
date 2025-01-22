@@ -14,7 +14,7 @@ import { type HasHDMI } from '../value-object/HasHDMI'
 import { type HasVGA } from '../value-object/HasVGA'
 import { type MemoryRamTypeDto } from '@/core/model/memoryRamType/domain/dto/MemoryRamType.dto'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
-import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
+import { type MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 
 export interface ModelComputer extends Model {
 	memoryRamTypeId: Primitives<MemoryRamTypeId>

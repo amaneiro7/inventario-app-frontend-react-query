@@ -9,6 +9,7 @@ import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOpti
 import { type InputTypeId } from '@/core/model/inputType/domain/value-object/InputTypeId'
 import { type HasFingerPrintReader } from '../value-object/HasFingerPrintReader'
 import { type InputTypeDto } from '@/core/model/inputType/domain/dto/InputType.dto'
+import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 
 export interface ModelKeyboard extends Model {
 	inputTypeId: Primitives<InputTypeId>
@@ -21,6 +22,7 @@ export type ModelKeyboardPrimitives = ModelPrimitives & {
 }
 
 export type ModelKeyboardParams = ModelParams & {
+	mainCategoryId: MainCategoryOptions.PARTS
 	categoryId: CategoryOptions.KEYBOARD
 	inputTypeId: Primitives<InputTypeId>
 	hasFingerPrintReader: Primitives<HasFingerPrintReader>

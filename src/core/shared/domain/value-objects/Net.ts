@@ -13,7 +13,7 @@ export class Net extends AcceptedNullValueObject<string> {
 		}
 	}
 
-	private static updateError(error: string): void {
+	static updateError(error: string): void {
 		this.errors = error
 	}
 

@@ -10,6 +10,7 @@ import { type ScreenSize } from '../value-object/ScreenSize'
 import { type HasDVI } from '../value-object/HasDVI'
 import { type HasHDMI } from '../value-object/HasHDMI'
 import { type HasVGA } from '../value-object/HasVGA'
+import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 
 export interface ModelMonitor extends Model {
 	screenSize: Primitives<ScreenSize>
@@ -26,6 +27,7 @@ export type ModelMonitorPrimitives = ModelPrimitives & {
 }
 
 export type ModelMonitorParams = ModelParams & {
+	mainCategoryId: MainCategoryOptions.SCREENS
 	categoryId: CategoryOptions.MONITOR
 	screenSize: Primitives<ScreenSize>
 	hasDVI: Primitives<HasDVI>

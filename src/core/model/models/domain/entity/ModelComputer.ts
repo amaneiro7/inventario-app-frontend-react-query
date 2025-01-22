@@ -10,14 +10,14 @@ import { HasWifiAdapter } from '../value-object/HasWifiAdapter'
 import { HasDVI } from '../value-object/HasDVI'
 import { HasHDMI } from '../value-object/HasHDMI'
 import { HasVGA } from '../value-object/HasVGA'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import {
 	type ModelComputerParams,
 	type ModelComputerPrimitives
 } from '../dto/ModelComputer.dto'
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
-import { isComputerCategory } from '../useCase/isComputerCategory'
+import { isComputerCategory } from '../../../../mainCategory/domain/use-case/isComputerCategory'
 
 export class ModelComputer extends Model {
 	constructor(
