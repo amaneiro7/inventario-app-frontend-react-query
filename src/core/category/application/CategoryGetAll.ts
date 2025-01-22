@@ -1,4 +1,4 @@
 import { GetAllBaseService } from '@/core/shared/domain/methods/getAll.abstract'
-import { type CategoryDTO } from '../domain/dto/Category.dto'
+import { type CategoryDto } from '../domain/dto/Category.dto'
 
-export class CategoryGetAll extends GetAllBaseService<CategoryDTO> {}
+export class CategoryGetAll extends GetAllBaseService<CategoryDto> {}

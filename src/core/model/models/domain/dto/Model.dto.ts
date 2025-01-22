@@ -4,7 +4,7 @@ import { type ModelName } from '../value-object/ModelName'
 import { type CategoryId } from '@/core/category/domain/value-object/CategorydId'
 import { type BrandId } from '@/core/brand/domain/value-object/BrandId'
 import { type GenericModel } from '../value-object/GenericModel'
-import { type CategoryDTO } from '@/core/category/domain/dto/Category.dto'
+import { type CategoryDto } from '@/core/category/domain/dto/Category.dto'
 import { type BrandDto } from '@/core/brand/domain/dto/Brand.dto'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 
@@ -23,6 +23,6 @@ export type ModelParams = Omit<Model, 'id'> & {
 }
 
 export type ModelDto = Model & {
-	category: CategoryDTO
+	category: CategoryDto
 	brand: BrandDto
 }

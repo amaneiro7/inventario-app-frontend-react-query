@@ -2,7 +2,7 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type DeviceId } from '../value-object/DeviceId'
 import { type DeviceSerial } from '../value-object/DeviceSerial'
 import { type DeviceActivo } from '../value-object/DeviceActivo'
-import { type CategoryId } from '@/core/category/domain/value-object/CategorydId'
+import { CategoryId } from '@/core/category/domain/value-object/CategorydId'
 import { type BrandId } from '@/core/brand/domain/value-object/BrandId'
 import { type DeviceEmployee } from '../value-object/DeviceEmployee'
 import { type DeviceObservation } from '../value-object/DeviceObservation'
@@ -14,7 +14,7 @@ import { type LocationDto } from '@/core/locations/locations/domain/dto/Location
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
 import { type ModelDto } from '@/core/model/models/domain/dto/Model.dto'
 import { type BrandDto } from '@/core/brand/domain/dto/Brand.dto'
-import { type CategoryDTO } from '@/core/category/domain/dto/Category.dto'
+import { type CategoryDto } from '@/core/category/domain/dto/Category.dto'
 import { type DeviceLocation } from '../value-object/DeviceLocation'
 import { type StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { type TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
@@ -46,7 +46,7 @@ export type DeviceParams = Omit<Device, 'id'> & {
 
 export type DeviceDto = Device & {
 	status: StatusDto
-	category: CategoryDTO
+	category: CategoryDto
 	brand: BrandDto
 	model: ModelDto
 	employee: EmployeeDto

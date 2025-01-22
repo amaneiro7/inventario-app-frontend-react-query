@@ -9,4 +9,4 @@ export interface MainCategory {
 
 export type MainCategoryPrimitives = Omit<MainCategory, 'id'>
 
-export type MainCategoryDTO = MainCategory
+export type MainCategoryDto = MainCategory
