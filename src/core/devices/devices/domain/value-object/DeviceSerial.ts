@@ -9,7 +9,10 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 	static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 	static errors = ''
 
-	constructor(value: string | null, readonly genericModel?: boolean) {
+	constructor(
+		value: string | null,
+		readonly genericModel?: boolean
+	) {
 		super(value)
 		if (!DeviceSerial.isValid(value, genericModel)) {
 			throw new Error(DeviceSerial.invalidMessage())
