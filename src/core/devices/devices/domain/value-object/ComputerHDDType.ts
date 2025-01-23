@@ -8,8 +8,8 @@ export class ComputerHDDType extends AcceptedNullValueObject<
 > {
 	private static errors = ''
 	constructor(
-		value: Primitives<HardDriveTypeId>,
-		private readonly hardDriveCapacity: Primitives<HardDriveCapacityId>
+		value: Primitives<HardDriveTypeId> | null,
+		private readonly hardDriveCapacity: Primitives<HardDriveCapacityId> | null
 	) {
 		super(value)
 
@@ -28,7 +28,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<
 
 	public static isValid(
 		value: Primitives<ComputerHDDType>,
-		hardDriveCapacity: Primitives<HardDriveCapacityId>
+		hardDriveCapacity: Primitives<HardDriveCapacityId> | null
 	): boolean {
 		if (!hardDriveCapacity && value) {
 			ComputerHDDType.updateError(

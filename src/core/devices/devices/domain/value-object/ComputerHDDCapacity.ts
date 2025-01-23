@@ -8,7 +8,7 @@ export class ComputerHDDCapacity extends AcceptedNullValueObject<
 > {
 	private static errors = ''
 	constructor(
-		value: Primitives<HardDriveCapacityId>,
+		value: Primitives<HardDriveCapacityId> | null,
 		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions]
 	) {
 		super(value)

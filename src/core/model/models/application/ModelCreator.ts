@@ -1,5 +1,4 @@
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type ModelComputerParams } from '../domain/dto/ModelComputer.dto'
 import { type ModelLaptopParams } from '../domain/dto/ModelLaptop.dto'
 import { type ModelKeyboardParams } from '../domain/dto/ModelKeyboard.dto'
@@ -23,11 +22,11 @@ type Params =
 	| ModelPrinterParams
 export class ModelCreator {
 	constructor(
-		readonly repository: ModelSaveRepository,
+		private readonly repository: ModelSaveRepository,
 		private readonly events: EventManager
 	) {}
 
-	async create(params: Params & { id: Primitives<ModelId> }) {
+	async create(params: Params) {
 		try {
 			let payload
 
@@ -40,22 +39,22 @@ export class ModelCreator {
 				payload = ModelComputer.create(params).toPrimitives()
 			}
 			// Validar si pertenece a Laptop
-			if (params.categoryId === CategoryOptions.LAPTOP) {
+			if (CategoryOptions.LAPTOP === params.categoryId) {
 				payload = ModelLaptop.create(params).toPrimitives()
 			}
 			// Validar si pertenece a Monitor
-			if (params.categoryId === CategoryOptions.MONITOR) {
+			if (CategoryOptions.MONITOR === params.categoryId) {
 				payload = ModelMonitor.create(params).toPrimitives()
 			}
 			// Validar si pertenece a Impresora
 			if (
-				params.categoryId === CategoryOptions.INKPRINTER ||
-				params.categoryId === CategoryOptions.LASERPRINTER
+				CategoryOptions.INKPRINTER === params.categoryId ||
+				CategoryOptions.LASERPRINTER === params.categoryId
 			) {
 				payload = ModelPrinter.create(params).toPrimitives()
 			}
 			// Validar si pertenece a Teclados
-			if (params.categoryId === CategoryOptions.KEYBOARD) {
+			if (CategoryOptions.KEYBOARD === params.categoryId) {
 				payload = ModelKeyboard.create(params).toPrimitives()
 			} else {
 				// el resto de modelos

@@ -9,7 +9,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<
 > {
 	private static errors = ''
 	constructor(
-		value: Primitives<OperatingSystemId>,
+		value: Primitives<OperatingSystemId> | null,
 		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions]
 	) {
 		super(value)

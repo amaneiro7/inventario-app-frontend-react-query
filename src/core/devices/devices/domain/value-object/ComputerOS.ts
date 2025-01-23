@@ -9,9 +9,9 @@ export class ComputerOs extends AcceptedNullValueObject<
 > {
 	private static errors = ''
 	constructor(
-		value: Primitives<OperatingSystemId>,
+		value: Primitives<OperatingSystemId> | null,
 		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions],
-		private readonly hardDriveCapacity: Primitives<HardDriveCapacityId>
+		private readonly hardDriveCapacity: Primitives<HardDriveCapacityId> | null
 	) {
 		super(value)
 
@@ -33,7 +33,7 @@ export class ComputerOs extends AcceptedNullValueObject<
 	public static isValid(
 		value: Primitives<ComputerOs>,
 		status: (typeof StatusOptions)[keyof typeof StatusOptions],
-		hardDriveCapacity: Primitives<HardDriveCapacityId>
+		hardDriveCapacity: Primitives<HardDriveCapacityId> | null
 	): boolean {
 		// Si el equipo esta en uso, a prestamo, contingencia o de guardia el sistema es obligatorio
 		const allowedStatusOptions = [

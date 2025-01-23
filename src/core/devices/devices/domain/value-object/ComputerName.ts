@@ -11,7 +11,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 		/^[^\W_]*-?[^\W_]*$/
 
 	constructor(
-		value: string,
+		value: string | null,
 		readonly status: (typeof StatusOptions)[keyof typeof StatusOptions]
 	) {
 		super(value)

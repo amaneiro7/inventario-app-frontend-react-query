@@ -2,16 +2,11 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import {
 	type ModelDto,
 	type ModelParams,
-	type ModelPrimitives,
-	type Model
+	type ModelPrimitives
 } from './Model.dto'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { type CartridgeModel } from '../value-object/CartridgeModel'
-import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
-
-export interface ModelPrinter extends Model {
-	cartridgeModel: Primitives<CartridgeModel>
-}
+import { type MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 
 export type ModelPrinterPrimitives = ModelPrimitives & {
 	cartridgeModel: Primitives<CartridgeModel>
@@ -24,6 +19,5 @@ export type ModelPrinterParams = ModelParams & {
 }
 
 export type ModelPrinterDto = ModelDto & {
-	categoryId: CategoryOptions.INKPRINTER | CategoryOptions.LASERPRINTER
 	cartridgeModel: Primitives<CartridgeModel>
 }

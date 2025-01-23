@@ -8,8 +8,8 @@ export class ComputerOsArq extends AcceptedNullValueObject<
 > {
 	private static errors = ''
 	constructor(
-		value: Primitives<OperatingSystemId>,
-		private readonly operatingSystem: Primitives<OperatingSystemId>
+		value: Primitives<OperatingSystemId> | null,
+		private readonly operatingSystem: Primitives<OperatingSystemId> | null
 	) {
 		super(value)
 
@@ -28,7 +28,7 @@ export class ComputerOsArq extends AcceptedNullValueObject<
 
 	public static isValid(
 		value: Primitives<ComputerOsArq>,
-		operatingSystem: Primitives<OperatingSystemId>
+		operatingSystem: Primitives<OperatingSystemId> | null
 	): boolean {
 		if (!operatingSystem && value) {
 			ComputerOsArq.updateError(
