@@ -1,4 +1,5 @@
 import { AuthContext } from '@/context/Auth/AuthContext'
+import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
 import { type ModalRef } from '@/ui/Modal/Modal'
 import { lazy, memo, Suspense, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
@@ -48,8 +49,15 @@ export const Header = memo(() => {
 				<WelcomeTitle user={user} />
 
 				<div className="flex flex-1 gap-8 items-center justify-end">
-					{/* {User.isSuperAdmin({ roleId: user?.roleId }) &&
-                        <Link to='/user-management' className='text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200'>Gestión de Usuarios</Link>} */}
+					{(user?.roleId === RoleOptions.COORDINADOR ||
+						user?.roleId === RoleOptions.ADMIN) && (
+						<Link
+							to="/user-management"
+							className="text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200"
+						>
+							Gestión de Usuarios
+						</Link>
+					)}
 
 					{/* <Link to='/dashboard' className='text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200'>Dashboard</Link> */}
 					<Link

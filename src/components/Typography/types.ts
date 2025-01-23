@@ -1,4 +1,4 @@
-type ParagraphOption = 'small' | 'medium' | 'large' | 'tiny'
+export type ParagraphOption = 'small' | 'medium' | 'large' | 'tiny'
 export type VariantType =
 	| {
 			variant?: 'h1'

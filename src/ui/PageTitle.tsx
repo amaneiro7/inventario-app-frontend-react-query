@@ -8,7 +8,7 @@ export const PageTitle = memo(
 			<Typography
 				weight="bold"
 				color="azul"
-				variant="h2"
+				variant="h3"
 				className="min-h-fit mb-5 leading-tight tracking-tight"
 			>
 				<>
