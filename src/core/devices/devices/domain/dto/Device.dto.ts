@@ -21,15 +21,16 @@ import { type StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { type TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { type GenericModel } from '@/core/model/models/domain/value-object/GenericModel'
 import {
-	DeviceComputerParams,
+	type DeviceComputerParams,
 	type DeviceComputerDto
 } from './DeviceComputer.dto'
 import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 import {
-	DeviceHardDriveParams,
+	type DeviceHardDriveParams,
 	type DeviceHardDriveDto
 } from './DeviceHardDrive.dto'
-import { DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
+import { type DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
+import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 
 export interface Device {
 	id: Primitives<DeviceId>
@@ -68,6 +69,7 @@ export type DeviceDto = Device & {
 	computer: Nullable<DeviceComputerDto>
 	hardDrive: Nullable<DeviceHardDriveDto>
 	mfp: Nullable<DeviceMFPDto>
+	history: Nullable<HistoryDto[]>
 	createdAt: string
 	updatedAt: string
 }

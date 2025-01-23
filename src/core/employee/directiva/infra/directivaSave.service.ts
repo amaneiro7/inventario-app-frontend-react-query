@@ -25,9 +25,8 @@ export class DirectivaSaveService implements DirectivaSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: directivaUrl,
-			data: payload,
-			params: id
+			url: `${directivaUrl}/${id}`,
+			data: payload
 		})
 	}
 }

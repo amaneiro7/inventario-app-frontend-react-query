@@ -21,9 +21,8 @@ export class SiteSaveService implements SiteSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: siteUrl,
-			data: payload,
-			params: id
+			url: `${siteUrl}/${id}`,
+			data: payload
 		})
 	}
 }

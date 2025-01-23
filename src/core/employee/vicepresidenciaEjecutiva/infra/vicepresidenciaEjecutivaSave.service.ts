@@ -27,9 +27,8 @@ export class VicepresidenciaEjecutivaSaveService
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: vicepresidenciaEjecutivaUrl,
-			data: payload,
-			params: id
+			url: `${vicepresidenciaEjecutivaUrl}/${id}`,
+			data: payload
 		})
 	}
 }

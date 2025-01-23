@@ -25,9 +25,8 @@ export class DepartamentoSaveService implements DepartamentoSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: departamentoUrl,
-			data: payload,
-			params: id
+			url: `${departamentoUrl}/${id}`,
+			data: payload
 		})
 	}
 }

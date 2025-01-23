@@ -12,9 +12,8 @@ export class CentroTrabajoGetService implements CentroTrabajoGetRepository {
 		id: Primitives<CentroTrabajoId>
 	}): Promise<CentroTrabajoDto> {
 		return await fetching<CentroTrabajoDto>({
-			url: centroTrabajoUrl,
-			method: 'GET',
-			params: id
+			url: `${centroTrabajoUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

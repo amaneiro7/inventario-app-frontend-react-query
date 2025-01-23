@@ -21,9 +21,8 @@ export class BrandSaveService implements BrandSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: brandUrl,
-			data: payload,
-			params: id
+			url: `${brandUrl}/${id}`,
+			data: payload
 		})
 	}
 }

@@ -12,9 +12,8 @@ export class CentroCostoGetService implements CentroCostoGetRepository {
 		id: Primitives<CentroCostoId>
 	}): Promise<CentroCostoDto> {
 		return await fetching<CentroCostoDto>({
-			url: centroCostoUrl,
-			method: 'GET',
-			params: id
+			url: `${centroCostoUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

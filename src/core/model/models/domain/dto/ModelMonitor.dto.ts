@@ -1,9 +1,5 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type ModelDto,
-	type ModelParams,
-	type ModelPrimitives
-} from './Model.dto'
+import { type ModelParams, type ModelPrimitives } from './Model.dto'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { type ScreenSize } from '../value-object/ScreenSize'
 import { type HasDVI } from '../value-object/HasDVI'
@@ -27,7 +23,7 @@ export type ModelMonitorParams = ModelParams & {
 	hasVGA: Primitives<HasVGA>
 }
 
-export type ModelMonitorDto = ModelDto & {
+export interface ModelMonitorDto {
 	screenSize: Primitives<ScreenSize>
 	hasDVI: Primitives<HasDVI>
 	hasHDMI: Primitives<HasHDMI>

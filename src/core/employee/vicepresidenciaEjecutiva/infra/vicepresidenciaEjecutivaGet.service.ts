@@ -14,9 +14,8 @@ export class VicepresidenciaEjecutivaGetService
 		id: Primitives<VicepresidenciaEjecutivaId>
 	}): Promise<VicepresidenciaEjecutivaDto> {
 		return await fetching<VicepresidenciaEjecutivaDto>({
-			url: vicepresidenciaEjecutivaUrl,
-			method: 'GET',
-			params: id
+			url: `${vicepresidenciaEjecutivaUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

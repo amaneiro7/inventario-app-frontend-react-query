@@ -12,9 +12,8 @@ export class DepartamentoGetService implements DepartamentoGetRepository {
 		id: Primitives<DepartamentoId>
 	}): Promise<DepartamentoDto> {
 		return await fetching<DepartamentoDto>({
-			url: departamentoUrl,
-			method: 'GET',
-			params: id
+			url: `${departamentoUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

@@ -1,9 +1,5 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type ModelDto,
-	type ModelParams,
-	type ModelPrimitives
-} from './Model.dto'
+import { type ModelParams, type ModelPrimitives } from './Model.dto'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { type CartridgeModel } from '../value-object/CartridgeModel'
 import { type MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
@@ -18,6 +14,6 @@ export type ModelPrinterParams = ModelParams & {
 	cartridgeModel: Primitives<CartridgeModel>
 }
 
-export type ModelPrinterDto = ModelDto & {
+export interface ModelPrinterDto {
 	cartridgeModel: Primitives<CartridgeModel>
 }

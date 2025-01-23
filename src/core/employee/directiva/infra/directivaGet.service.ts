@@ -12,9 +12,8 @@ export class DirectivaGetService implements DirectivaGetRepository {
 		id: Primitives<DirectivaId>
 	}): Promise<DirectivaDto> {
 		return await fetching<DirectivaDto>({
-			url: directivaUrl,
-			method: 'GET',
-			params: id
+			url: `${directivaUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

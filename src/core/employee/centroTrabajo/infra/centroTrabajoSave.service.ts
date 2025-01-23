@@ -25,9 +25,8 @@ export class CentroTrabajoSaveService implements CentroTrabajoSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: centroTrabajoUrl,
-			data: payload,
-			params: id
+			url: `${centroTrabajoUrl}/${id}`,
+			data: payload
 		})
 	}
 }

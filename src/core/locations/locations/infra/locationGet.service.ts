@@ -12,9 +12,8 @@ export class LocationGetService implements LocationGetRepository {
 		id: Primitives<LocationId>
 	}): Promise<LocationDto> {
 		return await fetching<LocationDto>({
-			url: locationUrl,
-			method: 'GET',
-			params: id
+			url: `${locationUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

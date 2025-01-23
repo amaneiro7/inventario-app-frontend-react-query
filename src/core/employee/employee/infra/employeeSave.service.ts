@@ -25,9 +25,8 @@ export class EmployeeSaveService implements EmployeeSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: employeeUrl,
-			data: payload,
-			params: id
+			url: `${employeeUrl}/${id}`,
+			data: payload
 		})
 	}
 }

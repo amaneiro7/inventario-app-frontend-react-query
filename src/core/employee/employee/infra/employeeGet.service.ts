@@ -12,9 +12,8 @@ export class EmployeeGetService implements EmployeeGetRepository {
 		id: Primitives<EmployeeId>
 	}): Promise<EmployeeDto> {
 		return await fetching<EmployeeDto>({
-			url: employeeUrl,
-			method: 'GET',
-			params: id
+			url: `${employeeUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

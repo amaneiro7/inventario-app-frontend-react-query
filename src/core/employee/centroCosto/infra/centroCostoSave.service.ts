@@ -25,9 +25,8 @@ export class CentroCostoSaveService implements CentroCostoSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: centroCostoUrl,
-			data: payload,
-			params: id
+			url: `${centroCostoUrl}/${id}`,
+			data: payload
 		})
 	}
 }

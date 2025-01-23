@@ -8,9 +8,8 @@ import { type SiteId } from '../domain/value-object/SiteId'
 export class SiteGetService implements SiteGetRepository {
 	async getById({ id }: { id: Primitives<SiteId> }): Promise<SiteDto> {
 		return await fetching<SiteDto>({
-			url: siteUrl,
-			method: 'GET',
-			params: id
+			url: `${siteUrl}/${id}`,
+			method: 'GET'
 		})
 	}
 }

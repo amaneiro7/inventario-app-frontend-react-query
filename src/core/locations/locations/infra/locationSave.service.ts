@@ -25,9 +25,8 @@ export class LocationSaveService implements LocationSaveRepository {
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
-			url: locationUrl,
-			data: payload,
-			params: id
+			url: `${locationUrl}/${id}`,
+			data: payload
 		})
 	}
 }

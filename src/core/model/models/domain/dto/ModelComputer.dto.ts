@@ -1,9 +1,5 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type ModelDto,
-	type ModelParams,
-	type ModelPrimitives
-} from './Model.dto'
+import { type ModelParams, type ModelPrimitives } from './Model.dto'
 import { type MemoryRamTypeId } from '@/core/model/memoryRamType/domain/value-object/MemoryRamTypeId'
 import { type MemoryRamSlotQuantity } from '../value-object/MemoryRamSlotQuantity'
 import { type HasBluetooth } from '../value-object/HasBluetooth'
@@ -40,7 +36,7 @@ export type ModelComputerParams = ModelParams & {
 	hasVGA: Primitives<HasVGA>
 }
 
-export type ModelComputerDto = ModelDto & {
+export interface ModelComputerDto {
 	memoryRamTypeId: Primitives<MemoryRamTypeId>
 	memoryRamSlotQuantity: Primitives<MemoryRamSlotQuantity>
 	hasBluetooth: Primitives<HasBluetooth>
