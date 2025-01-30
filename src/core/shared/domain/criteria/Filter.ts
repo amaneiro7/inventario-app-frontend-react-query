@@ -5,7 +5,7 @@ import { FilterValue } from './FilterValue'
 
 export interface FiltersPrimitives {
 	field: Primitives<FilterField>
-	operator: string
+	operator: Primitives<FilterOperator>
 	value: Primitives<FilterValue>
 }
 

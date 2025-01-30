@@ -1,5 +1,5 @@
-import { type Criteria } from '../criteria/Criteria'
+import { type Response } from '../methods/Response'
 
 export abstract class GetAllRepository<T> {
-	abstract getAll(criteria?: Criteria): Promise<T[]>
+	abstract getAll(queryParams?: string): Promise<Response<T>>
 }

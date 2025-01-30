@@ -1,13 +1,10 @@
-import { type Criteria } from '../criteria/Criteria'
 import { type GetAllRepository } from '../repository/GetAllRepository.abstract'
+import { type Response } from './Response'
 
 export abstract class GetAllBaseService<T> {
-	private readonly repository: GetAllRepository<T>
-	constructor(repository: GetAllRepository<T>) {
-		this.repository = repository
-	}
+	constructor(private readonly repository: GetAllRepository<T>) {}
 
-	async execute(criteria?: Criteria): Promise<T[]> {
-		return await this.repository.getAll(criteria)
+	async execute(queryParams?: string): Promise<Response<T>> {
+		return await this.repository.getAll(queryParams)
 	}
 }

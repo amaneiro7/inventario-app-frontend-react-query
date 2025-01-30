@@ -1,26 +1,25 @@
 import { FiltersPrimitives, type Filter } from './Filter'
 import { Filters } from './Filters'
 import { Order } from './Order'
-import { PageSize } from './PageSize'
-import { PageNumber } from './PageNumber'
 import { type OrderType } from './OrderType'
 import { type OrderBy } from './OrderBy'
+import { type Primitives } from '../value-objects/Primitives'
 import { InvalidCriteria } from './InvalidCriteria'
 
 interface CriteriaPrimitives {
 	filters: Filter[]
-	orderBy: OrderBy['value'] | null
-	orderType: OrderType['value'] | null
-	pageSize: PageSize['value'] | null
-	pageNumber: PageNumber['value'] | null
+	orderBy?: Primitives<OrderBy>
+	orderType?: Primitives<OrderType>
+	pageSize?: number
+	pageNumber?: number
 }
 
 export class Criteria {
 	constructor(
 		public readonly filters?: Filters,
 		public readonly order?: Order,
-		public readonly pageSize?: PageSize | null,
-		public readonly pageNumber?: PageNumber | null
+		public readonly pageSize?: number,
+		public readonly pageNumber?: number
 	) {
 		if (pageNumber && !pageSize) {
 			throw new InvalidCriteria()
@@ -29,26 +28,26 @@ export class Criteria {
 
 	static fromValues(
 		filters: FiltersPrimitives[],
-		orderBy: OrderBy['value'],
-		orderType: OrderType['value'],
-		pageSize: PageSize['value'] | null,
-		pageNumber: PageNumber['value'] | null
+		orderBy?: Primitives<OrderBy>,
+		orderType?: Primitives<OrderType>,
+		pageSize?: number,
+		pageNumber?: number
 	): Criteria {
 		return new Criteria(
 			Filters.fromValues(filters),
 			Order.fromValues(orderBy, orderType),
-			pageSize ? new PageSize(pageSize) : null,
-			pageNumber ? new PageNumber(pageNumber) : null
+			pageSize,
+			pageNumber
 		)
 	}
 
 	toPrimitives(): CriteriaPrimitives {
 		return {
 			filters: this.filters?.value ?? [],
-			orderBy: this.order?.orderBy.value ?? null,
-			orderType: this.order?.orderType.value ?? null,
-			pageSize: this.pageSize?.value ?? null,
-			pageNumber: this.pageNumber?.value ?? null
+			orderBy: this.order?.orderBy.value,
+			orderType: this.order?.orderType.value,
+			pageSize: this.pageSize,
+			pageNumber: this.pageNumber
 		}
 	}
 
