@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { Prueba } from '@/pages/Prueba'
 import UserManagement from '@/pages/UserManagement'
+import ListComputer from '@/pages/ListComputer'
 // import { ProtectedRoute } from "./ProtectedRoute"
 
 const NotFound = lazy(async () => await import('@/pages/404'))
@@ -18,10 +19,8 @@ export function AppRoutes() {
 				<Route path="/" element={<Home />} />
 				<Route path="/profile" element={<Profile />} />
 				<Route path="/prueba" element={<Prueba />} />
-				<Route
-					path="/user-management"
-					element={<UserManagement />}
-				></Route>
+				<Route path="/user-management" element={<UserManagement />}></Route>
+				<Route path="/computer" element={<ListComputer />} />
 			</Route>
 			<Route path="*" element={<NotFound />} />
 		</Routes>

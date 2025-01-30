@@ -1,9 +1,5 @@
-import { AsyncCombobox } from '@/components/ComboBox/ComboBox'
+// import { AsyncCombobox } from '@/components/ComboBox/ComboBox'
 
 export function Prueba() {
-	return (
-		<div>
-			<AsyncCombobox />
-		</div>
-	)
+	return <div>{/* <AsyncCombobox /> */}</div>
 }

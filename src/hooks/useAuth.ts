@@ -20,13 +20,22 @@ import { LoginService } from '@/core/user/infra/login.service'
 import { LogoutService } from '@/core/user/infra/logout.service'
 import { InternalAxiosRequestConfig } from 'axios'
 import { useLocation } from 'react-router-dom'
+import { useLocalStorage } from './useLocalStorage'
 
 export function useAuth() {
-	const [user, setUser] = useState<LoginUserDto | null>(null)
+	const {
+		getItem: getToken,
+		removeItem: removeToken,
+		setItem: saveToken
+	} = useLocalStorage('jwt')
+	const {
+		getItem: getUser,
+		removeItem: removeUser,
+		setItem: saveUser
+	} = useLocalStorage('user')
+	const [user, setUser] = useState<LoginUserDto | null>(() => getUser())
+	const [token, setToken] = useState<string | null>(() => getToken())
 	const [isLoading, setIsLoading] = useState(false)
-	const [token, setToken] = useState<string | null>(() =>
-		window.localStorage.getItem('jwt')
-	)
 	const { events } = useContext(EventContext)
 	const location = useLocation()
 
@@ -53,8 +62,8 @@ export function useAuth() {
 		await logoutService.execute()
 		setUser(null)
 		setToken(null)
-		window.localStorage.removeItem('jwt')
-		window.localStorage.removeItem('user')
+		removeToken()
+		removeUser()
 	}, [])
 
 	const login = useCallback(
@@ -66,14 +75,8 @@ export function useAuth() {
 					if (response) {
 						setUser(response?.user)
 						setToken(response?.accessToken)
-						window.localStorage.setItem(
-							'jwt',
-							response?.accessToken
-						)
-						window.localStorage.setItem(
-							'user',
-							JSON.stringify(response?.user)
-						)
+						saveToken(response?.accessToken)
+						saveUser(response?.user)
 					}
 				})
 				.finally(() => setIsLoading(false))
@@ -85,7 +88,7 @@ export function useAuth() {
 		const response = await refreshToken.execute()
 		setUser(response.user)
 		setToken(response.accessToken)
-		window.localStorage.setItem('jwt', response.accessToken)
+		saveToken(response?.accessToken)
 		return response.accessToken
 	}, [refreshToken])
 
@@ -95,7 +98,7 @@ export function useAuth() {
 			if (user) {
 				return
 			}
-			const users = window.localStorage.getItem('user')
+			const users = getUser()
 			setUser(users ? JSON.parse(users) : null)
 			return
 		}
@@ -105,7 +108,7 @@ export function useAuth() {
 			const response = await refreshToken.execute()
 			setUser(response.user)
 			setToken(response.accessToken)
-			window.localStorage.setItem('jwt', response.accessToken)
+			saveToken(response.accessToken)
 		} catch {
 			logout()
 		}

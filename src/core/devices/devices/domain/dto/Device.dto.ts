@@ -20,15 +20,9 @@ import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOpti
 import { type StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { type TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { type GenericModel } from '@/core/model/models/domain/value-object/GenericModel'
-import {
-	type DeviceComputerParams,
-	type DeviceComputerDto
-} from './DeviceComputer.dto'
+import { type DeviceComputerParams, type DeviceComputerDto } from './DeviceComputer.dto'
 import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
-import {
-	type DeviceHardDriveParams,
-	type DeviceHardDriveDto
-} from './DeviceHardDrive.dto'
+import { type DeviceHardDriveParams, type DeviceHardDriveDto } from './DeviceHardDrive.dto'
 import { type DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 
@@ -54,10 +48,7 @@ export type DeviceParams = Device & {
 	typeOfSiteId: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]
 	genericModel?: Primitives<GenericModel>
 }
-export type Params =
-	| DeviceComputerParams
-	| DeviceHardDriveParams
-	| DeviceMFPParams
+export type Params = DeviceComputerParams | DeviceHardDriveParams | DeviceMFPParams
 
 export type DeviceDto = Device & {
 	status: StatusDto
@@ -66,7 +57,7 @@ export type DeviceDto = Device & {
 	model: ModelDto
 	employee: EmployeeDto
 	location: LocationDto
-	computer: Nullable<DeviceComputerDto>
+	computer: DeviceComputerDto | null
 	hardDrive: Nullable<DeviceHardDriveDto>
 	mfp: Nullable<DeviceMFPDto>
 	history: Nullable<HistoryDto[]>

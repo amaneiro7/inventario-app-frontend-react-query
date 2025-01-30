@@ -2,7 +2,7 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { type MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 import { type BatteryModel } from '../value-object/BatteryModel'
-import { type ModelComputerPrimitives } from './ModelComputer.dto'
+import { type ModelComputerDto, type ModelComputerPrimitives } from './ModelComputer.dto'
 import { type ModelParams } from './Model.dto'
 import { type MemoryRamTypeId } from '@/core/model/memoryRamType/domain/value-object/MemoryRamTypeId'
 import { type MemoryRamSlotQuantity } from '../value-object/MemoryRamSlotQuantity'
@@ -29,6 +29,6 @@ export type ModelLaptopParams = ModelParams & {
 	batteryModel: Primitives<BatteryModel>
 }
 
-export interface ModelLaptopDto {
+export type ModelLaptopDto = ModelComputerDto & {
 	batteryModel: Primitives<BatteryModel>
 }

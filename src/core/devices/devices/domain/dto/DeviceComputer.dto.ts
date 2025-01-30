@@ -15,6 +15,7 @@ import { type HardDriveTypeDto } from '@/core/devices/features/hardDrive/hardDri
 import { type OperatingSystemDto } from '@/core/devices/features/operatingSystem/operatingSystem/domain/dto/OperatingSystem.dto'
 import { type OperatingSystemArqDto } from '@/core/devices/features/operatingSystem/operatingSystemArq/domain/dto/OperatingSystemArq.dto'
 import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
+import { type ProcessorDto } from '@/core/devices/features/processor/domain/dto/Processor.dto'
 
 export type DeviceComputerPrimitives = DevicePrimitives & {
 	computerName: Primitives<ComputerName>
@@ -47,19 +48,10 @@ export type DeviceComputerParams = DeviceParams & {
 	ipAddress: Primitives<IPAddress>
 }
 
-export interface DeviceComputerDto {
-	computerName: Primitives<ComputerName>
-	processorId: Primitives<ComputerProcessor>
-	memoryRam: Primitives<MemoryRamValues>[]
-	memoryRamCapacity: Primitives<MemoryRamCapacity>
-	hardDriveCapacityId: Primitives<ComputerHDDCapacity>
-	hardDriveTypeId: Primitives<ComputerHDDType>
-	operatingSystemId: Primitives<ComputerOs>
-	operatingSystemArqId: Primitives<ComputerOsArq>
-	macAddress: Primitives<MACAddress>
-	ipAddress: Primitives<IPAddress>
+export type DeviceComputerDto = DeviceComputerPrimitives & {
 	hardDriveCapacity: HardDriveCapacityDto
 	hardDriveType: HardDriveTypeDto
 	operatingSystem: OperatingSystemDto
 	operatingSystemArq: OperatingSystemArqDto
+	processor: ProcessorDto
 }
