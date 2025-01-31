@@ -63,10 +63,7 @@ type Action =
 	| { type: 'errors'; payload: { errors: Errors } }
 	| { type: 'valid'; payload: { valid: Valid } }
 
-export const chanegPasswordReducer = (
-	state: DefaultProps,
-	action: Action
-): DefaultProps => {
+export const chanegPasswordReducer = (state: DefaultProps, action: Action): DefaultProps => {
 	switch (action.type) {
 		case 'reset':
 			return { ...changePasswordInitialState }

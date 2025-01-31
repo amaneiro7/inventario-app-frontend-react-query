@@ -7,23 +7,11 @@ import { type GenericModel } from '../value-object/GenericModel'
 import { type CategoryDto } from '@/core/category/domain/dto/Category.dto'
 import { type BrandDto } from '@/core/brand/domain/dto/Brand.dto'
 import { type MainCategoryId } from '@/core/mainCategory/domain/value-object/MainCategorydId'
-import {
-	type ModelComputerDto,
-	type ModelComputerParams
-} from './ModelComputer.dto'
+import { type ModelComputerDto, type ModelComputerParams } from './ModelComputer.dto'
 import { type ModelLaptopDto, type ModelLaptopParams } from './ModelLaptop.dto'
-import {
-	type ModelMonitorDto,
-	type ModelMonitorParams
-} from './ModelMonitor.dto'
-import {
-	type ModelPrinterDto,
-	type ModelPrinterParams
-} from './ModelPrinter.dto'
-import {
-	type ModelKeyboardDto,
-	type ModelKeyboardParams
-} from './ModelKeyboard.dto'
+import { type ModelMonitorDto, type ModelMonitorParams } from './ModelMonitor.dto'
+import { type ModelPrinterDto, type ModelPrinterParams } from './ModelPrinter.dto'
+import { type ModelKeyboardDto, type ModelKeyboardParams } from './ModelKeyboard.dto'
 import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 
 export interface Model {

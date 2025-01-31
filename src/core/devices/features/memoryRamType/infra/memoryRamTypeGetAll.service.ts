@@ -3,9 +3,7 @@ import { type MemoryRamTypeGetAllRepository } from '../domain/repository/MemoryR
 import { type MemoryRamTypeDto } from '../domain/dto/MemoryRamType.dto'
 import { memoryRamTypeUrl } from '../domain/entity/baseUrl'
 
-export class MemoryRamTypeGetAllService
-	implements MemoryRamTypeGetAllRepository
-{
+export class MemoryRamTypeGetAllService implements MemoryRamTypeGetAllRepository {
 	async getAll(): Promise<MemoryRamTypeDto[]> {
 		return await fetching<MemoryRamTypeDto[]>({
 			url: memoryRamTypeUrl,

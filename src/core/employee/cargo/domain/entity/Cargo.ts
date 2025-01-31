@@ -10,9 +10,7 @@ export class Cargo {
 	) {}
 
 	public static create(params: CargoPrimitives): Cargo {
-		const departamentos = params.departamentos.map(
-			deps => new DepartamentoId(deps)
-		)
+		const departamentos = params.departamentos.map(deps => new DepartamentoId(deps))
 		return new Cargo(new CargoName(params.name), departamentos)
 	}
 

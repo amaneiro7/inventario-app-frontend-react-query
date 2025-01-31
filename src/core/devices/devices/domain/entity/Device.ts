@@ -34,11 +34,7 @@ export class Device {
 			new BrandId(params.brandId),
 			new ModelId(params.modelId),
 			new DeviceEmployee(params.employeeId, params.statusId),
-			new DeviceLocation(
-				params.locationId,
-				params.statusId,
-				params.typeOfSiteId
-			),
+			new DeviceLocation(params.locationId, params.statusId, params.typeOfSiteId),
 			new DeviceObservation(params.observation),
 			new DeviceStockNumber(params.stockNumber, params.statusId)
 		)

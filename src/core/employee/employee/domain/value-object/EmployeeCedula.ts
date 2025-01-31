@@ -14,8 +14,7 @@ export class EmployeeCedula extends NumberValueObject {
 
 	public static isValid(value: number): boolean {
 		const errors: string[] = []
-		const validLength =
-			value >= EmployeeCedula.MIN && value <= EmployeeCedula.MAX
+		const validLength = value >= EmployeeCedula.MIN && value <= EmployeeCedula.MAX
 		if (!validLength) {
 			errors.push(
 				`${value} no es un número de cécula válido. Debe estar entre ${EmployeeCedula.MIN} y ${EmployeeCedula.MAX}`

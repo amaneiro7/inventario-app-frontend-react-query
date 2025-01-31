@@ -6,11 +6,7 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type DepartamentoId } from '../domain/value-object/DepartamentoId'
 
 export class DepartamentoGetService implements DepartamentoGetRepository {
-	async getById({
-		id
-	}: {
-		id: Primitives<DepartamentoId>
-	}): Promise<DepartamentoDto> {
+	async getById({ id }: { id: Primitives<DepartamentoId> }): Promise<DepartamentoDto> {
 		return await fetching<DepartamentoDto>({
 			url: `${departamentoUrl}/${id}`,
 			method: 'GET'

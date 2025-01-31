@@ -43,13 +43,10 @@ export function useLogin() {
 		}
 
 		if (isPasswordFirstInput.current || formData.password === '') {
-			isPasswordFirstInput.current =
-				formData.password?.length <= UserPassword.HAS_MIN_LENGTH
+			isPasswordFirstInput.current = formData.password?.length <= UserPassword.HAS_MIN_LENGTH
 		}
 
-		const isEmailValid = isEmailFirstInput.current
-			? true
-			: UserEmail.isValid(formData.email)
+		const isEmailValid = isEmailFirstInput.current ? true : UserEmail.isValid(formData.email)
 		const isPasswordValid = isPasswordFirstInput.current
 			? true
 			: UserPassword.isValid(formData.password)

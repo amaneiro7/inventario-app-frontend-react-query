@@ -4,10 +4,7 @@ import { Model } from './Model'
 import { CategoryId } from '@/core/category/domain/value-object/CategorydId'
 import { ModelName } from '../value-object/ModelName'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type ModelKeyboardParams,
-	type ModelKeyboardPrimitives
-} from '../dto/ModelKeyboard.dto'
+import { type ModelKeyboardParams, type ModelKeyboardPrimitives } from '../dto/ModelKeyboard.dto'
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { isPartsCategory } from '../../../../mainCategory/domain/use-case/IsPartsCategory'

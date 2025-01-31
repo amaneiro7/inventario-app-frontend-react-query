@@ -4,11 +4,7 @@ import { type DevicePrimitives } from '../domain/dto/Device.dto'
 import { deviceUrl } from '../domain/entity/baseUrl'
 
 export class DeviceSaveService implements DeviceSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: DevicePrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: DevicePrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: deviceUrl,

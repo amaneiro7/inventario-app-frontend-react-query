@@ -3,8 +3,7 @@ import { StringValueObject } from '@/core/shared/domain/value-objects/StringValu
 export class EmployeeName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 3
 	static readonly NAME_MAX_LENGTH = 100
-	static readonly regex =
-		/^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
+	static readonly regex = /^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
 
 	private static error = ''
 

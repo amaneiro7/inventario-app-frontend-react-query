@@ -31,9 +31,7 @@ export class IPAddress extends AcceptedNullValueObject<string> {
 	): boolean {
 		if (!status) return true
 		if (StatusOptions.INUSE === status && !value) {
-			IPAddress.updateError(
-				'Si el equipo esta en uso la dirección IP es requerida.'
-			)
+			IPAddress.updateError('Si el equipo esta en uso la dirección IP es requerida.')
 			return false
 		}
 		const notAllowedStausOptions = [
@@ -42,9 +40,7 @@ export class IPAddress extends AcceptedNullValueObject<string> {
 			StatusOptions.DESINCORPORADO
 		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
 		if (notAllowedStausOptions.includes(status) && value) {
-			IPAddress.updateError(
-				'Si el equipo no está en uso, no puede tener dirección IP.'
-			)
+			IPAddress.updateError('Si el equipo no está en uso, no puede tener dirección IP.')
 			return false
 		}
 		if (!value) {

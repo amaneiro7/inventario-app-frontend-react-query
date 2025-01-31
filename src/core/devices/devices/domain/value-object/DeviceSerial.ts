@@ -27,17 +27,12 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 		return DeviceSerial.errors
 	}
 
-	public static isValid(
-		serial: string | null,
-		genericModel?: Primitives<GenericModel>
-	): boolean {
+	public static isValid(serial: string | null, genericModel?: Primitives<GenericModel>): boolean {
 		// condiciones para los casos en que el seriel es null
 		if (!serial) {
 			// Si el modelo del equipo no es genérico arroja un error
 			if (!genericModel) {
-				this.updateError(
-					'El serial es requerido al menos que sea un modelo genérico'
-				)
+				this.updateError('El serial es requerido al menos que sea un modelo genérico')
 				return false
 			}
 			// solo se acepta que el serial sea null cuando el modelo del equipo esta marcado como genérico
@@ -45,31 +40,23 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 		}
 		//if (serial === null || serial === '') return true
 		const errorMesagge: string[] = []
-		const isHasNotSpecialCharacterOnlyGuiones =
-			this.notSpecialCharacterOnlyGuiones.test(serial)
+		const isHasNotSpecialCharacterOnlyGuiones = this.notSpecialCharacterOnlyGuiones.test(serial)
 		if (!isHasNotSpecialCharacterOnlyGuiones) {
-			errorMesagge.push(
-				`${serial}: El Serial no puede contener caracteres especiales`
-			)
+			errorMesagge.push(`${serial}: El Serial no puede contener caracteres especiales`)
 		}
 		const isNotHasLowerCharacter = this.notLowerCase.test(serial)
 		if (!isNotHasLowerCharacter) {
 			errorMesagge.push('El Serial debe estar en mayúsculas')
 		}
 		const isNameValidLength =
-			serial?.length >= this.NAME_MIN_LENGTH &&
-			serial?.length <= this.NAME_MAX_LENGTH
+			serial?.length >= this.NAME_MIN_LENGTH && serial?.length <= this.NAME_MAX_LENGTH
 		if (!isNameValidLength) {
 			errorMesagge.push(
 				`El Serial debe tener entre ${this.NAME_MIN_LENGTH} y ${this.NAME_MAX_LENGTH} caracteres`
 			)
 		}
 		this.updateError(errorMesagge.join(' '))
-		return (
-			isHasNotSpecialCharacterOnlyGuiones &&
-			isNotHasLowerCharacter &&
-			isNameValidLength
-		)
+		return isHasNotSpecialCharacterOnlyGuiones && isNotHasLowerCharacter && isNameValidLength
 	}
 
 	public static invalidMessage(): string {

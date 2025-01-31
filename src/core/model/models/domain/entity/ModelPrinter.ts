@@ -4,10 +4,7 @@ import { Model } from './Model'
 import { CategoryId } from '@/core/category/domain/value-object/CategorydId'
 import { ModelName } from '../value-object/ModelName'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type ModelPrinterParams,
-	type ModelPrinterPrimitives
-} from '../dto/ModelPrinter.dto'
+import { type ModelPrinterParams, type ModelPrinterPrimitives } from '../dto/ModelPrinter.dto'
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { CartridgeModel } from '../value-object/CartridgeModel'
@@ -30,10 +27,7 @@ export class ModelPrinter extends Model {
 				'No pertenece a esta categoria, solo se permiten impresoras'
 			)
 		}
-		const allowedCategoryOptions = [
-			CategoryOptions.INKPRINTER,
-			CategoryOptions.LASERPRINTER
-		]
+		const allowedCategoryOptions = [CategoryOptions.INKPRINTER, CategoryOptions.LASERPRINTER]
 		if (!allowedCategoryOptions.includes(params.categoryId)) {
 			throw new InvalidArgumentError(
 				'No Pertenece a esta categoria, solo se permite impresoras laser e impresoras de tinta'

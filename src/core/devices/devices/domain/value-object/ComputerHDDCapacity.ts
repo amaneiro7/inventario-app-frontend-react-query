@@ -3,9 +3,7 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 
-export class ComputerHDDCapacity extends AcceptedNullValueObject<
-	Primitives<HardDriveCapacityId>
-> {
+export class ComputerHDDCapacity extends AcceptedNullValueObject<Primitives<HardDriveCapacityId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<HardDriveCapacityId> | null,

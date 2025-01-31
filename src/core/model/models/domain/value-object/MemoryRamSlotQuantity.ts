@@ -16,10 +16,7 @@ export class MemoryRamSlotQuantity extends NumberValueObject {
 	public static isValid(value: Primitives<MemoryRamSlotQuantity>): boolean {
 		const parseValue = Number(value)
 		if (parseValue === MemoryRamSlotQuantity.MIN) return true
-		if (
-			parseValue < MemoryRamSlotQuantity.MIN &&
-			parseValue > MemoryRamSlotQuantity.MAX
-		)
+		if (parseValue < MemoryRamSlotQuantity.MIN && parseValue > MemoryRamSlotQuantity.MAX)
 			return false
 		if (parseValue % 2 !== 0) return false
 		return true

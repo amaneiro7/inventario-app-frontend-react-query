@@ -13,10 +13,7 @@ export abstract class ValueObject<T extends Primitives> {
 	}
 
 	equals(other: ValueObject<T>): boolean {
-		return (
-			other.constructor.name === this.constructor.name &&
-			other.value === this.value
-		)
+		return other.constructor.name === this.constructor.name && other.value === this.value
 	}
 
 	toString(): string {

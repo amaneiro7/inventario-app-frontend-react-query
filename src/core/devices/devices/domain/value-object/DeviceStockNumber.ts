@@ -32,21 +32,12 @@ export class DeviceStockNumber extends AcceptedNullValueObject<string> {
 		return this.errors
 	}
 
-	public static isValid(
-		value: string | null,
-		status: Primitives<StatusId>
-	): boolean {
+	public static isValid(value: string | null, status: Primitives<StatusId>): boolean {
 		if (!value) return true
 		const errorMesagge: string[] = []
 		const isNameValidLength =
-			value.length >= this.NAME_MIN_LENGTH &&
-			value.length <= this.NAME_MAX_LENGTH
-		if (
-			!(
-				status === StatusOptions.INALMACEN ||
-				status === StatusOptions.PORDESINCORPORAR
-			)
-		) {
+			value.length >= this.NAME_MIN_LENGTH && value.length <= this.NAME_MAX_LENGTH
+		if (!(status === StatusOptions.INALMACEN || status === StatusOptions.PORDESINCORPORAR)) {
 			DeviceStockNumber.errors =
 				'Si no está en almacén no se le puede agregar un numero de stock'
 			return false

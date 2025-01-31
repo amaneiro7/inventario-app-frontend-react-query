@@ -4,11 +4,7 @@ import { type DirectivaPrimitives } from '../domain/dto/Directiva.dto'
 import { directivaUrl } from '../domain/entity/baseUrl'
 
 export class DirectivaSaveService implements DirectivaSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: DirectivaPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: DirectivaPrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: directivaUrl,

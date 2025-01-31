@@ -5,10 +5,7 @@ import { RoleGetAllService } from '@/core/role/infra/roleGetAll.service'
 
 export const useGetAllRoles = () => {
 	const repository = useMemo(() => new RoleGetAllService(), [])
-	const getAll = useMemo(
-		() => new RoleGetAll(repository).execute(),
-		[repository]
-	)
+	const getAll = useMemo(() => new RoleGetAll(repository).execute(), [repository])
 	const {
 		isLoading,
 		isError,

@@ -14,9 +14,7 @@ export class MemoryRamValues extends NumberValueObject {
 		}
 	}
 
-	public static fromValues(
-		value: Primitives<MemoryRamValues>
-	): MemoryRamValues {
+	public static fromValues(value: Primitives<MemoryRamValues>): MemoryRamValues {
 		return new MemoryRamValues(value)
 	}
 

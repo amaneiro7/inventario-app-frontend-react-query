@@ -1,8 +1,5 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type ModelLaptopParams,
-	type ModelLaptopPrimitives
-} from '../dto/ModelLaptop.dto'
+import { type ModelLaptopParams, type ModelLaptopPrimitives } from '../dto/ModelLaptop.dto'
 import { Model } from './Model'
 import { BatteryModel } from '../value-object/BatteryModel'
 import { ModelName } from '../value-object/ModelName'

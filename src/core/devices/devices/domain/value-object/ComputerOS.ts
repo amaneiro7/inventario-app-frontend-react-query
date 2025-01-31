@@ -4,9 +4,7 @@ import { type HardDriveCapacityId } from '@/core/devices/features/hardDrive/hard
 import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/operatingSystem/domain/value-object/OperatingSystemId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
-export class ComputerOs extends AcceptedNullValueObject<
-	Primitives<OperatingSystemId>
-> {
+export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSystemId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<OperatingSystemId> | null,
@@ -15,9 +13,7 @@ export class ComputerOs extends AcceptedNullValueObject<
 	) {
 		super(value)
 
-		if (
-			!ComputerOs.isValid(this.value, this.status, this.hardDriveCapacity)
-		) {
+		if (!ComputerOs.isValid(this.value, this.status, this.hardDriveCapacity)) {
 			throw new Error(ComputerOs.invalidMessage())
 		}
 	}
@@ -43,9 +39,7 @@ export class ComputerOs extends AcceptedNullValueObject<
 			StatusOptions.GUARDIA
 		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
 		if (allowedStatusOptions.includes(status) && !value) {
-			ComputerOs.updateError(
-				'Si el equipo está en uso, el sistema operativo es requerido.'
-			)
+			ComputerOs.updateError('Si el equipo está en uso, el sistema operativo es requerido.')
 			return false
 		}
 		// Si el equipo esta no esta en usuo, desincorporado, en almacen o por desincorporar el sistema no es requerido

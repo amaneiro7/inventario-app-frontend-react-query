@@ -3,9 +3,7 @@ import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/
 import { type OperatingSystemArqId } from '@/core/devices/features/operatingSystem/operatingSystemArq/domain/value-object/OperatingSystemArqId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
-export class ComputerOsArq extends AcceptedNullValueObject<
-	Primitives<OperatingSystemArqId>
-> {
+export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingSystemArqId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<OperatingSystemId> | null,

@@ -65,7 +65,7 @@ export default {
 				success: '#2e7d32',
 				focus: '#1976d2',
 				gris: '#77838f',
-				cancel: '#77838f',
+				cancel: '#77838f'
 			}
 		},
 		animation: {

@@ -5,9 +5,7 @@ import { type VicepresidenciaEjecutivaDto } from '../domain/dto/VicepresidenciaE
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type VicepresidenciaEjecutivaId } from '../domain/value-object/VicepresidenciaEjecutivaId'
 
-export class VicepresidenciaEjecutivaGetService
-	implements VicepresidenciaEjecutivaGetRepository
-{
+export class VicepresidenciaEjecutivaGetService implements VicepresidenciaEjecutivaGetRepository {
 	async getById({
 		id
 	}: {

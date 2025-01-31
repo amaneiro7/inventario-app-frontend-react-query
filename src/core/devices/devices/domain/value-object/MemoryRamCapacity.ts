@@ -9,7 +9,10 @@ export class MemoryRamCapacity extends NumberValueObject {
 	static readonly max = 32 * this.minStep
 	private static errors = ''
 
-	constructor(value: number, private readonly status: Primitives<StatusId>) {
+	constructor(
+		value: number,
+		private readonly status: Primitives<StatusId>
+	) {
 		super(value)
 		if (!MemoryRamCapacity.isValid(this.value, this.status)) {
 			throw new Error(MemoryRamCapacity.invalidMessage())

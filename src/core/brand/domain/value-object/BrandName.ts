@@ -13,8 +13,7 @@ export class BrandName extends StringValueObject {
 
 	public static isValid(value: string): boolean {
 		return (
-			value.length >= BrandName.NAME_MIN_LENGTH &&
-			value.length <= BrandName.NAME_MAX_LENGTH
+			value.length >= BrandName.NAME_MIN_LENGTH && value.length <= BrandName.NAME_MAX_LENGTH
 		)
 	}
 

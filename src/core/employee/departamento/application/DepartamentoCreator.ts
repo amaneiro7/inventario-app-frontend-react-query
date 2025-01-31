@@ -23,15 +23,13 @@ export class DepartamentoCreator {
 				})
 			} else {
 				const id = new DepartamentoId(params.id).value
-				return await this.repository
-					.update({ id, payload })
-					.then(res => {
-						this.events.notify({
-							type: 'success',
-							message: res.message
-						})
-						return res
+				return await this.repository.update({ id, payload }).then(res => {
+					this.events.notify({
+						type: 'success',
+						message: res.message
 					})
+					return res
+				})
 			}
 		} catch (error) {
 			this.events.notify({ type: 'error', message: `${error}` })

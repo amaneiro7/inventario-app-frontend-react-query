@@ -4,9 +4,7 @@ import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/
 import { type ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
-export class ComputerProcessor extends AcceptedNullValueObject<
-	Primitives<ProcessorId>
-> {
+export class ComputerProcessor extends AcceptedNullValueObject<Primitives<ProcessorId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<OperatingSystemId> | null,
@@ -39,9 +37,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<
 			StatusOptions.CONTINGENCIA
 		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
 		if (allowedStatusOptions.includes(status) && !value) {
-			ComputerProcessor.updateError(
-				'Si esta en uso o en almacén, el procesador es requerido'
-			)
+			ComputerProcessor.updateError('Si esta en uso o en almacén, el procesador es requerido')
 			return false
 		}
 		return true

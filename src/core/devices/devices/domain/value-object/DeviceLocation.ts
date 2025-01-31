@@ -4,9 +4,7 @@ import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/Acce
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 
-export class DeviceLocation extends AcceptedNullValueObject<
-	Primitives<LocationId>
-> {
+export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<LocationId> | null,
@@ -51,9 +49,7 @@ export class DeviceLocation extends AcceptedNullValueObject<
 			allowedStausValuesInAlmacen.includes(status) &&
 			typeOfSite === TypeOfSiteOptions.ALMACEN
 		) {
-			this.updateError(
-				'Si esta en uso, la ubicación no puede estar en almacen'
-			)
+			this.updateError('Si esta en uso, la ubicación no puede estar en almacen')
 			return false
 		}
 		const notAllowedStausValuesInAlmacen = [
@@ -64,9 +60,7 @@ export class DeviceLocation extends AcceptedNullValueObject<
 			notAllowedStausValuesInAlmacen.includes(status) &&
 			typeOfSite !== TypeOfSiteOptions.ALMACEN
 		) {
-			this.updateError(
-				'Si no esta en uso, solo puede estar ubicado en el almacen'
-			)
+			this.updateError('Si no esta en uso, solo puede estar ubicado en el almacen')
 			return false
 		}
 		if (status !== StatusOptions.DESINCORPORADO && !typeOfSite) {

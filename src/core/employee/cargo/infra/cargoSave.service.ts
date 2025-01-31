@@ -4,11 +4,7 @@ import { type CargoPrimitives } from '../domain/dto/Cargo.dto'
 import { cargoUrl } from '../domain/entity/baseUrl'
 
 export class CargoSaveService implements CargoSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: CargoPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: CargoPrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: cargoUrl,

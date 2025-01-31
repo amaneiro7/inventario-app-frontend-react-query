@@ -47,9 +47,7 @@ export class MemoryRam {
 		return value?.length === 0
 	}
 
-	static totalAmount(
-		value?: Primitives<MemoryRamValues>[]
-	): number | undefined {
+	static totalAmount(value?: Primitives<MemoryRamValues>[]): number | undefined {
 		if (!value) return
 		let number = 0
 		for (const val of value) {
@@ -58,9 +56,7 @@ export class MemoryRam {
 		return number
 	}
 
-	public static isZeroTotalMemory(
-		value: Primitives<MemoryRamValues>[]
-	): boolean {
+	public static isZeroTotalMemory(value: Primitives<MemoryRamValues>[]): boolean {
 		return this.totalAmount(value) === 0
 	}
 }

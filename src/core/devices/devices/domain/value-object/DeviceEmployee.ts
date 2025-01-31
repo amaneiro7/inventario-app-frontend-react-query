@@ -3,9 +3,7 @@ import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/Acce
 import { EmployeeId } from '@/core/employee/employee/domain/value-object/EmployeeId'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 
-export class DeviceEmployee extends AcceptedNullValueObject<
-	Primitives<EmployeeId>
-> {
+export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<EmployeeId> | null,
@@ -53,9 +51,7 @@ export class DeviceEmployee extends AcceptedNullValueObject<
 		if (!value) return true
 		const employeeId = new EmployeeId(value)
 		if (!(employeeId instanceof EmployeeId)) {
-			DeviceEmployee.updateError(
-				'El id del empleado proporcionado no es válido'
-			)
+			DeviceEmployee.updateError('El id del empleado proporcionado no es válido')
 			return false
 		}
 		return true

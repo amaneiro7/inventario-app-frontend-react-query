@@ -12,10 +12,7 @@ export abstract class AcceptedNullValueObject<T extends Primitives> {
 	}
 
 	equals(other: AcceptedNullValueObject<T>): boolean {
-		return (
-			other.constructor.name === this.constructor.name &&
-			other.value === this.value
-		)
+		return other.constructor.name === this.constructor.name && other.value === this.value
 	}
 
 	toString(): string {

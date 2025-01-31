@@ -12,8 +12,7 @@ export class VicepresidenciaEjecutivaCreator {
 
 	async create(params: VicepresidenciaEjecutivaParams) {
 		try {
-			const payload =
-				VicepresidenciaEjecutiva.create(params).toPrimitives()
+			const payload = VicepresidenciaEjecutiva.create(params).toPrimitives()
 			if (!params.id) {
 				return await this.repository.save({ payload }).then(res => {
 					this.events.notify({
@@ -24,15 +23,13 @@ export class VicepresidenciaEjecutivaCreator {
 				})
 			} else {
 				const id = new VicepresidenciaEjecutivaId(params.id).value
-				return await this.repository
-					.update({ id, payload })
-					.then(res => {
-						this.events.notify({
-							type: 'success',
-							message: res.message
-						})
-						return res
+				return await this.repository.update({ id, payload }).then(res => {
+					this.events.notify({
+						type: 'success',
+						message: res.message
 					})
+					return res
+				})
 			}
 		} catch (error) {
 			this.events.notify({ type: 'error', message: `${error}` })

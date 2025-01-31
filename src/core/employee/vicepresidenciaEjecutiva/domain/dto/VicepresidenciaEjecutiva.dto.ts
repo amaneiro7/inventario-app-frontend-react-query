@@ -10,10 +10,7 @@ export interface VicepresidenciaEjecutiva {
 	directivaId: Primitives<DirectivaId>
 }
 
-export type VicepresidenciaEjecutivaPrimitives = Omit<
-	VicepresidenciaEjecutiva,
-	'id'
->
+export type VicepresidenciaEjecutivaPrimitives = Omit<VicepresidenciaEjecutiva, 'id'>
 
 export type VicepresidenciaEjecutivaDto = VicepresidenciaEjecutiva & {
 	directiva: DirectivaDto

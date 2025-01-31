@@ -4,11 +4,7 @@ import { type ProcessorPrimitives } from '../domain/dto/Processor.dto'
 import { processorUrl } from '../domain/entity/baseUrl'
 
 export class ProcessorSaveService implements ProcessorSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: ProcessorPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: ProcessorPrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: processorUrl,

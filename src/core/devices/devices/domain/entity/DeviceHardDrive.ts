@@ -69,11 +69,7 @@ export class DeviceHardDrive extends Device {
 			new CategoryId(params.categoryId),
 			new BrandId(params.brandId),
 			new DeviceEmployee(params.employeeId, params.statusId),
-			new DeviceLocation(
-				params.locationId,
-				params.statusId,
-				params.typeOfSiteId
-			),
+			new DeviceLocation(params.locationId, params.statusId, params.typeOfSiteId),
 			new DeviceObservation(params.observation),
 			new DeviceStockNumber(params.stockNumber, params.statusId),
 			new HardDriveHealth(params.health),

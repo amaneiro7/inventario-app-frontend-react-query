@@ -4,11 +4,7 @@ import { type ModelPrimitives } from '../domain/dto/Model.dto'
 import { modelUrl } from '../domain/entity/baseUrl'
 
 export class ModelSaveService implements ModelSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: ModelPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: ModelPrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: modelUrl,

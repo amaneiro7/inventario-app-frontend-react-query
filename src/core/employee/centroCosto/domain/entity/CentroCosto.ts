@@ -10,10 +10,7 @@ export class CentroCosto {
 	) {}
 
 	public static create(params: CentroCostoPrimitives): CentroCosto {
-		return new CentroCosto(
-			new CentroCostoId(params.id),
-			new CentroCostoName(params.name)
-		)
+		return new CentroCosto(new CentroCostoId(params.id), new CentroCostoName(params.name))
 	}
 
 	get idValue(): Primitives<CentroCostoId> {

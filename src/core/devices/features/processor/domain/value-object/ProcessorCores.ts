@@ -13,8 +13,7 @@ export class ProcessorCores extends NumberValueObject {
 	}
 
 	public static isValid(value: number): boolean {
-		if (value < ProcessorCores.MIN && value > ProcessorCores.MAX)
-			return false
+		if (value < ProcessorCores.MIN && value > ProcessorCores.MAX) return false
 		if (value % 2 !== 0 && value !== 1) return false
 		return true
 	}

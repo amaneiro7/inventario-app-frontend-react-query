@@ -5,10 +5,7 @@ import { BrandGetAll } from '@/core/brand/application/BrandGetAll'
 
 export const useGetAllBrands = () => {
 	const repository = useMemo(() => new BrandGetAllService(), [])
-	const getAll = useMemo(
-		() => new BrandGetAll(repository).execute(),
-		[repository]
-	)
+	const getAll = useMemo(() => new BrandGetAll(repository).execute(), [repository])
 	const {
 		isLoading,
 		isError,

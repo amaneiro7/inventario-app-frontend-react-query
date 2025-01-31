@@ -1,10 +1,4 @@
-import {
-	useCallback,
-	useContext,
-	useLayoutEffect,
-	useMemo,
-	useState
-} from 'react'
+import { useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react'
 import { type LoginParams } from '@/core/user/domain/dto/LoginAuth.dto'
 import { type LoginUserDto } from '@/core/user/domain/dto/LoginUser.dto'
 import { api } from '../api/api'
@@ -28,11 +22,7 @@ export function useAuth() {
 		removeItem: removeToken,
 		setItem: saveToken
 	} = useLocalStorage('jwt')
-	const {
-		getItem: getUser,
-		removeItem: removeUser,
-		setItem: saveUser
-	} = useLocalStorage('user')
+	const { getItem: getUser, removeItem: removeUser, setItem: saveUser } = useLocalStorage('user')
 	const [user, setUser] = useState<LoginUserDto | null>(() => getUser())
 	const [token, setToken] = useState<string | null>(() => getToken())
 	const [isLoading, setIsLoading] = useState(false)
@@ -122,9 +112,7 @@ export function useAuth() {
 				}
 			) => {
 				config.headers.Authorization =
-					!config._retry && token
-						? `Bearer ${token}`
-						: config.headers.Authorization
+					!config._retry && token ? `Bearer ${token}` : config.headers.Authorization
 
 				return config
 			}
@@ -141,10 +129,7 @@ export function useAuth() {
 			async response => response,
 			async error => {
 				const originalRequest = error.config
-				if (
-					error.response.status === 401 &&
-					error.response.data === 'Unauthorized'
-				) {
+				if (error.response.status === 401 && error.response.data === 'Unauthorized') {
 					try {
 						const accessToken = await refreshTokenValidity()
 						originalRequest.headers.Authorization = `Bearer ${accessToken}`

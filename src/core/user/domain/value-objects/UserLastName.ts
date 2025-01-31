@@ -4,8 +4,7 @@ export class UserLastName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 2
 	static readonly NAME_MAX_LENGTH = 30
 
-	static readonly Regex =
-		/^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
+	static readonly Regex = /^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
 
 	private static errors = ''
 

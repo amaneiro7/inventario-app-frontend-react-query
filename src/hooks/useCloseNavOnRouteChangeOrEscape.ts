@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 
-export function useCloseNavOnRouteChangeOrEscpae(
-	ref: React.RefObject<HTMLInputElement | null>
-) {
+export function useCloseNavOnRouteChangeOrEscpae(ref: React.RefObject<HTMLInputElement | null>) {
 	const location = window.location.pathname
 
 	useEffect(() => {

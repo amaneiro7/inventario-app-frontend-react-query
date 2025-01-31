@@ -23,10 +23,7 @@ export type ModelComputerPrimitives = ModelPrimitives & {
 
 export type ModelComputerParams = ModelParams & {
 	mainCategoryId: MainCategoryOptions.COMPUTER
-	categoryId:
-		| CategoryOptions.COMPUTER
-		| CategoryOptions.ALLINONE
-		| CategoryOptions.SERVER
+	categoryId: CategoryOptions.COMPUTER | CategoryOptions.ALLINONE | CategoryOptions.SERVER
 	memoryRamTypeId: Primitives<MemoryRamTypeId>
 	memoryRamSlotQuantity: Primitives<MemoryRamSlotQuantity>
 	hasBluetooth: Primitives<HasBluetooth>

@@ -41,24 +41,16 @@ export class Employee {
 			userName: new EmployeeUserName(params.userName),
 			type: new EmployeeType(params.type),
 			name: params?.name ? new EmployeeName(params.name) : null,
-			lastName: params?.lastName
-				? new EmployeeLastName(params.lastName)
-				: null,
+			lastName: params?.lastName ? new EmployeeLastName(params.lastName) : null,
 			email: params?.email ? new EmployeeEmail(params.email) : null,
 			isStillWorking: new EmployeeIsStillWorking(params.isStillWorking),
-			employeeCode: params?.employeeCode
-				? new EmployeeCode(params.employeeCode)
-				: null,
-			nationality: params?.nationality
-				? new EmployeeNationality(params.nationality)
-				: null,
+			employeeCode: params?.employeeCode ? new EmployeeCode(params.employeeCode) : null,
+			nationality: params?.nationality ? new EmployeeNationality(params.nationality) : null,
 			cedula: params?.cedula ? new EmployeeCedula(params.cedula) : null,
 			CentroTrabajoId: params?.centroTrabajoId
 				? new CentroTrabajoId(params.centroTrabajoId)
 				: null,
-			locationId: params?.locationId
-				? new LocationId(params.locationId)
-				: null,
+			locationId: params?.locationId ? new LocationId(params.locationId) : null,
 			departamentoId: params?.departamentoId
 				? new DepartamentoId(params.departamentoId)
 				: null,
@@ -66,9 +58,7 @@ export class Employee {
 			extension: params?.extension
 				? params.extension.map(ext => new EmployeeExtension(ext))
 				: [],
-			phone: params?.phone
-				? params.phone.map(phone => new EmployeePhoneNumber(phone))
-				: []
+			phone: params?.phone ? params.phone.map(phone => new EmployeePhoneNumber(phone)) : []
 		}
 	}
 

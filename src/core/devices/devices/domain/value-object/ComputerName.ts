@@ -7,8 +7,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	static readonly NAME_MAX_LENGTH = 100
 	private static errors = ''
 	private static readonly notLowerCase = /^[^a-z]*$/
-	private static readonly notSpecialCharacterOnlyGuiones =
-		/^[^\W_]*-?[^\W_]*$/
+	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 
 	constructor(
 		value: string | null,
@@ -60,31 +59,23 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 			return true
 		}
 		const errorMesagge: string[] = []
-		const isHasNotSpecialCharacterOnlyGuiones =
-			this.notSpecialCharacterOnlyGuiones.test(value)
+		const isHasNotSpecialCharacterOnlyGuiones = this.notSpecialCharacterOnlyGuiones.test(value)
 		if (!isHasNotSpecialCharacterOnlyGuiones) {
-			errorMesagge.push(
-				'El Nombre de equipo no puede contener caracteres especiales'
-			)
+			errorMesagge.push('El Nombre de equipo no puede contener caracteres especiales')
 		}
 		const isNotHasLowerCharacter = this.notLowerCase.test(value)
 		if (!isNotHasLowerCharacter) {
 			errorMesagge.push('El Nombre de equipo debe estar en mayúsculas')
 		}
 		const isNameValidLength =
-			value.length >= this.NAME_MIN_LENGTH &&
-			value.length <= this.NAME_MAX_LENGTH
+			value.length >= this.NAME_MIN_LENGTH && value.length <= this.NAME_MAX_LENGTH
 		if (!isNameValidLength) {
 			errorMesagge.push(
 				`El Nombre de equipo debe tener entre ${this.NAME_MIN_LENGTH} y ${this.NAME_MAX_LENGTH} caracteres`
 			)
 		}
 		this.updateError(errorMesagge.join(' '))
-		return (
-			isHasNotSpecialCharacterOnlyGuiones &&
-			isNotHasLowerCharacter &&
-			isNameValidLength
-		)
+		return isHasNotSpecialCharacterOnlyGuiones && isNotHasLowerCharacter && isNameValidLength
 	}
 
 	public static invalidMessage(): string {

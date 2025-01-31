@@ -4,11 +4,7 @@ import { type BrandPrimitives } from '../domain/dto/Brand.dto'
 import { brandUrl } from '../domain/entity/baseUrl'
 
 export class BrandSaveService implements BrandSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: BrandPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: BrandPrimitives }): Promise<{ message: string }> {
 		return await fetching({ method: 'POST', url: brandUrl, data: payload })
 	}
 

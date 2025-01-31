@@ -3,9 +3,7 @@ import { type CentroTrabajoGetAllRepository } from '../domain/repository/CentroT
 import { type CentroTrabajoDto } from '../domain/dto/CentroTrabajo.dto'
 import { centroTrabajoUrl } from '../domain/entity/baseUrl'
 
-export class CentroTrabajoGetAllService
-	implements CentroTrabajoGetAllRepository
-{
+export class CentroTrabajoGetAllService implements CentroTrabajoGetAllRepository {
 	async getAll(): Promise<CentroTrabajoDto[]> {
 		return await fetching<CentroTrabajoDto[]>({
 			url: centroTrabajoUrl,

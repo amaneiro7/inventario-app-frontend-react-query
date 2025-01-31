@@ -6,11 +6,7 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type DirectivaId } from '../domain/value-object/DirectivaId'
 
 export class DirectivaGetService implements DirectivaGetRepository {
-	async getById({
-		id
-	}: {
-		id: Primitives<DirectivaId>
-	}): Promise<DirectivaDto> {
+	async getById({ id }: { id: Primitives<DirectivaId> }): Promise<DirectivaDto> {
 		return await fetching<DirectivaDto>({
 			url: `${directivaUrl}/${id}`,
 			method: 'GET'

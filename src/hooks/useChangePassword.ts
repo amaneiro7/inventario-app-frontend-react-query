@@ -43,9 +43,7 @@ export function useChangePassword() {
 		dispatch({ type: 'write', payload: { name, value } })
 	}
 
-	const handleToggleInputs = (
-		name: 'password' | 'newPassword' | 'reTypePassword'
-	) => {
+	const handleToggleInputs = (name: 'password' | 'newPassword' | 'reTypePassword') => {
 		dispatch({ type: 'toggle_inputs', payload: { name } })
 	}
 
@@ -61,37 +59,21 @@ export function useChangePassword() {
 	}
 
 	const isDisabled = useMemo(() => {
-		return (
-			!state.valid.password ||
-			!state.valid.newPassword ||
-			!state.valid.reTypePassword
-		)
-	}, [
-		state.valid.newPassword,
-		state.valid.reTypePassword,
-		state.valid.password
-	])
+		return !state.valid.password || !state.valid.newPassword || !state.valid.reTypePassword
+	}, [state.valid.newPassword, state.valid.reTypePassword, state.valid.password])
 
 	useEffect(() => {
 		if (isPasswordFirstInput.current || state.formData.password === '') {
 			isPasswordFirstInput.current =
 				state.formData.password?.length <= UserPassword.HAS_MIN_LENGTH
 		}
-		if (
-			isNewPasswordFirstInput.current ||
-			state.formData.newPassword === ''
-		) {
+		if (isNewPasswordFirstInput.current || state.formData.newPassword === '') {
 			isNewPasswordFirstInput.current =
-				state.formData.newPassword?.length <=
-				UserPassword.HAS_MIN_LENGTH
+				state.formData.newPassword?.length <= UserPassword.HAS_MIN_LENGTH
 		}
-		if (
-			isReTypePasswordFirstInput.current ||
-			state.formData.reTypePassword === ''
-		) {
+		if (isReTypePasswordFirstInput.current || state.formData.reTypePassword === '') {
 			isReTypePasswordFirstInput.current =
-				state.formData.reTypePassword?.length <=
-				UserPassword.HAS_MIN_LENGTH
+				state.formData.reTypePassword?.length <= UserPassword.HAS_MIN_LENGTH
 		}
 
 		const isPasswordValid = isPasswordFirstInput.current
@@ -109,13 +91,10 @@ export function useChangePassword() {
 			payload: {
 				valid: {
 					password: UserPassword.isValid(state.formData.password),
-					newPassword: UserPassword.isValid(
-						state.formData.newPassword
-					),
+					newPassword: UserPassword.isValid(state.formData.newPassword),
 					reTypePassword:
 						UserPassword.isValid(state.formData.newPassword) &&
-						state.formData.newPassword ===
-							state.formData.reTypePassword
+						state.formData.newPassword === state.formData.reTypePassword
 				}
 			}
 		})
@@ -123,15 +102,9 @@ export function useChangePassword() {
 			type: 'errors',
 			payload: {
 				errors: {
-					password: isPasswordValid
-						? ''
-						: UserPassword.invalidMessage(),
-					newPassword: isNewPasswordValid
-						? ''
-						: UserPassword.invalidMessage(),
-					reTypePassword: isReTypePasswordValid
-						? ''
-						: 'La contraseña no coinciden'
+					password: isPasswordValid ? '' : UserPassword.invalidMessage(),
+					newPassword: isNewPasswordValid ? '' : UserPassword.invalidMessage(),
+					reTypePassword: isReTypePasswordValid ? '' : 'La contraseña no coinciden'
 				}
 			}
 		})

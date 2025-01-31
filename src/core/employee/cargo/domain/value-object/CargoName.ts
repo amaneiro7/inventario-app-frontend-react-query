@@ -23,8 +23,7 @@ export class CargoName extends StringValueObject {
 			)
 		}
 		const validLength =
-			value.length >= CargoName.NAME_MIN_LENGTH &&
-			value.length <= CargoName.NAME_MAX_LENGTH
+			value.length >= CargoName.NAME_MIN_LENGTH && value.length <= CargoName.NAME_MAX_LENGTH
 		if (!validLength) {
 			errors.push(
 				`${value} no es un nombre válido. Debe tener entre ${CargoName.NAME_MIN_LENGTH} y ${CargoName.NAME_MAX_LENGTH} caracteres`

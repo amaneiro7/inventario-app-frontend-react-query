@@ -3,9 +3,7 @@ import { type HardDriveTypeDto } from '../domain/dto/HardDriveType.dto'
 import { type HardDriveTypeGetAllRepository } from '../domain/repository/HardDriveTypeGetAllRepository'
 import { hardDriveTypeUrl } from '../domain/entity/baseUrl'
 
-export class HardDriveTypeGetAllService
-	implements HardDriveTypeGetAllRepository
-{
+export class HardDriveTypeGetAllService implements HardDriveTypeGetAllRepository {
 	async getAll(): Promise<HardDriveTypeDto[]> {
 		return await fetching<HardDriveTypeDto[]>({
 			url: hardDriveTypeUrl,

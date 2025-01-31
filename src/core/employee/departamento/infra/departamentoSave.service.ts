@@ -4,11 +4,7 @@ import { type DepartamentoPrimitives } from '../domain/dto/Departamento.dto'
 import { departamentoUrl } from '../domain/entity/baseUrl'
 
 export class DepartamentoSaveService implements DepartamentoSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: DepartamentoPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: DepartamentoPrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: departamentoUrl,

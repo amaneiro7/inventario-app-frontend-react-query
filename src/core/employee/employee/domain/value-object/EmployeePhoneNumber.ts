@@ -12,9 +12,7 @@ enum AreaCode {
 export class EmployeePhoneNumber extends StringValueObject {
 	private static readonly areaCodes = Object.values(AreaCode)
 	private static readonly numberLenght = 7
-	private static readonly extension = `^(${this.areaCodes.join('|')})\\d{${
-		this.numberLenght
-	}}$`
+	private static readonly extension = `^(${this.areaCodes.join('|')})\\d{${this.numberLenght}}$`
 	private static readonly phoneRegex = new RegExp(this.extension)
 	private static error = ''
 

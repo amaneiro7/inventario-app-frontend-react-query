@@ -3,9 +3,7 @@ import { type HardDriveCapacityId } from '@/core/devices/features/hardDrive/hard
 import { type HardDriveTypeId } from '@/core/devices/features/hardDrive/hardDriveType/domain/value-object/HardDriveTypeId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
-export class ComputerHDDType extends AcceptedNullValueObject<
-	Primitives<HardDriveTypeId>
-> {
+export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriveTypeId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<HardDriveTypeId> | null,
@@ -31,9 +29,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<
 		hardDriveCapacity: Primitives<HardDriveCapacityId> | null
 	): boolean {
 		if (!hardDriveCapacity && value) {
-			ComputerHDDType.updateError(
-				'Si no tiene Disco duro, no se puede especificar un tipo'
-			)
+			ComputerHDDType.updateError('Si no tiene Disco duro, no se puede especificar un tipo')
 			return false
 		}
 		return true

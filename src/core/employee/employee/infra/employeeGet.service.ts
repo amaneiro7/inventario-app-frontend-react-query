@@ -6,11 +6,7 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type EmployeeId } from '../domain/value-object/EmployeeId'
 
 export class EmployeeGetService implements EmployeeGetRepository {
-	async getById({
-		id
-	}: {
-		id: Primitives<EmployeeId>
-	}): Promise<EmployeeDto> {
+	async getById({ id }: { id: Primitives<EmployeeId> }): Promise<EmployeeDto> {
 		return await fetching<EmployeeDto>({
 			url: `${employeeUrl}/${id}`,
 			method: 'GET'

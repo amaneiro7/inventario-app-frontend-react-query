@@ -4,11 +4,7 @@ import { type CentroCostoPrimitives } from '../domain/dto/CentroCosto.dto'
 import { centroCostoUrl } from '../domain/entity/baseUrl'
 
 export class CentroCostoSaveService implements CentroCostoSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: CentroCostoPrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: CentroCostoPrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: centroCostoUrl,

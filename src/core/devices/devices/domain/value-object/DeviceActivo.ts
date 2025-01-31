@@ -4,8 +4,7 @@ export class DeviceActivo extends AcceptedNullValueObject<string> {
 	private static readonly NAME_MIN_LENGTH = 5
 	private static readonly NAME_MAX_LENGTH = 100
 	private static readonly notLowerCase = /^[^a-z]*$/
-	private static readonly notSpecialCharacterOnlyGuiones =
-		/^[^\W_]*-?[^\W_]*$/
+	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 	private static errors = ''
 	constructor(value: string | null) {
 		super(value)
@@ -25,31 +24,23 @@ export class DeviceActivo extends AcceptedNullValueObject<string> {
 	public static isValid(value: string | null): boolean {
 		if (value === null || value === '') return true
 		const errorMesagge: string[] = []
-		const isHasNotSpecialCharacterOnlyGuiones =
-			this.notSpecialCharacterOnlyGuiones.test(value)
+		const isHasNotSpecialCharacterOnlyGuiones = this.notSpecialCharacterOnlyGuiones.test(value)
 		if (!isHasNotSpecialCharacterOnlyGuiones) {
-			errorMesagge.push(
-				`${value}: El Serial no puede contener caracteres especiales`
-			)
+			errorMesagge.push(`${value}: El Serial no puede contener caracteres especiales`)
 		}
 		const isNotHasLowerCharacter = this.notLowerCase.test(value)
 		if (!isNotHasLowerCharacter) {
 			errorMesagge.push('El Serial debe estar en mayúsculas')
 		}
 		const isNameValidLength =
-			value.length >= this.NAME_MIN_LENGTH &&
-			value.length <= this.NAME_MAX_LENGTH
+			value.length >= this.NAME_MIN_LENGTH && value.length <= this.NAME_MAX_LENGTH
 		if (!isNameValidLength) {
 			errorMesagge.push(
 				`El Serial debe tener entre ${this.NAME_MIN_LENGTH} y ${this.NAME_MAX_LENGTH} caracteres`
 			)
 		}
 		this.updateError(errorMesagge.join(' '))
-		return (
-			isHasNotSpecialCharacterOnlyGuiones &&
-			isNotHasLowerCharacter &&
-			isNameValidLength
-		)
+		return isHasNotSpecialCharacterOnlyGuiones && isNotHasLowerCharacter && isNameValidLength
 	}
 
 	public static invalidMessage(): string {

@@ -3,8 +3,7 @@ import { StringValueObject } from '@/core/shared/domain/value-objects/StringValu
 export class UserName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 3
 	static readonly NAME_MAX_LENGTH = 30
-	private static readonly Regex =
-		/^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
+	private static readonly Regex = /^[A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*(?: [A-ZÑñÁÉÍÓÚ][a-zñáéíóú]*)*$/
 	private static errors = ''
 
 	constructor(value: string) {
@@ -25,14 +24,10 @@ export class UserName extends StringValueObject {
 	public static isValid(value: string): boolean {
 		const errorMessage: string[] = []
 		if (value.length < UserName.NAME_MIN_LENGTH) {
-			errorMessage.push(
-				`El nombre de usuario debe ser mayor a ${UserName.NAME_MIN_LENGTH}`
-			)
+			errorMessage.push(`El nombre de usuario debe ser mayor a ${UserName.NAME_MIN_LENGTH}`)
 		}
 		if (value.length > UserName.NAME_MAX_LENGTH) {
-			errorMessage.push(
-				`El nombre de usuario debe ser menor a ${UserName.NAME_MAX_LENGTH}`
-			)
+			errorMessage.push(`El nombre de usuario debe ser menor a ${UserName.NAME_MAX_LENGTH}`)
 		}
 
 		if (!UserName.Regex.test(value)) {

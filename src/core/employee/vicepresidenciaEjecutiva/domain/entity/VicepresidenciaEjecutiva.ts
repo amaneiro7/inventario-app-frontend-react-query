@@ -9,9 +9,7 @@ export class VicepresidenciaEjecutiva {
 		private readonly directivaId: DirectivaId
 	) {}
 
-	public static create(
-		params: VicepresidenciaEjecutivaPrimitives
-	): VicepresidenciaEjecutiva {
+	public static create(params: VicepresidenciaEjecutivaPrimitives): VicepresidenciaEjecutiva {
 		return new VicepresidenciaEjecutiva(
 			new VicepresidenciaEjecutivaName(params.name),
 			new DirectivaId(params.directivaId)

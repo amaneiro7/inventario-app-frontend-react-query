@@ -4,11 +4,7 @@ import { type EmployeePrimitives } from '../domain/dto/Employee.dto'
 import { employeeUrl } from '../domain/entity/baseUrl'
 
 export class EmployeeSaveService implements EmployeeSaveRepository {
-	async save({
-		payload
-	}: {
-		payload: EmployeePrimitives
-	}): Promise<{ message: string }> {
+	async save({ payload }: { payload: EmployeePrimitives }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'POST',
 			url: employeeUrl,

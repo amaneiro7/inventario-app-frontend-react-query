@@ -8,11 +8,7 @@ export class ChangePassword {
 		private readonly events: EventManager
 	) {}
 
-	async execute({
-		password,
-		newPassword,
-		reTypePassword
-	}: ChangePassordParams) {
+	async execute({ password, newPassword, reTypePassword }: ChangePassordParams) {
 		try {
 			this.events.notify({ type: 'loading', message: 'Procesando...' })
 			if (newPassword !== reTypePassword) {
@@ -20,9 +16,7 @@ export class ChangePassword {
 			}
 
 			if (password === newPassword) {
-				throw new Error(
-					'La nueva contraseña debe ser diferente a la actual'
-				)
+				throw new Error('La nueva contraseña debe ser diferente a la actual')
 			}
 			return await this.changePasswordRepository
 				.run({ password, newPassword, reTypePassword })

@@ -12,9 +12,7 @@ export const api: AxiosInstance = axios.create({
 	}
 })
 
-export async function fetching<T>(
-	config: AxiosRequestConfig & { _retry?: boolean }
-): Promise<T> {
+export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolean }): Promise<T> {
 	try {
 		const response = await api(config)
 		if (!response.data) throw new Error('Ha ocurrido un error inesperado')
@@ -46,9 +44,7 @@ export async function fetching<T>(
 
 			throw new Error(error.response.data || 'Error desconocido')
 		}
-		throw new Error(
-			'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde'
-		)
+		throw new Error('Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde')
 	}
 }
 export async function makeDownloadRequest(
@@ -88,8 +84,6 @@ export async function makeDownloadRequest(
 
 			throw new Error(error.response.data || 'Error desconocido')
 		}
-		throw new Error(
-			'Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde'
-		)
+		throw new Error('Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde')
 	}
 }

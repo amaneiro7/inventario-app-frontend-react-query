@@ -3,9 +3,7 @@ import { type VicepresidenciaEjecutivaSaveRepository } from '../domain/repositor
 import { type VicepresidenciaEjecutivaPrimitives } from '../domain/dto/VicepresidenciaEjecutiva.dto'
 import { vicepresidenciaEjecutivaUrl } from '../domain/entity/baseUrl'
 
-export class VicepresidenciaEjecutivaSaveService
-	implements VicepresidenciaEjecutivaSaveRepository
-{
+export class VicepresidenciaEjecutivaSaveService implements VicepresidenciaEjecutivaSaveRepository {
 	async save({
 		payload
 	}: {

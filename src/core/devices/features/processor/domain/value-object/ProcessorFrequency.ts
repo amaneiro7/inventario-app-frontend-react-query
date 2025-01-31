@@ -27,9 +27,7 @@ export class ProcessorFrequency extends NumberValueObject {
 	// }
 
 	public static isValid(value: number): boolean {
-		return (
-			value >= ProcessorFrequency.MIN && value <= ProcessorFrequency.MAX
-		)
+		return value >= ProcessorFrequency.MIN && value <= ProcessorFrequency.MAX
 	}
 
 	public static invalidMessage(value: number): string {

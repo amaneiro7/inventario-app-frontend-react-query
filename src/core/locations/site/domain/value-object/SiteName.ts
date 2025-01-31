@@ -23,8 +23,7 @@ export class SiteName extends StringValueObject {
 			)
 		}
 		const validLength =
-			value.length >= SiteName.NAME_MIN_LENGTH &&
-			value.length <= SiteName.NAME_MAX_LENGTH
+			value.length >= SiteName.NAME_MIN_LENGTH && value.length <= SiteName.NAME_MAX_LENGTH
 		if (!validLength) {
 			errors.push(
 				`${value} no es un nombre válido. Debe tener entre ${SiteName.NAME_MIN_LENGTH} y ${SiteName.NAME_MAX_LENGTH} caracteres`

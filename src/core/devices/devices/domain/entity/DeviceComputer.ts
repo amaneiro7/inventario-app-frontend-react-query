@@ -21,10 +21,7 @@ import { ComputerProcessor } from '../value-object/ComputerProcessor'
 import { MemoryRamCapacity } from '../value-object/MemoryRamCapacity'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
-import {
-	type DeviceComputerParams,
-	type DeviceComputerPrimitives
-} from '../dto/DeviceComputer.dto'
+import { type DeviceComputerParams, type DeviceComputerPrimitives } from '../dto/DeviceComputer.dto'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class DeviceComputer extends Device {
@@ -64,9 +61,7 @@ export class DeviceComputer extends Device {
 		)
 	}
 
-	static isComputerCategory(
-		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
-	) {
+	static isComputerCategory(categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]) {
 		return categoryId === CategoryOptions.COMPUTER ||
 			categoryId === CategoryOptions.ALLINONE ||
 			categoryId === CategoryOptions.LAPTOP ||
@@ -87,34 +82,17 @@ export class DeviceComputer extends Device {
 			new BrandId(params.brandId),
 			new ModelId(params.modelId),
 			new DeviceEmployee(params.employeeId, params.statusId),
-			new DeviceLocation(
-				params.locationId,
-				params.statusId,
-				params.typeOfSiteId
-			),
+			new DeviceLocation(params.locationId, params.statusId, params.typeOfSiteId),
 			new DeviceObservation(params.observation),
 			new DeviceStockNumber(params.stockNumber, params.statusId),
 			new ComputerName(params.computerName, params.statusId),
 			new ComputerProcessor(params.processorId, params.statusId),
 			new MemoryRamCapacity(params.memoryRamCapacity, params.statusId),
 			MemoryRam.fromPrimitives(params.memoryRam, params.statusId),
-			new ComputerHDDCapacity(
-				params.hardDriveCapacityId,
-				params.statusId
-			),
-			new ComputerHDDType(
-				params.hardDriveTypeId,
-				params.hardDriveCapacityId
-			),
-			new ComputerOs(
-				params.operatingSystemId,
-				params.statusId,
-				params.hardDriveCapacityId
-			),
-			new ComputerOsArq(
-				params.operatingSystemArqId,
-				params.operatingSystemId
-			),
+			new ComputerHDDCapacity(params.hardDriveCapacityId, params.statusId),
+			new ComputerHDDType(params.hardDriveTypeId, params.hardDriveCapacityId),
+			new ComputerOs(params.operatingSystemId, params.statusId, params.hardDriveCapacityId),
+			new ComputerOsArq(params.operatingSystemArqId, params.operatingSystemId),
 			new MACAddress(params.macAddress),
 			new IPAddress(params.ipAddress, params.statusId)
 		)

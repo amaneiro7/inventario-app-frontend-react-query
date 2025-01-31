@@ -11,10 +11,7 @@ import { DeviceActivo } from '../value-object/DeviceActivo'
 import { DeviceSerial } from '../value-object/DeviceSerial'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import {
-	type DeviceMFPParams,
-	type DeviceMFPPrimitives
-} from '../dto/DeviceMFPParams'
+import { type DeviceMFPParams, type DeviceMFPPrimitives } from '../dto/DeviceMFPParams'
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { MFPIPAddress } from '../value-object/MFPIpaddress'
 
@@ -65,11 +62,7 @@ export class DeviceMFP extends Device {
 			new CategoryId(params.categoryId),
 			new BrandId(params.brandId),
 			new DeviceEmployee(params.employeeId, params.statusId),
-			new DeviceLocation(
-				params.locationId,
-				params.statusId,
-				params.typeOfSiteId
-			),
+			new DeviceLocation(params.locationId, params.statusId, params.typeOfSiteId),
 			new DeviceObservation(params.observation),
 			new DeviceStockNumber(params.stockNumber, params.statusId),
 			new MFPIPAddress(params.ipAddress)
