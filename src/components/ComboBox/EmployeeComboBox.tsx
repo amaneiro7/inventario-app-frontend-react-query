@@ -19,8 +19,7 @@ export function EmployeeCombobox() {
 					setQuery(prev => ({
 						...prev,
 						options: {
-							name: value,
-							isStillWorking: true
+							name: value
 						}
 					}))
 				}}
