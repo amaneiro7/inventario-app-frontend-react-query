@@ -9,12 +9,13 @@ import {
 export const useGetAllEmployees = (query: EmployeeFilters) => {
 	const repository = useMemo(() => new EmployeeGetAllService(), [])
 	const getAll = useMemo(() => new EmployeeGetByCriteria(repository), [repository])
+	console.log(query)
 	const {
 		isLoading,
 		isError,
 		data: employees
 	} = useQuery({
-		queryKey: ['employees', query],
+		queryKey: ['employees', query.options],
 		queryFn: () => getAll.search(query)
 	})
 

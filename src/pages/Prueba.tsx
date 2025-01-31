@@ -1,5 +1,10 @@
-// import { AsyncCombobox } from '@/components/ComboBox/ComboBox'
+import { EmployeeCombobox } from '@/components/ComboBox/EmployeeComboBox'
 
+// import { AsyncCombobox } from '@/components/ComboBox/ComboBox'
 export function Prueba() {
-	return <div>{/* <AsyncCombobox /> */}</div>
+	return (
+		<div>
+			<EmployeeCombobox />
+		</div>
+	)
 }

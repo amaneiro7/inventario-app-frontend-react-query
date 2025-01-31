@@ -60,7 +60,7 @@ export class Criteria {
 				return `filters[${index}][field]=${field}&filters[${index}][operator]=${operator}&filters[${index}][value]=${value}`
 			})
 		const paramsPageSizeAndPageNumber = pageSize
-			? `limit=${pageSize}&offset=${pageNumber}`
+			? `pageSize=${pageSize}&pageNumber=${pageNumber}`
 			: undefined
 		const paramsOrder = orderBy ? `orderBy=${orderBy}&orderType=${orderType}` : undefined
 		const paramsFilters = filtersPrimitives ? `${filtersPrimitives.join('&')}` : undefined
