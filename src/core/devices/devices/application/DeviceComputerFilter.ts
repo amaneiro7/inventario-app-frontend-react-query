@@ -74,14 +74,14 @@ export class DeviceComputerFilter {
 		if (options.activo) {
 			query.filters.push({
 				field: 'activo',
-				operator: Operator.EQUAL,
+				operator: Operator.CONTAINS,
 				value: options.activo
 			})
 		}
 		if (options.serial) {
 			query.filters.push({
 				field: 'serial',
-				operator: Operator.EQUAL,
+				operator: Operator.CONTAINS,
 				value: options.serial
 			})
 		}
@@ -137,7 +137,7 @@ export class DeviceComputerFilter {
 		if (options.computerName) {
 			query.filters.push({
 				field: 'computerName',
-				operator: Operator.EQUAL,
+				operator: Operator.CONTAINS,
 				value: options.computerName
 			})
 		}
@@ -158,14 +158,14 @@ export class DeviceComputerFilter {
 		if (options.ipAddress) {
 			query.filters.push({
 				field: 'ipAddress',
-				operator: Operator.EQUAL,
+				operator: Operator.CONTAINS,
 				value: options.ipAddress
 			})
 		}
 		if (options.processor) {
 			query.filters.push({
 				field: 'processor',
-				operator: Operator.EQUAL,
+				operator: Operator.CONTAINS,
 				value: options.processor
 			})
 		}

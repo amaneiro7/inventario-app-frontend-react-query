@@ -1,6 +1,7 @@
 import { lazy } from 'react'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/DeviceComputerFilter'
 import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
+import { useGetAllDevicess } from '@/hooks/getAll/useGetAllDevices'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -13,6 +14,12 @@ const OtherComputerFilter = lazy(
 	async () =>
 		await import('@/ui/List/FilterAside/OtherComputerFilter').then(m => ({
 			default: m.OtherComputerFilter
+		}))
+)
+const DefaultDeviceFilter = lazy(
+	async () =>
+		await import('@/ui/List/DefaultDeviceFilter').then(m => ({
+			default: m.DefaultDeviceFilter
 		}))
 )
 const DeviceTable = lazy(() =>
@@ -39,6 +46,7 @@ export default function ListComputer() {
 		serial,
 		stateId,
 		statusId,
+		cleanFilters,
 		typeOfSiteId
 	} = useComputerFilter()
 
@@ -47,11 +55,36 @@ export default function ListComputer() {
 		setFilters({ [key]: value })
 	}
 
+	const { devices, isLoading } = useGetAllDevicess({
+		options: {
+			employeeId,
+			categoryId,
+			mainCategoryId,
+			activo,
+			brandId,
+			cityId,
+			computerName,
+			ipAddress,
+			locationId,
+			modelId,
+			operatingSystemArqId,
+			operatingSystemId,
+			processor,
+			regionId,
+			serial,
+			stateId,
+			statusId,
+			typeOfSiteId
+		},
+		pageSize: 20
+	})
+
 	return (
 		<ListWrapper
 			title="Lista de equipos de computación"
 			typeOfSiteId={typeOfSiteId}
 			handleChange={handleChange}
+			handleClear={cleanFilters}
 			url="/device/add"
 			// source='computer'
 			mainFilter={
@@ -68,6 +101,17 @@ export default function ListComputer() {
 			}
 			otherFilter={
 				<>
+					<DefaultDeviceFilter
+						activo={activo}
+						statusId={statusId}
+						brandId={brandId}
+						modelId={modelId}
+						categoryId={categoryId}
+						stateId={stateId}
+						regionId={regionId}
+						cityId={cityId}
+						handleChange={handleChange}
+					/>
 					<OtherComputerFilter
 						ipAddress={ipAddress}
 						computerName={computerName}
@@ -78,9 +122,9 @@ export default function ListComputer() {
 					/>
 				</>
 			}
-			total={5}
-			loading={false}
-			// table={<DeviceTable />}
+			total={devices?.info.total}
+			loading={isLoading}
+			table={<DeviceTable devices={devices?.data} loading={isLoading} />}
 		/>
 	)
 }

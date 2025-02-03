@@ -9,12 +9,12 @@ export const PageTitle = memo(
 				weight="bold"
 				color="azul"
 				variant="h3"
-				className="min-h-fit mb-5 leading-tight tracking-tight"
+				className="flex align-middle items-end min-h-fit mb-5 leading-tight tracking-tight"
 			>
 				<>
 					{title}
 					{optionalText ? (
-						<Typography variant="p" color="azul" className="ml-4">
+						<Typography variant="p" weight="light" className="ml-4 text-azul-900">
 							{optionalText}
 						</Typography>
 					) : null}

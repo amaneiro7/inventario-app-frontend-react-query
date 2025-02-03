@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
-	type DeviceComputerFilters,
+	DeviceComputerFilters,
 	defaultMainCategoryValue
 } from '@/core/devices/devices/application/DeviceComputerFilter'
 
@@ -56,6 +56,12 @@ export function useComputerFilter() {
 		})
 	}, [])
 
+	const cleanFilters = useCallback(() => {
+		const newSearchParams = new URLSearchParams()
+
+		setSearchParams(newSearchParams)
+	}, [])
+
 	return {
 		categoryId,
 		mainCategoryId,
@@ -75,6 +81,7 @@ export function useComputerFilter() {
 		operatingSystemArqId,
 		processor,
 		ipAddress,
+		cleanFilters,
 		setFilters
 	}
 }

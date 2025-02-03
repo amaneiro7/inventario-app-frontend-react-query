@@ -1,8 +1,11 @@
 import { lazy, useCallback, useRef } from 'react'
 import { FilterAsideRef } from './FilterAside/FilterAside'
 import { useNavigate } from 'react-router-dom'
-import { TypeOfSiteTabNav } from './Tab/TypeOfSiteTabNav'
+import { SpinnerSKCircle } from '@/components/Loading/spinner-sk-circle'
 
+const TypeOfSiteTabNav = lazy(
+	async () => await import('./Tab/TypeOfSiteTabNav').then(m => ({ default: m.TypeOfSiteTabNav }))
+)
 const PageTitle = lazy(
 	async () => await import('../PageTitle').then(m => ({ default: m.PageTitle }))
 )
@@ -79,6 +82,7 @@ export function ListWrapper({
 					{typeOfSiteId !== undefined ? (
 						<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
 					) : null}
+					{loading && <SpinnerSKCircle />}
 					{table}
 				</div>
 			</DetailsWrapper>

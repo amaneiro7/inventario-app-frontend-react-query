@@ -20,7 +20,7 @@ export function TableCellOpenIcon({ open, ...props }: React.PropsWithChildren<Pr
 			<ArrowRightBadgeIcon
 				className={`w-4 mx-0 my-auto text-center aspect-square transition-transform duration-500 ${
 					open ? 'rotate-90' : '-rotate-90'
-				} text-secondary-600 hover:text-secondary-700`}
+				} text-azul-600 hover:text-azul-700`}
 			/>
 		</td>
 	)

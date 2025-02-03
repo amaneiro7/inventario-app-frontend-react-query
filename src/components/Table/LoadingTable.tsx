@@ -34,7 +34,7 @@ export function LoadingTable({
 							: 'animate-pulse-slow'
 					}`}
 				>
-					<TableCell colSpan={colspan} value="" />
+					<TableCell colSpan={colspan} value="" size={'xxSmall'} />
 					<TableCellOpenIcon open={false} />
 				</tr>
 			))}

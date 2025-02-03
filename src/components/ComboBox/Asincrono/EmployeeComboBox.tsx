@@ -110,6 +110,15 @@ export function EmployeeCombobox({
 						insideWords: true
 					})
 					const parts = parse(option.userName, matches)
+					const fullName = `${option?.name ? option?.name : ''} ${
+						option?.lastName ? option?.lastName : ''
+					}`
+
+					const fullNameMatch = match(fullName, inputValue, {
+						insideWords: true
+					})
+					const fullNameParts = parse(fullName, fullNameMatch)
+
 					return (
 						<li key={key} {...props}>
 							<div>
@@ -119,14 +128,23 @@ export function EmployeeCombobox({
 											key={index}
 											variant="span"
 											option="medium"
-											weight={part.highlight ? 'bold' : 'normal'}
+											transform="uppercase"
+											weight={part.highlight ? 'bold' : 'light'}
 										>
 											{part.text}
 										</Typography>
 									))}
 								</Typography>
-								<Typography variant="span" color={'gris'}>
-									{`${option.name} ${option.lastName}`}
+								<Typography variant="p" color={'gris'}>
+									{fullNameParts.map((part, index) => (
+										<Typography
+											key={index}
+											variant="span"
+											weight={part.highlight ? 'bold' : 'light'}
+										>
+											{part.text}
+										</Typography>
+									))}
 								</Typography>
 							</div>
 						</li>

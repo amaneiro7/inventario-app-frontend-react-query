@@ -1,18 +1,18 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { BrandGetAllService } from '@/core/brand/infra/brandGetAll.service'
-import { BrandGetAll } from '@/core/brand/application/BrandGetAll'
+import { type BrandFilters, BrandGetByCriteria } from '@/core/brand/application/BrandGetByCiteria'
 
-export const useGetAllBrands = () => {
+export const useGetAllBrands = (query: BrandFilters) => {
 	const repository = useMemo(() => new BrandGetAllService(), [])
-	const getAll = useMemo(() => new BrandGetAll(repository).execute(), [repository])
+	const getAll = useMemo(() => new BrandGetByCriteria(repository), [repository])
 	const {
 		isLoading,
 		isError,
 		data: brands
 	} = useQuery({
-		queryKey: ['brands'],
-		queryFn: () => getAll
+		queryKey: ['brands', query.options],
+		queryFn: async () => await getAll.search(query)
 	})
 
 	return {
