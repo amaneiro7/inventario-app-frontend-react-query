@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import { useExpendedRows } from '@/hooks/useExpendedRows'
+import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 const Table = lazy(async () =>

@@ -50,9 +50,10 @@ export class EmployeeGetByCriteria {
 	async search({ options, pageNumber, pageSize }: EmployeeFilters) {
 		const query: SearchByCriteriaQuery = {
 			filters: [],
-			pageSize: 10,
 			orderBy: 'userName',
-			orderType: OrderTypes.ASC
+			orderType: OrderTypes.ASC,
+			pageNumber,
+			pageSize
 		}
 		if (options.id) {
 			query.filters.push({
@@ -64,7 +65,7 @@ export class EmployeeGetByCriteria {
 		if (options.userName) {
 			query.filters.push({
 				field: 'userName',
-				operator: Operator.CONTAINS,
+				operator: Operator.OR,
 				value: options.userName
 			})
 		}
@@ -78,14 +79,14 @@ export class EmployeeGetByCriteria {
 		if (options.name) {
 			query.filters.push({
 				field: 'name',
-				operator: Operator.CONTAINS,
+				operator: Operator.OR,
 				value: options.name
 			})
 		}
 		if (options.lastName) {
 			query.filters.push({
 				field: 'lastName',
-				operator: Operator.CONTAINS,
+				operator: Operator.OR,
 				value: options.lastName
 			})
 		}

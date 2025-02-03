@@ -12,6 +12,6 @@ export interface Category {
 
 export type CategoryPrimitives = Omit<Category, 'id'>
 
-export type CategoryDto = CategoryPrimitives & {
+export type CategoryDto = Category & {
 	mainCategory: MainCategoryDto
 }

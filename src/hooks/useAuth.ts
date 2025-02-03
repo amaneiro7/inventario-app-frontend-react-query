@@ -14,7 +14,7 @@ import { LoginService } from '@/core/user/infra/login.service'
 import { LogoutService } from '@/core/user/infra/logout.service'
 import { InternalAxiosRequestConfig } from 'axios'
 import { useLocation } from 'react-router-dom'
-import { useLocalStorage } from './useLocalStorage'
+import { useLocalStorage } from './utils/useLocalStorage'
 
 export function useAuth() {
 	const {

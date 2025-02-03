@@ -2,6 +2,8 @@ import { EnumCriteriaValueObject } from './EnumCriteriaValueObject'
 
 export enum Operator {
 	EQUAL = '=',
+	AND = 'AND',
+	OR = 'OR',
 	NOT_EQUAL = '!=',
 	GREATER_THAN = '>',
 	GREATER_THAN_OR_EQUAL = '>=',

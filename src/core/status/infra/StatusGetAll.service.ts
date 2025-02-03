@@ -1,10 +1,14 @@
 import { fetching } from '@/api/api'
 import { type StatusDto } from '../domain/dto/Status.dto'
 import { type StatusGetAllRepository } from '../domain/repository/StatusGetAllRepository'
+import { type Response } from '@/core/shared/domain/methods/Response'
 import { statusUrl } from '../domain/entity/baseUrl'
 
 export class StatusGetAllService implements StatusGetAllRepository {
-	async getAll(): Promise<StatusDto[]> {
-		return await fetching<StatusDto[]>({ url: statusUrl, method: 'GET' })
+	async getAll(queryParams: string): Promise<Response<StatusDto>> {
+		return await fetching({
+			url: `${statusUrl}?${queryParams}`,
+			method: 'GET'
+		})
 	}
 }

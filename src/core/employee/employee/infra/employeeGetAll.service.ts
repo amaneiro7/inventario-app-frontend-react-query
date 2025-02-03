@@ -6,7 +6,6 @@ import { Response } from '@/core/shared/domain/methods/Response'
 
 export class EmployeeGetAllService implements EmployeeGetAllRepository {
 	async getAll(queryParams: string): Promise<Response<EmployeeDto>> {
-		console.log(queryParams)
 		return await fetching({
 			url: `${employeeUrl}?${queryParams}`,
 			method: 'GET'
