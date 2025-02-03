@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 export function useCloseNavOnRouteChangeOrEscpae(ref: React.RefObject<HTMLInputElement | null>) {
-	const location = window.location.pathname
+	const location = useLocation()
 
 	useEffect(() => {
 		function closeNavToggle() {
@@ -24,5 +25,5 @@ export function useCloseNavOnRouteChangeOrEscpae(ref: React.RefObject<HTMLInputE
 		return () => {
 			document.removeEventListener('keydown', handleEscape)
 		}
-	}, [location, ref])
+	}, [location.pathname, ref])
 }

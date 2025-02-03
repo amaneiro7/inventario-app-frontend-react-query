@@ -1,4 +1,4 @@
-import { EmployeeCombobox } from '@/components/ComboBox/EmployeeComboBox'
+import { EmployeeCombobox } from '@/components/ComboBox/Asincrono/EmployeeComboBox'
 
 // import { AsyncCombobox } from '@/components/ComboBox/ComboBox'
 export function Prueba() {

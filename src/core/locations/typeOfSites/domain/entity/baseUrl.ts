@@ -1,1 +1,1 @@
-export const typeOfSiteUrl = 'typeofisites'
+export const typeOfSiteUrl = 'typeofsites'

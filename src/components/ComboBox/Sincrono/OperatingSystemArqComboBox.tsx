@@ -1,36 +1,35 @@
 import { useMemo, useState } from 'react'
-import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
+import { useGetAllOperatingSystemArq } from '@/hooks/getAll/useGetAllOperatingSystemArq'
 import { Combobox } from '@/components/ComboBox/ComboBox'
 
-export function CategoryCombobox({
+export function OperatingSystemArqCombobox({
 	value,
 	name,
-	mainCategoryId,
 	handleChange
 }: {
 	value: string
 	name: string
-	mainCategoryId?: string
 	handleChange: (name: string, value: string) => void
 }) {
-	const { categories, isLoading } = useGetAllCategory({
-		options: {
-			mainCategoryId
-		}
+	const { operatingSystemArqs, isLoading } = useGetAllOperatingSystemArq({
+		options: {}
 	})
 
 	const initialValue = useMemo(() => {
-		return categories?.data.find(category => category.id === value) ?? null
-	}, [value, categories])
+		return (
+			operatingSystemArqs?.data.find(OperatingSystemArq => OperatingSystemArq.id === value) ??
+			null
+		)
+	}, [value, operatingSystemArqs])
 	const [inputValue, setInputValue] = useState('')
 
 	return (
 		<>
 			<Combobox
 				loading={isLoading}
-				label="SubCategoria"
+				label="Arqitectura"
 				value={initialValue}
-				options={categories?.data ?? []}
+				options={operatingSystemArqs?.data ?? []}
 				inputValue={inputValue}
 				onChange={(_, newValue) => {
 					handleChange(name, newValue?.id ?? '')

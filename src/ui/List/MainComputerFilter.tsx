@@ -4,19 +4,25 @@ import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 
 const CategoryCombobox = lazy(
 	async () =>
-		await import('@/components/ComboBox/CategoryComboBox').then(m => ({
+		await import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
 			default: m.CategoryCombobox
+		}))
+)
+const RegionCombobox = lazy(
+	async () =>
+		await import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+			default: m.RegionCombobox
 		}))
 )
 const EmployeeCombobox = lazy(
 	async () =>
-		await import('@/components/ComboBox/EmployeeComboBox').then(m => ({
+		await import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
 			default: m.EmployeeCombobox
 		}))
 )
 const LocationCombobox = lazy(
 	async () =>
-		await import('@/components/ComboBox/LocationComboBox').then(m => ({
+		await import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
 			default: m.LocationCombobox
 		}))
 )
@@ -50,8 +56,6 @@ export function MainComputerFilter({
 		handleChange('serial', debounceSerial)
 	}, [debounceSerial])
 
-	console.log('MainComputerFilter', mainCategoryId)
-
 	return (
 		<>
 			<EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} />
@@ -65,7 +69,11 @@ export function MainComputerFilter({
 				value={localSerial}
 				label="Serial"
 				name="serial"
-				onChange={e => setLocalSerial(e.target.value)}
+				onChange={e => {
+					let { value } = e.target
+					value = value.trim().toUpperCase()
+					setLocalSerial(value)
+				}}
 			/>
 			<LocationCombobox
 				name="locationId"
@@ -73,6 +81,7 @@ export function MainComputerFilter({
 				value={locationId}
 				typeOfSiteId={typeOfSiteId}
 			/>
+			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
 		</>
 	)
 }

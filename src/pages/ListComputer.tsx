@@ -9,6 +9,12 @@ const MainComputerFilter = lazy(
 	async () =>
 		await import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
 )
+const OtherComputerFilter = lazy(
+	async () =>
+		await import('@/ui/List/FilterAside/OtherComputerFilter').then(m => ({
+			default: m.OtherComputerFilter
+		}))
+)
 const DeviceTable = lazy(() =>
 	import('@/ui/List/TableDevice').then(m => ({ default: m.TableWrapper }))
 )
@@ -40,10 +46,14 @@ export default function ListComputer() {
 		const key = name as keyof DeviceComputerFilters
 		setFilters({ [key]: value })
 	}
-	console.log('ListComputer', mainCategoryId)
+
 	return (
 		<ListWrapper
 			title="Lista de equipos de computación"
+			typeOfSiteId={typeOfSiteId}
+			handleChange={handleChange}
+			url="/device/add"
+			// source='computer'
 			mainFilter={
 				<MainComputerFilter
 					categoryId={categoryId}
@@ -52,8 +62,21 @@ export default function ListComputer() {
 					locationId={locationId}
 					regionId={regionId}
 					mainCategoryId={mainCategoryId}
+					typeOfSiteId={typeOfSiteId}
 					handleChange={handleChange}
 				/>
+			}
+			otherFilter={
+				<>
+					<OtherComputerFilter
+						ipAddress={ipAddress}
+						computerName={computerName}
+						handleChange={handleChange}
+						operatingSystemId={operatingSystemId}
+						operatingSystemArqId={operatingSystemArqId}
+						processor={processor}
+					/>
+				</>
 			}
 			total={5}
 			loading={false}
