@@ -46,17 +46,17 @@ export function DefaultDeviceFilter({
 	regionId,
 	handleChange
 }: {
-	activo: string
-	statusId: string
-	brandId: string
-	modelId: string
-	categoryId: string
-	stateId: string
-	regionId: string
-	cityId: string
+	activo?: string
+	statusId?: string
+	brandId?: string
+	modelId?: string
+	categoryId?: string
+	stateId?: string
+	regionId?: string
+	cityId?: string
 	handleChange: (name: string, value: string) => void
 }) {
-	const [localActivo, setLocalActivo] = useState(activo)
+	const [localActivo, setLocalActivo] = useState(activo ?? '')
 	const [debounceActivo] = useDebounce(localActivo)
 
 	useEffectAfterMount(() => {

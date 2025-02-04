@@ -3,6 +3,9 @@ import { FilterAsideRef } from './FilterAside/FilterAside'
 import { useNavigate } from 'react-router-dom'
 import { SpinnerSKCircle } from '@/components/Loading/spinner-sk-circle'
 
+const PaginationBar = lazy(async () =>
+	import('./Pagination/PaginationBar').then(m => ({ default: m.PaginationBar }))
+)
 const TypeOfSiteTabNav = lazy(
 	async () => await import('./Tab/TypeOfSiteTabNav').then(m => ({ default: m.TypeOfSiteTabNav }))
 )
@@ -42,16 +45,28 @@ export function ListWrapper({
 	handleChange,
 	typeOfSiteId,
 	handleClear,
-	table
+	table,
+	totalPages,
+	currentPage,
+	pageSize,
+	handlePageClick,
+	handlePageSize,
+	registerOptions
 }: {
 	title: string
 	url: string
 	loading: boolean
 	total: number
 	typeOfSiteId: string
+	totalPages: number
+	currentPage: number
+	pageSize: number
+	handlePageSize: (pageSize: number) => void
+	handlePageClick: ({ selected }: { selected: number }) => void
 	mainFilter?: React.ReactElement
 	otherFilter?: React.ReactElement
 	handleClear?: () => void
+	registerOptions: number[]
 	handleChange: (name: string, value: string) => void
 	table?: React.ReactElement
 }) {
@@ -85,6 +100,16 @@ export function ListWrapper({
 					{loading && <SpinnerSKCircle />}
 					{table}
 				</div>
+				{!loading ? (
+					<PaginationBar
+						registerOptions={registerOptions}
+						totalPages={totalPages}
+						currentPage={currentPage}
+						pageSize={pageSize}
+						handlePageClick={handlePageClick}
+						handlePageSize={handlePageSize}
+					/>
+				) : null}
 			</DetailsWrapper>
 		</>
 	)

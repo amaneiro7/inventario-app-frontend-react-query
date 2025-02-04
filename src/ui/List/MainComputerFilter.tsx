@@ -40,16 +40,16 @@ export function MainComputerFilter({
 	typeOfSiteId,
 	serial
 }: {
-	employeeId: string
-	categoryId: string
-	mainCategoryId: string
-	regionId: string
-	locationId: string
-	serial: string
-	typeOfSiteId: string
+	employeeId?: string
+	categoryId?: string
+	mainCategoryId?: string
+	regionId?: string
+	locationId?: string
+	serial?: string
+	typeOfSiteId?: string
 	handleChange: (name: string, value: string) => void
 }) {
-	const [localSerial, setLocalSerial] = useState(serial)
+	const [localSerial, setLocalSerial] = useState(serial ?? '')
 	const [debounceSerial] = useDebounce(localSerial)
 
 	useEffectAfterMount(() => {

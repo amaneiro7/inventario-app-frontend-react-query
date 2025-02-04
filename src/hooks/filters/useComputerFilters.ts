@@ -1,11 +1,12 @@
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
+	DeviceComputerFilter,
 	DeviceComputerFilters,
 	defaultMainCategoryValue
 } from '@/core/devices/devices/application/DeviceComputerFilter'
 
-export function useComputerFilter() {
+export function wuseComputerFilter() {
 	const mainCategoryId = defaultMainCategoryValue
 	const [searchParams, setSearchParams] = useSearchParams()
 
@@ -41,6 +42,13 @@ export function useComputerFilter() {
 	const processor = searchParams.get('processor') as DeviceComputerFilters['options']['processor']
 	const ipAddress = searchParams.get('ipAddress') as DeviceComputerFilters['options']['ipAddress']
 
+	const pageNumber = searchParams.get('pageNumber')
+		? parseInt(searchParams.get('pageNumber') as string)
+		: 1
+	const pageSize = searchParams.get('pageSize')
+		? parseInt(searchParams.get('pageSize') as string)
+		: DeviceComputerFilter.defaultPageSize
+
 	const setFilters = useCallback((filters: DeviceComputerFilters['options']) => {
 		setSearchParams(params => {
 			Object.keys(filters).forEach(key => {
@@ -52,6 +60,20 @@ export function useComputerFilter() {
 					params.delete(filterKey)
 				}
 			})
+			return params
+		})
+	}, [])
+
+	const setPageNumber = useCallback((page: number) => {
+		setSearchParams(params => {
+			params.set('pageNumber', page.toString())
+			return params
+		})
+	}, [])
+
+	const setPageSize = useCallback((pageSize: number) => {
+		setSearchParams(params => {
+			params.set('pageSize', pageSize.toString())
 			return params
 		})
 	}, [])
@@ -81,7 +103,11 @@ export function useComputerFilter() {
 		operatingSystemArqId,
 		processor,
 		ipAddress,
+		pageNumber,
+		pageSize,
 		cleanFilters,
-		setFilters
+		setFilters,
+		setPageNumber,
+		setPageSize
 	}
 }

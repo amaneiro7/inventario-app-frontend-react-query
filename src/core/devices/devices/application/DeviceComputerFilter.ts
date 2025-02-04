@@ -7,24 +7,24 @@ import { Criteria } from '@/core/shared/domain/criteria/Criteria'
 
 export interface DeviceComputerFilters {
 	options: {
-		categoryId: string
-		mainCategoryId: string
-		brandId: string
-		statusId: string
-		activo: string
-		serial: string
-		modelId: string
-		employeeId: string
-		locationId: string
-		typeOfSiteId: string
-		cityId: string
-		stateId: string
-		regionId: string
-		computerName: string
-		operatingSystemId: string
-		operatingSystemArqId: string
-		ipAddress: string
-		processor: string
+		categoryId?: string
+		mainCategoryId?: string
+		brandId?: string
+		statusId?: string
+		activo?: string
+		serial?: string
+		modelId?: string
+		employeeId?: string
+		locationId?: string
+		typeOfSiteId?: string
+		cityId?: string
+		stateId?: string
+		regionId?: string
+		computerName?: string
+		operatingSystemId?: string
+		operatingSystemArqId?: string
+		ipAddress?: string
+		processor?: string
 	}
 	pageNumber?: number
 	pageSize?: number
@@ -33,6 +33,8 @@ export interface DeviceComputerFilters {
 export const defaultMainCategoryValue = MainCategoryOptions.COMPUTER
 
 export class DeviceComputerFilter {
+	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly defaultPageSize = 25
 	private readonly getAll: DeviceGetAll
 	constructor(private readonly repository: DeviceGetAllRepository) {
 		this.getAll = new DeviceGetAll(this.repository)
@@ -169,6 +171,7 @@ export class DeviceComputerFilter {
 				value: options.processor
 			})
 		}
+
 		const criteria = Criteria.fromValues(
 			query.filters,
 			query.orderBy,

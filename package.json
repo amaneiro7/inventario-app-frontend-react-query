@@ -24,6 +24,7 @@
 		"just-debounce-it": "3.2.0",
 		"react": "19",
 		"react-dom": "19",
+		"react-paginate": "^8.3.0",
 		"react-router-dom": "6.28.2",
 		"sonner": "1.7.2",
 		"tailwind-merge": "2.6.0",

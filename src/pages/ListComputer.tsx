@@ -1,6 +1,9 @@
 import { lazy } from 'react'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/DeviceComputerFilter'
-import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
+import {
+	DeviceComputerFilter,
+	type DeviceComputerFilters
+} from '@/core/devices/devices/application/DeviceComputerFilter'
+import { wuseComputerFilter } from '@/hooks/filters/useComputerFilters'
 import { useGetAllDevicess } from '@/hooks/getAll/useGetAllDevices'
 
 const ListWrapper = lazy(
@@ -46,14 +49,30 @@ export default function ListComputer() {
 		serial,
 		stateId,
 		statusId,
+		typeOfSiteId,
 		cleanFilters,
-		typeOfSiteId
-	} = useComputerFilter()
+		setPageNumber,
+		setPageSize,
+		pageNumber,
+		pageSize
+	} = wuseComputerFilter()
 
 	const handleChange = (name: string, value: string) => {
 		const key = name as keyof DeviceComputerFilters
 		setFilters({ [key]: value })
+		setPageNumber(1)
 	}
+
+	const handlePageSize = (pageSize: number) => {
+		setPageSize(pageSize)
+		setPageNumber(1)
+	}
+
+	const handlePageClick = ({ selected }: { selected: number }) => {
+		setPageNumber(selected + 1)
+	}
+
+	console.log(pageNumber)
 
 	const { devices, isLoading } = useGetAllDevicess({
 		options: {
@@ -76,7 +95,8 @@ export default function ListComputer() {
 			statusId,
 			typeOfSiteId
 		},
-		pageSize: 20
+		pageSize: pageSize ?? DeviceComputerFilter.defaultPageSize,
+		pageNumber
 	})
 
 	return (
@@ -125,6 +145,12 @@ export default function ListComputer() {
 			total={devices?.info.total}
 			loading={isLoading}
 			table={<DeviceTable devices={devices?.data} loading={isLoading} />}
+			currentPage={devices?.info.page}
+			totalPages={devices?.info.totalPage}
+			registerOptions={DeviceComputerFilter.pegaSizeOptions}
+			pageSize={pageSize}
+			handlePageClick={handlePageClick}
+			handlePageSize={handlePageSize}
 		/>
 	)
 }

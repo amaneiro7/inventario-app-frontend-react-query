@@ -1,0 +1,48 @@
+.pageList-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page,
+.page-break {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  aspect-ratio: 1 / 1;
+  margin: 0 5px;
+  border-radius: 0.375rem;
+  color: hsl(215, 100%, 35%);
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.3s;
+}
+
+.page-break,
+.page-break a {
+  cursor: default;
+}
+
+.page:not(.active):hover {
+  background-color: rgba(55, 125, 255, 0.1);
+}
+
+.page.active {
+  background-color: hsl(215, 100%, 35%);
+  color: white;
+}
+.page.active:hover {
+  color: black;
+}
+
+.page-link {
+  width: 100%;
+  text-align: center;
+}
