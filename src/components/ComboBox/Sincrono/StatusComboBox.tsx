@@ -3,11 +3,11 @@ import { Combobox } from '@/components/ComboBox/ComboBox'
 import { useGetAllStatus } from '@/hooks/getAll/useGetAllStatus'
 
 export function StatusCombobox({
-	value,
+	value = '',
 	name,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 
 	handleChange: (name: string, value: string) => void

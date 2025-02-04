@@ -14,11 +14,11 @@ const CloseIcon = lazy(
 	async () => await import('@/icon/CloseIcon').then(m => ({ default: m.CloseIcon }))
 )
 export function EmployeeCombobox({
-	value,
+	value = '',
 	name,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 	handleChange: (name: string, value: string) => void
 }) {

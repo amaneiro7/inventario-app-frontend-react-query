@@ -33,7 +33,7 @@ export function TableCellDescription<T extends typeof TableCellDescInfo>({
 				<div className="tableCellDescContainer">
 					<div
 						aria-description="Informacion"
-						className="grid grid-cols-[repeat(auto-fit,_minmax(160px,_1fr))] gap-y-2 gap-x-2"
+						className="w-full flex flex-wrap gap-y-6 gap-x-6"
 					>
 						{children}
 					</div>

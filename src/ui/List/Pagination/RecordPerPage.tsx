@@ -3,7 +3,7 @@ export function RecordPerPage({
 	registerOptions,
 	handlePageSize
 }: {
-	pageSize: number
+	pageSize?: number
 	registerOptions: number[]
 	handlePageSize: (pageSize: number) => void
 }) {

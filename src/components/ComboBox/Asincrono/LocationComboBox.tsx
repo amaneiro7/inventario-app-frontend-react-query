@@ -6,13 +6,13 @@ import { useGetAllLocations } from '@/hooks/getAll/useGetAllLocation'
 import { Combobox } from '@/components/ComboBox/ComboBox'
 
 export function LocationCombobox({
-	value,
+	value = '',
 	name,
 	typeOfSiteId,
 	siteId,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 	typeOfSiteId?: string
 	siteId?: string

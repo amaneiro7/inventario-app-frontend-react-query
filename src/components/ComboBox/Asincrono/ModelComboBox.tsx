@@ -6,16 +6,16 @@ import { useGetAllModel } from '@/hooks/getAll/useGetAllModel'
 import { type ModelFilters } from '@/core/model/models/application/ModelGetByCriteria'
 
 export function ModelCombobox({
-	value,
+	value = '',
 	name,
 	categoryId,
 	brandId,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
-	categoryId: string
-	brandId: string
+	categoryId?: string
+	brandId?: string
 	handleChange: (name: string, value: string) => void
 }) {
 	const [query, setQuery] = useState<ModelFilters>({

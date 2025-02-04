@@ -15,9 +15,9 @@ export function PaginationBar({
 	pageSize,
 	registerOptions
 }: {
-	totalPages: number
-	currentPage: number
-	pageSize: number
+	totalPages?: number
+	currentPage?: number
+	pageSize?: number
 	registerOptions: number[]
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handlePageSize: (pageSize: number) => void

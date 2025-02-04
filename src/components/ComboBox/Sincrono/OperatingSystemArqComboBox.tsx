@@ -3,11 +3,11 @@ import { useGetAllOperatingSystemArq } from '@/hooks/getAll/useGetAllOperatingSy
 import { Combobox } from '@/components/ComboBox/ComboBox'
 
 export function OperatingSystemArqCombobox({
-	value,
+	value = '',
 	name,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 	handleChange: (name: string, value: string) => void
 }) {

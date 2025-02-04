@@ -49,12 +49,12 @@ const ComputerDescription = lazy(async () =>
 )
 
 interface Props {
-	devices: DeviceDto[]
+	devices?: DeviceDto[]
 	loading: boolean
-	limit?: number
+	pageSize?: number
 }
 
-export function TableWrapper({ devices, loading = true, limit = 25 }: Props) {
+export function TableWrapper({ devices, loading = true, pageSize = 25 }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
 
 	return (
@@ -75,7 +75,7 @@ export function TableWrapper({ devices, loading = true, limit = 25 }: Props) {
 			</TableHeader>
 			<TableBody>
 				{loading ? (
-					<LoadingTable colspan={9} registerPerPage={limit} />
+					<LoadingTable colspan={9} registerPerPage={pageSize} />
 				) : (
 					devices?.map(device => (
 						<React.Fragment key={device.id}>

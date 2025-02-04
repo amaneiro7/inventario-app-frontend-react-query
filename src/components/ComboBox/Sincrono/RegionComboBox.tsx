@@ -3,11 +3,11 @@ import { Combobox } from '@/components/ComboBox/ComboBox'
 import { useGetAllRegion } from '@/hooks/getAll/useGetAllRegion'
 
 export function RegionCombobox({
-	value,
+	value = '',
 	name,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 
 	handleChange: (name: string, value: string) => void

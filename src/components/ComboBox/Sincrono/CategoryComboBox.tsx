@@ -3,12 +3,12 @@ import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
 import { Combobox } from '@/components/ComboBox/ComboBox'
 
 export function CategoryCombobox({
-	value,
+	value = '',
 	name,
 	mainCategoryId,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 	mainCategoryId?: string
 	handleChange: (name: string, value: string) => void

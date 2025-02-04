@@ -6,11 +6,11 @@ import { Combobox } from '@/components/ComboBox/ComboBox'
 import { type BrandFilters } from '@/core/brand/application/BrandGetByCiteria'
 
 export function BrandCombobox({
-	value,
+	value = '',
 	name,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
 	handleChange: (name: string, value: string) => void
 }) {

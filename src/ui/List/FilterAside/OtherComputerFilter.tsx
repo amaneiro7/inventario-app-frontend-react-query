@@ -16,18 +16,18 @@ const OperatingSystemArqCombobox = lazy(() =>
 	}))
 )
 export function OtherComputerFilter({
-	computerName,
-	operatingSystemId,
-	operatingSystemArqId,
-	processor,
-	ipAddress,
+	computerName = '',
+	operatingSystemId = '',
+	operatingSystemArqId = '',
+	processor = '',
+	ipAddress = '',
 	handleChange
 }: {
-	computerName: string
-	operatingSystemId: string
-	operatingSystemArqId: string
-	processor: string
-	ipAddress: string
+	computerName?: string
+	operatingSystemId?: string
+	operatingSystemArqId?: string
+	processor?: string
+	ipAddress?: string
 	handleChange: (name: string, value: string) => void
 }) {
 	const [localComputerName, setLocalComputerName] = useState(computerName)

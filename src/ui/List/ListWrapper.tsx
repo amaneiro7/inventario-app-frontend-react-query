@@ -56,11 +56,11 @@ export function ListWrapper({
 	title: string
 	url: string
 	loading: boolean
-	total: number
-	typeOfSiteId: string
-	totalPages: number
-	currentPage: number
-	pageSize: number
+	total?: number
+	typeOfSiteId?: string
+	totalPages?: number
+	currentPage?: number
+	pageSize?: number
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	mainFilter?: React.ReactElement

@@ -27,82 +27,104 @@ export function ComputerDescription({ open, device }: Props) {
 				url={`/device/edit/${device.id}`}
 				colspan={10}
 			>
-				<div className="flex flex-col gap-2">
-					<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
-					<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
-				</div>
-				<div className="flex flex-col gap-2">
+				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
+				<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
+
+				<fieldset className="flex border-azul border-2 rounded p-2 gap-6 flex-wrap">
+					<legend className="text-azul">Informacion de Usuario</legend>
 					<TableCellDescInfo
-						title="Procesador"
-						text={
-							device.computer
-								? `${device?.computer?.processor?.productCollection} ${device?.computer?.processor?.numberModel}`
-								: ''
-						}
+						title="Nombre y Apellido"
+						text={`${device?.employee?.name ?? ''} ${device?.employee?.lastName ?? ''}`}
 					/>
-					<div className="flex gap-4">
-						<TableCellDescInfo
-							title="Nucleos"
-							text={device.computer ? `${device?.computer?.processor?.cores}` : ''}
-						/>
-						<TableCellDescInfo
-							title="Frecuencia"
-							text={
-								device.computer ? `${device?.computer?.processor?.frequency}` : ''
-							}
-						/>
-					</div>
-				</div>
-				<div className="flex flex-col gap-2">
+
 					<TableCellDescInfo
-						title="Memoria Ram"
-						text={device.computer ? `${device?.computer?.memoryRamCapacity} Gb` : ''}
+						title="Area"
+						text={device?.employee?.departamento.name ?? ''}
 					/>
-					<div className="flex gap-4">
-						<TableCellDescInfo
-							title="Tipo"
-							text={
-								device?.model?.modelComputer
-									? device?.model?.modelComputer?.memoryRamType?.name
-									: device?.model?.modelLaptop
-									? device?.model?.modelLaptop?.memoryRamType?.name
-									: ''
-							}
-						/>
-						<TableCellDescInfo
-							title="Modulos"
-							text={
-								device.computer
-									? device?.computer?.memoryRam?.map(mem => mem).join(' / ')
-									: ''
-							}
-						/>
-					</div>
-				</div>
-				<div className="flex flex-col gap-2">
+					<TableCellDescInfo title="Cargo" text={device?.employee?.cargo.name ?? ''} />
 					<TableCellDescInfo
-						title="Disco Duro"
-						text={
-							device?.computer?.hardDriveCapacity
-								? `${device?.computer?.hardDriveCapacity?.name} Gb`
-								: 'Sin Disco'
-						}
+						title="Código de empleado"
+						text={`${device?.employee?.employeeCode ?? ''}`}
 					/>
-					<TableCellDescInfo
-						title="Tipo"
-						text={device?.computer?.hardDriveType?.name ?? 'No Aplica'}
-					/>
-				</div>
-				<div className="flex flex-col gap-2">
-					<TableCellDescInfo
-						title="Sistema Operativo"
-						text={device?.computer?.operatingSystem?.name ?? 'No Aplica'}
-					/>
-					<TableCellDescInfo
-						title="Arquitectura del Sistema Operativo"
-						text={device?.computer?.operatingSystemArq?.name ?? 'No Aplica'}
-					/>
-				</div>
+					<TableCellDescInfo title="Cédula" text={`${device?.employee?.cedula ?? ''}`} />
+				</fieldset>
+				<TableCellDescInfo
+					title="Región"
+					text={`${device?.location?.site.city.state.region.name ?? ''}`}
+				/>
+				<TableCellDescInfo
+					title="Estado"
+					text={`${device?.location?.site.city.state.name ?? ''}`}
+				/>
+				<TableCellDescInfo
+					title="Ciudad"
+					text={`${device?.location?.site.city.name ?? ''}`}
+				/>
+
+				<TableCellDescInfo
+					title="Procesador"
+					text={
+						device.computer
+							? `${device?.computer?.processor?.productCollection} ${device?.computer?.processor?.numberModel}`
+							: ''
+					}
+				/>
+
+				<TableCellDescInfo
+					title="Nucleos"
+					text={device.computer ? `${device?.computer?.processor?.cores}` : ''}
+				/>
+				<TableCellDescInfo
+					title="Frecuencia"
+					text={device.computer ? `${device?.computer?.processor?.frequency}` : ''}
+				/>
+
+				<TableCellDescInfo
+					title="Memoria Ram"
+					text={device.computer ? `${device?.computer?.memoryRamCapacity} Gb` : ''}
+				/>
+				<TableCellDescInfo
+					title="Modulos"
+					text={
+						device.computer
+							? device?.computer?.memoryRam?.map(mem => mem).join(' / ')
+							: ''
+					}
+				/>
+
+				<TableCellDescInfo
+					title="Tipo"
+					text={
+						device?.model?.modelComputer
+							? device?.model?.modelComputer?.memoryRamType?.name
+							: device?.model?.modelLaptop
+							? device?.model?.modelLaptop?.memoryRamType?.name
+							: ''
+					}
+				/>
+
+				<TableCellDescInfo
+					title="Disco Duro"
+					text={
+						device?.computer?.hardDriveCapacity
+							? `${device?.computer?.hardDriveCapacity?.name} Gb`
+							: 'Sin Disco'
+					}
+				/>
+				<TableCellDescInfo
+					title="Tipo"
+					text={device?.computer?.hardDriveType?.name ?? 'No Aplica'}
+				/>
+
+				<TableCellDescInfo
+					title="Sistema Operativo"
+					text={device?.computer?.operatingSystem?.name ?? 'No Aplica'}
+				/>
+				<TableCellDescInfo
+					title="Arquitectura"
+					text={device?.computer?.operatingSystemArq?.name ?? 'No Aplica'}
+				/>
+
 				<TableCellDescInfo
 					title="Última Actualización"
 					text={device.updatedAt ? new Date(device.updatedAt).toLocaleDateString() : ''}

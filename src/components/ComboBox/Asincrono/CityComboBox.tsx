@@ -6,16 +6,16 @@ import { useGetAllCity } from '@/hooks/getAll/useGetAllCity'
 import { type CityFilters } from '@/core/locations/city/application/CityGetByCriteria'
 
 export function CityCombobox({
-	value,
+	value = '',
 	name,
 	stateId,
 	regionId,
 	handleChange
 }: {
-	value: string
+	value?: string
 	name: string
-	stateId: string
-	regionId: string
+	stateId?: string
+	regionId?: string
 	handleChange: (name: string, value: string) => void
 }) {
 	const [query, setQuery] = useState<CityFilters>({

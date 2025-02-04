@@ -10,12 +10,12 @@ const ArrowRightBadgeIcon = lazy(async () =>
 
 export const PaginationList = memo(
 	({
-		totalPages,
-		currentPage,
+		totalPages = 0,
+		currentPage = 1,
 		handlePageClick
 	}: {
-		totalPages: number
-		currentPage: number
+		totalPages?: number
+		currentPage?: number
 		handlePageClick: ({ selected }: { selected: number }) => void
 	}) => {
 		return (

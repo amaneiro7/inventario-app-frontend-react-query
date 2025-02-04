@@ -5,13 +5,13 @@ import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { type StateFilters } from '@/core/locations/state/application/StateGetByCriteria'
 
 export function StateCombobox({
-	value,
+	value = '',
 	name,
 	regionId,
 	handleChange
 }: {
-	value: string
-	regionId: string
+	value?: string
+	regionId?: string
 	name: string
 
 	handleChange: (name: string, value: string) => void
