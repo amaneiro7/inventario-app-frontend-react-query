@@ -1,10 +1,11 @@
 import { Criteria } from '@/core/shared/domain/criteria/Criteria'
 import { Operator } from '@/core/shared/domain/criteria/FilterOperators'
 import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
-import { OrderType } from '@/core/shared/domain/criteria/OrderType'
+import { OrderType, OrderTypes } from '@/core/shared/domain/criteria/OrderType'
 import { SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { defaultQueries } from './defaultQueries'
+import { DeviceComputerFilter } from './DeviceComputerFilter'
 
 export interface DeviceComputerFilters {
 	options: {
@@ -43,133 +44,168 @@ export async function createDeviceQueryParams({
 }: DeviceComputerFilters & {
 	defaultQuery: keyof typeof defaultQueries
 }): Promise<string> {
-	const query: SearchByCriteriaQuery = defaultQueries[defaultQuery] ?? {
-		filters: [],
-		pageNumber,
-		pageSize,
-		orderBy,
-		orderType
+	const query: SearchByCriteriaQuery = {
+		filters: defaultQueries[defaultQuery] ?? [],
+		pageSize: pageSize ?? DeviceComputerFilter.defaultPageSize,
+		pageNumber: pageNumber ?? 1,
+		orderBy: orderBy ?? DeviceComputerFilter.defaultOrderBy,
+		orderType: orderType ?? OrderTypes.ASC
 	}
 
-	if (options.categoryId) {
-		query.filters.push({
-			field: 'categoryId',
-			operator: Operator.EQUAL,
-			value: options.categoryId
-		})
-	}
-	if (options.brandId) {
-		query.filters.push({
-			field: 'brandId',
-			operator: Operator.EQUAL,
-			value: options.brandId
-		})
-	}
-	if (options.statusId) {
-		query.filters.push({
-			field: 'statusId',
-			operator: Operator.EQUAL,
-			value: options.statusId
-		})
-	}
-	if (options.activo) {
-		query.filters.push({
-			field: 'activo',
-			operator: Operator.CONTAINS,
-			value: options.activo
-		})
-	}
-	if (options.serial) {
-		query.filters.push({
-			field: 'serial',
-			operator: Operator.CONTAINS,
-			value: options.serial
-		})
-	}
-	if (options.modelId) {
-		query.filters.push({
-			field: 'modelId',
-			operator: Operator.EQUAL,
-			value: options.modelId
-		})
-	}
-	if (options.employeeId) {
-		query.filters.push({
-			field: 'employeeId',
-			operator: Operator.EQUAL,
-			value: options.employeeId
-		})
-	}
-	if (options.locationId) {
-		query.filters.push({
-			field: 'locationId',
-			operator: Operator.EQUAL,
-			value: options.locationId
-		})
-	}
-	if (options.typeOfSiteId) {
-		query.filters.push({
-			field: 'typeOfSiteId',
-			operator: Operator.EQUAL,
-			value: options.typeOfSiteId
-		})
-	}
-	if (options.cityId) {
-		query.filters.push({
-			field: 'cityId',
-			operator: Operator.EQUAL,
-			value: options.cityId
-		})
-	}
-	if (options.stateId) {
-		query.filters.push({
-			field: 'stateId',
-			operator: Operator.EQUAL,
-			value: options.stateId
-		})
-	}
-	if (options.regionId) {
-		query.filters.push({
-			field: 'regionId',
-			operator: Operator.EQUAL,
-			value: options.regionId
-		})
-	}
-	if (options.computerName) {
-		query.filters.push({
-			field: 'computerName',
-			operator: Operator.CONTAINS,
-			value: options.computerName
-		})
-	}
-	if (options.operatingSystemId) {
-		query.filters.push({
-			field: 'operatingSystemId',
-			operator: Operator.EQUAL,
-			value: options.operatingSystemId
-		})
-	}
-	if (options.operatingSystemArqId) {
-		query.filters.push({
-			field: 'operatingSystemArqId',
-			operator: Operator.EQUAL,
-			value: options.operatingSystemArqId
-		})
-	}
-	if (options.ipAddress) {
-		query.filters.push({
-			field: 'ipAddress',
-			operator: Operator.CONTAINS,
-			value: options.ipAddress
-		})
-	}
-	if (options.processor) {
-		query.filters.push({
-			field: 'processor',
-			operator: Operator.CONTAINS,
-			value: options.processor
-		})
-	}
+	console.log(query)
+
+	Object.keys(options).forEach(key => {
+		const filterKey = key as keyof DeviceComputerFilters['options']
+		const value = options[key]
+		const index = query.filters.findIndex(filter => filter.field === key)
+
+		if (filterKey === 'pageSize' || filterKey === 'pageNumber') return
+
+		if (!value) {
+			// Eliminar el filtro si el valor es undefined o un string vacio
+			if (index !== -1) {
+				query.filters.splice(index, 1)
+			}
+		} else {
+			// Actualizar o agregar el valor al filtro
+			if (index !== -1) {
+				query.filters[index].value = value
+			} else {
+				query.filters.push({
+					field: filterKey,
+					operator:
+						filterKey === 'activo' ||
+						filterKey === 'serial' ||
+						filterKey === 'computerName' ||
+						filterKey === 'ipAddress' ||
+						filterKey === 'processor'
+							? Operator.CONTAINS
+							: Operator.EQUAL,
+					value: options[filterKey]
+				})
+			}
+		}
+	})
+
+	// if (options.categoryId) {
+	// 	query.filters.push({
+	// 		field: 'categoryId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.categoryId
+	// 	})
+	// }
+	// if (options.brandId) {
+	// 	query.filters.push({
+	// 		field: 'brandId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.brandId
+	// 	})
+	// }
+	// if (options.statusId) {
+	// 	query.filters.push({
+	// 		field: 'statusId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.statusId
+	// 	})
+	// }
+	// if (options.activo) {
+	// 	query.filters.push({
+	// 		field: 'activo',
+	// 		operator: Operator.CONTAINS,
+	// 		value: options.activo
+	// 	})
+	// }
+	// if (options.serial) {
+	// 	query.filters.push({
+	// 		field: 'serial',
+	// 		operator: Operator.CONTAINS,
+	// 		value: options.serial
+	// 	})
+	// }
+	// if (options.modelId) {
+	// 	query.filters.push({
+	// 		field: 'modelId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.modelId
+	// 	})
+	// }
+	// if (options.employeeId) {
+	// 	query.filters.push({
+	// 		field: 'employeeId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.employeeId
+	// 	})
+	// }
+	// if (options.locationId) {
+	// 	query.filters.push({
+	// 		field: 'locationId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.locationId
+	// 	})
+	// }
+	// if (options.typeOfSiteId) {
+	// 	query.filters.push({
+	// 		field: 'typeOfSiteId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.typeOfSiteId
+	// 	})
+	// }
+	// if (options.cityId) {
+	// 	query.filters.push({
+	// 		field: 'cityId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.cityId
+	// 	})
+	// }
+	// if (options.stateId) {
+	// 	query.filters.push({
+	// 		field: 'stateId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.stateId
+	// 	})
+	// }
+	// if (options.regionId) {
+	// 	query.filters.push({
+	// 		field: 'regionId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.regionId
+	// 	})
+	// }
+	// if (options.computerName) {
+	// 	query.filters.push({
+	// 		field: 'computerName',
+	// 		operator: Operator.CONTAINS,
+	// 		value: options.computerName
+	// 	})
+	// }
+	// if (options.operatingSystemId) {
+	// 	query.filters.push({
+	// 		field: 'operatingSystemId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.operatingSystemId
+	// 	})
+	// }
+	// if (options.operatingSystemArqId) {
+	// 	query.filters.push({
+	// 		field: 'operatingSystemArqId',
+	// 		operator: Operator.EQUAL,
+	// 		value: options.operatingSystemArqId
+	// 	})
+	// }
+	// if (options.ipAddress) {
+	// 	query.filters.push({
+	// 		field: 'ipAddress',
+	// 		operator: Operator.CONTAINS,
+	// 		value: options.ipAddress
+	// 	})
+	// }
+	// if (options.processor) {
+	// 	query.filters.push({
+	// 		field: 'processor',
+	// 		operator: Operator.CONTAINS,
+	// 		value: options.processor
+	// 	})
+	// }
 
 	const criteria = Criteria.fromValues(
 		query.filters,

@@ -1,10 +1,10 @@
 import { lazy, Suspense } from 'react'
-import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
 import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
 import { useGetAllDevicess } from '@/hooks/getAll/useGetAllDevices'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
+import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 import Loading from '@/components/Loading'
 
 const ListWrapper = lazy(

@@ -4,7 +4,7 @@ import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceC
 import { DeviceGetAllService } from '@/core/devices/devices/infra/deviceGetAll.service'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 
-export const useGetAllDevicess = ({ options, pageNumber, pageSize }: DeviceComputerFilters) => {
+export const useGetAllDevicess = (query: DeviceComputerFilters) => {
 	const repository = useMemo(() => new DeviceGetAllService(), [])
 	const getAll = useMemo(() => new DeviceComputerFilter(repository), [repository])
 	const {
@@ -12,8 +12,8 @@ export const useGetAllDevicess = ({ options, pageNumber, pageSize }: DeviceCompu
 		isError,
 		data: devices
 	} = useQuery({
-		queryKey: ['devices', options, pageNumber, pageSize],
-		queryFn: async () => await getAll.search({ options, pageNumber, pageSize })
+		queryKey: ['devices', query.options, query.pageNumber, query.pageSize],
+		queryFn: () => getAll.search(query)
 	})
 
 	return {

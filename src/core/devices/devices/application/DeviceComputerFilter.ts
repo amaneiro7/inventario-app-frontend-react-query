@@ -8,6 +8,7 @@ export const defaultMainCategoryValue = MainCategoryOptions.COMPUTER
 export class DeviceComputerFilter {
 	static readonly pegaSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
+	static readonly defaultOrderBy = 'employeeId'
 	private readonly getAll: DeviceGetAll
 	constructor(private readonly repository: DeviceGetAllRepository) {
 		this.getAll = new DeviceGetAll(this.repository)

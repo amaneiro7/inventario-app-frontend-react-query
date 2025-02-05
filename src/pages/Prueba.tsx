@@ -37,7 +37,7 @@ function InputComponet<T extends string | number | readonly string[]>({
 	return (
 		<>
 			<div
-				className={`inputBox group after:text-error ${error ? 'error' : ''} ${
+				className={`comboBox group after:text-error ${error ? 'error' : ''} ${
 					props.className ? props.className : ''
 				}`}
 				data-error={errorMessage}
