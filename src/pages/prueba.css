@@ -1,0 +1,232 @@
+.inputBox::after {
+	content: attr(data-error);
+	display: inline-block;
+
+	border-radius: 4px;
+	z-index: 1;
+	padding-left: 12px;
+	margin-left: 4px;
+	font-size: 12px;
+	height: fit-content;
+	width: 98%;
+}
+
+.inputBox {
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-flex-direction: column;
+	position: relative;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	position: relative;
+	width: 100%;
+	min-width: 0;
+	max-width: 250px;
+	vertical-align: top;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.inputBox .button-popover {
+	anchor-name: --combobox;
+	min-width: 0;
+	width: 100%;
+	font: inherit;
+	letter-spacing: inherit;
+	color: currentColor;
+	border: 0;
+	box-sizing: content-box;
+	background: none;
+	height: 1.4375em;
+	margin: 0;
+	display: block;
+	padding: 8.5px 14px;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-animation-name: auto-fill-cancel;
+	animation-name: auto-fill-cancel;
+	-webkit-animation-duration: 10ms;
+	animation-duration: 10ms;
+}
+
+.div-popover {
+	position-anchor: --combobox;
+}
+
+.div-popover:popover-open {
+	position-anchor: --combobox;
+	position: absolute;
+	right: anchor(right);
+	left: anchor(left);
+	bottom: anchor(bottom);
+	top: anchor(bottom);
+	width: 100%;
+	max-width: 250px;
+	height: min-content;
+	max-height: 250px;
+	transform: translatey(50%);
+	border: 1px solid rgba(0, 0, 0, 0.23);
+	border-radius: 4px;
+	padding-inline: 8px;
+}
+
+.inputBox .button-popover:focus-visible {
+	outline: none;
+}
+
+@keyframes auto-fill-cancel {
+	0% {
+		display: block;
+	}
+}
+
+.inputBox label {
+	color: rgba(0, 0, 0, 0.6);
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 1.4375em;
+	letter-spacing: 0.00938em;
+	padding: 0;
+	position: relative;
+	display: block;
+	transform-origin: top left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 24px);
+	position: absolute;
+	left: 0;
+	top: 0;
+	-webkit-transform: translate(14px, 9px) scale(1);
+	-moz-transform: translate(14px, 9px) scale(1);
+	-ms-transform: translate(14px, 9px) scale(1);
+	transform: translate(14px, 9px) scale(1);
+	-webkit-transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+		-webkit-transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+		max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+	transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+		transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
+		max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+	z-index: 1;
+	pointer-events: none;
+}
+
+.inputBox label.with-left-icon {
+	-webkit-transform: translate(54px, 9px) scale(1);
+	-moz-transform: translate(54px, 9px) scale(1);
+	-ms-transform: translate(54px, 9px) scale(1);
+	transform: translate(54px, 9px) scale(1);
+}
+
+.inputBox:focus-within label,
+.inputBox label.transform {
+	max-width: calc(133% - 32px);
+	-webkit-transform: translate(14px, -9px) scale(0.75);
+	-moz-transform: translate(14px, -9px) scale(0.75);
+	-ms-transform: translate(14px, -9px) scale(0.75);
+	transform: translate(14px, -9px) scale(0.75);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	pointer-events: auto;
+	user-select: none;
+}
+
+.inputBox .inputArea {
+	font-weight: 400;
+	font-size: 1rem;
+	line-height: 1.4375em;
+	letter-spacing: 0.00938em;
+	color: rgba(0, 0, 0, 0.87);
+	box-sizing: border-box;
+	position: relative;
+	cursor: text;
+	display: -webkit-inline-box;
+	display: -webkit-inline-flex;
+	display: -ms-inline-flexbox;
+	display: inline-flex;
+	-webkit-align-items: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	width: 100%;
+	position: relative;
+	border-radius: 4px;
+}
+
+.inputBox fieldset {
+	text-align: left;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	top: -5px;
+	left: 0;
+	margin: 0;
+	padding: 0px 8px;
+	pointer-events: none;
+	border-radius: inherit;
+	border-style: solid;
+	border-width: 1px;
+	overflow: hidden;
+	min-height: 0;
+	border-color: rgba(0, 0, 0, 0.23);
+}
+
+.inputBox .inputArea .button-popover:disabled + fieldset {
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+.inputBox:hover fieldset {
+	border-color: rgba(0, 0, 0, 0.87);
+}
+
+.inputBox:hover .inputArea .button-popover:disabled + fieldset {
+	border-color: rgba(0, 0, 0, 0.1);
+}
+
+.inputBox fieldset legend {
+	float: unset;
+	width: auto;
+	overflow: hidden;
+	display: block;
+	padding: 0;
+	height: 11px;
+	font-size: 0.75em;
+	visibility: hidden;
+	max-width: 0.01px;
+	-webkit-transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+	transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+	white-space: nowrap;
+}
+.inputBox:focus-within fieldset legend,
+.inputBox fieldset legend.transform {
+	max-width: 100%;
+	-webkit-transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+	transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
+}
+.inputBox fieldset legend span {
+	padding-inline: 5px;
+	display: inline-block;
+	opacity: 0;
+	visibility: hidden;
+}
+
+.leftIcon,
+.rightIcon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 12px;
+	height: 40px;
+	width: 40px;
+}
+
+.leftIcon {
+	border-right: 1px solid rgba(0, 0, 0, 0.23);
+}
+.rightIcon {
+	cursor: pointer;
+	border-right: 1px solid rgba(0, 0, 0, 0.23);
+}
