@@ -1,6 +1,6 @@
 import { BrandName } from '../value-object/BrandName'
+import { type BrandPrimitives } from '../dto/Brand.dto'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type BrandPrimitives } from '../dto/BrandPrimitives.dto'
 
 export class Brand {
 	constructor(private readonly name: BrandName) {}

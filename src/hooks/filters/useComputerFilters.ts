@@ -2,11 +2,11 @@ import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import {
 	DeviceComputerFilter,
-	DeviceComputerFilters,
 	defaultMainCategoryValue
 } from '@/core/devices/devices/application/DeviceComputerFilter'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 
-export function wuseComputerFilter() {
+export function useComputerFilter() {
 	const mainCategoryId = defaultMainCategoryValue
 	const [searchParams, setSearchParams] = useSearchParams()
 

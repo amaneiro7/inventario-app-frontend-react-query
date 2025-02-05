@@ -1,4 +1,4 @@
 import { GetAllRepository } from '@/core/shared/domain/repository/GetAllRepository.abstract'
-import { type AllModelsDto } from '../dto/AllModels.dto'
+import { type ModelDto } from '../dto/Model.dto'
 
-export abstract class ModelGetAllRepository extends GetAllRepository<AllModelsDto> {}
+export abstract class ModelGetAllRepository extends GetAllRepository<ModelDto> {}

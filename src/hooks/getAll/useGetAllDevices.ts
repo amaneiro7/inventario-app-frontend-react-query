@@ -1,13 +1,10 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import {
-	DeviceComputerFilter,
-	type DeviceComputerFilters
-} from '@/core/devices/devices/application/DeviceComputerFilter'
+import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
 import { DeviceGetAllService } from '@/core/devices/devices/infra/deviceGetAll.service'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 
 export const useGetAllDevicess = ({ options, pageNumber, pageSize }: DeviceComputerFilters) => {
-	console.log(pageNumber)
 	const repository = useMemo(() => new DeviceGetAllService(), [])
 	const getAll = useMemo(() => new DeviceComputerFilter(repository), [repository])
 	const {

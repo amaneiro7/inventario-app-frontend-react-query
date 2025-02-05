@@ -1,10 +1,10 @@
 import { lazy } from 'react'
-import {
-	DeviceComputerFilter,
-	type DeviceComputerFilters
-} from '@/core/devices/devices/application/DeviceComputerFilter'
-import { wuseComputerFilter } from '@/hooks/filters/useComputerFilters'
+import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
+import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
 import { useGetAllDevicess } from '@/hooks/getAll/useGetAllDevices'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
+import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
+import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -30,32 +30,8 @@ const DeviceTable = lazy(() =>
 )
 
 export default function ListComputer() {
-	const {
-		setFilters,
-		employeeId,
-		categoryId,
-		mainCategoryId,
-		activo,
-		brandId,
-		cityId,
-		computerName,
-		ipAddress,
-		locationId,
-		modelId,
-		operatingSystemArqId,
-		operatingSystemId,
-		processor,
-		regionId,
-		serial,
-		stateId,
-		statusId,
-		typeOfSiteId,
-		cleanFilters,
-		setPageNumber,
-		setPageSize,
-		pageNumber,
-		pageSize
-	} = wuseComputerFilter()
+	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
+		useComputerFilter()
 
 	const handleChange = (name: string, value: string) => {
 		const key = name as keyof DeviceComputerFilters
@@ -72,73 +48,66 @@ export default function ListComputer() {
 		setPageNumber(selected + 1)
 	}
 
-	console.log(pageNumber)
+	const { download, isDownloading } = useDownloadExcelService({
+		query: {
+			options: {
+				mainCategoryId: MainCategoryOptions.COMPUTER,
+				...query
+			}
+		},
+		source: 'computer'
+	})
 
 	const { devices, isLoading } = useGetAllDevicess({
 		options: {
-			employeeId,
-			categoryId,
-			mainCategoryId,
-			activo,
-			brandId,
-			cityId,
-			computerName,
-			ipAddress,
-			locationId,
-			modelId,
-			operatingSystemArqId,
-			operatingSystemId,
-			processor,
-			regionId,
-			serial,
-			stateId,
-			statusId,
-			typeOfSiteId
+			mainCategoryId: MainCategoryOptions.COMPUTER,
+			...query
 		},
-		pageSize: pageSize ?? DeviceComputerFilter.defaultPageSize,
-		pageNumber
+		pageSize: query.pageSize ?? DeviceComputerFilter.defaultPageSize,
+		pageNumber: query.pageNumber
 	})
 
 	return (
 		<ListWrapper
 			title="Lista de equipos de computación"
-			typeOfSiteId={typeOfSiteId}
+			typeOfSiteId={query.typeOfSiteId}
 			handleChange={handleChange}
 			handleClear={cleanFilters}
+			handleExportToExcel={download}
+			isDownloading={isDownloading}
 			url="/device/add"
-			// source='computer'
 			mainFilter={
 				<MainComputerFilter
-					categoryId={categoryId}
-					employeeId={employeeId}
-					serial={serial}
-					locationId={locationId}
-					regionId={regionId}
-					mainCategoryId={mainCategoryId}
-					typeOfSiteId={typeOfSiteId}
+					categoryId={query.categoryId}
+					employeeId={query.employeeId}
+					serial={query.serial}
+					locationId={query.locationId}
+					regionId={query.regionId}
+					mainCategoryId={query.mainCategoryId}
+					typeOfSiteId={query.typeOfSiteId}
 					handleChange={handleChange}
 				/>
 			}
 			otherFilter={
 				<>
 					<DefaultDeviceFilter
-						activo={activo}
-						statusId={statusId}
-						brandId={brandId}
-						modelId={modelId}
-						categoryId={categoryId}
-						stateId={stateId}
-						regionId={regionId}
-						cityId={cityId}
+						activo={query.activo}
+						statusId={query.statusId}
+						brandId={query.brandId}
+						modelId={query.modelId}
+						categoryId={query.categoryId}
+						stateId={query.stateId}
+						regionId={query.regionId}
+						cityId={query.cityId}
 						handleChange={handleChange}
 					/>
 					<OtherComputerFilter
-						ipAddress={ipAddress}
-						computerName={computerName}
 						handleChange={handleChange}
-						operatingSystemId={operatingSystemId}
-						operatingSystemArqId={operatingSystemArqId}
-						processor={processor}
+						ipAddress={query.ipAddress}
+						computerName={query.computerName}
+						operatingSystemId={query.operatingSystemId}
+						operatingSystemArqId={query.operatingSystemArqId}
+						processor={query.processor}
 					/>
 				</>
 			}
@@ -148,7 +117,7 @@ export default function ListComputer() {
 			currentPage={devices?.info.page}
 			totalPages={devices?.info.totalPage}
 			registerOptions={DeviceComputerFilter.pegaSizeOptions}
-			pageSize={pageSize}
+			pageSize={query.pageSize}
 			handlePageClick={handlePageClick}
 			handlePageSize={handlePageSize}
 		/>

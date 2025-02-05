@@ -42,17 +42,21 @@ export function ListWrapper({
 	total,
 	mainFilter,
 	otherFilter,
-	handleChange,
 	typeOfSiteId,
-	handleClear,
 	table,
 	totalPages,
 	currentPage,
 	pageSize,
+	registerOptions,
+	isDownloading,
+	handleExportToExcel,
+	handleChange,
+	handleClear,
 	handlePageClick,
-	handlePageSize,
-	registerOptions
+	handlePageSize
 }: {
+	handleExportToExcel: () => void
+	isDownloading: boolean
 	title: string
 	url: string
 	loading: boolean
@@ -86,6 +90,8 @@ export function ListWrapper({
 						) : null}
 					</FilterSection>
 					<ButtonSection
+						loading={isDownloading}
+						handleExportToExcel={handleExportToExcel}
 						handleAdd={() => {
 							navigate(url)
 						}}

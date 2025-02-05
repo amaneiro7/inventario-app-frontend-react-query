@@ -1,7 +1,7 @@
 import { useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react'
 import { type LoginParams } from '@/core/user/domain/dto/LoginAuth.dto'
 import { type LoginUserDto } from '@/core/user/domain/dto/LoginUser.dto'
-import { api } from '../api/api'
+import { api } from '../api/axios.config'
 import { isTokenExpired } from '../utils/isTokenExpired'
 import { EventContext } from '@/context/EventManager/EventContext'
 // capa de application

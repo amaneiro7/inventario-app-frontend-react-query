@@ -1,22 +1,28 @@
 import axios, { type AxiosRequestConfig } from 'axios'
-import { mode } from '../config'
 import { api } from './axios.config'
+import { fileSaver } from '@/utils/filseServer'
+import { type Source } from '@/types/type'
 
-export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolean }): Promise<T> {
+export async function apiDownload(
+	config: AxiosRequestConfig & {
+		_retry?: boolean
+	},
+	source: Source
+): Promise<void> {
 	try {
-		const response = await api(config)
-		if (!response.data) throw new Error('Ha ocurrido un error inesperado')
-		return response.data as T
-	} catch (error) {
-		if (mode === 'development') {
-			if (axios.isAxiosError(error) && error.response) {
-				throw new Error(error.response.data || 'Error desconocido')
-			} else if (error instanceof Error) {
-				throw new Error('No se ha podido realizar la petición')
-			} else {
-				throw new Error('No se ha podido realizar la petición')
-			}
+		const response = await api({
+			...config,
+			headers: {
+				'Content-Type': 'application/vnc.ms-excel'
+			},
+			responseType: 'blob'
+		})
+
+		if (!response.data) {
+			throw new Error('Ha ocurrido un error inesperado')
 		}
+		fileSaver(response.data, source)
+	} catch (error) {
 		if (axios.isAxiosError(error) && error.response) {
 			const { status } = error.response
 			if (status === 401) {
