@@ -4,6 +4,7 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { defaultQueries } from './defaultQueries'
 
 export interface DeviceComputerFilters {
 	options: {
@@ -37,9 +38,12 @@ export async function createDeviceQueryParams({
 	pageNumber,
 	pageSize,
 	orderBy,
-	orderType
-}: DeviceComputerFilters): Promise<string> {
-	const query: SearchByCriteriaQuery = {
+	orderType,
+	defaultQuery
+}: DeviceComputerFilters & {
+	defaultQuery: keyof typeof defaultQueries
+}): Promise<string> {
+	const query: SearchByCriteriaQuery = defaultQueries[defaultQuery] ?? {
 		filters: [],
 		pageNumber,
 		pageSize,

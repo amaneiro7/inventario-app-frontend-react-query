@@ -14,7 +14,12 @@ export class DeviceComputerFilter {
 	}
 
 	async search({ options, pageNumber, pageSize }: DeviceComputerFilters) {
-		const queryParams = await createDeviceQueryParams({ options, pageNumber, pageSize })
+		const queryParams = await createDeviceQueryParams({
+			options,
+			pageNumber,
+			pageSize,
+			defaultQuery: 'computer'
+		})
 
 		return this.getAll.execute(queryParams)
 	}

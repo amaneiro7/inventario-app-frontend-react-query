@@ -16,6 +16,11 @@ const TableCellDescription = lazy(async () =>
 		default: m.TableCellDescription
 	}))
 )
+const TableDescDivider = lazy(async () =>
+	import('@/components/Table/TableDescDivider').then(m => ({
+		default: m.TableDescDivider
+	}))
+)
 
 export function ComputerDescription({ open, device }: Props) {
 	return (
@@ -27,39 +32,53 @@ export function ComputerDescription({ open, device }: Props) {
 				url={`/device/edit/${device.id}`}
 				colspan={10}
 			>
-				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
-				<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
+				<TableDescDivider label="Información básica">
+					<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
+					<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
+				</TableDescDivider>
 
-				<fieldset className="flex border-azul border-2 rounded p-2 gap-6 flex-wrap">
-					<legend className="text-azul">Informacion de Usuario</legend>
-					<TableCellDescInfo
-						title="Nombre y Apellido"
-						text={`${device?.employee?.name ?? ''} ${device?.employee?.lastName ?? ''}`}
-					/>
+				{device.employee?.name ? (
+					<TableDescDivider label="Información de usuario">
+						<TableCellDescInfo
+							title="Nombre y Apellido"
+							text={`${device?.employee?.name ?? ''} ${
+								device?.employee?.lastName ?? ''
+							}`}
+						/>
 
+						<TableCellDescInfo
+							title="Area"
+							text={device?.employee?.departamento?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="Cargo"
+							text={device?.employee?.cargo?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="Código de empleado"
+							text={`${device?.employee?.employeeCode ?? ''}`}
+						/>
+						<TableCellDescInfo
+							title="Cédula"
+							text={`${device?.employee?.cedula ?? ''}`}
+						/>
+					</TableDescDivider>
+				) : null}
+
+				<TableDescDivider label="Información de ubicación">
 					<TableCellDescInfo
-						title="Area"
-						text={device?.employee?.departamento.name ?? ''}
+						title="Región"
+						text={`${device?.location?.site.city.state.region.name ?? ''}`}
 					/>
-					<TableCellDescInfo title="Cargo" text={device?.employee?.cargo.name ?? ''} />
 					<TableCellDescInfo
-						title="Código de empleado"
-						text={`${device?.employee?.employeeCode ?? ''}`}
+						title="Estado"
+						text={`${device?.location?.site.city.state.name ?? ''}`}
 					/>
-					<TableCellDescInfo title="Cédula" text={`${device?.employee?.cedula ?? ''}`} />
-				</fieldset>
-				<TableCellDescInfo
-					title="Región"
-					text={`${device?.location?.site.city.state.region.name ?? ''}`}
-				/>
-				<TableCellDescInfo
-					title="Estado"
-					text={`${device?.location?.site.city.state.name ?? ''}`}
-				/>
-				<TableCellDescInfo
-					title="Ciudad"
-					text={`${device?.location?.site.city.name ?? ''}`}
-				/>
+					<TableCellDescInfo
+						title="Ciudad"
+						text={`${device?.location?.site.city.name ?? ''}`}
+					/>
+				</TableDescDivider>
 
 				<TableCellDescInfo
 					title="Procesador"

@@ -86,7 +86,7 @@ export function TableWrapper({ devices, loading = true, pageSize = 25 }: Props) 
 								}`}
 								onClick={() => handleRowClick(device.id)}
 							>
-								<TableCell size="small" value={device.employee?.userName} />
+								<TableCell size="small" value={device.employee?.userName ?? ''} />
 								<TableCell size="large" value={device.location?.name} />
 								<TableCell size="small" value={device.computer?.ipAddress ?? ''} />
 								<TableCell size="small" value={device.serial ?? ''} />

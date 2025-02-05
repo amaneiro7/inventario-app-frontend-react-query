@@ -30,9 +30,9 @@ export function OtherComputerFilter({
 	ipAddress?: string
 	handleChange: (name: string, value: string) => void
 }) {
-	const [localComputerName, setLocalComputerName] = useState(computerName)
-	const [localProcessor, setLocalProcessor] = useState(processor)
-	const [localIPAddress, setLocalIPAddress] = useState(ipAddress)
+	const [localComputerName, setLocalComputerName] = useState(computerName ?? '')
+	const [localProcessor, setLocalProcessor] = useState(processor ?? '')
+	const [localIPAddress, setLocalIPAddress] = useState(ipAddress ?? '')
 	const [debounceComputerName] = useDebounce(localComputerName)
 	const [debounceProcessor] = useDebounce(localProcessor)
 	const [debounceIPAddress] = useDebounce(localIPAddress)

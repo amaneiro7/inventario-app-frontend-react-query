@@ -1,10 +1,11 @@
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
 import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
 import { useGetAllDevicess } from '@/hooks/getAll/useGetAllDevices'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
+import Loading from '@/components/Loading'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -60,7 +61,6 @@ export default function ListComputer() {
 
 	const { devices, isLoading } = useGetAllDevicess({
 		options: {
-			mainCategoryId: MainCategoryOptions.COMPUTER,
 			...query
 		},
 		pageSize: query.pageSize ?? DeviceComputerFilter.defaultPageSize,
@@ -68,58 +68,60 @@ export default function ListComputer() {
 	})
 
 	return (
-		<ListWrapper
-			title="Lista de equipos de computación"
-			typeOfSiteId={query.typeOfSiteId}
-			handleChange={handleChange}
-			handleClear={cleanFilters}
-			handleExportToExcel={download}
-			isDownloading={isDownloading}
-			url="/device/add"
-			mainFilter={
-				<MainComputerFilter
-					categoryId={query.categoryId}
-					employeeId={query.employeeId}
-					serial={query.serial}
-					locationId={query.locationId}
-					regionId={query.regionId}
-					mainCategoryId={query.mainCategoryId}
-					typeOfSiteId={query.typeOfSiteId}
-					handleChange={handleChange}
-				/>
-			}
-			otherFilter={
-				<>
-					<DefaultDeviceFilter
-						activo={query.activo}
-						statusId={query.statusId}
-						brandId={query.brandId}
-						modelId={query.modelId}
+		<Suspense fallback={<Loading />}>
+			<ListWrapper
+				title="Lista de equipos de computación"
+				typeOfSiteId={query.typeOfSiteId}
+				handleChange={handleChange}
+				handleClear={cleanFilters}
+				handleExportToExcel={download}
+				isDownloading={isDownloading}
+				url="/device/add"
+				mainFilter={
+					<MainComputerFilter
 						categoryId={query.categoryId}
-						stateId={query.stateId}
+						employeeId={query.employeeId}
+						serial={query.serial}
+						locationId={query.locationId}
 						regionId={query.regionId}
-						cityId={query.cityId}
+						mainCategoryId={mainCategoryId}
+						typeOfSiteId={query.typeOfSiteId}
 						handleChange={handleChange}
 					/>
-					<OtherComputerFilter
-						handleChange={handleChange}
-						ipAddress={query.ipAddress}
-						computerName={query.computerName}
-						operatingSystemId={query.operatingSystemId}
-						operatingSystemArqId={query.operatingSystemArqId}
-						processor={query.processor}
-					/>
-				</>
-			}
-			total={devices?.info.total}
-			loading={isLoading}
-			table={<DeviceTable devices={devices?.data} loading={isLoading} />}
-			currentPage={devices?.info.page}
-			totalPages={devices?.info.totalPage}
-			registerOptions={DeviceComputerFilter.pegaSizeOptions}
-			pageSize={query.pageSize}
-			handlePageClick={handlePageClick}
-			handlePageSize={handlePageSize}
-		/>
+				}
+				otherFilter={
+					<>
+						<DefaultDeviceFilter
+							activo={query.activo}
+							statusId={query.statusId}
+							brandId={query.brandId}
+							modelId={query.modelId}
+							categoryId={query.categoryId}
+							stateId={query.stateId}
+							regionId={query.regionId}
+							cityId={query.cityId}
+							handleChange={handleChange}
+						/>
+						<OtherComputerFilter
+							handleChange={handleChange}
+							ipAddress={query.ipAddress}
+							computerName={query.computerName}
+							operatingSystemId={query.operatingSystemId}
+							operatingSystemArqId={query.operatingSystemArqId}
+							processor={query.processor}
+						/>
+					</>
+				}
+				total={devices?.info.total}
+				loading={isLoading}
+				table={<DeviceTable devices={devices?.data} loading={isLoading} />}
+				currentPage={devices?.info.page}
+				totalPages={devices?.info.totalPage}
+				registerOptions={DeviceComputerFilter.pegaSizeOptions}
+				pageSize={query.pageSize}
+				handlePageClick={handlePageClick}
+				handlePageSize={handlePageSize}
+			/>
+		</Suspense>
 	)
 }
