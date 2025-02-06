@@ -14,11 +14,19 @@ export class DeviceComputerFilter {
 		this.getAll = new DeviceGetAll(this.repository)
 	}
 
-	async search({ options, pageNumber, pageSize }: DeviceComputerFilters) {
+	async search({
+		pageNumber = 1,
+		pageSize = DeviceComputerFilter.defaultPageSize,
+		orderBy = DeviceComputerFilter.defaultOrderBy,
+		orderType,
+		...options
+	}: DeviceComputerFilters) {
 		const queryParams = await createDeviceQueryParams({
-			options,
+			...options,
 			pageNumber,
 			pageSize,
+			orderBy,
+			orderType,
 			defaultQuery: 'computer'
 		})
 

@@ -1,8 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
-import { useGetAllDevicess } from '@/hooks/getAll/useGetAllDevices'
+import { useGetAllDevices } from '@/hooks/getAll/useGetAllDevices'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 import Loading from '@/components/Loading'
@@ -50,21 +49,12 @@ export default function ListComputer() {
 	}
 
 	const { download, isDownloading } = useDownloadExcelService({
-		query: {
-			options: {
-				mainCategoryId: MainCategoryOptions.COMPUTER,
-				...query
-			}
-		},
+		query: query,
 		source: 'computer'
 	})
 
-	const { devices, isLoading } = useGetAllDevicess({
-		options: {
-			...query
-		},
-		pageSize: query.pageSize ?? DeviceComputerFilter.defaultPageSize,
-		pageNumber: query.pageNumber
+	const { devices, isLoading } = useGetAllDevices({
+		...query
 	})
 
 	return (
