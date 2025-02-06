@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 import { useGetAllRegion } from '@/hooks/getAll/useGetAllRegion'
 
 export function RegionCombobox({

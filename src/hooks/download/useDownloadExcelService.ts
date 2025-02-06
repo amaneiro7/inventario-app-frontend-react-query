@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 import { type Source } from '@/types/type'
 import { EventContext } from '@/context/EventManager/EventContext'
@@ -14,7 +14,7 @@ export function useDownloadExcelService({
 }) {
 	const { events } = useContext(EventContext)
 	const [isDownloading, setIsDownloading] = useState(false)
-	const download = async () => {
+	const download = useCallback(async () => {
 		setIsDownloading(true)
 		try {
 			if (source === 'model') {
@@ -31,7 +31,7 @@ export function useDownloadExcelService({
 		} finally {
 			setIsDownloading(false)
 		}
-	}
+	}, [])
 
 	return { isDownloading, download }
 }

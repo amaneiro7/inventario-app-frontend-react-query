@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useGetAllOperatingSystemArq } from '@/hooks/getAll/useGetAllOperatingSystemArq'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 
 export function OperatingSystemArqCombobox({
 	value = '',

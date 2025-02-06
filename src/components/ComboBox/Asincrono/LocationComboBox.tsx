@@ -3,7 +3,7 @@ import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { LocationFilters } from '@/core/locations/locations/application/LocationGetByCriteria'
 import { useGetAllLocations } from '@/hooks/getAll/useGetAllLocation'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 
 export function LocationCombobox({
 	value = '',

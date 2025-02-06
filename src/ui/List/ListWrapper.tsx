@@ -1,4 +1,4 @@
-import { lazy, useCallback, useRef } from 'react'
+import { lazy, memo, useCallback, useRef } from 'react'
 import { FilterAsideRef } from './FilterAside/FilterAside'
 import { useNavigate } from 'react-router-dom'
 import { SpinnerSKCircle } from '@/components/Loading/spinner-sk-circle'
@@ -35,7 +35,7 @@ const ButtonSection = lazy(
 		await import('./ButttonSection/ButtonSection').then(m => ({ default: m.ButtonSection }))
 )
 
-export function ListWrapper({
+export const ListWrapper = memo(function ({
 	title,
 	loading,
 	url,
@@ -55,7 +55,6 @@ export function ListWrapper({
 	handlePageClick,
 	handlePageSize
 }: {
-	handleExportToExcel: () => void
 	isDownloading: boolean
 	title: string
 	url: string
@@ -65,14 +64,15 @@ export function ListWrapper({
 	totalPages?: number
 	currentPage?: number
 	pageSize?: number
-	handlePageSize: (pageSize: number) => void
-	handlePageClick: ({ selected }: { selected: number }) => void
 	mainFilter?: React.ReactElement
 	otherFilter?: React.ReactElement
-	handleClear?: () => void
 	registerOptions: number[]
-	handleChange: (name: string, value: string) => void
 	table?: React.ReactElement
+	handleExportToExcel: () => void
+	handlePageSize: (pageSize: number) => void
+	handlePageClick: ({ selected }: { selected: number }) => void
+	handleClear?: () => void
+	handleChange: (name: string, value: string) => void
 }) {
 	const navigate = useNavigate()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
@@ -80,7 +80,7 @@ export function ListWrapper({
 	const handleFilter = useCallback(() => filterAsideRef.current?.handleOpen(), [])
 	return (
 		<>
-			<PageTitle title={title} optionalText={!loading ? `${total} resultados` : undefined} />
+			<PageTitle title={title} optionalText={!loading ? `${total} resultados` : ''} />
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
 					<FilterSection>
@@ -119,4 +119,4 @@ export function ListWrapper({
 			</DetailsWrapper>
 		</>
 	)
-}
+})

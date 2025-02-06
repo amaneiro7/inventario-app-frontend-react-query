@@ -1,4 +1,4 @@
-import { lazy, useState } from 'react'
+import { lazy, memo, Suspense, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 
@@ -30,7 +30,7 @@ const Input = lazy(
 	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
 )
 
-export function MainComputerFilter({
+export const MainComputerFilter = memo(function ({
 	handleChange,
 	employeeId,
 	categoryId,
@@ -58,13 +58,15 @@ export function MainComputerFilter({
 
 	return (
 		<>
-			<EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} />
-			<CategoryCombobox
-				name="categoryId"
-				mainCategoryId={mainCategoryId}
-				handleChange={handleChange}
-				value={categoryId}
-			/>
+			{/* <EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} /> */}
+			<Suspense>
+				<CategoryCombobox
+					name="categoryId"
+					mainCategoryId={mainCategoryId}
+					handleChange={handleChange}
+					value={categoryId}
+				/>
+			</Suspense>
 			<Input
 				value={localSerial}
 				label="Serial"
@@ -75,13 +77,13 @@ export function MainComputerFilter({
 					setLocalSerial(value)
 				}}
 			/>
-			<LocationCombobox
+			{/* <LocationCombobox
 				name="locationId"
 				handleChange={handleChange}
 				value={locationId}
 				typeOfSiteId={typeOfSiteId}
 			/>
-			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} /> */}
 		</>
 	)
-}
+})

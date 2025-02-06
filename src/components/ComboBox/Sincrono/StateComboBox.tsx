@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 import { useGetAllState } from '@/hooks/getAll/useGetAllState'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { type StateFilters } from '@/core/locations/state/application/StateGetByCriteria'

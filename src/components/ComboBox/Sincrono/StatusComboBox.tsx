@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 import { useGetAllStatus } from '@/hooks/getAll/useGetAllStatus'
 
 export function StatusCombobox({

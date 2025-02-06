@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 import { useGetAllCity } from '@/hooks/getAll/useGetAllCity'
 import { type CityFilters } from '@/core/locations/city/application/CityGetByCriteria'
 

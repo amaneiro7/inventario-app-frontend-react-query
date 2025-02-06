@@ -1,8 +1,11 @@
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
+import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
+import { CategoryFilters } from '@/core/category/application/CategoryGetByCriteria'
+import { useDebounce } from '@/hooks/utils/useDebounce'
 
-export function CategoryCombobox({
+export const CategoryCombobox = memo(function ({
 	value = '',
 	name,
 	mainCategoryId,
@@ -13,34 +16,39 @@ export function CategoryCombobox({
 	mainCategoryId?: string
 	handleChange: (name: string, value: string) => void
 }) {
-	const { categories, isLoading } = useGetAllCategory({
+	const [query, setQuery] = useState<CategoryFilters>({
 		options: {
-			id: value,
-			mainCategoryId
+			id: value
 		}
 	})
+	const { categories, isLoading } = useGetAllCategory(query)
 
-	const initialValue = useMemo(() => {
-		return categories?.data.find(category => category.id === value) ?? null
-	}, [value, categories])
 	const [inputValue, setInputValue] = useState('')
+	const [debouncedSearch] = useDebounce(inputValue)
+	useEffectAfterMount(() => {
+		setQuery({
+			options: {
+				name: debouncedSearch
+			},
+			pageSize: debouncedSearch === '' ? 10 : undefined
+		})
+	}, [debouncedSearch])
 
 	return (
 		<>
 			<Combobox
-				loading={isLoading}
+				id="category"
 				label="SubCategoria"
-				value={initialValue}
-				options={categories?.data ?? []}
+				value={value}
+				onInputChange={e => {
+					setInputValue(e.target.value)
+				}}
+				onChangeValue={value => {
+					handleChange('categoryId', value)
+				}}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
-				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				options={categories?.data ?? []}
 			/>
 		</>
 	)
-}
+})

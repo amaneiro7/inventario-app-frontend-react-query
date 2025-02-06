@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useGetAllOperatingSystem } from '@/hooks/getAll/useGetAllOperatingSystem'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 
 export function OperatingSystemCombobox({
 	value = '',

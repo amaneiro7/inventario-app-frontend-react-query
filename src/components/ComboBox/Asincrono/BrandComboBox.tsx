@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useGetAllBrands } from '@/hooks/getAll/useGetAllBrand'
-import { Combobox } from '@/components/ComboBox/ComboBox'
+import { Combobox } from '@/components/ComboBox/Combobox'
 import { type BrandFilters } from '@/core/brand/application/BrandGetByCiteria'
 
 export function BrandCombobox({
@@ -27,6 +27,7 @@ export function BrandCombobox({
 	const [debouncedSearch] = useDebounce(inputValue)
 
 	useEffectAfterMount(() => {
+		if (debouncedSearch === '') return
 		setQuery({
 			options: {
 				name: debouncedSearch
