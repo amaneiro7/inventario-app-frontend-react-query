@@ -1,10 +1,12 @@
-import { memo, useMemo, useState } from 'react'
+import { lazy, memo, useEffect, useState } from 'react'
 import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
-import { Combobox } from '@/components/ComboBox/Combobox'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { CategoryFilters } from '@/core/category/application/CategoryGetByCriteria'
 import { useDebounce } from '@/hooks/utils/useDebounce'
+import { type CategoryFilters } from '@/core/category/application/CategoryGetByCriteria'
 
+const Combobox = lazy(async () =>
+	import('@/components/ComboBox/Combobox').then(m => ({ default: m.Combobox }))
+)
 export const CategoryCombobox = memo(function ({
 	value = '',
 	name,
@@ -23,9 +25,8 @@ export const CategoryCombobox = memo(function ({
 		}
 	})
 	const { categories, isLoading } = useGetAllCategory(query)
-
 	const [inputValue, setInputValue] = useState('')
-	const [debouncedSearch] = useDebounce(inputValue)
+	const [debouncedSearch] = useDebounce(inputValue, 250)
 	useEffectAfterMount(() => {
 		setQuery({
 			options: {
@@ -35,7 +36,14 @@ export const CategoryCombobox = memo(function ({
 		})
 	}, [debouncedSearch])
 
-	console.log('value:', value)
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value,
+				mainCategoryId
+			}
+		})
+	}, [value, mainCategoryId])
 
 	return (
 		<>
@@ -43,13 +51,14 @@ export const CategoryCombobox = memo(function ({
 				id="category"
 				label="SubCategoria"
 				value={value}
+				inputValue={inputValue}
 				name={name}
+				loading={isLoading}
+				options={categories?.data ?? []}
 				onInputChange={e => {
 					setInputValue(e.target.value)
 				}}
 				onChangeValue={handleChange}
-				inputValue={inputValue}
-				options={categories?.data ?? []}
 			/>
 		</>
 	)

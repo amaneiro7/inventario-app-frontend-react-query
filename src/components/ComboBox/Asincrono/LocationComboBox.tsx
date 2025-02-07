@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, lazy, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { LocationFilters } from '@/core/locations/locations/application/LocationGetByCriteria'
+import { type LocationFilters } from '@/core/locations/locations/application/LocationGetByCriteria'
 import { useGetAllLocations } from '@/hooks/getAll/useGetAllLocation'
-import { Combobox } from '@/components/ComboBox/Combobox'
+
+const Combobox = lazy(async () =>
+	import('@/components/ComboBox/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function LocationCombobox({
 	value = '',
@@ -16,7 +19,7 @@ export function LocationCombobox({
 	name: string
 	typeOfSiteId?: string
 	siteId?: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [query, setQuery] = useState<LocationFilters>({
 		options: {
@@ -26,9 +29,6 @@ export function LocationCombobox({
 		}
 	})
 	const { locations, isLoading } = useGetAllLocations(query)
-	const initialValue = useMemo(() => {
-		return locations?.data.find(location => location.id === value) ?? null
-	}, [value, locations])
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 
@@ -41,20 +41,29 @@ export function LocationCombobox({
 		})
 	}, [debouncedSearch])
 
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value,
+				typeOfSiteId,
+				siteId
+			}
+		})
+	}, [])
+
 	return (
 		<>
 			<Combobox
-				loading={isLoading}
+				id="location"
+				value={value}
 				label="Ubicación"
-				value={initialValue}
-				options={locations?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
-				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
+				name={name}
+				loading={isLoading}
+				options={locations?.data ?? []}
+				onChangeValue={handleChange}
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
 			/>
 		</>

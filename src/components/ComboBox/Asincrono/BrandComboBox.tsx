@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useGetAllBrands } from '@/hooks/getAll/useGetAllBrand'
-import { Combobox } from '@/components/ComboBox/Combobox'
 import { type BrandFilters } from '@/core/brand/application/BrandGetByCiteria'
+
+const Combobox = lazy(async () =>
+	import('@/components/ComboBox/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function BrandCombobox({
 	value = '',
@@ -12,7 +15,7 @@ export function BrandCombobox({
 }: {
 	value?: string
 	name: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [query, setQuery] = useState<BrandFilters>({
 		options: {
@@ -20,14 +23,10 @@ export function BrandCombobox({
 		}
 	})
 	const { brands, isLoading } = useGetAllBrands(query)
-	const initialValue = useMemo(() => {
-		return brands?.data.find(brand => brand.id === value) ?? null
-	}, [value, brands])
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 
 	useEffectAfterMount(() => {
-		if (debouncedSearch === '') return
 		setQuery({
 			options: {
 				name: debouncedSearch
@@ -36,21 +35,28 @@ export function BrandCombobox({
 		})
 	}, [debouncedSearch])
 
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value
+			}
+		})
+	}, [value])
+
 	return (
 		<>
 			<Combobox
-				loading={isLoading}
+				id="brand"
 				label="Marca"
-				value={initialValue}
-				options={brands?.data ?? []}
+				value={value}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
+				name={name}
+				loading={isLoading}
+				options={brands?.data ?? []}
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				onChangeValue={handleChange}
 			/>
 		</>
 	)

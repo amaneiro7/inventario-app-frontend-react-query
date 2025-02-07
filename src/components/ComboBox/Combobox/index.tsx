@@ -1,5 +1,11 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useMemo, useRef } from 'react'
 import './Combobox.css'
+import { ButtonClose } from './ButtonClose'
+import { ButtonOpen } from './ButtonOpen'
+import { SearchBar } from './SearchBar'
+import { Fieldset } from './Fieldset'
+import { Label } from './Label'
+import { CircleSpinningIcon } from '@/icon/CircleSpinning'
 
 interface ValidType {
 	id: string | number
@@ -17,6 +23,7 @@ interface InputProps<T extends string | number | readonly string[], O extends Va
 	valid?: boolean
 	errorMessage?: string
 	className?: string
+	loading?: boolean
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
@@ -35,6 +42,7 @@ function InputComponet<T extends string | number | readonly string[], O extends 
 	label,
 	isRequired = false,
 	leftIcon,
+	loading = false,
 	rightIcon,
 	inputValue,
 	onInputChange,
@@ -43,26 +51,49 @@ function InputComponet<T extends string | number | readonly string[], O extends 
 	className,
 	...props
 }: InputProps<T, O>) {
-	const [labelValue, setLabelValue] = useState('')
+	// const [labelValue, setLabelValue] = useState('')
+
+	const labelValue = useMemo(() => {
+		if (value) {
+			console.log(options, value)
+			const res = options.find(data => String(data.id) === String(value))?.name
+			// console.log(res)
+			return res
+		}
+		return
+	}, [value, options])
+	const inputRef = useRef<HTMLInputElement>(null)
+	const handlePopoverOpen = () => {
+		if (inputRef.current) {
+			inputRef.current.focus()
+		}
+	}
 	return (
 		<>
 			<div
 				className={`comboBox group after:text-error ${error ? 'error' : ''} ${className}`}
 				data-error={errorMessage}
 			>
-				<label
-					className={`${value || props.type === 'number' ? 'transform' : ''} ${
-						error ? '!text-error' : ''
-					} ${valid ? '!text-success' : ''} group-focus-within:text-focus ${
-						leftIcon ? 'with-left-icon' : ''
-					}`}
-				>
-					{`${label} ${isRequired ? '*' : ''}`}
-				</label>
+				<Label
+					label={label}
+					value={value}
+					error={error}
+					isRequired={isRequired}
+					type={props.type}
+					valid={valid}
+					leftIcon={leftIcon ? true : false}
+				/>
 				<div className="inputArea relative">
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
-					<button className="button-popover" popoverTarget={`combobox-${id}`}>
-						<p aria-hidden>{labelValue ?? ''}</p>
+					<button
+						type="button"
+						className="button-popover"
+						popoverTarget={`combobox-${id}`}
+						onClick={handlePopoverOpen}
+					>
+						<p className="text-left " aria-hidden>
+							{labelValue}
+						</p>
 					</button>
 					<div
 						popover="auto"
@@ -70,41 +101,15 @@ function InputComponet<T extends string | number | readonly string[], O extends 
 						role="combobox"
 						className="div-popover"
 					>
-						<div className="flex items-center border-b px-3" cmdk-input-wrapper="">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								width="24"
-								height="24"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								stroke-width="2"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								className="mr-2 h-4 w-4 shrink-0 opacity-50"
-							>
-								<circle cx="11" cy="11" r="8"></circle>
-								<path d="m21 21-4.3-4.3"></path>
-							</svg>
-							<input
-								className="flex w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-9"
-								placeholder={label}
-								autoComplete="off"
-								autoCorrect="off"
-								spellCheck="false"
-								aria-autocomplete="list"
-								role="combobox"
-								aria-expanded="true"
-								aria-controls={id}
-								aria-labelledby={id}
-								id={id}
-								type="text"
-								value={inputValue}
-								onChange={onInputChange}
-							/>
-						</div>
+						<SearchBar
+							ref={inputRef}
+							id={id}
+							value={inputValue}
+							onInputChange={onInputChange}
+						/>
 						<ul
 							role="listbox"
+							className="flex flex-col  text-black/85 text-xs"
 							id={`combo-box-${name}-listbox`}
 							aria-labelledby={`combo-box-${name}-label`}
 						>
@@ -117,12 +122,11 @@ function InputComponet<T extends string | number | readonly string[], O extends 
 										aria-selected={false}
 										value={value}
 										onClick={() => {
-											setLabelValue(data.name)
 											onChangeValue(name, data.id)
 										}}
 										tabIndex={-1}
 										role="option"
-										className="w-full cursor-pointer"
+										className="w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200"
 									>
 										{data.name}
 									</li>
@@ -140,16 +144,26 @@ function InputComponet<T extends string | number | readonly string[], O extends 
 							{rightIcon}
 						</button>
 					) : null}
-					<fieldset
-						aria-hidden
-						className={`${error ? '!border-2 !border-error' : ''} ${
-							valid ? '!border-2 !border-success' : ''
-						} group-focus-within:border-focus group-focus-within:border-2`}
-					>
-						<legend className={value || props.type === 'number' ? 'transform' : ''}>
-							<span>{`${label} ${isRequired ? '*' : ''}`}</span>
-						</legend>
-					</fieldset>
+					<div className="flex items-center justify-center pr-1">
+						{loading && <CircleSpinningIcon width={16} height={16} color="gray" />}
+
+						{value && (
+							<ButtonClose
+								onClick={() => {
+									onChangeValue(name, '')
+								}}
+							/>
+						)}
+						<ButtonOpen id={id} />
+					</div>
+					<Fieldset
+						label={label}
+						value={value}
+						error={error}
+						isRequired={isRequired}
+						type={props.type}
+						valid={valid}
+					/>
 				</div>
 			</div>
 		</>

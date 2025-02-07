@@ -54,7 +54,7 @@ export function DefaultDeviceFilter({
 	stateId?: string
 	regionId?: string
 	cityId?: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [localActivo, setLocalActivo] = useState(activo ?? '')
 	const [debounceActivo] = useDebounce(localActivo)

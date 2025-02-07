@@ -4,9 +4,9 @@
 
 	border-radius: 4px;
 	z-index: 1;
-	padding-left: 12px;
+	padding-left: 0.75rem;
 	margin-left: 4px;
-	font-size: 12px;
+	font-size: 0.75rem;
 	height: fit-content;
 	width: 98%;
 }
@@ -66,10 +66,14 @@
 	max-width: 250px;
 	height: min-content;
 	max-height: 250px;
-	transform: translatey(50%);
+	transform: translateY(50%);
 	border: 1px solid rgba(0, 0, 0, 0.23);
 	border-radius: 4px;
 	padding-inline: 8px;
+}
+
+.inputArea:has(.div-popover:popover-open) .openButton svg {
+	transform: rotate(180deg);
 }
 
 .comboBox .button-popover:focus-visible {
@@ -85,7 +89,7 @@
 .comboBox label {
 	color: rgba(0, 0, 0, 0.6);
 	font-weight: 400;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	line-height: 1.4375em;
 	letter-spacing: 0.00938em;
 	padding: 0;
@@ -136,7 +140,7 @@
 
 .comboBox .inputArea {
 	font-weight: 400;
-	font-size: 1rem;
+	font-size: 0.75rem;
 	line-height: 1.4375em;
 	letter-spacing: 0.00938em;
 	color: rgba(0, 0, 0, 0.87);
@@ -218,7 +222,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0 12px;
+	padding: 0 0.75rem;
 	height: 40px;
 	width: 40px;
 }

@@ -47,7 +47,7 @@ export const MainComputerFilter = memo(function ({
 	locationId?: string
 	serial?: string
 	typeOfSiteId?: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [localSerial, setLocalSerial] = useState(serial ?? '')
 	const [debounceSerial] = useDebounce(localSerial)
@@ -77,13 +77,13 @@ export const MainComputerFilter = memo(function ({
 					setLocalSerial(value)
 				}}
 			/>
-			{/* <LocationCombobox
+			<LocationCombobox
 				name="locationId"
 				handleChange={handleChange}
 				value={locationId}
 				typeOfSiteId={typeOfSiteId}
 			/>
-			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} /> */}
+			{/* <RegionCombobox name="regionId" handleChange={handleChange} value={regionId} /> */}
 		</>
 	)
 })
