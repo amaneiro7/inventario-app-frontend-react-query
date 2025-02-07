@@ -8,8 +8,8 @@ export function Prueba() {
 			value={value}
 			key="category"
 			name="categoryId"
-			handleChange={() => {
-				setValue(value ?? '¿hola')
+			handleChange={(name, value) => {
+				setValue(value)
 			}}
 		/>
 	)

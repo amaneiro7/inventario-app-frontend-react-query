@@ -1,11 +1,16 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import './Combobox.css'
-interface InputProps<T extends string | number | readonly string[]>
+
+interface ValidType {
+	id: string | number
+	name: string
+}
+interface InputProps<T extends string | number | readonly string[], O extends ValidType>
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	label: string
 	value: T
 	name: string
-	options: any[]
+	options: O[]
 	inputValue?: string | number | readonly string[]
 	isRequired?: boolean
 	error?: boolean
@@ -14,12 +19,12 @@ interface InputProps<T extends string | number | readonly string[]>
 	className?: string
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
-	onChangeValue: (value: T) => void
+	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
 	onInputChange: React.ChangeEventHandler<HTMLInputElement>
 	onRightIconClick?: () => void
 }
 
-function InputComponet<T extends string | number | readonly string[]>({
+function InputComponet<T extends string | number | readonly string[], O extends ValidType>({
 	error,
 	id,
 	options,
@@ -35,14 +40,14 @@ function InputComponet<T extends string | number | readonly string[]>({
 	onInputChange,
 	onRightIconClick,
 	onChangeValue,
+	className,
 	...props
-}: InputProps<T>) {
+}: InputProps<T, O>) {
+	const [labelValue, setLabelValue] = useState('')
 	return (
 		<>
 			<div
-				className={`comboBox group after:text-error ${error ? 'error' : ''} ${
-					props.className ? props.className : ''
-				}`}
+				className={`comboBox group after:text-error ${error ? 'error' : ''} ${className}`}
 				data-error={errorMessage}
 			>
 				<label
@@ -57,7 +62,7 @@ function InputComponet<T extends string | number | readonly string[]>({
 				<div className="inputArea relative">
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
 					<button className="button-popover" popoverTarget={`combobox-${id}`}>
-						<p aria-hidden>{value}</p>
+						<p aria-hidden>{labelValue ?? ''}</p>
 					</button>
 					<div
 						popover="auto"
@@ -111,9 +116,13 @@ function InputComponet<T extends string | number | readonly string[]>({
 										aria-disabled={false}
 										aria-selected={false}
 										value={value}
-										onClick={on}
+										onClick={() => {
+											setLabelValue(data.name)
+											onChangeValue(name, data.id)
+										}}
 										tabIndex={-1}
 										role="option"
+										className="w-full cursor-pointer"
 									>
 										{data.name}
 									</li>
@@ -123,7 +132,7 @@ function InputComponet<T extends string | number | readonly string[]>({
 					{rightIcon ? (
 						<button
 							type="button"
-							name={props?.name}
+							name={name}
 							onClick={onRightIconClick}
 							className="rightIcon"
 							tabIndex={-1}

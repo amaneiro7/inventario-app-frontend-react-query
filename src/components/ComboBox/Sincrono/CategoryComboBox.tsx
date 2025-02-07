@@ -14,11 +14,12 @@ export const CategoryCombobox = memo(function ({
 	value?: string
 	name: string
 	mainCategoryId?: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [query, setQuery] = useState<CategoryFilters>({
 		options: {
-			id: value
+			id: value,
+			mainCategoryId
 		}
 	})
 	const { categories, isLoading } = useGetAllCategory(query)
@@ -34,18 +35,19 @@ export const CategoryCombobox = memo(function ({
 		})
 	}, [debouncedSearch])
 
+	console.log('value:', value)
+
 	return (
 		<>
 			<Combobox
 				id="category"
 				label="SubCategoria"
 				value={value}
+				name={name}
 				onInputChange={e => {
 					setInputValue(e.target.value)
 				}}
-				onChangeValue={value => {
-					handleChange('categoryId', value)
-				}}
+				onChangeValue={handleChange}
 				inputValue={inputValue}
 				options={categories?.data ?? []}
 			/>
