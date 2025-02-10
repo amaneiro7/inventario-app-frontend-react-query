@@ -25,6 +25,7 @@ export function useLogin() {
 	}
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		console.log('hola')
 		setFormData(prev => ({
 			...prev,
 			[event.target.name]: event.target.value

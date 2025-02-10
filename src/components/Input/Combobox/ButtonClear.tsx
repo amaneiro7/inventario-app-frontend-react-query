@@ -2,7 +2,7 @@ type Props = React.DetailedHTMLProps<
 	React.ButtonHTMLAttributes<HTMLButtonElement>,
 	HTMLButtonElement
 >
-export function ButtonClose({ onClick, ...props }: Props) {
+export function ButtonClear({ onClick, ...props }: Props) {
 	return (
 		<button
 			className="w-6 aspect-square rounded-full flex items-center justify-center hover:bg-slate-200"

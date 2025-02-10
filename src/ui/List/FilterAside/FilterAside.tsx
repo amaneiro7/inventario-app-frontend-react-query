@@ -1,14 +1,7 @@
-import {
-	lazy,
-	useEffect,
-	useImperativeHandle,
-	forwardRef,
-	useRef,
-	useState,
-	useCallback
-} from 'react'
+import { lazy, useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import './filterContainerStyle.css'
+import { useCLoseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 
 const CloseIcon = lazy(async () => import('@/icon/CloseIcon').then(m => ({ default: m.CloseIcon })))
 
@@ -36,34 +29,7 @@ const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>
 		handleOpen
 	}))
 
-	useEffect(() => {
-		if (!open) return
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === 'Escape') {
-				closeAndRemoveListener()
-			}
-		}
-
-		const handleClickOutside = (event: MouseEvent) => {
-			if (filterAsideRef.current && !filterAsideRef.current.contains(event.target as Node)) {
-				closeAndRemoveListener()
-			}
-		}
-
-		function closeAndRemoveListener() {
-			document.removeEventListener('keydown', handleKeyDown)
-			document.removeEventListener('mousedown', handleClickOutside)
-			handleOpen()
-		}
-
-		document.addEventListener('keydown', handleKeyDown)
-		document.addEventListener('mousedown', handleClickOutside)
-
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside)
-			document.removeEventListener('keydown', handleKeyDown)
-		}
-	}, [handleOpen, open])
+	useCLoseClickOrEscape({ open, onClose: handleOpen, ref: filterAsideRef })
 
 	return createPortal(
 		<aside

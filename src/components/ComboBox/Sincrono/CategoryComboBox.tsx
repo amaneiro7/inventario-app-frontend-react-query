@@ -1,11 +1,11 @@
-import { lazy, memo, useEffect, useState } from 'react'
+import { lazy, memo, useEffect, useId, useState } from 'react'
 import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { type CategoryFilters } from '@/core/category/application/CategoryGetByCriteria'
 
 const Combobox = lazy(async () =>
-	import('@/components/ComboBox/Combobox').then(m => ({ default: m.Combobox }))
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
 )
 export const CategoryCombobox = memo(function ({
 	value = '',
@@ -18,6 +18,7 @@ export const CategoryCombobox = memo(function ({
 	mainCategoryId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
+	const categoryKey = useId()
 	const [query, setQuery] = useState<CategoryFilters>({
 		options: {
 			id: value,
@@ -49,6 +50,7 @@ export const CategoryCombobox = memo(function ({
 		<>
 			<Combobox
 				id="category"
+				key={categoryKey}
 				label="SubCategoria"
 				value={value}
 				inputValue={inputValue}

@@ -1,10 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
-import {
-	type Errors,
-	type FormData,
-	type ToggleInputs
-} from '@/reducers/changePassword.reducers'
+import { type Errors, type FormData, type ToggleInputs } from '@/reducers/changePassword.reducers'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type UserEmail } from '@/core/user/domain/value-objects/UserEmail'
 
@@ -19,30 +15,22 @@ interface Props {
 	handleSubmit: (event: React.FormEvent) => Promise<void>
 	handleClose: () => void
 	handleOpenModal: () => void
-	handleToggleInputs: (
-		name: 'password' | 'newPassword' | 'reTypePassword'
-	) => void
+	handleToggleInputs: (name: 'password' | 'newPassword' | 'reTypePassword') => void
 	isDisabled: boolean
 }
 const Typography = lazy(async () => await import('@/components/Typography'))
 
-const Input = lazy(async () =>
-	import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
+const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
 const Button = lazy(async () => await import('@/components/Button/Button'))
-const CancelIcon = lazy(() =>
-	import('@/icon/CancelIcon').then(m => ({ default: m.CancelIcon }))
-)
+const CancelIcon = lazy(() => import('@/icon/CancelIcon').then(m => ({ default: m.CancelIcon })))
 const RightArrowIcon = lazy(() =>
 	import('@/icon/RightArrowIcon').then(m => ({ default: m.RightArrowIcon }))
 )
 const LockIcon = lazy(
-	async () =>
-		await import('@/icon/LockIcon').then(m => ({ default: m.LockIcon }))
+	async () => await import('@/icon/LockIcon').then(m => ({ default: m.LockIcon }))
 )
 const UnlockIcon = lazy(
-	async () =>
-		await import('@/icon/UnlockIcon').then(m => ({ default: m.UnlockIcon }))
+	async () => await import('@/icon/UnlockIcon').then(m => ({ default: m.UnlockIcon }))
 )
 
 export function ChangePassowrdForm({
@@ -137,29 +125,20 @@ export function ChangePassowrdForm({
 							<LockIcon className="w-4 fill-black/60 aspect-square" />
 						)
 					}
-					onRightIconClick={() =>
-						handleToggleInputs('reTypePassword')
-					}
+					onRightIconClick={() => handleToggleInputs('reTypePassword')}
 				/>
 			</div>
 			<div className="rounded text-sm bg-gray-200 p-4">
 				<Typography>
-					<strong>Nota:</strong> Su nueva clave debe cumplir las
-					siguientes condiciones:
+					<strong>Nota:</strong> Su nueva clave debe cumplir las siguientes condiciones:
 				</Typography>
 				<ol className="ml-2">
+					<li>1. Debe ser de mínimo {UserPassword.HAS_MIN_LENGTH} carácteres.</li>
 					<li>
-						1. Debe ser de mínimo {UserPassword.HAS_MIN_LENGTH}{' '}
-						carácteres.
+						2. Debe incluir caracteres alfabéticos (sensitivos a mayúsculas y
+						minúsculas), numéricos y especiales.
 					</li>
-					<li>
-						2. Debe incluir caracteres alfabéticos (sensitivos a
-						mayúsculas y minúsculas), numéricos y especiales.
-					</li>
-					<li>
-						3. Los caracteres especiales válidos son ! . @ # $ % ^ &
-						*
-					</li>
+					<li>3. Los caracteres especiales válidos son ! . @ # $ % ^ & *</li>
 				</ol>
 			</div>
 			<div />
@@ -179,10 +158,7 @@ export function ChangePassowrdForm({
 								<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
 							}
 						>
-							<RightArrowIcon
-								width={20}
-								className="aspect-square fill-white"
-							/>
+							<RightArrowIcon width={20} className="aspect-square fill-white" />
 						</Suspense>
 					}
 				/>

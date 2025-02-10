@@ -1,8 +1,17 @@
+import { useEffect, useRef } from 'react'
+
 interface Props
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	onInputChange: React.ChangeEventHandler<HTMLInputElement>
+	open?: boolean
 }
-export function SearchBar({ id, value, onInputChange, ref }: Props) {
+export function SearchBar({ id, value, onInputChange, open }: Props) {
+	const inputRef = useRef<HTMLInputElement>(null)
+	useEffect(() => {
+		if (open && inputRef.current) {
+			inputRef.current.focus()
+		}
+	}, [open])
 	return (
 		<div className="flex items-center border-b px-3">
 			<svg
@@ -24,7 +33,7 @@ export function SearchBar({ id, value, onInputChange, ref }: Props) {
 				className="flex w-full rounded-md bg-transparent py-3 outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-9"
 				placeholder="Buscar"
 				autoFocus
-				ref={ref}
+				ref={inputRef}
 				autoComplete="off"
 				autoCorrect="off"
 				spellCheck="false"

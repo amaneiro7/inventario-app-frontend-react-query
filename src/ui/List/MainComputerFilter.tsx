@@ -77,12 +77,14 @@ export const MainComputerFilter = memo(function ({
 					setLocalSerial(value)
 				}}
 			/>
-			<LocationCombobox
-				name="locationId"
-				handleChange={handleChange}
-				value={locationId}
-				typeOfSiteId={typeOfSiteId}
-			/>
+			<Suspense>
+				<LocationCombobox
+					name="locationId"
+					handleChange={handleChange}
+					value={locationId}
+					typeOfSiteId={typeOfSiteId}
+				/>
+			</Suspense>
 			{/* <RegionCombobox name="regionId" handleChange={handleChange} value={regionId} /> */}
 		</>
 	)

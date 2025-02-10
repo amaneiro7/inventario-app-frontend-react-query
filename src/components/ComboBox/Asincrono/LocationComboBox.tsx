@@ -5,7 +5,7 @@ import { type LocationFilters } from '@/core/locations/locations/application/Loc
 import { useGetAllLocations } from '@/hooks/getAll/useGetAllLocation'
 
 const Combobox = lazy(async () =>
-	import('@/components/ComboBox/Combobox').then(m => ({ default: m.Combobox }))
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
 )
 
 export function LocationCombobox({
@@ -49,7 +49,7 @@ export function LocationCombobox({
 				siteId
 			}
 		})
-	}, [])
+	}, [value, typeOfSiteId, siteId])
 
 	return (
 		<>

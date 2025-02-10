@@ -1,6 +1,7 @@
 import { lazy } from 'react'
-import Logo from '@/components/Logo/Logo'
 import { useLogin } from '@/hooks/useLogin'
+
+const Logo = lazy(async () => import('@/components/Logo/Logo'))
 
 const Input = lazy(
 	async () =>
@@ -15,16 +16,13 @@ const CircleSpinningIcon = lazy(async () =>
 	}))
 )
 const LockIcon = lazy(
-	async () =>
-		await import('@/icon/LockIcon').then(m => ({ default: m.LockIcon }))
+	async () => await import('@/icon/LockIcon').then(m => ({ default: m.LockIcon }))
 )
 const UnlockIcon = lazy(
-	async () =>
-		await import('@/icon/UnlockIcon').then(m => ({ default: m.UnlockIcon }))
+	async () => await import('@/icon/UnlockIcon').then(m => ({ default: m.UnlockIcon }))
 )
 const MailIcon = lazy(
-	async () =>
-		await import('@/icon/MailIcon').then(m => ({ default: m.MailIcon }))
+	async () => await import('@/icon/MailIcon').then(m => ({ default: m.MailIcon }))
 )
 const Button = lazy(async () => await import('@/components/Button/Button'))
 
@@ -52,9 +50,7 @@ export const FormLogin = () => {
 					<form id="login" action="submit" onSubmit={handleSubmit}>
 						<div className="space-y-6 md:space-y-8 mb-20">
 							<Input
-								leftIcon={
-									<MailIcon className="w-4 fill-black/60 aspect-square" />
-								}
+								leftIcon={<MailIcon className="w-4 fill-black/60 aspect-square" />}
 								label="Correo electrónico"
 								name="email"
 								type="email"
@@ -66,9 +62,7 @@ export const FormLogin = () => {
 								isRequired
 							/>
 							<Input
-								leftIcon={
-									<LockIcon className="w-4 fill-black/60 aspect-square" />
-								}
+								leftIcon={<LockIcon className="w-4 fill-black/60 aspect-square" />}
 								label="Contraseña"
 								name="password"
 								value={formData.password}
@@ -96,11 +90,7 @@ export const FormLogin = () => {
 							disabled={isLoginLoading}
 							text={isLoginLoading ? 'Iniciando...' : 'Ingresar'}
 							type="submit"
-							icon={
-								isLoginLoading ? (
-									<CircleSpinningIcon width={20} />
-								) : null
-							}
+							icon={isLoginLoading ? <CircleSpinningIcon width={20} /> : null}
 						/>
 					</form>
 				</div>

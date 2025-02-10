@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Combobox } from '@/components/ComboBox/Combobox'
 import { useGetAllModel } from '@/hooks/getAll/useGetAllModel'
 import { type ModelFilters } from '@/core/model/models/application/ModelGetByCriteria'
+
+const Combobox = lazy(async () =>
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function ModelCombobox({
 	value = '',
@@ -16,7 +19,7 @@ export function ModelCombobox({
 	name: string
 	categoryId?: string
 	brandId?: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [query, setQuery] = useState<ModelFilters>({
 		options: {
@@ -26,9 +29,6 @@ export function ModelCombobox({
 		}
 	})
 	const { models, isLoading } = useGetAllModel(query)
-	const initialValue = useMemo(() => {
-		return models?.data.find(model => model.id === value) ?? null
-	}, [value, models])
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 
@@ -43,20 +43,29 @@ export function ModelCombobox({
 		})
 	}, [debouncedSearch, categoryId, brandId])
 
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value,
+				categoryId,
+				brandId
+			}
+		})
+	}, [value, categoryId, brandId])
+
 	return (
 		<>
 			<Combobox
-				loading={isLoading}
+				id="modelId"
+				value={value}
 				label="Modelos"
-				value={initialValue}
-				options={models?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
-				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
+				name={name}
+				loading={isLoading}
+				options={models?.data ?? []}
+				onChangeValue={handleChange}
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
 			/>
 		</>

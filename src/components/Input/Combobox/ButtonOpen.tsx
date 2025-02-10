@@ -2,12 +2,14 @@ type Props = React.DetailedHTMLProps<
 	React.ButtonHTMLAttributes<HTMLButtonElement>,
 	HTMLButtonElement
 >
-export function ButtonOpen({ id }: Props) {
+export function ButtonOpen({ id, onClick }: Props) {
 	return (
 		<button
 			className="openButton w-6 aspect-square rounded-full hover:bg-slate-200"
 			tabIndex={-1}
-			popoverTarget={`combobox-${id}`}
+			id={id}
+			key={id}
+			onClick={onClick}
 			type="button"
 			aria-label="Abrir"
 			title="Abrir"
