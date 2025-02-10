@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
-import { Combobox } from '@/components/ComboBox/Combobox'
+import { lazy, useState } from 'react'
 import { useGetAllStatus } from '@/hooks/getAll/useGetAllStatus'
+const Combobox = lazy(async () =>
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function StatusCombobox({
 	value = '',
@@ -10,7 +12,7 @@ export function StatusCombobox({
 	value?: string
 	name: string
 
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const { status, isLoading } = useGetAllStatus({
 		options: {
@@ -18,9 +20,6 @@ export function StatusCombobox({
 		}
 	})
 
-	const initialValue = useMemo(() => {
-		return status?.data.find(stat => stat.id === value) ?? null
-	}, [value, status])
 	const [inputValue, setInputValue] = useState('')
 
 	return (
@@ -28,16 +27,14 @@ export function StatusCombobox({
 			<Combobox
 				loading={isLoading}
 				label="Estatus"
-				value={initialValue}
+				name={name}
+				value={value}
 				options={status?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				onChangeValue={handleChange}
 			/>
 		</>
 	)

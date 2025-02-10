@@ -1,6 +1,11 @@
-import { useMemo, useState } from 'react'
-import { Combobox } from '@/components/ComboBox/Combobox'
+import { lazy, useEffect, useState } from 'react'
 import { useGetAllRegion } from '@/hooks/getAll/useGetAllRegion'
+import { useDebounce } from '@/hooks/utils/useDebounce'
+import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
+import { type RegionFilters } from '@/core/locations/region/application/RegionGetByCriteria'
+const Combobox = lazy(async () =>
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function RegionCombobox({
 	value = '',
@@ -10,34 +15,47 @@ export function RegionCombobox({
 	value?: string
 	name: string
 
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
-	const { regions, isLoading } = useGetAllRegion({
+	const [query, setQuery] = useState<RegionFilters>({
 		options: {
 			id: value
 		}
 	})
-
-	const initialValue = useMemo(() => {
-		return regions?.data.find(region => region.id === value) ?? null
-	}, [value, regions])
+	const { regions, isLoading } = useGetAllRegion(query)
 	const [inputValue, setInputValue] = useState('')
+	const [debouncedSearch] = useDebounce(inputValue, 250)
+
+	useEffectAfterMount(() => {
+		setQuery({
+			options: {
+				name: debouncedSearch
+			},
+			pageSize: debouncedSearch === '' ? 10 : undefined
+		})
+	}, [debouncedSearch])
+
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value
+			}
+		})
+	}, [value])
 
 	return (
 		<>
 			<Combobox
 				loading={isLoading}
 				label="Región"
-				value={initialValue}
+				value={value}
+				name={name}
 				options={regions?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				onChangeValue={handleChange}
 			/>
 		</>
 	)

@@ -85,7 +85,9 @@ export const MainComputerFilter = memo(function ({
 					typeOfSiteId={typeOfSiteId}
 				/>
 			</Suspense>
-			{/* <RegionCombobox name="regionId" handleChange={handleChange} value={regionId} /> */}
+			<Suspense>
+				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+			</Suspense>
 		</>
 	)
 })

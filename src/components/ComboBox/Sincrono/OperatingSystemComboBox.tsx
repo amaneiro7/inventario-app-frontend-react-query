@@ -1,6 +1,8 @@
-import { useMemo, useState } from 'react'
+import { lazy, useState } from 'react'
 import { useGetAllOperatingSystem } from '@/hooks/getAll/useGetAllOperatingSystem'
-import { Combobox } from '@/components/ComboBox/Combobox'
+const Combobox = lazy(async () =>
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function OperatingSystemCombobox({
 	value = '',
@@ -9,15 +11,12 @@ export function OperatingSystemCombobox({
 }: {
 	value?: string
 	name: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const { operatingSystems, isLoading } = useGetAllOperatingSystem({
 		options: {}
 	})
 
-	const initialValue = useMemo(() => {
-		return operatingSystems?.data.find(OperatingSystem => OperatingSystem.id === value) ?? null
-	}, [value, operatingSystems])
 	const [inputValue, setInputValue] = useState('')
 
 	return (
@@ -25,16 +24,14 @@ export function OperatingSystemCombobox({
 			<Combobox
 				loading={isLoading}
 				label="Sistemas Operativos"
-				value={initialValue}
+				value={value}
+				name={name}
 				options={operatingSystems?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				onChangeValue={handleChange}
 			/>
 		</>
 	)

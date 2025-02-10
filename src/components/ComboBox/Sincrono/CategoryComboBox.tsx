@@ -1,4 +1,4 @@
-import { lazy, memo, useEffect, useId, useState } from 'react'
+import { lazy, memo, useEffect, useState } from 'react'
 import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useDebounce } from '@/hooks/utils/useDebounce'
@@ -18,7 +18,6 @@ export const CategoryCombobox = memo(function ({
 	mainCategoryId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const categoryKey = useId()
 	const [query, setQuery] = useState<CategoryFilters>({
 		options: {
 			id: value,
@@ -50,7 +49,6 @@ export const CategoryCombobox = memo(function ({
 		<>
 			<Combobox
 				id="category"
-				key={categoryKey}
 				label="SubCategoria"
 				value={value}
 				inputValue={inputValue}

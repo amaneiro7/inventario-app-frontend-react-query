@@ -1,9 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, lazy, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Combobox } from '@/components/ComboBox/Combobox'
 import { useGetAllCity } from '@/hooks/getAll/useGetAllCity'
 import { type CityFilters } from '@/core/locations/city/application/CityGetByCriteria'
+
+const Combobox = lazy(async () =>
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function CityCombobox({
 	value = '',
@@ -16,7 +19,7 @@ export function CityCombobox({
 	name: string
 	stateId?: string
 	regionId?: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [query, setQuery] = useState<CityFilters>({
 		options: {
@@ -26,9 +29,6 @@ export function CityCombobox({
 		}
 	})
 	const { cities, isLoading } = useGetAllCity(query)
-	const initialValue = useMemo(() => {
-		return cities?.data.find(city => city.id === value) ?? null
-	}, [value, cities])
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 
@@ -43,21 +43,29 @@ export function CityCombobox({
 		})
 	}, [debouncedSearch, stateId, regionId])
 
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value,
+				regionId,
+				stateId
+			}
+		})
+	}, [value, regionId, stateId])
+
 	return (
 		<>
 			<Combobox
 				loading={isLoading}
 				label="Ciudad"
-				value={initialValue}
+				value={value}
+				name={name}
 				options={cities?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				onChangeValue={handleChange}
 			/>
 		</>
 	)

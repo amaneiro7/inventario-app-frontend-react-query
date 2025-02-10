@@ -72,7 +72,6 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 									onChangeValue(name, data.id)
 									handlePopoverOpen()
 								}}
-								tabIndex={-1}
 								role="option"
 								className="w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200"
 							>

@@ -3,8 +3,8 @@ import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
 import { useGetAllDevices } from '@/hooks/getAll/useGetAllDevices'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { DeviceComputerFilter } from '@/core/devices/devices/application/DeviceComputerFilter'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 import Loading from '@/components/Loading'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -33,7 +33,7 @@ export default function ListComputer() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
 		useComputerFilter()
 
-	const handleChange = (name: string, value: string) => {
+	const handleChange = (name: string, value: string | number) => {
 		const key = name as keyof DeviceComputerFilters
 		setFilters({ [key]: value })
 		setPageNumber(1)
@@ -56,8 +56,6 @@ export default function ListComputer() {
 	const { devices, isLoading } = useGetAllDevices({
 		...query
 	})
-
-	console.log('me he renderizado')
 
 	return (
 		<Suspense fallback={<Loading />}>
@@ -83,29 +81,33 @@ export default function ListComputer() {
 						/>
 					</Suspense>
 				}
-				// otherFilter={
-				// 	<>
-				// 		<DefaultDeviceFilter
-				// 			activo={query.activo}
-				// 			statusId={query.statusId}
-				// 			brandId={query.brandId}
-				// 			modelId={query.modelId}
-				// 			categoryId={query.categoryId}
-				// 			stateId={query.stateId}
-				// 			regionId={query.regionId}
-				// 			cityId={query.cityId}
-				// 			handleChange={handleChange}
-				// 		/>
-				// 		<OtherComputerFilter
-				// 			handleChange={handleChange}
-				// 			ipAddress={query.ipAddress}
-				// 			computerName={query.computerName}
-				// 			operatingSystemId={query.operatingSystemId}
-				// 			operatingSystemArqId={query.operatingSystemArqId}
-				// 			processor={query.processor}
-				// 		/>
-				// 	</>
-				// }
+				otherFilter={
+					<>
+						<Suspense>
+							<DefaultDeviceFilter
+								activo={query.activo}
+								statusId={query.statusId}
+								brandId={query.brandId}
+								modelId={query.modelId}
+								categoryId={query.categoryId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								cityId={query.cityId}
+								handleChange={handleChange}
+							/>
+						</Suspense>
+						<Suspense>
+							<OtherComputerFilter
+								handleChange={handleChange}
+								ipAddress={query.ipAddress}
+								computerName={query.computerName}
+								operatingSystemId={query.operatingSystemId}
+								operatingSystemArqId={query.operatingSystemArqId}
+								processor={query.processor}
+							/>
+						</Suspense>
+					</>
+				}
 				total={devices?.info.total}
 				loading={isLoading}
 				table={

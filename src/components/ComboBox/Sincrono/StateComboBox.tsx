@@ -1,8 +1,12 @@
-import { useMemo, useState } from 'react'
-import { Combobox } from '@/components/ComboBox/Combobox'
+import { lazy, useEffect, useState } from 'react'
 import { useGetAllState } from '@/hooks/getAll/useGetAllState'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
+import { useDebounce } from '@/hooks/utils/useDebounce'
 import { type StateFilters } from '@/core/locations/state/application/StateGetByCriteria'
+
+const Combobox = lazy(async () =>
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
+)
 
 export function StateCombobox({
 	value = '',
@@ -14,7 +18,7 @@ export function StateCombobox({
 	regionId?: string
 	name: string
 
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
 	const [query, setQuery] = useState<StateFilters>({
 		options: {
@@ -23,35 +27,41 @@ export function StateCombobox({
 		}
 	})
 	const { states, isLoading } = useGetAllState(query)
+	const [inputValue, setInputValue] = useState('')
+
+	const [debouncedSearch] = useDebounce(inputValue, 250)
 
 	useEffectAfterMount(() => {
 		setQuery({
 			options: {
+				name: debouncedSearch
+			},
+			pageSize: debouncedSearch === '' ? 10 : undefined
+		})
+	}, [debouncedSearch])
+
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value,
 				regionId
 			}
 		})
-	}, [regionId])
-
-	const initialValue = useMemo(() => {
-		return states?.data.find(state => state.id === value) ?? null
-	}, [value, states])
-	const [inputValue, setInputValue] = useState('')
+	}, [value, regionId])
 
 	return (
 		<>
 			<Combobox
 				loading={isLoading}
 				label="Estados"
-				value={initialValue}
+				value={value}
+				name={name}
 				options={states?.data ?? []}
 				inputValue={inputValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setInputValue(newInputValue)
-				}}
+				onChangeValue={handleChange}
 			/>
 		</>
 	)

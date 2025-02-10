@@ -5,7 +5,7 @@ import { useGetAllBrands } from '@/hooks/getAll/useGetAllBrand'
 import { type BrandFilters } from '@/core/brand/application/BrandGetByCiteria'
 
 const Combobox = lazy(async () =>
-	import('@/components/ComboBox/Combobox').then(m => ({ default: m.Combobox }))
+	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
 )
 
 export function BrandCombobox({
@@ -34,6 +34,14 @@ export function BrandCombobox({
 			pageSize: debouncedSearch === '' ? 10 : undefined
 		})
 	}, [debouncedSearch])
+
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value
+			}
+		})
+	}, [value])
 
 	useEffect(() => {
 		setQuery({

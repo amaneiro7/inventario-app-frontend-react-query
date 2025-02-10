@@ -1,10 +1,16 @@
 import React, { lazy, memo, useRef, useState } from 'react'
-import { Popover } from './Popover'
-import { ButtonOpen } from '@/components/Input/Combobox/ButtonOpen'
-import { ButtonClear } from '@/components/Input/Combobox/ButtonClear'
-import { CircleSpinningIcon } from '@/icon/CircleSpinning'
 import { useCLoseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 
+const Popover = lazy(async () => import('./Popover').then(m => ({ default: m.Popover })))
+const ButtonOpen = lazy(async () =>
+	import('@/components/Input/Combobox/ButtonOpen').then(m => ({ default: m.ButtonOpen }))
+)
+const ButtonClear = lazy(async () =>
+	import('@/components/Input/Combobox/ButtonClear').then(m => ({ default: m.ButtonClear }))
+)
+const CircleSpinningIcon = lazy(async () =>
+	import('@/icon/CircleSpinning').then(m => ({ default: m.CircleSpinningIcon }))
+)
 const InputBase = lazy(async () => import('../InputBase').then(m => ({ default: m.InputBase })))
 
 interface ValidType {
