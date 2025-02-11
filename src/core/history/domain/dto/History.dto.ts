@@ -16,6 +16,8 @@ export interface History {
 	action: Primitives<HistoryActionTypes>
 	oldData: object
 	newData: object
+	createdAt: string
+	updatedAt: string
 }
 
 export type HistoryPrimitives = Omit<History, 'id'>
