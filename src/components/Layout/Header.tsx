@@ -1,12 +1,10 @@
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
-import { type ModalRef } from '@/ui/Modal/Modal'
+import { type ModalRef } from '@/components/Modal/Modal'
 import { lazy, memo, Suspense, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-const LogoutIcon = lazy(() =>
-	import('@/icon/LogoutIcon').then(m => ({ default: m.LogoutIcon }))
-)
+const LogoutIcon = lazy(() => import('@/icon/LogoutIcon').then(m => ({ default: m.LogoutIcon })))
 const Nav = lazy(async () => import('./Nav').then(m => ({ default: m.Nav })))
 const WelcomeTitle = lazy(async () =>
 	import('./WelcomeTitle').then(m => ({ default: m.WelcomeTitle }))
@@ -14,21 +12,17 @@ const WelcomeTitle = lazy(async () =>
 const HamburgerMenu = lazy(async () =>
 	import('./HamburgerMenu').then(m => ({ default: m.HamburgerMenu }))
 )
-const WrapperBox = lazy(async () =>
-	import('./WrapperBox').then(m => ({ default: m.WrapperBox }))
-)
-const Logo = lazy(async () => import('../../components/Logo/Logo'))
-const Button = lazy(async () =>
-	import('../../components/Button/Button').then(m => ({ default: m.default }))
-)
+const WrapperBox = lazy(async () => import('./WrapperBox').then(m => ({ default: m.WrapperBox })))
+const Logo = lazy(async () => import('../Logo/Logo'))
+const Button = lazy(async () => import('../Button/Button').then(m => ({ default: m.default })))
 
 const ConfirmationModal = lazy(async () =>
-	import('@/ui/Modal/ConfirmationModal').then(m => ({
+	import('@/components/Modal/ConfirmationModal').then(m => ({
 		default: m.ConfirmationModal
 	}))
 )
 const Modal = lazy(async () =>
-	import('@/ui/Modal/Modal').then(m => ({ default: m.Dialog }))
+	import('@/components/Modal/Modal').then(m => ({ default: m.Dialog }))
 )
 
 export const Header = memo(() => {
@@ -82,9 +76,7 @@ export const Header = memo(() => {
 						onClick={() => dialogExitRef.current?.handleOpen()}
 						type="button"
 						buttonSize="medium"
-						icon={
-							<LogoutIcon width={20} className="aspect-square" />
-						}
+						icon={<LogoutIcon width={20} className="aspect-square" />}
 					/>
 				</div>
 				<div className="hamburger-wrapper">

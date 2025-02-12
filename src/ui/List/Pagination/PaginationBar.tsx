@@ -10,6 +10,7 @@ const RecordPerPage = lazy(async () =>
 export function PaginationBar({
 	totalPages,
 	currentPage,
+	total,
 	handlePageClick,
 	handlePageSize,
 	pageSize,
@@ -18,6 +19,7 @@ export function PaginationBar({
 	totalPages?: number
 	currentPage?: number
 	pageSize?: number
+	total?: number
 	registerOptions: number[]
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handlePageSize: (pageSize: number) => void
@@ -26,6 +28,7 @@ export function PaginationBar({
 		<nav aria-label="pagination-bar" className="flex justify-between items-center">
 			<RecordPerPage
 				pageSize={pageSize}
+				total={total}
 				registerOptions={registerOptions}
 				handlePageSize={handlePageSize}
 			/>

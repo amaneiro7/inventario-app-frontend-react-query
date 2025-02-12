@@ -9,4 +9,8 @@ export interface Brand {
 
 export type BrandPrimitives = Omit<Brand, 'id'>
 
+export type BrandParams = BrandPrimitives & {
+	id?: Primitives<BrandId> | undefined
+}
+
 export type BrandDto = Brand

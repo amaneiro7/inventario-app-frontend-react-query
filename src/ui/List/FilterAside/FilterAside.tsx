@@ -11,25 +11,30 @@ type Props = React.PropsWithChildren<
 
 export interface FilterAsideRef {
 	handleOpen: () => void
+	handleClose: () => void
 }
 
 const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>) => {
 	const filterAsideRef = useRef<HTMLElement>(null)
 	const [open, setOpen] = useState(false)
 
-	const handleOpen = useCallback(
-		(event?: React.MouseEvent) => {
-			event?.stopPropagation()
-			setOpen(!open)
-		},
-		[open]
-	)
+	const handleOpen = useCallback((event?: React.MouseEvent) => {
+		event?.stopPropagation()
+		if (!open) {
+			setOpen(true)
+		}
+	}, [])
+	const handleClose = useCallback((event?: React.MouseEvent) => {
+		event?.stopPropagation()
+		setOpen(false)
+	}, [])
 
 	useImperativeHandle(ref, () => ({
-		handleOpen
+		handleOpen,
+		handleClose
 	}))
 
-	useCLoseClickOrEscape({ open, onClose: handleOpen, ref: filterAsideRef })
+	useCLoseClickOrEscape({ open, onClose: handleClose, ref: filterAsideRef })
 
 	return createPortal(
 		<aside
@@ -39,7 +44,7 @@ const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>
 		>
 			<button
 				className="block top-0 left-0 z-30 self-start p-1"
-				onClick={handleOpen}
+				onClick={handleClose}
 				title="Cerrar panel de filtros"
 				tabIndex={1}
 				aria-label="Cerrar Filtros"

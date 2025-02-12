@@ -43,6 +43,7 @@ export interface Device {
 export type DevicePrimitives = Omit<Device, 'id'>
 
 export type DeviceParams = Device & {
+	id?: Primitives<DeviceId>
 	categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
 	statusId: (typeof StatusOptions)[keyof typeof StatusOptions]
 	typeOfSiteId: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]

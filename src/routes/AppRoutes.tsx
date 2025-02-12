@@ -9,7 +9,7 @@ const UserManagement = lazy(async () => import('@/pages/UserManagement'))
 const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('../pages/Home'))
 const Profile = lazy(async () => await import('../pages/Profile'))
-const Layout = lazy(async () => await import('@/ui/Layout/Layout'))
+const Layout = lazy(async () => await import('@/components/Layout/Layout'))
 const Login = lazy(async () => await import('../pages/Login'))
 
 export function AppRoutes() {

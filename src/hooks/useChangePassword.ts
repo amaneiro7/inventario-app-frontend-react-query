@@ -3,7 +3,7 @@ import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { ChangePassword } from '@/core/user/application/ChangePassword'
 import { ChangePasswordService } from '@/core/user/infra/ChangePassword.service'
-import { type ModalRef } from '@/ui/Modal/Modal'
+import { type ModalRef } from '@/components/Modal/Modal'
 import {
 	changePasswordInitialState as initialState,
 	chanegPasswordReducer as reducer

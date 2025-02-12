@@ -2,13 +2,10 @@ import { Brand } from '../domain/entity/Brand'
 import { BrandId } from '../domain/value-object/BrandId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type BrandSaveRepository } from '../domain/repository/BrandSaveRepository'
-import { type Brand as BrandParams } from '../domain/dto/Brand.dto'
+import { type BrandParams } from '../domain/dto/Brand.dto'
 
 export class BrandCreator {
-	constructor(
-		readonly repository: BrandSaveRepository,
-		private readonly events: EventManager
-	) {}
+	constructor(readonly repository: BrandSaveRepository, private readonly events: EventManager) {}
 
 	async create(params: BrandParams) {
 		try {

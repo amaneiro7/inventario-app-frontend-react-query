@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 // import { useFormBrand } from '@/sections/Hooks/brand/useFormBrand'
 
 const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
-const FormContainer = lazy(async () => import('@/ui/FormContainer/formContainer'))
+const FormContainer = lazy(async () => import('@/components/FormContainer/formContainer'))
 
 export default function FormBrand() {
 	const location = useLocation()

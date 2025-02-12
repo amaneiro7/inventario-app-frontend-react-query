@@ -111,14 +111,15 @@ export const ListWrapper = memo(function ({
 							<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
 						</Suspense>
 					) : null}
-					{loading && <SpinnerSKCircle />}
-					{table}
+					{loading || table === undefined ? <SpinnerSKCircle /> : null}
+					{!loading && table ? table : null}
 				</div>
 				{!loading ? (
 					<Suspense>
 						<PaginationBar
 							registerOptions={registerOptions}
 							totalPages={totalPages}
+							total={total}
 							currentPage={currentPage}
 							pageSize={pageSize}
 							handlePageClick={handlePageClick}

@@ -1,4 +1,4 @@
-import { TypeOFImg } from '@/ui/TilesSection/TilesBox'
+import { TypeOFImg } from '@/components/TilesSection/TilesBox'
 
 interface Navigation {
 	label: string

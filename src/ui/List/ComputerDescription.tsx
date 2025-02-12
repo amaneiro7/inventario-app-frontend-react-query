@@ -37,7 +37,7 @@ export function ComputerDescription({ open, device }: Props) {
 					<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
 				</TableDescDivider>
 
-				{device.employee?.name ? (
+				{device.employee?.name && (
 					<TableDescDivider label="Información de usuario">
 						<TableCellDescInfo
 							title="Nombre y Apellido"
@@ -63,7 +63,7 @@ export function ComputerDescription({ open, device }: Props) {
 							text={`${device?.employee?.cedula ?? ''}`}
 						/>
 					</TableDescDivider>
-				) : null}
+				)}
 
 				<TableDescDivider label="Información de ubicación">
 					<TableCellDescInfo
@@ -80,70 +80,75 @@ export function ComputerDescription({ open, device }: Props) {
 					/>
 				</TableDescDivider>
 
-				<TableCellDescInfo
-					title="Procesador"
-					text={
-						device.computer
-							? `${device?.computer?.processor?.productCollection} ${device?.computer?.processor?.numberModel}`
-							: ''
-					}
-				/>
+				<TableDescDivider label="Procesador">
+					<TableCellDescInfo
+						title="Procesador"
+						text={
+							device.computer
+								? `${device?.computer?.processor?.productCollection} ${device?.computer?.processor?.numberModel}`
+								: ''
+						}
+					/>
 
-				<TableCellDescInfo
-					title="Nucleos"
-					text={device.computer ? `${device?.computer?.processor?.cores}` : ''}
-				/>
-				<TableCellDescInfo
-					title="Frecuencia"
-					text={device.computer ? `${device?.computer?.processor?.frequency}` : ''}
-				/>
+					<TableCellDescInfo
+						title="Nucleos"
+						text={device.computer ? `${device?.computer?.processor?.cores}` : ''}
+					/>
+					<TableCellDescInfo
+						title="Frecuencia"
+						text={device.computer ? `${device?.computer?.processor?.frequency}` : ''}
+					/>
+				</TableDescDivider>
 
-				<TableCellDescInfo
-					title="Memoria Ram"
-					text={device.computer ? `${device?.computer?.memoryRamCapacity} Gb` : ''}
-				/>
-				<TableCellDescInfo
-					title="Modulos"
-					text={
-						device.computer
-							? device?.computer?.memoryRam?.map(mem => mem).join(' / ')
-							: ''
-					}
-				/>
+				<TableDescDivider label="Memoria Ram">
+					<TableCellDescInfo
+						title="Memoria Ram"
+						text={device.computer ? `${device?.computer?.memoryRamCapacity} Gb` : ''}
+					/>
+					<TableCellDescInfo
+						title="Modulos"
+						text={
+							device.computer
+								? device?.computer?.memoryRam?.map(mem => mem).join(' / ')
+								: ''
+						}
+					/>
 
-				<TableCellDescInfo
-					title="Tipo"
-					text={
-						device?.model?.modelComputer
-							? device?.model?.modelComputer?.memoryRamType?.name
-							: device?.model?.modelLaptop
-							? device?.model?.modelLaptop?.memoryRamType?.name
-							: ''
-					}
-				/>
-
-				<TableCellDescInfo
-					title="Disco Duro"
-					text={
-						device?.computer?.hardDriveCapacity
-							? `${device?.computer?.hardDriveCapacity?.name} Gb`
-							: 'Sin Disco'
-					}
-				/>
-				<TableCellDescInfo
-					title="Tipo"
-					text={device?.computer?.hardDriveType?.name ?? 'No Aplica'}
-				/>
-
-				<TableCellDescInfo
-					title="Sistema Operativo"
-					text={device?.computer?.operatingSystem?.name ?? 'No Aplica'}
-				/>
-				<TableCellDescInfo
-					title="Arquitectura"
-					text={device?.computer?.operatingSystemArq?.name ?? 'No Aplica'}
-				/>
-
+					<TableCellDescInfo
+						title="Tipo"
+						text={
+							device?.model?.modelComputer
+								? device?.model?.modelComputer?.memoryRamType?.name
+								: device?.model?.modelLaptop
+								? device?.model?.modelLaptop?.memoryRamType?.name
+								: ''
+						}
+					/>
+				</TableDescDivider>
+				<TableDescDivider label="Disco Duro">
+					<TableCellDescInfo
+						title="Disco Duro"
+						text={
+							device?.computer?.hardDriveCapacity
+								? `${device?.computer?.hardDriveCapacity?.name} Gb`
+								: 'Sin Disco'
+						}
+					/>
+					<TableCellDescInfo
+						title="Tipo"
+						text={device?.computer?.hardDriveType?.name ?? 'No Aplica'}
+					/>
+				</TableDescDivider>
+				<TableDescDivider label="Sistema Operativo">
+					<TableCellDescInfo
+						title="Sistema Operativo"
+						text={device?.computer?.operatingSystem?.name ?? 'No Aplica'}
+					/>
+					<TableCellDescInfo
+						title="Arquitectura"
+						text={device?.computer?.operatingSystemArq?.name ?? 'No Aplica'}
+					/>
+				</TableDescDivider>
 				<TableCellDescInfo
 					title="Última Actualización"
 					text={device.updatedAt ? new Date(device.updatedAt).toLocaleDateString() : ''}

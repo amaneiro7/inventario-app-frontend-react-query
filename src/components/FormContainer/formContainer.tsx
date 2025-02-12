@@ -17,7 +17,9 @@ interface Props {
 }
 
 const Tag = lazy(async () => import('@/components/Tag').then(m => ({ default: m.Tag })))
-const PageTitle = lazy(async () => import('../PageTitle').then(m => ({ default: m.PageTitle })))
+const PageTitle = lazy(async () =>
+	import('../../ui/PageTitle').then(m => ({ default: m.PageTitle }))
+)
 const DetailsWrapper = lazy(async () =>
 	import('@/components/DetailsWrapper/DetailsWrapper').then(m => ({
 		default: m.DetailsWrapper
