@@ -1,32 +1,32 @@
-import { lazy, Suspense } from 'react'
-import { InputSkeletonLoading } from '@/sections/components/skeleton/inputSkeletonLoading'
-import {
-	type FormBrandDisabled,
-	type FormBrandErrors,
-	type FormBrandRequired,
-	type DefaultBrandProps
-} from '@/sections/Hooks/brand/DefaultInitialBrandState'
+import { lazy } from 'react'
+import { type Action } from '@/core/brand/infra/reducers/brandFormReducer'
+import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 
 const Input = lazy(
 	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
 )
 
 interface Props {
-	disabled: FormBrandDisabled
-	error: FormBrandErrors
-	required: FormBrandRequired
-	formData: DefaultBrandProps
-	handleChange: (name: string, value: string) => void
+	error: boolean
+	key?: string
+	errorMessage?: string
+	formData: BrandParams
+	handleChange: (name: Action['type'], value: string) => void
 }
 
-export function BrandInputs({ required, disabled, error, formData, handleChange }: Props) {
+export function BrandInputs({ errorMessage, error, formData, key, handleChange }: Props) {
 	return (
 		<Input
+			key={key}
 			value={formData.name}
-			onChange={() => handleChange()}
-			error={error.name}
-			isDisabled={disabled.name}
-			isRequired={required.name}
+			name="name"
+			label="Nombre de la marca"
+			onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+				handleChange('name', e.target.value)
+			}
+			error={error}
+			errorMessage={errorMessage}
+			required
 		/>
 	)
 }

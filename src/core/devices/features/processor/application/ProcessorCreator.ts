@@ -2,7 +2,7 @@ import { Processor } from '../domain/entity/Processor'
 import { ProcessorId } from '../domain/value-object/ProcessorId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type ProcessorSaveRepository } from '../domain/repository/ProcessorSaveRepository'
-import { type Processor as ProcessorParams } from '../domain/dto/Processor.dto'
+import { type ProcessorParams } from '../domain/dto/Processor.dto'
 
 export class ProcessorCreator {
 	constructor(

@@ -2,7 +2,11 @@ import { useActionState, useCallback, useContext, useLayoutEffect, useReducer } 
 import { EventContext } from '@/context/EventManager/EventContext'
 import { BrandCreator } from '@/core/brand/application/BrandCreator'
 import { BrandSaveService } from '@/core/brand/infra/service/brandSave.service'
-import { initialBrandState, brandFormReducer, Action } from '@/reducers/brandFormReducer'
+import {
+	initialBrandState,
+	brandFormReducer,
+	Action
+} from '@/core/brand/infra/reducers/brandFormReducer'
 import { brandAction } from '@/core/brand/infra/actions/brandActions'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useBrandInitialState } from './useBrandInitialState'

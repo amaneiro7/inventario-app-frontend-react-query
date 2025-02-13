@@ -78,6 +78,14 @@ export function AppRoutes() {
 						</Suspense>
 					}
 				/>
+				<Route
+					path="/brand/edit/:id"
+					element={
+						<Suspense>
+							<FormBrand />
+						</Suspense>
+					}
+				/>
 			</Route>
 			<Route
 				path="*"

@@ -2,19 +2,21 @@ import { useCreateBrand } from '@/core/brand/infra/hooks/useCreateBrand'
 import { lazy, Suspense } from 'react'
 import { useLocation } from 'react-router-dom'
 
-const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
 const FormContainer = lazy(async () => import('@/components/FormContainer/formContainer'))
+const BrandInputs = lazy(async () =>
+	import('@/ui/Form/Brand/BrandInputs').then(m => ({ default: m.BrandInputs }))
+)
 
 export default function FormBrand() {
 	const location = useLocation()
 	const {
 		success,
 		errorMessage,
-		formAction,
 		formData,
+		mode,
+		formAction,
 		handleChange,
 		handleSubmit,
-		mode,
 		resetForm
 	} = useCreateBrand()
 
@@ -33,20 +35,13 @@ export default function FormBrand() {
 				reset={mode === 'edit' ? resetForm : undefined}
 				url="/brand/add"
 			>
-				<Suspense>
-					<Input
-						key={location.key}
-						value={formData.name}
-						name="name"
-						label="Nombre de la marca"
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							handleChange('name', e.target.value)
-						}
-						error={success === false}
-						errorMessage={errorMessage}
-						required
-					/>
-				</Suspense>
+				<BrandInputs
+					key={location.key}
+					formData={formData}
+					handleChange={handleChange}
+					error={success === false}
+					errorMessage={errorMessage}
+				/>
 			</FormContainer>
 		</Suspense>
 	)

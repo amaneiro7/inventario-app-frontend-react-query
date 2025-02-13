@@ -19,4 +19,8 @@ export interface Processor {
 
 export type ProcessorPrimitives = Omit<Processor, 'id' | 'name'>
 
+export type ProcessorParams = Omit<Processor, 'id' | 'name'> & {
+	id?: Primitives<ProcessorId>
+}
+
 export type ProcessorDto = Processor
