@@ -1,13 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { useLocation } from 'react-router-dom'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
-
 interface Props {
 	title: string
 	description: string
 	url: string
 	isAddForm: boolean
-	isDisabled: boolean
+	action?: React.FormHTMLAttributes<HTMLFormElement>['action']
 	handleSubmit: (event: React.FormEvent) => Promise<void>
 	handleClose: () => void
 	reset?: () => void
@@ -56,8 +55,8 @@ export default function FormContainer({
 	searchInput,
 	isAddForm,
 	children,
-	isDisabled,
 	handleSubmit,
+	action,
 	handleClose,
 	reset,
 	updatedBy,
@@ -103,10 +102,10 @@ export default function FormContainer({
 					<FormComponent
 						key={location.key}
 						id={location.key}
+						action={action}
 						handleSubmit={handleSubmit}
 						handleClose={handleClose}
 						reset={reset}
-						isDisabled={isDisabled}
 						updatedBy={updatedBy}
 						lastUpdated={lastUpdated}
 					>

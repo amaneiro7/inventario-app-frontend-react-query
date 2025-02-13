@@ -1,7 +1,7 @@
 import { lazy, useEffect, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { useGetAllBrands } from '@/hooks/getAll/useGetAllBrand'
+import { useGetAllBrands } from '@/core/brand/infra/hooks/useGetAllBrand'
 import { type BrandFilters } from '@/core/brand/application/BrandGetByCiteria'
 
 const Combobox = lazy(async () =>

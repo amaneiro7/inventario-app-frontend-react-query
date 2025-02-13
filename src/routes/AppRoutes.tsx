@@ -1,16 +1,15 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { Prueba } from '@/pages/Prueba'
-import FormBrand from '@/pages/FormBrand'
-// import { ProtectedRoute } from "./ProtectedRoute"
 
+const Prueba = lazy(async () => import('@/pages/Prueba').then(m => ({ default: m.Prueba })))
 const ListComputer = lazy(async () => import('@/pages/ListComputer'))
 const UserManagement = lazy(async () => import('@/pages/UserManagement'))
 const NotFound = lazy(async () => await import('@/pages/404'))
-const Home = lazy(async () => await import('../pages/Home'))
-const Profile = lazy(async () => await import('../pages/Profile'))
+const Home = lazy(async () => await import('@/pages/Home'))
+const Profile = lazy(async () => await import('@/pages/Profile'))
 const Layout = lazy(async () => await import('@/components/Layout/Layout'))
-const Login = lazy(async () => await import('../pages/Login'))
+const Login = lazy(async () => await import('@/pages/Login'))
+const FormBrand = lazy(async () => import('@/pages/FormBrand'))
 
 export function AppRoutes() {
 	return (
@@ -80,7 +79,14 @@ export function AppRoutes() {
 					}
 				/>
 			</Route>
-			<Route path="*" element={<NotFound />} />
+			<Route
+				path="*"
+				element={
+					<Suspense>
+						<NotFound />
+					</Suspense>
+				}
+			/>
 		</Routes>
 	)
 }

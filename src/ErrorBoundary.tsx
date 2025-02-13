@@ -1,33 +1,32 @@
-import { Component, type ErrorInfo, type ReactNode } from 'react'
-import ErrorPage from './pages/500'
+import { Component, lazy, type ErrorInfo, type ReactNode } from 'react'
+const ErrorPage = lazy(async () => import('./pages/500'))
 
 interface Props {
-	children: ReactNode
+	children?: ReactNode
 }
 interface State {
 	hasError: boolean
 }
 
 export default class ErrorBoundary extends Component<Props, State> {
-	public state: State = { hasError: false }
-	// constructor (props: React.ReactPropTypes) {
-	//   super(props)
-	//   this.state = { hasError: false }
-	// }
+	public state: State = {
+		hasError: false
+	}
 
-	public static getDerivedStateFromError(): State {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public static getDerivedStateFromError(_: Error): State {
 		// Update state so the next render will show the fallback UI.
 		return { hasError: true }
 	}
 
-	componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+	public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
 		// You can also log the error to an error reporting service
 		console.error('error: ', error)
 		console.error('errorInfo: ', JSON.stringify(errorInfo))
 		console.error('componentStack: ', errorInfo.componentStack)
 	}
 
-	render() {
+	public render() {
 		if (this.state.hasError) {
 			// You can render any custom fallback UI
 			return <ErrorPage />

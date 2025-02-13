@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { BrandGetAllService } from '@/core/brand/infra/brandGetAll.service'
+import { BrandGetAllService } from '@/core/brand/infra/service/brandGetAll.service'
 import { type BrandFilters, BrandGetByCriteria } from '@/core/brand/application/BrandGetByCiteria'
 
 export const useGetAllBrands = (query: BrandFilters) => {

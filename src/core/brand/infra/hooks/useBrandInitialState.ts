@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { BrandGetter } from '@/core/brand/application/BrandGetter'
-import { BrandGetService } from '@/core/brand/infra/brandGet.service'
+import { BrandGetService } from '@/core/brand/infra/service/brandGet.service'
 import { type BrandId } from '@/core/brand/domain/value-object/BrandId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 
-export function useCreateBrand(defaulState: BrandParams): {
+export function useBrandInitialState(defaulState: BrandParams): {
 	initialState: BrandParams
 	resetState: () => void
 	mode: 'edit' | 'add'
@@ -53,7 +53,7 @@ export function useCreateBrand(defaulState: BrandParams): {
 	}, [getBrand, id])
 
 	const resetState = useCallback(() => {
-		if (location.pathname.includes('brand')) return
+		if (!location.pathname.includes('brand')) return
 		if (mode === 'add') {
 			setState({
 				id: undefined,

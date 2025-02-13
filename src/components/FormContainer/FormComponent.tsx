@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
+import { useFormStatus } from 'react-dom'
 
 interface Props
 	extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
@@ -8,7 +9,6 @@ interface Props
 	reset?: () => void
 	id: string
 	key: string
-	isDisabled: boolean
 	method?: 'dialog' | 'form'
 	lastUpdated?: string
 	updatedBy?: HistoryDto[]
@@ -39,12 +39,12 @@ export function FormComponent({
 	id,
 	key,
 	method = 'form',
-	isDisabled,
 	updatedBy,
 	lastUpdated,
 	children,
 	...props
 }: Props) {
+	const { pending } = useFormStatus()
 	return (
 		<form
 			key={key}
@@ -60,13 +60,13 @@ export function FormComponent({
 					<Button
 						color={method === 'form' ? 'green' : 'blue'}
 						type="submit"
-						text={isDisabled ? 'Procesando...' : 'Guardar'}
+						text={pending ? 'Procesando...' : 'Guardar'}
 						buttonSize="large"
-						disabled={isDisabled}
+						disabled={pending}
 						hoverTranslation
 						size="full"
 						icon={
-							isDisabled ? (
+							pending ? (
 								<Suspense
 									fallback={
 										<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
@@ -96,7 +96,7 @@ export function FormComponent({
 						buttonSize="large"
 						text="Regresar"
 						onClick={handleClose}
-						disabled={isDisabled}
+						disabled={pending}
 						hoverTranslation
 						icon={
 							<Suspense
@@ -117,7 +117,7 @@ export function FormComponent({
 							buttonSize="large"
 							text="Reset"
 							onClick={reset}
-							disabled={isDisabled}
+							disabled={pending}
 							icon={
 								<Suspense
 									fallback={
