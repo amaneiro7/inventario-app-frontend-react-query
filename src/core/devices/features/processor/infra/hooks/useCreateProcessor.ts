@@ -2,7 +2,6 @@ import { useCallback, useContext, useLayoutEffect, useReducer } from 'react'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useProcessorInitialState } from './useProcessorInitialState'
-import { ProcessorParams } from '../../domain/dto/Processor.dto'
 import { ProcessorCreator } from '../../application/ProcessorCreator'
 import { ProcessorSaveService } from '../service/processorSave.service'
 import {
@@ -10,6 +9,7 @@ import {
 	initialProcessorState,
 	processorFormReducer
 } from '../reducers/processorFormReducer'
+import { type ProcessorParams } from '../../domain/dto/Processor.dto'
 
 export function useCreateProcessor(defaulState?: ProcessorParams) {
 	const key = `processor${
