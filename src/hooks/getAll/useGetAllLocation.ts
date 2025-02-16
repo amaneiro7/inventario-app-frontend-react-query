@@ -12,6 +12,7 @@ export const useGetAllLocations = (query: LocationFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: locations
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllLocations = (query: LocationFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		locations
 	}

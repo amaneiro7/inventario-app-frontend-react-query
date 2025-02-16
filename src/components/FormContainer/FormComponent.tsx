@@ -8,7 +8,6 @@ interface Props
 	handleClose: () => void
 	reset?: () => void
 	id: string
-	key: string
 	method?: 'dialog' | 'form'
 	lastUpdated?: string
 	updatedBy?: HistoryDto[]
@@ -37,7 +36,6 @@ export function FormComponent({
 	handleClose,
 	reset,
 	id,
-	key,
 	method = 'form',
 	updatedBy,
 	lastUpdated,
@@ -47,7 +45,6 @@ export function FormComponent({
 	const { pending } = useFormStatus()
 	return (
 		<form
-			key={key}
 			id={id}
 			action="submit"
 			onSubmit={handleSubmit}
@@ -60,6 +57,7 @@ export function FormComponent({
 					<Button
 						color={method === 'form' ? 'green' : 'blue'}
 						type="submit"
+						form={id}
 						text={pending ? 'Procesando...' : 'Guardar'}
 						buttonSize="large"
 						disabled={pending}

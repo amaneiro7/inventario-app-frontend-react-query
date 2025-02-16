@@ -10,6 +10,7 @@ export const useGetAllDevices = (query: DeviceComputerFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: devices
 	} = useQuery({
@@ -19,6 +20,7 @@ export const useGetAllDevices = (query: DeviceComputerFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		devices
 	}

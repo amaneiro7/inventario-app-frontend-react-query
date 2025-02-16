@@ -1,24 +1,22 @@
-import { lazy, Suspense } from 'react'
-import { useLocation } from 'react-router-dom'
+import { lazy, memo, Suspense } from 'react'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 interface Props {
+	id: string
 	title: string
 	description: string
 	url: string
 	isAddForm: boolean
 	action?: React.FormHTMLAttributes<HTMLFormElement>['action']
-	handleSubmit: (event: React.FormEvent) => Promise<void>
-	handleClose: () => void
-	reset?: () => void
 	lastUpdated?: string
 	updatedBy?: HistoryDto[]
 	searchInput?: React.ReactElement
+	handleSubmit: (event: React.FormEvent) => Promise<void>
+	handleClose: () => void
+	reset?: () => void
 }
 
 const Tag = lazy(async () => import('@/components/Tag').then(m => ({ default: m.Tag })))
-const PageTitle = lazy(async () =>
-	import('../../ui/PageTitle').then(m => ({ default: m.PageTitle }))
-)
+const PageTitle = lazy(async () => import('@/ui/PageTitle').then(m => ({ default: m.PageTitle })))
 const DetailsWrapper = lazy(async () =>
 	import('@/components/DetailsWrapper/DetailsWrapper').then(m => ({
 		default: m.DetailsWrapper
@@ -48,21 +46,20 @@ const RegisterNewDeviceToFollow = lazy(() =>
 	}))
 )
 
-export default function FormContainer({
+export const FormContainer = memo(function ({
+	id,
 	url,
 	title,
 	description,
 	searchInput,
 	isAddForm,
 	children,
-	handleSubmit,
-	action,
-	handleClose,
-	reset,
 	updatedBy,
-	lastUpdated
+	lastUpdated,
+	handleSubmit,
+	handleClose,
+	reset
 }: React.PropsWithChildren<Props>) {
-	const location = useLocation()
 	return (
 		<>
 			<PageTitle title={`Gestión de ${title}`} />
@@ -90,19 +87,12 @@ export default function FormContainer({
 						) : null}
 					</Typography>
 					<Suspense>
-						<SearchSection
-							key={location.key}
-							searchInput={searchInput}
-							url={url}
-							isEdit={!isAddForm}
-						/>
+						<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 					</Suspense>
 				</DetailsBoxWrapper>
 				<DetailsBoxWrapper position="center">
 					<FormComponent
-						key={location.key}
-						id={location.key}
-						action={action}
+						id={id}
 						handleSubmit={handleSubmit}
 						handleClose={handleClose}
 						reset={reset}
@@ -118,4 +108,4 @@ export default function FormContainer({
 			</StepsToFollow>
 		</>
 	)
-}
+})

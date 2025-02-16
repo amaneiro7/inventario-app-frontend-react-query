@@ -12,6 +12,7 @@ export const useGetAllRegion = (query: RegionFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: regions
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllRegion = (query: RegionFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		regions
 	}

@@ -16,6 +16,7 @@ interface Props<T extends string | number | readonly string[]> {
 	className?: string
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
+	rightAdorment?: React.ReactNode
 	ref?: React.RefObject<HTMLDivElement | null>
 	onRightIconClick?: () => void
 }
@@ -31,6 +32,7 @@ export const InputBase = memo(
 		isRequired = false,
 		leftIcon,
 		rightIcon,
+		rightAdorment,
 		type,
 		children,
 		onRightIconClick
@@ -53,6 +55,7 @@ export const InputBase = memo(
 				<div className="inputArea">
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
 					{children}
+					{rightAdorment ? <span className="rightAdorment">{rightAdorment}</span> : null}
 					{rightIcon ? (
 						<button
 							type="button"

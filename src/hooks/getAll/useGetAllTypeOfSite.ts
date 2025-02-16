@@ -12,6 +12,7 @@ export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: typeOfSites
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		typeOfSites
 	}

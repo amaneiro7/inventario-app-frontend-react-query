@@ -12,6 +12,7 @@ export const useGetAllCategory = (query: CategoryFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: categories
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllCategory = (query: CategoryFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		categories
 	}

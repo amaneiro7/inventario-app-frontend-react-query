@@ -8,6 +8,7 @@ export const useGetAllRoles = () => {
 	const getAll = useMemo(() => new RoleGetAll(repository).execute(), [repository])
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: roles
 	} = useQuery({
@@ -17,6 +18,7 @@ export const useGetAllRoles = () => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		roles
 	}

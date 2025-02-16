@@ -10,6 +10,7 @@ const Profile = lazy(async () => await import('@/pages/Profile'))
 const Layout = lazy(async () => await import('@/components/Layout/Layout'))
 const Login = lazy(async () => await import('@/pages/Login'))
 const FormBrand = lazy(async () => import('@/pages/FormBrand'))
+const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
 
 export function AppRoutes() {
 	return (
@@ -83,6 +84,22 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<FormBrand />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/processors/add"
+					element={
+						<Suspense>
+							<FormProcessor />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/processors/edit/:id"
+					element={
+						<Suspense>
+							<FormProcessor />
 						</Suspense>
 					}
 				/>

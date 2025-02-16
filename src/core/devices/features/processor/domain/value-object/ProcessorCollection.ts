@@ -13,8 +13,8 @@ export class ProcessorProductCollection extends StringValueObject {
 
 	public static isValid(value: string): boolean {
 		return (
-			value.length >= ProcessorProductCollection.NAME_MIN_LENGTH &&
-			value.length <= ProcessorProductCollection.NAME_MAX_LENGTH
+			value?.length >= ProcessorProductCollection.NAME_MIN_LENGTH &&
+			value?.length <= ProcessorProductCollection.NAME_MAX_LENGTH
 		)
 	}
 

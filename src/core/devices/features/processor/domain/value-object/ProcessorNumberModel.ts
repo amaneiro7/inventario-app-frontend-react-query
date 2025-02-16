@@ -13,8 +13,8 @@ export class ProcessorNumberModel extends StringValueObject {
 
 	public static isValid(value: string): boolean {
 		return (
-			value.length >= ProcessorNumberModel.NAME_MIN_LENGTH &&
-			value.length <= ProcessorNumberModel.NAME_MAX_LENGTH
+			value?.length >= ProcessorNumberModel.NAME_MIN_LENGTH &&
+			value?.length <= ProcessorNumberModel.NAME_MAX_LENGTH
 		)
 	}
 

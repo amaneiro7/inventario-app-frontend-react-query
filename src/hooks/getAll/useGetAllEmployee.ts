@@ -12,6 +12,7 @@ export const useGetAllEmployees = (query: EmployeeFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: employees
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllEmployees = (query: EmployeeFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		employees
 	}

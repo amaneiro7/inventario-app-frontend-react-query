@@ -43,7 +43,7 @@ export function SearchBar({ id, value, onInputChange, open }: Props) {
 				aria-controls={id}
 				aria-labelledby={id}
 				id={id}
-				type="text"
+				type="search"
 				value={value}
 				onChange={onInputChange}
 			/>

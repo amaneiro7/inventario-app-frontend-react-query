@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { BrandGetter } from '@/core/brand/application/BrandGetter'
 import { BrandGetService } from '@/core/brand/infra/service/brandGet.service'
-import { type BrandId } from '@/core/brand/domain/value-object/BrandId'
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 
 export function useBrandInitialState(defaulState: BrandParams): {
@@ -16,53 +14,20 @@ export function useBrandInitialState(defaulState: BrandParams): {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [state, setState] = useState<BrandParams>(defaulState)
-
-	const repository = useMemo(() => new BrandGetService(), [])
-	const get = useMemo(() => new BrandGetter(repository), [repository])
-
-	const getBrand = useCallback(async ({ id }: { id: Primitives<BrandId> }) => {
-		const { data, isLoading, isError } = useQuery({
-			queryKey: ['brand', id],
-			queryFn: async () => await get.execute({ id })
-		})
-
-		return {
-			data,
-			isLoading,
-			isError
-		}
-	}, [])
-
 	const mode: 'edit' | 'add' = useMemo(() => {
 		return location.pathname.includes('edit') ? 'edit' : 'add'
 	}, [location.pathname])
 
-	const fetchBrand = useCallback(() => {
-		if (!id) {
-			navigate('/error')
-			return
-		}
-		getBrand({ id })
-			.then(brand => {
-				const { data } = brand
-				if (data) setState({ id: data?.id, name: data?.name })
-			})
-			.catch(error => {
-				console.error('useBrandInitialState', error)
-			})
-	}, [getBrand, id])
+	const repository = useMemo(() => new BrandGetService(), [])
+	const get = useMemo(() => new BrandGetter(repository), [repository])
 
-	const resetState = useCallback(() => {
-		if (!location.pathname.includes('brand')) return
-		if (mode === 'add') {
-			setState({
-				id: undefined,
-				...defaulState
-			})
-		} else {
-			fetchBrand()
-		}
-	}, [])
+	const { data: brandData, refetch } = useQuery({
+		queryKey: ['brand', id],
+		queryFn: () => {
+			if (id) return get.execute({ id })
+		},
+		enabled: !!id && mode === 'edit' && !location?.state?.brand
+	})
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('brand')) {
@@ -70,13 +35,33 @@ export function useBrandInitialState(defaulState: BrandParams): {
 			return
 		}
 
-		if (!location.state?.state) {
-			fetchBrand()
-		} else {
+		if (!id) {
+			navigate('/error')
+			return
+		} else if (location?.state?.brand) {
 			const brand = location.state.brand
 			setState(brand)
+		} else {
+			if (brandData) {
+				setState(brandData)
+			}
 		}
-	}, [])
+	}, [mode, brandData, location.state, defaulState, navigate])
+
+	const resetState = useCallback(async () => {
+		if (!location.pathname.includes('brand')) return
+		if (mode === 'add') {
+			setState({
+				id: undefined,
+				...defaulState
+			})
+		} else {
+			const { data } = await refetch()
+			if (data) {
+				setState(data)
+			}
+		}
+	}, [defaulState, location.pathname, mode, refetch])
 
 	return {
 		mode,

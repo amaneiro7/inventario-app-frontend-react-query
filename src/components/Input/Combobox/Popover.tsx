@@ -39,7 +39,7 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 		}
 		return
 	}, [value, options])
-	console.log(open)
+
 	return (
 		<>
 			<button type="button" className="button-popover" onClick={handlePopoverOpen}>

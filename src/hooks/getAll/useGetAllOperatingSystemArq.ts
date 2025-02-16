@@ -12,6 +12,7 @@ export const useGetAllOperatingSystemArq = (query: OperatingSystemArqFilters) =>
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: operatingSystemArqs
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllOperatingSystemArq = (query: OperatingSystemArqFilters) =>
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		operatingSystemArqs
 	}

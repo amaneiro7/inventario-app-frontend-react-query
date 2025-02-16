@@ -12,6 +12,7 @@ export const useGetAllStatus = (query: StatusFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: status
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllStatus = (query: StatusFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		status
 	}

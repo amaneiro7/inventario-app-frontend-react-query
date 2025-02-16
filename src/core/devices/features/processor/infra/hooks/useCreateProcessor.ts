@@ -1,36 +1,34 @@
-import { useActionState, useCallback, useContext, useLayoutEffect, useReducer } from 'react'
+import { useCallback, useContext, useLayoutEffect, useReducer } from 'react'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useProcessorInitialState } from './useProcessorInitialState'
 import { ProcessorParams } from '../../domain/dto/Processor.dto'
 import { ProcessorCreator } from '../../application/ProcessorCreator'
-import { ProcessorSaveService } from '../processorSave.service'
+import { ProcessorSaveService } from '../service/processorSave.service'
 import {
-	Action,
+	type Action,
 	initialProcessorState,
 	processorFormReducer
 } from '../reducers/processorFormReducer'
-import { processorAction } from '../actions/processorActions'
 
 export function useCreateProcessor(defaulState?: ProcessorParams) {
+	const key = `processor${
+		initialProcessorState?.formData?.id ? initialProcessorState.formData.id : ''
+	}`
 	const { events } = useContext(EventContext)
 
 	const create = useCallback(
 		async (formData: ProcessorParams) => {
-			const data = await new ProcessorCreator(new ProcessorSaveService(), events).create(
-				formData
-			)
-			return data
+			return await new ProcessorCreator(new ProcessorSaveService(), events).create(formData)
 		},
 		[events]
 	)
 
 	const { initialState, mode, resetState } = useProcessorInitialState(
-		defaulState ?? initialProcessorState
+		defaulState ?? initialProcessorState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [formData, dispatch] = useReducer(processorFormReducer, initialProcessorState)
-	const [state, formAction] = useActionState(processorAction, undefined)
+	const [{ errors, formData }, dispatch] = useReducer(processorFormReducer, initialProcessorState)
 
 	useLayoutEffect(() => {
 		dispatch({
@@ -46,24 +44,25 @@ export function useCreateProcessor(defaulState?: ProcessorParams) {
 		})
 	}
 
-	const handleChange = (name: Action['type'], value: never) => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const handleChange = (name: Action['type'], value: any) => {
 		if (name === 'init' || name === 'reset') return
 		dispatch({ type: name, payload: { value } })
 	}
 
 	const handleSubmit = async (event: React.FormEvent) => {
+		event.preventDefault()
 		event.stopPropagation()
-		event.stopPropagation()
-		await create(formData).finally(() => {
+		await create(formData).then(() => {
 			resetState()
 		})
 	}
 
 	return {
+		key,
 		formData,
 		mode,
-		errors: state,
-		formAction,
+		errors,
 		resetForm,
 		handleSubmit,
 		handleChange

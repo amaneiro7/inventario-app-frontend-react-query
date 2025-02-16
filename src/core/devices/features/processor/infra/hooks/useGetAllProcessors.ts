@@ -4,7 +4,7 @@ import {
 	type ProcessorFilters,
 	ProcessorGetByCriteria
 } from '../../application/ProcessorGetByCriteria'
-import { ProcessorGetAllService } from '../processorGetAll.service'
+import { ProcessorGetAllService } from '../service/processorGetAll.service'
 
 export const useGetAllProcessor = (query: ProcessorFilters) => {
 	const repository = useMemo(() => new ProcessorGetAllService(), [])
@@ -12,6 +12,7 @@ export const useGetAllProcessor = (query: ProcessorFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: processor
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllProcessor = (query: ProcessorFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		processor
 	}

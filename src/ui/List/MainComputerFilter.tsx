@@ -71,6 +71,7 @@ export const MainComputerFilter = memo(function ({
 				value={localSerial}
 				label="Serial"
 				name="serial"
+				type="search"
 				onChange={e => {
 					let { value } = e.target
 					value = value.trim().toUpperCase()

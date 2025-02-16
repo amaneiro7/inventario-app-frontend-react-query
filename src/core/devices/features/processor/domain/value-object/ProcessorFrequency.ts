@@ -15,16 +15,16 @@ export class ProcessorFrequency extends NumberValueObject {
 		}
 	}
 
-	// private static convertToNumber(value: string | number): number {
-	// 	if (typeof value === 'number') {
-	// 		return value
-	// 	} else if (typeof value === 'string') {
-	// 		const numericString = value.replace(/\D/g, '') // Eliminar caracteres no numéricos
-	// 		return parseInt(numericString, 10)
-	// 	} else {
-	// 		throw new Error('Invalid value type. Must be string or number.')
-	// 	}
-	// }
+	public static convertToNumber(value: string | number): number {
+		if (typeof value === 'number') {
+			return value
+		} else if (typeof value === 'string') {
+			const numericString = value.replace(/[^\d.]/g, '') // Eliminar caracteres no numéricos
+			return parseFloat(numericString)
+		} else {
+			throw new Error('Invalid value type. Must be string or number.')
+		}
+	}
 
 	public static isValid(value: number): boolean {
 		return value >= ProcessorFrequency.MIN && value <= ProcessorFrequency.MAX

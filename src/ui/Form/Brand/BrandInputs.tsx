@@ -1,5 +1,5 @@
-import { lazy } from 'react'
-import { type Action } from '@/core/brand/infra/reducers/brandFormReducer'
+import { lazy, memo } from 'react'
+import { type BrandErrors, type Action } from '@/core/brand/infra/reducers/brandFormReducer'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 
 const Input = lazy(
@@ -7,26 +7,23 @@ const Input = lazy(
 )
 
 interface Props {
-	error: boolean
-	key?: string
-	errorMessage?: string
+	errors?: BrandErrors
 	formData: BrandParams
 	handleChange: (name: Action['type'], value: string) => void
 }
 
-export function BrandInputs({ errorMessage, error, formData, key, handleChange }: Props) {
+export const BrandInputs = memo(function ({ errors, formData, handleChange }: Props) {
 	return (
 		<Input
-			key={key}
 			value={formData.name}
 			name="name"
 			label="Nombre de la marca"
 			onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 				handleChange('name', e.target.value)
 			}
-			error={error}
-			errorMessage={errorMessage}
+			error={!!errors?.name}
+			errorMessage={errors?.name}
 			required
 		/>
 	)
-}
+})

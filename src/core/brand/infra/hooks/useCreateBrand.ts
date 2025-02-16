@@ -1,34 +1,32 @@
-import { useActionState, useCallback, useContext, useLayoutEffect, useReducer } from 'react'
+import { useCallback, useContext, useLayoutEffect, useReducer } from 'react'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { BrandCreator } from '@/core/brand/application/BrandCreator'
 import { BrandSaveService } from '@/core/brand/infra/service/brandSave.service'
 import {
+	type Action,
 	initialBrandState,
-	brandFormReducer,
-	Action
+	brandFormReducer
 } from '@/core/brand/infra/reducers/brandFormReducer'
-import { brandAction } from '@/core/brand/infra/actions/brandActions'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useBrandInitialState } from './useBrandInitialState'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 
 export function useCreateBrand(defaulState?: BrandParams) {
+	const key = `processor${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
 	const { events } = useContext(EventContext)
 
 	const create = useCallback(
 		async (formData: BrandParams) => {
-			const data = await new BrandCreator(new BrandSaveService(), events).create(formData)
-			return data
+			return await new BrandCreator(new BrandSaveService(), events).create(formData)
 		},
 		[events]
 	)
 
 	const { initialState, mode, resetState } = useBrandInitialState(
-		defaulState ?? initialBrandState
+		defaulState ?? initialBrandState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [formData, dispatch] = useReducer(brandFormReducer, initialBrandState)
-	const [state, formAction] = useActionState(brandAction, undefined)
+	const [{ errors, formData }, dispatch] = useReducer(brandFormReducer, initialBrandState)
 
 	useLayoutEffect(() => {
 		dispatch({
@@ -51,18 +49,17 @@ export function useCreateBrand(defaulState?: BrandParams) {
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.stopPropagation()
 		event.stopPropagation()
-		await create(formData).finally(() => {
+		await create(formData).then(() => {
 			resetState()
 		})
 	}
 
 	return {
+		key,
 		formData,
-		formAction,
 		mode,
+		errors,
 		resetForm,
-		success: state?.success,
-		errorMessage: state?.message,
 		handleSubmit,
 		handleChange
 	}

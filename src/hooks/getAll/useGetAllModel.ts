@@ -12,6 +12,7 @@ export const useGetAllModel = (query: ModelFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: models
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllModel = (query: ModelFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		models
 	}

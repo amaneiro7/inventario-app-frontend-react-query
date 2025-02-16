@@ -12,6 +12,7 @@ export const useGetAllOperatingSystem = (query: OperatingSystemFilters) => {
 
 	const {
 		isLoading,
+		refetch,
 		isError,
 		data: operatingSystems
 	} = useQuery({
@@ -22,6 +23,7 @@ export const useGetAllOperatingSystem = (query: OperatingSystemFilters) => {
 
 	return {
 		isLoading,
+		refetch,
 		isError,
 		operatingSystems
 	}
