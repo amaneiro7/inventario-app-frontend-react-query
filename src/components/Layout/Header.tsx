@@ -1,8 +1,8 @@
+import { lazy, memo, Suspense, useContext, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
 import { type ModalRef } from '@/components/Modal/Modal'
-import { lazy, memo, Suspense, useContext, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
 
 const LogoutIcon = lazy(() => import('@/icon/LogoutIcon').then(m => ({ default: m.LogoutIcon })))
 const Nav = lazy(async () => import('./Nav').then(m => ({ default: m.Nav })))
@@ -59,12 +59,6 @@ export const Header = memo(() => {
 						className="text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200"
 					>
 						Perfil
-					</Link>
-					<Link
-						to="/prueba"
-						className="text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200"
-					>
-						Prueba
 					</Link>
 
 					<Button

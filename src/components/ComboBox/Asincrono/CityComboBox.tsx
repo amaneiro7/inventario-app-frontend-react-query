@@ -26,7 +26,8 @@ export function CityCombobox({
 			id: value,
 			stateId,
 			regionId
-		}
+		},
+		pageSize: value || stateId || regionId ? undefined : 10
 	})
 	const { cities, isLoading } = useGetAllCity(query)
 	const [inputValue, setInputValue] = useState('')
@@ -49,7 +50,8 @@ export function CityCombobox({
 				id: value,
 				regionId,
 				stateId
-			}
+			},
+			pageSize: value || stateId || regionId ? undefined : 10
 		})
 	}, [value, regionId, stateId])
 

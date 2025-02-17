@@ -58,7 +58,6 @@
 	position: absolute;
 	overflow: auto;
 	width: 100%;
-	max-width: 250px;
 	height: min-content;
 	max-height: 250px;
 	left: 0;

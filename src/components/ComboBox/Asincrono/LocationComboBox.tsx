@@ -27,7 +27,7 @@ export const LocationCombobox = memo(function ({
 			typeOfSiteId,
 			siteId
 		},
-		pageSize: value && typeOfSiteId && siteId ? undefined : 10
+		pageSize: value || typeOfSiteId || siteId ? undefined : 10
 	})
 	const { locations, isLoading } = useGetAllLocations(query)
 	const [inputValue, setInputValue] = useState('')
@@ -50,7 +50,8 @@ export const LocationCombobox = memo(function ({
 				id: value,
 				typeOfSiteId,
 				siteId
-			}
+			},
+			pageSize: value || typeOfSiteId || siteId ? undefined : 10
 		})
 	}, [value, typeOfSiteId, siteId])
 

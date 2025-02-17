@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from 'react'
+import { lazy, useState } from 'react'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 
@@ -48,56 +48,50 @@ export function OtherComputerFilter({
 	}, [debounceIPAddress])
 	return (
 		<>
-			<Suspense>
-				<Input
-					value={localComputerName}
-					label="Nombre del computador"
-					name="computerName"
-					onChange={e => {
-						let { value } = e.target
-						value = value.trim().toUpperCase()
-						setLocalComputerName(value)
-					}}
-				/>
-			</Suspense>
-			<Suspense>
-				<OperatingSystemCombobox
-					name="operatingSystemId"
-					value={operatingSystemId}
-					handleChange={handleChange}
-				/>
-			</Suspense>
-			<Suspense>
-				<OperatingSystemArqCombobox
-					name="operatingSystemArqId"
-					value={operatingSystemArqId}
-					handleChange={handleChange}
-				/>
-			</Suspense>
-			<Suspense>
-				<Input
-					value={localProcessor}
-					label="Procesador"
-					name="processor"
-					onChange={e => {
-						let { value } = e.target
-						value = value.trim().toUpperCase()
-						setLocalProcessor(value)
-					}}
-				/>
-			</Suspense>
-			<Suspense>
-				<Input
-					value={localIPAddress}
-					label="Direccón IP"
-					name="ipAddress"
-					onChange={e => {
-						let { value } = e.target
-						value = value.trim().toUpperCase()
-						setLocalIPAddress(value)
-					}}
-				/>
-			</Suspense>
+			<Input
+				value={localComputerName}
+				label="Nombre del computador"
+				name="computerName"
+				onChange={e => {
+					let { value } = e.target
+					value = value.trim().toUpperCase()
+					setLocalComputerName(value)
+				}}
+			/>
+
+			<OperatingSystemCombobox
+				name="operatingSystemId"
+				value={operatingSystemId}
+				handleChange={handleChange}
+			/>
+
+			<OperatingSystemArqCombobox
+				name="operatingSystemArqId"
+				value={operatingSystemArqId}
+				handleChange={handleChange}
+			/>
+
+			<Input
+				value={localProcessor}
+				label="Procesador"
+				name="processor"
+				onChange={e => {
+					let { value } = e.target
+					value = value.trim().toUpperCase()
+					setLocalProcessor(value)
+				}}
+			/>
+
+			<Input
+				value={localIPAddress}
+				label="Direccón IP"
+				name="ipAddress"
+				onChange={e => {
+					let { value } = e.target
+					value = value.trim().toUpperCase()
+					setLocalIPAddress(value)
+				}}
+			/>
 		</>
 	)
 }

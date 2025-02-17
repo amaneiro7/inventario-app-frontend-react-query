@@ -26,7 +26,8 @@ export function ModelCombobox({
 			id: value,
 			categoryId,
 			brandId
-		}
+		},
+		pageSize: value || categoryId || brandId ? undefined : 10
 	})
 	const { models, isLoading } = useGetAllModel(query)
 	const [inputValue, setInputValue] = useState('')
@@ -49,7 +50,8 @@ export function ModelCombobox({
 				id: value,
 				categoryId,
 				brandId
-			}
+			},
+			pageSize: value || categoryId || brandId ? undefined : 10
 		})
 	}, [value, categoryId, brandId])
 

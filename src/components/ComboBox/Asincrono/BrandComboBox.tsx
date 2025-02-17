@@ -20,7 +20,8 @@ export function BrandCombobox({
 	const [query, setQuery] = useState<BrandFilters>({
 		options: {
 			id: value
-		}
+		},
+		pageSize: value ? undefined : 10
 	})
 	const { brands, isLoading } = useGetAllBrands(query)
 	const [inputValue, setInputValue] = useState('')
@@ -39,7 +40,8 @@ export function BrandCombobox({
 		setQuery({
 			options: {
 				id: value
-			}
+			},
+			pageSize: value ? undefined : 10
 		})
 	}, [value])
 

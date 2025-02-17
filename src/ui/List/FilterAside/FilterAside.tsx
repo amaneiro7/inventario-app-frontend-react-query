@@ -48,7 +48,7 @@ const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>
 			>
 				<CloseIcon className="w-8 h-8 p-1 text-gray-800/55 rounded-full hover:bg-gray-200 transition-colors" />
 			</button>
-			<div className="p-1 w-full flex flex-col gap-4 overflow-auto overscroll-contain pr-6">
+			<div className="p-1 w-full h-full flex flex-col gap-4 overflow-auto overscroll-contain pr-6">
 				{children}
 			</div>
 		</aside>,

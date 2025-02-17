@@ -23,7 +23,7 @@ export const EmployeeCombobox = memo(function ({
 		options: {
 			id: value
 		},
-		pageSize: 10
+		pageSize: !value ? 10 : undefined
 	})
 	// Se obtienen los empleados
 	const { employees, isLoading } = useGetAllEmployees(query)
