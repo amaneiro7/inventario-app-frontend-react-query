@@ -1,6 +1,6 @@
 import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
 import { Operator } from '@/core/shared/domain/criteria/FilterOperators'
-import { SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
+import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 
 export const defaultQueries: Record<string, SearchByCriteriaQuery['filters']> = {
 	computer: [

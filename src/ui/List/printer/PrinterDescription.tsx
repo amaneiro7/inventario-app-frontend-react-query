@@ -22,7 +22,7 @@ const TableDescDivider = lazy(async () =>
 	}))
 )
 
-export function MonitorDescription({ open, device }: Props) {
+export function PrinterDescription({ open, device }: Props) {
 	return (
 		<>
 			<TableCellDescription
@@ -79,27 +79,10 @@ export function MonitorDescription({ open, device }: Props) {
 						text={`${device?.location?.site.city.name ?? ''}`}
 					/>
 				</TableDescDivider>
-
-				<TableDescDivider label="Información de pantalla">
+				<TableDescDivider label="Información de impresora">
 					<TableCellDescInfo
-						title="Tamaño de Pantalla"
-						text={
-							device?.model?.modelMonitor
-								? `${device?.model?.modelMonitor?.screenSize}'`
-								: ''
-						}
-					/>
-					<TableCellDescInfo
-						title="Puerto VGA"
-						text={device?.model?.modelMonitor?.hasVGA ? 'Si' : 'No'}
-					/>
-					<TableCellDescInfo
-						title="Puerto DVI"
-						text={device?.model?.modelMonitor?.hasDVI ? 'Si' : 'No'}
-					/>
-					<TableCellDescInfo
-						title="Puerto HDMI"
-						text={device?.model?.modelMonitor?.hasHDMI ? 'Si' : 'No'}
+						title="Dirección de IP"
+						text={`${device?.mfp?.ipAddress ?? ''}`}
 					/>
 				</TableDescDivider>
 

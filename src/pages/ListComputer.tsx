@@ -3,7 +3,6 @@ import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
 import { useGetAllComputerDevices } from '@/core/devices/devices/infra/hook/useGetAllComputerDevices'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { DeviceComputerFilter } from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
-import { Loading } from '@/components/Loading'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 
 const ListWrapper = lazy(
@@ -58,7 +57,7 @@ export default function ListComputer() {
 	})
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<>
 			<ListWrapper
 				title="Lista de equipos de computación"
 				typeOfSiteId={query.typeOfSiteId}
@@ -109,13 +108,11 @@ export default function ListComputer() {
 				total={devices?.info.total}
 				loading={isLoading}
 				table={
-					<Suspense>
-						<DeviceTable
-							devices={devices?.data}
-							pageSize={query.pageSize}
-							loading={isLoading}
-						/>
-					</Suspense>
+					<DeviceTable
+						devices={devices?.data}
+						pageSize={query.pageSize}
+						loading={isLoading}
+					/>
 				}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
@@ -124,6 +121,6 @@ export default function ListComputer() {
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
 			/>
-		</Suspense>
+		</>
 	)
 }

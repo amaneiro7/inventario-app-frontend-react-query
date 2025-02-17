@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-const Prueba = lazy(async () => import('@/pages/Prueba').then(m => ({ default: m.Prueba })))
 const ListComputer = lazy(async () => import('@/pages/ListComputer'))
 const ListMonitor = lazy(async () => import('@/pages/ListMonitor'))
+const ListPrinter = lazy(async () => import('@/pages/ListPrinter'))
+const ListFinantialPrinter = lazy(async () => import('@/pages/ListFinantialPrinter'))
 const UserManagement = lazy(async () => import('@/pages/UserManagement'))
 const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('@/pages/Home'))
@@ -49,14 +50,6 @@ export function AppRoutes() {
 					}
 				/>
 				<Route
-					path="/prueba"
-					element={
-						<Suspense>
-							<Prueba />
-						</Suspense>
-					}
-				/>
-				<Route
 					path="/user-management"
 					element={
 						<Suspense>
@@ -77,6 +70,22 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<ListMonitor />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/printer"
+					element={
+						<Suspense>
+							<ListPrinter />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/finantialprinter"
+					element={
+						<Suspense>
+							<ListFinantialPrinter />
 						</Suspense>
 					}
 				/>

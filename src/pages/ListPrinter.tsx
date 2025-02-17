@@ -1,9 +1,9 @@
 import { lazy, Suspense, useCallback } from 'react'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { useScreenFilter } from '@/hooks/filters/useScreenFilters'
-import { DeviceScreenFilter } from '@/core/devices/devices/application/screenFilter/DeviceScreenFilter'
-import { useGetAllScreenDevices } from '@/core/devices/devices/infra/hook/useGetAllScreenDevices'
-import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
+import { useGetAllPrinterDevices } from '@/core/devices/devices/infra/hook/useGetAllPrinterDevices'
+import { usePrinterFilter } from '@/hooks/filters/usePrinterFilters'
+import { DevicePrinterFilter } from '@/core/devices/devices/application/printer/DevicePrinterFilter'
+import { type DevicePrinterFilters } from '@/core/devices/devices/application/printer/CreateDevicePrinterParams'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -21,8 +21,8 @@ const DefaultDeviceFilter = lazy(
 const TableDefaultDevice = lazy(() =>
 	import('@/ui/List/TableDefaultDevice').then(m => ({ default: m.TableDefaultDevice }))
 )
-const TableMonitor = lazy(() =>
-	import('@/ui/List/screen/TableMonitor').then(m => ({ default: m.TableMonitor }))
+const TablePrinter = lazy(() =>
+	import('@/ui/List/printer/TablePrinter').then(m => ({ default: m.TablePrinter }))
 )
 
 const LoadingTable = lazy(async () =>
@@ -33,10 +33,10 @@ const LoadingTable = lazy(async () =>
 
 export default function ListMonitor() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
-		useScreenFilter()
+		usePrinterFilter()
 
 	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof DeviceScreenFilters
+		const key = name as keyof DevicePrinterFilters
 		setFilters({ [key]: value })
 		setPageNumber(1)
 	}
@@ -52,17 +52,17 @@ export default function ListMonitor() {
 
 	const { download, isDownloading } = useDownloadExcelService({
 		query: query,
-		source: 'monitor'
+		source: 'printer'
 	})
 
-	const { devices, isLoading } = useGetAllScreenDevices({
+	const { devices, isLoading } = useGetAllPrinterDevices({
 		...query
 	})
 
 	return (
 		<>
 			<ListWrapper
-				title="Lista de pantallas"
+				title="Lista de impresoras"
 				typeOfSiteId={query.typeOfSiteId}
 				handleChange={handleChange}
 				handleClear={cleanFilters}
@@ -104,14 +104,14 @@ export default function ListMonitor() {
 							<LoadingTable registerPerPage={query.pageSize} colspan={7} />
 						) : (
 							<Suspense>
-								<TableMonitor devices={devices?.data} />
+								<TablePrinter devices={devices?.data} />
 							</Suspense>
 						)}
 					</TableDefaultDevice>
 				}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
-				registerOptions={DeviceScreenFilter.pegaSizeOptions}
+				registerOptions={DevicePrinterFilter.pegaSizeOptions}
 				pageSize={query.pageSize}
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
