@@ -21,18 +21,16 @@ const TableCellOpenIcon = lazy(async () =>
 		default: m.TableCellOpenIcon
 	}))
 )
-
-const ComputerDescription = lazy(async () =>
-	import('./ComputerDescription').then(m => ({
-		default: m.ComputerDescription
+const PartsDescription = lazy(async () =>
+	import('@/ui/List/parts/PartsDescription').then(m => ({
+		default: m.PartsDescription
 	}))
 )
 
-export function TableDevice({ devices }: Props) {
+export function TableParts({ devices }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
-
 	return (
-		<>
+		<Suspense>
 			{devices?.map(device => (
 				<React.Fragment key={device.id}>
 					<TableRow
@@ -42,25 +40,20 @@ export function TableDevice({ devices }: Props) {
 						}`}
 						onClick={() => handleRowClick(device.id)}
 					>
-						<TableCell size="small" value={device.employee?.userName ?? ''} />
+						<TableCell size="small" value={device.employee?.userName} />
 						<TableCell size="large" value={device.location?.name} />
-						<TableCell size="small" value={device.computer?.ipAddress ?? ''} />
 						<TableCell size="small" value={device.serial ?? ''} />
 						<TableCell size="small" value={device.category?.name} />
 						<TableCell size="small" value={device.brand?.name} />
 						<TableCell size="xLarge" value={device.model?.name} />
-						<TableCell size="small" value={device.computer?.computerName ?? ''} />
 						<TableCell size="small" value={device.observation ?? ''} />
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
 					<Suspense>
-						<ComputerDescription
-							open={expandedRows.includes(device.id)}
-							device={device}
-						/>
+						<PartsDescription open={expandedRows.includes(device.id)} device={device} />
 					</Suspense>
 				</React.Fragment>
 			))}
-		</>
+		</Suspense>
 	)
 }

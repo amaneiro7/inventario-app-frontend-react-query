@@ -1,9 +1,9 @@
 import { lazy, Suspense, useCallback } from 'react'
-import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
-import { useGetAllComputerDevices } from '@/core/devices/devices/infra/hook/useGetAllComputerDevices'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { DeviceComputerFilter } from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
+import { usePartsFilter } from '@/hooks/filters/usePartsFilters'
+import { useGetAllPartsDevices } from '@/core/devices/devices/infra/hook/useGetAllPartsDevices'
+import { DevicePartsFilter } from '@/core/devices/devices/application/parts/DevicePartsFilter'
+import { type DevicePartsFilters } from '@/core/devices/devices/application/parts/CreateDevicePartsParams'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -12,28 +12,31 @@ const MainComputerFilter = lazy(
 	async () =>
 		await import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
 )
-const OtherComputerFilter = lazy(
-	async () =>
-		await import('@/ui/List/FilterAside/OtherComputerFilter').then(m => ({
-			default: m.OtherComputerFilter
-		}))
-)
 const DefaultDeviceFilter = lazy(
 	async () =>
 		await import('@/ui/List/DefaultDeviceFilter').then(m => ({
 			default: m.DefaultDeviceFilter
 		}))
 )
-const DeviceTable = lazy(() =>
-	import('@/ui/List/computer/TableWrapper').then(m => ({ default: m.TableWrapper }))
+const TableDefaultDevice = lazy(() =>
+	import('@/ui/List/TableDefaultDevice').then(m => ({ default: m.TableDefaultDevice }))
+)
+const TableParts = lazy(() =>
+	import('@/ui/List/parts/TableParts').then(m => ({ default: m.TableParts }))
 )
 
-export default function ListComputer() {
+const LoadingTable = lazy(async () =>
+	import('@/components/Table/LoadingTable').then(m => ({
+		default: m.LoadingTable
+	}))
+)
+
+export default function ListParts() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
-		useComputerFilter()
+		usePartsFilter()
 
 	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof DeviceComputerFilters
+		const key = name as keyof DevicePartsFilters
 		setFilters({ [key]: value })
 		setPageNumber(1)
 	}
@@ -49,17 +52,17 @@ export default function ListComputer() {
 
 	const { download, isDownloading } = useDownloadExcelService({
 		query: query,
-		source: 'computer'
+		source: 'parts'
 	})
 
-	const { devices, isLoading } = useGetAllComputerDevices({
+	const { devices, isLoading } = useGetAllPartsDevices({
 		...query
 	})
 
 	return (
 		<>
 			<ListWrapper
-				title="Lista de equipos de computación"
+				title="Lista de partes y piezas"
 				typeOfSiteId={query.typeOfSiteId}
 				handleChange={handleChange}
 				handleClear={cleanFilters}
@@ -80,43 +83,35 @@ export default function ListComputer() {
 				}
 				otherFilter={
 					<>
-						<Suspense>
-							<DefaultDeviceFilter
-								activo={query.activo}
-								statusId={query.statusId}
-								brandId={query.brandId}
-								modelId={query.modelId}
-								categoryId={query.categoryId}
-								stateId={query.stateId}
-								regionId={query.regionId}
-								cityId={query.cityId}
-								handleChange={handleChange}
-							/>
-						</Suspense>
-						<Suspense>
-							<OtherComputerFilter
-								handleChange={handleChange}
-								ipAddress={query.ipAddress}
-								computerName={query.computerName}
-								operatingSystemId={query.operatingSystemId}
-								operatingSystemArqId={query.operatingSystemArqId}
-								processor={query.processor}
-							/>
-						</Suspense>
+						<DefaultDeviceFilter
+							activo={query.activo}
+							statusId={query.statusId}
+							brandId={query.brandId}
+							modelId={query.modelId}
+							categoryId={query.categoryId}
+							stateId={query.stateId}
+							regionId={query.regionId}
+							cityId={query.cityId}
+							handleChange={handleChange}
+						/>
 					</>
 				}
 				total={devices?.info.total}
 				loading={isLoading}
 				table={
-					<DeviceTable
-						devices={devices?.data}
-						pageSize={query.pageSize}
-						loading={isLoading}
-					/>
+					<TableDefaultDevice>
+						{isLoading ? (
+							<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+						) : (
+							<Suspense>
+								<TableParts devices={devices?.data} />
+							</Suspense>
+						)}
+					</TableDefaultDevice>
 				}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
-				registerOptions={DeviceComputerFilter.pegaSizeOptions}
+				registerOptions={DevicePartsFilter.pegaSizeOptions}
 				pageSize={query.pageSize}
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}

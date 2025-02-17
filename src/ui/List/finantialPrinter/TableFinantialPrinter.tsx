@@ -21,16 +21,16 @@ const TableCellOpenIcon = lazy(async () =>
 		default: m.TableCellOpenIcon
 	}))
 )
-const PrinterDescription = lazy(async () =>
-	import('@/ui/List/printer/PrinterDescription').then(m => ({
-		default: m.PrinterDescription
+const FinantialPrinterDescription = lazy(async () =>
+	import('@/ui/List/finantialPrinter/FinantialPrinterDescription').then(m => ({
+		default: m.FinantialPrinterDescription
 	}))
 )
 
 export function TableFinantialPrinter({ devices }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
 	return (
-		<Suspense>
+		<>
 			{devices?.map(device => (
 				<React.Fragment key={device.id}>
 					<TableRow
@@ -50,13 +50,13 @@ export function TableFinantialPrinter({ devices }: Props) {
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
 					<Suspense>
-						<PrinterDescription
+						<FinantialPrinterDescription
 							open={expandedRows.includes(device.id)}
 							device={device}
 						/>
 					</Suspense>
 				</React.Fragment>
 			))}
-		</Suspense>
+		</>
 	)
 }
