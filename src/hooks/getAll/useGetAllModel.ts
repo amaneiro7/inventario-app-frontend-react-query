@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { ModelGetAllService } from '@/core/model/models/infra/modelGetAll.service'
-import {
-	type ModelFilters,
-	ModelGetByCriteria
-} from '@/core/model/models/application/ModelGetByCriteria'
+import { ModelGetByCriteria } from '@/core/model/models/application/ModelGetByCriteria'
+import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 
 export const useGetAllModel = (query: ModelFilters) => {
 	const repository = useMemo(() => new ModelGetAllService(), [])
@@ -15,8 +13,8 @@ export const useGetAllModel = (query: ModelFilters) => {
 		refetch,
 		isError,
 		data: models
-	} = useQuery({
-		queryKey: ['models', query.options],
+	} = useSuspenseQuery({
+		queryKey: ['models', query],
 		queryFn: async () => await getAll.search(query),
 		staleTime: Infinity
 	})

@@ -38,6 +38,8 @@ export type Params =
 	| ModelKeyboardParams
 
 export type ModelDto = Model & {
+	createdAt: string
+	updatedAt: string
 	category: CategoryDto
 	brand: BrandDto
 	modelComputer: Nullable<ModelComputerDto>

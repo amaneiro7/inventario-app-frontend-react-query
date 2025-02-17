@@ -7,6 +7,7 @@ const ListMonitor = lazy(async () => import('@/pages/ListMonitor'))
 const ListPrinter = lazy(async () => import('@/pages/ListPrinter'))
 const ListParts = lazy(async () => import('@/pages/ListParts'))
 const ListFinantialPrinter = lazy(async () => import('@/pages/ListFinantialPrinter'))
+const ListModels = lazy(async () => import('@/pages/ListModel'))
 const UserManagement = lazy(async () => import('@/pages/UserManagement'))
 const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('@/pages/Home'))
@@ -96,6 +97,14 @@ export function AppRoutes() {
 					element={
 						<Suspense fallback={<Loading />}>
 							<ListParts />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/model"
+					element={
+						<Suspense fallback={<Loading />}>
+							<ListModels />
 						</Suspense>
 					}
 				/>

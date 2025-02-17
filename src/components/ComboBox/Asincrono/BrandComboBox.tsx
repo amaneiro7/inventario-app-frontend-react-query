@@ -49,7 +49,8 @@ export function BrandCombobox({
 		setQuery({
 			options: {
 				id: value
-			}
+			},
+			pageSize: value ? undefined : 10
 		})
 	}, [value])
 

@@ -16,7 +16,7 @@ function TableComponent<T extends typeof TableBody | typeof TableHeader>({
 }: Props<T>) {
 	return (
 		<table
-			className={`clear-both relative min-w-full border-separate border-spacing-0 table rounded-e-lg overflow-hidden ${className}`}
+			className={`clear-both relative w-min-content border-separate border-spacing-0 table rounded-e-lg overflow-hidden ${className}`}
 			{...props}
 		>
 			{children}
