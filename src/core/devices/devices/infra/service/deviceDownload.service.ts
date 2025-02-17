@@ -1,7 +1,7 @@
 import { type Source } from '@/types/type'
-import { type DeviceDownloadRepository } from '../domain/repository/DeviceDownloadRepository'
+import { type DeviceDownloadRepository } from '../../domain/repository/DeviceDownloadRepository'
 import { apiDownload } from '@/api/apiDownload'
-import { deviceUrl } from '../domain/entity/baseUrl'
+import { deviceUrl } from '../../domain/entity/baseUrl'
 
 export class DeviceDownloadService implements DeviceDownloadRepository {
 	async download({

@@ -3,8 +3,8 @@ import { useSearchParams } from 'react-router-dom'
 import {
 	DeviceComputerFilter,
 	defaultMainCategoryValue
-} from '@/core/devices/devices/application/DeviceComputerFilter'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
+} from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 
 export function useComputerFilter() {
 	const mainCategoryId = defaultMainCategoryValue

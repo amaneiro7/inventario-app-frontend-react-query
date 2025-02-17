@@ -1,9 +1,9 @@
 import { useCallback, useContext, useState } from 'react'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
+import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 import { type Source } from '@/types/type'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { DeviceDownload } from '@/core/devices/devices/application/DeviceDownload'
-import { DeviceDownloadService } from '@/core/devices/devices/infra/deviceDownload.service'
+import { DeviceDownloadService } from '@/core/devices/devices/infra/service/deviceDownload.service'
 
 export function useDownloadExcelService({
 	query,

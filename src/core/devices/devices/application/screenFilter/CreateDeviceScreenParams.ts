@@ -2,11 +2,11 @@ import { Criteria } from '@/core/shared/domain/criteria/Criteria'
 import { Operator } from '@/core/shared/domain/criteria/FilterOperators'
 import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
-import { SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { defaultQueries } from './defaultQueries'
+import { defaultQueries } from '../defaultQueries'
+import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
-export interface DeviceComputerFilters {
+export interface DeviceScreenFilters {
 	categoryId?: string
 	brandId?: string
 	statusId?: string
@@ -19,11 +19,6 @@ export interface DeviceComputerFilters {
 	cityId?: string
 	stateId?: string
 	regionId?: string
-	computerName?: string
-	operatingSystemId?: string
-	operatingSystemArqId?: string
-	ipAddress?: string
-	processor?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
@@ -38,7 +33,7 @@ export async function createDeviceQueryParams({
 	orderType,
 	defaultQuery,
 	...options
-}: DeviceComputerFilters): Promise<string> {
+}: DeviceScreenFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: defaultQuery ? defaultQueries[defaultQuery] : [],
 		pageSize,
@@ -61,12 +56,7 @@ export async function createDeviceQueryParams({
 				query.filters.push({
 					field: key,
 					operator:
-						key === 'serial' ||
-						key === 'computerName' ||
-						key === 'ipAddress' ||
-						key === 'processor'
-							? Operator.CONTAINS
-							: Operator.EQUAL,
+						key === 'serial' || key === 'activo' ? Operator.CONTAINS : Operator.EQUAL,
 					value
 				})
 			}

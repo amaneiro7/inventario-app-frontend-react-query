@@ -1,43 +1,35 @@
-import { lazy, useMemo, useState } from 'react'
-import { type EmployeeFilters } from '@/core/employee/employee/application/EmployeeGetByCriteria'
-import { useGetAllEmployees } from '@/hooks/getAll/useGetAllEmployee'
+import { lazy, memo, useEffect, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import parse from 'autosuggest-highlight/parse'
-import match from 'autosuggest-highlight/match'
-import Autocomplete from '@mui/material/Autocomplete'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
+import { useGetAllEmployees } from '@/hooks/getAll/useGetAllEmployee'
+import { type EmployeeFilters } from '@/core/employee/employee/application/EmployeeGetByCriteria'
 
-const Typography = lazy(async () => await import('@/components/Typography'))
-const TextField = lazy(async () => await import('@mui/material/TextField'))
-const CircularProgress = lazy(async () => await import('@mui/material/CircularProgress'))
-const CloseIcon = lazy(
-	async () => await import('@/icon/CloseIcon').then(m => ({ default: m.CloseIcon }))
+const ComboboxEmployee = lazy(async () =>
+	import('@/components/Input/Combobox/ComboboxEmployee').then(m => ({
+		default: m.ComboboxEmployee
+	}))
 )
-export function EmployeeCombobox({
+export const EmployeeCombobox = memo(function ({
 	value = '',
 	name,
 	handleChange
 }: {
 	value?: string
 	name: string
-	handleChange: (name: string, value: string) => void
+	handleChange: (name: string, value: string | number) => void
 }) {
-	// Se crea un estado para el valor de la búsqueda
-	const [localSearchValue, setLocalSearchValue] = useState('')
 	// Se crea un estado para la consulta
 	const [query, setQuery] = useState<EmployeeFilters>({
 		options: {
 			id: value
-		}
+		},
+		pageSize: 10
 	})
 	// Se obtienen los empleados
 	const { employees, isLoading } = useGetAllEmployees(query)
+	const [inputValue, setInputValue] = useState('')
 	// Se crea un estado para el valor de la búsqueda
-	const [debouncedLocalSearch] = useDebounce(localSearchValue)
-
-	const initialValue = useMemo(() => {
-		return employees?.data.find(employee => employee.id === value) ?? null
-	}, [value, employees])
+	const [debouncedLocalSearch] = useDebounce(inputValue)
 
 	useEffectAfterMount(() => {
 		setQuery({
@@ -50,107 +42,29 @@ export function EmployeeCombobox({
 		})
 	}, [debouncedLocalSearch])
 
+	useEffect(() => {
+		setQuery({
+			options: {
+				id: value
+			}
+		})
+	}, [value])
+
 	return (
 		<>
-			<Autocomplete
-				fullWidth={false}
-				getOptionLabel={option => {
-					if (typeof option === 'string') {
-						return option
-					}
-					return option?.userName
-				}}
-				filterOptions={x => x}
-				autoComplete
-				value={initialValue}
-				includeInputInList
-				filterSelectedOptions
-				options={employees?.data ?? []}
-				inputValue={localSearchValue}
-				onChange={(_, newValue) => {
-					handleChange(name, newValue?.id ?? '')
-				}}
-				onInputChange={(_, newInputValue, reason) => {
-					if (reason === 'reset') return
-					setLocalSearchValue(newInputValue)
-				}}
-				size="small"
-				clearText="Limpiar"
-				loadingText="Cargando..."
-				openText="Abrir"
-				closeText="Cerrar"
-				noOptionsText="No existe"
+			<ComboboxEmployee
+				id="employee"
+				value={value}
+				label="Usuarios"
+				inputValue={inputValue}
+				name={name}
 				loading={isLoading}
-				selectOnFocus
-				clearOnEscape
-				clearOnBlur
-				handleHomeEndKeys
-				clearIcon={<CloseIcon fontSize="small" />}
-				renderInput={({ ...params }) => (
-					<TextField
-						{...params}
-						label="Usuarios"
-						slotProps={{
-							input: {
-								...params.InputProps,
-								endAdornment: (
-									<>
-										{isLoading && (
-											<CircularProgress color="inherit" size={20} />
-										)}
-										{params.InputProps.endAdornment}
-									</>
-								)
-							}
-						}}
-					/>
-				)}
-				renderOption={({ key, ...props }, option, { inputValue }) => {
-					const matches = match(option.userName, inputValue, {
-						insideWords: true
-					})
-					const parts = parse(option.userName, matches)
-					const fullName = `${option?.name ? option?.name : ''} ${
-						option?.lastName ? option?.lastName : ''
-					}`
-
-					const fullNameMatch = match(fullName, inputValue, {
-						insideWords: true
-					})
-					const fullNameParts = parse(fullName, fullNameMatch)
-
-					return (
-						<li key={key} {...props}>
-							<div>
-								<Typography variant="p">
-									{parts.map((part, index) => (
-										<Typography
-											key={index}
-											variant="span"
-											option="medium"
-											transform="uppercase"
-											weight={part.highlight ? 'bold' : 'light'}
-										>
-											{part.text}
-										</Typography>
-									))}
-								</Typography>
-								<Typography variant="p" color={'gris'}>
-									{fullNameParts.map((part, index) => (
-										<Typography
-											key={index}
-											variant="span"
-											weight={part.highlight ? 'bold' : 'light'}
-										>
-											{part.text}
-										</Typography>
-									))}
-								</Typography>
-							</div>
-						</li>
-					)
+				options={employees?.data ?? []}
+				onChangeValue={handleChange}
+				onInputChange={e => {
+					setInputValue(e.target.value)
 				}}
 			/>
 		</>
 	)
-}
+})

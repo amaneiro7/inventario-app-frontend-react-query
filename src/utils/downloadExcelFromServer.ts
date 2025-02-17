@@ -1,7 +1,7 @@
 import { EventContext } from '@/context/EventManager/EventContext'
-import { DeviceComputerFilters } from '@/core/devices/devices/application/CreateDeviceComputerParams'
+import { DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 import { DeviceDownload } from '@/core/devices/devices/application/DeviceDownload'
-import { DeviceDownloadService } from '@/core/devices/devices/infra/deviceDownload.service'
+import { DeviceDownloadService } from '@/core/devices/devices/infra/service/deviceDownload.service'
 import { Source } from '@/types/type'
 import { useContext, useState } from 'react'
 

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy } from 'react'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
@@ -100,12 +100,10 @@ export function TableWrapper({ devices, loading = true, pageSize = 25 }: Props) 
 								<TableCell size="small" value={device.observation ?? ''} />
 								<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 							</TableRow>
-							<Suspense>
-								<ComputerDescription
-									open={expandedRows.includes(device.id)}
-									device={device}
-								/>
-							</Suspense>
+							<ComputerDescription
+								open={expandedRows.includes(device.id)}
+								device={device}
+							/>
 						</React.Fragment>
 					))
 				)}

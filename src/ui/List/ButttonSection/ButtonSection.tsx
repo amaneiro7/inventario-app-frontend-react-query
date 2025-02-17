@@ -1,11 +1,12 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, MouseEventHandler, Suspense } from 'react'
 
 interface Props {
 	handleClear?: () => void
 	handleAdd: () => void
 	handleExportToExcel?: () => void
 	loading?: boolean
-	handleFilter?: () => void
+	isFilterOpen?: boolean
+	handleFilter?: MouseEventHandler<HTMLButtonElement>
 }
 
 const Button = lazy(async () => import('@/components/Button/Button'))

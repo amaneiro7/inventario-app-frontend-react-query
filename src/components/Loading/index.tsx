@@ -1,6 +1,6 @@
 import './loading.css'
 
-export default function Loading() {
+export function Loading() {
 	return (
 		<div className="loading--container">
 			<span className="Loading" />

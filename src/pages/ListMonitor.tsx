@@ -1,10 +1,10 @@
 import { lazy, Suspense, useCallback } from 'react'
-import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
-import { useGetAllComputerDevices } from '@/core/devices/devices/infra/hook/useGetAllComputerDevices'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { DeviceComputerFilter } from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
 import { Loading } from '@/components/Loading'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
+import { useScreenFilter } from '@/hooks/filters/useScreenFilters'
+import { DeviceScreenFilter } from '@/core/devices/devices/application/screenFilter/DeviceScreenFilter'
+import { useGetAllScreenDevices } from '@/core/devices/devices/infra/hook/useGetAllScreenDevices'
+import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
 
 const ListWrapper = lazy(
 	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
@@ -13,28 +13,31 @@ const MainComputerFilter = lazy(
 	async () =>
 		await import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
 )
-const OtherComputerFilter = lazy(
-	async () =>
-		await import('@/ui/List/FilterAside/OtherComputerFilter').then(m => ({
-			default: m.OtherComputerFilter
-		}))
-)
 const DefaultDeviceFilter = lazy(
 	async () =>
 		await import('@/ui/List/DefaultDeviceFilter').then(m => ({
 			default: m.DefaultDeviceFilter
 		}))
 )
-const DeviceTable = lazy(() =>
-	import('@/ui/List/computer/TableDevice').then(m => ({ default: m.TableWrapper }))
+const TableDefaultDevice = lazy(() =>
+	import('@/ui/List/TableDefaultDevice').then(m => ({ default: m.TableDefaultDevice }))
+)
+const TableMonitor = lazy(() =>
+	import('@/ui/List/screen/TableMonitor').then(m => ({ default: m.TableMonitor }))
 )
 
-export default function ListComputer() {
+const LoadingTable = lazy(async () =>
+	import('@/components/Table/LoadingTable').then(m => ({
+		default: m.LoadingTable
+	}))
+)
+
+export default function ListMonitor() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
-		useComputerFilter()
+		useScreenFilter()
 
 	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof DeviceComputerFilters
+		const key = name as keyof DeviceScreenFilters
 		setFilters({ [key]: value })
 		setPageNumber(1)
 	}
@@ -50,17 +53,17 @@ export default function ListComputer() {
 
 	const { download, isDownloading } = useDownloadExcelService({
 		query: query,
-		source: 'computer'
+		source: 'monitor'
 	})
 
-	const { devices, isLoading } = useGetAllComputerDevices({
+	const { devices, isLoading } = useGetAllScreenDevices({
 		...query
 	})
 
 	return (
 		<Suspense fallback={<Loading />}>
 			<ListWrapper
-				title="Lista de equipos de computación"
+				title="Lista de pantallas"
 				typeOfSiteId={query.typeOfSiteId}
 				handleChange={handleChange}
 				handleClear={cleanFilters}
@@ -81,45 +84,37 @@ export default function ListComputer() {
 				}
 				otherFilter={
 					<>
-						<Suspense>
-							<DefaultDeviceFilter
-								activo={query.activo}
-								statusId={query.statusId}
-								brandId={query.brandId}
-								modelId={query.modelId}
-								categoryId={query.categoryId}
-								stateId={query.stateId}
-								regionId={query.regionId}
-								cityId={query.cityId}
-								handleChange={handleChange}
-							/>
-						</Suspense>
-						<Suspense>
-							<OtherComputerFilter
-								handleChange={handleChange}
-								ipAddress={query.ipAddress}
-								computerName={query.computerName}
-								operatingSystemId={query.operatingSystemId}
-								operatingSystemArqId={query.operatingSystemArqId}
-								processor={query.processor}
-							/>
-						</Suspense>
+						<DefaultDeviceFilter
+							activo={query.activo}
+							statusId={query.statusId}
+							brandId={query.brandId}
+							modelId={query.modelId}
+							categoryId={query.categoryId}
+							stateId={query.stateId}
+							regionId={query.regionId}
+							cityId={query.cityId}
+							handleChange={handleChange}
+						/>
 					</>
 				}
 				total={devices?.info.total}
 				loading={isLoading}
 				table={
 					<Suspense>
-						<DeviceTable
-							devices={devices?.data}
-							pageSize={query.pageSize}
-							loading={isLoading}
-						/>
+						<TableDefaultDevice>
+							{isLoading ? (
+								<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+							) : (
+								<Suspense>
+									<TableMonitor devices={devices?.data} />
+								</Suspense>
+							)}
+						</TableDefaultDevice>
 					</Suspense>
 				}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
-				registerOptions={DeviceComputerFilter.pegaSizeOptions}
+				registerOptions={DeviceScreenFilter.pegaSizeOptions}
 				pageSize={query.pageSize}
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}

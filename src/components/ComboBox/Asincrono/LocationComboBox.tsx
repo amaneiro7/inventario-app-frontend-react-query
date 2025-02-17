@@ -1,14 +1,14 @@
-import { useEffect, lazy, useState } from 'react'
+import { useEffect, lazy, useState, memo } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { type LocationFilters } from '@/core/locations/locations/application/LocationGetByCriteria'
 import { useGetAllLocations } from '@/hooks/getAll/useGetAllLocation'
+import { type LocationFilters } from '@/core/locations/locations/application/LocationGetByCriteria'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
 )
 
-export function LocationCombobox({
+export const LocationCombobox = memo(function ({
 	value = '',
 	name,
 	typeOfSiteId,
@@ -26,7 +26,8 @@ export function LocationCombobox({
 			id: value,
 			typeOfSiteId,
 			siteId
-		}
+		},
+		pageSize: value && typeOfSiteId && siteId ? undefined : 10
 	})
 	const { locations, isLoading } = useGetAllLocations(query)
 	const [inputValue, setInputValue] = useState('')
@@ -35,7 +36,9 @@ export function LocationCombobox({
 	useEffectAfterMount(() => {
 		setQuery({
 			options: {
-				name: debouncedSearch
+				name: debouncedSearch,
+				typeOfSiteId,
+				siteId
 			},
 			pageSize: debouncedSearch === '' ? 10 : undefined
 		})
@@ -68,4 +71,4 @@ export function LocationCombobox({
 			/>
 		</>
 	)
-}
+})

@@ -1,7 +1,10 @@
 import React, { lazy, memo, useRef, useState } from 'react'
 import { useCLoseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
+import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
 
-const Popover = lazy(async () => import('./Popover').then(m => ({ default: m.Popover })))
+const PopoverEmployee = lazy(async () =>
+	import('./PopoverEmployee').then(m => ({ default: m.PopoverEmployee }))
+)
 const ButtonOpen = lazy(async () =>
 	import('@/components/Input/Combobox/ButtonOpen').then(m => ({ default: m.ButtonOpen }))
 )
@@ -13,16 +16,12 @@ const CircleSpinningIcon = lazy(async () =>
 )
 const InputBase = lazy(async () => import('../InputBase').then(m => ({ default: m.InputBase })))
 
-interface ValidType {
-	id: string | number
-	name: string
-}
-interface ComboboxProps<T extends string | number | readonly string[], O extends ValidType>
+interface ComboboxProps<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	label: string
 	value: T
 	name: string
-	options: O[]
+	options: EmployeeDto[]
 	inputValue?: string
 	isRequired?: boolean
 	error?: boolean
@@ -32,12 +31,12 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	loading?: boolean
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
-	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
+	onChangeValue: (name: EmployeeDto['userName'], value: EmployeeDto['id']) => void
 	onInputChange: React.ChangeEventHandler<HTMLInputElement>
 	onRightIconClick?: () => void
 }
-export const Combobox = memo(
-	<T extends string | number | readonly string[], O extends ValidType>({
+export const ComboboxEmployee = memo(
+	<T extends string>({
 		error,
 		id,
 		options,
@@ -55,7 +54,7 @@ export const Combobox = memo(
 		onInputChange,
 		onRightIconClick,
 		onChangeValue
-	}: ComboboxProps<T, O>) => {
+	}: ComboboxProps<T>) => {
 		const [open, setOpen] = useState(false)
 		const divRef = useRef(null)
 		const handlePopoverOpen = () => {
@@ -77,7 +76,7 @@ export const Combobox = memo(
 				rightIcon={rightIcon}
 				onRightIconClick={onRightIconClick}
 			>
-				<Popover
+				<PopoverEmployee
 					id={id}
 					options={options}
 					value={value}
@@ -89,7 +88,6 @@ export const Combobox = memo(
 					open={open}
 					handlePopoverOpen={handlePopoverOpen}
 				/>
-
 				<div className="flex items-center justify-center pr-1">
 					{loading && <CircleSpinningIcon width={16} height={16} color="gray" />}
 					{value && (

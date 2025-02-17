@@ -1,7 +1,7 @@
 import { fetching } from '@/api/api'
-import { type DeviceSaveRepository } from '../domain/repository/DeviceSaveRepository'
-import { type DevicePrimitives } from '../domain/dto/Device.dto'
-import { deviceUrl } from '../domain/entity/baseUrl'
+import { type DeviceSaveRepository } from '../../domain/repository/DeviceSaveRepository'
+import { type DevicePrimitives } from '../../domain/dto/Device.dto'
+import { deviceUrl } from '../../domain/entity/baseUrl'
 
 export class DeviceSaveService implements DeviceSaveRepository {
 	async save({ payload }: { payload: DevicePrimitives }): Promise<{ message: string }> {

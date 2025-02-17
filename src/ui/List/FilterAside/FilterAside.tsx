@@ -1,4 +1,4 @@
-import { lazy, useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
+import React, { lazy, useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useCLoseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 import './filterContainerStyle.css'
@@ -10,35 +10,32 @@ type Props = React.PropsWithChildren<
 >
 
 export interface FilterAsideRef {
-	handleOpen: () => void
-	handleClose: () => void
+	handleOpen: (event: React.MouseEvent) => void
 }
 
 const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>) => {
 	const filterAsideRef = useRef<HTMLElement>(null)
 	const [open, setOpen] = useState(false)
 
-	const handleOpen = useCallback((event?: React.MouseEvent) => {
-		event?.stopPropagation()
-		if (!open) {
-			setOpen(true)
-		}
+	const handleOpen = useCallback((event: React.MouseEvent) => {
+		event.stopPropagation()
+		setOpen(true)
 	}, [])
-	const handleClose = useCallback((event?: React.MouseEvent) => {
-		event?.stopPropagation()
+	const handleClose = useCallback(() => {
 		setOpen(false)
 	}, [])
 
 	useImperativeHandle(ref, () => ({
-		handleOpen,
-		handleClose
+		handleOpen
 	}))
 
 	useCLoseClickOrEscape({ open, onClose: handleClose, ref: filterAsideRef })
 
 	return createPortal(
 		<aside
+			id="aside-filters"
 			ref={filterAsideRef}
+			data-open={open}
 			className={`filterAside drop-shadow-md shadow-lg ${open ? 'open' : 'close'}`}
 			{...props}
 		>

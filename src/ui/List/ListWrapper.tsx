@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense, useCallback, useRef } from 'react'
+import { lazy, memo, useRef } from 'react'
 import { FilterAsideRef } from './FilterAside/FilterAside'
 import { useNavigate } from 'react-router-dom'
 import { SpinnerSKCircle } from '@/components/Loading/spinner-sk-circle'
@@ -76,58 +76,47 @@ export const ListWrapper = memo(function ({
 }) {
 	const navigate = useNavigate()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
-
-	const handleFilter = useCallback(() => filterAsideRef.current?.handleOpen(), [])
 	return (
-		<Suspense>
-			<Suspense>
-				<PageTitle title={title} optionalText={!loading ? `${total} resultados` : ''} />
-			</Suspense>
+		<>
+			<PageTitle title={title} optionalText={!loading ? `${total} resultados` : ''} />
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
-					<Suspense>
-						<FilterSection>
-							{mainFilter}
-							{otherFilter ? (
-								<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
-							) : null}
-						</FilterSection>
-					</Suspense>
-					<Suspense>
-						<ButtonSection
-							loading={isDownloading}
-							handleExportToExcel={handleExportToExcel}
-							handleAdd={() => {
-								navigate(url)
-							}}
-							handleFilter={handleFilter}
-							handleClear={handleClear}
-						/>
-					</Suspense>
+					<FilterSection>
+						{mainFilter}
+						{otherFilter ? (
+							<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
+						) : null}
+					</FilterSection>
+
+					<ButtonSection
+						loading={isDownloading}
+						handleExportToExcel={handleExportToExcel}
+						handleAdd={() => {
+							navigate(url)
+						}}
+						handleFilter={filterAsideRef.current?.handleOpen}
+						handleClear={handleClear}
+					/>
 				</DetailsBoxWrapper>
 				<div className="w-full flex flex-col justify-start">
 					{typeOfSiteId !== undefined ? (
-						<Suspense>
-							<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
-						</Suspense>
+						<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
 					) : null}
 					{loading || table === undefined ? <SpinnerSKCircle /> : null}
-					{!loading && table ? table : null}
+					{table}
 				</div>
 				{!loading ? (
-					<Suspense>
-						<PaginationBar
-							registerOptions={registerOptions}
-							totalPages={totalPages}
-							total={total}
-							currentPage={currentPage}
-							pageSize={pageSize}
-							handlePageClick={handlePageClick}
-							handlePageSize={handlePageSize}
-						/>
-					</Suspense>
+					<PaginationBar
+						registerOptions={registerOptions}
+						totalPages={totalPages}
+						total={total}
+						currentPage={currentPage}
+						pageSize={pageSize}
+						handlePageClick={handlePageClick}
+						handlePageSize={handlePageSize}
+					/>
 				) : null}
 			</DetailsWrapper>
-		</Suspense>
+		</>
 	)
 })

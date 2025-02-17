@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { BrandGetAllService } from '@/core/brand/infra/service/brandGetAll.service'
 import { type BrandFilters, BrandGetByCriteria } from '@/core/brand/application/BrandGetByCiteria'
 
@@ -11,7 +11,7 @@ export const useGetAllBrands = (query: BrandFilters) => {
 		refetch,
 		isError,
 		data: brands
-	} = useSuspenseQuery({
+	} = useQuery({
 		queryKey: ['brands', query.options],
 		queryFn: async () => await getAll.search(query)
 	})

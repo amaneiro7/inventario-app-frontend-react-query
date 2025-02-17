@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 
-interface Props {
+interface Props<T> {
 	open: boolean
-	onClose: () => void
+	onClose: (arg?: T) => void
 	ref: React.RefObject<HTMLElement | null>
 }
 
-export function useCLoseClickOrEscape({ open, onClose, ref }: Props) {
+export function useCLoseClickOrEscape<T>({ open, onClose, ref }: Props<T>) {
 	useEffect(() => {
 		if (!open) return
 		const handleKeyDown = (event: KeyboardEvent) => {

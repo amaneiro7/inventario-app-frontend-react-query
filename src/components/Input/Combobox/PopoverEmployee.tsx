@@ -1,20 +1,17 @@
 import { lazy, useMemo } from 'react'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
+import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
 
 const SearchBar = lazy(async () => import('./SearchBar').then(m => ({ default: m.SearchBar })))
 const Typography = lazy(async () => import('@/components/Typography'))
-interface ValidType {
-	id: string | number
-	name: string
-}
 
-interface Props<T extends string | number | readonly string[], O extends ValidType>
+interface Props<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<
 		React.ButtonHTMLAttributes<HTMLButtonElement>,
 		HTMLButtonElement
 	> {
-	options: O[]
+	options: EmployeeDto[]
 	value: T
 	name: string
 	loading: boolean
@@ -22,24 +19,24 @@ interface Props<T extends string | number | readonly string[], O extends ValidTy
 	onInputChange: React.ChangeEventHandler<HTMLInputElement>
 	open: boolean
 	handlePopoverOpen: () => void
-	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
+	onChangeValue: (name: EmployeeDto['userName'], value: EmployeeDto['id']) => void
 }
 
-export function Popover<O extends ValidType, T extends string | number | readonly string[]>({
+export function PopoverEmployee<T extends string | number | readonly string[]>({
 	id,
 	options,
 	value,
 	name,
+	loading,
 	inputValue,
 	open,
-	loading,
 	onInputChange,
 	onChangeValue,
 	handlePopoverOpen
-}: Props<T, O>) {
+}: Props<T>) {
 	const labelValue = useMemo(() => {
 		if (value) {
-			return options.find(data => String(data.id) === String(value))?.name
+			return options.find(data => String(data.id) === String(value))?.userName
 		}
 		return
 	}, [value, options])
@@ -81,17 +78,24 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 					{!loading &&
 						options.length > 0 &&
 						options.map((option, index) => {
-							const matches = match(option?.name, inputValue ?? '', {
+							const matches = match(option.userName, inputValue ?? '', {
 								insideWords: true
 							})
-							const parts = parse(option?.name, matches)
+							const parts = parse(option.userName, matches)
+							const fullName = `${option?.name ? option?.name : ''} ${
+								option?.lastName ? option?.lastName : ''
+							}`
+							const fullNameMatch = match(fullName, inputValue ?? '', {
+								insideWords: true
+							})
+							const fullNameParts = parse(fullName, fullNameMatch)
 							return (
 								<li
 									key={option.id}
 									data-option-index={index}
 									aria-disabled={false}
 									aria-selected={false}
-									value={value}
+									value={inputValue}
 									onClick={() => {
 										onChangeValue(name, option.id)
 										handlePopoverOpen()
@@ -99,18 +103,32 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 									role="option"
 									className="w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200"
 								>
-									<Typography variant="p">
-										{parts.map((part, index) => (
-											<Typography
-												key={index}
-												variant="span"
-												option="tiny"
-												weight={part.highlight ? 'extrabold' : 'light'}
-											>
-												{part.text}
-											</Typography>
-										))}
-									</Typography>
+									<div>
+										<Typography variant="p">
+											{parts.map((part, index) => (
+												<Typography
+													key={index}
+													variant="span"
+													option="tiny"
+													transform="uppercase"
+													weight={part.highlight ? 'bold' : 'light'}
+												>
+													{part.text}
+												</Typography>
+											))}
+										</Typography>
+										<Typography variant="p" color={'gris'}>
+											{fullNameParts.map((part, index) => (
+												<Typography
+													key={index}
+													variant="span"
+													weight={part.highlight ? 'extrabold' : 'light'}
+												>
+													{part.text}
+												</Typography>
+											))}
+										</Typography>
+									</div>
 								</li>
 							)
 						})}

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom'
 
 const Prueba = lazy(async () => import('@/pages/Prueba').then(m => ({ default: m.Prueba })))
 const ListComputer = lazy(async () => import('@/pages/ListComputer'))
+const ListMonitor = lazy(async () => import('@/pages/ListMonitor'))
 const UserManagement = lazy(async () => import('@/pages/UserManagement'))
 const NotFound = lazy(async () => await import('@/pages/404'))
 const Home = lazy(async () => await import('@/pages/Home'))
@@ -68,6 +69,14 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<ListComputer />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/monitor"
+					element={
+						<Suspense>
+							<ListMonitor />
 						</Suspense>
 					}
 				/>

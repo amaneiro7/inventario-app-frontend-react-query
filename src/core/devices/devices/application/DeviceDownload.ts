@@ -1,6 +1,9 @@
 import { Source } from '@/types/type'
 import { DeviceDownloadRepository } from '../domain/repository/DeviceDownloadRepository'
-import { createDeviceQueryParams, DeviceComputerFilters } from './CreateDeviceComputerParams'
+import {
+	createDeviceQueryParams,
+	DeviceComputerFilters
+} from './computerFilter/CreateDeviceComputerParams'
 import { EventManager } from '@/core/shared/domain/Observer/EventManager'
 
 export class DeviceDownload {

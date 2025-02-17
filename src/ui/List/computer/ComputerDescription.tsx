@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy } from 'react'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
@@ -24,7 +24,7 @@ const TableDescDivider = lazy(async () =>
 
 export function ComputerDescription({ open, device }: Props) {
 	return (
-		<Suspense>
+		<>
 			<TableCellDescription
 				open={open}
 				state={device}
@@ -154,6 +154,6 @@ export function ComputerDescription({ open, device }: Props) {
 					text={device.updatedAt ? new Date(device.updatedAt).toLocaleDateString() : ''}
 				/>
 			</TableCellDescription>
-		</Suspense>
+		</>
 	)
 }

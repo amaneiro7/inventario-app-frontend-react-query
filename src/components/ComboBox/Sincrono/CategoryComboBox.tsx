@@ -30,7 +30,8 @@ export const CategoryCombobox = memo(function ({
 	useEffectAfterMount(() => {
 		setQuery({
 			options: {
-				name: debouncedSearch
+				name: debouncedSearch,
+				mainCategoryId
 			},
 			pageSize: debouncedSearch === '' ? 10 : undefined
 		})

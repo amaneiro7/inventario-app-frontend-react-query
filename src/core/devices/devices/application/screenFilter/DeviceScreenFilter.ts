@@ -1,11 +1,11 @@
-import { DeviceGetAllRepository } from '../domain/repository/DeviceGetAllRepository'
-import { DeviceGetAll } from './DeviceGetAll'
+import { DeviceGetAllRepository } from '../../domain/repository/DeviceGetAllRepository'
+import { DeviceGetAll } from '../DeviceGetAll'
 import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
-import { createDeviceQueryParams, type DeviceComputerFilters } from './CreateDeviceComputerParams'
+import { createDeviceQueryParams, type DeviceScreenFilters } from './CreateDeviceScreenParams'
 
-export const defaultMainCategoryValue = MainCategoryOptions.COMPUTER
+export const defaultMainCategoryValue = MainCategoryOptions.SCREENS
 
-export class DeviceComputerFilter {
+export class DeviceScreenFilter {
 	static readonly pegaSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	static readonly defaultOrderBy = 'employeeId'
@@ -16,18 +16,18 @@ export class DeviceComputerFilter {
 
 	async search({
 		pageNumber = 1,
-		pageSize = DeviceComputerFilter.defaultPageSize,
-		orderBy = DeviceComputerFilter.defaultOrderBy,
+		pageSize = DeviceScreenFilter.defaultPageSize,
+		orderBy = DeviceScreenFilter.defaultOrderBy,
 		orderType,
 		...options
-	}: DeviceComputerFilters) {
+	}: DeviceScreenFilters) {
 		const queryParams = await createDeviceQueryParams({
 			...options,
 			pageNumber,
 			pageSize,
 			orderBy,
 			orderType,
-			defaultQuery: 'computer'
+			defaultQuery: 'monitor'
 		})
 
 		return this.getAll.execute(queryParams)

@@ -84,6 +84,16 @@ export const navigation: Navigation[] = [
 				path: '/model/add'
 			},
 			{
+				title: 'Agregar un nueva Marca',
+				desc: 'Aqui se puede agregar un nueva marca',
+				path: '/brand/add'
+			},
+			{
+				title: 'Agregar un nuevo Procesador',
+				desc: 'Aqui se puede agregar un nuevo procesador',
+				path: '/processors/add'
+			},
+			{
 				title: 'Agregar una nueva ubicación',
 				desc: 'Aqui se puede agregar una nueva ubicación',
 				path: '/location/add'
