@@ -1,8 +1,9 @@
-import { lazy, Suspense, useCallback } from 'react'
+import { lazy, Suspense, useCallback, useMemo } from 'react'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { usePartsFilter } from '@/hooks/filters/usePartsFilters'
 import { useGetAllPartsDevices } from '@/core/devices/devices/infra/hook/useGetAllPartsDevices'
 import { DevicePartsFilter } from '@/core/devices/devices/application/parts/DevicePartsFilter'
+import { Loading } from '@/components/Loading'
 import { type DevicePartsFilters } from '@/core/devices/devices/application/parts/CreateDevicePartsParams'
 
 const ListWrapper = lazy(
@@ -35,23 +36,32 @@ export default function ListParts() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
 		usePartsFilter()
 
-	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof DevicePartsFilters
-		setFilters({ [key]: value })
-		setPageNumber(1)
-	}
+	const handleChange = useCallback(
+		(name: string, value: string | number) => {
+			const key = name as keyof DevicePartsFilters
+			setFilters({ [key]: value })
+			setPageNumber(1)
+		},
+		[setFilters]
+	)
 
-	const handlePageSize = useCallback((pageSize: number) => {
-		setPageSize(pageSize)
-		setPageNumber(1)
-	}, [])
+	const handlePageSize = useCallback(
+		(pageSize: number) => {
+			setPageSize(pageSize)
+			setPageNumber(1)
+		},
+		[setPageSize, setPageNumber]
+	)
 
-	const handlePageClick = useCallback(({ selected }: { selected: number }) => {
-		setPageNumber(selected + 1)
-	}, [])
+	const handlePageClick = useCallback(
+		({ selected }: { selected: number }) => {
+			setPageNumber(selected + 1)
+		},
+		[setPageNumber]
+	)
 
 	const { download, isDownloading } = useDownloadExcelService({
-		query: query,
+		query,
 		source: 'parts'
 	})
 
@@ -59,8 +69,18 @@ export default function ListParts() {
 		...query
 	})
 
+	const tableContent = useMemo(() => {
+		return isLoading ? (
+			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+		) : (
+			<Suspense>
+				<TableParts devices={devices?.data} />
+			</Suspense>
+		)
+	}, [isLoading, devices.data, query.pageSize])
+
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<ListWrapper
 				title="Lista de partes y piezas"
 				typeOfSiteId={query.typeOfSiteId}
@@ -98,17 +118,7 @@ export default function ListParts() {
 				}
 				total={devices?.info.total}
 				loading={isLoading}
-				table={
-					<TableDefaultDevice>
-						{isLoading ? (
-							<LoadingTable registerPerPage={query.pageSize} colspan={7} />
-						) : (
-							<Suspense>
-								<TableParts devices={devices?.data} />
-							</Suspense>
-						)}
-					</TableDefaultDevice>
-				}
+				table={<TableDefaultDevice>{tableContent}</TableDefaultDevice>}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
 				registerOptions={DevicePartsFilter.pegaSizeOptions}
@@ -116,6 +126,6 @@ export default function ListParts() {
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
 			/>
-		</>
+		</Suspense>
 	)
 }

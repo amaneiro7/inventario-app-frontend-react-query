@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { DeviceComputerFilter } from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
 import { DeviceGetAllService } from '@/core/devices/devices/infra/service/deviceGetAll.service'
 import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
@@ -13,7 +13,7 @@ export const useGetAllComputerDevices = (query: DeviceComputerFilters) => {
 		refetch,
 		isError,
 		data: devices
-	} = useQuery({
+	} = useSuspenseQuery({
 		queryKey: ['devices', query],
 		queryFn: () => getAll.search(query)
 	})

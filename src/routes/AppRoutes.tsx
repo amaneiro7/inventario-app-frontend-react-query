@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-const Loading = lazy(async () => import('@/components/Loading').then(m => ({ default: m.Loading })))
 const ListComputer = lazy(async () => import('@/pages/ListComputer'))
 const ListMonitor = lazy(async () => import('@/pages/ListMonitor'))
 const ListPrinter = lazy(async () => import('@/pages/ListPrinter'))
@@ -23,7 +22,7 @@ export function AppRoutes() {
 			<Route
 				path="/login"
 				element={
-					<Suspense fallback={<Loading />}>
+					<Suspense>
 						<Login />
 					</Suspense>
 				}
@@ -31,7 +30,7 @@ export function AppRoutes() {
 			<Route
 				path="/"
 				element={
-					<Suspense fallback={<Loading />}>
+					<Suspense>
 						<Layout />
 					</Suspense>
 				}
@@ -39,7 +38,7 @@ export function AppRoutes() {
 				<Route
 					path="/"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<Home />
 						</Suspense>
 					}
@@ -47,7 +46,7 @@ export function AppRoutes() {
 				<Route
 					path="/profile"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<Profile />
 						</Suspense>
 					}
@@ -55,7 +54,7 @@ export function AppRoutes() {
 				<Route
 					path="/user-management"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<UserManagement />
 						</Suspense>
 					}
@@ -63,7 +62,7 @@ export function AppRoutes() {
 				<Route
 					path="/computer"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<ListComputer />
 						</Suspense>
 					}
@@ -71,7 +70,7 @@ export function AppRoutes() {
 				<Route
 					path="/monitor"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<ListMonitor />
 						</Suspense>
 					}
@@ -79,7 +78,7 @@ export function AppRoutes() {
 				<Route
 					path="/printer"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<ListPrinter />
 						</Suspense>
 					}
@@ -87,7 +86,7 @@ export function AppRoutes() {
 				<Route
 					path="/finantialprinter"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<ListFinantialPrinter />
 						</Suspense>
 					}
@@ -95,7 +94,7 @@ export function AppRoutes() {
 				<Route
 					path="/parts"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<ListParts />
 						</Suspense>
 					}
@@ -103,7 +102,7 @@ export function AppRoutes() {
 				<Route
 					path="/model"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<ListModels />
 						</Suspense>
 					}
@@ -111,7 +110,7 @@ export function AppRoutes() {
 				<Route
 					path="/brand/add"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<FormBrand />
 						</Suspense>
 					}
@@ -119,7 +118,7 @@ export function AppRoutes() {
 				<Route
 					path="/brand/edit/:id"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<FormBrand />
 						</Suspense>
 					}
@@ -127,7 +126,7 @@ export function AppRoutes() {
 				<Route
 					path="/processors/add"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<FormProcessor />
 						</Suspense>
 					}
@@ -135,7 +134,7 @@ export function AppRoutes() {
 				<Route
 					path="/processors/edit/:id"
 					element={
-						<Suspense fallback={<Loading />}>
+						<Suspense>
 							<FormProcessor />
 						</Suspense>
 					}
@@ -144,7 +143,7 @@ export function AppRoutes() {
 			<Route
 				path="*"
 				element={
-					<Suspense fallback={<Loading />}>
+					<Suspense>
 						<NotFound />
 					</Suspense>
 				}

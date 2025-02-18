@@ -1,16 +1,11 @@
-import { lazy, Suspense } from 'react'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { lazy } from 'react'
 
 const Table = lazy(async () =>
 	import('@/components/Table/Table').then(m => ({
 		default: m.Table
 	}))
 )
-const LoadingTable = lazy(async () =>
-	import('@/components/Table/LoadingTable').then(m => ({
-		default: m.LoadingTable
-	}))
-)
+
 const TableHeader = lazy(async () =>
 	import('@/components/Table/TableHeader').then(m => ({
 		default: m.TableHeader
@@ -31,19 +26,8 @@ const TableHead = lazy(async () =>
 		default: m.TableHead
 	}))
 )
-const TableDevice = lazy(async () =>
-	import('./TableDevice').then(m => ({
-		default: m.TableDevice
-	}))
-)
 
-interface Props {
-	devices?: DeviceDto[]
-	loading: boolean
-	pageSize?: number
-}
-
-export function TableWrapper({ devices, loading = true, pageSize = 25 }: Props) {
+export function TableWrapper({ children }: React.PropsWithChildren) {
 	return (
 		<Table>
 			<TableHeader>
@@ -60,15 +44,7 @@ export function TableWrapper({ devices, loading = true, pageSize = 25 }: Props) 
 					<TableHead size="xxSmall" name="" />
 				</TableRow>
 			</TableHeader>
-			<TableBody>
-				{loading ? (
-					<LoadingTable colspan={9} registerPerPage={pageSize} />
-				) : (
-					<Suspense>
-						<TableDevice devices={devices} />
-					</Suspense>
-				)}
-			</TableBody>
+			<TableBody>{children}</TableBody>
 		</Table>
 	)
 }

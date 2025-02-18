@@ -1,8 +1,9 @@
-import { lazy, Suspense, useCallback } from 'react'
+import { lazy, Suspense, useCallback, useMemo } from 'react'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { useScreenFilter } from '@/hooks/filters/useScreenFilters'
 import { DeviceScreenFilter } from '@/core/devices/devices/application/screenFilter/DeviceScreenFilter'
 import { useGetAllScreenDevices } from '@/core/devices/devices/infra/hook/useGetAllScreenDevices'
+import { Loading } from '@/components/Loading'
 import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
 
 const ListWrapper = lazy(
@@ -35,23 +36,32 @@ export default function ListMonitor() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
 		useScreenFilter()
 
-	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof DeviceScreenFilters
-		setFilters({ [key]: value })
-		setPageNumber(1)
-	}
+	const handleChange = useCallback(
+		(name: string, value: string | number) => {
+			const key = name as keyof DeviceScreenFilters
+			setFilters({ [key]: value })
+			setPageNumber(1)
+		},
+		[setFilters]
+	)
 
-	const handlePageSize = useCallback((pageSize: number) => {
-		setPageSize(pageSize)
-		setPageNumber(1)
-	}, [])
+	const handlePageSize = useCallback(
+		(pageSize: number) => {
+			setPageSize(pageSize)
+			setPageNumber(1)
+		},
+		[setPageSize, setPageNumber]
+	)
 
-	const handlePageClick = useCallback(({ selected }: { selected: number }) => {
-		setPageNumber(selected + 1)
-	}, [])
+	const handlePageClick = useCallback(
+		({ selected }: { selected: number }) => {
+			setPageNumber(selected + 1)
+		},
+		[setPageNumber]
+	)
 
 	const { download, isDownloading } = useDownloadExcelService({
-		query: query,
+		query,
 		source: 'monitor'
 	})
 
@@ -59,8 +69,18 @@ export default function ListMonitor() {
 		...query
 	})
 
+	const tableContent = useMemo(() => {
+		return isLoading ? (
+			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+		) : (
+			<Suspense>
+				<TableMonitor devices={devices?.data} />
+			</Suspense>
+		)
+	}, [isLoading, devices.data, query.pageSize])
+
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<ListWrapper
 				title="Lista de pantallas"
 				typeOfSiteId={query.typeOfSiteId}
@@ -98,17 +118,7 @@ export default function ListMonitor() {
 				}
 				total={devices?.info.total}
 				loading={isLoading}
-				table={
-					<TableDefaultDevice>
-						{isLoading ? (
-							<LoadingTable registerPerPage={query.pageSize} colspan={7} />
-						) : (
-							<Suspense>
-								<TableMonitor devices={devices?.data} />
-							</Suspense>
-						)}
-					</TableDefaultDevice>
-				}
+				table={<TableDefaultDevice>{tableContent}</TableDefaultDevice>}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
 				registerOptions={DeviceScreenFilter.pegaSizeOptions}
@@ -116,6 +126,6 @@ export default function ListMonitor() {
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
 			/>
-		</>
+		</Suspense>
 	)
 }

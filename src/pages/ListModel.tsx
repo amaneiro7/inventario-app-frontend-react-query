@@ -1,8 +1,9 @@
-import { lazy, Suspense, useCallback } from 'react'
+import { lazy, Suspense, useCallback, useMemo } from 'react'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { useModelsFilter } from '@/hooks/filters/useModelsFilters'
 import { ModelGetByCriteria } from '@/core/model/models/application/ModelGetByCriteria'
 import { useGetAllModel } from '@/hooks/getAll/useGetAllModel'
+import { Loading } from '@/components/Loading'
 import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 
 const ListWrapper = lazy(
@@ -24,23 +25,32 @@ const LoadingTable = lazy(async () =>
 export default function ListMonitor() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, ...query } = useModelsFilter()
 
-	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof ModelFilters
-		setFilters({ [key]: value })
-		setPageNumber(1)
-	}
+	const handleChange = useCallback(
+		(name: string, value: string | number) => {
+			const key = name as keyof ModelFilters
+			setFilters({ [key]: value })
+			setPageNumber(1)
+		},
+		[setFilters]
+	)
 
-	const handlePageSize = useCallback((pageSize: number) => {
-		setPageSize(pageSize)
-		setPageNumber(1)
-	}, [])
+	const handlePageSize = useCallback(
+		(pageSize: number) => {
+			setPageSize(pageSize)
+			setPageNumber(1)
+		},
+		[setPageSize, setPageNumber]
+	)
 
-	const handlePageClick = useCallback(({ selected }: { selected: number }) => {
-		setPageNumber(selected + 1)
-	}, [])
+	const handlePageSelection = useCallback(
+		({ selected }: { selected: number }) => {
+			setPageNumber(selected + 1)
+		},
+		[setPageNumber]
+	)
 
 	const { download, isDownloading } = useDownloadExcelService({
-		query: query,
+		query,
 		source: 'model'
 	})
 
@@ -48,8 +58,18 @@ export default function ListMonitor() {
 		...query
 	})
 
+	const tableContent = useMemo(() => {
+		return isLoading ? (
+			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+		) : (
+			<Suspense>
+				<TableModels models={models?.data} />
+			</Suspense>
+		)
+	}, [isLoading, models.data, query.pageSize])
+
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<ListWrapper
 				title="Lista de modelos"
 				handleChange={handleChange}
@@ -61,24 +81,14 @@ export default function ListMonitor() {
 				// otherFilter={}
 				total={models?.info.total}
 				loading={isLoading}
-				table={
-					<TableModelWrapper>
-						{isLoading ? (
-							<LoadingTable registerPerPage={query.pageSize} colspan={7} />
-						) : (
-							<Suspense>
-								<TableModels models={models?.data} />
-							</Suspense>
-						)}
-					</TableModelWrapper>
-				}
+				table={<TableModelWrapper>{tableContent}</TableModelWrapper>}
 				currentPage={models?.info.page}
 				totalPages={models?.info.totalPage}
 				registerOptions={ModelGetByCriteria.pegaSizeOptions}
 				pageSize={query.pageSize}
-				handlePageClick={handlePageClick}
+				handlePageClick={handlePageSelection}
 				handlePageSize={handlePageSize}
 			/>
-		</>
+		</Suspense>
 	)
 }

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/core/devices/devices/infra/service/deviceGetAll.service'
 import { DeviceScreenFilter } from '../../application/screenFilter/DeviceScreenFilter'
 import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
@@ -13,7 +13,7 @@ export const useGetAllScreenDevices = (query: DeviceScreenFilters) => {
 		refetch,
 		isError,
 		data: devices
-	} = useQuery({
+	} = useSuspenseQuery({
 		queryKey: ['devices', query],
 		queryFn: () => getAll.search(query)
 	})

@@ -1,4 +1,4 @@
-import { lazy, memo, useRef } from 'react'
+import { lazy, memo, Suspense, useRef } from 'react'
 import { FilterAsideRef } from './FilterAside/FilterAside'
 import { useNavigate } from 'react-router-dom'
 import { SpinnerSKCircle } from '@/components/Loading/spinner-sk-circle'
@@ -76,31 +76,37 @@ export const ListWrapper = memo(function ({
 }) {
 	const navigate = useNavigate()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
+	console.log('Me he renderizado')
 	return (
 		<>
 			<PageTitle title={title} optionalText={!loading ? `${total} resultados` : ''} />
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
-					<FilterSection>
-						{mainFilter}
-						{otherFilter ? (
-							<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
-						) : null}
-					</FilterSection>
-
-					<ButtonSection
-						loading={isDownloading}
-						handleExportToExcel={handleExportToExcel}
-						handleAdd={() => {
-							navigate(url)
-						}}
-						handleFilter={filterAsideRef.current?.handleOpen}
-						handleClear={handleClear}
-					/>
+					<Suspense>
+						<FilterSection>
+							{mainFilter}
+							{otherFilter ? (
+								<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
+							) : null}
+						</FilterSection>
+					</Suspense>
+					<Suspense>
+						<ButtonSection
+							loading={isDownloading}
+							handleExportToExcel={handleExportToExcel}
+							handleAdd={() => {
+								navigate(url)
+							}}
+							handleFilter={filterAsideRef.current?.handleOpen}
+							handleClear={handleClear}
+						/>
+					</Suspense>
 				</DetailsBoxWrapper>
 				<div className="w-full flex flex-col justify-start">
 					{typeOfSiteId !== undefined ? (
-						<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
+						<Suspense>
+							<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
+						</Suspense>
 					) : null}
 					{loading || table === undefined ? <SpinnerSKCircle /> : null}
 					{table}

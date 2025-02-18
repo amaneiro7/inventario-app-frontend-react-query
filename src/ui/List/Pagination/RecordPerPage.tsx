@@ -1,4 +1,6 @@
-export function RecordPerPage({
+import { memo } from 'react'
+
+export const RecordPerPage = memo(function ({
 	pageSize,
 	registerOptions,
 	total,
@@ -38,4 +40,4 @@ export function RecordPerPage({
 			) : null}
 		</>
 	)
-}
+})

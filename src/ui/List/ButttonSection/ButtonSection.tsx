@@ -1,4 +1,4 @@
-import { lazy, memo, MouseEventHandler, Suspense } from 'react'
+import { lazy, memo, MouseEventHandler } from 'react'
 
 interface Props {
 	handleClear?: () => void
@@ -36,21 +36,9 @@ export const ButtonSection = memo(
 					disabled={loading}
 					icon={
 						loading ? (
-							<Suspense
-								fallback={
-									<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-								}
-							>
-								<CircleSpinningIcon width={20} />
-							</Suspense>
+							<CircleSpinningIcon width={20} />
 						) : (
-							<Suspense
-								fallback={
-									<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-								}
-							>
-								<DownloadIcon width={20} className="aspect-square" />
-							</Suspense>
+							<DownloadIcon width={20} className="aspect-square" />
 						)
 					}
 					onClick={handleExportToExcel}
@@ -63,15 +51,7 @@ export const ButtonSection = memo(
 					size="content"
 					onClick={handleAdd}
 					buttonSize="medium"
-					icon={
-						<Suspense
-							fallback={
-								<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-							}
-						>
-							<AddIcon width={20} fill="white" className="aspect-square" />
-						</Suspense>
-					}
+					icon={<AddIcon width={20} fill="white" className="aspect-square" />}
 				/>
 
 				<Button
@@ -91,15 +71,7 @@ export const ButtonSection = memo(
 						text="Filtros"
 						buttonSize="medium"
 						onClick={handleFilter}
-						icon={
-							<Suspense
-								fallback={
-									<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-								}
-							>
-								<FilterIcon width={14} className="aspect-square" />
-							</Suspense>
-						}
+						icon={<FilterIcon width={14} className="aspect-square" />}
 					/>
 				) : null}
 			</section>

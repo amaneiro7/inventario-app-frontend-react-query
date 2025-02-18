@@ -1,8 +1,9 @@
-import { lazy, Suspense, useCallback } from 'react'
+import { lazy, Suspense, useCallback, useMemo } from 'react'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { useGetAllFinantialPrinterDevices } from '@/core/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
 import { useFinantialPrinterFilter } from '@/hooks/filters/useFinantialPrinterFilters'
 import { DeviceFinantialPrinterFilter } from '@/core/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
+import { Loading } from '@/components/Loading'
 import { type DevicePrinterFilters } from '@/core/devices/devices/application/printer/CreateDevicePrinterParams'
 
 const ListWrapper = lazy(
@@ -37,23 +38,32 @@ export default function ListFinantialPrinter() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
 		useFinantialPrinterFilter()
 
-	const handleChange = (name: string, value: string | number) => {
-		const key = name as keyof DevicePrinterFilters
-		setFilters({ [key]: value })
-		setPageNumber(1)
-	}
+	const handleChange = useCallback(
+		(name: string, value: string | number) => {
+			const key = name as keyof DevicePrinterFilters
+			setFilters({ [key]: value })
+			setPageNumber(1)
+		},
+		[setFilters]
+	)
 
-	const handlePageSize = useCallback((pageSize: number) => {
-		setPageSize(pageSize)
-		setPageNumber(1)
-	}, [])
+	const handlePageSize = useCallback(
+		(pageSize: number) => {
+			setPageSize(pageSize)
+			setPageNumber(1)
+		},
+		[setPageSize, setPageNumber]
+	)
 
-	const handlePageClick = useCallback(({ selected }: { selected: number }) => {
-		setPageNumber(selected + 1)
-	}, [])
+	const handlePageSelected = useCallback(
+		({ selected }: { selected: number }) => {
+			setPageNumber(selected + 1)
+		},
+		[setPageNumber]
+	)
 
 	const { download, isDownloading } = useDownloadExcelService({
-		query: query,
+		query,
 		source: 'finantialPrinter'
 	})
 
@@ -61,8 +71,18 @@ export default function ListFinantialPrinter() {
 		...query
 	})
 
+	const tableContent = useMemo(() => {
+		return isLoading ? (
+			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+		) : (
+			<Suspense>
+				<TableFinantialPrinter devices={devices?.data} />
+			</Suspense>
+		)
+	}, [isLoading, devices.data, query.pageSize])
+
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<ListWrapper
 				title="Lista de impresoras financieras"
 				typeOfSiteId={query.typeOfSiteId}
@@ -100,24 +120,14 @@ export default function ListFinantialPrinter() {
 				}
 				total={devices?.info.total}
 				loading={isLoading}
-				table={
-					<TableDefaultDevice>
-						{isLoading ? (
-							<LoadingTable registerPerPage={query.pageSize} colspan={7} />
-						) : (
-							<Suspense>
-								<TableFinantialPrinter devices={devices?.data} />
-							</Suspense>
-						)}
-					</TableDefaultDevice>
-				}
+				table={<TableDefaultDevice>{tableContent}</TableDefaultDevice>}
 				currentPage={devices?.info.page}
 				totalPages={devices?.info.totalPage}
 				registerOptions={DeviceFinantialPrinterFilter.pegaSizeOptions}
 				pageSize={query.pageSize}
-				handlePageClick={handlePageClick}
+				handlePageClick={handlePageSelected}
 				handlePageSize={handlePageSize}
 			/>
-		</>
+		</Suspense>
 	)
 }
