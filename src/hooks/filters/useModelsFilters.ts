@@ -42,12 +42,12 @@ export function useModelsFilter() {
 
 	const mainCategoryId = searchParams.get('mainCategoryId') as ModelFilters['mainCategoryId']
 	const categoryId = searchParams.get('categoryId') as ModelFilters['categoryId']
-	const name = searchParams.get('name') as ModelFilters['name']
+	const id = searchParams.get('id') as ModelFilters['id']
 	const brandId = searchParams.get('brandId') as ModelFilters['brandId']
 
 	const pageNumber = searchParams.get('pageNumber')
 		? parseInt(searchParams.get('pageNumber') as string)
-		: 1
+		: undefined
 	const pageSize = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)
 		: ModelGetByCriteria.defaultPageSize
@@ -56,7 +56,7 @@ export function useModelsFilter() {
 		mainCategoryId,
 		categoryId,
 		brandId,
-		name,
+		id,
 		pageNumber,
 		pageSize,
 		cleanFilters,

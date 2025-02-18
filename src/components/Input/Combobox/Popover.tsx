@@ -1,4 +1,4 @@
-import { lazy, useMemo } from 'react'
+import { lazy, useCallback, useMemo } from 'react'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 
@@ -38,11 +38,62 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 	handlePopoverOpen
 }: Props<T, O>) {
 	const labelValue = useMemo(() => {
-		if (value) {
-			return options.find(data => String(data.id) === String(value))?.name
-		}
-		return
+		return options.find(data => String(data.id) === String(value))?.name
 	}, [value, options])
+
+	const hanldeOptionClick = useCallback(
+		(option: ValidType) => {
+			onChangeValue(name, option.id)
+			handlePopoverOpen()
+		},
+		[onChangeValue, handlePopoverOpen, name]
+	)
+
+	const popoverContent = useMemo(() => {
+		return loading ? (
+			<li className="w-full pl-2 rounded py-1">
+				<Typography variant="span" option="tiny">
+					Cargando...
+				</Typography>
+			</li>
+		) : options.length === 0 ? (
+			<li className="w-full pl-2 rounded py-1">
+				<Typography variant="p" option="tiny">
+					No existe
+				</Typography>
+			</li>
+		) : (
+			options.map((option, index) => {
+				const matches = match(option.name, inputValue ?? '', { insideWords: true })
+				const parts = parse(option.name, matches)
+				return (
+					<li
+						key={option.id}
+						data-option-index={index}
+						aria-disabled={false}
+						aria-selected={false}
+						value={value}
+						onClick={() => hanldeOptionClick(option)}
+						role="option"
+						className="w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200"
+					>
+						<Typography variant="p">
+							{parts.map((part, index) => (
+								<Typography
+									key={index}
+									variant="span"
+									option="tiny"
+									weight={part.highlight ? 'extrabold' : 'light'}
+								>
+									{part.text}
+								</Typography>
+							))}
+						</Typography>
+					</li>
+				)
+			})
+		)
+	}, [loading, options, inputValue])
 
 	return (
 		<>
@@ -64,56 +115,7 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 					id={`combo-box-${name}-listbox`}
 					aria-labelledby={`combo-box-${name}-label`}
 				>
-					{loading && (
-						<li className="w-full pl-2 rounded py-1">
-							<Typography variant="span" option="tiny">
-								Cargando...
-							</Typography>
-						</li>
-					)}
-					{!loading && options.length === 0 && (
-						<li className="w-full pl-2 rounded py-1">
-							<Typography variant="p" option="tiny">
-								No existe
-							</Typography>
-						</li>
-					)}
-					{!loading &&
-						options.length > 0 &&
-						options.map((option, index) => {
-							const matches = match(option?.name, inputValue ?? '', {
-								insideWords: true
-							})
-							const parts = parse(option?.name, matches)
-							return (
-								<li
-									key={option.id}
-									data-option-index={index}
-									aria-disabled={false}
-									aria-selected={false}
-									value={value}
-									onClick={() => {
-										onChangeValue(name, option.id)
-										handlePopoverOpen()
-									}}
-									role="option"
-									className="w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200"
-								>
-									<Typography variant="p">
-										{parts.map((part, index) => (
-											<Typography
-												key={index}
-												variant="span"
-												option="tiny"
-												weight={part.highlight ? 'extrabold' : 'light'}
-											>
-												{part.text}
-											</Typography>
-										))}
-									</Typography>
-								</li>
-							)
-						})}
+					{popoverContent}
 				</ul>
 			</div>
 		</>

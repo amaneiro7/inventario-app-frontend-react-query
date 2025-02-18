@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import {
-	CategoryFilters,
-	CategoryGetByCriteria
-} from '@/core/category/application/CategoryGetByCriteria'
+import { CategoryGetByCriteria } from '@/core/category/application/CategoryGetByCriteria'
 import { CategoryGetAllService } from '@/core/category/infra/categoryGetAll.service'
+import { type CategoryFilters } from '@/core/category/application/CreateCategoryQueryParams'
 
 export const useGetAllCategory = (query: CategoryFilters) => {
 	const repository = useMemo(() => new CategoryGetAllService(), [])
@@ -16,7 +14,7 @@ export const useGetAllCategory = (query: CategoryFilters) => {
 		isError,
 		data: categories
 	} = useQuery({
-		queryKey: ['categories', query.options],
+		queryKey: ['categories', query],
 		queryFn: async () => await getAll.search(query),
 		staleTime: Infinity
 	})

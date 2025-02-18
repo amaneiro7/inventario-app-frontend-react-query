@@ -76,20 +76,20 @@ export const ListWrapper = memo(function ({
 }) {
 	const navigate = useNavigate()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
-	console.log('Me he renderizado')
+
 	return (
 		<>
 			<PageTitle title={title} optionalText={!loading ? `${total} resultados` : ''} />
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
-					<Suspense>
-						<FilterSection>
+					<FilterSection>
+						<Suspense>
 							{mainFilter}
 							{otherFilter ? (
 								<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
 							) : null}
-						</FilterSection>
-					</Suspense>
+						</Suspense>
+					</FilterSection>
 					<Suspense>
 						<ButtonSection
 							loading={isDownloading}

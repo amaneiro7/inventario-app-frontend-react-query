@@ -69,7 +69,7 @@ export function useComputerFilter() {
 
 	const pageNumber = searchParams.get('pageNumber')
 		? parseInt(searchParams.get('pageNumber') as string)
-		: 1
+		: undefined
 	const pageSize = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)
 		: DeviceComputerFilter.defaultPageSize

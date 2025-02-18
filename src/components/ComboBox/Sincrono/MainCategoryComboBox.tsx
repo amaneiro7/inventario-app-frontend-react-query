@@ -1,42 +1,39 @@
-import { lazy, memo, useMemo, useState } from 'react'
-import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
+import { lazy, memo, Suspense, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import { type CategoryFilters } from '@/core/category/application/CreateCategoryQueryParams'
+import { useGetAllMainCategory } from '@/hooks/getAll/useGetAllMainCategory'
+import { type MainCategoryFilters } from '@/core/mainCategory/application/CreateMainCategoryQueryParams'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
 )
-export const CategoryCombobox = memo(function ({
+export const MainCategoryCombobox = memo(function ({
 	value = '',
 	name,
-	mainCategoryId,
 	handleChange
 }: {
 	value?: string
 	name: string
-	mainCategoryId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue, 250)
 
-	const query: CategoryFilters = useMemo(() => {
+	const query: MainCategoryFilters = useMemo(() => {
 		return {
 			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
-			...(value ? { id: value } : {}),
-			mainCategoryId
+			...(value ? { id: value } : {})
 		}
-	}, [debouncedSearch, value, mainCategoryId])
+	}, [debouncedSearch, value])
 
-	const { categories, isLoading } = useGetAllCategory(query)
+	const { mainCategories, isLoading } = useGetAllMainCategory(query)
 
-	const options = useMemo(() => categories?.data ?? [], [categories])
+	const options = useMemo(() => mainCategories?.data ?? [], [mainCategories])
 
 	return (
-		<>
+		<Suspense>
 			<Combobox
-				id="category"
-				label="SubCategoria"
+				id="mainCategory"
+				label="Categoria"
 				value={value}
 				inputValue={inputValue}
 				name={name}
@@ -47,6 +44,6 @@ export const CategoryCombobox = memo(function ({
 				}}
 				onChangeValue={handleChange}
 			/>
-		</>
+		</Suspense>
 	)
 })

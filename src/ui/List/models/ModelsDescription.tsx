@@ -72,43 +72,38 @@ export function ModelDescription({ open, model }: Props) {
 					</TableDescDivider>
 				)}
 
-				{/* <TableDescDivider label="Información de ubicación">
-					<TableCellDescInfo
-						title="Región"
-						text={`${model?.location?.site.city.state.region.name ?? ''}`}
-					/>
-					<TableCellDescInfo
-						title="Estado"
-						text={`${model?.location?.site.city.state.name ?? ''}`}
-					/>
-					<TableCellDescInfo
-						title="Ciudad"
-						text={`${model?.location?.site.city.name ?? ''}`}
-					/>
-				</TableDescDivider>
-
-				<TableDescDivider label="Información de pantalla">
-					<TableCellDescInfo
-						title="Tamaño de Pantalla"
-						text={
-							model?.model?.modelMonitor
-								? `${model?.model?.modelMonitor?.screenSize}'`
-								: ''
-						}
-					/>
-					<TableCellDescInfo
-						title="Puerto VGA"
-						text={model?.model?.modelMonitor?.hasVGA ? 'Si' : 'No'}
-					/>
-					<TableCellDescInfo
-						title="Puerto DVI"
-						text={model?.model?.modelMonitor?.hasDVI ? 'Si' : 'No'}
-					/>
-					<TableCellDescInfo
-						title="Puerto HDMI"
-						text={model?.model?.modelMonitor?.hasHDMI ? 'Si' : 'No'}
-					/>
-				</TableDescDivider> */}
+				{model?.modelKeyboard && (
+					<TableDescDivider label="Información de teclado">
+						<TableCellDescInfo
+							title="Tipo de entrada"
+							text={`${model?.modelKeyboard?.inputType.name ?? ''}`}
+						/>
+						<TableCellDescInfo
+							title="Lector de huella"
+							text={`${model?.modelKeyboard?.hasFingerPrintReader ? 'Si' : 'No'}`}
+						/>
+					</TableDescDivider>
+				)}
+				{model?.modelMonitor && (
+					<TableDescDivider label="Información de pantalla">
+						<TableCellDescInfo
+							title="Tamaño"
+							text={`${model?.modelMonitor?.screenSize ?? ''}"`}
+						/>
+						<TableCellDescInfo
+							title="Puerto VGA"
+							text={`${model?.modelMonitor?.hasVGA ? 'Si' : 'No'}`}
+						/>
+						<TableCellDescInfo
+							title="Puerto HDMI"
+							text={`${model?.modelMonitor?.hasHDMI ? 'Si' : 'No'}`}
+						/>
+						<TableCellDescInfo
+							title="Puerto DVI"
+							text={`${model?.modelMonitor?.hasDVI ? 'Si' : 'No'}`}
+						/>
+					</TableDescDivider>
+				)}
 
 				<TableCellDescInfo
 					title="Última Actualización"

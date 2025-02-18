@@ -22,6 +22,10 @@ const LoadingTable = lazy(async () =>
 	}))
 )
 
+const MainModelFilter = lazy(async () =>
+	import('@/ui/List/MainModelFilter').then(m => ({ default: m.MainModelFilter }))
+)
+
 export default function ListMonitor() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, ...query } = useModelsFilter()
 
@@ -60,13 +64,13 @@ export default function ListMonitor() {
 
 	const tableContent = useMemo(() => {
 		return isLoading ? (
-			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
+			<LoadingTable registerPerPage={query.pageSize} colspan={5} />
 		) : (
-			<Suspense>
+			<Suspense fallback={<LoadingTable registerPerPage={query.pageSize} colspan={5} />}>
 				<TableModels models={models?.data} />
 			</Suspense>
 		)
-	}, [isLoading, models.data, query.pageSize])
+	}, [isLoading, models?.data, query.pageSize])
 
 	return (
 		<Suspense fallback={<Loading />}>
@@ -77,7 +81,17 @@ export default function ListMonitor() {
 				handleExportToExcel={download}
 				isDownloading={isDownloading}
 				url="/model/add"
-				// mainFilter={}
+				mainFilter={
+					<Suspense>
+						<MainModelFilter
+							handleChange={handleChange}
+							categoryId={query.categoryId}
+							mainCategoryId={query.mainCategoryId}
+							brandId={query.brandId}
+							id={query.id}
+						/>
+					</Suspense>
+				}
 				// otherFilter={}
 				total={models?.info.total}
 				loading={isLoading}

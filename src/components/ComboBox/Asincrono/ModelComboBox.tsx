@@ -1,4 +1,4 @@
-import { lazy, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useGetAllModel } from '@/hooks/getAll/useGetAllModel'
@@ -50,7 +50,7 @@ export function ModelCombobox({
 	}, [value, categoryId, brandId])
 
 	return (
-		<>
+		<Suspense>
 			<Combobox
 				id="modelId"
 				value={value}
@@ -64,6 +64,6 @@ export function ModelCombobox({
 					setInputValue(e.target.value)
 				}}
 			/>
-		</>
+		</Suspense>
 	)
 }

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/core/devices/devices/infra/service/deviceGetAll.service'
 import { DeviceFinantialPrinterFilter } from '../../application/finantialPrinter/DeviceFinantialPrinterFilter'
 import { type DeviceFinantialPrinterFilters } from '../../application/finantialPrinter/CreateDeviceFinantialPrinterParams'
@@ -13,7 +13,7 @@ export const useGetAllFinantialPrinterDevices = (query: DeviceFinantialPrinterFi
 		refetch,
 		isError,
 		data: devices
-	} = useSuspenseQuery({
+	} = useQuery({
 		queryKey: ['devices', query],
 		queryFn: () => getAll.search(query)
 	})

@@ -18,7 +18,6 @@ export class ModelGetByCriteria {
 		orderType,
 		...options
 	}: ModelFilters) {
-		console.log('modelscriteria', options)
 		const queryParams = await createModelParams({
 			...options,
 			pageNumber,
