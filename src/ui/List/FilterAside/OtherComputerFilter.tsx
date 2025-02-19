@@ -52,6 +52,7 @@ export function OtherComputerFilter({
 				value={localComputerName}
 				label="Nombre del computador"
 				name="computerName"
+				type="search"
 				onChange={e => {
 					let { value } = e.target
 					value = value.trim().toUpperCase()
@@ -75,6 +76,7 @@ export function OtherComputerFilter({
 				value={localProcessor}
 				label="Procesador"
 				name="processor"
+				type="search"
 				onChange={e => {
 					let { value } = e.target
 					value = value.trim().toUpperCase()
@@ -86,6 +88,7 @@ export function OtherComputerFilter({
 				value={localIPAddress}
 				label="Direccón IP"
 				name="ipAddress"
+				type="search"
 				onChange={e => {
 					let { value } = e.target
 					value = value.trim().toUpperCase()

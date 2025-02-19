@@ -1,4 +1,4 @@
-import { lazy, useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 const Input = lazy(
@@ -63,39 +63,50 @@ export function DefaultDeviceFilter({
 		handleChange('activo', debounceActivo)
 	}, [debounceActivo])
 	return (
-		<>
+		<Suspense>
 			<Input
 				value={localActivo}
 				label="Activo"
 				name="activo"
+				type="search"
 				onChange={e => {
 					let { value } = e.target
 					value = value.trim().toUpperCase()
 					setLocalActivo(value)
 				}}
 			/>
-			<StatusCombobox handleChange={handleChange} name="state" value={statusId} />
-			<BrandCombobox handleChange={handleChange} name="brandId" value={brandId} />
-			<ModelCombobox
-				handleChange={handleChange}
-				brandId={brandId}
-				categoryId={categoryId}
-				name="modelId"
-				value={modelId}
-			/>
-			<StateCombobox
-				handleChange={handleChange}
-				name="stateId"
-				regionId={regionId}
-				value={stateId}
-			/>
-			<CityCombobox
-				handleChange={handleChange}
-				name="cityId"
-				stateId={stateId}
-				regionId={regionId}
-				value={cityId}
-			/>
-		</>
+			<Suspense>
+				<StatusCombobox handleChange={handleChange} name="state" value={statusId} />
+			</Suspense>
+			<Suspense>
+				<BrandCombobox handleChange={handleChange} name="brandId" value={brandId} />
+			</Suspense>
+			<Suspense>
+				<ModelCombobox
+					handleChange={handleChange}
+					brandId={brandId}
+					categoryId={categoryId}
+					name="modelId"
+					value={modelId}
+				/>
+			</Suspense>
+			<Suspense>
+				<StateCombobox
+					handleChange={handleChange}
+					name="stateId"
+					regionId={regionId}
+					value={stateId}
+				/>
+			</Suspense>
+			<Suspense>
+				<CityCombobox
+					handleChange={handleChange}
+					name="cityId"
+					stateId={stateId}
+					regionId={regionId}
+					value={cityId}
+				/>
+			</Suspense>
+		</Suspense>
 	)
 }
