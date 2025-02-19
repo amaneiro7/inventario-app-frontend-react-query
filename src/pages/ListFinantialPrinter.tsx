@@ -72,14 +72,14 @@ export default function ListFinantialPrinter() {
 	})
 
 	const tableContent = useMemo(() => {
-		return isLoading ? (
+		return isLoading || devices === undefined ? (
 			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
 		) : (
 			<Suspense>
-				<TableFinantialPrinter devices={devices?.data} />
+				<TableFinantialPrinter devices={devices.data} />
 			</Suspense>
 		)
-	}, [isLoading, devices.data, query.pageSize])
+	}, [isLoading, devices?.data, query.pageSize])
 
 	return (
 		<Suspense fallback={<Loading />}>
@@ -92,19 +92,21 @@ export default function ListFinantialPrinter() {
 				isDownloading={isDownloading}
 				url="/device/add"
 				mainFilter={
-					<MainComputerFilter
-						categoryId={query.categoryId}
-						employeeId={query.employeeId}
-						serial={query.serial}
-						locationId={query.locationId}
-						regionId={query.regionId}
-						mainCategoryId={mainCategoryId}
-						typeOfSiteId={query.typeOfSiteId}
-						handleChange={handleChange}
-					/>
+					<Suspense>
+						<MainComputerFilter
+							categoryId={query.categoryId}
+							employeeId={query.employeeId}
+							serial={query.serial}
+							locationId={query.locationId}
+							regionId={query.regionId}
+							mainCategoryId={mainCategoryId}
+							typeOfSiteId={query.typeOfSiteId}
+							handleChange={handleChange}
+						/>
+					</Suspense>
 				}
 				otherFilter={
-					<>
+					<Suspense>
 						<DefaultDeviceFilter
 							activo={query.activo}
 							statusId={query.statusId}
@@ -116,7 +118,7 @@ export default function ListFinantialPrinter() {
 							cityId={query.cityId}
 							handleChange={handleChange}
 						/>
-					</>
+					</Suspense>
 				}
 				total={devices?.info.total}
 				loading={isLoading}

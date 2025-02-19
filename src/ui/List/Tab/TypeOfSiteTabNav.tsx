@@ -17,7 +17,7 @@ export const TypeOfSiteTabNav = memo(function ({ handleChange, value }: Props) {
 	const typeOfSiteTab = useMemo(() => {
 		const defaultTab = [{ id: '0', name: 'Todos' }]
 		return typeOfSites?.data ? defaultTab.concat(typeOfSites.data) : defaultTab
-	}, [typeOfSites.data])
+	}, [typeOfSites?.data])
 
 	const handleClick = useCallback((typeId: string) => {
 		if (typeId === inputValue) return

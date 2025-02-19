@@ -39,7 +39,7 @@ export const MainModelFilter = memo(function ({
 	handleChange: (name: string, value: string | number) => void
 }) {
 	return (
-		<Suspense>
+		<>
 			<Suspense>
 				<MainCategoryCombobox
 					name="mainCategoryId"
@@ -47,20 +47,26 @@ export const MainModelFilter = memo(function ({
 					value={mainCategoryId}
 				/>
 			</Suspense>
-			<CategoryCombobox
-				name="categoryId"
-				mainCategoryId={mainCategoryId}
-				handleChange={handleChange}
-				value={categoryId}
-			/>
-			<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
-			<ModelCombobox
-				name="id"
-				value={id}
-				brandId={brandId}
-				categoryId={categoryId}
-				handleChange={handleChange}
-			/>
-		</Suspense>
+			<Suspense>
+				<CategoryCombobox
+					name="categoryId"
+					mainCategoryId={mainCategoryId}
+					handleChange={handleChange}
+					value={categoryId}
+				/>
+			</Suspense>
+			<Suspense>
+				<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
+			</Suspense>
+			<Suspense>
+				<ModelCombobox
+					name="id"
+					value={id}
+					brandId={brandId}
+					categoryId={categoryId}
+					handleChange={handleChange}
+				/>
+			</Suspense>
+		</>
 	)
 })

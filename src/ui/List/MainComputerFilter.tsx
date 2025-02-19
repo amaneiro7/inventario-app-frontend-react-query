@@ -1,4 +1,4 @@
-import { lazy, memo, useState } from 'react'
+import { lazy, memo, useState, Suspense } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 
@@ -58,35 +58,45 @@ export const MainComputerFilter = memo(function ({
 
 	return (
 		<>
-			<EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} />
-
-			<CategoryCombobox
-				name="categoryId"
-				mainCategoryId={mainCategoryId}
-				handleChange={handleChange}
-				value={categoryId}
-			/>
-
-			<Input
-				value={localSerial}
-				label="Serial"
-				name="serial"
-				type="search"
-				onChange={e => {
-					let { value } = e.target
-					value = value.trim().toUpperCase()
-					setLocalSerial(value)
-				}}
-			/>
-
-			<LocationCombobox
-				name="locationId"
-				handleChange={handleChange}
-				value={locationId}
-				typeOfSiteId={typeOfSiteId}
-			/>
-
-			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+			<Suspense>
+				<EmployeeCombobox
+					name="employeeId"
+					handleChange={handleChange}
+					value={employeeId}
+				/>
+			</Suspense>
+			<Suspense>
+				<CategoryCombobox
+					name="categoryId"
+					mainCategoryId={mainCategoryId}
+					handleChange={handleChange}
+					value={categoryId}
+				/>
+			</Suspense>
+			<Suspense>
+				<Input
+					value={localSerial}
+					label="Serial"
+					name="serial"
+					type="search"
+					onChange={e => {
+						let { value } = e.target
+						value = value.trim().toUpperCase()
+						setLocalSerial(value)
+					}}
+				/>
+			</Suspense>
+			<Suspense>
+				<LocationCombobox
+					name="locationId"
+					handleChange={handleChange}
+					value={locationId}
+					typeOfSiteId={typeOfSiteId}
+				/>
+			</Suspense>
+			<Suspense>
+				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+			</Suspense>
 		</>
 	)
 })

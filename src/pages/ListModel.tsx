@@ -63,11 +63,11 @@ export default function ListMonitor() {
 	})
 
 	const tableContent = useMemo(() => {
-		return isLoading ? (
+		return isLoading || models?.data === undefined ? (
 			<LoadingTable registerPerPage={query.pageSize} colspan={5} />
 		) : (
 			<Suspense fallback={<LoadingTable registerPerPage={query.pageSize} colspan={5} />}>
-				<TableModels models={models?.data} />
+				<TableModels models={models.data} />
 			</Suspense>
 		)
 	}, [isLoading, models?.data, query.pageSize])
@@ -94,10 +94,10 @@ export default function ListMonitor() {
 				}
 				// otherFilter={}
 				total={models?.info.total}
-				loading={isLoading}
-				table={<TableModelWrapper>{tableContent}</TableModelWrapper>}
 				currentPage={models?.info.page}
 				totalPages={models?.info.totalPage}
+				loading={isLoading}
+				table={<TableModelWrapper>{tableContent}</TableModelWrapper>}
 				registerOptions={ModelGetByCriteria.pegaSizeOptions}
 				pageSize={query.pageSize}
 				handlePageClick={handlePageSelection}
