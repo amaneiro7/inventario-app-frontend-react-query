@@ -21,7 +21,6 @@ import { type StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { type TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { type GenericModel } from '@/core/model/models/domain/value-object/GenericModel'
 import { type DeviceComputerParams, type DeviceComputerDto } from './DeviceComputer.dto'
-import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 import { type DeviceHardDriveParams, type DeviceHardDriveDto } from './DeviceHardDrive.dto'
 import { type DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
@@ -59,9 +58,9 @@ export type DeviceDto = Device & {
 	employee: EmployeeDto
 	location: LocationDto
 	computer: DeviceComputerDto | null
-	hardDrive: Nullable<DeviceHardDriveDto>
-	mfp: Nullable<DeviceMFPDto>
-	history: Nullable<HistoryDto[]>
+	hardDrive: DeviceHardDriveDto | null
+	mfp: DeviceMFPDto | null
+	history: HistoryDto[] | null
 	createdAt: string
 	updatedAt: string
 }

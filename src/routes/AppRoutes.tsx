@@ -15,6 +15,7 @@ const Layout = lazy(async () => await import('@/components/Layout/Layout'))
 const Login = lazy(async () => await import('@/pages/Login'))
 const FormBrand = lazy(async () => import('@/pages/FormBrand'))
 const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
+const FormDevice = lazy(async () => import('@/pages/FormDevice'))
 
 export function AppRoutes() {
 	return (
@@ -104,6 +105,22 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<ListModels />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/device/add"
+					element={
+						<Suspense>
+							<FormDevice />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/device/edit/:id"
+					element={
+						<Suspense>
+							<FormDevice />
 						</Suspense>
 					}
 				/>

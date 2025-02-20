@@ -1,18 +1,19 @@
-import { ModelComputerDto } from '@/core/model/models/domain/dto/ModelComputer.dto'
-import { DeviceDto } from '../../domain/dto/Device.dto'
-import { DeviceComputerDto } from '../../domain/dto/DeviceComputer.dto'
-import { DeviceHardDriveDto } from '../../domain/dto/DeviceHardDrive.dto'
+import { type ModelComputerDto } from '@/core/model/models/domain/dto/ModelComputer.dto'
+import { type DeviceDto } from '../../domain/dto/Device.dto'
+import { type DeviceComputerDto } from '../../domain/dto/DeviceComputer.dto'
+import { type DeviceHardDriveDto } from '../../domain/dto/DeviceHardDrive.dto'
+import { type DeviceMFPDto } from '../../domain/dto/DeviceMFPParams'
 
 export interface DefaultDevice {
 	id?: DeviceDto['id']
+	statusId: DeviceDto['statusId']
+	mainCategoryId: DeviceDto['category']['mainCategoryId']
+	categoryId: DeviceDto['categoryId']
 	serial: DeviceDto['serial']
 	activo: DeviceDto['activo']
-	statusId: DeviceDto['statusId']
+	brandId: DeviceDto['brandId']
 	modelId: DeviceDto['modelId']
 	genericModel?: DeviceDto['model']['generic']
-	categoryId: DeviceDto['categoryId']
-	mainCategoryId: DeviceDto['category']['mainCategoryId']
-	brandId: DeviceDto['brandId']
 	employeeId: DeviceDto['employeeId']
 	locationId: DeviceDto['locationId']
 	typeOfSiteId: DeviceDto['location']['typeOfSiteId']
@@ -21,17 +22,19 @@ export interface DefaultDevice {
 	computerName?: DeviceComputerDto['computerName']
 	processorId?: DeviceComputerDto['processorId']
 	memoryRamCapacity?: DeviceComputerDto['memoryRamCapacity']
-	hardDriveCapacityId?: DeviceComputerDto['hardDriveCapacityId']
-	hardDriveTypeId?: DeviceComputerDto['hardDriveTypeId']
+	hardDriveCapacityId?:
+		| DeviceComputerDto['hardDriveCapacityId']
+		| DeviceHardDriveDto['hardDriveCapacityId']
+	hardDriveTypeId?: DeviceComputerDto['hardDriveTypeId'] | DeviceHardDriveDto['hardDriveTypeId']
 	operatingSystemArqId?: DeviceComputerDto['operatingSystemArqId']
 	operatingSystemId?: DeviceComputerDto['operatingSystemId']
-	ipAddress?: DeviceComputerDto['ipAddress']
+	ipAddress?: DeviceComputerDto['ipAddress'] | DeviceMFPDto['ipAddress']
 	macAddress?: DeviceComputerDto['macAddress']
 	health?: DeviceHardDriveDto['health']
 	memoryRam?: DeviceComputerDto['memoryRam']
 	memoryRamSlotQuantity?: ModelComputerDto['memoryRamSlotQuantity']
 	memoryRamType?: ModelComputerDto['memoryRamTypeId']
-	history: DeviceDto['history'][]
+	history: DeviceDto['history']
 	updatedAt?: DeviceDto['updatedAt']
 }
 
@@ -117,7 +120,7 @@ export interface State {
 	required: DeviceRequired
 }
 
-export const initialParamsState: State = {
+export const initialDeviceState: State = {
 	formData: {
 		id: undefined,
 		serial: '',
@@ -264,14 +267,14 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 			return {
 				...state,
 				formData: { ...action.payload.formData },
-				errors: { ...initialParamsState.errors }
+				errors: { ...initialDeviceState.errors }
 			}
 		}
 		case 'reset':
 			return {
 				...state,
 				formData: { ...action.payload.formData },
-				errors: { ...initialParamsState.errors }
+				errors: { ...initialDeviceState.errors }
 			}
 
 		default:
