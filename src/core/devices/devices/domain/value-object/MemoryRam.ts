@@ -47,8 +47,8 @@ export class MemoryRam {
 		return value?.length === 0
 	}
 
-	static totalAmount(value?: Primitives<MemoryRamValues>[]): number | undefined {
-		if (!value) return
+	static totalAmount(value: Primitives<MemoryRamValues>[]): number {
+		// if (!value) return
 		let number = 0
 		for (const val of value) {
 			number += Number(val)
