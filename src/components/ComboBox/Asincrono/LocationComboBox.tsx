@@ -3,6 +3,7 @@ import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useGetAllLocations } from '@/hooks/getAll/useGetAllLocation'
 import { type LocationFilters } from '@/core/locations/locations/application/LocationGetByCriteria'
+import { type Location } from '@/core/locations/locations/domain/dto/Location.dto'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
@@ -66,6 +67,9 @@ export const LocationCombobox = memo(function ({
 				loading={isLoading}
 				options={locations?.data ?? []}
 				onChangeValue={handleChange}
+				onChange={e => {
+					console.log(e.target.value)
+				}}
 				onInputChange={e => {
 					setInputValue(e.target.value)
 				}}

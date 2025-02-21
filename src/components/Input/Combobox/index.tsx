@@ -6,18 +6,6 @@ import { ButtonClear } from './ButtonClear'
 import { CircleSpinningIcon } from '@/icon/CircleSpinning'
 import { ButtonOpen } from './ButtonOpen'
 
-// const Popover = lazy(async () => import('./Popover').then(m => ({ default: m.Popover })))
-// const ButtonOpen = lazy(async () =>
-// 	import('@/components/Input/Combobox/ButtonOpen').then(m => ({ default: m.ButtonOpen }))
-// )
-// const ButtonClear = lazy(async () =>
-// 	import('@/components/Input/Combobox/ButtonClear').then(m => ({ default: m.ButtonClear }))
-// )
-// const CircleSpinningIcon = lazy(async () =>
-// 	import('@/icon/CircleSpinning').then(m => ({ default: m.CircleSpinningIcon }))
-// )
-// const InputBase = lazy(async () => import('../InputBase').then(m => ({ default: m.InputBase })))
-
 interface ValidType {
 	id: string | number
 	name: string
