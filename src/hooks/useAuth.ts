@@ -1,4 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useLayoutEffect, useState } from 'react'
 import { type LoginParams } from '@/core/user/domain/dto/LoginAuth.dto'
 import { type LoginUserDto } from '@/core/user/domain/dto/LoginUser.dto'
 import { api } from '../api/axios.config'
@@ -12,7 +12,7 @@ import { RefreshToken } from '@/core/user/application/RefreshToken'
 import { RefreshTokenService } from '@/core/user/infra/refreshToken.service'
 import { LoginService } from '@/core/user/infra/login.service'
 import { LogoutService } from '@/core/user/infra/logout.service'
-import { InternalAxiosRequestConfig } from 'axios'
+import { type InternalAxiosRequestConfig } from 'axios'
 import { useLocation } from 'react-router-dom'
 import { useLocalStorage } from './utils/useLocalStorage'
 
@@ -29,24 +29,9 @@ export function useAuth() {
 	const { events } = useContext(EventContext)
 	const location = useLocation()
 
-	const loginRepository = useMemo(() => {
-		return new LoginService()
-	}, [])
-	const refreshTokenRepository = useMemo(() => {
-		return new RefreshTokenService()
-	}, [])
-	const logoutRepository = useMemo(() => {
-		return new LogoutService()
-	}, [])
-	const loginService = useMemo(() => {
-		return new Login(loginRepository, events)
-	}, [events, loginRepository])
-	const refreshToken = useMemo(() => {
-		return new RefreshToken(refreshTokenRepository)
-	}, [refreshTokenRepository])
-	const logoutService = useMemo(() => {
-		return new Logout(logoutRepository)
-	}, [logoutRepository])
+	const loginService = new Login(new LoginService(), events)
+	const refreshToken = new RefreshToken(new RefreshTokenService())
+	const logoutService = new Logout(new LogoutService())
 
 	const logout = useCallback(async () => {
 		await logoutService.execute()
@@ -71,7 +56,7 @@ export function useAuth() {
 				})
 				.finally(() => setIsLoading(false))
 		},
-		[loginService]
+		[loginService, saveToken, saveUser]
 	)
 
 	const refreshTokenValidity = useCallback(async () => {
@@ -80,16 +65,15 @@ export function useAuth() {
 		setToken(response.accessToken)
 		saveToken(response?.accessToken)
 		return response.accessToken
-	}, [refreshToken])
+	}, [refreshToken, saveToken])
 
 	const checkTokenValidity = useCallback(async () => {
 		// si el token esta presente y no ha expirado retorna por que es válido
 		if (token && !isTokenExpired(token)) {
-			if (user) {
-				return
+			if (!user) {
+				const cacheUser = getUser()
+				setUser(cacheUser ? JSON.parse(cacheUser) : null)
 			}
-			const users = getUser()
-			setUser(users ? JSON.parse(users) : null)
 			return
 		}
 		// Si el token no esta presente o ha expirado, se refresca
@@ -102,7 +86,7 @@ export function useAuth() {
 		} catch {
 			logout()
 		}
-	}, [logout, refreshToken, token])
+	}, [token, user, getUser, logout, RefreshTokenService, saveToken])
 
 	useLayoutEffect(() => {
 		const authInterceptor = api.interceptors.request.use(
@@ -111,9 +95,9 @@ export function useAuth() {
 					_retry?: boolean
 				}
 			) => {
-				config.headers.Authorization =
-					!config._retry && token ? `Bearer ${token}` : config.headers.Authorization
-
+				if (!config._retry && token) {
+					config.headers.Authorization = `Bearer ${token}`
+				}
 				return config
 			}
 		)

@@ -15,7 +15,7 @@ export const useGetAllLocations = (query: LocationFilters) => {
 		data: locations
 	} = useQuery({
 		queryKey: ['locations', query],
-		queryFn: async () => await getAll.search(query),
+		queryFn: () => getAll.search(query),
 		staleTime: 5 * 1000
 	})
 
