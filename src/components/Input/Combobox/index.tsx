@@ -17,7 +17,7 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	name: string
 	options: O[]
 	inputValue?: string
-	isRequired?: boolean
+	required?: boolean
 	error?: boolean
 	valid?: boolean
 	errorMessage?: string
@@ -26,7 +26,7 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
-	onInputChange: React.ChangeEventHandler<HTMLInputElement>
+	onInputChange: (value: string) => void
 	onRightIconClick?: () => void
 }
 export const Combobox = memo(
@@ -40,7 +40,7 @@ export const Combobox = memo(
 		value,
 		errorMessage,
 		label,
-		isRequired = false,
+		required = false,
 		leftIcon,
 		loading = false,
 		rightIcon,
@@ -65,7 +65,7 @@ export const Combobox = memo(
 				error={error}
 				valid={valid}
 				errorMessage={errorMessage}
-				isRequired={isRequired}
+				required={required}
 				leftIcon={leftIcon}
 				rightIcon={rightIcon}
 				onRightIconClick={onRightIconClick}

@@ -64,8 +64,8 @@ export function BrandCombobox({
 				name={name}
 				loading={isLoading}
 				options={brands?.data ?? []}
-				onInputChange={e => {
-					setInputValue(e.target.value)
+				onInputChange={value => {
+					setInputValue(value)
 				}}
 				onChangeValue={handleChange}
 			/>

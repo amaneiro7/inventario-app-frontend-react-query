@@ -1,5 +1,5 @@
 interface Props<T extends string | number | readonly string[]> {
-	isRequired?: boolean
+	required?: boolean
 	error?: boolean
 	valid?: boolean
 	label: string
@@ -11,7 +11,7 @@ export function Fieldset<T extends string | number | readonly string[]>({
 	valid,
 	label,
 	value,
-	isRequired,
+	required,
 	type
 }: Props<T>) {
 	return (
@@ -22,7 +22,7 @@ export function Fieldset<T extends string | number | readonly string[]>({
 			} group-focus-within:border-focus group-focus-within:border-2`}
 		>
 			<legend className={value || type === 'number' ? 'transform' : ''}>
-				<span>{`${label} ${isRequired ? '*' : ''}`}</span>
+				<span>{`${label} ${required ? '*' : ''}`}</span>
 			</legend>
 		</fieldset>
 	)

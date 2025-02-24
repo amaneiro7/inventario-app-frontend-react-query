@@ -1,8 +1,8 @@
 import { fetching } from '@/api/api'
-import { type LocationGetAllRepository } from '../domain/repository/LocationGetAllRepository'
-import { type LocationDto } from '../domain/dto/Location.dto'
+import { type LocationGetAllRepository } from '../../domain/repository/LocationGetAllRepository'
+import { type LocationDto } from '../../domain/dto/Location.dto'
 import { type Response } from '@/core/shared/domain/methods/Response'
-import { locationUrl } from '../domain/entity/baseUrl'
+import { locationUrl } from '../../domain/entity/baseUrl'
 
 export class LocationGetAllService implements LocationGetAllRepository {
 	async getAll(queryParams?: string): Promise<Response<LocationDto>> {

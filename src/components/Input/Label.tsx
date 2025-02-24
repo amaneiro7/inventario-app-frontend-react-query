@@ -1,5 +1,5 @@
 interface Props<T extends string | number | readonly string[]> {
-	isRequired?: boolean
+	required?: boolean
 	error?: boolean
 	valid?: boolean
 	label: string
@@ -13,7 +13,7 @@ export function Label<T extends string | number | readonly string[]>({
 	type,
 	value,
 	error,
-	isRequired,
+	required,
 	valid,
 	leftIcon
 }: Props<T>) {
@@ -25,7 +25,7 @@ export function Label<T extends string | number | readonly string[]>({
 				leftIcon ? 'with-left-icon' : ''
 			}`}
 		>
-			{`${label} ${isRequired ? '*' : ''}`}
+			{`${label} ${required ? '*' : ''}`}
 		</label>
 	)
 }

@@ -23,7 +23,7 @@ export const Input = memo(
 		error,
 		valid,
 		errorMessage,
-		isRequired = false,
+		required = false,
 		label,
 		leftIcon,
 		rightIcon,
@@ -42,13 +42,13 @@ export const Input = memo(
 				error={error}
 				valid={valid}
 				errorMessage={errorMessage}
-				isRequired={isRequired}
+				required={required}
 				leftIcon={leftIcon}
 				rightIcon={rightIcon}
 				rightAdorment={rightAdorment}
 				onRightIconClick={onRightIconClick}
 			>
-				<input {...props} type={type} name={name} value={value} required={isRequired} />
+				<input {...props} type={type} name={name} value={value} required={required} />
 			</InputBase>
 		)
 	}

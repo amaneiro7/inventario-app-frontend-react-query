@@ -1,17 +1,22 @@
-import { lazy, useContext } from "react"
-import { AuthContext } from "@/context/Auth/AuthContext"
-import { Navigate } from "react-router-dom"
+import { lazy, Suspense, useContext } from 'react'
+import { AuthContext } from '@/context/Auth/AuthContext'
+import { Navigate } from 'react-router-dom'
+import { Loading } from '@/components/Loading'
 
-const FormLogin = lazy(async () => import("@/ui/FormLogin").then(m => ({ default: m.FormLogin })))
+const FormLogin = lazy(async () => import('@/ui/FormLogin').then(m => ({ default: m.FormLogin })))
 
 export default function Login() {
-    const { auth: { isLogged } } = useContext(AuthContext)
+	const {
+		auth: { isLogged }
+	} = useContext(AuthContext)
 
-    if (isLogged) {
-        return <Navigate to={"/"} />
-    }
+	if (isLogged) {
+		return <Navigate to={'/'} />
+	}
 
-    return (
-        <FormLogin />
-    )
+	return (
+		<Suspense fallback={<Loading />}>
+			<FormLogin />
+		</Suspense>
+	)
 }

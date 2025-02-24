@@ -28,8 +28,8 @@ export function OperatingSystemCombobox({
 				name={name}
 				options={operatingSystems?.data ?? []}
 				inputValue={inputValue}
-				onInputChange={e => {
-					setInputValue(e.target.value)
+				onInputChange={value => {
+					setInputValue(value)
 				}}
 				onChangeValue={handleChange}
 			/>

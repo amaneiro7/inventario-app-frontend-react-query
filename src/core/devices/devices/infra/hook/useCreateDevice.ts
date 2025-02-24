@@ -9,8 +9,8 @@ import {
 } from '../reducers/devicesFormReducer'
 import { DeviceCreator } from '../../application/DeviceCreator'
 import { DeviceSaveService } from '../service/deviceSave.service'
-import { type Params } from '../../domain/dto/Device.dto'
 import { useDeviceInitialState } from './useDeviceInitialState'
+import { type Params } from '../../domain/dto/Device.dto'
 
 export function useCreateDevice(defaulState?: DefaultDevice) {
 	const key = `device${initialDeviceState?.formData?.id ? initialDeviceState.formData.id : ''}`
@@ -27,7 +27,10 @@ export function useCreateDevice(defaulState?: DefaultDevice) {
 		defaulState ?? initialDeviceState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData }, dispatch] = useReducer(devicesFormReducer, initialDeviceState)
+	const [{ errors, required, disabled, formData }, dispatch] = useReducer(
+		devicesFormReducer,
+		initialDeviceState
+	)
 
 	useLayoutEffect(() => {
 		dispatch({
@@ -36,34 +39,89 @@ export function useCreateDevice(defaulState?: DefaultDevice) {
 		})
 	}, [initialState])
 
-	const resetForm = () => {
+	const resetForm = useCallback(() => {
 		dispatch({
 			type: 'reset',
 			payload: { formData: structuredClone(prevState ?? initialState) }
 		})
-	}
+	}, [])
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = (name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
+	const handleChange = useCallback(async (name: Action['type'], value: any) => {
+		if (
+			name === 'init' ||
+			name === 'reset' ||
+			name === 'modelId' ||
+			name === 'memoryRam' ||
+			name === 'locationId'
+		)
+			return
 		dispatch({ type: name, payload: { value } })
-	}
+	}, [])
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData).then(() => {
-			resetState()
-		})
-	}
+	const handleModel = useCallback(
+		async ({
+			value,
+			memoryRamSlotQuantity,
+			memoryRamType,
+			generic
+		}: {
+			value: string
+			memoryRamSlotQuantity?: number
+			memoryRamType?: string
+			generic?: boolean
+		}) => {
+			dispatch({
+				type: 'modelId',
+				payload: { value, memoryRamSlotQuantity, memoryRamType, generic }
+			})
+		},
+		[]
+	)
+	const handleLocation = useCallback(
+		async ({
+			value,
+			typeOfSiteId,
+			ipAddress
+		}: {
+			value: string
+			typeOfSiteId?: string
+			ipAddress?: string | null
+		}) => {
+			dispatch({
+				type: 'locationId',
+				payload: { value, typeOfSiteId, ipAddress }
+			})
+		},
+		[]
+	)
+	const handleMemory = useCallback(async (value: string, index: number) => {
+		dispatch({ type: 'memoryRam', payload: { value, index } })
+	}, [])
+
+	const handleSubmit = useCallback(
+		async (event: React.FormEvent) => {
+			event.preventDefault()
+			event.stopPropagation()
+			await create(formData).then(() => {
+				resetState()
+			})
+		},
+		[create, resetState]
+	)
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
+		required,
+		disabled,
 		resetForm,
 		handleSubmit,
-		handleChange
+		handleChange,
+		handleModel,
+		handleLocation,
+		handleMemory
 	}
 }

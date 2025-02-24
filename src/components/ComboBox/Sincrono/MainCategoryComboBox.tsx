@@ -39,8 +39,8 @@ export const MainCategoryCombobox = memo(function ({
 				name={name}
 				loading={isLoading}
 				options={options}
-				onInputChange={e => {
-					setInputValue(e.target.value)
+				onInputChange={value => {
+					setInputValue(value)
 				}}
 				onChangeValue={handleChange}
 			/>

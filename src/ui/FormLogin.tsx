@@ -1,30 +1,12 @@
-import { lazy } from 'react'
+import Button from '@/components/Button'
+import { Input } from '@/components/Input/Input'
+import Logo from '@/components/Logo/Logo'
+import Typography from '@/components/Typography'
 import { useLogin } from '@/hooks/useLogin'
-
-const Logo = lazy(async () => import('@/components/Logo/Logo'))
-
-const Input = lazy(
-	async () =>
-		await import('@/components/Input/Input').then(m => ({
-			default: m.Input
-		}))
-)
-const Typography = lazy(async () => await import('@/components/Typography'))
-const CircleSpinningIcon = lazy(async () =>
-	import('@/icon/CircleSpinning').then(m => ({
-		default: m.CircleSpinningIcon
-	}))
-)
-const LockIcon = lazy(
-	async () => await import('@/icon/LockIcon').then(m => ({ default: m.LockIcon }))
-)
-const UnlockIcon = lazy(
-	async () => await import('@/icon/UnlockIcon').then(m => ({ default: m.UnlockIcon }))
-)
-const MailIcon = lazy(
-	async () => await import('@/icon/MailIcon').then(m => ({ default: m.MailIcon }))
-)
-const Button = lazy(async () => await import('@/components/Button/Button'))
+import { CircleSpinningIcon } from '@/icon/CircleSpinning'
+import { LockIcon } from '@/icon/LockIcon'
+import { MailIcon } from '@/icon/MailIcon'
+import { UnlockIcon } from '@/icon/UnlockIcon'
 
 export const FormLogin = () => {
 	const {

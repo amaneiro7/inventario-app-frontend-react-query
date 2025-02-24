@@ -239,8 +239,8 @@ export type Action =
 			type: 'modelId'
 			payload: {
 				value: string
-				memoryRamSlotQuantity: number
-				memoryRamType: string
+				memoryRamSlotQuantity?: number
+				memoryRamType?: string
 				generic?: boolean
 			}
 	  }
@@ -249,7 +249,7 @@ export type Action =
 	| { type: 'employeeId'; payload: { value: string } }
 	| {
 			type: 'locationId'
-			payload: { value: string; typeOfSiteId: string; ipAddress?: string }
+			payload: { value: string; typeOfSiteId?: string; ipAddress?: string | null }
 	  }
 	| { type: 'stockNumber'; payload: { value: string } }
 	| { type: 'observation'; payload: { value: string } }
@@ -636,7 +636,6 @@ const updateAndValidate = <T extends keyof DefaultDevice>(
 	const updateState = updateFormData(state, field, value, additionalUpdates)
 	return updateValidation(updateState)
 }
-
 export const devicesFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'init':

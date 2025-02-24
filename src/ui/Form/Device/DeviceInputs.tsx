@@ -1,8 +1,10 @@
 import { lazy, memo, Suspense } from 'react'
 import {
-	Action,
-	DefaultDevice,
-	DevicesErrors
+	DeviceRequired,
+	DevicesDisabled,
+	type Action,
+	type DefaultDevice,
+	type DevicesErrors
 } from '@/core/devices/devices/infra/reducers/devicesFormReducer'
 import { StatusCombobox } from '@/components/ComboBox/Sincrono/StatusComboBox'
 import { MainCategoryCombobox } from '@/components/ComboBox/Sincrono/MainCategoryComboBox'
@@ -17,12 +19,42 @@ const Input = lazy(
 )
 
 interface Props {
-	errors?: DevicesErrors
 	formData: DefaultDevice
+	errors: DevicesErrors
+	disabled: DevicesDisabled
+	required: DeviceRequired
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
+	handleLocation: ({
+		value,
+		typeOfSiteId,
+		ipAddress
+	}: {
+		value: string
+		typeOfSiteId?: string
+		ipAddress?: string | null
+	}) => Promise<void>
+	handleModel: ({
+		value,
+		memoryRamSlotQuantity,
+		memoryRamType,
+		generic
+	}: {
+		value: string
+		memoryRamSlotQuantity?: number
+		memoryRamType?: string
+		generic?: boolean
+	}) => Promise<void>
 }
 
-export const DeviceInputs = memo(function ({ errors, formData, handleChange }: Props) {
+export const DeviceInputs = memo(function ({
+	formData,
+	errors,
+	required,
+	disabled,
+	handleChange,
+	handleLocation,
+	handleModel
+}: Props) {
 	return (
 		<div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-x-5 gap-y-6">
 			<Suspense>
@@ -45,6 +77,8 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 					handleChange={(_name, value) => handleChange('categoryId', value)}
 					mainCategoryId={formData.mainCategoryId}
 					name="categoryId"
+					required={required.categoryId}
+					disabled={disabled.categoryId}
 				/>
 			</Suspense>
 			<Suspense>
@@ -57,10 +91,11 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 			<Suspense>
 				<ModelCombobox
 					value={formData.modelId}
-					handleChange={(_name, value) => handleChange('modelId', value)}
+					handleFormChange={handleModel}
 					brandId={formData.brandId}
 					categoryId={formData.categoryId}
 					name="modelId"
+					method="form"
 				/>
 			</Suspense>
 			<Input
@@ -72,7 +107,8 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 				}
 				error={!!errors?.serial}
 				errorMessage={errors?.serial}
-				required
+				required={required.serial}
+				disabled={disabled.serial}
 			/>
 			<Input
 				value={formData.activo ?? ''}
@@ -83,7 +119,8 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 				}
 				error={!!errors?.activo}
 				errorMessage={errors?.activo}
-				required
+				required={required.activo}
+				disabled={disabled.activo}
 			/>
 			<Suspense>
 				<EmployeeCombobox
@@ -92,12 +129,14 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 					name="employeeId"
 				/>
 			</Suspense>
-			<div className="flex gap-5 col-span-2">
+			<div className="flex gap-5 col-span-3">
 				<Suspense>
 					<LocationCombobox
 						value={formData.locationId ?? ''}
-						handleChange={(_name, value) => handleChange('locationId', value)}
+						statusId={formData.statusId}
+						handleFormChange={handleLocation}
 						name="locationId"
+						method="form"
 					/>
 				</Suspense>
 				<Input
@@ -109,6 +148,8 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 					}
 					error={!!errors?.stockNumber}
 					errorMessage={errors?.stockNumber}
+					required={required.stockNumber}
+					disabled={disabled.stockNumber}
 				/>
 			</div>
 			<Input
@@ -120,7 +161,8 @@ export const DeviceInputs = memo(function ({ errors, formData, handleChange }: P
 				}
 				error={!!errors?.observation}
 				errorMessage={errors?.observation}
-				required
+				required={required.observation}
+				disabled={disabled.observation}
 			/>
 		</div>
 	)

@@ -64,8 +64,8 @@ export function CityCombobox({
 				name={name}
 				options={cities?.data ?? []}
 				inputValue={inputValue}
-				onInputChange={e => {
-					setInputValue(e.target.value)
+				onInputChange={value => {
+					setInputValue(value)
 				}}
 				onChangeValue={handleChange}
 			/>

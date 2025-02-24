@@ -1,22 +1,47 @@
+import { Suspense, useMemo } from 'react'
 import { useCreateDevice } from '@/core/devices/devices/infra/hook/useCreateDevice'
-import { lazy, Suspense } from 'react'
-
-const FormContainer = lazy(async () =>
-	import('@/components/FormContainer/formContainer').then(m => ({ default: m.FormContainer }))
-)
-const DeviceInputs = lazy(async () =>
-	import('@/ui/Form/Device/DeviceInputs').then(m => ({ default: m.DeviceInputs }))
-)
+import { Loading } from '@/components/Loading'
+import { FormContainer } from '@/components/FormContainer/formContainer'
+import { DeviceInputs } from '@/ui/Form/Device/DeviceInputs'
+import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
+import { AddMFPFeatures } from '@/ui/Form/Device/AddMFPFeatures'
 
 export default function FormDevice() {
-	const { formData, key, mode, errors, handleChange, handleSubmit, resetForm } = useCreateDevice()
+	const {
+		formData,
+		key,
+		mode,
+		errors,
+		disabled,
+		required,
+		handleChange,
+		handleLocation,
+		handleMemory,
+		handleModel,
+		handleSubmit,
+		resetForm
+	} = useCreateDevice()
+
+	const addionalFeatures = useMemo(() => {
+		if (formData.categoryId === CategoryOptions.MFP) {
+			return (
+				<AddMFPFeatures
+					ipAddress={formData.ipAddress}
+					handleChange={handleChange}
+					error={errors.ipAddress}
+				/>
+			)
+		} else {
+			return null
+		}
+	}, [formData.categoryId])
 
 	return (
-		<Suspense>
+		<Suspense fallback={<Loading />}>
 			<FormContainer
 				id={key}
-				title="procesador"
-				description="Ingrese los datos del procesador el cual desea registar."
+				title="Dispositivo"
+				description="Ingrese los datos del dispositivo el cual desea registar."
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				handleClose={() => {
@@ -25,9 +50,16 @@ export default function FormDevice() {
 				reset={mode === 'edit' ? resetForm : undefined}
 				url="/Processor/add"
 			>
-				<Suspense>
-					<DeviceInputs formData={formData} handleChange={handleChange} errors={errors} />
-				</Suspense>
+				<DeviceInputs
+					formData={formData}
+					handleChange={handleChange}
+					handleLocation={handleLocation}
+					handleModel={handleModel}
+					errors={errors}
+					disabled={disabled}
+					required={required}
+				/>
+				<Suspense>{addionalFeatures}</Suspense>
 			</FormContainer>
 		</Suspense>
 	)

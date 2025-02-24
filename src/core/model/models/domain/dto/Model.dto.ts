@@ -12,7 +12,6 @@ import { type ModelLaptopDto, type ModelLaptopParams } from './ModelLaptop.dto'
 import { type ModelMonitorDto, type ModelMonitorParams } from './ModelMonitor.dto'
 import { type ModelPrinterDto, type ModelPrinterParams } from './ModelPrinter.dto'
 import { type ModelKeyboardDto, type ModelKeyboardParams } from './ModelKeyboard.dto'
-import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 
 export interface Model {
 	id: Primitives<ModelId>
@@ -42,9 +41,9 @@ export type ModelDto = Model & {
 	updatedAt: string
 	category: CategoryDto
 	brand: BrandDto
-	modelComputer: Nullable<ModelComputerDto>
-	modelLaptop: Nullable<ModelLaptopDto>
-	modelMonitor: Nullable<ModelMonitorDto>
-	modelPrinter: Nullable<ModelPrinterDto>
-	modelKeyboard: Nullable<ModelKeyboardDto>
+	modelComputer: ModelComputerDto | null
+	modelLaptop: ModelLaptopDto | null
+	modelMonitor: ModelMonitorDto | null
+	modelPrinter: ModelPrinterDto | null
+	modelKeyboard: ModelKeyboardDto | null
 }

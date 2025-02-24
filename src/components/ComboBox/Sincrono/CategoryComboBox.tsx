@@ -10,11 +10,17 @@ export const CategoryCombobox = memo(function ({
 	value = '',
 	name,
 	mainCategoryId,
+	error = '',
+	required = false,
+	disabled = false,
 	handleChange
 }: {
 	value?: string
 	name: string
 	mainCategoryId?: string
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -42,8 +48,12 @@ export const CategoryCombobox = memo(function ({
 				name={name}
 				loading={isLoading}
 				options={options}
-				onInputChange={e => {
-					setInputValue(e.target.value)
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
+				onInputChange={value => {
+					setInputValue(value)
 				}}
 				onChangeValue={handleChange}
 			/>

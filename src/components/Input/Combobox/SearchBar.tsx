@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 
 interface Props
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-	onInputChange: React.ChangeEventHandler<HTMLInputElement>
+	onInputChange: (value: string) => void
 	open?: boolean
 }
 export function SearchBar({ id, value, onInputChange, open }: Props) {
@@ -45,7 +45,7 @@ export function SearchBar({ id, value, onInputChange, open }: Props) {
 				id={id}
 				type="search"
 				value={value}
-				onChange={onInputChange}
+				onChange={e => onInputChange(e.target.value)}
 			/>
 		</div>
 	)

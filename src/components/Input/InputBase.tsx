@@ -9,7 +9,7 @@ interface Props<T extends string | number | readonly string[]> {
 	type?: React.HTMLInputTypeAttribute
 	value: T
 	name: string
-	isRequired?: boolean
+	required?: boolean
 	error?: boolean
 	valid?: boolean
 	errorMessage?: string
@@ -29,7 +29,7 @@ export const InputBase = memo(
 		name,
 		errorMessage,
 		label,
-		isRequired = false,
+		required = false,
 		leftIcon,
 		rightIcon,
 		rightAdorment,
@@ -47,7 +47,7 @@ export const InputBase = memo(
 					label={label}
 					value={value}
 					error={error}
-					isRequired={isRequired}
+					required={required}
 					type={type}
 					valid={valid}
 					leftIcon={leftIcon ? true : false}
@@ -71,7 +71,7 @@ export const InputBase = memo(
 						label={label}
 						value={value}
 						error={error}
-						isRequired={isRequired}
+						required={required}
 						type={type}
 						valid={valid}
 					/>

@@ -19,7 +19,7 @@ interface Props<T extends string | number | readonly string[], O extends ValidTy
 	name: string
 	loading: boolean
 	inputValue?: string
-	onInputChange: React.ChangeEventHandler<HTMLInputElement>
+	onInputChange: (value: string) => void
 	open: boolean
 	handlePopoverOpen: () => void
 	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void

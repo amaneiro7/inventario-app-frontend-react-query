@@ -1,7 +1,7 @@
 import { fetching } from '@/api/api'
-import { type LocationSaveRepository } from '../domain/repository/LocationSaveRepository'
-import { type LocationPrimitives } from '../domain/dto/Location.dto'
-import { locationUrl } from '../domain/entity/baseUrl'
+import { type LocationSaveRepository } from '../../domain/repository/LocationSaveRepository'
+import { type LocationPrimitives } from '../../domain/dto/Location.dto'
+import { locationUrl } from '../../domain/entity/baseUrl'
 
 export class LocationSaveService implements LocationSaveRepository {
 	async save({ payload }: { payload: LocationPrimitives }): Promise<{ message: string }> {
