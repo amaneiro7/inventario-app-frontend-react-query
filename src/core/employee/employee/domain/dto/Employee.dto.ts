@@ -19,7 +19,7 @@ import { type EmployeePhoneNumber } from '../value-object/EmployeePhoneNumber'
 import { type CentroTrabajoDto } from '@/core/employee/centroTrabajo/domain/dto/CentroTrabajo.dto'
 import { type LocationDto } from '@/core/locations/locations/domain/dto/Location.dto'
 import { type Cargo } from '@/core/employee/cargo/domain/dto/Cargo.dto'
-import { type Departamento } from '@/core/employee/departamento/domain/dto/Departamento.dto'
+import { type DepartamentoDto } from '@/core/employee/departamento/domain/dto/Departamento.dto'
 
 export interface Employee {
 	id: Primitives<EmployeeId>
@@ -45,6 +45,6 @@ export type EmployeePrimitives = Omit<Employee, 'id'>
 export type EmployeeDto = Employee & {
 	centoTrabajo: CentroTrabajoDto
 	location: LocationDto
-	departamento: Departamento
+	departamento: DepartamentoDto
 	cargo: Cargo
 }

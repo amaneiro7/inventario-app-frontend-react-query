@@ -1,8 +1,8 @@
 import { fetching } from '@/api/api'
-import { type CategoryGetAllRepository } from '../domain/repository/CategoryGetAllRepository'
-import { type CategoryDto } from '../domain/dto/Category.dto'
+import { type CategoryGetAllRepository } from '@/core/category/domain/repository/CategoryGetAllRepository'
+import { type CategoryDto } from '@/core/category/domain/dto/Category.dto'
 import { type Response } from '@/core/shared/domain/methods/Response'
-import { categoryUrl } from '../domain/entity/baseUrl'
+import { categoryUrl } from '@/core/category/domain/entity/baseUrl'
 
 export class CategoryGetAllService implements CategoryGetAllRepository {
 	async getAll(queryParams: string): Promise<Response<CategoryDto>> {

@@ -4,27 +4,38 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type LocationDto } from '../domain/dto/Location.dto'
+import { type EmployeeDto } from '../domain/dto/Employee.dto'
 
-export interface LocationFilters {
-	id?: LocationDto['id']
-	name?: LocationDto['name']
-	siteId?: LocationDto['siteId']
-	typeOfSiteId?: LocationDto['typeOfSiteId'] | LocationDto['typeOfSiteId'][]
-	subnet?: LocationDto['subnet']
+export interface EmployeeFilters {
+	id?: EmployeeDto['id']
+	userName?: EmployeeDto['userName']
+	type?: EmployeeDto['type']
+	name?: EmployeeDto['name']
+	lastName?: EmployeeDto['lastName']
+	email?: EmployeeDto['email']
+	isStillWorking?: EmployeeDto['isStillWorking']
+	employeeCode?: EmployeeDto['employeeCode']
+	nationality?: EmployeeDto['nationality']
+	cedula?: EmployeeDto['cedula']
+	centroTrabajoId?: EmployeeDto['centroTrabajoId']
+	locationId?: EmployeeDto['locationId']
+	departamentoId?: EmployeeDto['departamentoId']
+	vicepresidenciaEjecutivaId?: EmployeeDto['departamento']['vicepresidenciaEjecutivaId']
+	directivaId?: EmployeeDto['departamento']['vicepresidenciaEjecutiva']['directivaId']
+	cargoId?: EmployeeDto['cargoId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
 	orderType?: Primitives<OrderType>
 }
 
-export async function createLocationParams({
+export async function createEmployeeParams({
 	pageNumber,
 	pageSize,
 	orderBy,
 	orderType,
 	...options
-}: LocationFilters): Promise<string> {
+}: EmployeeFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,
@@ -35,43 +46,23 @@ export async function createLocationParams({
 
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
-		const indices = []
-		for (const [i, filter] of query.filters.entries()) {
-			if (filter.field === key) {
-				indices.push(i)
-			}
-		}
-		console.log('key', key, value)
-		// Se chequea si value es undefined, null o un array vacio
-		if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
+
+		if (!value) {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}
-		} else if (Array.isArray(value)) {
-			// Manejer value como array
-
-			value.forEach(val => {
-				query.filters.push({
-					field: key,
-					operator:
-						key === 'name' || key === 'subnet'
-							? Operator.CONTAINS
-							: key === 'typeOfSiteId'
-							? Operator.OR
-							: Operator.EQUAL,
-					value: val
-				})
-			})
 		} else {
-			// manejar el caso de single values
 			if (index !== -1) {
-				// Si existe, actualizar el valor
 				query.filters[index].value = value
 			} else {
 				query.filters.push({
 					field: key,
 					operator:
-						key === 'name' || key === 'subnet' ? Operator.CONTAINS : Operator.EQUAL,
+						key === 'userName' || key === 'name' || key === 'lastName'
+							? Operator.OR
+							: key === 'email' || key === 'employeeCode' || key === 'cedula'
+							? Operator.CONTAINS
+							: Operator.EQUAL,
 					value
 				})
 			}

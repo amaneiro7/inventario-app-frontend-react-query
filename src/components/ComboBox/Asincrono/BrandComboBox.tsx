@@ -1,8 +1,7 @@
-import { lazy, useEffect, useState } from 'react'
+import { lazy, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useGetAllBrands } from '@/core/brand/infra/hooks/useGetAllBrand'
-import { type BrandFilters } from '@/core/brand/application/BrandGetByCiteria'
+import { type BrandFilters } from '@/core/brand/application/createBrandQueryParams'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
@@ -17,42 +16,19 @@ export function BrandCombobox({
 	name: string
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [query, setQuery] = useState<BrandFilters>({
-		options: {
-			id: value
-		},
-		pageSize: value ? undefined : 10
-	})
-	const { brands, isLoading } = useGetAllBrands(query)
 	const [inputValue, setInputValue] = useState('')
-	const [debouncedSearch] = useDebounce(inputValue)
+	const [debouncedSearch] = useDebounce(inputValue, 250)
 
-	useEffectAfterMount(() => {
-		setQuery({
-			options: {
-				name: debouncedSearch
-			},
-			pageSize: debouncedSearch === '' ? 10 : undefined
-		})
-	}, [debouncedSearch])
+	const query: BrandFilters = useMemo(() => {
+		return {
+			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
+			...(value ? { id: value } : {})
+		}
+	}, [debouncedSearch, value])
 
-	useEffect(() => {
-		setQuery({
-			options: {
-				id: value
-			},
-			pageSize: value ? undefined : 10
-		})
-	}, [value])
+	const { brands, isLoading } = useGetAllBrands(query)
 
-	useEffect(() => {
-		setQuery({
-			options: {
-				id: value
-			},
-			pageSize: value ? undefined : 10
-		})
-	}, [value])
+	const options = useMemo(() => brands?.data ?? [], [brands])
 
 	return (
 		<>
@@ -63,7 +39,7 @@ export function BrandCombobox({
 				inputValue={inputValue}
 				name={name}
 				loading={isLoading}
-				options={brands?.data ?? []}
+				options={options}
 				onInputChange={value => {
 					setInputValue(value)
 				}}

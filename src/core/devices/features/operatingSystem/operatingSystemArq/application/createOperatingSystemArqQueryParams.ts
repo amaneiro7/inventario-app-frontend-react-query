@@ -4,27 +4,24 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type LocationDto } from '../domain/dto/Location.dto'
+import { type OperatingSystemArqDto } from '../domain/dto/OperatingSystemArq.dto'
 
-export interface LocationFilters {
-	id?: LocationDto['id']
-	name?: LocationDto['name']
-	siteId?: LocationDto['siteId']
-	typeOfSiteId?: LocationDto['typeOfSiteId'] | LocationDto['typeOfSiteId'][]
-	subnet?: LocationDto['subnet']
+export interface OperatingSystemArqFilters {
+	id?: OperatingSystemArqDto['id']
+	name?: OperatingSystemArqDto['name']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
 	orderType?: Primitives<OrderType>
 }
 
-export async function createLocationParams({
+export async function createOperatingSystemArqParams({
 	pageNumber,
 	pageSize,
 	orderBy,
 	orderType,
 	...options
-}: LocationFilters): Promise<string> {
+}: OperatingSystemArqFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,
@@ -35,43 +32,18 @@ export async function createLocationParams({
 
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
-		const indices = []
-		for (const [i, filter] of query.filters.entries()) {
-			if (filter.field === key) {
-				indices.push(i)
-			}
-		}
-		console.log('key', key, value)
-		// Se chequea si value es undefined, null o un array vacio
-		if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
+
+		if (!value) {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}
-		} else if (Array.isArray(value)) {
-			// Manejer value como array
-
-			value.forEach(val => {
-				query.filters.push({
-					field: key,
-					operator:
-						key === 'name' || key === 'subnet'
-							? Operator.CONTAINS
-							: key === 'typeOfSiteId'
-							? Operator.OR
-							: Operator.EQUAL,
-					value: val
-				})
-			})
 		} else {
-			// manejar el caso de single values
 			if (index !== -1) {
-				// Si existe, actualizar el valor
 				query.filters[index].value = value
 			} else {
 				query.filters.push({
 					field: key,
-					operator:
-						key === 'name' || key === 'subnet' ? Operator.CONTAINS : Operator.EQUAL,
+					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
 					value
 				})
 			}

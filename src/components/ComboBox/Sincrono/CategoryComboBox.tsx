@@ -1,5 +1,5 @@
 import { lazy, memo, useMemo, useState } from 'react'
-import { useGetAllCategory } from '@/hooks/getAll/useGetAllCategory'
+import { useGetAllCategory } from '@/core/category/infra/hook/useGetAllCategory'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { type CategoryFilters } from '@/core/category/application/CreateCategoryQueryParams'
 

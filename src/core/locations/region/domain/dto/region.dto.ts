@@ -9,4 +9,4 @@ export interface Region {
 
 export type RegionPrimitives = Omit<Region, 'id'>
 
-export type RegionDTO = Region
+export type RegionDto = Region

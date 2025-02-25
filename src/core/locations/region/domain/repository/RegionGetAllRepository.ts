@@ -1,4 +1,4 @@
 import { GetAllRepository } from '@/core/shared/domain/repository/GetAllRepository.abstract'
-import { type RegionDTO } from '../dto/region.dto'
+import { type RegionDto } from '../dto/region.dto'
 
-export abstract class RegionGetAllRepository extends GetAllRepository<RegionDTO> {}
+export abstract class RegionGetAllRepository extends GetAllRepository<RegionDto> {}

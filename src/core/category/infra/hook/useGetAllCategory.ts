@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { CategoryGetByCriteria } from '@/core/category/application/CategoryGetByCriteria'
-import { CategoryGetAllService } from '@/core/category/infra/categoryGetAll.service'
+import { CategoryGetAllService } from '../service/categoryGetAll.service'
 import { type CategoryFilters } from '@/core/category/application/CreateCategoryQueryParams'
 
 export const useGetAllCategory = (query: CategoryFilters) => {
@@ -15,7 +15,7 @@ export const useGetAllCategory = (query: CategoryFilters) => {
 		data: categories
 	} = useQuery({
 		queryKey: ['categories', query],
-		queryFn: async () => await getAll.search(query),
+		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})
 
