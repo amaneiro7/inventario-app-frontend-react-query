@@ -1,4 +1,6 @@
 import { useCallback, useContext, useLayoutEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { type InternalAxiosRequestConfig } from 'axios'
 import { type LoginParams } from '@/core/user/domain/dto/LoginAuth.dto'
 import { type LoginUserDto } from '@/core/user/domain/dto/LoginUser.dto'
 import { api } from '../api/axios.config'
@@ -12,8 +14,6 @@ import { RefreshToken } from '@/core/user/application/RefreshToken'
 import { RefreshTokenService } from '@/core/user/infra/refreshToken.service'
 import { LoginService } from '@/core/user/infra/login.service'
 import { LogoutService } from '@/core/user/infra/logout.service'
-import { type InternalAxiosRequestConfig } from 'axios'
-import { useLocation } from 'react-router-dom'
 import { useLocalStorage } from './utils/useLocalStorage'
 
 export function useAuth() {
