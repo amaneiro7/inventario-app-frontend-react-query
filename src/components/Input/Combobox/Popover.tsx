@@ -68,6 +68,8 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 					setSelectedIndex(prevIndex => Math.min(prevIndex + 1, options.length - 1))
 					break
 				case 'Enter':
+					event.stopPropagation()
+					event.preventDefault()
 					if (selectedIndex !== -1) {
 						handleOptionClick(options[selectedIndex])
 					}
