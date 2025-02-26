@@ -23,6 +23,7 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	errorMessage?: string
 	className?: string
 	loading?: boolean
+	searchField?: boolean
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
@@ -43,6 +44,7 @@ export const Combobox = memo(
 		required = false,
 		leftIcon,
 		loading = false,
+		searchField = true,
 		rightIcon,
 		inputValue,
 		onInputChange,
@@ -80,6 +82,7 @@ export const Combobox = memo(
 					onInputChange={onInputChange}
 					onChangeValue={onChangeValue}
 					open={open}
+					searchField={searchField}
 					handlePopoverOpen={handlePopoverOpen}
 				/>
 
