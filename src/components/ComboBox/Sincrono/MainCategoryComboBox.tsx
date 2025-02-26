@@ -1,6 +1,6 @@
 import { lazy, memo, Suspense, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useGetAllMainCategory } from '@/hooks/getAll/useGetAllMainCategory'
+import { useGetAllMainCategory } from '@/core/mainCategory/infra/hook/useGetAllMainCategory'
 import { type MainCategoryFilters } from '@/core/mainCategory/application/CreateMainCategoryQueryParams'
 
 const Combobox = lazy(async () =>

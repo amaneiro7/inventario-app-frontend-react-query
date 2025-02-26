@@ -41,7 +41,7 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 		return options.find(data => String(data.id) === String(value))?.name
 	}, [value, options])
 
-	const hanldeOptionClick = useCallback(
+	const handleOptionClick = useCallback(
 		(option: ValidType) => {
 			onChangeValue(name, option.id)
 			handlePopoverOpen()
@@ -73,7 +73,7 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 						aria-disabled={false}
 						aria-selected={false}
 						value={value}
-						onClick={() => hanldeOptionClick(option)}
+						onClick={() => handleOptionClick(option)}
 						role="option"
 						className="w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200"
 					>

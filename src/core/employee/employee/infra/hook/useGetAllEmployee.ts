@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { EmployeeGetAllService } from '@/core/employee/employee/infra/employeeGetAll.service'
-import {
-	EmployeeFilters,
-	EmployeeGetByCriteria
-} from '@/core/employee/employee/application/EmployeeGetByCriteria'
+import { EmployeeGetAllService } from '@/core/employee/employee/infra/service/employeeGetAll.service'
+import { EmployeeGetByCriteria } from '@/core/employee/employee/application/EmployeeGetByCriteria'
+import { type EmployeeFilters } from '../../application/createEmployeeQueryParams'
 
 export const useGetAllEmployees = (query: EmployeeFilters) => {
 	const repository = useMemo(() => new EmployeeGetAllService(), [])
@@ -16,8 +14,8 @@ export const useGetAllEmployees = (query: EmployeeFilters) => {
 		isError,
 		data: employees
 	} = useQuery({
-		queryKey: ['employees', query.options],
-		queryFn: async () => await getAll.search(query),
+		queryKey: ['employees', query],
+		queryFn: () => getAll.search(query),
 		staleTime: 5 * 1000
 	})
 

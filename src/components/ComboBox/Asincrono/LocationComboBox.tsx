@@ -67,9 +67,6 @@ export const LocationCombobox = memo(function ({
 		} else {
 			filterTypeOfSite = TypeOfSiteOptions.ALMACEN
 		}
-		console.log(filterTypeOfSite)
-		console.log(statusId)
-		console.log(typeOfSiteId)
 		return {
 			...(value ? { id: value } : { id: undefined }),
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),

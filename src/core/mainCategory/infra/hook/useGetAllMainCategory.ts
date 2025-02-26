@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { MainCategoryGetAllService } from '@/core/mainCategory/infra/mainCategoryGetAll.service'
+import { MainCategoryGetAllService } from '../service/mainCategoryGetAll.service'
 import { MainCategoryGetByCriteria } from '@/core/mainCategory/application/MainCategoryGetByCriteria'
 import { type MainCategoryFilters } from '@/core/mainCategory/application/CreateMainCategoryQueryParams'
 

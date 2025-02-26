@@ -1,7 +1,7 @@
 import { fetching } from '@/api/api'
-import { type EmployeeSaveRepository } from '../domain/repository/EmployeeSaveRepository'
-import { type EmployeePrimitives } from '../domain/dto/Employee.dto'
-import { employeeUrl } from '../domain/entity/baseUrl'
+import { type EmployeeSaveRepository } from '../../domain/repository/EmployeeSaveRepository'
+import { type EmployeePrimitives } from '../../domain/dto/Employee.dto'
+import { employeeUrl } from '../../domain/entity/baseUrl'
 
 export class EmployeeSaveService implements EmployeeSaveRepository {
 	async save({ payload }: { payload: EmployeePrimitives }): Promise<{ message: string }> {

@@ -1,7 +1,7 @@
 import { fetching } from '@/api/api'
-import { type EmployeeGetAllRepository } from '../domain/repository/EmployeeGetAllRepository'
-import { type EmployeeDto } from '../domain/dto/Employee.dto'
-import { employeeUrl } from '../domain/entity/baseUrl'
+import { type EmployeeGetAllRepository } from '../../domain/repository/EmployeeGetAllRepository'
+import { type EmployeeDto } from '../../domain/dto/Employee.dto'
+import { employeeUrl } from '../../domain/entity/baseUrl'
 import { Response } from '@/core/shared/domain/methods/Response'
 
 export class EmployeeGetAllService implements EmployeeGetAllRepository {

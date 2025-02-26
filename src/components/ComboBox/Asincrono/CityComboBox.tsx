@@ -1,8 +1,7 @@
-import { useEffect, lazy, useState } from 'react'
+import { lazy, useState, useMemo } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { useGetAllCity } from '@/hooks/getAll/useGetAllCity'
-import { type CityFilters } from '@/core/locations/city/application/CityGetByCriteria'
+import { useGetAllCity } from '@/core/locations/city/infra/hook/useGetAllCity'
+import { CityFilters } from '@/core/locations/city/application/createCityQueryParams'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
@@ -21,39 +20,21 @@ export function CityCombobox({
 	regionId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [query, setQuery] = useState<CityFilters>({
-		options: {
-			id: value,
+	const [inputValue, setInputValue] = useState('')
+	const [debouncedSearch] = useDebounce(inputValue, 250)
+
+	const query: CityFilters = useMemo(() => {
+		return {
+			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
+			...(value ? { id: value } : {}),
 			stateId,
 			regionId
-		},
-		pageSize: value || stateId || regionId ? undefined : 10
-	})
+		}
+	}, [debouncedSearch, value, stateId, regionId])
+
 	const { cities, isLoading } = useGetAllCity(query)
-	const [inputValue, setInputValue] = useState('')
-	const [debouncedSearch] = useDebounce(inputValue)
 
-	useEffectAfterMount(() => {
-		setQuery({
-			options: {
-				name: debouncedSearch,
-				stateId,
-				regionId
-			},
-			pageSize: debouncedSearch === '' ? 10 : undefined
-		})
-	}, [debouncedSearch, stateId, regionId])
-
-	useEffect(() => {
-		setQuery({
-			options: {
-				id: value,
-				regionId,
-				stateId
-			},
-			pageSize: value || stateId || regionId ? undefined : 10
-		})
-	}, [value, regionId, stateId])
+	const options = useMemo(() => cities?.data ?? [], [cities])
 
 	return (
 		<>
@@ -62,7 +43,7 @@ export function CityCombobox({
 				label="Ciudad"
 				value={value}
 				name={name}
-				options={cities?.data ?? []}
+				options={options}
 				inputValue={inputValue}
 				onInputChange={value => {
 					setInputValue(value)

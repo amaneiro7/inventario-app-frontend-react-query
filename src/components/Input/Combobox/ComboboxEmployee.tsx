@@ -1,20 +1,11 @@
-import React, { lazy, memo, useRef, useState } from 'react'
+import React, { memo, useRef, useState } from 'react'
 import { useCLoseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
+import { ButtonOpen } from './ButtonOpen'
+import { ButtonClear } from './ButtonClear'
+import { CircleSpinningIcon } from '@/icon/CircleSpinning'
+import { PopoverEmployee } from './PopoverEmployee'
+import { InputBase } from '../InputBase'
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
-
-const PopoverEmployee = lazy(async () =>
-	import('./PopoverEmployee').then(m => ({ default: m.PopoverEmployee }))
-)
-const ButtonOpen = lazy(async () =>
-	import('@/components/Input/Combobox/ButtonOpen').then(m => ({ default: m.ButtonOpen }))
-)
-const ButtonClear = lazy(async () =>
-	import('@/components/Input/Combobox/ButtonClear').then(m => ({ default: m.ButtonClear }))
-)
-const CircleSpinningIcon = lazy(async () =>
-	import('@/icon/CircleSpinning').then(m => ({ default: m.CircleSpinningIcon }))
-)
-const InputBase = lazy(async () => import('../InputBase').then(m => ({ default: m.InputBase })))
 
 interface ComboboxProps<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -23,7 +14,7 @@ interface ComboboxProps<T extends string | number | readonly string[]>
 	name: string
 	options: EmployeeDto[]
 	inputValue?: string
-	isRequired?: boolean
+	required?: boolean
 	error?: boolean
 	valid?: boolean
 	errorMessage?: string
@@ -32,7 +23,7 @@ interface ComboboxProps<T extends string | number | readonly string[]>
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	onChangeValue: (name: EmployeeDto['userName'], value: EmployeeDto['id']) => void
-	onInputChange: React.ChangeEventHandler<HTMLInputElement>
+	onInputChange: (value: string) => void
 	onRightIconClick?: () => void
 }
 export const ComboboxEmployee = memo(
@@ -46,7 +37,7 @@ export const ComboboxEmployee = memo(
 		value,
 		errorMessage,
 		label,
-		isRequired = false,
+		required = false,
 		leftIcon,
 		loading = false,
 		rightIcon,
@@ -71,7 +62,7 @@ export const ComboboxEmployee = memo(
 				error={error}
 				valid={valid}
 				errorMessage={errorMessage}
-				isRequired={isRequired}
+				required={required}
 				leftIcon={leftIcon}
 				rightIcon={rightIcon}
 				onRightIconClick={onRightIconClick}

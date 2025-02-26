@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { TypeOfSiteGetAllService } from '@/core/locations/typeOfSites/infra/service/typeOfSiteGetAll.service'
-import {
-	type TypeOfSiteFilters,
-	TypeOfSiteGetByCriteria
-} from '@/core/locations/typeOfSites/application/TypeOfSiteGetByCriteria'
+import { TypeOfSiteGetByCriteria } from '@/core/locations/typeOfSites/application/TypeOfSiteGetByCriteria'
+import { type TypeOfSiteFilters } from '../../application/createTypeOfSiteQueryParams'
 
 export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
 	const repository = useMemo(() => new TypeOfSiteGetAllService(), [])
@@ -16,8 +14,8 @@ export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
 		isError,
 		data: typeOfSites
 	} = useSuspenseQuery({
-		queryKey: ['typeOfSites', query.options],
-		queryFn: async () => await getAll.search(query),
+		queryKey: ['typeOfSites', query],
+		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})
 

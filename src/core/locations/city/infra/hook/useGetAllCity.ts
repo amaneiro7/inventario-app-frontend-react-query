@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { CityGetAllService } from '@/core/locations/city/infra/cityGetAll.service'
-import {
-	type CityFilters,
-	CityGetByCriteria
-} from '@/core/locations/city/application/CityGetByCriteria'
+import { CityGetAllService } from '../service/cityGetAll.service'
+import { CityGetByCriteria } from '@/core/locations/city/application/CityGetByCriteria'
+import { type CityFilters } from '../../application/createCityQueryParams'
 
 export const useGetAllCity = (query: CityFilters) => {
 	const repository = useMemo(() => new CityGetAllService(), [])
@@ -16,8 +14,8 @@ export const useGetAllCity = (query: CityFilters) => {
 		isError,
 		data: cities
 	} = useQuery({
-		queryKey: ['cities', query.options],
-		queryFn: async () => await getAll.search(query),
+		queryKey: ['cities', query],
+		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})
 
