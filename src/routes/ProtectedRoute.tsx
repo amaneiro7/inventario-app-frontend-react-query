@@ -17,8 +17,8 @@ export function ProtectedRoute(Component: React.ComponentType) {
 
 		return (
 			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools />
 				<Component />
+				<ReactQueryDevtools />
 			</QueryClientProvider>
 		)
 	}

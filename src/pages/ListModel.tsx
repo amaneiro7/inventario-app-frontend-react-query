@@ -2,7 +2,7 @@ import { lazy, Suspense, useCallback, useMemo } from 'react'
 import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
 import { useModelsFilter } from '@/hooks/filters/useModelsFilters'
 import { ModelGetByCriteria } from '@/core/model/models/application/ModelGetByCriteria'
-import { useGetAllModel } from '@/hooks/getAll/useGetAllModel'
+import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
 import { Loading } from '@/components/Loading'
 import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 

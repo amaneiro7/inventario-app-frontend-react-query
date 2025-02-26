@@ -1,6 +1,6 @@
 import { lazy, useCallback, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useGetAllModel } from '@/hooks/getAll/useGetAllModel'
+import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
 import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 
 const Combobox = lazy(async () =>

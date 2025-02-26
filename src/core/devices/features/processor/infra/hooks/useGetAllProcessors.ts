@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import {
-	type ProcessorFilters,
-	ProcessorGetByCriteria
-} from '../../application/ProcessorGetByCriteria'
+import { ProcessorGetByCriteria } from '../../application/ProcessorGetByCriteria'
 import { ProcessorGetAllService } from '../service/processorGetAll.service'
+import { type ProcessorFilters } from '../../application/createProcessorQueryParams'
 
 export const useGetAllProcessor = (query: ProcessorFilters) => {
 	const repository = useMemo(() => new ProcessorGetAllService(), [])
@@ -16,8 +14,8 @@ export const useGetAllProcessor = (query: ProcessorFilters) => {
 		isError,
 		data: processor
 	} = useQuery({
-		queryKey: ['processors', query.options],
-		queryFn: async () => await getAll.search(query),
+		queryKey: ['processors', query],
+		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})
 

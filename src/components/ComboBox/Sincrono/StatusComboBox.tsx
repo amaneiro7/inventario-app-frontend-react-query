@@ -1,5 +1,6 @@
 import { lazy, memo, Suspense, useMemo, useState } from 'react'
-import { useGetAllStatus } from '@/hooks/getAll/useGetAllStatus'
+import { useGetAllStatus } from '@/core/status/infra/hook/useGetAllStatus'
+import { StatusFilters } from '@/core/status/application/createStatusQueryParams'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
@@ -16,11 +17,12 @@ export const StatusCombobox = memo(
 
 		handleChange: (name: string, value: string | number) => void
 	}) => {
-		const { status, isLoading } = useGetAllStatus({
-			options: {
-				id: value
+		const query: StatusFilters = useMemo(() => {
+			return {
+				...(value ? { id: value } : {})
 			}
-		})
+		}, [value])
+		const { status, isLoading } = useGetAllStatus(query)
 
 		const [inputValue, setInputValue] = useState('')
 
@@ -35,8 +37,8 @@ export const StatusCombobox = memo(
 					value={value}
 					options={options}
 					inputValue={inputValue}
-					onInputChange={e => {
-						setInputValue(e.target.value)
+					onInputChange={value => {
+						setInputValue(value)
 					}}
 					onChangeValue={handleChange}
 				/>

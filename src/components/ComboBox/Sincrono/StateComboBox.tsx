@@ -1,8 +1,6 @@
-import { lazy, useEffect, useState } from 'react'
-import { useGetAllState } from '@/hooks/getAll/useGetAllState'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { type StateFilters } from '@/core/locations/state/application/StateGetByCriteria'
+import { lazy, useMemo, useState } from 'react'
+import { useGetAllState } from '@/core/locations/state/infra/hook/useGetAllState'
+import { type StateFilters } from '@/core/locations/state/application/createStateQueryParams'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
@@ -20,34 +18,15 @@ export function StateCombobox({
 
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [query, setQuery] = useState<StateFilters>({
-		options: {
-			id: value,
+	const [inputValue, setInputValue] = useState('')
+	const query: StateFilters = useMemo(() => {
+		return {
 			regionId
 		}
-	})
-	const { states, isLoading } = useGetAllState(query)
-	const [inputValue, setInputValue] = useState('')
-
-	const [debouncedSearch] = useDebounce(inputValue, 250)
-
-	useEffectAfterMount(() => {
-		setQuery({
-			options: {
-				name: debouncedSearch
-			},
-			pageSize: debouncedSearch === '' ? 10 : undefined
-		})
-	}, [debouncedSearch])
-
-	useEffect(() => {
-		setQuery({
-			options: {
-				id: value,
-				regionId
-			}
-		})
 	}, [value, regionId])
+	const { states, isLoading } = useGetAllState(query)
+
+	const options = useMemo(() => states?.data ?? [], [states])
 
 	return (
 		<>
@@ -56,7 +35,7 @@ export function StateCombobox({
 				label="Estados"
 				value={value}
 				name={name}
-				options={states?.data ?? []}
+				options={options}
 				inputValue={inputValue}
 				onInputChange={value => {
 					setInputValue(value)
