@@ -68,7 +68,7 @@ export default function ListComputer() {
 		},
 		[setPageNumber]
 	)
-
+	console.log('ListComputer', 'query', query)
 	const { download, isDownloading } = useDownloadExcelService({
 		query,
 		source: 'computer'
