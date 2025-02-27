@@ -13,6 +13,9 @@ interface SearchProps {
 	categoryId?: string
 	brandId?: string
 	method?: 'search'
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }
 
@@ -22,6 +25,9 @@ interface FormProps {
 	categoryId?: string
 	brandId?: string
 	method?: 'form'
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleFormChange: ({
 		value,
 		memoryRamSlotQuantity,
@@ -40,6 +46,9 @@ type Props = SearchProps | FormProps
 export function ModelCombobox({
 	value = '',
 	name,
+	error = '',
+	required = false,
+	disabled = false,
 	categoryId,
 	brandId,
 	method = 'search',
@@ -83,6 +92,10 @@ export function ModelCombobox({
 				label="Modelos"
 				inputValue={inputValue}
 				name={name}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
 				loading={isLoading}
 				options={models?.data ?? []}
 				onChangeValue={handleChangeValue}

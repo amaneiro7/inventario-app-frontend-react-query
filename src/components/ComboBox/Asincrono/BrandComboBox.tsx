@@ -1,19 +1,22 @@
-import { lazy, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllBrands } from '@/core/brand/infra/hooks/useGetAllBrand'
+import { Combobox } from '@/components/Input/Combobox'
 import { type BrandFilters } from '@/core/brand/application/createBrandQueryParams'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
 
 export function BrandCombobox({
 	value = '',
 	name,
+	error = '',
+	required = false,
+	disabled = false,
 	handleChange
 }: {
 	value?: string
 	name: string
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -38,6 +41,10 @@ export function BrandCombobox({
 				value={value}
 				inputValue={inputValue}
 				name={name}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
 				loading={isLoading}
 				options={options}
 				onInputChange={value => {

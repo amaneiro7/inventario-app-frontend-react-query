@@ -27,7 +27,7 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	onChangeValue: (name: ValidType['name'], value: ValidType['id']) => void
-	onInputChange: (value: string) => void
+	onInputChange?: (value: string) => void
 	onRightIconClick?: () => void
 }
 export const Combobox = memo(

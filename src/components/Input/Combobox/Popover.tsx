@@ -20,7 +20,7 @@ interface Props<T extends string | number | readonly string[], O extends ValidTy
 	name: string
 	loading: boolean
 	inputValue?: string
-	onInputChange: (value: string) => void
+	onInputChange?: (value: string) => void
 	open: boolean
 	searchField?: boolean
 	handlePopoverOpen: () => void
@@ -160,7 +160,7 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 				role="combobox"
 				className={`div-popover ${open ? 'open' : 'close'}`}
 			>
-				{searchField ? (
+				{searchField && onInputChange ? (
 					<SearchBar
 						id={id}
 						value={inputValue}

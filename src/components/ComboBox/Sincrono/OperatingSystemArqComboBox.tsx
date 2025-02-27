@@ -1,20 +1,22 @@
-import { lazy, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { useGetAllOperatingSystemArq } from '@/core/devices/features/operatingSystem/operatingSystemArq/infra/hook/useGetAllOperatingSystemArq'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
+import { Combobox } from '@/components/Input/Combobox'
 
 export function OperatingSystemArqCombobox({
 	value = '',
 	name,
+	error = '',
+	required = false,
+	disabled = false,
 	handleChange
 }: {
 	value?: string
 	name: string
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [inputValue, setInputValue] = useState('')
 	const { operatingSystemArqs, isLoading } = useGetAllOperatingSystemArq({})
 
 	const options = useMemo(() => operatingSystemArqs?.data ?? [], [operatingSystemArqs])
@@ -22,16 +24,18 @@ export function OperatingSystemArqCombobox({
 	return (
 		<>
 			<Combobox
-				loading={isLoading}
+				id="operatingSystemArq"
 				label="Arqitectura"
-				name={name}
 				value={value}
+				name={name}
+				loading={isLoading}
 				options={options}
-				inputValue={inputValue}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
+				searchField={false}
 				onChangeValue={handleChange}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
 			/>
 		</>
 	)

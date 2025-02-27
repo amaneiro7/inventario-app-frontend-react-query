@@ -1,48 +1,44 @@
-import { lazy, memo, Suspense, useMemo, useState } from 'react'
+import { memo, useMemo } from 'react'
 import { useGetAllStatus } from '@/core/status/infra/hook/useGetAllStatus'
-import { StatusFilters } from '@/core/status/application/createStatusQueryParams'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
+import { Combobox } from '@/components/Input/Combobox'
 
 export const StatusCombobox = memo(
 	({
 		value = '',
 		name,
+		error = '',
+		required = false,
+		disabled = false,
 		handleChange
 	}: {
 		value?: string
 		name: string
-
+		error?: string
+		required?: boolean
+		disabled?: boolean
 		handleChange: (name: string, value: string | number) => void
 	}) => {
-		const query: StatusFilters = useMemo(() => {
-			return {
-				...(value ? { id: value } : {})
-			}
-		}, [value])
-		const { status, isLoading } = useGetAllStatus(query)
-
-		const [inputValue, setInputValue] = useState('')
+		const { status, isLoading } = useGetAllStatus({})
 
 		const options = useMemo(() => status?.data ?? [], [status])
 
 		return (
-			<Suspense fallback={<div>Loading...</div>}>
+			<>
 				<Combobox
-					loading={isLoading}
+					id="status"
 					label="Estatus"
-					name={name}
 					value={value}
+					name={name}
+					loading={isLoading}
 					options={options}
-					inputValue={inputValue}
-					onInputChange={value => {
-						setInputValue(value)
-					}}
+					required={required}
+					disabled={disabled}
+					error={!!error}
+					errorMessage={error}
+					searchField={false}
 					onChangeValue={handleChange}
 				/>
-			</Suspense>
+			</>
 		)
 	}
 )

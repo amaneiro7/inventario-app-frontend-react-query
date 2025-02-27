@@ -1,13 +1,10 @@
-import { lazy, useState, memo, useCallback, useMemo } from 'react'
+import { useState, memo, useCallback, useMemo } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllLocations } from '@/core/locations/locations/infra/hook/useGetAllLocation'
-import { type LocationFilters } from '@/core/locations/locations/application/CreateLocationQueryParams'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
+import { Combobox } from '@/components/Input/Combobox'
+import { type LocationFilters } from '@/core/locations/locations/application/CreateLocationQueryParams'
 
 interface SearchProps {
 	value?: string
@@ -16,6 +13,9 @@ interface SearchProps {
 	siteId?: string
 	statusId?: string
 	method: 'search'
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }
 
@@ -26,6 +26,9 @@ interface FormProps {
 	siteId?: string
 	statusId?: string
 	method: 'form'
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleFormChange: ({
 		value,
 		ipAddress,
@@ -42,6 +45,9 @@ type Props = SearchProps | FormProps
 export const LocationCombobox = memo(function ({
 	value = '',
 	name,
+	error = '',
+	required = false,
+	disabled = false,
 	typeOfSiteId,
 	siteId,
 	statusId,
@@ -101,6 +107,10 @@ export const LocationCombobox = memo(function ({
 				label="Ubicación"
 				inputValue={inputValue}
 				name={name}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
 				loading={isLoading}
 				options={options}
 				onChangeValue={handleChangeValue}

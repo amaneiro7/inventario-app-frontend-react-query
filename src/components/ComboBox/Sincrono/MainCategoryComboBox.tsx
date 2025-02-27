@@ -1,49 +1,42 @@
-import { lazy, memo, Suspense, useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
+import { memo, useMemo } from 'react'
 import { useGetAllMainCategory } from '@/core/mainCategory/infra/hook/useGetAllMainCategory'
-import { type MainCategoryFilters } from '@/core/mainCategory/application/CreateMainCategoryQueryParams'
+import { Combobox } from '@/components/Input/Combobox'
 
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
 export const MainCategoryCombobox = memo(function ({
 	value = '',
 	name,
+	error = '',
+	required = false,
+	disabled = false,
 	handleChange
 }: {
 	value?: string
 	name: string
+	error?: string
+	required?: boolean
+	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [inputValue, setInputValue] = useState('')
-	const [debouncedSearch] = useDebounce(inputValue, 250)
-
-	const query: MainCategoryFilters = useMemo(() => {
-		return {
-			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
-			...(value ? { id: value } : {})
-		}
-	}, [debouncedSearch, value])
-
-	const { mainCategories, isLoading } = useGetAllMainCategory(query)
+	const { mainCategories, isLoading } = useGetAllMainCategory({})
 
 	const options = useMemo(() => mainCategories?.data ?? [], [mainCategories])
 
 	return (
-		<Suspense>
+		<>
 			<Combobox
 				id="mainCategory"
 				label="Categoria"
 				value={value}
-				inputValue={inputValue}
 				name={name}
 				loading={isLoading}
 				options={options}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
+				searchField={false}
 				onChangeValue={handleChange}
 			/>
-		</Suspense>
+		</>
 	)
 })

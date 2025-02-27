@@ -756,6 +756,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 			})
 		}
 		case 'hardDriveCapacityId': {
+			console.log('reducer hardDriveCapacityId')
 			const { value } = action.payload
 			const additionalUpdates = value
 				? {}

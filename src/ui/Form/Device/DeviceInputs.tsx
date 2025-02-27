@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense } from 'react'
 import {
-	DeviceRequired,
-	DevicesDisabled,
+	type DeviceRequired,
+	type DevicesDisabled,
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
@@ -19,10 +19,51 @@ const Input = lazy(
 )
 
 interface Props {
-	formData: DefaultDevice
-	errors: DevicesErrors
-	disabled: DevicesDisabled
-	required: DeviceRequired
+	statusId: DefaultDevice['statusId']
+	mainCategoryId: DefaultDevice['mainCategoryId']
+	categoryId: DefaultDevice['categoryId']
+	brandId: DefaultDevice['brandId']
+	modelId: DefaultDevice['modelId']
+	serial: DefaultDevice['serial']
+	activo: DefaultDevice['activo']
+	employeeId: DefaultDevice['employeeId']
+	locationId: DefaultDevice['locationId']
+	stockNumber: DefaultDevice['stockNumber']
+	observation: DefaultDevice['observation']
+	errorStatusId: DevicesErrors['statusId']
+	errorMainCategoryId: DevicesErrors['mainCategoryId']
+	errorCategoryId: DevicesErrors['categoryId']
+	errorBrandId: DevicesErrors['brandId']
+	errorModelId: DevicesErrors['modelId']
+	errorSerial: DevicesErrors['serial']
+	errorActivo: DevicesErrors['activo']
+	errorEmployeeId: DevicesErrors['employeeId']
+	errorLocationId: DevicesErrors['locationId']
+	errorStockNumber: DevicesErrors['stockNumber']
+	errorObservation: DevicesErrors['observation']
+	disabledStatusId: DevicesDisabled['statusId']
+	disabledMainCategoryId: DevicesDisabled['mainCategoryId']
+	disabledCategoryId: DevicesDisabled['categoryId']
+	disabledBrandId: DevicesDisabled['brandId']
+	disabledModelId: DevicesDisabled['modelId']
+	disabledSerial: DevicesDisabled['serial']
+	disabledActivo: DevicesDisabled['activo']
+	disabledEmployeeId: DevicesDisabled['employeeId']
+	disabledLocationId: DevicesDisabled['locationId']
+	disabledStockNumber: DevicesDisabled['stockNumber']
+	disabledObservation: DevicesDisabled['observation']
+	requiredStatusId: DeviceRequired['statusId']
+	requiredMainCategoryId: DeviceRequired['mainCategoryId']
+	requiredCategoryId: DeviceRequired['categoryId']
+	requiredBrandId: DeviceRequired['brandId']
+	requiredModelId: DeviceRequired['modelId']
+	requiredSerial: DeviceRequired['serial']
+	requiredActivo: DeviceRequired['activo']
+	requiredEmployeeId: DeviceRequired['employeeId']
+	requiredLocationId: DeviceRequired['locationId']
+	requiredStockNumber: DeviceRequired['stockNumber']
+	requiredObservation: DeviceRequired['observation']
+
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 	handleLocation: ({
 		value,
@@ -47,10 +88,50 @@ interface Props {
 }
 
 export const DeviceInputs = memo(function ({
-	formData,
-	errors,
-	required,
-	disabled,
+	statusId,
+	mainCategoryId,
+	categoryId,
+	brandId,
+	modelId,
+	serial,
+	activo,
+	employeeId,
+	locationId,
+	stockNumber,
+	observation,
+	errorStatusId,
+	errorMainCategoryId,
+	errorCategoryId,
+	errorBrandId,
+	errorModelId,
+	errorSerial,
+	errorActivo,
+	errorEmployeeId,
+	errorLocationId,
+	errorStockNumber,
+	errorObservation,
+	disabledStatusId,
+	disabledMainCategoryId,
+	disabledCategoryId,
+	disabledBrandId,
+	disabledModelId,
+	disabledSerial,
+	disabledActivo,
+	disabledEmployeeId,
+	disabledLocationId,
+	disabledStockNumber,
+	disabledObservation,
+	requiredStatusId,
+	requiredMainCategoryId,
+	requiredCategoryId,
+	requiredBrandId,
+	requiredModelId,
+	requiredSerial,
+	requiredActivo,
+	requiredEmployeeId,
+	requiredLocationId,
+	requiredStockNumber,
+	requiredObservation,
 	handleChange,
 	handleLocation,
 	handleModel
@@ -59,72 +140,85 @@ export const DeviceInputs = memo(function ({
 		<div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-x-5 gap-y-6">
 			<Suspense>
 				<StatusCombobox
-					value={formData.statusId}
+					value={statusId}
 					handleChange={(_name, value) => handleChange('statusId', value)}
 					name="statusId"
+					error={errorStatusId}
+					required={requiredStatusId}
+					disabled={disabledStatusId}
 				/>
 			</Suspense>
 			<Suspense>
 				<MainCategoryCombobox
-					value={formData.mainCategoryId}
+					value={mainCategoryId}
 					handleChange={(_name, value) => handleChange('mainCategoryId', value)}
 					name="mainCategoryId"
+					error={errorMainCategoryId}
+					required={requiredMainCategoryId}
+					disabled={disabledMainCategoryId}
 				/>
 			</Suspense>
 			<Suspense>
 				<CategoryCombobox
-					value={formData.categoryId}
+					value={categoryId}
 					handleChange={(_name, value) => handleChange('categoryId', value)}
-					mainCategoryId={formData.mainCategoryId}
+					mainCategoryId={mainCategoryId}
 					name="categoryId"
-					required={required.categoryId}
-					disabled={disabled.categoryId}
+					error={errorCategoryId}
+					required={requiredCategoryId}
+					disabled={disabledCategoryId}
 				/>
 			</Suspense>
 			<Suspense>
 				<BrandCombobox
-					value={formData.brandId}
+					value={brandId}
 					handleChange={(_name, value) => handleChange('brandId', value)}
 					name="brandId"
+					error={errorBrandId}
+					required={requiredBrandId}
+					disabled={disabledBrandId}
 				/>
 			</Suspense>
 			<Suspense>
 				<ModelCombobox
-					value={formData.modelId}
+					value={modelId}
 					handleFormChange={handleModel}
-					brandId={formData.brandId}
-					categoryId={formData.categoryId}
+					brandId={brandId}
+					categoryId={categoryId}
 					name="modelId"
 					method="form"
+					error={errorModelId}
+					required={requiredModelId}
+					disabled={disabledModelId}
 				/>
 			</Suspense>
 			<Input
-				value={formData.serial ?? ''}
+				value={serial ?? ''}
 				name="serial"
 				label="Serial"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('serial', e.target.value)
 				}
-				error={!!errors?.serial}
-				errorMessage={errors?.serial}
-				required={required.serial}
-				disabled={disabled.serial}
+				error={!!errorSerial}
+				errorMessage={errorSerial}
+				required={requiredSerial}
+				disabled={disabledSerial}
 			/>
 			<Input
-				value={formData.activo ?? ''}
+				value={activo ?? ''}
 				name="activo"
 				label="Activo"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('activo', e.target.value)
 				}
-				error={!!errors?.activo}
-				errorMessage={errors?.activo}
-				required={required.activo}
-				disabled={disabled.activo}
+				error={!!errorActivo}
+				errorMessage={errorActivo}
+				required={requiredActivo}
+				disabled={disabledActivo}
 			/>
 			<Suspense>
 				<EmployeeCombobox
-					value={formData.employeeId ?? ''}
+					value={employeeId ?? ''}
 					handleChange={(_name, value) => handleChange('employeeId', value)}
 					name="employeeId"
 				/>
@@ -132,37 +226,37 @@ export const DeviceInputs = memo(function ({
 			<div className="flex gap-5 col-span-3">
 				<Suspense>
 					<LocationCombobox
-						value={formData.locationId ?? ''}
-						statusId={formData.statusId}
+						value={locationId ?? ''}
+						statusId={statusId}
 						handleFormChange={handleLocation}
 						name="locationId"
 						method="form"
 					/>
 				</Suspense>
 				<Input
-					value={formData.stockNumber ?? ''}
+					value={stockNumber ?? ''}
 					name="stockNumber"
 					label="N° de Stock"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('stockNumber', e.target.value)
 					}
-					error={!!errors?.stockNumber}
-					errorMessage={errors?.stockNumber}
-					required={required.stockNumber}
-					disabled={disabled.stockNumber}
+					error={!!errorStockNumber}
+					errorMessage={errorStockNumber}
+					required={requiredStockNumber}
+					disabled={disabledStockNumber}
 				/>
 			</div>
 			<Input
-				value={formData.observation ?? ''}
+				value={observation ?? ''}
 				name="observation"
 				label="Observación"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('observation', e.target.value)
 				}
-				error={!!errors?.observation}
-				errorMessage={errors?.observation}
-				required={required.observation}
-				disabled={disabled.observation}
+				error={!!errorObservation}
+				errorMessage={errorObservation}
+				required={requiredObservation}
+				disabled={disabledObservation}
 			/>
 		</div>
 	)
