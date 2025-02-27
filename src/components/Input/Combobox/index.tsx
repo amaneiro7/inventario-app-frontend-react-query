@@ -52,11 +52,34 @@ export const Combobox = memo(
 		onChangeValue
 	}: ComboboxProps<T, O>) => {
 		const [open, setOpen] = useState(false)
-		const divRef = useRef(null)
+		const divRef = useRef<HTMLDivElement>(null)
 		const handlePopoverOpen = () => {
 			setOpen(!open)
 		}
+
 		useCLoseClickOrEscape({ open, onClose: handlePopoverOpen, ref: divRef })
+
+		// const handleFocusVisibleChange = (isVisible: boolean) => {
+		// 	setOpen(isVisible)
+		// }
+		// useEffect(() => {
+		// 	const divElement = divRef.current
+		// 	if (!divElement) return
+
+		// 	const hanldFocusIn = () => handleFocusVisibleChange(true)
+		// 	const handleFocusOut = (event: FocusEvent) => {
+		// 		if (!divElement.contains(event.relatedTarget as Node)) {
+		// 			handleFocusVisibleChange(false)
+		// 		}
+		// 	}
+		// 	divElement.addEventListener('focusin', hanldFocusIn)
+		// 	divElement.addEventListener('focusout', handleFocusOut)
+
+		// 	return () => {
+		// 		divElement.removeEventListener('focusin', hanldFocusIn)
+		// 		divElement.removeEventListener('focusout', handleFocusOut)
+		// 	}
+		// }, [])
 		return (
 			<InputBase
 				ref={divRef}

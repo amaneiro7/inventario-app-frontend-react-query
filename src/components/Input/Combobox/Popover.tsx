@@ -61,11 +61,13 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 			switch (event.key) {
 				case 'ArrowUp':
 					event.preventDefault() // Evita el scroll de la página
-					setSelectedIndex(prevIndex => Math.min(prevIndex - 1, 0))
+					setSelectedIndex(prevIndex => (prevIndex <= -1 ? prevIndex : prevIndex - 1))
 					break
 				case 'ArrowDown':
 					event.preventDefault() // Evita el scroll de la página
-					setSelectedIndex(prevIndex => Math.min(prevIndex + 1, options.length - 1))
+					setSelectedIndex(prevIndex =>
+						prevIndex >= options.length - 1 ? prevIndex : prevIndex + 1
+					)
 					break
 				case 'Enter':
 					event.stopPropagation()
@@ -148,7 +150,7 @@ export function Popover<O extends ValidType, T extends string | number | readonl
 	return (
 		<>
 			<button type="button" className="button-popover" onClick={handlePopoverOpen}>
-				<p className="text-left " aria-hidden>
+				<p className="text-left" aria-hidden>
 					{labelValue}
 				</p>
 			</button>

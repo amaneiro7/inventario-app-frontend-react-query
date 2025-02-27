@@ -41,7 +41,7 @@ export const FormLogin = () => {
 								value={formData.email}
 								errorMessage={errors.email}
 								error={!!errors.email}
-								isRequired
+								required
 							/>
 							<Input
 								leftIcon={<LockIcon className="w-4 fill-black/60 aspect-square" />}
@@ -53,7 +53,7 @@ export const FormLogin = () => {
 								onChange={handleChange}
 								errorMessage={errors.password}
 								error={!!errors.password}
-								isRequired
+								required
 								rightIcon={
 									togglePassword ? (
 										<UnlockIcon className="w-4 fill-black/60 aspect-square" />

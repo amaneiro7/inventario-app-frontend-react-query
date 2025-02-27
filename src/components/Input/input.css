@@ -73,7 +73,7 @@
 }
 
 .inputBox input:focus-visible,
-.inputBox button-popover:focus-visible {
+.inputBox .button-popover:focus-visible {
 	outline: none;
 }
 
