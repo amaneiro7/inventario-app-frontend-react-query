@@ -1,4 +1,3 @@
-import { lazy, memo, Suspense } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -13,10 +12,8 @@ import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
 import { ModelCombobox } from '@/components/ComboBox/Asincrono/ModelComboBox'
 import { EmployeeCombobox } from '@/components/ComboBox/Asincrono/EmployeeComboBox'
 import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
-
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
+import { Input } from '@/components/Input/Input'
+import { memo } from 'react'
 
 interface Props {
 	statusId: DefaultDevice['statusId']
@@ -138,60 +135,50 @@ export const DeviceInputs = memo(function ({
 }: Props) {
 	return (
 		<div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-x-5 gap-y-6">
-			<Suspense>
-				<StatusCombobox
-					value={statusId}
-					handleChange={(_name, value) => handleChange('statusId', value)}
-					name="statusId"
-					error={errorStatusId}
-					required={requiredStatusId}
-					disabled={disabledStatusId}
-				/>
-			</Suspense>
-			<Suspense>
-				<MainCategoryCombobox
-					value={mainCategoryId}
-					handleChange={(_name, value) => handleChange('mainCategoryId', value)}
-					name="mainCategoryId"
-					error={errorMainCategoryId}
-					required={requiredMainCategoryId}
-					disabled={disabledMainCategoryId}
-				/>
-			</Suspense>
-			<Suspense>
-				<CategoryCombobox
-					value={categoryId}
-					handleChange={(_name, value) => handleChange('categoryId', value)}
-					mainCategoryId={mainCategoryId}
-					name="categoryId"
-					error={errorCategoryId}
-					required={requiredCategoryId}
-					disabled={disabledCategoryId}
-				/>
-			</Suspense>
-			<Suspense>
-				<BrandCombobox
-					value={brandId}
-					handleChange={(_name, value) => handleChange('brandId', value)}
-					name="brandId"
-					error={errorBrandId}
-					required={requiredBrandId}
-					disabled={disabledBrandId}
-				/>
-			</Suspense>
-			<Suspense>
-				<ModelCombobox
-					value={modelId}
-					handleFormChange={handleModel}
-					brandId={brandId}
-					categoryId={categoryId}
-					name="modelId"
-					method="form"
-					error={errorModelId}
-					required={requiredModelId}
-					disabled={disabledModelId}
-				/>
-			</Suspense>
+			<StatusCombobox
+				value={statusId}
+				handleChange={(_name, value) => handleChange('statusId', value)}
+				name="statusId"
+				error={errorStatusId}
+				required={requiredStatusId}
+				disabled={disabledStatusId}
+			/>
+			<MainCategoryCombobox
+				value={mainCategoryId}
+				handleChange={(_name, value) => handleChange('mainCategoryId', value)}
+				name="mainCategoryId"
+				error={errorMainCategoryId}
+				required={requiredMainCategoryId}
+				disabled={disabledMainCategoryId}
+			/>
+			<CategoryCombobox
+				value={categoryId}
+				handleChange={(_name, value) => handleChange('categoryId', value)}
+				mainCategoryId={mainCategoryId}
+				name="categoryId"
+				error={errorCategoryId}
+				required={requiredCategoryId}
+				disabled={disabledCategoryId}
+			/>
+			<BrandCombobox
+				value={brandId}
+				handleChange={(_name, value) => handleChange('brandId', value)}
+				name="brandId"
+				error={errorBrandId}
+				required={requiredBrandId}
+				disabled={disabledBrandId}
+			/>
+			<ModelCombobox
+				value={modelId}
+				handleFormChange={handleModel}
+				brandId={brandId}
+				categoryId={categoryId}
+				name="modelId"
+				method="form"
+				error={errorModelId}
+				required={requiredModelId}
+				disabled={disabledModelId}
+			/>
 			<Input
 				value={serial ?? ''}
 				name="serial"
@@ -216,23 +203,25 @@ export const DeviceInputs = memo(function ({
 				required={requiredActivo}
 				disabled={disabledActivo}
 			/>
-			<Suspense>
-				<EmployeeCombobox
-					value={employeeId ?? ''}
-					handleChange={(_name, value) => handleChange('employeeId', value)}
-					name="employeeId"
-				/>
-			</Suspense>
+			<EmployeeCombobox
+				value={employeeId ?? ''}
+				handleChange={(_name, value) => handleChange('employeeId', value)}
+				name="employeeId"
+				error={errorEmployeeId}
+				required={requiredEmployeeId}
+				disabled={disabledEmployeeId}
+			/>
 			<div className="flex gap-5 col-span-3">
-				<Suspense>
-					<LocationCombobox
-						value={locationId ?? ''}
-						statusId={statusId}
-						handleFormChange={handleLocation}
-						name="locationId"
-						method="form"
-					/>
-				</Suspense>
+				<LocationCombobox
+					value={locationId ?? ''}
+					statusId={statusId}
+					handleFormChange={handleLocation}
+					name="locationId"
+					method="form"
+					error={errorLocationId}
+					required={requiredLocationId}
+					disabled={disabledLocationId}
+				/>
 				<Input
 					value={stockNumber ?? ''}
 					name="stockNumber"

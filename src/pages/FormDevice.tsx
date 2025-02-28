@@ -6,6 +6,7 @@ import { DeviceInputs } from '@/ui/Form/Device/DeviceInputs'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { AddMFPFeatures } from '@/ui/Form/Device/AddMFPFeatures'
 import { AddHardDriveFeatures } from '@/ui/Form/Device/AddHardDriveFeatures'
+import { AddComputerFeatures } from '@/ui/Form/Device/AddComputerFeatures'
 
 export default function FormDevice() {
 	const {
@@ -86,23 +87,74 @@ export default function FormDevice() {
 					requiredStockNumber={required.stockNumber}
 					requiredObservation={required.observation}
 				/>
-				<Suspense>
-					{formData.categoryId === CategoryOptions.MFP ? (
-						<AddMFPFeatures
-							ipAddress={formData.ipAddress}
-							handleChange={handleChange}
-							error={errors.ipAddress}
-						/>
-					) : formData.categoryId === CategoryOptions.HARDDRIVE ? (
-						<AddHardDriveFeatures
-							hardDriveCapacityId={formData.hardDriveCapacityId}
-							hardDriveTypeId={formData.hardDriveTypeId}
-							health={formData.health}
-							errorsHealth={errors.health}
-							handleChange={handleChange}
-						/>
-					) : null}
-				</Suspense>
+				<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
+					<Suspense>
+						{formData.categoryId === CategoryOptions.ALLINONE ||
+						formData.categoryId === CategoryOptions.COMPUTER ||
+						formData.categoryId === CategoryOptions.LAPTOP ||
+						formData.categoryId === CategoryOptions.SERVER ? (
+							<AddComputerFeatures
+								computerName={formData.computerName}
+								processorId={formData.processorId}
+								memoryRam={formData.memoryRam}
+								memoryRamCapacity={formData.memoryRamCapacity}
+								memoryRamType={formData.memoryRamType}
+								hardDriveCapacityId={formData.hardDriveCapacityId}
+								hardDriveTypeId={formData.hardDriveTypeId}
+								operatingSystemArqId={formData.operatingSystemArqId}
+								operatingSystemId={formData.operatingSystemId}
+								ipAddress={formData.ipAddress}
+								macAddress={formData.macAddress}
+								errorsComputerName={errors.computerName}
+								errorsProcessorId={errors.processorId}
+								errorsMemoryRam={errors.memoryRam}
+								errorsMemoryRamCapacity={errors.memoryRamCapacity}
+								errorsHardDriveCapacityId={errors.hardDriveCapacityId}
+								errorsHardDriveTypeId={errors.hardDriveTypeId}
+								errorsOperatingSystemArqId={errors.operatingSystemArqId}
+								errorsOperatingSystemId={errors.operatingSystemId}
+								errorsIpAddress={errors.ipAddress}
+								errorsMacAddress={errors.macAddress}
+								disabledComputerName={disabled.computerName}
+								disabledProcessorId={disabled.processorId}
+								disabledMemoryRam={disabled.memoryRam}
+								disabledMemoryRamCapacity={disabled.memoryRamCapacity}
+								disabledHardDriveCapacityId={disabled.hardDriveCapacityId}
+								disabledHardDriveTypeId={disabled.hardDriveTypeId}
+								disabledOperatingSystemArqId={disabled.operatingSystemArqId}
+								disabledOperatingSystemId={disabled.operatingSystemId}
+								disabledIpAddress={disabled.ipAddress}
+								disabledMacAddress={disabled.macAddress}
+								requiredComputerName={required.computerName}
+								requiredProcessorId={required.processorId}
+								requiredMemoryRam={required.memoryRam}
+								requiredMemoryRamCapacity={required.memoryRamCapacity}
+								requiredHardDriveCapacityId={required.hardDriveCapacityId}
+								requiredHardDriveTypeId={required.hardDriveTypeId}
+								requiredOperatingSystemArqId={required.operatingSystemArqId}
+								requiredOperatingSystemId={required.operatingSystemId}
+								requiredIpAddress={required.ipAddress}
+								requiredMacAddress={required.macAddress}
+								handleMemory={handleMemory}
+								handleChange={handleChange}
+							/>
+						) : formData.categoryId === CategoryOptions.MFP ? (
+							<AddMFPFeatures
+								ipAddress={formData.ipAddress}
+								handleChange={handleChange}
+								error={errors.ipAddress}
+							/>
+						) : formData.categoryId === CategoryOptions.HARDDRIVE ? (
+							<AddHardDriveFeatures
+								hardDriveCapacityId={formData.hardDriveCapacityId}
+								hardDriveTypeId={formData.hardDriveTypeId}
+								health={formData.health}
+								errorsHealth={errors.health}
+								handleChange={handleChange}
+							/>
+						) : null}
+					</Suspense>
+				</div>
 			</FormContainer>
 		</Suspense>
 	)

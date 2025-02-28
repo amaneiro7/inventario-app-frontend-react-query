@@ -1,4 +1,4 @@
-import { lazy, memo } from 'react'
+import { memo } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -9,141 +9,192 @@ import {
 import { OperatingSystemCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemComboBox'
 import { OperatingSystemArqCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemArqComboBox'
 import { ProcessorCombobox } from '@/components/ComboBox/Asincrono/ProcessorComboBox'
-
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
+import { HardDriveCapacityCombobox } from '@/components/ComboBox/Sincrono/HardDriveCapacityComboBox'
+import { HardDriveTypeCombobox } from '@/components/ComboBox/Sincrono/HardDriveTypeComboBox'
+import { MemoryRamCapacitySlotInput } from './MemoryRamCapacitySlotInput'
+import { Input } from '@/components/Input/Input'
 
 interface Props {
-	formData: DefaultDevice
-	errors: DevicesErrors
-	disabled: DevicesDisabled
-	required: DeviceRequired
+	computerName: DefaultDevice['computerName']
+	processorId: DefaultDevice['processorId']
+	memoryRam: DefaultDevice['memoryRam']
+	memoryRamCapacity: DefaultDevice['memoryRamCapacity']
+	memoryRamType: DefaultDevice['memoryRamType']
+	hardDriveCapacityId: DefaultDevice['hardDriveCapacityId']
+	hardDriveTypeId: DefaultDevice['hardDriveTypeId']
+	operatingSystemArqId: DefaultDevice['operatingSystemArqId']
+	operatingSystemId: DefaultDevice['operatingSystemId']
+	ipAddress: DefaultDevice['ipAddress']
+	macAddress: DefaultDevice['macAddress']
+	errorsComputerName: DevicesErrors['computerName']
+	errorsProcessorId: DevicesErrors['processorId']
+	errorsMemoryRam: DevicesErrors['memoryRam']
+	errorsMemoryRamCapacity: DevicesErrors['memoryRamCapacity']
+	errorsHardDriveCapacityId: DevicesErrors['hardDriveCapacityId']
+	errorsHardDriveTypeId: DevicesErrors['hardDriveTypeId']
+	errorsOperatingSystemArqId: DevicesErrors['operatingSystemArqId']
+	errorsOperatingSystemId: DevicesErrors['operatingSystemId']
+	errorsIpAddress: DevicesErrors['ipAddress']
+	errorsMacAddress: DevicesErrors['macAddress']
+	disabledComputerName: DevicesDisabled['computerName']
+	disabledProcessorId: DevicesDisabled['processorId']
+	disabledMemoryRam: DevicesDisabled['memoryRam']
+	disabledMemoryRamCapacity: DevicesDisabled['memoryRamCapacity']
+	disabledHardDriveCapacityId: DevicesDisabled['hardDriveCapacityId']
+	disabledHardDriveTypeId: DevicesDisabled['hardDriveTypeId']
+	disabledOperatingSystemArqId: DevicesDisabled['operatingSystemArqId']
+	disabledOperatingSystemId: DevicesDisabled['operatingSystemId']
+	disabledIpAddress: DevicesDisabled['ipAddress']
+	disabledMacAddress: DevicesDisabled['macAddress']
+	requiredComputerName: DeviceRequired['computerName']
+	requiredProcessorId: DeviceRequired['processorId']
+	requiredMemoryRam: DeviceRequired['memoryRam']
+	requiredMemoryRamCapacity: DeviceRequired['memoryRamCapacity']
+	requiredHardDriveCapacityId: DeviceRequired['hardDriveCapacityId']
+	requiredHardDriveTypeId: DeviceRequired['hardDriveTypeId']
+	requiredOperatingSystemArqId: DeviceRequired['operatingSystemArqId']
+	requiredOperatingSystemId: DeviceRequired['operatingSystemId']
+	requiredIpAddress: DeviceRequired['ipAddress']
+	requiredMacAddress: DeviceRequired['macAddress']
+	handleMemory: (value: string, index: number) => void
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
-export const DeviceInputs = memo(function ({
-	formData,
-	errors,
-	disabled,
-	required,
-	handleChange
-}: Props) {
+export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, ...props }: Props) {
 	return (
 		<>
 			<Input
-				value={formData.computerName ?? ''}
+				value={props.computerName ?? ''}
 				name="computerName"
 				label="Nombre de equipo"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('computerName', e.target.value)
 				}
-				error={!!errors?.computerName}
-				errorMessage={errors?.computerName}
-				required={required.computerName}
-				disabled={disabled.computerName}
+				error={!!props.errorsComputerName}
+				errorMessage={props.errorsComputerName}
+				required={props.requiredComputerName}
+				disabled={props.disabledComputerName}
 			/>
 			<Input
-				value={formData.ipAddress ?? ''}
+				value={props.ipAddress ?? ''}
 				name="ipAddress"
 				label="Dirección IP"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('ipAddress', e.target.value)
 				}
-				error={!!errors?.ipAddress}
-				errorMessage={errors?.ipAddress}
-				required={required.ipAddress}
-				disabled={disabled.ipAddress}
+				error={!!props.errorsIpAddress}
+				errorMessage={props.errorsIpAddress}
+				required={props.requiredIpAddress}
+				disabled={props.disabledIpAddress}
 			/>
 
 			<ProcessorCombobox
+				value={props.processorId ?? ''}
 				handleChange={(_name, value) => handleChange('processorId', value)}
-				value={processorId}
-				required={requireP}
-				disabled={disabled.processorId}
-				error={errors.processorId}
+				name="processorId"
+				error={props.errorsProcessorId}
+				required={props.requiredProcessorId}
+				disabled={props.disabledProcessorId}
 			/>
 
 			<div className="grid grid-cols-2 gap-4 md:col-span-2">
 				<div className="grid grid-cols-2 gap-4">
-					{memoryRam.length > 0
-						? memoryRam?.map((_, index) => (
+					{props.memoryRam.length > 0
+						? props.memoryRam?.map((_, index) => (
 								<MemoryRamCapacitySlotInput
 									key={`memRam-${index}`}
 									index={index}
-									handleChange={handleMemory}
-									value={memoryRam[index]}
+									onChange={handleMemory}
+									value={props.memoryRam[index]}
 								/>
 						  ))
 						: null}
 				</div>
 				<div className="flex gap-4">
-					<MemoryRamCapacityInput
-						value={memoryRamCapacity}
-						isRequired={required.memoryRamCapacity}
-						isDisabled={disabled.memoryRamCapacity}
-						error={errors.memoryRamCapacity}
+					<Input
+						value={props.memoryRamCapacity ?? ''}
+						name="memoryRamCapacity"
+						label="Total Memoria Ram"
+						type="number"
+						readOnly
+						aria-readonly
+						tabIndex={-1}
+						onMouseDown={e => {
+							e.preventDefault()
+						}}
+						error={!!props.errorsMemoryRamCapacity}
+						errorMessage={props.errorsMemoryRamCapacity}
+						required={props.requiredMemoryRamCapacity}
+						disabled={props.disabledMemoryRamCapacity}
 					/>
 
-					<ReadOnlyInputBox label="Tipo de Memoria" defaultValue={memoryRamType} />
+					<Input
+						name="memoryRamType"
+						label="Tipo de Memoria"
+						value={props.memoryRamType}
+						defaultValue={props.memoryRamType}
+						readOnly
+						disabled
+						tabIndex={-1}
+					/>
 				</div>
 			</div>
 			<div className="grid md:grid-cols-3 gap-4">
 				<div className="col-span-2">
-					<HardDriveCapacityComboBox
-						handleChange={handleChange}
-						value={hardDriveCapacityId}
-						type="form"
-						isRequired={required.hardDriveCapacityId}
-						isDisabled={disabled.hardDriveCapacityId}
-						error={errors.hardDriveCapacityId}
+					<HardDriveCapacityCombobox
+						value={props.hardDriveCapacityId ?? ''}
+						handleChange={(_name, value) => handleChange('hardDriveCapacityId', value)}
+						name="hardDriveCapacityId"
+						error={props.errorsHardDriveCapacityId}
+						required={props.requiredHardDriveCapacityId}
+						disabled={props.disabledHardDriveCapacityId}
 					/>
 				</div>
 				<div>
-					<HardDriveTypeComboBox
-						handleChange={handleChange}
-						value={hardDriveTypeId}
-						type="form"
-						isRequired={required.hardDriveTypeId}
-						isDisabled={disabled.hardDriveTypeId}
-						error={errors.hardDriveTypeId}
+					<HardDriveTypeCombobox
+						value={props.hardDriveTypeId ?? ''}
+						handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
+						name="hardDriveTypeId"
+						error={props.errorsHardDriveTypeId}
+						required={props.requiredHardDriveTypeId}
+						disabled={props.disabledHardDriveTypeId}
 					/>
 				</div>
 			</div>
 			<div className="grid md:grid-cols-3 gap-4">
 				<div className="col-span-2">
 					<OperatingSystemCombobox
-						handleChange={handleChange}
-						value={formData.operatingSystemId ?? ''}
-						type="form"
-						isRequired={required.operatingSystemId}
-						isDisabled={disabled.operatingSystemId}
-						error={errors.operatingSystemId}
+						value={props.operatingSystemId ?? ''}
+						handleChange={(_name, value) => handleChange('operatingSystemId', value)}
+						name="operatingSystemId"
+						error={props.errorsOperatingSystemId}
+						required={props.requiredOperatingSystemId}
+						disabled={props.disabledOperatingSystemId}
 					/>
 				</div>
 				<div>
 					<OperatingSystemArqCombobox
-						handleChange={handleChange}
-						value={formData.operatingSystemArqId ?? ''}
-						type="form"
-						isRequired={required.operatingSystemArqId}
-						isDisabled={disabled.operatingSystemArqId}
-						error={errors.operatingSystemArqId}
+						value={props.operatingSystemArqId ?? ''}
+						handleChange={(_name, value) => handleChange('operatingSystemArqId', value)}
+						name="operatingSystemArqId"
+						error={props.errorsOperatingSystemArqId}
+						required={props.requiredOperatingSystemArqId}
+						disabled={props.disabledOperatingSystemArqId}
 					/>
 				</div>
 			</div>
 
 			<Input
-				value={formData.macAddress ?? ''}
+				value={props.macAddress ?? ''}
 				name="macAddress"
-				label="Dirección MAC"
+				label="Dirección IP"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('macAddress', e.target.value)
 				}
-				error={!!errors?.macAddress}
-				errorMessage={errors?.macAddress}
-				required={required.macAddress}
-				disabled={disabled.macAddress}
+				error={!!props.errorsMacAddress}
+				errorMessage={props.errorsMacAddress}
+				required={props.requiredMacAddress}
+				disabled={props.disabledMacAddress}
 			/>
 		</>
 	)
