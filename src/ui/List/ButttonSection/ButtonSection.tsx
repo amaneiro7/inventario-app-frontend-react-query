@@ -1,4 +1,9 @@
-import { lazy, memo, MouseEventHandler } from 'react'
+import Button from '@/components/Button'
+import { AddIcon } from '@/icon/AddIcon'
+import { CircleSpinningIcon } from '@/icon/CircleSpinning'
+import { DownloadIcon } from '@/icon/DownloadIcon'
+import { FilterIcon } from '@/icon/FilterIcon'
+import { memo, MouseEventHandler } from 'react'
 
 interface Props {
 	handleClear?: () => void
@@ -8,20 +13,6 @@ interface Props {
 	isFilterOpen?: boolean
 	handleFilter?: MouseEventHandler<HTMLButtonElement>
 }
-
-const Button = lazy(async () => import('@/components/Button/Button'))
-const DownloadIcon = lazy(async () =>
-	import('@/icon/DownloadIcon').then(m => ({ default: m.DownloadIcon }))
-)
-const CircleSpinningIcon = lazy(() =>
-	import('@/icon/CircleSpinning').then(m => ({
-		default: m.CircleSpinningIcon
-	}))
-)
-const AddIcon = lazy(async () => import('@/icon/AddIcon').then(m => ({ default: m.AddIcon })))
-const FilterIcon = lazy(async () =>
-	import('@/icon/FilterIcon').then(m => ({ default: m.FilterIcon }))
-)
 
 export const ButtonSection = memo(
 	({ loading, handleFilter, handleAdd, handleClear, handleExportToExcel }: Props) => {
@@ -57,7 +48,7 @@ export const ButtonSection = memo(
 				<Button
 					color="blanco"
 					size="content"
-					type="button"
+					type="reset"
 					buttonSize="medium"
 					text="Limpiar"
 					onClick={handleClear}

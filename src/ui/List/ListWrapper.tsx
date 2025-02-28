@@ -1,39 +1,14 @@
-import { lazy, memo, Suspense, useRef } from 'react'
-import { FilterAsideRef } from './FilterAside/FilterAside'
+import { memo, useRef } from 'react'
+import { FilterAside, FilterAsideRef } from './FilterAside/FilterAside'
 import { useNavigate } from 'react-router-dom'
 import { SpinnerSKCircle } from '@/components/Loading/spinner-sk-circle'
-
-const PaginationBar = lazy(async () =>
-	import('./Pagination/PaginationBar').then(m => ({ default: m.PaginationBar }))
-)
-const TypeOfSiteTabNav = lazy(
-	async () => await import('./Tab/TypeOfSiteTabNav').then(m => ({ default: m.TypeOfSiteTabNav }))
-)
-const PageTitle = lazy(
-	async () => await import('../PageTitle').then(m => ({ default: m.PageTitle }))
-)
-const DetailsWrapper = lazy(
-	async () =>
-		await import('@/components/DetailsWrapper/DetailsWrapper').then(m => ({
-			default: m.DetailsWrapper
-		}))
-)
-const DetailsBoxWrapper = lazy(
-	async () =>
-		await import('@/components/DetailsWrapper/DetailsBoxWrapper').then(m => ({
-			default: m.DetailsBoxWrapper
-		}))
-)
-const FilterSection = lazy(
-	async () => await import('./FilterSection').then(m => ({ default: m.FilterSection }))
-)
-const FilterAside = lazy(
-	async () => await import('./FilterAside/FilterAside').then(m => ({ default: m.FilterAside }))
-)
-const ButtonSection = lazy(
-	async () =>
-		await import('./ButttonSection/ButtonSection').then(m => ({ default: m.ButtonSection }))
-)
+import { PageTitle } from '../PageTitle'
+import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
+import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { FilterSection } from './FilterSection'
+import { ButtonSection } from './ButttonSection/ButtonSection'
+import { TypeOfSiteTabNav } from './Tab/TypeOfSiteTabNav'
+import { PaginationBar } from './Pagination/PaginationBar'
 
 export const ListWrapper = memo(function ({
 	title,
@@ -83,30 +58,27 @@ export const ListWrapper = memo(function ({
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
 					<FilterSection>
-						<Suspense>
+						<>
 							{mainFilter}
 							{otherFilter ? (
 								<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
 							) : null}
-						</Suspense>
+						</>
 					</FilterSection>
-					<Suspense>
-						<ButtonSection
-							loading={isDownloading}
-							handleExportToExcel={handleExportToExcel}
-							handleAdd={() => {
-								navigate(url)
-							}}
-							handleFilter={filterAsideRef.current?.handleOpen}
-							handleClear={handleClear}
-						/>
-					</Suspense>
+
+					<ButtonSection
+						loading={isDownloading}
+						handleExportToExcel={handleExportToExcel}
+						handleAdd={() => {
+							navigate(url)
+						}}
+						handleFilter={filterAsideRef.current?.handleOpen}
+						handleClear={handleClear}
+					/>
 				</DetailsBoxWrapper>
 				<div className="w-full flex flex-col justify-start">
 					{typeOfSiteId !== undefined ? (
-						<Suspense>
-							<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
-						</Suspense>
+						<TypeOfSiteTabNav handleChange={handleChange} value={typeOfSiteId} />
 					) : null}
 					{loading || table === undefined ? <SpinnerSKCircle /> : null}
 					{table}

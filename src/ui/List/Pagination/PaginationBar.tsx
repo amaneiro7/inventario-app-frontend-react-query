@@ -1,11 +1,5 @@
-import { lazy } from 'react'
-
-const PaginationList = lazy(async () =>
-	import('./PaginationList').then(m => ({ default: m.PaginationList }))
-)
-const RecordPerPage = lazy(async () =>
-	import('./RecordPerPage').then(m => ({ default: m.RecordPerPage }))
-)
+import { PaginationList } from './PaginationList'
+import { RecordPerPage } from './RecordPerPage'
 
 export function PaginationBar({
 	totalPages,

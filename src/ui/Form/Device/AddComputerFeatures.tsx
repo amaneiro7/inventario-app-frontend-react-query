@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -8,6 +8,7 @@ import {
 } from '@/core/devices/devices/infra/reducers/devicesFormReducer'
 import { OperatingSystemCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemComboBox'
 import { OperatingSystemArqCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemArqComboBox'
+import { ProcessorCombobox } from '@/components/ComboBox/Asincrono/ProcessorComboBox'
 
 const Input = lazy(
 	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
@@ -55,12 +56,11 @@ export const DeviceInputs = memo(function ({
 				disabled={disabled.ipAddress}
 			/>
 
-			<ProcessorComboBox
-				handleChange={handleChange}
+			<ProcessorCombobox
+				handleChange={(_name, value) => handleChange('processorId', value)}
 				value={processorId}
-				type="form"
-				isRequired={required.processorId}
-				isDisabled={disabled.processorId}
+				required={requireP}
+				disabled={disabled.processorId}
 				error={errors.processorId}
 			/>
 
