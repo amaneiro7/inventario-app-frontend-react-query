@@ -1,12 +1,11 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { useCreateDevice } from '@/core/devices/devices/infra/hook/useCreateDevice'
 import { Loading } from '@/components/Loading'
 import { FormContainer } from '@/components/FormContainer/formContainer'
-import { DeviceInputs } from '@/ui/Form/Device/DeviceInputs'
-import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
-import { AddMFPFeatures } from '@/ui/Form/Device/AddMFPFeatures'
-import { AddHardDriveFeatures } from '@/ui/Form/Device/AddHardDriveFeatures'
-import { AddComputerFeatures } from '@/ui/Form/Device/AddComputerFeatures'
+import { SerialSearch } from '@/ui/Form/Device/SerialSearch'
+const DeviceInputs = lazy(async () =>
+	import('@/ui/Form/Device/DeviceInputs').then(m => ({ default: m.DeviceInputs }))
+)
 
 export default function FormDevice() {
 	const {
@@ -25,137 +24,34 @@ export default function FormDevice() {
 	} = useCreateDevice()
 
 	return (
-		<Suspense fallback={<Loading />}>
-			<FormContainer
-				id={key}
-				title="Dispositivo"
-				description="Ingrese los datos del dispositivo el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				handleClose={() => {
-					return
-				}}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/Processor/add"
-			>
+		<FormContainer
+			id={key}
+			title="Dispositivo"
+			description="Ingrese los datos del dispositivo el cual desea registar."
+			isAddForm={mode === 'add'}
+			handleSubmit={handleSubmit}
+			handleClose={() => {
+				return
+			}}
+			searchInput={<SerialSearch />}
+			reset={mode === 'edit' ? resetForm : undefined}
+			lastUpdated={formData.updatedAt}
+			updatedBy={formData.history}
+			url="/device/add"
+		>
+			<Suspense fallback={<Loading />}>
 				<DeviceInputs
+					formData={formData}
+					errors={errors}
+					required={required}
+					disabled={disabled}
+					mode={mode}
 					handleChange={handleChange}
 					handleLocation={handleLocation}
+					handleMemory={handleMemory}
 					handleModel={handleModel}
-					statusId={formData.statusId}
-					mainCategoryId={formData.mainCategoryId}
-					categoryId={formData.categoryId}
-					brandId={formData.brandId}
-					modelId={formData.modelId}
-					serial={formData.serial}
-					activo={formData.activo}
-					employeeId={formData.employeeId}
-					locationId={formData.locationId}
-					stockNumber={formData.stockNumber}
-					observation={formData.observation}
-					errorStatusId={errors.statusId}
-					errorMainCategoryId={errors.mainCategoryId}
-					errorCategoryId={errors.categoryId}
-					errorBrandId={errors.brandId}
-					errorModelId={errors.modelId}
-					errorSerial={errors.serial}
-					errorActivo={errors.activo}
-					errorEmployeeId={errors.employeeId}
-					errorLocationId={errors.locationId}
-					errorStockNumber={errors.stockNumber}
-					errorObservation={errors.observation}
-					disabledStatusId={disabled.statusId}
-					disabledMainCategoryId={disabled.mainCategoryId}
-					disabledCategoryId={disabled.categoryId}
-					disabledBrandId={disabled.brandId}
-					disabledModelId={disabled.modelId}
-					disabledSerial={disabled.serial}
-					disabledActivo={disabled.activo}
-					disabledEmployeeId={disabled.employeeId}
-					disabledLocationId={disabled.locationId}
-					disabledStockNumber={disabled.stockNumber}
-					disabledObservation={disabled.observation}
-					requiredStatusId={required.statusId}
-					requiredMainCategoryId={required.mainCategoryId}
-					requiredCategoryId={required.categoryId}
-					requiredBrandId={required.brandId}
-					requiredModelId={required.modelId}
-					requiredSerial={required.serial}
-					requiredActivo={required.activo}
-					requiredEmployeeId={required.employeeId}
-					requiredLocationId={required.locationId}
-					requiredStockNumber={required.stockNumber}
-					requiredObservation={required.observation}
 				/>
-				<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
-					<Suspense>
-						{formData.categoryId === CategoryOptions.ALLINONE ||
-						formData.categoryId === CategoryOptions.COMPUTER ||
-						formData.categoryId === CategoryOptions.LAPTOP ||
-						formData.categoryId === CategoryOptions.SERVER ? (
-							<AddComputerFeatures
-								computerName={formData.computerName}
-								processorId={formData.processorId}
-								memoryRam={formData.memoryRam}
-								memoryRamCapacity={formData.memoryRamCapacity}
-								memoryRamType={formData.memoryRamType}
-								hardDriveCapacityId={formData.hardDriveCapacityId}
-								hardDriveTypeId={formData.hardDriveTypeId}
-								operatingSystemArqId={formData.operatingSystemArqId}
-								operatingSystemId={formData.operatingSystemId}
-								ipAddress={formData.ipAddress}
-								macAddress={formData.macAddress}
-								errorsComputerName={errors.computerName}
-								errorsProcessorId={errors.processorId}
-								errorsMemoryRam={errors.memoryRam}
-								errorsMemoryRamCapacity={errors.memoryRamCapacity}
-								errorsHardDriveCapacityId={errors.hardDriveCapacityId}
-								errorsHardDriveTypeId={errors.hardDriveTypeId}
-								errorsOperatingSystemArqId={errors.operatingSystemArqId}
-								errorsOperatingSystemId={errors.operatingSystemId}
-								errorsIpAddress={errors.ipAddress}
-								errorsMacAddress={errors.macAddress}
-								disabledComputerName={disabled.computerName}
-								disabledProcessorId={disabled.processorId}
-								disabledMemoryRam={disabled.memoryRam}
-								disabledMemoryRamCapacity={disabled.memoryRamCapacity}
-								disabledHardDriveCapacityId={disabled.hardDriveCapacityId}
-								disabledHardDriveTypeId={disabled.hardDriveTypeId}
-								disabledOperatingSystemArqId={disabled.operatingSystemArqId}
-								disabledOperatingSystemId={disabled.operatingSystemId}
-								disabledIpAddress={disabled.ipAddress}
-								disabledMacAddress={disabled.macAddress}
-								requiredComputerName={required.computerName}
-								requiredProcessorId={required.processorId}
-								requiredMemoryRam={required.memoryRam}
-								requiredMemoryRamCapacity={required.memoryRamCapacity}
-								requiredHardDriveCapacityId={required.hardDriveCapacityId}
-								requiredHardDriveTypeId={required.hardDriveTypeId}
-								requiredOperatingSystemArqId={required.operatingSystemArqId}
-								requiredOperatingSystemId={required.operatingSystemId}
-								requiredIpAddress={required.ipAddress}
-								requiredMacAddress={required.macAddress}
-								handleMemory={handleMemory}
-								handleChange={handleChange}
-							/>
-						) : formData.categoryId === CategoryOptions.MFP ? (
-							<AddMFPFeatures
-								ipAddress={formData.ipAddress}
-								handleChange={handleChange}
-								error={errors.ipAddress}
-							/>
-						) : formData.categoryId === CategoryOptions.HARDDRIVE ? (
-							<AddHardDriveFeatures
-								hardDriveCapacityId={formData.hardDriveCapacityId}
-								hardDriveTypeId={formData.hardDriveTypeId}
-								health={formData.health}
-								errorsHealth={errors.health}
-								handleChange={handleChange}
-							/>
-						) : null}
-					</Suspense>
-				</div>
-			</FormContainer>
-		</Suspense>
+			</Suspense>
+		</FormContainer>
 	)
 }

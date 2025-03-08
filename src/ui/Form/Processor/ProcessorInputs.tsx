@@ -1,4 +1,4 @@
-import { lazy, memo, useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import {
 	type ProcessorsErrors,
 	type Action
@@ -7,13 +7,8 @@ import { type ProcessorParams } from '@/core/devices/features/processor/domain/d
 import { ProcessorCores } from '@/core/devices/features/processor/domain/value-object/ProcessorCores'
 import { ProcessorFrequency } from '@/core/devices/features/processor/domain/value-object/ProcessorFrequency'
 import { useGetAllProcessor } from '@/core/devices/features/processor/infra/hooks/useGetAllProcessors'
-
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
-const Checkbox = lazy(
-	async () => await import('@/components/Checkbox/Checbox').then(m => ({ default: m.Checkbox }))
-)
+import { Input } from '@/components/Input/Input'
+import { Checkbox } from '@/components/Checkbox/Checbox'
 
 interface Props {
 	errors?: ProcessorsErrors
@@ -67,7 +62,7 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 					value={formData.cores}
 					name="cores"
 					type="number"
-					label="Cores"
+					label="Cores o núcleos"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('cores', Number(e.target.value))
 					}

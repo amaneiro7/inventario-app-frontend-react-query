@@ -38,6 +38,7 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 		typeOfSite?: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]
 	}): boolean {
 		if (!status) return true
+		// condicional para validar
 		const allowedStausValuesInAlmacen = [
 			StatusOptions.INUSE,
 			StatusOptions.PRESTAMO,

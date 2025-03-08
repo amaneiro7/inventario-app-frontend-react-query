@@ -21,8 +21,6 @@ export class DeviceDownload {
 		try {
 			this.events.notify({ type: 'loading', message: 'Procesando...' })
 
-			console.log('deviceDownload', options)
-
 			const queryParams = await createDeviceQueryParams({
 				pageSize: undefined,
 				orderBy,

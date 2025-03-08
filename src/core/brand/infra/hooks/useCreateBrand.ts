@@ -1,4 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useReducer } from 'react'
+import { useContext, useLayoutEffect, useReducer } from 'react'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { BrandCreator } from '@/core/brand/application/BrandCreator'
 import { BrandSaveService } from '@/core/brand/infra/service/brandSave.service'
@@ -15,12 +15,9 @@ export function useCreateBrand(defaulState?: BrandParams) {
 	const key = `processor${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
 	const { events } = useContext(EventContext)
 
-	const create = useCallback(
-		async (formData: BrandParams) => {
-			return await new BrandCreator(new BrandSaveService(), events).create(formData)
-		},
-		[events]
-	)
+	const create = async (formData: BrandParams) => {
+		return await new BrandCreator(new BrandSaveService(), events).create(formData)
+	}
 
 	const { initialState, mode, resetState } = useBrandInitialState(
 		defaulState ?? initialBrandState.formData
@@ -47,7 +44,7 @@ export function useCreateBrand(defaulState?: BrandParams) {
 	}
 
 	const handleSubmit = async (event: React.FormEvent) => {
-		event.stopPropagation()
+		event.preventDefault()
 		event.stopPropagation()
 		await create(formData).then(() => {
 			resetState()

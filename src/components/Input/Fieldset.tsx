@@ -1,5 +1,12 @@
-interface Props<T extends string | number | readonly string[]> {
+import cn from 'classnames'
+import { twMerge } from 'tailwind-merge'
+interface FieldsetProps<T extends string | number | readonly string[]>
+	extends React.DetailedHTMLProps<
+		React.FieldsetHTMLAttributes<HTMLFieldSetElement>,
+		HTMLFieldSetElement
+	> {
 	required?: boolean
+	disabled?: boolean
 	error?: boolean
 	valid?: boolean
 	label: string
@@ -12,16 +19,31 @@ export function Fieldset<T extends string | number | readonly string[]>({
 	label,
 	value,
 	required,
-	type
-}: Props<T>) {
+	disabled,
+	type,
+	className,
+	...props
+}: FieldsetProps<T>) {
+	const legendTransform = value || type === 'number'
+
+	const filedSetClasses = twMerge(
+		cn({
+			['group-focus-within:!border-focus group-focus-within:!border-2']:
+				!error && !valid && !disabled,
+			['!border-2 !border-error']: error,
+			['!border-2 !border-success']: valid
+		}),
+		className
+	)
+
 	return (
 		<fieldset
 			aria-hidden
-			className={`${error ? '!border-2 !border-error' : ''} ${
-				valid ? '!border-2 !border-success' : ''
-			} group-focus-within:border-focus group-focus-within:border-2`}
+			className={filedSetClasses}
+			{...(error ? { 'aria-invalid': true } : {})}
+			{...props}
 		>
-			<legend className={value || type === 'number' ? 'transform' : ''}>
+			<legend className={legendTransform ? 'transform' : ''}>
 				<span>{`${label} ${required ? '*' : ''}`}</span>
 			</legend>
 		</fieldset>

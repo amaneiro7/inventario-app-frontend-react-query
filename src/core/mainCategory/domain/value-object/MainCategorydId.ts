@@ -1,3 +1,3 @@
-import { Uuid } from '@/core/shared/domain/value-objects/Uuid'
+import { StringValueObject } from '@/core/shared/domain/value-objects/StringValueObjects'
 
-export class MainCategoryId extends Uuid {}
+export class MainCategoryId extends StringValueObject {}

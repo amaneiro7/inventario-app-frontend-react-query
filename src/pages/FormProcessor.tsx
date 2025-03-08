@@ -1,12 +1,6 @@
-import { lazy } from 'react'
 import { useCreateProcessor } from '@/core/devices/features/processor/infra/hooks/useCreateProcessor'
-
-const FormContainer = lazy(async () =>
-	import('@/components/FormContainer/formContainer').then(m => ({ default: m.FormContainer }))
-)
-const ProcessorInputs = lazy(async () =>
-	import('@/ui/Form/Processor/ProcessorInputs').then(m => ({ default: m.ProcessorInputs }))
-)
+import { FormContainer } from '@/components/FormContainer/formContainer'
+import { ProcessorInputs } from '@/ui/Form/Processor/ProcessorInputs'
 
 export default function FormProcessor() {
 	const { formData, key, mode, errors, handleChange, handleSubmit, resetForm } =
@@ -24,6 +18,7 @@ export default function FormProcessor() {
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/Processor/add"
+			border
 		>
 			<ProcessorInputs formData={formData} handleChange={handleChange} errors={errors} />
 		</FormContainer>

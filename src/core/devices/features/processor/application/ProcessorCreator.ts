@@ -33,6 +33,7 @@ export class ProcessorCreator {
 			}
 		} catch (error) {
 			this.events.notify({ type: 'error', message: `${error}` })
+			throw new Error(`${error}`)
 		}
 	}
 }

@@ -1,15 +1,16 @@
-import React, { lazy, memo } from 'react'
+import React, { memo } from 'react'
 import './input.css'
+import { Label } from './Label'
+import { Fieldset } from './Fieldset'
 
-const Fieldset = lazy(async () => import('./Fieldset').then(m => ({ default: m.Fieldset })))
-const Label = lazy(async () => import('./Label').then(m => ({ default: m.Label })))
-
-interface Props<T extends string | number | readonly string[]> {
+interface Props<T extends string | number | readonly string[]>
+	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	label: string
 	type?: React.HTMLInputTypeAttribute
 	value: T
 	name: string
 	required?: boolean
+	disabled?: boolean
 	error?: boolean
 	valid?: boolean
 	errorMessage?: string
@@ -30,24 +31,28 @@ export const InputBase = memo(
 		errorMessage,
 		label,
 		required = false,
+		disabled = false,
 		leftIcon,
 		rightIcon,
 		rightAdorment,
 		type,
 		children,
-		onRightIconClick
+		onRightIconClick,
+		...props
 	}: React.PropsWithChildren<Props<T>>) => {
 		return (
 			<div
+				ref={ref}
 				className={`inputBox group after:text-error ${error ? 'error' : ''}`}
 				data-error={errorMessage}
-				ref={ref}
+				{...props}
 			>
 				<Label
 					label={label}
 					value={value}
 					error={error}
 					required={required}
+					disabled={disabled}
 					type={type}
 					valid={valid}
 					leftIcon={leftIcon ? true : false}
@@ -72,6 +77,7 @@ export const InputBase = memo(
 						value={value}
 						error={error}
 						required={required}
+						disabled={disabled}
 						type={type}
 						valid={valid}
 					/>

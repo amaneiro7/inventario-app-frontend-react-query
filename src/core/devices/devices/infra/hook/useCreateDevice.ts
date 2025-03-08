@@ -27,6 +27,7 @@ export function useCreateDevice(defaulState?: DefaultDevice) {
 		defaulState ?? initialDeviceState.formData
 	)
 	const prevState = usePrevious(initialState)
+
 	const [{ errors, required, disabled, formData }, dispatch] = useReducer(
 		devicesFormReducer,
 		initialDeviceState
@@ -44,7 +45,7 @@ export function useCreateDevice(defaulState?: DefaultDevice) {
 			type: 'reset',
 			payload: { formData: structuredClone(prevState ?? initialState) }
 		})
-	}, [])
+	}, [prevState, initialState])
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback(async (name: Action['type'], value: any) => {
@@ -99,16 +100,13 @@ export function useCreateDevice(defaulState?: DefaultDevice) {
 		dispatch({ type: 'memoryRam', payload: { value, index } })
 	}, [])
 
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				resetState()
-			})
-		},
-		[create, resetState]
-	)
+	const handleSubmit = async (event: React.FormEvent) => {
+		event.preventDefault()
+		event.stopPropagation()
+		await create(formData).then(() => {
+			resetState()
+		})
+	}
 
 	return {
 		key,

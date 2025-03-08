@@ -16,7 +16,6 @@ export const TypeOfSiteTabNav = memo(function ({ handleChange, value }: Props) {
 	}, [typeOfSites?.data])
 
 	const handleClick = (typeId: string) => {
-		console.log('typeId', typeId, 'inputValue', inputValue)
 		if (typeId === inputValue) return
 		setInputValue(typeId)
 		handleChange('typeOfSiteId', typeId === '0' ? '' : typeId)

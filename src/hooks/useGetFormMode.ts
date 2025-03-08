@@ -1,9 +1,11 @@
 import { useMemo } from 'react'
 import { useLocation } from 'react-router-dom'
 
-export const useGetFormMode = () => {
+export type FormMode = 'edit' | 'add'
+
+export function useGetFormMode(): FormMode {
 	const location = useLocation()
-	const mode: 'edit' | 'add' = useMemo(() => {
+	const mode: FormMode = useMemo(() => {
 		return location.pathname.includes('edit') ? 'edit' : 'add'
 	}, [location.pathname])
 

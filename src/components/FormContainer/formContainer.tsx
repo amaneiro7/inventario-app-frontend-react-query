@@ -6,9 +6,10 @@ interface Props {
 	description: string
 	url: string
 	isAddForm: boolean
+	border?: boolean
 	action?: React.FormHTMLAttributes<HTMLFormElement>['action']
 	lastUpdated?: string
-	updatedBy?: HistoryDto[]
+	updatedBy?: HistoryDto[] | null
 	searchInput?: React.ReactElement
 	handleSubmit: (event: React.FormEvent) => Promise<void>
 	handleClose: () => void
@@ -16,7 +17,6 @@ interface Props {
 }
 
 const Tag = lazy(async () => import('@/components/Tag').then(m => ({ default: m.Tag })))
-const PageTitle = lazy(async () => import('@/ui/PageTitle').then(m => ({ default: m.PageTitle })))
 const DetailsWrapper = lazy(async () =>
 	import('@/components/DetailsWrapper/DetailsWrapper').then(m => ({
 		default: m.DetailsWrapper
@@ -54,6 +54,7 @@ export const FormContainer = memo(function ({
 	searchInput,
 	isAddForm,
 	children,
+	border,
 	updatedBy,
 	lastUpdated,
 	handleSubmit,
@@ -62,7 +63,6 @@ export const FormContainer = memo(function ({
 }: React.PropsWithChildren<Props>) {
 	return (
 		<>
-			<PageTitle title={`Gestión de ${title}`} />
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
 					<Typography variant="h3" color="azul">
@@ -96,6 +96,7 @@ export const FormContainer = memo(function ({
 						handleSubmit={handleSubmit}
 						handleClose={handleClose}
 						reset={reset}
+						border={border}
 						updatedBy={updatedBy}
 						lastUpdated={lastUpdated}
 					>

@@ -1,6 +1,6 @@
 import React, { lazy, useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { useCLoseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
+import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 import './filterContainerStyle.css'
 
 const CloseIcon = lazy(async () => import('@/icon/CloseIcon').then(m => ({ default: m.CloseIcon })))
@@ -29,7 +29,7 @@ const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>
 		handleOpen
 	}))
 
-	useCLoseClickOrEscape({ open, onClose: handleClose, ref: filterAsideRef })
+	useCloseClickOrEscape({ open, onClose: handleClose, ref: filterAsideRef })
 
 	return createPortal(
 		<aside

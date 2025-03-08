@@ -1,4 +1,4 @@
-import { useState, memo, useCallback, useMemo } from 'react'
+import { useState, memo, useMemo } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllLocations } from '@/core/locations/locations/infra/hook/useGetAllLocation'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
@@ -85,7 +85,7 @@ export const LocationCombobox = memo(function ({
 
 	const options = useMemo(() => locations?.data ?? [], [locations])
 
-	const handleChangeValue = useCallback((name: string, value: string | number) => {
+	const handleChangeValue = (name: string, value: string | number) => {
 		if (method === 'form') {
 			const data = options.find(location => location.id === value) // Optional chaining
 			;(props as FormProps).handleFormChange({
@@ -97,8 +97,7 @@ export const LocationCombobox = memo(function ({
 		} else {
 			;(props as SearchProps).handleChange(name, value) // Type assertion for SearchProps
 		}
-	}, [])
-
+	}
 	return (
 		<>
 			<Combobox

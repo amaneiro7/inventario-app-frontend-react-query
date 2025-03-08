@@ -1,4 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useReducer } from 'react'
+import { useContext, useLayoutEffect, useReducer } from 'react'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useProcessorInitialState } from './useProcessorInitialState'
@@ -17,12 +17,9 @@ export function useCreateProcessor(defaulState?: ProcessorParams) {
 	}`
 	const { events } = useContext(EventContext)
 
-	const create = useCallback(
-		async (formData: ProcessorParams) => {
-			return await new ProcessorCreator(new ProcessorSaveService(), events).create(formData)
-		},
-		[events]
-	)
+	const create = async (formData: ProcessorParams) => {
+		return await new ProcessorCreator(new ProcessorSaveService(), events).create(formData)
+	}
 
 	const { initialState, mode, resetState } = useProcessorInitialState(
 		defaulState ?? initialProcessorState.formData

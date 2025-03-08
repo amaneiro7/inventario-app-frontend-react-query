@@ -1,8 +1,9 @@
 import { memo, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllEmployees } from '@/core/employee/employee/infra/hook/useGetAllEmployee'
+import { Combobox } from '@/components/Input/Combobox'
+import { EmployeeRenderOption } from '@/components/Input/Combobox/RenderOption/EmployeeRenderOption'
 import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
-import { ComboboxEmployee } from '@/components/Input/Combobox/ComboboxEmployee'
 
 export const EmployeeCombobox = memo(function ({
 	value = '',
@@ -42,22 +43,24 @@ export const EmployeeCombobox = memo(function ({
 
 	return (
 		<>
-			<ComboboxEmployee
+			<Combobox
 				id="employee"
-				value={value}
 				label="Usuarios"
+				value={value}
 				inputValue={inputValue}
 				name={name}
-				loading={isLoading}
-				options={options}
 				required={required}
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
+				loading={isLoading}
+				options={options}
 				onChangeValue={handleChange}
 				onInputChange={value => {
 					setInputValue(value)
 				}}
+				displayAccessor="userName"
+				renderOption={EmployeeRenderOption}
 			/>
 		</>
 	)

@@ -6,7 +6,7 @@ interface Props<T> {
 	ref: React.RefObject<HTMLElement | null>
 }
 
-export function useCLoseClickOrEscape<T>({ open, onClose, ref }: Props<T>) {
+export function useCloseClickOrEscape<T>({ open, onClose, ref }: Props<T>) {
 	useEffect(() => {
 		if (!open) return
 		const handleKeyDown = (event: KeyboardEvent) => {

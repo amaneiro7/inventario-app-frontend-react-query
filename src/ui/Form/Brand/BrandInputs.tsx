@@ -1,10 +1,7 @@
-import { lazy, memo } from 'react'
+import { memo } from 'react'
+import { Input } from '@/components/Input/Input'
 import { type BrandErrors, type Action } from '@/core/brand/infra/reducers/brandFormReducer'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
-
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
 
 interface Props {
 	errors?: BrandErrors

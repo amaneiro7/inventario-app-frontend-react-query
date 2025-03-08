@@ -75,18 +75,32 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 				required={props.requiredComputerName}
 				disabled={props.disabledComputerName}
 			/>
-			<Input
-				value={props.ipAddress ?? ''}
-				name="ipAddress"
-				label="Dirección IP"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('ipAddress', e.target.value)
-				}
-				error={!!props.errorsIpAddress}
-				errorMessage={props.errorsIpAddress}
-				required={props.requiredIpAddress}
-				disabled={props.disabledIpAddress}
-			/>
+			<div className="flex gap-2">
+				<Input
+					value={props.ipAddress ?? ''}
+					name="ipAddress"
+					label="Dirección IP"
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('ipAddress', e.target.value)
+					}
+					error={!!props.errorsIpAddress}
+					errorMessage={props.errorsIpAddress}
+					required={props.requiredIpAddress}
+					disabled={props.disabledIpAddress}
+				/>
+				<Input
+					value={props.macAddress ?? ''}
+					name="macAddress"
+					label="Dirección MAC"
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('macAddress', e.target.value)
+					}
+					error={!!props.errorsMacAddress}
+					errorMessage={props.errorsMacAddress}
+					required={props.requiredMacAddress}
+					disabled={props.disabledMacAddress}
+				/>
+			</div>
 
 			<ProcessorCombobox
 				value={props.processorId ?? ''}
@@ -97,7 +111,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 				disabled={props.disabledProcessorId}
 			/>
 
-			<div className="grid grid-cols-2 gap-4 md:col-span-2">
+			<div className="grid md:grid-cols-2 gap-4">
 				<div className="grid grid-cols-2 gap-4">
 					{props.memoryRam.length > 0
 						? props.memoryRam?.map((_, index) => (
@@ -132,7 +146,6 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 						name="memoryRamType"
 						label="Tipo de Memoria"
 						value={props.memoryRamType}
-						defaultValue={props.memoryRamType}
 						readOnly
 						disabled
 						tabIndex={-1}
@@ -183,19 +196,6 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 					/>
 				</div>
 			</div>
-
-			<Input
-				value={props.macAddress ?? ''}
-				name="macAddress"
-				label="Dirección IP"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('macAddress', e.target.value)
-				}
-				error={!!props.errorsMacAddress}
-				errorMessage={props.errorsMacAddress}
-				required={props.requiredMacAddress}
-				disabled={props.disabledMacAddress}
-			/>
 		</>
 	)
 })

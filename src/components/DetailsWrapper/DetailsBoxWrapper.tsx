@@ -1,23 +1,27 @@
-import { twMerge } from "tailwind-merge"
+import { memo } from 'react'
+import { twMerge } from 'tailwind-merge'
 import cn from 'classnames'
-import { memo } from "react"
 
-interface Props extends React.PropsWithChildren<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>> {
-    position?: Position
+interface Props
+	extends React.PropsWithChildren<
+		React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+	> {
+	position?: Position
 }
 
-type Position = 'left' | "center" | "right"
+type Position = 'left' | 'center' | 'right'
 
 export const DetailsBoxWrapper = memo(({ position = 'left', children, ...props }: Props) => {
-    const classes = twMerge(
-        'w-full p-4 flex flex-col gap-3 bg-white shadow rounded-2xl',
-        cn({
-            [`items-${position}`]: position,
-        }),
-        props.className
-    )
-    return (
-        <div className={classes} {...props}>{children}</div>
-    )
-}
-)
+	const classes = twMerge(
+		'w-full p-4 flex flex-col gap-3 bg-white shadow rounded-2xl',
+		cn({
+			[`items-${position}`]: position
+		}),
+		props.className
+	)
+	return (
+		<div className={classes} {...props}>
+			{children}
+		</div>
+	)
+})

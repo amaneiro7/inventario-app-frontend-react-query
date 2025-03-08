@@ -1,13 +1,14 @@
-.inputBox::after {
-	content: attr(data-error);
-	display: inline-block;
-	border-radius: 0.25rem;
-	z-index: 1;
-	padding-left: 0.75rem;
-	margin-left: 0.25rem;
-	font-size: 0.75rem;
-	height: 0.5rem;
-	width: 98%;
+:root {
+	--text-color-primary: rgba(0, 0, 0, 0.87);
+	--text-color-secondary: rgba(0, 0, 0, 0.6);
+	--text-color-disabled: rgba(0, 0, 0, 0.3);
+	--text-color-readonly: rgba(0, 0, 0, 0.3);
+	--border-color: rgba(0, 0, 0, 0.23);
+	--border-color-disabled: rgba(0, 0, 0, 0.1);
+	--border-color-readonly: rgba(0, 0, 0, 0.2);
+	--border-color-hover: rgba(0, 0, 0, 0.87);
+	--input-padding: 8.5px 14px;
+	--label-translate: 14px;
 }
 
 .inputBox {
@@ -25,6 +26,22 @@
 	border: 0;
 	margin: 0;
 	padding: 0;
+
+	&:focus {
+		outline: none;
+	}
+
+	&::after {
+		content: attr(data-error);
+		display: inline-block;
+		border-radius: 0.25rem;
+		z-index: 1;
+		padding-left: 0.75rem;
+		margin-left: 0.25rem;
+		font-size: 0.75rem;
+		height: 0.5rem;
+		width: 98%;
+	}
 }
 
 .inputBox input,
@@ -40,7 +57,7 @@
 	height: 1.25rem;
 	margin: 0;
 	display: block;
-	padding: 8.5px 14px;
+	padding: var(--input-padding);
 	overflow: hidden;
 	text-wrap: nowrap;
 	text-overflow: ellipsis;
@@ -49,6 +66,21 @@
 	animation-name: auto-fill-cancel;
 	-webkit-animation-duration: 10ms;
 	animation-duration: 10ms;
+}
+.button-popover:disabled {
+	cursor: default;
+}
+.button-popover {
+	cursor: pointer;
+}
+
+.inputBox:has(input:disabled) label {
+	color: rgba(0, 0, 0, 0.3);
+}
+
+.inputBox input:read-only + fieldset {
+	background-color: rgba(0, 0, 0, 0.1);
+	transform: none;
 }
 
 .div-popover {
@@ -72,11 +104,6 @@
 	display: block;
 }
 
-.inputBox input:focus-visible,
-.inputBox .button-popover:focus-visible {
-	outline: none;
-}
-
 .inputArea:has(.div-popover.open) .openButton svg {
 	transform: rotate(180deg);
 }
@@ -87,27 +114,52 @@
 	}
 }
 
+.inputBox:has(input:disabled) fieldset {
+	color: var(--text-color-disabled);
+	border-color: var(--border-color-disabled);
+}
+
+.inputBox:not(input:disabled):hover fieldset {
+	border-color: var(--border-color-hover);
+}
+
+.inputBox:hover:has(input:disabled) fieldset {
+	border-color: var(--border-color-disabled);
+}
+.inputBox:has(input:read-only) fieldset {
+	color: var(--text-color-readonly);
+	border-color: var(--border-color-readonly);
+}
+
+.inputBox:hover:has(input:read-only) fieldset {
+	border-color: var(--border-color-readonly);
+}
+
+.inputBox input:focus-visible,
+.inputBox .button-popover:focus-visible {
+	outline: none;
+}
+
 .inputBox label {
-	color: rgba(0, 0, 0, 0.6);
-	font-weight: 400;
+	color: var(--text-color-secondary);
 	font-size: 0.75rem;
 	line-height: 1.4375em;
 	letter-spacing: 0.00938em;
+	font-weight: 400;
 	padding: 0;
-	position: relative;
+	position: absolute;
+	left: 0;
+	top: 0;
 	display: block;
 	transform-origin: top left;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: calc(100% - 24px);
-	position: absolute;
-	left: 0;
-	top: 0;
-	-webkit-transform: translate(14px, 9px) scale(1);
-	-moz-transform: translate(14px, 9px) scale(1);
-	-ms-transform: translate(14px, 9px) scale(1);
-	transform: translate(14px, 9px) scale(1);
+	-webkit-transform: translate(var(--label-translate), 9px) scale(1);
+	-moz-transform: translate(var(--label-translate), 9px) scale(1);
+	-ms-transform: translate(var(--label-translate), 9px) scale(1);
+	transform: translate(var(--label-translate), 9px) scale(1);
 	-webkit-transition: color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 		-webkit-transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 		max-width 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
@@ -117,21 +169,19 @@
 	z-index: 1;
 	pointer-events: none;
 }
-
 .inputBox label.with-left-icon {
-	-webkit-transform: translate(54px, 9px) scale(1);
-	-moz-transform: translate(54px, 9px) scale(1);
-	-ms-transform: translate(54px, 9px) scale(1);
-	transform: translate(54px, 9px) scale(1);
+	-webkit-transform: translate(calc(var(--label-translate) + 40px), 9px) scale(1);
+	-moz-transform: translate(calc(var(--label-translate) + 40px), 9px) scale(1);
+	-ms-transform: translate(calc(var(--label-translate) + 40px), 9px) scale(1);
+	transform: translate(calc(var(--label-translate) + 40px), 9px) scale(1);
 }
-
 .inputBox:focus-within label,
 .inputBox label.transform {
 	max-width: calc(133% - 32px);
-	-webkit-transform: translate(14px, -9px) scale(0.75);
-	-moz-transform: translate(14px, -9px) scale(0.75);
-	-ms-transform: translate(14px, -9px) scale(0.75);
-	transform: translate(14px, -9px) scale(0.75);
+	-webkit-transform: translate(var(--label-translate), -9px) scale(0.75);
+	-moz-transform: translate(var(--label-translate), -9px) scale(0.75);
+	-ms-transform: translate(var(--label-translate), -9px) scale(0.75);
+	transform: translate(var(--label-translate), -9px) scale(0.75);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -139,12 +189,19 @@
 	user-select: none;
 }
 
+.inputBox:has(input:disabled):focus-within label {
+	-webkit-transform: translate(var(--label-translate), 9px) scale(1);
+	-moz-transform: translate(var(--label-translate), 9px) scale(1);
+	-ms-transform: translate(var(--label-translate), 9px) scale(1);
+	transform: translate(var(--label-translate), 9px) scale(1);
+}
+
 .inputBox .inputArea {
-	font-weight: 400;
 	font-size: 0.75rem;
 	line-height: 1.4375em;
 	letter-spacing: 0.00938em;
-	color: rgba(0, 0, 0, 0.87);
+	font-weight: 400;
+	color: var(--text-color-primary);
 	box-sizing: border-box;
 	position: relative;
 	cursor: text;
@@ -157,7 +214,6 @@
 	-ms-flex-align: center;
 	align-items: center;
 	width: 100%;
-	position: relative;
 	border-radius: 0.25rem;
 }
 
@@ -172,50 +228,44 @@
 	padding: 0px 0.5rem;
 	pointer-events: none;
 	border-radius: inherit;
-	border-style: solid;
-	border-width: 1px;
+	border: 1px solid var(--border-color);
 	overflow: hidden;
 	min-height: 0;
-	border-color: rgba(0, 0, 0, 0.23);
+
+	legend {
+		float: unset;
+		width: auto;
+		overflow: hidden;
+		display: block;
+		padding: 0;
+		height: 0.25rem;
+		font-size: 0.75em;
+		visibility: hidden;
+		max-width: 0.01px;
+		-webkit-transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+		transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+		white-space: nowrap;
+
+		span {
+			padding-inline: 5px;
+			display: inline-block;
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
 }
 
-.inputBox .inputArea input:disabled + fieldset {
-	border-color: rgba(0, 0, 0, 0.1);
-}
-
-.inputBox:hover fieldset {
-	border-color: rgba(0, 0, 0, 0.87);
-}
-
-.inputBox:hover .inputArea input:disabled + fieldset {
-	border-color: rgba(0, 0, 0, 0.1);
-}
-
-.inputBox fieldset legend {
-	float: unset;
-	width: auto;
-	overflow: hidden;
-	display: block;
-	padding: 0;
-	height: 0.25rem;
-	font-size: 0.75em;
-	visibility: hidden;
-	max-width: 0.01px;
-	-webkit-transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-	transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-	white-space: nowrap;
-}
 .inputBox:focus-within fieldset legend,
 .inputBox fieldset legend.transform {
 	max-width: 100%;
 	-webkit-transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
 	transition: max-width 100ms cubic-bezier(0, 0, 0.2, 1) 50ms;
 }
-.inputBox fieldset legend span {
-	padding-inline: 5px;
-	display: inline-block;
-	opacity: 0;
-	visibility: hidden;
+
+.inputBox:has(input:disabled):focus-within fieldset legend {
+	max-width: 0.01px;
+	-webkit-transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+	transition: max-width 50ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 }
 
 .leftIcon,
@@ -225,7 +275,7 @@
 	align-items: center;
 	justify-content: center;
 	padding: 0 0.75rem;
-	height: min-content;
+	height: 1.5rem;
 	width: 40px;
 }
 
@@ -234,7 +284,7 @@
 }
 .rightIcon,
 .rightAdorment {
-	border-right: 1px solid rgba(0, 0, 0, 0.23);
+	border-left: 1px solid rgba(0, 0, 0, 0.23);
 }
 .rightIcon {
 	cursor: pointer;

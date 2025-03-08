@@ -1,12 +1,6 @@
-import { lazy } from 'react'
 import { useCreateBrand } from '@/core/brand/infra/hooks/useCreateBrand'
-
-const FormContainer = lazy(async () =>
-	import('@/components/FormContainer/formContainer').then(m => ({ default: m.FormContainer }))
-)
-const BrandInputs = lazy(async () =>
-	import('@/ui/Form/Brand/BrandInputs').then(m => ({ default: m.BrandInputs }))
-)
+import { FormContainer } from '@/components/FormContainer/formContainer'
+import { BrandInputs } from '@/ui/Form/Brand/BrandInputs'
 
 export default function FormBrand() {
 	const { formData, mode, key, errors, handleChange, handleSubmit, resetForm } = useCreateBrand()
@@ -23,6 +17,7 @@ export default function FormBrand() {
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/brand/add"
+			border
 		>
 			<BrandInputs formData={formData} handleChange={handleChange} errors={errors} />
 		</FormContainer>

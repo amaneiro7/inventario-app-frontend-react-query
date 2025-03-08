@@ -1,6 +1,5 @@
-import React, { lazy, memo } from 'react'
-
-const InputBase = lazy(async () => import('../InputBase').then(m => ({ default: m.InputBase })))
+import React, { memo } from 'react'
+import { InputBase } from '../InputBase'
 
 interface InputProps<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
@@ -11,7 +10,6 @@ interface InputProps<T extends string | number | readonly string[]>
 	name: string
 	valid?: boolean
 	errorMessage?: string
-	className?: string
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
 	rightAdorment?: React.ReactNode
@@ -25,6 +23,7 @@ export const Input = memo(
 		errorMessage,
 		required = false,
 		label,
+		readOnly,
 		leftIcon,
 		rightIcon,
 		rightAdorment,
@@ -48,7 +47,23 @@ export const Input = memo(
 				rightAdorment={rightAdorment}
 				onRightIconClick={onRightIconClick}
 			>
-				<input {...props} type={type} name={name} value={value} required={required} />
+				<input
+					{...props}
+					type={type}
+					name={name}
+					value={value}
+					required={required}
+					readOnly={readOnly}
+					onMouseDown={
+						readOnly
+							? e => {
+									e.preventDefault()
+							  }
+							: undefined
+					}
+					aria-readonly={readOnly}
+					tabIndex={readOnly ? -1 : 0}
+				/>
 			</InputBase>
 		)
 	}

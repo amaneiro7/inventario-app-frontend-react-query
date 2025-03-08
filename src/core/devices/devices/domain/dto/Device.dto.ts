@@ -43,9 +43,9 @@ export type DevicePrimitives = Omit<Device, 'id'>
 
 export type DeviceParams = DevicePrimitives & {
 	id?: Primitives<DeviceId>
-	categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
-	statusId: (typeof StatusOptions)[keyof typeof StatusOptions]
-	typeOfSiteId: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]
+	categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions] | ''
+	statusId: (typeof StatusOptions)[keyof typeof StatusOptions] | ''
+	typeOfSiteId: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions] | ''
 	genericModel?: Primitives<GenericModel>
 }
 export type Params = DeviceComputerParams | DeviceHardDriveParams | DeviceMFPParams

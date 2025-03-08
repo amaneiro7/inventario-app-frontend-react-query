@@ -17,9 +17,18 @@ export const HardDriveCapacityCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { HardDriveCapacities, isLoading } = useGetAllHardDriveCapacity({})
+	const { hardDriveCapacities, isLoading } = useGetAllHardDriveCapacity({})
 
-	const options = useMemo(() => HardDriveCapacities?.data ?? [], [HardDriveCapacities])
+	const options = useMemo(
+		() =>
+			hardDriveCapacities?.data
+				? hardDriveCapacities.data.map(({ id, name }) => ({
+						id,
+						name: `${name} Gb`
+				  }))
+				: [],
+		[hardDriveCapacities]
+	)
 
 	return (
 		<>

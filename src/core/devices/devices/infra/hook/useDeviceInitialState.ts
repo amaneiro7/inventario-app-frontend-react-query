@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetService } from '../service/deviceGet.service'
 import { DeviceGetter } from '../../application/DeviceGetter'
+import { useGetFormMode } from '@/hooks/useGetFormMode'
 import { type DefaultDevice } from '../reducers/devicesFormReducer'
 import { type DeviceDto } from '../../domain/dto/Device.dto'
 
@@ -19,9 +20,7 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 	const repository = useMemo(() => new DeviceGetService(), [])
 	const get = useMemo(() => new DeviceGetter(repository), [repository])
 
-	const mode: 'edit' | 'add' = useMemo(() => {
-		return location.pathname.includes('edit') ? 'edit' : 'add'
-	}, [location.pathname])
+	const mode = useGetFormMode()
 
 	const { data: deviceData, refetch } = useQuery({
 		queryKey: ['device', id],
@@ -34,7 +33,7 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 			const { computer, model, hardDrive, mfp } = device
 
 			const memoryRamSlotQuantity = model?.modelComputer?.memoryRamSlotQuantity
-			const memoryRamType = model?.modelComputer?.memoryRamType?.name
+			const memoryRamType = model?.modelComputer?.memoryRamType?.name ?? ''
 			let memoryRam: number[] | undefined
 			if (computer && memoryRamSlotQuantity) {
 				// solo lo calcula si computer y memoryRamSlotAuqntity estan definidos
@@ -70,7 +69,7 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 				stockNumber: device.stockNumber ?? '',
 				computerName: computer?.computerName ?? '',
 				processorId: computer?.processorId ?? '',
-				memoryRamCapacity: computer?.memoryRamCapacity,
+				memoryRamCapacity: computer?.memoryRamCapacity ?? 0,
 				hardDriveCapacityId: computer?.hardDriveCapacityId
 					? computer.hardDriveCapacityId
 					: hardDrive?.hardDriveCapacityId
@@ -90,7 +89,7 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 					: '',
 				macAddress: computer?.macAddress ?? '',
 				health: hardDrive?.health ?? 100,
-				memoryRam,
+				memoryRam: memoryRam ?? [0],
 				memoryRamSlotQuantity,
 				memoryRamType,
 				history: device.history,

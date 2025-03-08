@@ -11,9 +11,9 @@ export const useGetAllHardDriveCapacity = (query: HardDriveCapacityFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		data: HardDriveCapacities
+		data: hardDriveCapacities
 	} = useQuery({
-		queryKey: ['HardDriveCapacities', query],
+		queryKey: ['hardDriveCapacities', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})
@@ -22,6 +22,6 @@ export const useGetAllHardDriveCapacity = (query: HardDriveCapacityFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		HardDriveCapacities
+		hardDriveCapacities
 	}
 }

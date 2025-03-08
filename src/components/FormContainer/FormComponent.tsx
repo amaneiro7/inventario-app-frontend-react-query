@@ -1,6 +1,15 @@
-import { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 import { useFormStatus } from 'react-dom'
+import Button from '../Button'
+import { UpdatedBy } from '../UpdatedBy'
+import { LastUpdated } from '../LastUpdated'
+import { ResetIcon } from '@/icon/ResetIcon'
+import { CancelIcon } from '@/icon/CancelIcon'
+import { RightArrowIcon } from '@/icon/RightArrowIcon'
+import { CircleSpinningIcon } from '@/icon/CircleSpinning'
+import { twMerge } from 'tailwind-merge'
+import cn from 'classnames'
 
 interface Props
 	extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
@@ -8,28 +17,13 @@ interface Props
 	handleClose: () => void
 	reset?: () => void
 	id: string
+	border?: boolean
 	method?: 'dialog' | 'form'
 	lastUpdated?: string
-	updatedBy?: HistoryDto[]
+	updatedBy?: HistoryDto[] | null
 }
 
-const Button = lazy(async () => await import('@/components/Button'))
-const LastUpdated = lazy(async () =>
-	import('@/components/LastUpdated').then(m => ({ default: m.LastUpdated }))
-)
-const UpdatedBy = lazy(async () =>
-	import('@/components/UpdatedBy').then(m => ({ default: m.UpdatedBy }))
-)
-const CancelIcon = lazy(() => import('@/icon/CancelIcon').then(m => ({ default: m.CancelIcon })))
-const RightArrowIcon = lazy(() =>
-	import('@/icon/RightArrowIcon').then(m => ({ default: m.RightArrowIcon }))
-)
-const ResetIcon = lazy(() => import('@/icon/ResetIcon').then(m => ({ default: m.ResetIcon })))
-const CircleSpinningIcon = lazy(() =>
-	import('@/icon/CircleSpinning').then(m => ({
-		default: m.CircleSpinningIcon
-	}))
-)
+const borderStyle = 'flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4'
 
 export function FormComponent({
 	handleSubmit,
@@ -37,20 +31,24 @@ export function FormComponent({
 	reset,
 	id,
 	method = 'form',
+	border,
 	updatedBy,
 	lastUpdated,
 	children,
+	className,
 	...props
 }: Props) {
 	const { pending } = useFormStatus()
+
+	const classes = twMerge(
+		'w-full bg-white flex justify-center',
+		cn({
+			[borderStyle]: border
+		}),
+		className
+	)
 	return (
-		<form
-			id={id}
-			action="submit"
-			onSubmit={handleSubmit}
-			className="w-full bg-white flex justify-center border border-gray-400 rounded-lg p-8"
-			{...props}
-		>
+		<form id={id} action="submit" onSubmit={handleSubmit} className={classes} {...props}>
 			<fieldset className="w-full grid gap-5 relative">
 				{children}
 				<div className="flex flex-col mt-8 md:flex-row md:w-1/3 gap-5 justify-end justify-self-end">
@@ -130,9 +128,7 @@ export function FormComponent({
 				</div>
 				<p className="justify-self-end text-sm text-black/80">
 					{lastUpdated !== undefined && <LastUpdated updatedAt={lastUpdated} />}
-					{updatedBy !== undefined && updatedBy.length > 0 && (
-						<UpdatedBy history={updatedBy} />
-					)}
+					{updatedBy && updatedBy.length > 0 && <UpdatedBy history={updatedBy} />}
 				</p>
 			</fieldset>
 		</form>
