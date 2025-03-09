@@ -26,9 +26,9 @@ export function CitySearch() {
 		<SearchInput
 			search={searchValue}
 			handleChange={value => {
-				setSearchValue(value.toUpperCase().trim())
+				setSearchValue(value)
 			}}
-			url={`/cities/edit/${value}`}
+			url={`/city/edit/${value}`}
 			name="citySearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

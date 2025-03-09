@@ -91,6 +91,7 @@ export const MainComputerFilter = memo(function ({
 					name="locationId"
 					handleChange={handleChange}
 					value={locationId}
+					method="search"
 					typeOfSiteId={typeOfSiteId}
 				/>
 			</Suspense>
