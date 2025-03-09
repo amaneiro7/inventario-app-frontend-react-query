@@ -42,7 +42,7 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 						? [
 								...computer.memoryRam,
 								...Array(memoryRamSlotQuantity - computer.memoryRam.length)
-						  ].fill(0)
+							].fill(0)
 						: computer.memoryRam
 				if (
 					computer.memoryRamCapacity > 0 &&
@@ -73,20 +73,20 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 				hardDriveCapacityId: computer?.hardDriveCapacityId
 					? computer.hardDriveCapacityId
 					: hardDrive?.hardDriveCapacityId
-					? hardDrive.hardDriveCapacityId
-					: '',
+						? hardDrive.hardDriveCapacityId
+						: '',
 				hardDriveTypeId: computer?.hardDriveTypeId
 					? computer.hardDriveTypeId
 					: hardDrive?.hardDriveTypeId
-					? hardDrive.hardDriveTypeId
-					: '',
+						? hardDrive.hardDriveTypeId
+						: '',
 				operatingSystemArqId: computer?.operatingSystemArqId ?? '',
 				operatingSystemId: computer?.operatingSystemId ?? '',
 				ipAddress: computer?.ipAddress
 					? computer.ipAddress
 					: mfp?.ipAddress
-					? mfp.ipAddress
-					: '',
+						? mfp.ipAddress
+						: '',
 				macAddress: computer?.macAddress ?? '',
 				health: hardDrive?.health ?? 100,
 				memoryRam: memoryRam ?? [0],

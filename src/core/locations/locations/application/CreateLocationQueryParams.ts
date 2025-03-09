@@ -56,8 +56,8 @@ export async function createLocationParams({
 						key === 'name' || key === 'subnet'
 							? Operator.CONTAINS
 							: key === 'typeOfSiteId'
-							? Operator.OR
-							: Operator.EQUAL,
+								? Operator.OR
+								: Operator.EQUAL,
 					value: val
 				})
 			})

@@ -5,7 +5,10 @@ import { type BrandSaveRepository } from '../domain/repository/BrandSaveReposito
 import { type BrandParams } from '../domain/dto/Brand.dto'
 
 export class BrandCreator {
-	constructor(readonly repository: BrandSaveRepository, private readonly events: EventManager) {}
+	constructor(
+		readonly repository: BrandSaveRepository,
+		private readonly events: EventManager
+	) {}
 
 	async create(params: BrandParams) {
 		try {

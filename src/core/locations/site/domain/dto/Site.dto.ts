@@ -14,6 +14,10 @@ export interface Site {
 
 export type SitePrimitives = Omit<Site, 'id'>
 
+export type SiteParams = SitePrimitives & {
+	id?: Primitives<SiteId> | undefined
+}
+
 export type SiteDto = Site & {
 	city: CityDto
 }

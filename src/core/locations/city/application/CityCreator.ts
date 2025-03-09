@@ -5,7 +5,10 @@ import { type CitySaveRepository } from '../domain/repository/CitySaveRepository
 import { type CityParams } from '../domain/dto/City.dto'
 
 export class CityCreator {
-	constructor(readonly repository: CitySaveRepository, private readonly events: EventManager) {}
+	constructor(
+		readonly repository: CitySaveRepository,
+		private readonly events: EventManager
+	) {}
 
 	async create(params: CityParams) {
 		try {

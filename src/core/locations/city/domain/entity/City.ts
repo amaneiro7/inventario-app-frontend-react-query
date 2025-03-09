@@ -4,7 +4,10 @@ import { type CityPrimitives } from '../dto/City.dto'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class City {
-	constructor(private readonly name: CityName, private readonly stateId: StateId) {}
+	constructor(
+		private readonly name: CityName,
+		private readonly stateId: StateId
+	) {}
 
 	static create({ name, stateId }: CityPrimitives): City {
 		return new City(new CityName(name), new StateId(stateId))

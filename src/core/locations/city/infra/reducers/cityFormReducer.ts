@@ -42,7 +42,7 @@ export type Action =
 	| { type: 'reset'; payload: { formData: DefaultCity } }
 	| { type: 'name'; payload: { value: DefaultCity['name'] } }
 	| { type: 'stateId'; payload: { value: DefaultCity['stateId'] } }
-	| { type: 'regionId'; payload: { value: DefaultCity['stateId'] } }
+	| { type: 'regionId'; payload: { value: DefaultCity['regionId'] } }
 
 export const cityFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {

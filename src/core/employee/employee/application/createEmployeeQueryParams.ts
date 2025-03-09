@@ -61,8 +61,8 @@ export async function createEmployeeParams({
 						key === 'userName' || key === 'name' || key === 'lastName'
 							? Operator.OR
 							: key === 'email' || key === 'employeeCode' || key === 'cedula'
-							? Operator.CONTAINS
-							: Operator.EQUAL,
+								? Operator.CONTAINS
+								: Operator.EQUAL,
 					value
 				})
 			}

@@ -412,7 +412,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 						hardDriveTypeId: '',
 						operatingSystemId: '',
 						operatingSystemArqId: ''
-				  }
+					}
 			return updateAndValidate(state, 'hardDriveCapacityId', value, additionalUpdates)
 		}
 		case 'operatingSystemId': {

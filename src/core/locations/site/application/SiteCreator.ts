@@ -2,13 +2,10 @@ import { Site } from '../domain/entity/Site'
 import { SiteId } from '../domain/value-object/SiteId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type SiteSaveRepository } from '../domain/repository/SiteSaveRepository'
-import { type Site as SiteParams } from '../domain/dto/Site.dto'
+import { type SiteParams } from '../domain/dto/Site.dto'
 
 export class SiteCreator {
-	constructor(
-		readonly repository: SiteSaveRepository,
-		private readonly events: EventManager
-	) {}
+	constructor(readonly repository: SiteSaveRepository, private readonly events: EventManager) {}
 
 	async create(params: SiteParams) {
 		try {
@@ -33,6 +30,7 @@ export class SiteCreator {
 			}
 		} catch (error) {
 			this.events.notify({ type: 'error', message: `${error}` })
+			throw new Error(`${error}`)
 		}
 	}
 }
