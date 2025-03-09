@@ -12,6 +12,10 @@ export interface City {
 
 export type CityPrimitives = Omit<City, 'id'>
 
+export type CityParams = CityPrimitives & {
+	id?: Primitives<CityId> | undefined
+}
+
 export type CityDto = City & {
 	state: StateDto
 }
