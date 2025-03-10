@@ -17,6 +17,10 @@ const FormBrand = lazy(async () => import('@/pages/FormBrand'))
 const FormModel = lazy(async () => import('@/pages/FormModel'))
 const FormCity = lazy(async () => import('@/pages/FormCity'))
 const FormSite = lazy(async () => import('@/pages/FormSite'))
+const FormDirectiva = lazy(async () => import('@/pages/FormDirectiva'))
+const FormVicepresidenciaEjecutivas = lazy(
+	async () => import('@/pages/FormVicepresidenciaEjecutiva')
+)
 const FormLocation = lazy(async () => import('@/pages/FormLocation'))
 const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
 const FormDevice = lazy(async () => import('@/pages/FormDevice'))
@@ -141,6 +145,38 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<FormBrand />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/directiva/add"
+					element={
+						<Suspense>
+							<FormDirectiva />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/directiva/edit/:id"
+					element={
+						<Suspense>
+							<FormDirectiva />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/vicepresidenciaEjecutivas/add"
+					element={
+						<Suspense>
+							<FormVicepresidenciaEjecutivas />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/vicepresidenciaEjecutivas/edit/:id"
+					element={
+						<Suspense>
+							<FormVicepresidenciaEjecutivas />
 						</Suspense>
 					}
 				/>

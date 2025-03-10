@@ -1,16 +1,12 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { type VicepresidenciaEjecutivaFilters } from '../../application/createVicepresidenciaEjecutivaQueryParams'
 import { VicepresidenciaEjecutivaGetAllService } from '../service/vicepresidenciaEjecutivaGetAll.service'
 import { VicepresidenciaEjecutivaGetByCriteria } from '../../application/VicepresidenciaEjecutivaGetByCriteria'
 
-export const useGetAllVicepresidenciaEjecutivas = (query: VicepresidenciaEjecutivaFilters) => {
-	const repository = useMemo(() => new VicepresidenciaEjecutivaGetAllService(), [])
-	const getAll = useMemo(
-		() => new VicepresidenciaEjecutivaGetByCriteria(repository),
-		[repository]
-	)
+const repository = new VicepresidenciaEjecutivaGetAllService()
+const getAll = new VicepresidenciaEjecutivaGetByCriteria(repository)
 
+export const useGetAllVicepresidenciaEjecutivas = (query: VicepresidenciaEjecutivaFilters) => {
 	const {
 		isLoading,
 		refetch,

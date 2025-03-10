@@ -107,6 +107,16 @@ export const navigation: Navigation[] = [
 				title: 'Agregar una nueva ciudad',
 				desc: 'Aqui se puede agregar una nueva ciudad',
 				path: '/city/add'
+			},
+			{
+				title: 'Agregar una nueva directiva',
+				desc: 'Aqui se puede agregar una nueva directiva',
+				path: '/directiva/add'
+			},
+			{
+				title: 'Agregar una nueva vicepresidencia ejecutivas',
+				desc: 'Aqui se puede agregar una nueva vicepresidencia ejecutivas',
+				path: '/vicepresidenciaejecutivas/add'
 			}
 		]
 	}
