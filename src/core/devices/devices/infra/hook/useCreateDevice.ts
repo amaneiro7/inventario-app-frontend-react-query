@@ -12,7 +12,7 @@ import { DeviceSaveService } from '../service/deviceSave.service'
 import { useDeviceInitialState } from './useDeviceInitialState'
 import { type Params } from '../../domain/dto/Device.dto'
 
-export function useCreateDevice(defaulState?: DefaultDevice) {
+export function useCreateDevice(defaultState?: DefaultDevice) {
 	const key = `device${initialDeviceState?.formData?.id ? initialDeviceState.formData.id : ''}`
 	const { events } = useContext(EventContext)
 
@@ -24,7 +24,7 @@ export function useCreateDevice(defaulState?: DefaultDevice) {
 	)
 
 	const { initialState, mode, resetState } = useDeviceInitialState(
-		defaulState ?? initialDeviceState.formData
+		defaultState ?? initialDeviceState.formData
 	)
 	const prevState = usePrevious(initialState)
 

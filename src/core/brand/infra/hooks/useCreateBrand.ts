@@ -11,7 +11,7 @@ import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useBrandInitialState } from './useBrandInitialState'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 
-export function useCreateBrand(defaulState?: BrandParams) {
+export function useCreateBrand(defaultState?: BrandParams) {
 	const key = `processor${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
 	const { events } = useContext(EventContext)
 
@@ -20,7 +20,7 @@ export function useCreateBrand(defaulState?: BrandParams) {
 	}
 
 	const { initialState, mode, resetState } = useBrandInitialState(
-		defaulState ?? initialBrandState.formData
+		defaultState ?? initialBrandState.formData
 	)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData }, dispatch] = useReducer(brandFormReducer, initialBrandState)

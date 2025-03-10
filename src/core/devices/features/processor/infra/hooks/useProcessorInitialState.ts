@@ -10,7 +10,7 @@ import { type ProcessorParams } from '../../domain/dto/Processor.dto'
 const repository = new ProcessorGetService()
 const get = new ProcessorGetter(repository)
 
-export function useProcessorInitialState(defaulState: ProcessorParams): {
+export function useProcessorInitialState(defaultState: ProcessorParams): {
 	initialState: ProcessorParams
 	resetState: () => void
 	mode: 'edit' | 'add'
@@ -18,7 +18,7 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 	const { id } = useParams()
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [state, setState] = useState<ProcessorParams>(defaulState)
+	const [state, setState] = useState<ProcessorParams>(defaultState)
 
 	const mode = useGetFormMode()
 
@@ -31,7 +31,7 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('processor')) {
-			setState(defaulState)
+			setState(defaultState)
 			return
 		}
 
@@ -47,14 +47,14 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 				frequency: ProcessorFrequency.convertToNumber(processorData.frequency)
 			})
 		}
-	}, [mode, processorData, location.state, defaulState, navigate])
+	}, [mode, processorData, location.state, defaultState, navigate])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('processor')) return
 		if (mode === 'add') {
 			setState({
 				id: undefined,
-				...defaulState
+				...defaultState
 			})
 		} else if (id) {
 			const { data } = await refetch()
@@ -65,7 +65,7 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 				})
 			}
 		}
-	}, [defaulState, location.pathname, mode, refetch, id])
+	}, [defaultState, location.pathname, mode, refetch, id])
 
 	return {
 		mode,

@@ -10,7 +10,7 @@ import { type SiteDto } from '../../domain/dto/Site.dto'
 const siteGetService = new SiteGetService()
 const siteGetter = new SiteGetter(siteGetService)
 
-export function useSiteInitialState(defaulState: DefaultSite): {
+export function useSiteInitialState(defaultState: DefaultSite): {
 	initialState: DefaultSite
 	resetState: () => void
 	mode: 'edit' | 'add'
@@ -20,7 +20,7 @@ export function useSiteInitialState(defaulState: DefaultSite): {
 	const navigate = useNavigate()
 
 	const mode = useGetFormMode()
-	const [state, setState] = useState<DefaultSite>(defaulState)
+	const [state, setState] = useState<DefaultSite>(defaultState)
 
 	const { data: siteData, refetch } = useQuery({
 		queryKey: ['site', id],
@@ -42,7 +42,7 @@ export function useSiteInitialState(defaulState: DefaultSite): {
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('site')) {
-			setState(defaulState)
+			setState(defaultState)
 			return
 		}
 
@@ -56,20 +56,20 @@ export function useSiteInitialState(defaulState: DefaultSite): {
 		} else if (siteData) {
 			mappedSiteState(siteData)
 		}
-	}, [mode, siteData, location.state, defaulState, navigate, id, mappedSiteState])
+	}, [mode, siteData, location.state, defaultState, navigate, id, mappedSiteState])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('site')) return
 
 		if (mode === 'add') {
-			setState({ id: undefined, ...defaulState })
+			setState({ id: undefined, ...defaultState })
 		} else if (id) {
 			const { data } = await refetch()
 			if (data) {
 				mappedSiteState(data)
 			}
 		}
-	}, [defaulState, location.pathname, mode, refetch, mappedSiteState, id])
+	}, [defaultState, location.pathname, mode, refetch, mappedSiteState, id])
 
 	return {
 		mode,

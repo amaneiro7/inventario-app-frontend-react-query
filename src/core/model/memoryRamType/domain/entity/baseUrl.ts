@@ -1,1 +1,1 @@
-export const memoryRamTypeUrl = 'memoryrantypes'
+export const memoryRamTypeUrl = 'memoryramtypes'

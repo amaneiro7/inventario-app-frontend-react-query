@@ -81,11 +81,11 @@ export const initialLocationState: State = {
 	disabled: {
 		typeOfSiteId: false,
 		regionId: false,
-		stateId: false,
-		cityId: false,
-		siteId: false,
+		stateId: true,
+		cityId: true,
+		siteId: true,
 		siteName: false,
-		subnet: false,
+		subnet: true,
 		codeAgency: false,
 		name: false
 	}
@@ -112,7 +112,19 @@ export const locationFormReducer = (state: State, action: Action): State => {
 		case 'init': {
 			return {
 				...state,
-				formData: { ...action.payload.formData }
+				formData: { ...action.payload.formData },
+				disabled: {
+					...state.disabled,
+					stateId: !action.payload.formData.regionId,
+					cityId: !action.payload.formData.stateId,
+					siteId: !action.payload.formData.cityId,
+					siteName: !action.payload.formData.siteId,
+					name: !action.payload.formData.siteId,
+					codeAgency: !action.payload.formData.siteId,
+					subnet:
+						!action.payload.formData.typeOfSiteId ||
+						TypeOfSiteOptions.ALMACEN === action.payload.formData.typeOfSiteId
+				}
 			}
 		}
 		case 'typeOfSiteId': {
@@ -128,7 +140,7 @@ export const locationFormReducer = (state: State, action: Action): State => {
 				},
 				disabled: {
 					...state.disabled,
-					subnet: typeOfSiteId === TypeOfSiteOptions.ALMACEN
+					subnet: !typeOfSiteId || typeOfSiteId === TypeOfSiteOptions.ALMACEN
 				}
 			}
 		}
@@ -143,6 +155,15 @@ export const locationFormReducer = (state: State, action: Action): State => {
 					cityId: '',
 					siteId: '',
 					siteName: ''
+				},
+				disabled: {
+					...state.disabled,
+					stateId: !regionId,
+					cityId: true,
+					siteId: true,
+					siteName: true,
+					name: true,
+					codeAgency: true
 				}
 			}
 		}
@@ -156,6 +177,14 @@ export const locationFormReducer = (state: State, action: Action): State => {
 					cityId: '',
 					siteId: '',
 					siteName: ''
+				},
+				disabled: {
+					...state.disabled,
+					cityId: !stateId,
+					siteId: true,
+					siteName: true,
+					name: true,
+					codeAgency: true
 				}
 			}
 		}
@@ -168,6 +197,13 @@ export const locationFormReducer = (state: State, action: Action): State => {
 					cityId,
 					siteId: '',
 					siteName: ''
+				},
+				disabled: {
+					...state.disabled,
+					siteId: !cityId,
+					siteName: true,
+					name: true,
+					codeAgency: true
 				}
 			}
 		}
@@ -180,6 +216,12 @@ export const locationFormReducer = (state: State, action: Action): State => {
 					...state.formData,
 					siteId,
 					siteName
+				},
+				disabled: {
+					...state.disabled,
+					siteName: !siteId,
+					name: !siteId,
+					codeAgency: !siteId
 				}
 			}
 		}

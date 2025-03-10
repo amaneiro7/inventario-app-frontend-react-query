@@ -12,7 +12,7 @@ import { LocationSaveService } from '../service/locationSave.service'
 import { LocationCreator } from '../../application/LocationCreator'
 import { useLocationInitialState } from './useLocationInitialState'
 
-export function useCreateLocation(defaulState?: DefaultLocation) {
+export function useCreateLocation(defaultState?: DefaultLocation) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
@@ -23,10 +23,10 @@ export function useCreateLocation(defaulState?: DefaultLocation) {
 	)
 
 	const { initialState, mode, resetState } = useLocationInitialState(
-		defaulState ?? initialLocationState.formData
+		defaultState ?? initialLocationState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(
+	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		locationFormReducer,
 		initialLocationState
 	)
@@ -73,6 +73,7 @@ export function useCreateLocation(defaulState?: DefaultLocation) {
 		mode,
 		errors,
 		required,
+		disabled,
 		resetForm,
 		handleSubmit,
 		handleChange,

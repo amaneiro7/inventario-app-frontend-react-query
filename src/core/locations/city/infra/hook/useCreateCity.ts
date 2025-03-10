@@ -13,7 +13,7 @@ import { CitySaveService } from '../service/citySave.service'
 import { CityCreator } from '../../application/CityCreator'
 import { useCityInitialState } from './useCityInitialState'
 
-export function useCreateCity(defaulState?: DefaultCity) {
+export function useCreateCity(defaultState?: DefaultCity) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
@@ -24,7 +24,7 @@ export function useCreateCity(defaulState?: DefaultCity) {
 	)
 
 	const { initialState, mode, resetState } = useCityInitialState(
-		defaulState ?? initialCityState.formData
+		defaultState ?? initialCityState.formData
 	)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required }, dispatch] = useReducer(cityFormReducer, initialCityState)

@@ -1,11 +1,7 @@
 import { FormContainer } from '@/components/FormContainer/formContainer'
-import { Loading } from '@/components/Loading'
 import { useCreateLocation } from '@/core/locations/locations/infra/hook/useCreateLocation'
+import { LocationInputs } from '@/ui/Form/Location/LocationInputs'
 import { LocationSearch } from '@/ui/Form/Location/LocationSearch'
-import { lazy, Suspense } from 'react'
-const LocationInputs = lazy(async () =>
-	import('@/ui/Form/Location/LocationInputs').then(m => ({ default: m.LocationInputs }))
-)
 
 export default function FormLocation() {
 	const {
@@ -14,6 +10,7 @@ export default function FormLocation() {
 		key,
 		errors,
 		required,
+		disabled,
 		handleChange,
 		handleSite,
 		handleSubmit,
@@ -36,16 +33,15 @@ export default function FormLocation() {
 			lastUpdated={formData.updatedAt}
 			searchInput={<LocationSearch />}
 		>
-			<Suspense fallback={<Loading />}>
-				<LocationInputs
-					required={required}
-					formData={formData}
-					handleChange={handleChange}
-					handleSite={handleSite}
-					errors={errors}
-					mode={mode}
-				/>
-			</Suspense>
+			<LocationInputs
+				required={required}
+				formData={formData}
+				disabled={disabled}
+				handleChange={handleChange}
+				handleSite={handleSite}
+				errors={errors}
+				mode={mode}
+			/>
 		</FormContainer>
 	)
 }

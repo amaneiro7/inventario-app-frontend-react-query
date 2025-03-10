@@ -10,7 +10,7 @@ import { type LocationDto } from '../../domain/dto/Location.dto'
 const repository = new LocationGetService()
 const get = new LocationGetter(repository)
 
-export function useLocationInitialState(defaulState: DefaultLocation): {
+export function useLocationInitialState(defaultState: DefaultLocation): {
 	initialState: DefaultLocation
 	resetState: () => void
 	mode: 'edit' | 'add'
@@ -20,7 +20,7 @@ export function useLocationInitialState(defaulState: DefaultLocation): {
 	const navigate = useNavigate()
 
 	const mode = useGetFormMode()
-	const [state, setState] = useState<DefaultLocation>(defaulState)
+	const [state, setState] = useState<DefaultLocation>(defaultState)
 
 	const { data: locationData, refetch } = useQuery({
 		queryKey: ['location', id],
@@ -46,10 +46,9 @@ export function useLocationInitialState(defaulState: DefaultLocation): {
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('location')) {
-			console.log('Use effect locarion')
 			setState({
 				id: undefined,
-				...defaulState
+				...defaultState
 			})
 			return
 		}
@@ -64,21 +63,21 @@ export function useLocationInitialState(defaulState: DefaultLocation): {
 		} else if (locationData) {
 			mappedLocationState(locationData)
 		}
-	}, [mode, locationData, location.state, defaulState, navigate, id, mappedLocationState])
+	}, [mode, locationData, location.state, defaultState, navigate, id, mappedLocationState])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('location')) return
 
 		if (mode === 'add') {
-			setState(defaulState)
+			setState(defaultState)
 		} else if (id) {
 			const { data } = await refetch()
 			if (data) {
 				mappedLocationState(data)
 			}
 		}
-	}, [defaulState, location.pathname, mode, refetch, mappedLocationState, id])
-	console.log('inital location state', state)
+	}, [defaultState, location.pathname, mode, refetch, mappedLocationState, id])
+
 	return {
 		mode,
 		initialState: state,

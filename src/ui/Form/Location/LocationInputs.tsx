@@ -4,7 +4,8 @@ import {
 	type Action,
 	type LocationErrors,
 	type DefaultLocation,
-	type LocationRequired
+	type LocationRequired,
+	type LocationDisabled
 } from '@/core/locations/locations/infra/reducers/locationFormReducer'
 import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
 import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
@@ -18,6 +19,7 @@ interface Props {
 	formData: DefaultLocation
 	errors: LocationErrors
 	required: LocationRequired
+	disabled: LocationDisabled
 	mode: FormMode
 	handleChange: (name: Action['type'], value: string | number) => void
 	handleSite: ({ value, siteName }: { value: string; siteName: string }) => void
@@ -27,6 +29,7 @@ export const LocationInputs = memo(function ({
 	errors,
 	mode,
 	required,
+	disabled,
 	formData,
 	handleChange,
 	handleSite
@@ -38,6 +41,7 @@ export const LocationInputs = memo(function ({
 				handleChange={(_name, value) => handleChange('typeOfSiteId', value)}
 				name="typeOfSiteId"
 				required={required.typeOfSiteId}
+				disabled={disabled.typeOfSiteId}
 				readonly={mode === 'edit'}
 			/>
 			<div className="flex gap-4">
@@ -46,6 +50,7 @@ export const LocationInputs = memo(function ({
 					handleChange={(_name, value) => handleChange('regionId', value)}
 					name="regionId"
 					required={required.regionId}
+					disabled={disabled.regionId}
 					readonly={mode === 'edit'}
 				/>
 				<StateCombobox
@@ -54,6 +59,7 @@ export const LocationInputs = memo(function ({
 					name="stateId"
 					regionId={formData.regionId}
 					required={required.stateId}
+					disabled={disabled.stateId}
 					readonly={mode === 'edit'}
 				/>
 			</div>
@@ -64,7 +70,8 @@ export const LocationInputs = memo(function ({
 					name="cityId"
 					regionId={formData.regionId}
 					stateId={formData.stateId}
-					required={required.stateId}
+					required={required.cityId}
+					disabled={disabled.cityId}
 					readonly={mode === 'edit'}
 				/>
 				<SiteCombobox
@@ -75,7 +82,8 @@ export const LocationInputs = memo(function ({
 					regionId={formData.regionId}
 					stateId={formData.stateId}
 					cityId={formData.cityId}
-					required={required.stateId}
+					required={required.siteId}
+					disabled={disabled.siteId}
 					readonly={mode === 'edit'}
 				/>
 			</div>
@@ -106,6 +114,7 @@ export const LocationInputs = memo(function ({
 					}
 					error={!!errors?.name}
 					errorMessage={errors?.name}
+					disabled={disabled.name}
 					required={required.name}
 				/>
 			</div>
@@ -119,6 +128,7 @@ export const LocationInputs = memo(function ({
 				error={!!errors?.subnet}
 				errorMessage={errors?.subnet}
 				required={required.subnet}
+				disabled={disabled.subnet}
 			/>
 		</>
 	)

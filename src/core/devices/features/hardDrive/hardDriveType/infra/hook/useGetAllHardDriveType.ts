@@ -1,19 +1,18 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { HardDriveTypeGetAllService } from '../service/hardDriveTypeGetAll.service'
 import { HardDriveTypeGetByCriteria } from '../../application/HardDriveTypeGetByCriteria'
 import { type HardDriveTypeFilters } from '../../application/createHardDriveTypeQueryParams'
-export const useGetAllHardDriveType = (query: HardDriveTypeFilters) => {
-	const repository = useMemo(() => new HardDriveTypeGetAllService(), [])
-	const getAll = useMemo(() => new HardDriveTypeGetByCriteria(repository), [repository])
 
+const repository = new HardDriveTypeGetAllService()
+const getAll = new HardDriveTypeGetByCriteria(repository)
+export const useGetAllHardDriveType = (query: HardDriveTypeFilters) => {
 	const {
 		isLoading,
 		refetch,
 		isError,
-		data: HardDriveTypes
+		data: hardDriveTypes
 	} = useQuery({
-		queryKey: ['HardDriveTypes', query],
+		queryKey: ['hardDriveTypes', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})
@@ -22,6 +21,6 @@ export const useGetAllHardDriveType = (query: HardDriveTypeFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		HardDriveTypes
+		hardDriveTypes
 	}
 }

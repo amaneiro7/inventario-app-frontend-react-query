@@ -11,7 +11,7 @@ import {
 } from '../reducers/processorFormReducer'
 import { type ProcessorParams } from '../../domain/dto/Processor.dto'
 
-export function useCreateProcessor(defaulState?: ProcessorParams) {
+export function useCreateProcessor(defaultState?: ProcessorParams) {
 	const key = `processor${
 		initialProcessorState?.formData?.id ? initialProcessorState.formData.id : ''
 	}`
@@ -22,7 +22,7 @@ export function useCreateProcessor(defaulState?: ProcessorParams) {
 	}
 
 	const { initialState, mode, resetState } = useProcessorInitialState(
-		defaulState ?? initialProcessorState.formData
+		defaultState ?? initialProcessorState.formData
 	)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData }, dispatch] = useReducer(processorFormReducer, initialProcessorState)

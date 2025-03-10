@@ -23,7 +23,8 @@ export interface Model {
 
 export type ModelPrimitives = Omit<Model, 'id'>
 
-export type ModelParams = Model & {
+export type ModelParams = ModelPrimitives & {
+	id?: Primitives<ModelId>
 	mainCategoryId: Primitives<MainCategoryId>
 	categoryId: Primitives<CategoryId>
 }

@@ -1,0 +1,45 @@
+import { FormContainer } from '@/components/FormContainer/formContainer'
+import { useCreateModel } from '@/core/model/models/infra/hook/useCreateModels'
+import { ModelInputs } from '@/ui/Form/Model/ModelInputs'
+import { ModelSearch } from '@/ui/Form/Model/ModelSearch'
+
+export default function FormModel() {
+	const {
+		formData,
+		mode,
+		key,
+		errors,
+		disabled,
+		required,
+		handleChange,
+		handleSubmit,
+		resetForm
+	} = useCreateModel()
+
+	return (
+		<FormContainer
+			id={key}
+			title="modelos"
+			description="Ingrese los datos del modelo el cual desea registar."
+			isAddForm={mode === 'add'}
+			handleSubmit={handleSubmit}
+			handleClose={() => {
+				return
+			}}
+			reset={mode === 'edit' ? resetForm : undefined}
+			url="/model/add"
+			lastUpdated={formData.updatedAt}
+			border
+			searchInput={<ModelSearch />}
+		>
+			<ModelInputs
+				required={required}
+				disabled={disabled}
+				formData={formData}
+				handleChange={handleChange}
+				errors={errors}
+				mode={mode}
+			/>
+		</FormContainer>
+	)
+}

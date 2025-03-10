@@ -1,35 +1,37 @@
 import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
 import { EventContext } from '@/context/EventManager/EventContext'
-
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
-	type DefaultSite,
+	type DefaultModel,
 	type Action,
-	initialSiteState,
-	SiteFormReducer
-} from '../reducers/siteFormReducer'
-import { type SiteParams } from '../../domain/dto/Site.dto'
-import { SiteSaveService } from '../service/siteSave.service'
-import { SiteCreator } from '../../application/SiteCreator'
-import { useSiteInitialState } from './useSiteInitialState'
+	initialModelState,
+	modelFormReducer
+} from '../reducers/modelFormReducer'
+import { type Params } from '../../domain/dto/Model.dto'
+import { ModelSaveService } from '../service/modelSave.service'
+import { ModelCreator } from '../../application/ModelCreator'
+import { useModelInitialState } from './useModelsInitialState'
 
-export function useCreateSite(defaultState?: DefaultSite) {
+export function useCreateModel(defaultState?: DefaultModel) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
-		() => async (formData: SiteParams) => {
-			return await new SiteCreator(new SiteSaveService(), events).create(formData)
+		() => async (formData: Params) => {
+			return await new ModelCreator(new ModelSaveService(), events).create(formData)
 		},
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useSiteInitialState(
-		defaultState ?? initialSiteState.formData
+	const { initialState, mode, resetState } = useModelInitialState(
+		defaultState ?? initialModelState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(SiteFormReducer, initialSiteState)
+	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
+		modelFormReducer,
+		initialModelState
+	)
 	const key = useMemo(
-		() => `site${initialSiteState?.formData?.id ? initialSiteState.formData.id : ''}`,
+		() => `Model${initialModelState?.formData?.id ? initialModelState.formData.id : ''}`,
 		[formData?.id]
 	)
 
@@ -53,23 +55,20 @@ export function useCreateSite(defaultState?: DefaultSite) {
 		dispatch({ type: name, payload: { value } })
 	}, [])
 
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				resetState()
-			})
-		},
-		[formData, create, resetState]
-	)
-
+	const handleSubmit = async (event: React.FormEvent) => {
+		event.preventDefault()
+		event.stopPropagation()
+		await create(formData).then(() => {
+			resetState()
+		})
+	}
 	return {
 		key,
 		formData,
 		mode,
 		errors,
 		required,
+		disabled,
 		resetForm,
 		handleSubmit,
 		handleChange

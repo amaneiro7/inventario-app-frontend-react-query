@@ -1,8 +1,9 @@
 import { memo, useMemo } from 'react'
-import { useGetAllHardDriveType } from '@/core/devices/features/hardDrive/hardDriveType/infra/hook/useGetAllHardDriveType'
-import { Combobox } from '@/components/Input/Combobox'
 
-export const HardDriveTypeCombobox = memo(function ({
+import { Combobox } from '@/components/Input/Combobox'
+import { useGetAllInputType } from '@/core/model/inputType/infra/hook/useInputType'
+
+export const InputTypeCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
@@ -17,15 +18,15 @@ export const HardDriveTypeCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { hardDriveTypes, isLoading } = useGetAllHardDriveType({})
+	const { inputTypes, isLoading } = useGetAllInputType({})
 
-	const options = useMemo(() => hardDriveTypes?.data ?? [], [hardDriveTypes])
+	const options = useMemo(() => inputTypes?.data ?? [], [inputTypes])
 
 	return (
 		<>
 			<Combobox
-				id="HardDriveType"
-				label="Tipo"
+				id="InputType"
+				label="Tipo de Entrada"
 				value={value}
 				name={name}
 				loading={isLoading}

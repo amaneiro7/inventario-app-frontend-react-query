@@ -7,7 +7,7 @@ import { CityGetter } from '../../application/CityGetter'
 import { type DefaultCity } from '../reducers/cityFormReducer'
 import { type CityDto } from '../../domain/dto/City.dto'
 
-export function useCityInitialState(defaulState: DefaultCity): {
+export function useCityInitialState(defaultState: DefaultCity): {
 	initialState: DefaultCity
 	resetState: () => void
 	mode: 'edit' | 'add'
@@ -17,7 +17,7 @@ export function useCityInitialState(defaulState: DefaultCity): {
 	const navigate = useNavigate()
 
 	const mode = useGetFormMode()
-	const [state, setState] = useState<DefaultCity>(defaulState)
+	const [state, setState] = useState<DefaultCity>(defaultState)
 
 	const repository = useMemo(() => new CityGetService(), [])
 	const get = useMemo(() => new CityGetter(repository), [repository])
@@ -40,7 +40,7 @@ export function useCityInitialState(defaulState: DefaultCity): {
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('city')) {
-			setState(defaulState)
+			setState(defaultState)
 			return
 		}
 
@@ -54,20 +54,20 @@ export function useCityInitialState(defaulState: DefaultCity): {
 		} else if (cityData) {
 			mappedCityState(cityData)
 		}
-	}, [mode, cityData, location.state, defaulState, navigate, id, mappedCityState])
+	}, [mode, cityData, location.state, defaultState, navigate, id, mappedCityState])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('city')) return
 
 		if (mode === 'add') {
-			setState({ id: undefined, ...defaulState })
+			setState({ id: undefined, ...defaultState })
 		} else if (id) {
 			const { data } = await refetch()
 			if (data) {
 				mappedCityState(data)
 			}
 		}
-	}, [defaulState, location.pathname, mode, refetch, mappedCityState, id])
+	}, [defaultState, location.pathname, mode, refetch, mappedCityState, id])
 
 	return {
 		mode,
