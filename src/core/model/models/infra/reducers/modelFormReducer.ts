@@ -110,7 +110,7 @@ export const initialModelState: State = {
 		inputTypeId: true
 	},
 	disabled: {
-		mainCategoryId: true,
+		mainCategoryId: false,
 		categoryId: true,
 		brandId: true,
 		name: false,

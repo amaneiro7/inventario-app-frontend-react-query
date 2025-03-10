@@ -28,58 +28,35 @@ export class ModelCreator {
 
 	async create(params: Params) {
 		try {
-			let payload
+			// Objeto de mapeo para simplificar la lógica de creación de modelos.
+			const modelCreators = {
+				[CategoryOptions.COMPUTER]: ModelComputer,
+				[CategoryOptions.ALLINONE]: ModelComputer,
+				[CategoryOptions.SERVER]: ModelComputer,
+				[CategoryOptions.LAPTOP]: ModelLaptop,
+				[CategoryOptions.MONITOR]: ModelMonitor,
+				[CategoryOptions.INKPRINTER]: ModelPrinter,
+				[CategoryOptions.LASERPRINTER]: ModelPrinter,
+				[CategoryOptions.KEYBOARD]: ModelKeyboard
+			}
+			// Obtiene el creador de modelo correspondiente o usa Model por defecto.
+			const ModelClass = modelCreators[params.categoryId] || Model
 
-			// Validar si pertenece a Computadora, All in one o Servicores
-			if (
-				CategoryOptions.ALLINONE === params.categoryId ||
-				CategoryOptions.SERVER === params.categoryId ||
-				CategoryOptions.COMPUTER === params.categoryId
-			) {
-				payload = ModelComputer.create(params).toPrimitives()
-			}
-			// Validar si pertenece a Laptop
-			if (CategoryOptions.LAPTOP === params.categoryId) {
-				payload = ModelLaptop.create(params).toPrimitives()
-			}
-			// Validar si pertenece a Monitor
-			if (CategoryOptions.MONITOR === params.categoryId) {
-				payload = ModelMonitor.create(params).toPrimitives()
-			}
-			// Validar si pertenece a Impresora
-			if (
-				CategoryOptions.INKPRINTER === params.categoryId ||
-				CategoryOptions.LASERPRINTER === params.categoryId
-			) {
-				payload = ModelPrinter.create(params).toPrimitives()
-			}
-			// Validar si pertenece a Teclados
-			if (CategoryOptions.KEYBOARD === params.categoryId) {
-				payload = ModelKeyboard.create(params).toPrimitives()
-			} else {
-				// el resto de modelos
-				payload = Model.create(params).toPrimitives()
-			}
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const id = new ModelId(params.id).value
-				return await this.repository.update({ id, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			// Crea el payload del modelo.
+			const payload = ModelClass.create(params).toPrimitives()
+
+			// Guarda o actualiza el modelo basado en si existe un ID.
+			const result = params.id
+				? await this.repository.update({ id: new ModelId(params.id).value, payload })
+				: await this.repository.save({ payload })
+
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

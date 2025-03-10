@@ -29,7 +29,6 @@ export default function FormModel() {
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/model/add"
 			lastUpdated={formData.updatedAt}
-			border
 			searchInput={<ModelSearch />}
 		>
 			<ModelInputs
