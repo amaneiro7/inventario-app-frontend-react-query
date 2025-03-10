@@ -12,6 +12,10 @@ export interface VicepresidenciaEjecutiva {
 
 export type VicepresidenciaEjecutivaPrimitives = Omit<VicepresidenciaEjecutiva, 'id'>
 
+export type VicepresidenciaEjecutivaParams = VicepresidenciaEjecutivaPrimitives & {
+	id?: Primitives<VicepresidenciaEjecutivaId> | undefined
+}
+
 export type VicepresidenciaEjecutivaDto = VicepresidenciaEjecutiva & {
 	directiva: DirectivaDto
 }

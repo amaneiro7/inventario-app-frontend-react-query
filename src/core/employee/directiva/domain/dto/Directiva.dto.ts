@@ -9,4 +9,8 @@ export interface Directiva {
 
 export type DirectivaPrimitives = Omit<Directiva, 'id'>
 
+export type DirectivaParams = DirectivaPrimitives & {
+	id?: Primitives<DirectivaId> | undefined
+}
+
 export type DirectivaDto = Directiva

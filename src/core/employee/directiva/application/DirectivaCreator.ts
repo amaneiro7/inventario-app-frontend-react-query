@@ -2,7 +2,7 @@ import { Directiva } from '../domain/entity/Directiva'
 import { DirectivaId } from '../domain/value-object/DirectivaId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type DirectivaSaveRepository } from '../domain/repository/DirectivaSaveRepository'
-import { type Directiva as DirectivaParams } from '../domain/dto/Directiva.dto'
+import { type DirectivaParams } from '../domain/dto/Directiva.dto'
 
 export class DirectivaCreator {
 	constructor(
@@ -32,7 +32,9 @@ export class DirectivaCreator {
 				})
 			}
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

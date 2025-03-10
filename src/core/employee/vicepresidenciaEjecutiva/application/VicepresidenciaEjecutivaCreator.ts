@@ -2,7 +2,7 @@ import { VicepresidenciaEjecutiva } from '../domain/entity/VicepresidenciaEjecut
 import { VicepresidenciaEjecutivaId } from '../domain/value-object/VicepresidenciaEjecutivaId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type VicepresidenciaEjecutivaSaveRepository } from '../domain/repository/VicepresidenciaEjecutivaSaveRepository'
-import { type VicepresidenciaEjecutiva as VicepresidenciaEjecutivaParams } from '../domain/dto/VicepresidenciaEjecutiva.dto'
+import { type VicepresidenciaEjecutivaParams } from '../domain/dto/VicepresidenciaEjecutiva.dto'
 
 export class VicepresidenciaEjecutivaCreator {
 	constructor(
@@ -32,7 +32,9 @@ export class VicepresidenciaEjecutivaCreator {
 				})
 			}
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }
