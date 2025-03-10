@@ -1,17 +1,14 @@
-import { lazy, Suspense, useMemo, useState } from 'react'
-import { useGetAllState } from '@/core/locations/state/infra/hook/useGetAllState'
-import { type StateFilters } from '@/core/locations/state/application/createStateQueryParams'
-import { useFilterOptions } from '@/hooks/useFilterOptions'
+import { lazy, memo, Suspense, useMemo } from 'react'
+import { useGetAllTypeOfSite } from '@/core/locations/typeOfSites/infra/hook/useGetAllTypeOfSite'
 
 const Combobox = lazy(async () =>
 	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
 )
 const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
 
-export function StateCombobox({
+export const TypeOfSiteCombobox = memo(function ({
 	value = '',
 	name,
-	regionId,
 	error = '',
 	required = false,
 	disabled = false,
@@ -20,31 +17,22 @@ export function StateCombobox({
 }: {
 	value?: string
 	name: string
-	regionId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [inputValue, setInputValue] = useState('')
-	const query: StateFilters = useMemo(() => {
-		return {
-			regionId
-		}
-	}, [value, regionId])
-	const { states, isLoading } = useGetAllState(query)
+	const { typeOfSites, isLoading } = useGetAllTypeOfSite({})
 
-	const options = useMemo(() => states?.data ?? [], [states])
-
-	const filteredOptions = useFilterOptions({ options, inputValue })
+	const options = useMemo(() => typeOfSites?.data ?? [], [typeOfSites])
 
 	const render = useMemo(() => {
-		const id = 'stateId'
-		const label = 'Estados'
+		const id = 'typeOfSite'
+		const label = 'Tipo de Sitio'
 
 		if (readonly) {
-			const initialValue = options.find(state => state.id === value)
+			const initialValue = options.find(typeOfSite => typeOfSite.id === value)
 			return (
 				<Suspense>
 					<Input
@@ -68,31 +56,18 @@ export function StateCombobox({
 					value={value}
 					name={name}
 					loading={isLoading}
-					options={filteredOptions}
+					options={options}
 					required={required}
 					disabled={disabled}
 					error={!!error}
 					errorMessage={error}
-					inputValue={inputValue}
+					searchField={false}
 					onChangeValue={handleChange}
-					onInputChange={value => {
-						setInputValue(value)
-					}}
+					readOnly={readonly}
 				/>
 			</Suspense>
 		)
-	}, [
-		readonly,
-		value,
-		inputValue,
-		states,
-		isLoading,
-		required,
-		disabled,
-		error,
-		handleChange,
-		name
-	])
+	}, [readonly, value, typeOfSites, isLoading, required, disabled, error, name, handleChange])
 
 	return <>{render}</>
-}
+})

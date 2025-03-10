@@ -16,6 +16,7 @@ const Login = lazy(async () => await import('@/pages/Login'))
 const FormBrand = lazy(async () => import('@/pages/FormBrand'))
 const FormCity = lazy(async () => import('@/pages/FormCity'))
 const FormSite = lazy(async () => import('@/pages/FormSite'))
+const FormLocation = lazy(async () => import('@/pages/FormLocation'))
 const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
 const FormDevice = lazy(async () => import('@/pages/FormDevice'))
 
@@ -155,6 +156,22 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<FormSite />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/location/add"
+					element={
+						<Suspense>
+							<FormLocation />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/location/edit/:id"
+					element={
+						<Suspense>
+							<FormLocation />
 						</Suspense>
 					}
 				/>

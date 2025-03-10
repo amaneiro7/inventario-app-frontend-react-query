@@ -27,6 +27,7 @@ export default function FormSite() {
 				formData={formData}
 				handleChange={handleChange}
 				errors={errors}
+				mode={mode}
 			/>
 		</FormContainer>
 	)

@@ -9,15 +9,23 @@ import {
 import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
 import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
 import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
+import { FormMode } from '@/hooks/useGetFormMode'
 
 interface Props {
 	formData: DefaultSite
 	errors: SiteErrors
 	required: SiteRequired
+	mode: FormMode
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
-export const SiteInputs = memo(function ({ errors, required, formData, handleChange }: Props) {
+export const SiteInputs = memo(function ({
+	errors,
+	mode,
+	required,
+	formData,
+	handleChange
+}: Props) {
 	return (
 		<>
 			<RegionCombobox
@@ -25,6 +33,7 @@ export const SiteInputs = memo(function ({ errors, required, formData, handleCha
 				handleChange={(_name, value) => handleChange('regionId', value)}
 				name="regionId"
 				required={required.regionId}
+				readonly={mode === 'edit'}
 			/>
 			<StateCombobox
 				value={formData.stateId}
@@ -32,6 +41,7 @@ export const SiteInputs = memo(function ({ errors, required, formData, handleCha
 				name="stateId"
 				regionId={formData.regionId}
 				required={required.stateId}
+				readonly={mode === 'edit'}
 			/>
 			<CityCombobox
 				value={formData.cityId}
@@ -40,6 +50,7 @@ export const SiteInputs = memo(function ({ errors, required, formData, handleCha
 				regionId={formData.regionId}
 				stateId={formData.stateId}
 				required={required.stateId}
+				readonly={mode === 'edit'}
 			/>
 			<Input
 				value={formData.address}

@@ -49,8 +49,8 @@ export function useCityInitialState(defaulState: DefaultCity): {
 			return
 		}
 
-		if (location?.state?.City) {
-			setState(location.state.City)
+		if (location?.state?.city) {
+			setState(location.state.city)
 		} else if (cityData) {
 			mappedCityState(cityData)
 		}
@@ -60,7 +60,7 @@ export function useCityInitialState(defaulState: DefaultCity): {
 		if (!location.pathname.includes('city')) return
 
 		if (mode === 'add') {
-			setState(defaulState)
+			setState({ id: undefined, ...defaulState })
 		} else if (id) {
 			const { data } = await refetch()
 			if (data) {

@@ -1,10 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { ProcessorGetService } from '../service/processorGet.service'
 import { ProcessorGetter } from '../../application/ProcessorGetter'
 import { ProcessorFrequency } from '../../domain/value-object/ProcessorFrequency'
+import { useGetFormMode } from '@/hooks/useGetFormMode'
 import { type ProcessorParams } from '../../domain/dto/Processor.dto'
+
+const repository = new ProcessorGetService()
+const get = new ProcessorGetter(repository)
 
 export function useProcessorInitialState(defaulState: ProcessorParams): {
 	initialState: ProcessorParams
@@ -16,19 +20,13 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 	const navigate = useNavigate()
 	const [state, setState] = useState<ProcessorParams>(defaulState)
 
-	const repository = useMemo(() => new ProcessorGetService(), [])
-	const get = useMemo(() => new ProcessorGetter(repository), [repository])
-
-	const mode: 'edit' | 'add' = useMemo(() => {
-		return location.pathname.includes('edit') ? 'edit' : 'add'
-	}, [location.pathname])
+	const mode = useGetFormMode()
 
 	const { data: processorData, refetch } = useQuery({
 		queryKey: ['processor', id],
-		queryFn: () => {
-			if (id) return get.execute({ id })
-		},
-		enabled: !!id && mode === 'edit' && !location?.state?.processor
+		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
+		enabled: !!id && mode === 'edit' && !location?.state?.processor,
+		retry: false
 	})
 
 	useEffect(() => {
@@ -40,15 +38,14 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 		if (!id) {
 			navigate('/error')
 			return
-		} else if (location.state?.data) {
-			const processor = location.state.data
-			setState(processor)
-		} else {
-			if (processorData) {
-				const parseFrequency = ProcessorFrequency.convertToNumber(processorData.frequency)
-				const state: ProcessorParams = { ...processorData, frequency: parseFrequency }
-				setState(state)
-			}
+		}
+		if (location.state?.processor) {
+			setState(location.state.processor)
+		} else if (processorData) {
+			setState({
+				...processorData,
+				frequency: ProcessorFrequency.convertToNumber(processorData.frequency)
+			})
 		}
 	}, [mode, processorData, location.state, defaulState, navigate])
 
@@ -59,15 +56,16 @@ export function useProcessorInitialState(defaulState: ProcessorParams): {
 				id: undefined,
 				...defaulState
 			})
-		} else {
+		} else if (id) {
 			const { data } = await refetch()
 			if (data) {
-				const parseFrequency = ProcessorFrequency.convertToNumber(data.frequency)
-				const state: ProcessorParams = { ...data, frequency: parseFrequency }
-				setState(state)
+				setState({
+					...data,
+					frequency: ProcessorFrequency.convertToNumber(data.frequency)
+				})
 			}
 		}
-	}, [defaulState, location.pathname, mode, refetch])
+	}, [defaulState, location.pathname, mode, refetch, id])
 
 	return {
 		mode,

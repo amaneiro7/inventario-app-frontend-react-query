@@ -102,8 +102,8 @@ export const LocationCombobox = memo(function ({
 		<>
 			<Combobox
 				id="location"
-				value={value}
 				label="Ubicación"
+				value={value}
 				inputValue={inputValue}
 				name={name}
 				required={required}

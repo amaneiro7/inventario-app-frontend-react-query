@@ -1,7 +1,7 @@
 import { TypeOfSiteId } from '@/core/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 import { LocationName } from '../value-object/LocationName'
 import { SiteId } from '@/core/locations/site/domain/value-object/SiteId'
-import { Subnet } from '../value-object/LocationSubnet'
+import { LocationSubnet } from '../value-object/LocationSubnet'
 import { type LocationPrimitives } from '../dto/Location.dto'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
@@ -10,7 +10,7 @@ export class Location {
 		private readonly name: LocationName,
 		private readonly typeOfSiteId: TypeOfSiteId,
 		private readonly siteId: SiteId,
-		private readonly subnet: Subnet
+		private readonly subnet: LocationSubnet
 	) {}
 
 	public static create(params: LocationPrimitives): Location {
@@ -18,7 +18,7 @@ export class Location {
 			new LocationName(params.name),
 			new TypeOfSiteId(params.typeOfSiteId),
 			new SiteId(params.siteId),
-			new Subnet(params.subnet)
+			new LocationSubnet(params.subnet)
 		)
 	}
 	get nameValue(): Primitives<LocationName> {
@@ -33,7 +33,7 @@ export class Location {
 		return this.siteId.value
 	}
 
-	get subnetValue(): Primitives<Subnet> {
+	get subnetValue(): Primitives<LocationSubnet> {
 		return this.subnet.value
 	}
 

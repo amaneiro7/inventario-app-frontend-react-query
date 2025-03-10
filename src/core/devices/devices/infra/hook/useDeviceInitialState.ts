@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetService } from '../service/deviceGet.service'
@@ -7,52 +7,62 @@ import { useGetFormMode } from '@/hooks/useGetFormMode'
 import { type DefaultDevice } from '../reducers/devicesFormReducer'
 import { type DeviceDto } from '../../domain/dto/Device.dto'
 
-export function useDeviceInitialState(defaulState: DefaultDevice): {
+// Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
+const repository = new DeviceGetService() // Servicio para obtener datos de dispositivos.
+const get = new DeviceGetter(repository) // Getter para obtener datos de un dispositivo específico.
+
+/**
+ * Hook personalizado para manejar el estado inicial de un dispositivo en un formulario.
+ * @param defaultState Estado inicial por defecto del dispositivo.
+ * @returns Un objeto con el estado inicial, la función para resetear el estado y el modo del formulario.
+ */
+export function useDeviceInitialState(defaultState: DefaultDevice): {
 	initialState: DefaultDevice
 	resetState: () => void
 	mode: 'edit' | 'add'
 } {
-	const { id } = useParams()
-	const location = useLocation()
-	const navigate = useNavigate()
-	const [state, setState] = useState<DefaultDevice>(defaulState)
+	const { id } = useParams() // Obtiene el ID del dispositivo de los parámetros de la URL.
+	const location = useLocation() // Obtiene la ubicación actual de la URL.
+	const navigate = useNavigate() // Función para navegar a otras rutas.
+	const [state, setState] = useState<DefaultDevice>(defaultState) // Estado local del dispositivo.
 
-	const repository = useMemo(() => new DeviceGetService(), [])
-	const get = useMemo(() => new DeviceGetter(repository), [repository])
+	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
 
-	const mode = useGetFormMode()
-
+	// Consulta para obtener los datos del dispositivo si el modo es editar y no hay datos en el estado de la ubicación.
 	const { data: deviceData, refetch } = useQuery({
-		queryKey: ['device', id],
-		queryFn: () => (id ? get.execute({ id }) : undefined),
-		enabled: !!id && mode === 'edit' && !location?.state?.device
+		queryKey: ['device', id], // Clave de la consulta para la caché.
+		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos del dispositivo.
+		enabled: !!id && mode === 'edit' && !location?.state?.device, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
+		retry: false // Deshabilita los reintentos automáticos en caso de error.
 	})
 
-	const mappedDeviceState = useCallback((device: DeviceDto): void => {
-		setState(prev => {
+	const mappedDeviceState = useCallback(
+		(device: DeviceDto): void => {
 			const { computer, model, hardDrive, mfp } = device
-
 			const memoryRamSlotQuantity = model?.modelComputer?.memoryRamSlotQuantity
 			const memoryRamType = model?.modelComputer?.memoryRamType?.name ?? ''
-			let memoryRam: number[] | undefined
-			if (computer && memoryRamSlotQuantity) {
-				// solo lo calcula si computer y memoryRamSlotAuqntity estan definidos
-				memoryRam =
-					computer.memoryRam.length !== memoryRamSlotQuantity
+			// Lógica para manejar el array memoryRam.
+			const memoryRam =
+				computer && memoryRamSlotQuantity
+					? computer.memoryRam.length !== memoryRamSlotQuantity
 						? [
 								...computer.memoryRam,
 								...Array(memoryRamSlotQuantity - computer.memoryRam.length)
-							].fill(0)
+						  ]
 						: computer.memoryRam
-				if (
-					computer.memoryRamCapacity > 0 &&
-					computer.memoryRam.length !== memoryRamSlotQuantity
-				) {
-					memoryRam[0] = Number(computer.memoryRamCapacity)
-				}
+					: [0]
+
+			// Si la capacidad de la RAM está definida y el número de slots no coincide, actualiza el primer slot.
+			if (
+				computer &&
+				computer.memoryRamCapacity > 0 &&
+				computer.memoryRam.length !== memoryRamSlotQuantity
+			) {
+				memoryRam[0] = Number(computer.memoryRamCapacity)
 			}
-			return {
-				...prev,
+
+			setState({
+				...defaultState,
 				id: device.id,
 				statusId: device.statusId,
 				mainCategoryId: device.category.mainCategoryId,
@@ -70,68 +80,68 @@ export function useDeviceInitialState(defaulState: DefaultDevice): {
 				computerName: computer?.computerName ?? '',
 				processorId: computer?.processorId ?? '',
 				memoryRamCapacity: computer?.memoryRamCapacity ?? 0,
-				hardDriveCapacityId: computer?.hardDriveCapacityId
-					? computer.hardDriveCapacityId
-					: hardDrive?.hardDriveCapacityId
-						? hardDrive.hardDriveCapacityId
-						: '',
-				hardDriveTypeId: computer?.hardDriveTypeId
-					? computer.hardDriveTypeId
-					: hardDrive?.hardDriveTypeId
-						? hardDrive.hardDriveTypeId
-						: '',
+				hardDriveCapacityId:
+					computer?.hardDriveCapacityId || hardDrive?.hardDriveCapacityId || '',
+				hardDriveTypeId: computer?.hardDriveTypeId || hardDrive?.hardDriveTypeId || '',
 				operatingSystemArqId: computer?.operatingSystemArqId ?? '',
 				operatingSystemId: computer?.operatingSystemId ?? '',
-				ipAddress: computer?.ipAddress
-					? computer.ipAddress
-					: mfp?.ipAddress
-						? mfp.ipAddress
-						: '',
+				ipAddress: computer?.ipAddress || mfp?.ipAddress || '',
 				macAddress: computer?.macAddress ?? '',
 				health: hardDrive?.health ?? 100,
-				memoryRam: memoryRam ?? [0],
+				memoryRam: memoryRam,
 				memoryRamSlotQuantity,
 				memoryRamType,
 				history: device.history,
 				updatedAt: device.updatedAt
-			}
-		})
-	}, [])
+			})
+		},
+		[defaultState]
+	)
 
+	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
+		// Si el modo es agregar o no estamos en la ruta de dispositivos, resetea el estado al estado por defecto.
 		if (mode === 'add' || !location.pathname.includes('device')) {
-			setState(defaulState)
+			setState(defaultState)
 			return
 		}
 
+		// Si no hay un ID, navega a la página de error.
 		if (!id) {
 			navigate('/error')
 			return
-		} else if (location.state?.data) {
-			const device = location.state.data
-			setState(device)
-		} else {
-			if (deviceData) {
-				mappedDeviceState(deviceData)
-			}
 		}
-	}, [mode, deviceData, location.state, defaulState, navigate])
+		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
+		if (location.state?.data) {
+			setState(location.state.data)
+		} else if (deviceData) {
+			// Si hay datos de la API, mapea los datos al estado.
+			mappedDeviceState(deviceData)
+		}
+	}, [mode, deviceData, location.state, defaultState, navigate, id, mappedDeviceState])
 
+	/**
+	 * Función para resetear el estado del dispositivo.
+	 */
 	const resetState = useCallback(async () => {
+		// Si no estamos en la ruta de dispositivos, no hace nada.
 		if (!location.pathname.includes('device')) return
+		// Si el modo es agregar, resetea el estado al estado por defecto.
 		if (mode === 'add') {
 			setState({
 				id: undefined,
-				...defaulState
+				...defaultState
 			})
 		} else {
+			// Si el modo es editar, vuelve a obtener los datos del dispositivo de la API y actualiza el estado.
 			const { data } = await refetch()
 			if (data) {
 				mappedDeviceState(data)
 			}
 		}
-	}, [defaulState, location.pathname, mode, refetch])
+	}, [defaultState, location.pathname, mode, refetch])
 
+	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {
 		mode,
 		initialState: state,

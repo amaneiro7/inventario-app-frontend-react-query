@@ -3,7 +3,7 @@ import { type LocationId } from '../value-object/LocationId'
 import { type LocationName } from '../value-object/LocationName'
 import { type TypeOfSiteId } from '@/core/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 import { type SiteId } from '@/core/locations/site/domain/value-object/SiteId'
-import { type Subnet } from '../value-object/LocationSubnet'
+import { type LocationSubnet } from '../value-object/LocationSubnet'
 import { type TypeOfSiteDto } from '@/core/locations/typeOfSites/domain/dto/TypeOfSite.dto'
 import { type SiteDto } from '@/core/locations/site/domain/dto/Site.dto'
 
@@ -12,12 +12,18 @@ export interface Location {
 	name: Primitives<LocationName>
 	typeOfSiteId: Primitives<TypeOfSiteId>
 	siteId: Primitives<SiteId>
-	subnet: Primitives<Subnet>
+	subnet: Primitives<LocationSubnet>
 }
 
 export type LocationPrimitives = Omit<Location, 'id'>
 
+export type LocationParams = LocationPrimitives & {
+	id?: Primitives<LocationId> | undefined
+}
+
 export type LocationDto = Location & {
 	typeOtSite: TypeOfSiteDto
 	site: SiteDto
+	createdAt: string
+	updatedAt: string
 }

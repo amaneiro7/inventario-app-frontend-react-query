@@ -62,7 +62,7 @@ export function useSiteInitialState(defaulState: DefaultSite): {
 		if (!location.pathname.includes('site')) return
 
 		if (mode === 'add') {
-			setState(defaulState)
+			setState({ id: undefined, ...defaulState })
 		} else if (id) {
 			const { data } = await refetch()
 			if (data) {

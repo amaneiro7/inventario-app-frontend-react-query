@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllDevicesInputSearch } from '@/core/devices/devices/infra/hook/useGetAllDevicesInputSearch'
 import { SearchInput } from '@/components/Input/Search'
-import { type DeviceFilters } from '@/core/devices/devices/application/inputSearch/createDeviceQueryParams'
 import { DeviceRenderOption } from '@/components/Input/Combobox/RenderOption/DeviceRenderOption'
+import { type DeviceFilters } from '@/core/devices/devices/application/inputSearch/createDeviceQueryParams'
 
 export function SerialSearch() {
 	const [searchValue, setSearchValue] = useState('')

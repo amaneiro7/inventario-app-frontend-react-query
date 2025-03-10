@@ -2,7 +2,7 @@ import { Location } from '../domain/entity/Location'
 import { LocationId } from '../domain/value-object/LocationId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type LocationSaveRepository } from '../domain/repository/LocationSaveRepository'
-import { type Location as LocationParams } from '../domain/dto/Location.dto'
+import { type LocationParams } from '../domain/dto/Location.dto'
 
 export class LocationCreator {
 	constructor(
@@ -33,6 +33,7 @@ export class LocationCreator {
 			}
 		} catch (error) {
 			this.events.notify({ type: 'error', message: `${error}` })
+			throw new Error(`${error}`)
 		}
 	}
 }

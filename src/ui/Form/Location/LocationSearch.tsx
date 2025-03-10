@@ -1,24 +1,23 @@
 import { useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { SearchInput } from '@/components/Input/Search'
-import { useGetAllSites } from '@/core/locations/site/infra/hook/useGetAllSite'
-import { SiteRenderOption } from '@/components/Input/Combobox/RenderOption/SiteRenderOption'
-import { type SiteFilters } from '@/core/locations/site/application/createSiteQueryParams'
+import { useGetAllLocations } from '@/core/locations/locations/infra/hook/useGetAllLocation'
+import { type LocationFilters } from '@/core/locations/locations/application/CreateLocationQueryParams'
 
-export function SiteSearch() {
+export function LocationSearch() {
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch] = useDebounce(searchValue, 250)
 	const [value, setValue] = useState('')
 
-	const query: SiteFilters = useMemo(() => {
+	const query: LocationFilters = useMemo(() => {
 		return {
 			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 })
 		}
 	}, [debouncedSearch])
 
-	const { sites, isLoading } = useGetAllSites(query)
+	const { locations, isLoading } = useGetAllLocations(query)
 
-	const options = useMemo(() => sites?.data ?? [], [sites])
+	const options = useMemo(() => locations?.data ?? [], [locations])
 
 	const handleValue = (value: string) => {
 		setValue(value)
@@ -29,14 +28,14 @@ export function SiteSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/site/edit/${value}`}
-			name="siteSearch"
+			url={`/location/edit/${value}`}
+			name="locationSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}
 			options={options}
 			value={value}
-			title="Búsqueda por sitio"
-			renderOption={SiteRenderOption}
+			title="Búsqueda por ubicación"
+			// renderOption={LocationRenderOption}
 		/>
 	)
 }
