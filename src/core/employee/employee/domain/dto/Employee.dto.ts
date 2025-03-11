@@ -42,6 +42,10 @@ export interface Employee {
 
 export type EmployeePrimitives = Omit<Employee, 'id'>
 
+export type EmployeeParams = EmployeePrimitives & {
+	id?: Primitives<EmployeeId>
+}
+
 export type EmployeeDto = Employee & {
 	centoTrabajo: CentroTrabajoDto
 	location: LocationDto

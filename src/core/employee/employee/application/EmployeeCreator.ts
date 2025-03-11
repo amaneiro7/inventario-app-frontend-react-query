@@ -4,10 +4,10 @@ import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type EmployeeSaveRepository } from '../domain/repository/EmployeeSaveRepository'
 import { type RegularEmployeePrimitives } from '../domain/dto/RegularEmployee.dto'
 import { type GenericEmployeePrimitives } from '../domain/dto/GenericEmployee.dto'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { EmployeeTypes } from '../domain/value-object/EmployeeType'
 import { RegularEmployee } from '../domain/entity/RegularEmployee'
 import { GenericEmployee } from '../domain/entity/GenericEmployee'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 type Params = RegularEmployeePrimitives | GenericEmployeePrimitives
 export class EmployeeCreator {

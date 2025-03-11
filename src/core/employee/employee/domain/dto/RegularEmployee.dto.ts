@@ -1,5 +1,5 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type EmployeePrimitives } from './Employee.dto'
+import { type EmployeeParams } from './Employee.dto'
 import { type EmployeeTypes } from '../value-object/EmployeeType'
 import { type EmployeeName } from '../value-object/EmployeeName'
 import { type EmployeeLastName } from '../value-object/EmployeeLastName'
@@ -17,7 +17,7 @@ import { type EmployeeExtension } from '../value-object/EmployeeExtension'
 import { type EmployeePhoneNumber } from '../value-object/EmployeePhoneNumber'
 import { type EmployeeUserName } from '../value-object/EmployeUsername'
 
-export interface RegularEmployeePrimitives extends EmployeePrimitives {
+export interface RegularEmployeePrimitives extends EmployeeParams {
 	username: Primitives<EmployeeUserName>
 	type: EmployeeTypes.REGULAR
 	name: Primitives<EmployeeName>
