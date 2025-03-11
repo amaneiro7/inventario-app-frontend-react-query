@@ -43,7 +43,7 @@ export async function createCentroTrabajoParams({
 			} else {
 				query.filters.push({
 					field: key,
-					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
+					operator: key === 'name' || key === 'id' ? Operator.OR : Operator.EQUAL,
 					value
 				})
 			}

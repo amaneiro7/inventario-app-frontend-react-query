@@ -17,11 +17,13 @@ const FormBrand = lazy(async () => import('@/pages/FormBrand'))
 const FormModel = lazy(async () => import('@/pages/FormModel'))
 const FormCity = lazy(async () => import('@/pages/FormCity'))
 const FormSite = lazy(async () => import('@/pages/FormSite'))
+const FormDepartamento = lazy(async () => import('@/pages/FormDepartamento'))
 const FormDirectiva = lazy(async () => import('@/pages/FormDirectiva'))
 const FormVicepresidenciaEjecutivas = lazy(
 	async () => import('@/pages/FormVicepresidenciaEjecutiva')
 )
 const FormCentroCosto = lazy(async () => import('@/pages/FormCentroCosto'))
+const FormCentroTrabajo = lazy(async () => import('@/pages/FormCentroTrabajo'))
 const FormLocation = lazy(async () => import('@/pages/FormLocation'))
 const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
 const FormDevice = lazy(async () => import('@/pages/FormDevice'))
@@ -258,6 +260,38 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<FormCentroCosto />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/centrotrabajo/add"
+					element={
+						<Suspense>
+							<FormCentroTrabajo />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/centrotrabajo/edit/:id"
+					element={
+						<Suspense>
+							<FormCentroTrabajo />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/departamento/add"
+					element={
+						<Suspense>
+							<FormDepartamento />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/departamento/edit/:id"
+					element={
+						<Suspense>
+							<FormDepartamento />
 						</Suspense>
 					}
 				/>

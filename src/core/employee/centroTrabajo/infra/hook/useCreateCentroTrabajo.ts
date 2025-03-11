@@ -3,38 +3,40 @@ import { EventContext } from '@/context/EventManager/EventContext'
 
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
-	type DefaultDirectiva,
+	type DefaultCentroTrabajo,
 	type Action,
-	initialDirectivaState,
-	directivaFormReducer
-} from '../reducers/directivaFormReducer'
-import { type DirectivaParams } from '../../domain/dto/Directiva.dto'
-import { DirectivaSaveService } from '../service/directivaSave.service'
-import { DirectivaCreator } from '../../application/DirectivaCreator'
-import { useDirectivaInitialState } from './useDirectivaInitialState'
+	initialCentroTrabajoState,
+	centroTrabajoFormReducer
+} from '../reducers/centroTrabajoFormReducer'
+import { type CentroTrabajoParams } from '../../domain/dto/CentroTrabajo.dto'
+import { CentroTrabajoSaveService } from '../service/centroTrabajoSave.service'
+import { CentroTrabajoCreator } from '../../application/CentroTrabajoCreator'
+import { useCentroTrabajoInitialState } from './useCentroTrabajoInitialState'
 
-export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
+export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
-		() => async (formData: DirectivaParams) => {
-			return await new DirectivaCreator(new DirectivaSaveService(), events).create(formData)
+		() => async (formData: CentroTrabajoParams) => {
+			return await new CentroTrabajoCreator(new CentroTrabajoSaveService(), events).create(
+				formData
+			)
 		},
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useDirectivaInitialState(
-		defaultState ?? initialDirectivaState.formData
+	const { initialState, mode, resetState } = useCentroTrabajoInitialState(
+		defaultState ?? initialCentroTrabajoState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(
-		directivaFormReducer,
-		initialDirectivaState
+	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
+		centroTrabajoFormReducer,
+		initialCentroTrabajoState
 	)
 	const key = useMemo(
 		() =>
-			`directiva${
-				initialDirectivaState?.formData?.id ? initialDirectivaState.formData.id : ''
+			`centroTrabajo${
+				initialCentroTrabajoState?.formData?.id ? initialCentroTrabajoState.formData.id : ''
 			}`,
 		[formData?.id]
 	)
@@ -76,6 +78,7 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		mode,
 		errors,
 		required,
+		disabled,
 		resetForm,
 		handleSubmit,
 		handleChange

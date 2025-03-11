@@ -34,7 +34,7 @@ export type Action =
 	| { type: 'reset'; payload: { formData: DefaultDirectiva } }
 	| { type: 'name'; payload: { value: DefaultDirectiva['name'] } }
 
-export const DirectivaFormReducer = (state: State, action: Action): State => {
+export const directivaFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'reset':
 		case 'init': {

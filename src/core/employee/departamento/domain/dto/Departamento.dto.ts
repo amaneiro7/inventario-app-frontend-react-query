@@ -17,7 +17,6 @@ export interface Departamento {
 
 export type DepartamentoParams = DepartamentoPrimitives & {
 	id?: Primitives<DepartamentoId>
-
 	cargos: Primitives<CargoId>[]
 }
 export type DepartamentoPrimitives = Omit<Departamento, 'id'> & {
@@ -28,4 +27,5 @@ export type DepartamentoDto = Departamento & {
 	vicepresidenciaEjecutiva: VicepresidenciaEjecutivaDto
 	centroCosto: CentroCostoDto
 	cargos: Cargo[]
+	updatedAt: string
 }

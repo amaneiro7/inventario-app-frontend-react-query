@@ -3,38 +3,40 @@ import { EventContext } from '@/context/EventManager/EventContext'
 
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
-	type DefaultDirectiva,
+	type DefaultDepartamento,
 	type Action,
-	initialDirectivaState,
-	directivaFormReducer
-} from '../reducers/directivaFormReducer'
-import { type DirectivaParams } from '../../domain/dto/Directiva.dto'
-import { DirectivaSaveService } from '../service/directivaSave.service'
-import { DirectivaCreator } from '../../application/DirectivaCreator'
-import { useDirectivaInitialState } from './useDirectivaInitialState'
+	initialDepartamentoState,
+	departamentoFormReducer
+} from '../reducers/departamentoFormReducer'
+import { type DepartamentoParams } from '../../domain/dto/Departamento.dto'
+import { DepartamentoSaveService } from '../service/departamentoSave.service'
+import { DepartamentoCreator } from '../../application/DepartamentoCreator'
+import { useDepartamentoInitialState } from './useDepartamentoInitialState'
 
-export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
+export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
-		() => async (formData: DirectivaParams) => {
-			return await new DirectivaCreator(new DirectivaSaveService(), events).create(formData)
+		() => async (formData: DepartamentoParams) => {
+			return await new DepartamentoCreator(new DepartamentoSaveService(), events).create(
+				formData
+			)
 		},
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useDirectivaInitialState(
-		defaultState ?? initialDirectivaState.formData
+	const { initialState, mode, resetState } = useDepartamentoInitialState(
+		defaultState ?? initialDepartamentoState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(
-		directivaFormReducer,
-		initialDirectivaState
+	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
+		departamentoFormReducer,
+		initialDepartamentoState
 	)
 	const key = useMemo(
 		() =>
-			`directiva${
-				initialDirectivaState?.formData?.id ? initialDirectivaState.formData.id : ''
+			`departamento${
+				initialDepartamentoState?.formData?.id ? initialDepartamentoState.formData.id : ''
 			}`,
 		[formData?.id]
 	)
@@ -76,6 +78,7 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		mode,
 		errors,
 		required,
+		disabled,
 		resetForm,
 		handleSubmit,
 		handleChange

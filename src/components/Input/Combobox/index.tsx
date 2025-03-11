@@ -77,8 +77,7 @@ export const Combobox = memo(function <
 		const found = options.find(data => String(data.id) === String(value))
 		if (!found) return ''
 		if (typeof displayAccessor === 'string') {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			return (found as Record<string, any>)[displayAccessor]?.toString() ?? ''
+			return String(found[displayAccessor as keyof O] ?? '') // Acceso tipado
 		}
 		return displayAccessor(found)
 	}, [value, options, displayAccessor])
@@ -89,6 +88,19 @@ export const Combobox = memo(function <
 			handlePopoverClose()
 		},
 		[value, onChangeValue, handlePopoverClose, name]
+	)
+
+	const togglePopover = useCallback(
+		(event: React.MouseEvent) => {
+			event.stopPropagation()
+			event.preventDefault()
+			if (open) {
+				handlePopoverClose()
+			} else {
+				handlePopoverOpen()
+			}
+		},
+		[open, handlePopoverClose, handlePopoverOpen]
 	)
 
 	return (
@@ -163,15 +175,7 @@ export const Combobox = memo(function <
 					id={id}
 					disabled={disabled}
 					data-combobox-toggle="true"
-					onClick={event => {
-						event.stopPropagation()
-						event.preventDefault()
-						if (open) {
-							handlePopoverClose()
-						} else {
-							handlePopoverOpen()
-						}
-					}}
+					onClick={togglePopover}
 				/>
 			</div>
 		</InputBase>

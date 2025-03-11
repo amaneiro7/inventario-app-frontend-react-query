@@ -1,38 +1,38 @@
 import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateCentroCosto } from '@/core/employee/centroCosto/infra/hook/useCreateCentroCosto'
-import { CentroCostoInputs } from '@/ui/Form/CentroCosto/CentroCostoInputs'
-import { CentroCostoSearch } from '@/ui/Form/CentroCosto/CentroCostoSearch'
+import { useCreateDepartamento } from '@/core/employee/departamento/infra/hook/useCreateDepartamento'
+import { DepartamentoInputs } from '@/ui/Form/Departamento/DepartamentoInputs'
+import { DepartamentoSearch } from '@/ui/Form/Departamento/DepartamentoSearch'
 
-export default function FormCentroCosto() {
+export default function FormDepartamento() {
 	const {
 		formData,
 		mode,
 		key,
 		errors,
-		disabled,
 		required,
+		disabled,
 		handleChange,
 		handleSubmit,
 		resetForm
-	} = useCreateCentroCosto()
+	} = useCreateDepartamento()
 
 	return (
 		<FormContainer
 			id={key}
-			title="Centro de Costo"
-			description="Ingrese los datos del cenrto de costo el cual desea registar."
+			title="departamento"
+			description="Ingrese los datos del departamento el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
 				return
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/centrocosto/add"
+			url="/departamento/add"
 			border
 			lastUpdated={formData.updatedAt}
-			searchInput={<CentroCostoSearch />}
+			searchInput={<DepartamentoSearch />}
 		>
-			<CentroCostoInputs
+			<DepartamentoInputs
 				required={required}
 				formData={formData}
 				disabled={disabled}

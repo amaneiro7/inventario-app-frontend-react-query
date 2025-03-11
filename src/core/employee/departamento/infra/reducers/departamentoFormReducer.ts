@@ -1,72 +1,88 @@
-import { type CentroCostoParams } from '@/core/employee/centroCosto/domain/dto/CentroCosto.dto'
-import { CentroCostoId } from '@/core/employee/centroCosto/domain/value-object/CentroCostoId'
-import { CentroCostoName } from '@/core/employee/centroCosto/domain/value-object/CentroCostoName'
+import { DepartamentoDto, DepartamentoParams } from '../../domain/dto/Departamento.dto'
+import { DepartamentoName } from '../../domain/value-object/DepartamentoName'
 
-export type DefaultCentroCosto = CentroCostoParams
+export type DefaultDepartamento = DepartamentoParams & {
+	directivaId: DepartamentoDto['vicepresidenciaEjecutiva']['directivaId']
+	updatedAt?: string
+}
 
-export interface CentroCostoErrors {
-	id: string
+export interface DepartamentoErrors {
 	name: string
 }
-export interface CentroCostoRequired {
-	id: boolean
+export interface DepartamentoRequired {
 	name: boolean
+	directivaId: boolean
+	vicepresidenciaEjecutivaId: boolean
+	centroCostoId: boolean
+	cargos: boolean
 }
-export interface CentroCostoDisabled {
-	id: boolean
+export interface DepartamentoDisabled {
 	name: boolean
+	directivaId: boolean
+	vicepresidenciaEjecutivaId: boolean
+	centroCostoId: boolean
+	cargos: boolean
 }
 
 export interface State {
-	formData: DefaultCentroCosto
-	errors: CentroCostoErrors
-	required: CentroCostoRequired
-	disabled: CentroCostoDisabled
+	formData: DefaultDepartamento
+	errors: DepartamentoErrors
+	required: DepartamentoRequired
+	disabled: DepartamentoDisabled
 }
 
-export const initialCentroCostoState: State = {
+export const initialDepartamentoState: State = {
 	formData: {
 		id: '',
-		name: ''
+		directivaId: '',
+		vicepresidenciaEjecutivaId: '',
+		centroCostoId: '',
+		name: '',
+		cargos: [],
+		updatedAt: undefined
 	},
 	errors: {
-		id: '',
 		name: ''
 	},
 	required: {
-		id: true,
-		name: true
+		name: true,
+		directivaId: true,
+		vicepresidenciaEjecutivaId: true,
+		centroCostoId: true,
+		cargos: true
 	},
 	disabled: {
-		id: false,
-		name: false
+		directivaId: false,
+		vicepresidenciaEjecutivaId: true,
+		centroCostoId: false,
+		name: false,
+		cargos: false
 	}
 }
 
 export type Action =
-	| { type: 'init'; payload: { formData: DefaultCentroCosto } }
-	| { type: 'reset'; payload: { formData: DefaultCentroCosto } }
-	| { type: 'id'; payload: { value: DefaultCentroCosto['id'] } }
-	| { type: 'name'; payload: { value: DefaultCentroCosto['name'] } }
+	| { type: 'init'; payload: { formData: DefaultDepartamento } }
+	| { type: 'reset'; payload: { formData: DefaultDepartamento } }
+	| { type: 'directivaId'; payload: { value: DefaultDepartamento['directivaId'] } }
+	| {
+			type: 'vicepresidenciaEjecutivaId'
+			payload: { value: DefaultDepartamento['vicepresidenciaEjecutivaId'] }
+	  }
+	| { type: 'centroCostoId'; payload: { value: DefaultDepartamento['centroCostoId'] } }
+	| { type: 'addCargo'; payload: { value: string } }
+	| { type: 'removeCargo'; payload: { value: string } }
+	| { type: 'name'; payload: { value: DefaultDepartamento['name'] } }
 
-export const CentroCostoFormReducer = (state: State, action: Action): State => {
+export const departamentoFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'reset':
 		case 'init': {
 			return {
 				...state,
-				formData: { ...action.payload.formData }
-			}
-		}
-
-		case 'id': {
-			const id = action.payload.value
-			return {
-				...state,
-				formData: { ...state.formData, id },
-				errors: {
-					...state.errors,
-					name: CentroCostoId.isValid(id) ? '' : CentroCostoId.invalidMessage()
+				formData: { ...action.payload.formData },
+				disabled: {
+					...state.disabled,
+					vicepresidenciaEjecutivaId: !action.payload.formData.directivaId
 				}
 			}
 		}
@@ -77,7 +93,49 @@ export const CentroCostoFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, name },
 				errors: {
 					...state.errors,
-					name: CentroCostoName.isValid(name) ? '' : CentroCostoName.invalidMessage()
+					name: DepartamentoName.isValid(name) ? '' : DepartamentoName.invalidMessage()
+				}
+			}
+		}
+		case 'directivaId': {
+			const directivaId = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, directivaId },
+				disabled: { ...state.disabled, vicepresidenciaEjecutivaId: !directivaId }
+			}
+		}
+		case 'vicepresidenciaEjecutivaId': {
+			const vicepresidenciaEjecutivaId = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, vicepresidenciaEjecutivaId }
+			}
+		}
+		case 'centroCostoId': {
+			const centroCostoId = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, centroCostoId }
+			}
+		}
+		case 'addCargo': {
+			const cargos = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					cargos: [...state.formData.cargos, cargos]
+				}
+			}
+		}
+		case 'removeCargo': {
+			const cargos = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					cargos: state.formData.cargos.filter(c => c !== cargos)
 				}
 			}
 		}

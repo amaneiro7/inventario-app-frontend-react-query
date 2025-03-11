@@ -1,7 +1,7 @@
 import { CentroTrabajo } from '../domain/entity/CentroTrabajo'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type CentroTrabajoSaveRepository } from '../domain/repository/CentroTrabajoSaveRepository'
-import { type CentroTrabajo as CentroTrabajoParams } from '../domain/dto/CentroTrabajo.dto'
+import { type CentroTrabajoParams } from '../domain/dto/CentroTrabajo.dto'
 
 export class CentroTrabajoCreator {
 	constructor(

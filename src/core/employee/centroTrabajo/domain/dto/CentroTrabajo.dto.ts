@@ -11,7 +11,9 @@ export interface CentroTrabajo {
 }
 
 export type CentroTrabajoPrimitives = CentroTrabajo
+export type CentroTrabajoParams = CentroTrabajoPrimitives
 
 export type CentroTrabajoDto = CentroTrabajo & {
 	centroCosto: CentroCostoDto
+	updatedAt: string
 }

@@ -122,6 +122,16 @@ export const navigation: Navigation[] = [
 				title: 'Agregar un nuevo centro de costo',
 				desc: 'Aqui se puede agregar un nuevo centro de costo',
 				path: '/centrocosto/add'
+			},
+			{
+				title: 'Agregar un nuevo centro de trabajo',
+				desc: 'Aqui se puede agregar un nuevo centro de trabajo',
+				path: '/centrotrabajo/add'
+			},
+			{
+				title: 'Agregar un nuevo departamento',
+				desc: 'Aqui se puede agregar un nuevo departamento',
+				path: '/departamento/add'
 			}
 		]
 	}
