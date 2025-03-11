@@ -20,13 +20,17 @@ export class EmployeeCreator {
 		// Notificar que ha empezado el proceso de creación o actualización
 		this.events.notify({ type: 'loading' })
 		try {
-			const employeeCreator = {
-				[EmployeeTypes.REGULAR]: RegularEmployee,
-				[EmployeeTypes.GENERIC]: GenericEmployee
+			let EmployeeClass: typeof Employee
+			switch (params.type) {
+				case EmployeeTypes.REGULAR:
+					EmployeeClass = RegularEmployee
+					break
+				case EmployeeTypes.GENERIC:
+					EmployeeClass = GenericEmployee
+					break
+				default:
+					EmployeeClass = Employee
 			}
-
-			// Obtiene el creador de modelo correspondiente o usa Model por defecto.
-			const EmployeeClass = employeeCreator[params.type] || Employee
 
 			// Crea el payload del modelo.
 			const payload = EmployeeClass.create(params).toPrimitives()

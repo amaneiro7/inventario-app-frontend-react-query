@@ -7,7 +7,7 @@ import {
 	initialModelState,
 	modelFormReducer
 } from '../reducers/modelFormReducer'
-import { type Params } from '../../domain/dto/Model.dto'
+
 import { ModelSaveService } from '../service/modelSave.service'
 import { ModelCreator } from '../../application/ModelCreator'
 import { useModelInitialState } from './useModelsInitialState'
@@ -16,7 +16,7 @@ export function useCreateModel(defaultState?: DefaultModel) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
-		() => async (formData: Params) => {
+		() => async (formData: never) => {
 			return await new ModelCreator(new ModelSaveService(), events).create(formData)
 		},
 		[events]
@@ -58,7 +58,7 @@ export function useCreateModel(defaultState?: DefaultModel) {
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
 		event.stopPropagation()
-		await create(formData).then(() => {
+		await create(formData as never).then(() => {
 			resetState()
 		})
 	}

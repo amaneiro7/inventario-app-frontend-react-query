@@ -15,52 +15,44 @@ export class DeviceCreator {
 	) {}
 
 	async create(params: Params) {
+		this.events.notify({ type: 'loading' })
 		try {
-			let device
+			let device: Device | DeviceComputer | DeviceHardDrive | DeviceMFP
 
-			// Logica cuando es computadora, laptop, servidor o all in one
-			if (
-				params.categoryId === CategoryOptions.COMPUTER ||
-				params.categoryId === CategoryOptions.ALLINONE ||
-				params.categoryId === CategoryOptions.LAPTOP ||
-				params.categoryId === CategoryOptions.SERVER
-			) {
-				device = DeviceComputer.create(params)
+			switch (params.categoryId) {
+				// Logica cuando es computadora, laptop, servidor o all in one
+				case CategoryOptions.COMPUTER:
+				case CategoryOptions.ALLINONE:
+				case CategoryOptions.LAPTOP:
+				case CategoryOptions.SERVER:
+					device = DeviceComputer.create(params)
+					break
+				// logica cuando es disco duro
+				case CategoryOptions.HARDDRIVE:
+					device = DeviceHardDrive.create(params)
+					break
+				// logica cuando esimMpresora multifuncional
+				case CategoryOptions.MFP:
+					device = DeviceMFP.create(params)
+					break
+				default:
+					device = Device.create(params)
 			}
-			// logica cuando es disco duro
-			else if (params.categoryId === CategoryOptions.HARDDRIVE) {
-				device = DeviceHardDrive.create(params)
-			}
-			// logica cuando esimMpresora multifuncional
-			else if (params.categoryId === CategoryOptions.MFP) {
-				device = DeviceMFP.create(params)
-			}
-			// logica para el rsto que no tiene algunca caracteristicas especial
-			else {
-				device = Device.create(params)
-			}
+
+			// Crea el payload del device.
 			const payload = device.toPrimitives()
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const id = new DeviceId(params.id).value
-				return await this.repository.update({ id, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			// Guarda o actualiza el device basado en si existe un ID.
+			const result = params.id
+				? await this.repository.update({ id: new DeviceId(params.id).value, payload })
+				: await this.repository.save({ payload })
+
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
-			throw new Error(`${error}`)
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

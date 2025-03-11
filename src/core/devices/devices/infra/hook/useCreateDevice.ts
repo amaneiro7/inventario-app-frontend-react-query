@@ -103,7 +103,7 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
 		event.stopPropagation()
-		await create(formData).then(() => {
+		await create(formData as never).then(() => {
 			resetState()
 		})
 	}

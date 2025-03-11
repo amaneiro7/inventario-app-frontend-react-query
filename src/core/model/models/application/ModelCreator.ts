@@ -30,22 +30,38 @@ export class ModelCreator {
 		// Notificar que ha empezado el proceso de creación o actualización
 		this.events.notify({ type: 'loading' })
 		try {
-			// Objeto de mapeo para simplificar la lógica de creación de modelos.
-			const modelCreators = {
-				[CategoryOptions.COMPUTER]: ModelComputer,
-				[CategoryOptions.ALLINONE]: ModelComputer,
-				[CategoryOptions.SERVER]: ModelComputer,
-				[CategoryOptions.LAPTOP]: ModelLaptop,
-				[CategoryOptions.MONITOR]: ModelMonitor,
-				[CategoryOptions.INKPRINTER]: ModelPrinter,
-				[CategoryOptions.LASERPRINTER]: ModelPrinter,
-				[CategoryOptions.KEYBOARD]: ModelKeyboard
+			let model:
+				| Model
+				| ModelComputer
+				| ModelLaptop
+				| ModelMonitor
+				| ModelPrinter
+				| ModelKeyboard
+			switch (params.categoryId) {
+				case CategoryOptions.COMPUTER:
+				case CategoryOptions.ALLINONE:
+				case CategoryOptions.SERVER:
+					model = ModelComputer.create(params)
+					break
+				case CategoryOptions.LAPTOP:
+					model = ModelLaptop.create(params)
+					break
+				case CategoryOptions.MONITOR:
+					model = ModelMonitor.create(params)
+					break
+				case CategoryOptions.INKPRINTER:
+				case CategoryOptions.LASERPRINTER:
+					model = ModelPrinter.create(params)
+					break
+				case CategoryOptions.KEYBOARD:
+					model = ModelKeyboard.create(params)
+					break
+				default:
+					model = Model.create(params)
 			}
-			// Obtiene el creador de modelo correspondiente o usa Model por defecto.
-			const ModelClass = modelCreators[params.categoryId] || Model
 
 			// Crea el payload del modelo.
-			const payload = ModelClass.create(params).toPrimitives()
+			const payload = model.toPrimitives()
 
 			// Guarda o actualiza el modelo basado en si existe un ID.
 			const result = params.id
