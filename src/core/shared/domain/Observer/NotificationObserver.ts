@@ -11,7 +11,7 @@ export class NotificationListeners implements Listeners {
 			toast.error(message)
 		}
 		if (type === 'loading') {
-			toast.info(message)
+			toast.info(message ?? 'Procesando...')
 		}
 	}
 }

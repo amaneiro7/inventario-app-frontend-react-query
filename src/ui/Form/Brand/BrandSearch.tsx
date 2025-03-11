@@ -26,7 +26,7 @@ export function BrandSearch() {
 		<SearchInput
 			search={searchValue}
 			handleChange={value => {
-				setSearchValue(value.toUpperCase().trim())
+				setSearchValue(value)
 			}}
 			url={`/brand/edit/${value}`}
 			name="brandSearch"

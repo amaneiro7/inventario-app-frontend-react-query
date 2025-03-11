@@ -117,6 +117,11 @@ export const navigation: Navigation[] = [
 				title: 'Agregar una nueva vicepresidencia ejecutivas',
 				desc: 'Aqui se puede agregar una nueva vicepresidencia ejecutivas',
 				path: '/vicepresidenciaejecutivas/add'
+			},
+			{
+				title: 'Agregar un nuevo centro de costo',
+				desc: 'Aqui se puede agregar un nuevo centro de costo',
+				path: '/centrocosto/add'
 			}
 		]
 	}

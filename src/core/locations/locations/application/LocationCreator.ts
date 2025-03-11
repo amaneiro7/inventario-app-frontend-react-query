@@ -11,29 +11,20 @@ export class LocationCreator {
 	) {}
 
 	async create(params: LocationParams) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
 			const payload = Location.create(params).toPrimitives()
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const locationId = new LocationId(params.id).value
-				return await this.repository.update({ id: locationId, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			const result = params.id
+				? await this.repository.update({ id: new LocationId(params.id).value, payload })
+				: await this.repository.save({ payload })
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
-			throw new Error(`${error}`)
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

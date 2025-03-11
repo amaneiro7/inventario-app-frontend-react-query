@@ -1,5 +1,4 @@
 import { CentroTrabajo } from '../domain/entity/CentroTrabajo'
-import { CentroTrabajoId } from '../domain/value-object/CentroTrabajoId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type CentroTrabajoSaveRepository } from '../domain/repository/CentroTrabajoSaveRepository'
 import { type CentroTrabajo as CentroTrabajoParams } from '../domain/dto/CentroTrabajo.dto'
@@ -11,28 +10,18 @@ export class CentroTrabajoCreator {
 	) {}
 
 	async create(params: CentroTrabajoParams) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
 			const payload = CentroTrabajo.create(params).toPrimitives()
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const id = new CentroTrabajoId(params.id).value
-				return await this.repository.update({ id, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			const result = await this.repository.save({ payload })
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

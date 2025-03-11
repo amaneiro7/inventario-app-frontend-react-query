@@ -8,5 +8,8 @@ export interface CentroCosto {
 }
 
 export type CentroCostoPrimitives = CentroCosto
+export type CentroCostoParams = CentroCosto
 
-export type CentroCostoDto = CentroCosto
+export type CentroCostoDto = CentroCosto & {
+	updatedAt: string
+}

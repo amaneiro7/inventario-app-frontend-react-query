@@ -8,29 +8,20 @@ export class SiteCreator {
 	constructor(readonly repository: SiteSaveRepository, private readonly events: EventManager) {}
 
 	async create(params: SiteParams) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
 			const payload = Site.create(params).toPrimitives()
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const siteId = new SiteId(params.id).value
-				return await this.repository.update({ id: siteId, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			const result = params.id
+				? await this.repository.update({ id: new SiteId(params.id).value, payload })
+				: await this.repository.save({ payload })
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
-			throw new Error(`${error}`)
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

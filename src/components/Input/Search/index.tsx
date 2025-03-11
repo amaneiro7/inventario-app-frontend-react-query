@@ -56,11 +56,17 @@ export function SearchInput<
 	})
 	useCloseClickOrEscape({ open, onClose: handlePopoverClose, ref: divRef })
 
+	const completeSearchValueOnClick = useCallback(
+		(option: O) => {
+			return typeof displayAccessor === 'string'
+				? (option as Record<string, unknown>)[displayAccessor]?.toString() ?? ''
+				: displayAccessor(option)
+		},
+		[displayAccessor]
+	)
 	const handleOptionClick = useCallback(
 		(option: O) => {
-			const completeSearchValue = completeSearchValueOnClick(option)
-			handleChange(completeSearchValue)
-
+			handleChange(completeSearchValueOnClick(option))
 			onChangeValue(option.id)
 			handlePopoverClose()
 		},
@@ -74,17 +80,10 @@ export function SearchInput<
 		[handleChange]
 	)
 
-	function completeSearchValueOnClick(option: O) {
-		if (typeof displayAccessor === 'string') {
-			return (option as Record<string, unknown>)[displayAccessor]?.toString() ?? ''
-		}
-		return displayAccessor(option)
-	}
-
 	return (
 		<div className="md:max-w-xl lg:max-w-2xl w-full flex justify-center items-center">
 			<Typography className="pr-2" variant="p" color="gris">
-				Buscar:{' '}
+				Buscar:
 			</Typography>
 			<InputBase
 				ref={divRef}

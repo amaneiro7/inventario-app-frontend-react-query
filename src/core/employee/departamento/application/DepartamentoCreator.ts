@@ -11,28 +11,20 @@ export class DepartamentoCreator {
 	) {}
 
 	async create(params: DepartamentoParams) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
 			const payload = Departamento.create(params).toPrimitives()
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const id = new DepartamentoId(params.id).value
-				return await this.repository.update({ id, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			const result = params.id
+				? await this.repository.update({ id: new DepartamentoId(params.id).value, payload })
+				: await this.repository.save({ payload })
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

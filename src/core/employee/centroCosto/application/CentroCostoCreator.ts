@@ -1,5 +1,4 @@
 import { CentroCosto } from '../domain/entity/CentroCosto'
-import { CentroCostoId } from '../domain/value-object/CentroCostoId'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
 import { type CentroCostoSaveRepository } from '../domain/repository/CentroCostoSaveRepository'
 import { type CentroCosto as CentroCostoParams } from '../domain/dto/CentroCosto.dto'
@@ -11,28 +10,18 @@ export class CentroCostoCreator {
 	) {}
 
 	async create(params: CentroCostoParams) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
 			const payload = CentroCosto.create(params).toPrimitives()
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const id = new CentroCostoId(params.id).value
-				return await this.repository.update({ id, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+			const result = await this.repository.save({ payload })
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

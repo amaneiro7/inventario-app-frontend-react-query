@@ -17,35 +17,29 @@ export class EmployeeCreator {
 	) {}
 
 	async create(params: Params & { id: Primitives<EmployeeId> }) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
-			let payload
-			if (params.type === EmployeeTypes.REGULAR) {
-				payload = RegularEmployee.create(params).toPrimitives()
-			} else if (params.type === EmployeeTypes.GENERIC) {
-				payload = GenericEmployee.create(params).toPrimitives()
-			} else {
-				payload = Employee.create(params).toPrimitives()
+			const employeeCreator = {
+				[EmployeeTypes.REGULAR]: RegularEmployee,
+				[EmployeeTypes.GENERIC]: GenericEmployee
 			}
-			if (!params.id) {
-				return await this.repository.save({ payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			} else {
-				const id = new EmployeeId(params.id).value
-				return await this.repository.update({ id, payload }).then(res => {
-					this.events.notify({
-						type: 'success',
-						message: res.message
-					})
-					return res
-				})
-			}
+
+			// Obtiene el creador de modelo correspondiente o usa Model por defecto.
+			const EmployeeClass = employeeCreator[params.type] || Employee
+
+			// Crea el payload del modelo.
+			const payload = EmployeeClass.create(params).toPrimitives()
+			const result = params.id
+				? await this.repository.update({ id: new EmployeeId(params.id).value, payload })
+				: await this.repository.save({ payload })
+			this.events.notify({ type: 'success', message: result.message })
+			return result
 		} catch (error) {
-			this.events.notify({ type: 'error', message: `${error}` })
+			// Notifica el error y lanza una excepción.
+			const errorMessage = `${error}`
+			this.events.notify({ type: 'error', message: errorMessage })
+			throw new Error(errorMessage)
 		}
 	}
 }

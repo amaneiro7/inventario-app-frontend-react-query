@@ -27,6 +27,8 @@ export class ModelCreator {
 	) {}
 
 	async create(params: Params) {
+		// Notificar que ha empezado el proceso de creación o actualización
+		this.events.notify({ type: 'loading' })
 		try {
 			// Objeto de mapeo para simplificar la lógica de creación de modelos.
 			const modelCreators = {

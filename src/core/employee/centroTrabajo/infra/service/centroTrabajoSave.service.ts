@@ -6,22 +6,8 @@ import { centroTrabajoUrl } from '../../domain/entity/baseUrl'
 export class CentroTrabajoSaveService implements CentroTrabajoSaveRepository {
 	async save({ payload }: { payload: CentroTrabajoPrimitives }): Promise<{ message: string }> {
 		return await fetching({
-			method: 'POST',
+			method: 'PUT',
 			url: centroTrabajoUrl,
-			data: payload
-		})
-	}
-
-	async update({
-		id,
-		payload
-	}: {
-		id: string
-		payload: CentroTrabajoPrimitives
-	}): Promise<{ message: string }> {
-		return await fetching({
-			method: 'PATCH',
-			url: `${centroTrabajoUrl}/${id}`,
 			data: payload
 		})
 	}

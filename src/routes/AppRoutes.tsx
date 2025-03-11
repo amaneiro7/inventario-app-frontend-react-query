@@ -21,6 +21,7 @@ const FormDirectiva = lazy(async () => import('@/pages/FormDirectiva'))
 const FormVicepresidenciaEjecutivas = lazy(
 	async () => import('@/pages/FormVicepresidenciaEjecutiva')
 )
+const FormCentroCosto = lazy(async () => import('@/pages/FormCentroCosto'))
 const FormLocation = lazy(async () => import('@/pages/FormLocation'))
 const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
 const FormDevice = lazy(async () => import('@/pages/FormDevice'))
@@ -241,6 +242,22 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<FormCity />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/centrocosto/add"
+					element={
+						<Suspense>
+							<FormCentroCosto />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/centrocosto/edit/:id"
+					element={
+						<Suspense>
+							<FormCentroCosto />
 						</Suspense>
 					}
 				/>
