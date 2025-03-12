@@ -11,6 +11,8 @@ import { type FormMode } from '@/hooks/useGetFormMode'
 import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
 import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
 import { CentroCostoCombobox } from '@/components/ComboBox/Asincrono/CentroCostoComboBox'
+import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
+import CargoChip from '@/components/Chip/CargoChip'
 
 interface Props {
 	formData: DefaultDepartamento
@@ -46,7 +48,7 @@ export const DepartamentoInputs = memo(function ({
 						handleChange('vicepresidenciaEjecutivaId', value)
 					}
 					name="vicepresidenciaEjecutivaId"
-					directivaId={formData.vicepresidenciaEjecutivaId}
+					directivaId={formData.directivaId}
 					required={required.vicepresidenciaEjecutivaId}
 					disabled={disabled.vicepresidenciaEjecutivaId}
 					readonly={mode === 'edit'}
@@ -71,6 +73,19 @@ export const DepartamentoInputs = memo(function ({
 				errorMessage={errors?.name}
 				required={required.name}
 				disabled={disabled.name}
+			/>
+			<CargoCombobox
+				value={''}
+				name="cargos"
+				handleChange={(_name, value) => handleChange('addCargo', value)}
+				required={required.cargos}
+				disabled={disabled.cargos}
+			/>
+			<CargoChip
+				cargos={formData.cargos}
+				onDelete={() => {
+					return
+				}}
 			/>
 		</>
 	)

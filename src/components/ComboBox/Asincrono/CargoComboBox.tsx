@@ -1,13 +1,11 @@
 import { useMemo, useState } from 'react'
-import { useGetAllState } from '@/core/locations/state/infra/hook/useGetAllState'
+import { useGetAllCargo } from '@/core/employee/cargo/infra/hook/useGetAllCargo'
 import { useFilterOptions } from '@/hooks/useFilterOptions'
-import { type StateFilters } from '@/core/locations/state/application/createStateQueryParams'
 import { Combobox } from '@/components/Input/Combobox'
 
-export function StateCombobox({
+export function CargoCombobox({
 	value = '',
 	name,
-	regionId,
 	error = '',
 	required = false,
 	disabled = false,
@@ -16,7 +14,6 @@ export function StateCombobox({
 }: {
 	value?: string
 	name: string
-	regionId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
@@ -24,37 +21,34 @@ export function StateCombobox({
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
-	const query: StateFilters = useMemo(() => {
-		return {
-			regionId
-		}
-	}, [value, regionId])
-	const { states, isLoading } = useGetAllState(query)
 
-	const options = useMemo(() => states?.data ?? [], [states])
+	const { cargos, isLoading } = useGetAllCargo({})
 
-	const filteredOptions = useFilterOptions({ options, inputValue })
+	const options = useMemo(() => cargos?.data ?? [], [cargos])
+
+	const filteredOptions = useFilterOptions({ inputValue, options })
 
 	return (
 		<>
 			<Combobox
-				id="stateId"
-				label="Estados"
+				id="CargoId"
+				label="Cargos"
 				value={value}
+				inputValue={inputValue}
 				name={name}
-				loading={isLoading}
-				options={filteredOptions}
 				required={required}
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				inputValue={inputValue}
-				onChangeValue={handleChange}
+				loading={isLoading}
+				options={filteredOptions}
 				onInputChange={value => {
 					setInputValue(value)
 				}}
+				onChangeValue={handleChange}
 				readOnly={readonly}
 			/>
+			<div className="flex flex-wrap gap-2 mt-2"></div>
 		</>
 	)
 }

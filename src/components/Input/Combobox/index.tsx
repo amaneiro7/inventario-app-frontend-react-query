@@ -103,6 +103,24 @@ export const Combobox = memo(function <
 		[open, handlePopoverClose, handlePopoverOpen]
 	)
 
+	if (props.readOnly) {
+		return (
+			<InputBase label={label} value={value} name={name}>
+				<input
+					type="text"
+					name={name}
+					value={labelValue}
+					required={required}
+					readOnly
+					onMouseDown={e => e.preventDefault()}
+					aria-readonly
+					tabIndex={-1}
+					{...props}
+				/>
+			</InputBase>
+		)
+	}
+
 	return (
 		<InputBase
 			ref={divRef}

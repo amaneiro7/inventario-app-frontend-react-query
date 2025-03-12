@@ -1,10 +1,6 @@
+import { memo, useMemo } from 'react'
 import { useGetAllDirectiva } from '@/core/employee/directiva/infra/hook/useGetAllDirectiva'
-import { lazy, memo, Suspense, useMemo } from 'react'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
-const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
+import { Combobox } from '@/components/Input/Combobox'
 
 export const DirectivaCombobox = memo(function ({
 	value = '',
@@ -27,47 +23,23 @@ export const DirectivaCombobox = memo(function ({
 
 	const options = useMemo(() => directivas?.data ?? [], [directivas])
 
-	const render = useMemo(() => {
-		const id = 'Directiva'
-		const label = 'Categoria'
-
-		if (readonly) {
-			const initialValue = options.find(vpe => vpe.id === value)
-			return (
-				<Suspense>
-					<Input
-						id={id}
-						label={label}
-						value={initialValue?.name ?? ''}
-						required
-						name={name}
-						readOnly
-						tabIndex={-1}
-						aria-readonly
-					/>
-				</Suspense>
-			)
-		}
-		return (
-			<Suspense>
-				<Combobox
-					id="Directiva"
-					label="Directiva"
-					value={value}
-					name={name}
-					loading={isLoading}
-					options={options}
-					required={required}
-					disabled={disabled}
-					error={!!error}
-					errorMessage={error}
-					searchField={false}
-					readOnly={readonly}
-					onChangeValue={handleChange}
-				/>
-			</Suspense>
-		)
-	}, [readonly, value, directivas, isLoading, required, disabled, error, handleChange, name])
-
-	return <>{render}</>
+	return (
+		<>
+			<Combobox
+				id="directiva"
+				label="Directiva"
+				value={value}
+				name={name}
+				loading={isLoading}
+				options={options}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
+				searchField={false}
+				readOnly={readonly}
+				onChangeValue={handleChange}
+			/>
+		</>
+	)
 })

@@ -48,7 +48,6 @@ export const Input = memo(
 				onRightIconClick={onRightIconClick}
 			>
 				<input
-					{...props}
 					type={type}
 					name={name}
 					value={value}
@@ -63,6 +62,7 @@ export const Input = memo(
 					}
 					aria-readonly={readOnly}
 					tabIndex={readOnly ? -1 : 0}
+					{...props}
 				/>
 			</InputBase>
 		)
