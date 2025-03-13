@@ -12,7 +12,6 @@ import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaCombo
 import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
 import { CentroCostoCombobox } from '@/components/ComboBox/Asincrono/CentroCostoComboBox'
 import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
-import CargoChip from '@/components/Chip/CargoChip'
 
 interface Props {
 	formData: DefaultDepartamento
@@ -75,17 +74,12 @@ export const DepartamentoInputs = memo(function ({
 				disabled={disabled.name}
 			/>
 			<CargoCombobox
-				value={''}
+				value={formData.cargos}
 				name="cargos"
-				handleChange={(_name, value) => handleChange('addCargo', value)}
+				onAddCargo={handleChange}
+				onRemoveCargo={handleChange}
 				required={required.cargos}
 				disabled={disabled.cargos}
-			/>
-			<CargoChip
-				cargos={formData.cargos}
-				onDelete={() => {
-					return
-				}}
 			/>
 		</>
 	)

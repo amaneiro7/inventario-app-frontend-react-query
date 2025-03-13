@@ -49,7 +49,7 @@ export const initialDepartamentoState: State = {
 		directivaId: true,
 		vicepresidenciaEjecutivaId: true,
 		centroCostoId: true,
-		cargos: true
+		cargos: false
 	},
 	disabled: {
 		directivaId: false,

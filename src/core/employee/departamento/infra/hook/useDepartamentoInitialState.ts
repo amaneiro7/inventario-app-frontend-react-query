@@ -28,13 +28,14 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		retry: false
 	})
 
-	const mappedDepartamentoState = useCallback((departamento: DepartamentoDto): void => {
+	const mapDepartamentoToState = useCallback((departamento: DepartamentoDto): void => {
+		console.log(departamento)
 		setState({
 			id: departamento.id,
 			name: departamento.name,
-			directivaId: departamento.vicepresidenciaEjecutiva?.directivaId,
-			vicepresidenciaEjecutivaId: departamento.vicepresidenciaEjecutivaId,
-			centroCostoId: departamento.centroCostoId,
+			directivaId: departamento.vicepresidenciaEjecutiva?.directiva?.id,
+			vicepresidenciaEjecutivaId: departamento.vicepresidenciaEjecutiva?.id,
+			centroCostoId: departamento.centroCosto?.id,
 			cargos: departamento.cargos.map(cargo => cargo.id),
 			updatedAt: departamento.updatedAt
 		})
@@ -54,17 +55,9 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		if (location?.state?.departamento) {
 			setState(location.state.departamento)
 		} else if (departamentoData) {
-			mappedDepartamentoState(departamentoData)
+			mapDepartamentoToState(departamentoData)
 		}
-	}, [
-		mode,
-		departamentoData,
-		location.state,
-		defaultState,
-		navigate,
-		id,
-		mappedDepartamentoState
-	])
+	}, [mode, departamentoData, location.state, defaultState, navigate, id, mapDepartamentoToState])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('departamento')) return
@@ -74,10 +67,10 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		} else if (id) {
 			const { data } = await refetch()
 			if (data) {
-				mappedDepartamentoState(data)
+				mapDepartamentoToState(data)
 			}
 		}
-	}, [defaultState, location.pathname, mode, refetch, mappedDepartamentoState, id])
+	}, [defaultState, location.pathname, mode, refetch, mapDepartamentoToState, id])
 
 	return {
 		mode,
