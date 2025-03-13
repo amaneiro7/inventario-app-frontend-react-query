@@ -1,13 +1,11 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { CargoGetAllService } from '../service/cargoGetAll.service'
 import { CargoGetByCriteria } from '../../application/CargoGetByCriteria'
 import { type CargoFilters } from '../../application/createCargoQueryParams'
 
+const repository = new CargoGetAllService()
+const getAll = new CargoGetByCriteria(repository)
 export const useGetAllCargo = (query: CargoFilters) => {
-	const repository = useMemo(() => new CargoGetAllService(), [])
-	const getAll = useMemo(() => new CargoGetByCriteria(repository), [repository])
-
 	const {
 		isLoading,
 		refetch,

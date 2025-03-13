@@ -6,7 +6,7 @@ import { CargoDto } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 import Typography from '@/components/Typography'
 import { CloseIcon } from '@/icon/CloseIcon'
 
-export function CargoCombobox({
+export function CargoTransferList({
 	value: cargos = [],
 	name,
 	error = '',
@@ -45,7 +45,7 @@ export function CargoCombobox({
 	}
 
 	return (
-		<>
+		<div className="grid md:grid-cols-2 gap-4 items-start justify-between">
 			<Combobox
 				id="CargoId"
 				label="Cargos"
@@ -64,16 +64,28 @@ export function CargoCombobox({
 				onChangeValue={(_name, value) => handleAddCargo(value)}
 				readOnly={readonly}
 			/>
-			<div className="flex flex-wrap gap-2 mt-2">
+			<div className="rounded shadow-lg shadow-slate-400">
+				<Typography color="white" className="w-full rounded-t px-4 py-2 bg-azul">
+					Cargo Seleccionados
+				</Typography>
 				{cargos.length > 0 ? (
-					<ul className="list-disc list-inside">
+					<ul role="options" className="flex flex-col w-full rounded">
 						{cargos.map(cargoId => {
 							const cargo = allCargos?.data?.find(c => c.id === cargoId)
+							console.group()
+							console.log('cargos', cargos)
+							console.log('Allcargos', allCargos)
+							console.log('cargoID', cargoId)
+							console.log('cargo', cargo)
+							console.groupEnd()
 							return (
-								<li key={cargoId} className="flex items-center justify-between">
-									<span>{cargo?.name ?? cargoId}</span>
+								<li
+									key={cargoId}
+									className="flex items-center justify-between px-4 py-2 even:bg-slate-100 odd:bg-slate-50 "
+								>
+									<span>{cargo?.name}</span>
 									<button
-										className="text-red-500 hover:text-red-700 focus:outline-none"
+										className="text- hover:text-red-700 focus:outline-none"
 										type="button"
 										onClick={() => handleRemoveCargo(cargoId)}
 									>
@@ -84,11 +96,11 @@ export function CargoCombobox({
 						})}
 					</ul>
 				) : (
-					<Typography variant="p" color="gris">
+					<Typography className="p-2" variant="p" color="gris">
 						No se han seleccionado cargos.
 					</Typography>
 				)}
 			</div>
-		</>
+		</div>
 	)
 }

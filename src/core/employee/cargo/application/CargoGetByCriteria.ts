@@ -11,13 +11,7 @@ export class CargoGetByCriteria {
 		this.getAll = new CargoGetAll(this.repository)
 	}
 
-	async search({
-		pageNumber = 1,
-		pageSize = CargoGetByCriteria.defaultPageSize,
-		orderBy,
-		orderType,
-		...options
-	}: CargoFilters) {
+	async search({ pageNumber, pageSize, orderBy, orderType, ...options }: CargoFilters) {
 		const queryParams = await createCargoParams({
 			...options,
 			pageNumber,

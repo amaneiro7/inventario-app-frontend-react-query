@@ -1,4 +1,5 @@
-interface LiOptionProps<O extends { id: string | number }> {
+interface LiOptionProps<O extends { id: string | number }>
+	extends React.DetailedHTMLProps<React.LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
 	option: O
 	index: number
 	isSelected: boolean
@@ -9,7 +10,8 @@ export function LiOption<O extends { id: string | number }>({
 	index,
 	isSelected,
 	onOptionClick,
-	children
+	children,
+	...props
 }: React.PropsWithChildren<LiOptionProps<O>>) {
 	return (
 		<li
@@ -26,6 +28,7 @@ export function LiOption<O extends { id: string | number }>({
 			className={`w-full cursor-pointer pl-2 rounded py-1 hover:bg-slate-200 ${
 				isSelected ? 'bg-slate-300' : ''
 			}`}
+			{...props}
 		>
 			{children}
 		</li>

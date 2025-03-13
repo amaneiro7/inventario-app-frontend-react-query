@@ -11,7 +11,7 @@ import { type FormMode } from '@/hooks/useGetFormMode'
 import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
 import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
 import { CentroCostoCombobox } from '@/components/ComboBox/Asincrono/CentroCostoComboBox'
-import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
+import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
 
 interface Props {
 	formData: DefaultDepartamento
@@ -73,7 +73,7 @@ export const DepartamentoInputs = memo(function ({
 				required={required.name}
 				disabled={disabled.name}
 			/>
-			<CargoCombobox
+			<CargoTransferList
 				value={formData.cargos}
 				name="cargos"
 				onAddCargo={handleChange}
