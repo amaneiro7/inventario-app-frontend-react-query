@@ -28,7 +28,7 @@ export const CargoInputs = memo(function ({
 			<Input
 				value={formData.name}
 				name="name"
-				label="name"
+				label="Nombre del cargo"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('name', e.target.value)
 				}
