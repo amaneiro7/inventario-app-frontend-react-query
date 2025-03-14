@@ -50,9 +50,7 @@ export function StateCombobox({
 				errorMessage={error}
 				inputValue={inputValue}
 				onChangeValue={handleChange}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
 				readOnly={readonly}
 			/>
 		</>

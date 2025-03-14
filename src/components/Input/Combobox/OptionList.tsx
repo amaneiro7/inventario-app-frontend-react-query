@@ -2,7 +2,6 @@ import { useMemo } from 'react'
 import parse from 'autosuggest-highlight/parse'
 import match from 'autosuggest-highlight/match'
 import Typography from '@/components/Typography'
-import { FixedSizeList as List } from 'react-window'
 import { LiOption } from './LiOption'
 import { type Highlight, RenderComboboxOption } from './RenderOption/RenderComboboxOption'
 
@@ -48,28 +47,6 @@ export function OptionList<O extends { id: string | number }>({
 	}
 
 	const highlight = highlightFunction || defaultHighlightFunction
-
-	const Row = ({ index, style }) => {
-		const isSelected = selectedIndex === index
-		return (
-			<LiOption
-				key={option.id}
-				option={option}
-				index={index}
-				isSelected={isSelected}
-				onOptionClick={onOptionClick}
-			>
-				{
-					<RenderComboboxOption
-						highlight={highlight}
-						option={option}
-						inputValue={inputValue}
-						renderOption={renderOption}
-					/>
-				}
-			</LiOption>
-		)
-	}
 
 	const popoverContent = useMemo(() => {
 		if (loading) {

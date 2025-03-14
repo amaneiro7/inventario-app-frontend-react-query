@@ -56,9 +56,7 @@ export const EmployeeCombobox = memo(function ({
 				loading={isLoading}
 				options={options}
 				onChangeValue={handleChange}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
 				displayAccessor="userName"
 				renderOption={EmployeeRenderOption}
 			/>

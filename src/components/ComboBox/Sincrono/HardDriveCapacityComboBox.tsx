@@ -19,16 +19,14 @@ export const HardDriveCapacityCombobox = memo(function ({
 }) {
 	const { hardDriveCapacities, isLoading } = useGetAllHardDriveCapacity({})
 
-	const options = useMemo(
-		() =>
-			hardDriveCapacities?.data
-				? hardDriveCapacities.data.map(({ id, name }) => ({
-						id,
-						name: `${name} Gb`
-				  }))
-				: [],
-		[hardDriveCapacities]
-	)
+	const options = useMemo(() => {
+		return (
+			hardDriveCapacities?.data?.map(({ id, name }) => ({
+				id,
+				name: `${name} Gb`
+			})) ?? []
+		)
+	}, [hardDriveCapacities])
 
 	return (
 		<>

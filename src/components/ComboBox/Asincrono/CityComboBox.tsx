@@ -1,12 +1,8 @@
-import { useState, useMemo, Suspense, lazy } from 'react'
+import { useState, useMemo } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllCity } from '@/core/locations/city/infra/hook/useGetAllCity'
+import { Combobox } from '@/components/Input/Combobox'
 import { type CityFilters } from '@/core/locations/city/application/createCityQueryParams'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
-const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
 
 export function CityCombobox({
 	value = '',
@@ -45,60 +41,24 @@ export function CityCombobox({
 
 	const options = useMemo(() => cities?.data ?? [], [cities])
 
-	const render = useMemo(() => {
-		const id = 'city'
-		const label = 'Ciudad'
-
-		if (readonly) {
-			const initialValue = options.find(city => city.id === value)
-			return (
-				<Suspense>
-					<Input
-						id={id}
-						label={label}
-						value={initialValue?.name ?? ''}
-						required
-						name={name}
-						readOnly
-						tabIndex={-1}
-						aria-readonly
-					/>
-				</Suspense>
-			)
-		}
-		return (
-			<Suspense>
-				<Combobox
-					id={id}
-					label={label}
-					value={value}
-					name={name}
-					required={required}
-					disabled={disabled}
-					loading={isLoading}
-					error={!!error}
-					errorMessage={error}
-					options={options}
-					inputValue={inputValue}
-					onInputChange={value => {
-						setInputValue(value)
-					}}
-					onChangeValue={handleChange}
-				/>
-			</Suspense>
-		)
-	}, [
-		readonly,
-		value,
-		inputValue,
-		cities,
-		isLoading,
-		required,
-		disabled,
-		error,
-		handleChange,
-		name
-	])
-
-	return <>{render}</>
+	return (
+		<>
+			<Combobox
+				id="city"
+				label="Ciudad"
+				value={value}
+				name={name}
+				required={required}
+				disabled={disabled}
+				loading={isLoading}
+				error={!!error}
+				errorMessage={error}
+				options={options}
+				inputValue={inputValue}
+				onInputChange={setInputValue}
+				onChangeValue={handleChange}
+				readOnly={readonly}
+			/>
+		</>
+	)
 }

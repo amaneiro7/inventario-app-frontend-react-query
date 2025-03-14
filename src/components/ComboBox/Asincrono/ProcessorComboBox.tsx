@@ -1,15 +1,16 @@
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllProcessor } from '@/core/devices/features/processor/infra/hooks/useGetAllProcessors'
 import { Combobox } from '@/components/Input/Combobox'
 import { type ProcessorFilters } from '@/core/devices/features/processor/application/createProcessorQueryParams'
 
-export function ProcessorCombobox({
+export const ProcessorCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
 	required = false,
 	disabled = false,
+	readonly = false,
 	handleChange
 }: {
 	value?: string
@@ -17,6 +18,7 @@ export function ProcessorCombobox({
 	error?: string
 	required?: boolean
 	disabled?: boolean
+	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -24,8 +26,8 @@ export function ProcessorCombobox({
 
 	const query: ProcessorFilters = useMemo(() => {
 		return {
-			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
-			...(value ? { id: value } : {})
+			...(value ? { id: value } : {}),
+			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 })
 		}
 	}, [debouncedSearch, value])
 
@@ -47,11 +49,10 @@ export function ProcessorCombobox({
 				errorMessage={error}
 				loading={isLoading}
 				options={options}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
 				onChangeValue={handleChange}
+				readOnly={readonly}
 			/>
 		</>
 	)
-}
+})

@@ -1,4 +1,4 @@
-import { useState, memo, useMemo } from 'react'
+import { useState, memo, useMemo, useCallback } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllLocations } from '@/core/locations/locations/infra/hook/useGetAllLocation'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
@@ -6,29 +6,24 @@ import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/Ty
 import { Combobox } from '@/components/Input/Combobox'
 import { type LocationFilters } from '@/core/locations/locations/application/CreateLocationQueryParams'
 
-interface SearchProps {
+interface BaseProps {
 	value?: string
 	name: string
 	typeOfSiteId?: string
 	siteId?: string
 	statusId?: string
-	method: 'search'
 	error?: string
 	required?: boolean
 	disabled?: boolean
+	readonly?: boolean
+}
+interface SearchProps extends BaseProps {
+	method: 'search'
 	handleChange: (name: string, value: string | number) => void
 }
 
-interface FormProps {
-	value?: string
-	name: string
-	typeOfSiteId?: string
-	siteId?: string
-	statusId?: string
+interface FormProps extends BaseProps {
 	method: 'form'
-	error?: string
-	required?: boolean
-	disabled?: boolean
 	handleFormChange: ({
 		value,
 		ipAddress,
@@ -42,12 +37,35 @@ interface FormProps {
 
 type Props = SearchProps | FormProps
 
+function getTypeOfSiteFilter(
+	typeOfSiteId?: string,
+	statusId?: string
+): string | string[] | undefined {
+	if (typeOfSiteId) {
+		return typeOfSiteId
+	}
+	switch (statusId) {
+		case undefined:
+			return undefined
+
+		case StatusOptions.INUSE:
+		case StatusOptions.PRESTAMO:
+		case StatusOptions.CONTINGENCIA:
+		case StatusOptions.GUARDIA:
+		case StatusOptions.DISPONIBLE:
+			return [TypeOfSiteOptions.AGENCY, TypeOfSiteOptions.ADMINISTRATIVE]
+		default:
+			return TypeOfSiteOptions.ALMACEN
+	}
+}
+
 export const LocationCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
 	required = false,
 	disabled = false,
+	readonly = false,
 	typeOfSiteId,
 	siteId,
 	statusId,
@@ -57,47 +75,33 @@ export const LocationCombobox = memo(function ({
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 	const query: LocationFilters = useMemo(() => {
-		let filterTypeOfSite: string | string[] | undefined = undefined
-		if (typeOfSiteId) {
-			filterTypeOfSite = typeOfSiteId
-		} else if (!statusId) {
-			filterTypeOfSite = undefined
-		} else if (
-			statusId === StatusOptions.INUSE ||
-			statusId === StatusOptions.PRESTAMO ||
-			statusId === StatusOptions.CONTINGENCIA ||
-			statusId === StatusOptions.GUARDIA ||
-			statusId === StatusOptions.DISPONIBLE
-		) {
-			filterTypeOfSite = [TypeOfSiteOptions.AGENCY, TypeOfSiteOptions.ADMINISTRATIVE]
-		} else {
-			filterTypeOfSite = TypeOfSiteOptions.ALMACEN
-		}
+		const typeOfSiteFilter = getTypeOfSiteFilter(typeOfSiteId, statusId)
 		return {
 			...(value ? { id: value } : { id: undefined }),
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-			typeOfSiteId: filterTypeOfSite,
+			typeOfSiteId: typeOfSiteFilter,
 			siteId
 		}
 	}, [debouncedSearch, value, name, typeOfSiteId, siteId, statusId])
 
 	const { locations, isLoading } = useGetAllLocations(query)
-
 	const options = useMemo(() => locations?.data ?? [], [locations])
 
-	const handleChangeValue = (name: string, value: string | number) => {
-		if (method === 'form') {
-			const data = options.find(location => location.id === value) // Optional chaining
-			;(props as FormProps).handleFormChange({
-				// Type assertion for FormProps
-				value: `${value}`,
-				ipAddress: data?.subnet,
-				typeOfSiteId: data?.typeOfSiteId
-			})
-		} else {
-			;(props as SearchProps).handleChange(name, value) // Type assertion for SearchProps
-		}
-	}
+	const handleChangeValue = useCallback(
+		(name: string, value: string | number) => {
+			if (method === 'form' && 'handleFormChange' in props) {
+				const data = options.find(location => location.id === value) // Optional chaining
+				props.handleFormChange({
+					value: `${value}`,
+					ipAddress: data?.subnet,
+					typeOfSiteId: data?.typeOfSiteId
+				})
+			} else if (method === 'search' && 'handleChange' in props) {
+				props.handleChange(name, value)
+			}
+		},
+		[method, options, props]
+	)
 	return (
 		<>
 			<Combobox
@@ -113,9 +117,8 @@ export const LocationCombobox = memo(function ({
 				loading={isLoading}
 				options={options}
 				onChangeValue={handleChangeValue}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
+				readOnly={readonly}
 			/>
 		</>
 	)

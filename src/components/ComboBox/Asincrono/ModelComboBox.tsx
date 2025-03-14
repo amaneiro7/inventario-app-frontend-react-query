@@ -1,36 +1,25 @@
-import { lazy, Suspense, useCallback, useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
 import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
-
-const Combobox = lazy(async () =>
-	import('@/components/Input/Combobox').then(m => ({ default: m.Combobox }))
-)
-const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
-
-interface SearchProps {
+import { Combobox } from '@/components/Input/Combobox'
+interface BaseProps {
 	value?: string
 	name: string
 	categoryId?: string
 	brandId?: string
-	method?: 'search'
 	error?: string
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+}
+interface SearchProps extends BaseProps {
+	method?: 'search'
 	handleChange: (name: string, value: string | number) => void
 }
 
-interface FormProps {
-	value?: string
-	name: string
-	categoryId?: string
-	brandId?: string
+interface FormProps extends BaseProps {
 	method?: 'form'
-	error?: string
-	required?: boolean
-	disabled?: boolean
-	readonly?: boolean
 	handleFormChange: ({
 		value,
 		memoryRamSlotQuantity,
@@ -46,7 +35,7 @@ interface FormProps {
 
 type Props = SearchProps | FormProps
 
-export function ModelCombobox({
+export const ModelCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
@@ -73,66 +62,48 @@ export function ModelCombobox({
 	const { models, isLoading } = useGetAllModel(query)
 	const options = useMemo(() => models?.data ?? [], [models])
 
+	const getModelsData = useCallback(
+		(value: string | number) => {
+			return options.find(model => model.id === value)
+		},
+		[options]
+	)
+
 	const handleChangeValue = useCallback(
-		async (name: string, value: string | number) => {
-			if (method === 'form') {
-				const data = options.find(model => model.id === value) // Optional chaining
-				await (props as FormProps).handleFormChange({
-					// Type assertion for FormProps
+		(name: string, value: string | number) => {
+			if (method === 'form' && 'handleFormChange' in props) {
+				const data = getModelsData(value)
+				props.handleFormChange({
 					value: `${value}`,
 					memoryRamSlotQuantity: data?.modelComputer?.memoryRamSlotQuantity,
 					memoryRamType: data?.modelComputer?.memoryRamType.name ?? '',
 					generic: data?.generic ?? undefined
 				})
-			} else {
-				;(props as SearchProps).handleChange(name, value) // Type assertion for SearchProps
+			} else if (method === 'search' && 'handleChange' in props) {
+				props.handleChange(name, value)
 			}
 		},
-		[options, method]
+		[options, method, props]
 	)
 
-	const render = useMemo(() => {
-		const id = 'modelId'
-		const label = 'Modelos'
-		if (readonly) {
-			const initialValue = options.find(model => model.id === value)
-			return (
-				<Suspense>
-					<Input
-						id={id}
-						label={label}
-						value={initialValue?.name ?? ''}
-						required
-						name={name}
-						readOnly
-						tabIndex={-1}
-						aria-readonly
-					/>
-				</Suspense>
-			)
-		}
-		return (
-			<Suspense>
-				<Combobox
-					id={id}
-					label={label}
-					value={value}
-					inputValue={inputValue}
-					name={name}
-					required={required}
-					disabled={disabled}
-					error={!!error}
-					errorMessage={error}
-					loading={isLoading}
-					options={models?.data ?? []}
-					onChangeValue={handleChangeValue}
-					onInputChange={value => {
-						setInputValue(value)
-					}}
-				/>
-			</Suspense>
-		)
-	}, [readonly, value, inputValue, isLoading, required, disabled, error, handleChangeValue, name])
-
-	return <>{render}</>
-}
+	return (
+		<>
+			<Combobox
+				id="modelId"
+				label="Modelos"
+				value={value}
+				inputValue={inputValue}
+				name={name}
+				required={required}
+				disabled={disabled}
+				error={!!error}
+				errorMessage={error}
+				loading={isLoading}
+				options={models?.data ?? []}
+				onChangeValue={handleChangeValue}
+				onInputChange={setInputValue}
+				readOnly={readonly}
+			/>
+		</>
+	)
+})

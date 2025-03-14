@@ -1,8 +1,8 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useGetAllOperatingSystemArq } from '@/core/devices/features/operatingSystem/operatingSystemArq/infra/hook/useGetAllOperatingSystemArq'
 import { Combobox } from '@/components/Input/Combobox'
 
-export function OperatingSystemArqCombobox({
+export const OperatingSystemArqCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
@@ -39,4 +39,4 @@ export function OperatingSystemArqCombobox({
 			/>
 		</>
 	)
-}
+})

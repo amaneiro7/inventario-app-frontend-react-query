@@ -49,9 +49,7 @@ export function BrandCombobox({
 				errorMessage={error}
 				loading={isLoading}
 				options={options}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
 				onChangeValue={handleChange}
 				readOnly={readonly}
 			/>

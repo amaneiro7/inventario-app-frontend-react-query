@@ -8,6 +8,7 @@ export function StatusCombobox({
 	error = '',
 	required = false,
 	disabled = false,
+	readonly = false,
 	handleChange
 }: {
 	value?: string
@@ -15,6 +16,7 @@ export function StatusCombobox({
 	error?: string
 	required?: boolean
 	disabled?: boolean
+	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const { status, isLoading } = useGetAllStatus({})
@@ -36,6 +38,7 @@ export function StatusCombobox({
 				errorMessage={error}
 				searchField={false}
 				onChangeValue={handleChange}
+				readOnly={readonly}
 			/>
 		</>
 	)

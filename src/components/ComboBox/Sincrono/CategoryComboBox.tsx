@@ -51,9 +51,7 @@ export const CategoryCombobox = memo(function ({
 				error={!!error}
 				errorMessage={error}
 				inputValue={inputValue}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
 				onChangeValue={handleChange}
 				readOnly={readonly}
 			/>

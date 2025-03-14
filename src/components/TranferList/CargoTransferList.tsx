@@ -1,10 +1,21 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useGetAllCargo } from '@/core/employee/cargo/infra/hook/useGetAllCargo'
 import { useFilterOptions } from '@/hooks/useFilterOptions'
 import { Combobox } from '@/components/Input/Combobox'
-import { CargoDto } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 import Typography from '@/components/Typography'
-import { CloseIcon } from '@/icon/CloseIcon'
+import { type CargoDto } from '@/core/employee/cargo/domain/dto/Cargo.dto'
+import { CargoListItem } from './CargoListItem'
+
+interface CargoTransferListProps {
+	value?: CargoDto['id'][]
+	name: string
+	error?: string
+	required?: boolean
+	disabled?: boolean
+	readonly?: boolean
+	onAddCargo: (name: 'addCargo', value: string) => void
+	onRemoveCargo: (name: 'removeCargo', value: string) => void
+}
 
 export function CargoTransferList({
 	value: cargos = [],
@@ -15,34 +26,30 @@ export function CargoTransferList({
 	readonly = false,
 	onAddCargo,
 	onRemoveCargo
-}: {
-	value?: CargoDto['id'][]
-	name: string
-	error?: string
-	required?: boolean
-	disabled?: boolean
-	readonly?: boolean
-	onAddCargo: (name: 'addCargo', value: string) => void
-	onRemoveCargo: (name: 'removeCargo', value: string) => void
-}) {
+}: CargoTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-
 	const { cargos: allCargos, isLoading } = useGetAllCargo({})
 
-	const options = useMemo(
+	const availableOptions = useMemo(
 		() => allCargos?.data?.filter(cargo => !cargos.includes(cargo.id)) ?? [],
 		[allCargos, cargos]
 	)
 
-	const filteredOptions = useFilterOptions({ inputValue, options })
+	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
 
-	const handleAddCargo = (cargoId: string) => {
-		onAddCargo('addCargo', cargoId)
-	}
+	const handleAddCargo = useCallback(
+		(cargoId: string) => {
+			onAddCargo('addCargo', cargoId)
+		},
+		[onAddCargo]
+	)
 
-	const handleRemoveCargo = (cargoId: string) => {
-		onRemoveCargo('removeCargo', cargoId)
-	}
+	const handleRemoveCargo = useCallback(
+		(cargoId: string) => {
+			onRemoveCargo('removeCargo', cargoId)
+		},
+		[onRemoveCargo]
+	)
 
 	return (
 		<div className="grid md:grid-cols-2 gap-4 items-start justify-between">
@@ -58,9 +65,7 @@ export function CargoTransferList({
 				errorMessage={error}
 				loading={isLoading}
 				options={filteredOptions}
-				onInputChange={value => {
-					setInputValue(value)
-				}}
+				onInputChange={setInputValue}
 				onChangeValue={(_name, value) => handleAddCargo(value)}
 				readOnly={readonly}
 			/>
@@ -72,26 +77,13 @@ export function CargoTransferList({
 					<ul role="options" className="flex flex-col w-full rounded">
 						{cargos.map(cargoId => {
 							const cargo = allCargos?.data?.find(c => c.id === cargoId)
-							console.group()
-							console.log('cargos', cargos)
-							console.log('Allcargos', allCargos)
-							console.log('cargoID', cargoId)
-							console.log('cargo', cargo)
-							console.groupEnd()
 							return (
-								<li
+								<CargoListItem
 									key={cargoId}
-									className="flex items-center justify-between px-4 py-2 even:bg-slate-100 odd:bg-slate-50 "
-								>
-									<span>{cargo?.name}</span>
-									<button
-										className="text- hover:text-red-700 focus:outline-none"
-										type="button"
-										onClick={() => handleRemoveCargo(cargoId)}
-									>
-										<CloseIcon className="h-4 w-4" />
-									</button>
-								</li>
+									cargoId={cargoId}
+									cargoName={cargo?.name}
+									onRemove={handleRemoveCargo}
+								/>
 							)
 						})}
 					</ul>
