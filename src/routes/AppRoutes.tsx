@@ -18,6 +18,7 @@ const FormModel = lazy(async () => import('@/pages/FormModel'))
 const FormCity = lazy(async () => import('@/pages/FormCity'))
 const FormSite = lazy(async () => import('@/pages/FormSite'))
 const FormDepartamento = lazy(async () => import('@/pages/FormDepartamento'))
+const FormCargo = lazy(async () => import('@/pages/FormCargo'))
 const FormDirectiva = lazy(async () => import('@/pages/FormDirectiva'))
 const FormVicepresidenciaEjecutivas = lazy(
 	async () => import('@/pages/FormVicepresidenciaEjecutiva')
@@ -292,6 +293,22 @@ export function AppRoutes() {
 					element={
 						<Suspense>
 							<FormDepartamento />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/cargo/add"
+					element={
+						<Suspense>
+							<FormCargo />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/cargo/edit/:id"
+					element={
+						<Suspense>
+							<FormCargo />
 						</Suspense>
 					}
 				/>

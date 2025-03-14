@@ -4,7 +4,7 @@ import { useFilterOptions } from '@/hooks/useFilterOptions'
 import { Combobox } from '@/components/Input/Combobox'
 import Typography from '@/components/Typography'
 import { type CargoDto } from '@/core/employee/cargo/domain/dto/Cargo.dto'
-import { CargoListItem } from './CargoListItem'
+import { TransferListItem } from './TransferListItem'
 
 interface CargoTransferListProps {
 	value?: CargoDto['id'][]
@@ -78,10 +78,10 @@ export function CargoTransferList({
 						{cargos.map(cargoId => {
 							const cargo = allCargos?.data?.find(c => c.id === cargoId)
 							return (
-								<CargoListItem
+								<TransferListItem
 									key={cargoId}
-									cargoId={cargoId}
-									cargoName={cargo?.name}
+									id={cargoId}
+									name={cargo?.name}
 									onRemove={handleRemoveCargo}
 								/>
 							)
