@@ -1,13 +1,11 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { EmployeeGetAllService } from '@/core/employee/employee/infra/service/employeeGetAll.service'
 import { EmployeeGetByCriteria } from '@/core/employee/employee/application/EmployeeGetByCriteria'
 import { type EmployeeFilters } from '../../application/createEmployeeQueryParams'
 
+const repository = new EmployeeGetAllService()
+const getAll = new EmployeeGetByCriteria(repository)
 export const useGetAllEmployees = (query: EmployeeFilters) => {
-	const repository = useMemo(() => new EmployeeGetAllService(), [])
-	const getAll = useMemo(() => new EmployeeGetByCriteria(repository), [repository])
-
 	const {
 		isLoading,
 		refetch,

@@ -1,7 +1,7 @@
 import { EmployeeTypes } from '../value-object/EmployeeType'
-import { EmployeeParams } from './Employee.dto'
+import { type EmployeeParams } from './Employee.dto'
 
-export interface GenericEmployeePrimitives extends EmployeeParams {
+export interface GenericEmployeeParams extends EmployeeParams {
 	type: EmployeeTypes.GENERIC
 	name: null
 	lastName: null

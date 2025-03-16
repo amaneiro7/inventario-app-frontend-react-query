@@ -1,7 +1,7 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type EmployeeId } from '../value-object/EmployeeId'
 import { type EmployeeUserName } from '../value-object/EmployeUsername'
-import { type EmployeeType } from '../value-object/EmployeeType'
+import { type EmployeeTypes } from '../value-object/EmployeeType'
 import { type EmployeeName } from '../value-object/EmployeeName'
 import { type EmployeeLastName } from '../value-object/EmployeeLastName'
 import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
@@ -20,11 +20,13 @@ import { type CentroTrabajoDto } from '@/core/employee/centroTrabajo/domain/dto/
 import { type LocationDto } from '@/core/locations/locations/domain/dto/Location.dto'
 import { type Cargo } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 import { type DepartamentoDto } from '@/core/employee/departamento/domain/dto/Departamento.dto'
+import { type GenericEmployeeParams } from './GenericEmployee.dto'
+import { type RegularEmployeeParams } from './RegularEmployee.dto'
 
 export interface Employee {
 	id: Primitives<EmployeeId>
 	userName: Primitives<EmployeeUserName>
-	type: Primitives<EmployeeType>
+	type: EmployeeTypes
 	name: Nullable<Primitives<EmployeeName>>
 	lastName: Nullable<Primitives<EmployeeLastName>>
 	email: Nullable<Primitives<EmployeeEmail>>
@@ -45,6 +47,8 @@ export type EmployeePrimitives = Omit<Employee, 'id'>
 export type EmployeeParams = EmployeePrimitives & {
 	id?: Primitives<EmployeeId>
 }
+
+export type Params = RegularEmployeeParams | GenericEmployeeParams
 
 export type EmployeeDto = Employee & {
 	centoTrabajo: CentroTrabajoDto

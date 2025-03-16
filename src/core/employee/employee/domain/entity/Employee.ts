@@ -19,34 +19,36 @@ import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class Employee {
 	constructor(
-		private userName: EmployeeUserName,
-		private type: EmployeeType,
-		private name: Nullable<EmployeeName>,
-		private lastName: Nullable<EmployeeLastName>,
-		private email: Nullable<EmployeeEmail>,
-		private isStillWorking: EmployeeIsStillWorking,
+		private readonly userName: EmployeeUserName,
+		private readonly type: EmployeeType,
+		private readonly name: Nullable<EmployeeName>,
+		private readonly lastName: Nullable<EmployeeLastName>,
+		private readonly email: Nullable<EmployeeEmail>,
+		private readonly isStillWorking: EmployeeIsStillWorking,
 		private readonly employeeCode: Nullable<EmployeeCode>,
 		private readonly nationality: Nullable<EmployeeNationality>,
 		private readonly cedula: Nullable<EmployeeCedula>,
-		private centroTrabajoId: Nullable<CentroTrabajoId>,
-		private locationId: Nullable<LocationId>,
-		private departamentoId: Nullable<DepartamentoId>,
-		private cargoId: Nullable<CargoId>,
-		private extension: EmployeeExtension[],
-		private phone: EmployeePhoneNumber[]
+		private readonly centroTrabajoId: Nullable<CentroTrabajoId>,
+		private readonly locationId: Nullable<LocationId>,
+		private readonly departamentoId: Nullable<DepartamentoId>,
+		private readonly cargoId: Nullable<CargoId>,
+		private readonly extension: EmployeeExtension[],
+		private readonly phone: EmployeePhoneNumber[]
 	) {}
 
 	private static assignValues(params: EmployeePrimitives) {
 		return {
 			userName: new EmployeeUserName(params.userName),
 			type: new EmployeeType(params.type),
-			name: params?.name ? new EmployeeName(params.name) : null,
-			lastName: params?.lastName ? new EmployeeLastName(params.lastName) : null,
-			email: params?.email ? new EmployeeEmail(params.email) : null,
+			name: params?.name ? new EmployeeName(params.name, params.type) : null,
+			lastName: params?.lastName ? new EmployeeLastName(params.lastName, params.type) : null,
+			email: params?.email ? new EmployeeEmail(params.email, params.type) : null,
 			isStillWorking: new EmployeeIsStillWorking(params.isStillWorking),
-			employeeCode: params?.employeeCode ? new EmployeeCode(params.employeeCode) : null,
+			employeeCode: params?.employeeCode
+				? new EmployeeCode(params.employeeCode, params.type)
+				: null,
 			nationality: params?.nationality ? new EmployeeNationality(params.nationality) : null,
-			cedula: params?.cedula ? new EmployeeCedula(params.cedula) : null,
+			cedula: params?.cedula ? new EmployeeCedula(params.cedula, params.type) : null,
 			CentroTrabajoId: params?.centroTrabajoId
 				? new CentroTrabajoId(params.centroTrabajoId)
 				: null,

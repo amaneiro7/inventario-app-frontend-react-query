@@ -1,7 +1,7 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { Nullable } from '@/core/shared/domain/value-objects/Nullable'
+import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { EmployeeType, EmployeeTypes } from './EmployeeType'
+import { type EmployeeType, EmployeeTypes } from './EmployeeType'
 
 export class EmployeeLastName extends AcceptedNullValueObject<string> {
 	static readonly NAME_MIN_LENGTH = 3
@@ -10,7 +10,7 @@ export class EmployeeLastName extends AcceptedNullValueObject<string> {
 
 	private static error = ''
 
-	constructor(value: string | null, type: Primitives<EmployeeTypes>) {
+	constructor(value: string | null, type: Primitives<EmployeeType>) {
 		super(value)
 		if (!EmployeeLastName.isValid({ value, type })) {
 			throw new Error(EmployeeLastName.invalidMessage())

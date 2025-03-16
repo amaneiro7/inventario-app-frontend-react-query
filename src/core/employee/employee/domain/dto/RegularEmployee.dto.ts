@@ -17,9 +17,9 @@ import { type EmployeeExtension } from '../value-object/EmployeeExtension'
 import { type EmployeePhoneNumber } from '../value-object/EmployeePhoneNumber'
 import { type EmployeeUserName } from '../value-object/EmployeUsername'
 
-export interface RegularEmployeePrimitives extends EmployeeParams {
+export interface RegularEmployeeParams extends EmployeeParams {
 	username: Primitives<EmployeeUserName>
-	type: EmployeeTypes.REGULAR
+	type: EmployeeTypes.REGULAR | EmployeeTypes.SERVICE
 	name: Primitives<EmployeeName>
 	lastName: Primitives<EmployeeLastName>
 	email: Primitives<EmployeeEmail>

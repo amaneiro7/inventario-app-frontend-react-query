@@ -15,7 +15,7 @@ import { EmployeeCode } from '../value-object/EmployeeCode'
 import { EmployeeEmail } from '../value-object/EmployeeEmail'
 import { EmployeeLastName } from '../value-object/EmployeeLastName'
 import { EmployeeName } from '../value-object/EmployeeName'
-import { type RegularEmployeePrimitives } from '../dto/RegularEmployee.dto'
+import { type RegularEmployeeParams } from '../dto/RegularEmployee.dto'
 import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 
 export class RegularEmployee extends Employee {
@@ -61,17 +61,17 @@ export class RegularEmployee extends Employee {
 		}
 	}
 
-	static create(params: RegularEmployeePrimitives): RegularEmployee {
+	static create(params: RegularEmployeeParams): RegularEmployee {
 		return new RegularEmployee(
 			new EmployeeUserName(params.username),
 			new EmployeeType(params.type),
-			new EmployeeName(params.name),
-			new EmployeeLastName(params.lastName),
-			new EmployeeEmail(params.email),
+			new EmployeeName(params.name, params.type),
+			new EmployeeLastName(params.lastName, params.type),
+			new EmployeeEmail(params.email, params.type),
 			new EmployeeIsStillWorking(params.isStillWorking),
-			new EmployeeCode(params.employeeCode),
+			new EmployeeCode(params.employeeCode, params.type),
 			new EmployeeNationality(params.nationality),
-			new EmployeeCedula(params.cedula),
+			new EmployeeCedula(params.cedula, params.type),
 			new CentroTrabajoId(params.centroTrabajoId),
 			params?.locationId ? new LocationId(params.locationId) : null,
 			new DepartamentoId(params.departamentoId),

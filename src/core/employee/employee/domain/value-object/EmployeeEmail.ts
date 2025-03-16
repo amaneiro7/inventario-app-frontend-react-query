@@ -1,5 +1,4 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 import { EmployeeType, EmployeeTypes } from './EmployeeType'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 
@@ -20,7 +19,7 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 		value,
 		type
 	}: {
-		value?: Nullable<Primitives<EmployeeEmail>>
+		value?: Primitives<EmployeeEmail>
 		type?: Primitives<EmployeeType>
 	}): boolean {
 		// El correo electronico es opcional, si no se envia se asume que es valido

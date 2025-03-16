@@ -1,9 +1,9 @@
-import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
-import { EmployeeType, EmployeeTypes } from '../value-object/EmployeeType'
 import { Employee } from './Employee'
+import { EmployeeType, EmployeeTypes } from '../value-object/EmployeeType'
 import { EmployeeUserName } from '../value-object/EmployeUsername'
 import { EmployeeIsStillWorking } from '../value-object/EmployeeIsStillWorking'
-import { GenericEmployeePrimitives } from '../dto/GenericEmployee.dto'
+import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
+import { type GenericEmployeeParams } from '../dto/GenericEmployee.dto'
 
 export class GenericEmployee extends Employee {
 	constructor(
@@ -48,7 +48,7 @@ export class GenericEmployee extends Employee {
 		}
 	}
 
-	static create(params: GenericEmployeePrimitives): GenericEmployee {
+	static create(params: GenericEmployeeParams): GenericEmployee {
 		return new GenericEmployee(
 			new EmployeeUserName(params.userName),
 			new EmployeeType(params.type),
