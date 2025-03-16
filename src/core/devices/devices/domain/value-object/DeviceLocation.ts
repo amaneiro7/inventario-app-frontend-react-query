@@ -1,15 +1,17 @@
-import { type LocationId } from '@/core/locations/locations/domain/value-object/LocationId'
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
+import { TypeOfSiteId } from '@/core/locations/typeOfSites/domain/value-object/TypeOfSiteId'
+import { StatusId } from '@/core/status/domain/value-object/StatusId'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { type LocationId } from '@/core/locations/locations/domain/value-object/LocationId'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<LocationId> | null,
-		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions],
-		private readonly typeOfSite: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]
+		private readonly status: Primitives<StatusId>,
+		private readonly typeOfSite?: Primitives<TypeOfSiteId>
 	) {
 		super(value)
 		if (
@@ -34,38 +36,34 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 		status,
 		typeOfSite
 	}: {
-		status: (typeof StatusOptions)[keyof typeof StatusOptions]
-		typeOfSite?: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]
+		status?: Primitives<StatusId>
+		typeOfSite?: Primitives<TypeOfSiteId>
 	}): boolean {
 		if (!status) return true
 		// condicional para validar
-		const allowedStausValuesInAlmacen = [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA,
-			StatusOptions.DISPONIBLE
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (
-			allowedStausValuesInAlmacen.includes(status) &&
-			typeOfSite === TypeOfSiteOptions.ALMACEN
-		) {
-			this.updateError('Si esta en uso, la ubicación no puede estar en almacen')
-			return false
-		}
-		const notAllowedStausValuesInAlmacen = [
-			StatusOptions.INALMACEN,
-			StatusOptions.PORDESINCORPORAR
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (
-			notAllowedStausValuesInAlmacen.includes(status) &&
-			typeOfSite !== TypeOfSiteOptions.ALMACEN
-		) {
-			this.updateError('Si no esta en uso, solo puede estar ubicado en el almacen')
-			return false
+		switch (status) {
+			case StatusOptions.INUSE:
+			case StatusOptions.PRESTAMO:
+			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.GUARDIA:
+			case StatusOptions.DISPONIBLE:
+				if (typeOfSite === TypeOfSiteOptions.ALMACEN) {
+					this.updateError('Si esta en uso, la ubicación no puede estar en almacen.')
+					return false
+				}
+				break
+			case StatusOptions.INALMACEN:
+			case StatusOptions.PORDESINCORPORAR:
+				if (typeOfSite !== TypeOfSiteOptions.ALMACEN) {
+					this.updateError('Si no esta en uso, solo puede estar ubicado en el almacen.')
+					return false
+				}
+				break
+			default:
+				break
 		}
 		if (status !== StatusOptions.DESINCORPORADO && !typeOfSite) {
-			this.updateError('La ubicación es requerida')
+			this.updateError('La ubicación es requerida.')
 			return false
 		}
 		return true

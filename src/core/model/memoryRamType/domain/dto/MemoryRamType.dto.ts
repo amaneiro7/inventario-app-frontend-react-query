@@ -1,4 +1,4 @@
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { MemoryRamTypeId } from '../value-object/MemoryRamTypeId'
 import { MemoryRamTypeName } from '../value-object/MemoryRamTypeName'
 

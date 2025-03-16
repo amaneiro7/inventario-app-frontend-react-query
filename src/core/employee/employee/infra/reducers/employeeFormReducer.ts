@@ -1,25 +1,29 @@
-import { type EmployeeDto, type EmployeeParams } from '../../domain/dto/Employee.dto'
+import { type EmployeeDto } from '../../domain/dto/Employee.dto'
+import { EmployeeEmail } from '../../domain/value-object/EmployeeEmail'
 import { EmployeeLastName } from '../../domain/value-object/EmployeeLastName'
 import { EmployeeName } from '../../domain/value-object/EmployeeName'
 import { Nationalities } from '../../domain/value-object/EmployeeNationality'
-import { EmployeeType, EmployeeTypes } from '../../domain/value-object/EmployeeType'
+import { EmployeeTypes } from '../../domain/value-object/EmployeeType'
 import { EmployeeUserName } from '../../domain/value-object/EmployeUsername'
 
-export type DefaultEmployee = {
-	type: 
-	name: string
-	lastName: string
-	email: string
-	employeeCode: string
-	nationality: string
-	cedula: string
-	centroTrabajoId: string
-	locationId: string
-	departamentoId: string
-	cargoId: string
-	extension: string
-	phone: string	
-	updatedAt?: string
+export interface DefaultEmployee {
+	id?: EmployeeDto['id']
+	userName: EmployeeDto['userName']
+	type: EmployeeDto['type']
+	name: EmployeeDto['name']
+	lastName: EmployeeDto['lastName']
+	email: EmployeeDto['email']
+	isStillWorking: EmployeeDto['isStillWorking']
+	employeeCode: EmployeeDto['employeeCode'] | ''
+	nationality: EmployeeDto['nationality'] | ''
+	cedula: EmployeeDto['cedula'] | ''
+	locationId: EmployeeDto['locationId']
+	departamentoId: EmployeeDto['departamentoId']
+	centroTrabajoId: EmployeeDto['centroTrabajoId']
+	cargoId: EmployeeDto['cargoId']
+	extension: EmployeeDto['extension']
+	phone: EmployeeDto['phone']
+	updatedAt?: EmployeeDto['updatedAt']
 }
 
 export interface EmployeeErrors {
@@ -41,6 +45,10 @@ export interface EmployeeRequired {
 	employeeCode: boolean
 	nationality: boolean
 	cedula: boolean
+	centroTrabajoId: boolean
+	locationId: boolean
+	departamentoId: boolean
+	cargoId: boolean
 }
 export interface EmployeeDisabled {
 	userName: boolean
@@ -73,9 +81,9 @@ export const initialEmployeeState: State = {
 		lastName: '',
 		email: '',
 		isStillWorking: true,
-		employeeCode: 0,
-		nationality: Nationalities.V,
-		cedula: 0,
+		employeeCode: '',
+		nationality: '',
+		cedula: '',
 		locationId: '',
 		departamentoId: '',
 		centroTrabajoId: '',
@@ -102,7 +110,11 @@ export const initialEmployeeState: State = {
 		email: true,
 		employeeCode: true,
 		nationality: true,
-		cedula: true
+		cedula: true,
+		centroTrabajoId: true,
+		locationId: true,
+		departamentoId: true,
+		cargoId: true
 	},
 	disabled: {
 		userName: false,
@@ -169,11 +181,50 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			const type = action.payload.value
 			return {
 				...state,
-				formData: { ...state.formData, type, name: '', lastName: '', email: '',
-					employeeCode: '', nationality: '', cedula: '' }
-				 }
+				formData: {
+					...state.formData,
+					type,
+					name: '',
+					lastName: '',
+					email: '',
+					employeeCode: '',
+					nationality: '',
+					cedula: '',
+					locationId: '',
+					centroTrabajoId: '',
+					departamentoId: '',
+					cargoId: '',
+					extension: [],
+					phone: []
+				},
+				disabled: {
+					...state.disabled,
+					name: type === EmployeeTypes.GENERIC,
+					lastName: type === EmployeeTypes.GENERIC,
+					email: type === EmployeeTypes.GENERIC,
+					employeeCode: type === EmployeeTypes.GENERIC,
+					nationality: type === EmployeeTypes.GENERIC,
+					cedula: type === EmployeeTypes.GENERIC,
+					locationId: type === EmployeeTypes.GENERIC,
+					centroTrabajoId: type === EmployeeTypes.GENERIC,
+					departamentoId: type === EmployeeTypes.GENERIC,
+					cargoId: type === EmployeeTypes.GENERIC
+				},
+				required: {
+					...state.disabled,
+					name: type !== EmployeeTypes.GENERIC,
+					lastName: type !== EmployeeTypes.GENERIC,
+					email: type !== EmployeeTypes.GENERIC,
+					employeeCode: type !== EmployeeTypes.GENERIC,
+					nationality: type !== EmployeeTypes.GENERIC,
+					cedula: type !== EmployeeTypes.GENERIC,
+					centroTrabajoId: type !== EmployeeTypes.GENERIC,
+					departamentoId: type !== EmployeeTypes.GENERIC,
+					cargoId: type !== EmployeeTypes.GENERIC
+				}
 			}
 		}
+
 		case 'name': {
 			const name = action.payload.value
 			return {
@@ -200,6 +251,24 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					})
 						? ''
 						: EmployeeLastName.invalidMessage()
+				}
+			}
+		}
+		case 'email': {
+			const email = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, email },
+				errors: {
+					...state.errors,
+					email: EmployeeEmail.isValid({
+						value: {
+							value: email,
+							type: state.formData.type
+						}
+					})
+						? ''
+						: EmployeeEmail.invalidMessage()
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { EmployeeType, EmployeeTypes } from './EmployeeType'
 import { Nullable } from '@/core/shared/domain/value-objects/Nullable'
 

@@ -16,14 +16,12 @@ import { type BrandDto } from '@/core/brand/domain/dto/Brand.dto'
 import { type CategoryDto } from '@/core/category/domain/dto/Category.dto'
 import { type DeviceLocation } from '../value-object/DeviceLocation'
 import { type StatusId } from '@/core/status/domain/value-object/StatusId'
-import { type CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
-import { type StatusOptions } from '@/core/status/domain/entity/StatusOptions'
-import { type TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { type GenericModel } from '@/core/model/models/domain/value-object/GenericModel'
 import { type DeviceComputerParams, type DeviceComputerDto } from './DeviceComputer.dto'
 import { type DeviceHardDriveParams, type DeviceHardDriveDto } from './DeviceHardDrive.dto'
 import { type DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
+import { TypeOfSiteId } from '@/core/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 
 export interface Device {
 	id: Primitives<DeviceId>
@@ -43,9 +41,7 @@ export type DevicePrimitives = Omit<Device, 'id'>
 
 export type DeviceParams = DevicePrimitives & {
 	id?: Primitives<DeviceId>
-	categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions] | ''
-	statusId: (typeof StatusOptions)[keyof typeof StatusOptions] | ''
-	typeOfSiteId: (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions] | ''
+	typeOfSiteId?: Primitives<TypeOfSiteId>
 	genericModel?: Primitives<GenericModel>
 }
 export type Params = DeviceComputerParams | DeviceHardDriveParams | DeviceMFPParams

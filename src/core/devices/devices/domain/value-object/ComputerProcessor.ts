@@ -3,16 +3,17 @@ import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/operatingSystem/domain/value-object/OperatingSystemId'
 import { type ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type StatusId } from '@/core/status/domain/value-object/StatusId'
 
 export class ComputerProcessor extends AcceptedNullValueObject<Primitives<ProcessorId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<OperatingSystemId> | null,
-		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions]
+		private readonly status: Primitives<StatusId>
 	) {
 		super(value)
 
-		if (!ComputerProcessor.isValid(this.value, this.status)) {
+		if (!ComputerProcessor.isValid({ value: this.value, status: this.status })) {
 			throw new Error(ComputerProcessor.invalidMessage())
 		}
 	}
@@ -25,20 +26,34 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 		return ComputerProcessor.errors
 	}
 
-	public static isValid(
-		value: Primitives<ComputerProcessor>,
-		status: (typeof StatusOptions)[keyof typeof StatusOptions]
-	): boolean {
-		const allowedStatusOptions = [
-			StatusOptions.INUSE,
-			StatusOptions.INALMACEN,
-			StatusOptions.PRESTAMO,
-			StatusOptions.GUARDIA,
-			StatusOptions.CONTINGENCIA
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (allowedStatusOptions.includes(status) && !value) {
-			ComputerProcessor.updateError('Si esta en uso o en almacén, el procesador es requerido')
-			return false
+	public static isValid({
+		value,
+		status
+	}: {
+		value: Primitives<ComputerProcessor>
+		status?: Primitives<StatusId>
+	}): boolean {
+		ComputerProcessor.updateError('')
+
+		if (!status) {
+			return true // Si no hay status, no hay validación específica
+		}
+
+		switch (status) {
+			case StatusOptions.INUSE:
+			case StatusOptions.INALMACEN:
+			case StatusOptions.PRESTAMO:
+			case StatusOptions.GUARDIA:
+			case StatusOptions.CONTINGENCIA:
+				if (!value) {
+					ComputerProcessor.updateError(
+						'Si esta en uso o en almacén, el procesador es requerido.'
+					)
+					return false
+				}
+				break
+			default:
+				break // No hay validaciones específicas para otros estados
 		}
 		return true
 	}

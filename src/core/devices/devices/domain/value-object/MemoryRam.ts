@@ -1,6 +1,7 @@
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { MemoryRamValues } from './MemoryRamValues'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type StatusId } from '@/core/status/domain/value-object/StatusId'
 
 export class MemoryRam {
 	constructor(readonly value: MemoryRamValues[]) {}
@@ -11,49 +12,50 @@ export class MemoryRam {
 
 	static fromPrimitives(
 		memoryRamValues: Primitives<MemoryRamValues>[],
-		status: (typeof StatusOptions)[keyof typeof StatusOptions]
+		status: Primitives<StatusId>
 	) {
-		if (!MemoryRam.isValid(memoryRamValues, status)) {
+		if (!MemoryRam.isValid({ value: memoryRamValues, status })) {
 			throw new Error(MemoryRam.invalidMessage())
 		}
 		return new MemoryRam(memoryRamValues.map(MemoryRamValues.fromValues))
 	}
 
-	public static isValid(
-		value: Primitives<MemoryRamValues>[],
-		status: (typeof StatusOptions)[keyof typeof StatusOptions]
-	): boolean {
-		const allowedStatusOptions = [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (
-			allowedStatusOptions.includes(status) &&
-			MemoryRam.isZeroTotalMemory(value) &&
-			!this.isEmpty(value)
-		) {
-			return false
+	public static isValid({
+		value,
+		status
+	}: {
+		value: Primitives<MemoryRamValues>[]
+		status?: Primitives<StatusId>
+	}): boolean {
+		if (!status) {
+			return true
+		}
+
+		switch (status) {
+			case StatusOptions.INUSE:
+			case StatusOptions.PRESTAMO:
+			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.GUARDIA:
+				if (MemoryRam.isZeroTotalMemory(value) && !this.isEmpty(value)) {
+					return false
+				}
+				break
+			default:
+				break
 		}
 		return true
 	}
 
 	public static invalidMessage(): string {
-		return 'La capacidad de la memoria Ram no puede ser 0 si el equipo está en uso'
+		return 'La capacidad de la memoria Ram no puede ser 0 si el equipo está en uso.'
 	}
 
-	private static isEmpty(value: Primitives<MemoryRamValues>[]): boolean {
-		return value?.length === 0
+	private static isEmpty(value?: Primitives<MemoryRamValues>[] | null): boolean {
+		return !value || value.length === 0
 	}
 
 	static totalAmount(value: Primitives<MemoryRamValues>[]): number {
-		// if (!value) return
-		let number = 0
-		for (const val of value) {
-			number += Number(val)
-		}
-		return number
+		return value.reduce((acc, val) => acc + Number(val), 0)
 	}
 
 	public static isZeroTotalMemory(value: Primitives<MemoryRamValues>[]): boolean {

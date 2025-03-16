@@ -1,6 +1,6 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 import { Nullable } from '@/core/shared/domain/value-objects/Nullable'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { EmployeeType, EmployeeTypes } from './EmployeeType'
 
 export class EmployeeLastName extends AcceptedNullValueObject<string> {

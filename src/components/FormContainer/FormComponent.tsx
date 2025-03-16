@@ -1,6 +1,6 @@
-import { Suspense } from 'react'
-import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 import { useFormStatus } from 'react-dom'
+import { twMerge } from 'tailwind-merge'
+import cn from 'classnames'
 import Button from '../Button'
 import { UpdatedBy } from '../UpdatedBy'
 import { LastUpdated } from '../LastUpdated'
@@ -8,8 +8,7 @@ import { ResetIcon } from '@/icon/ResetIcon'
 import { CancelIcon } from '@/icon/CancelIcon'
 import { RightArrowIcon } from '@/icon/RightArrowIcon'
 import { CircleSpinningIcon } from '@/icon/CircleSpinning'
-import { twMerge } from 'tailwind-merge'
-import cn from 'classnames'
+import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 
 interface Props
 	extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
@@ -38,7 +37,7 @@ export function FormComponent({
 	className,
 	...props
 }: Props) {
-	const { pending } = useFormStatus()
+	const status = useFormStatus()
 
 	const classes = twMerge(
 		'w-full bg-white flex justify-center',
@@ -47,6 +46,7 @@ export function FormComponent({
 		}),
 		className
 	)
+	console.log(status)
 	return (
 		<form id={id} action="submit" onSubmit={handleSubmit} className={classes} {...props}>
 			<fieldset className="w-full grid gap-5 relative">
@@ -56,31 +56,16 @@ export function FormComponent({
 						color={method === 'form' ? 'green' : 'blue'}
 						type="submit"
 						form={id}
-						text={pending ? 'Procesando...' : 'Guardar'}
+						text={status.pending ? 'Procesando...' : 'Guardar'}
 						buttonSize="large"
-						disabled={pending}
+						disabled={status.pending}
 						hoverTranslation
 						size="full"
 						icon={
-							pending ? (
-								<Suspense
-									fallback={
-										<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-									}
-								>
-									<CircleSpinningIcon width={20} />
-								</Suspense>
+							status.pending ? (
+								<CircleSpinningIcon width={20} />
 							) : (
-								<Suspense
-									fallback={
-										<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-									}
-								>
-									<RightArrowIcon
-										width={20}
-										className="aspect-square fill-white"
-									/>
-								</Suspense>
+								<RightArrowIcon width={20} className="aspect-square fill-white" />
 							)
 						}
 					/>
@@ -92,20 +77,12 @@ export function FormComponent({
 						buttonSize="large"
 						text="Regresar"
 						onClick={handleClose}
-						disabled={pending}
+						disabled={status.pending}
 						hoverTranslation
-						icon={
-							<Suspense
-								fallback={
-									<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-								}
-							>
-								<CancelIcon width={20} className="aspect-square" />
-							</Suspense>
-						}
+						icon={<CancelIcon width={20} className="aspect-square" />}
 					/>
 					{/* Boton pare restablecer el formulario, solo si es en editar */}
-					{reset ? (
+					{reset && (
 						<Button
 							type="button"
 							color="blue"
@@ -113,18 +90,10 @@ export function FormComponent({
 							buttonSize="large"
 							text="Reset"
 							onClick={reset}
-							disabled={pending}
-							icon={
-								<Suspense
-									fallback={
-										<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-									}
-								>
-									<ResetIcon width={20} className="aspect-square" />
-								</Suspense>
-							}
+							disabled={status.pending}
+							icon={<ResetIcon width={20} className="aspect-square" />}
 						/>
-					) : null}
+					)}
 				</div>
 				<p className="justify-self-end text-sm text-black/80">
 					{lastUpdated !== undefined && <LastUpdated updatedAt={lastUpdated} />}

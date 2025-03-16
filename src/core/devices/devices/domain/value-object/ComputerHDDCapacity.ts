@@ -1,17 +1,18 @@
-import { type HardDriveCapacityId } from '@/core/devices/features/hardDrive/hardDriveCapacity/domain/value-object/HardDriveCapacityId'
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type HardDriveCapacityId } from '@/core/devices/features/hardDrive/hardDriveCapacity/domain/value-object/HardDriveCapacityId'
+import { type StatusId } from '@/core/status/domain/value-object/StatusId'
 
 export class ComputerHDDCapacity extends AcceptedNullValueObject<Primitives<HardDriveCapacityId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<HardDriveCapacityId> | null,
-		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions]
+		private readonly status: Primitives<StatusId>
 	) {
 		super(value)
 
-		if (!ComputerHDDCapacity.isValid(this.value, this.status)) {
+		if (!ComputerHDDCapacity.isValid({ value: this.value, status: this.status })) {
 			throw new Error(ComputerHDDCapacity.invalidMessage())
 		}
 	}
@@ -24,21 +25,30 @@ export class ComputerHDDCapacity extends AcceptedNullValueObject<Primitives<Hard
 		return ComputerHDDCapacity.errors
 	}
 
-	public static isValid(
-		value: Primitives<ComputerHDDCapacity>,
-		status: (typeof StatusOptions)[keyof typeof StatusOptions]
-	): boolean {
-		const allowedStatusOptions = [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (allowedStatusOptions.includes(status) && !value) {
-			ComputerHDDCapacity.updateError(
-				'Si el equipo está en uso, no se puede dejar en blanco la capacidad del Disco Duro'
-			)
-			return false
+	public static isValid({
+		value,
+		status
+	}: {
+		value?: Primitives<ComputerHDDCapacity>
+		status?: Primitives<StatusId>
+	}): boolean {
+		ComputerHDDCapacity.updateError('')
+		if (!status) return true
+
+		switch (status) {
+			case StatusOptions.INUSE:
+			case StatusOptions.PRESTAMO:
+			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.GUARDIA:
+				if (!value) {
+					ComputerHDDCapacity.updateError(
+						'Si el equipo está en uso, no se puede dejar en blanco la capacidad del Disco Duro'
+					)
+					return false
+				}
+				break
+			default:
+				break
 		}
 		return true
 	}

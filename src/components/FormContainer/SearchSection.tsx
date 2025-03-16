@@ -1,18 +1,12 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo  } from 'react'
+import { LinkAsButton } from '../Button/LinkAsButton'
+import { AddIcon } from '@/icon/AddIcon'
 
 interface Props {
 	searchInput?: React.ReactElement
 	url: string
 	isEdit?: boolean
 }
-
-const LinkAsButton = lazy(
-	async () =>
-		await import('@/components/Button/LinkAsButton').then(m => ({
-			default: m.LinkAsButton
-		}))
-)
-const AddIcon = lazy(() => import('@/icon/AddIcon').then(m => ({ default: m.AddIcon })))
 
 export const SearchSection = memo(function ({ isEdit, searchInput, url }: Props) {
 	return (
@@ -27,15 +21,7 @@ export const SearchSection = memo(function ({ isEdit, searchInput, url }: Props)
 					hoverTranslate
 					size="content"
 					buttonSize="large"
-					icon={
-						<Suspense
-							fallback={
-								<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-							}
-						>
-							<AddIcon width={20} className="aspect-square fill-white stroke-[3px]" />
-						</Suspense>
-					}
+					icon={<AddIcon width={20} className="aspect-square fill-white stroke-[3px]" />}
 				/>
 			)}
 		</div>

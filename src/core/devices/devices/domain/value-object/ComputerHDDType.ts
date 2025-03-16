@@ -1,17 +1,22 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { type HardDriveCapacityId } from '@/core/devices/features/hardDrive/hardDriveCapacity/domain/value-object/HardDriveCapacityId'
-import { type HardDriveTypeId } from '@/core/devices/features/hardDrive/hardDriveType/domain/value-object/HardDriveTypeId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type HardDriveTypeId } from '@/core/devices/features/hardDrive/hardDriveType/domain/value-object/HardDriveTypeId'
+import { type ComputerHDDCapacity } from './ComputerHDDCapacity'
 
 export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriveTypeId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<HardDriveTypeId> | null,
-		private readonly hardDriveCapacity: Primitives<HardDriveCapacityId> | null
+		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity>
 	) {
 		super(value)
 
-		if (!ComputerHDDType.isValid(this.value, this.hardDriveCapacity)) {
+		if (
+			!ComputerHDDType.isValid({
+				value: this.value,
+				hardDriveCapacity: this.hardDriveCapacity
+			})
+		) {
 			throw new Error(ComputerHDDType.invalidMessage())
 		}
 	}
@@ -24,12 +29,16 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 		return ComputerHDDType.errors
 	}
 
-	public static isValid(
-		value: Primitives<ComputerHDDType>,
-		hardDriveCapacity: Primitives<HardDriveCapacityId> | null
-	): boolean {
+	public static isValid({
+		value,
+		hardDriveCapacity
+	}: {
+		value: Primitives<ComputerHDDType>
+		hardDriveCapacity?: Primitives<ComputerHDDCapacity>
+	}): boolean {
+		ComputerHDDType.updateError('')
 		if (!hardDriveCapacity && value) {
-			ComputerHDDType.updateError('Si no tiene Disco duro, no se puede especificar un tipo')
+			ComputerHDDType.updateError('Si no tiene Disco duro, no se puede especificar un tipo.')
 			return false
 		}
 		return true

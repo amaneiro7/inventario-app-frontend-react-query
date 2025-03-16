@@ -1,5 +1,5 @@
 import { Listeners } from './Listeners.ts'
-import { Props } from './ListenersProps.ts'
+import { type Props } from './ListenersProps.ts'
 
 export class EventManager {
 	private listeners: Listeners[] = []
@@ -13,10 +13,10 @@ export class EventManager {
 	}
 
 	detach(listener: Listeners): void {
-		this.listeners.filter(x => x !== listener)
+		this.listeners = this.listeners.filter(x => x !== listener)
 	}
 
 	notify({ message, type }: Props): void {
-		this.listeners.forEach(x => x.update({ type, message }))
+		this.listeners.forEach(x => x.update({ type, message } as Props))
 	}
 }

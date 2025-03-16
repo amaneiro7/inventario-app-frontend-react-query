@@ -1,6 +1,6 @@
 import { GenericModel } from '@/core/model/models/domain/value-object/GenericModel'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class DeviceSerial extends AcceptedNullValueObject<string> {
 	static readonly NAME_MIN_LENGTH = 5
@@ -9,10 +9,7 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 	static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 	static errors = ''
 
-	constructor(
-		value: string | null,
-		readonly genericModel?: boolean
-	) {
+	constructor(value: string | null, readonly genericModel?: boolean) {
 		super(value)
 		if (!DeviceSerial.isValid(value, genericModel)) {
 			throw new Error(DeviceSerial.invalidMessage())

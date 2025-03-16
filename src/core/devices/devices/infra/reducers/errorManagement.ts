@@ -14,57 +14,83 @@ import { DeviceStockNumber } from '../../domain/value-object/DeviceStockNumber'
 import { HardDriveHealth } from '../../domain/value-object/HardDriveHealth'
 import { MACAddress } from '../../domain/value-object/MACAddress'
 import { MemoryRam } from '../../domain/value-object/MemoryRam'
-import { type State } from './devicesFormReducer'
+import {
+	type DeviceRequired,
+	type DevicesDisabled,
+	type DevicesErrors,
+	type State
+} from './devicesFormReducer'
 
-export const updateValidation = (state: State) => {
-	const newState = { ...state }
-	const { formData } = newState
+export const updateValidation = (state: State): State => {
+	const { formData } = state
+	//const status = formData.statusId as (typeof StatusOptions)[keyof typeof StatusOptions]
+	const status = formData.statusId
+		? (formData.statusId as (typeof StatusOptions)[keyof typeof StatusOptions])
+		: undefined
 
-	newState.errors = {
-		...newState.errors,
+	const errors: DevicesErrors = {
+		statusId: '',
+		mainCategoryId: '',
+		categoryId: '',
+		brandId: '',
+		modelId: '',
+		memoryRam: '',
+		observation: '',
 		serial: DeviceSerial.isValid(formData.serial) ? '' : DeviceSerial.invalidMessage(),
 		activo: DeviceActivo.isValid(formData.activo) ? '' : DeviceActivo.invalidMessage(),
 		locationId: DeviceLocation.isValid({
 			typeOfSite: formData.typeOfSiteId,
-			status: formData.statusId
+			status
 		})
 			? ''
 			: DeviceLocation.invalidMessage(),
-		employeeId: DeviceEmployee.isValid(formData.employeeId, formData.statusId)
+		employeeId: DeviceEmployee.isValid({
+			value: formData.employeeId,
+			status
+		})
 			? ''
 			: DeviceEmployee.invalidMessage(),
-		stockNumber: DeviceStockNumber.isValid(formData.stockNumber, formData.statusId)
+		stockNumber: DeviceStockNumber.isValid({
+			value: formData.stockNumber,
+			status
+		})
 			? ''
 			: DeviceStockNumber.invalidMessage(),
-		computerName: ComputerName.isValid(formData.computerName, formData.statusId)
+		computerName: ComputerName.isValid({ value: formData.computerName, status })
 			? ''
 			: ComputerName.invalidMessage(),
-		ipAddress: IPAddress.isValid(formData.ipAddress, formData.statusId)
+		ipAddress: IPAddress.isValid({ value: formData.ipAddress, status })
 			? ''
 			: IPAddress.invalidMessage(),
-		memoryRamCapacity: MemoryRam.isValid(formData.memoryRam, formData.statusId)
+		memoryRamCapacity: MemoryRam.isValid({
+			value: formData.memoryRam,
+			status
+		})
 			? ''
 			: MemoryRam.invalidMessage(),
-		processorId: ComputerProcessor.isValid(formData.processorId, formData.statusId)
+		processorId: ComputerProcessor.isValid({
+			value: formData.processorId,
+			status
+		})
 			? ''
 			: ComputerProcessor.invalidMessage(),
-		hardDriveCapacityId: ComputerHDDCapacity.isValid(
-			formData.hardDriveCapacityId,
-			formData.statusId
-		)
+		hardDriveCapacityId: ComputerHDDCapacity.isValid({
+			value: formData.hardDriveCapacityId,
+			status
+		})
 			? ''
 			: ComputerHDDCapacity.invalidMessage(),
-		hardDriveTypeId: ComputerHDDType.isValid(
-			formData.hardDriveTypeId,
-			formData.hardDriveCapacityId
-		)
+		hardDriveTypeId: ComputerHDDType.isValid({
+			value: formData.hardDriveTypeId,
+			hardDriveCapacity: formData.hardDriveCapacityId
+		})
 			? ''
 			: ComputerHDDType.invalidMessage(),
-		operatingSystemId: ComputerOs.isValid(
-			formData.operatingSystemId,
-			formData.statusId,
-			formData.hardDriveCapacityId
-		)
+		operatingSystemId: ComputerOs.isValid({
+			value: formData.operatingSystemId,
+			status,
+			hardDriveCapacity: formData.hardDriveCapacityId
+		})
 			? ''
 			: ComputerOs.invalidMessage(),
 		operatingSystemArqId: ComputerOsArq.isValid(
@@ -79,86 +105,81 @@ export const updateValidation = (state: State) => {
 		health: HardDriveHealth.isValid(formData.health) ? '' : HardDriveHealth.invalidMessage()
 	}
 
-	newState.disabled = {
-		...newState.disabled,
+	const disabled: DevicesDisabled = {
+		...state.disabled,
 		categoryId: !formData.mainCategoryId,
 		brandId: !formData.categoryId,
 		modelId: !formData.brandId,
-		locationId:
-			!formData.statusId || [StatusOptions.DESINCORPORADO].includes(formData.statusId),
+		locationId: !status || status === StatusOptions.DESINCORPORADO,
 		stockNumber:
-			!formData.statusId ||
-			![StatusOptions.INALMACEN, StatusOptions.PORDESINCORPORAR].includes(formData.statusId),
+			!status ||
+			!(status === StatusOptions.INALMACEN || status === StatusOptions.PORDESINCORPORAR),
 		employeeId:
-			!formData.statusId ||
-			[
-				StatusOptions.INALMACEN,
-				StatusOptions.PORDESINCORPORAR,
-				StatusOptions.DESINCORPORADO,
-				StatusOptions.DISPONIBLE
-			].includes(formData.statusId),
-		computerName: [
-			StatusOptions.INALMACEN,
-			StatusOptions.PORDESINCORPORAR,
-			StatusOptions.DESINCORPORADO
-		].includes(formData.statusId),
-		ipAddress: [
-			StatusOptions.INALMACEN,
-			StatusOptions.PORDESINCORPORAR,
-			StatusOptions.DESINCORPORADO
-		].includes(formData.statusId),
+			!status ||
+			status === StatusOptions.INALMACEN ||
+			status === StatusOptions.PORDESINCORPORAR ||
+			status === StatusOptions.DESINCORPORADO ||
+			status === StatusOptions.DISPONIBLE,
+
+		computerName:
+			status === StatusOptions.INALMACEN ||
+			status === StatusOptions.PORDESINCORPORAR ||
+			status === StatusOptions.DESINCORPORADO,
+		ipAddress:
+			status === StatusOptions.INALMACEN ||
+			status === StatusOptions.PORDESINCORPORAR ||
+			status === StatusOptions.DESINCORPORADO,
 		hardDriveTypeId: !formData.hardDriveCapacityId,
 		operatingSystemId:
-			[
-				StatusOptions.INALMACEN,
-				StatusOptions.PORDESINCORPORAR,
-				StatusOptions.DESINCORPORADO
-			].includes(formData.statusId) || !formData.hardDriveCapacityId,
+			status === StatusOptions.INALMACEN ||
+			status === StatusOptions.PORDESINCORPORAR ||
+			status === StatusOptions.DESINCORPORADO ||
+			!formData.hardDriveCapacityId,
 		operatingSystemArqId: !formData.operatingSystemId
 	}
 
-	newState.required = {
-		...newState.required,
+	const required: DeviceRequired = {
+		...state.required,
 		serial: !formData.genericModel,
-		employeeId: [
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		].includes(formData.statusId),
-		locationId: ![StatusOptions.DESINCORPORADO].includes(formData.statusId),
-		computerName: ![
-			StatusOptions.INALMACEN,
-			StatusOptions.PORDESINCORPORAR,
-			StatusOptions.DESINCORPORADO
-		].includes(formData.statusId),
-		ipAddress: [StatusOptions.INUSE].includes(formData.statusId),
-		memoryRamCapacity: [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		].includes(formData.statusId),
-		processorId: [
-			StatusOptions.INUSE,
-			StatusOptions.INALMACEN,
-			StatusOptions.PRESTAMO,
-			StatusOptions.GUARDIA,
-			StatusOptions.CONTINGENCIA
-		].includes(formData.statusId),
-		hardDriveCapacityId: [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		].includes(formData.statusId),
+		employeeId:
+			status === StatusOptions.PRESTAMO ||
+			status === StatusOptions.CONTINGENCIA ||
+			status === StatusOptions.GUARDIA,
+		locationId: status !== StatusOptions.DESINCORPORADO,
+		computerName: !(
+			status === StatusOptions.INALMACEN ||
+			status === StatusOptions.PORDESINCORPORAR ||
+			status === StatusOptions.DESINCORPORADO
+		),
+		ipAddress: status === StatusOptions.INUSE,
+		memoryRamCapacity:
+			status === StatusOptions.INUSE ||
+			status === StatusOptions.PRESTAMO ||
+			status === StatusOptions.CONTINGENCIA ||
+			status === StatusOptions.GUARDIA,
+		processorId:
+			status === StatusOptions.INUSE ||
+			status === StatusOptions.INALMACEN ||
+			status === StatusOptions.PRESTAMO ||
+			status === StatusOptions.GUARDIA ||
+			status === StatusOptions.CONTINGENCIA,
+		hardDriveCapacityId:
+			status === StatusOptions.INUSE ||
+			status === StatusOptions.PRESTAMO ||
+			status === StatusOptions.CONTINGENCIA ||
+			status === StatusOptions.GUARDIA,
 		hardDriveTypeId: !!formData.hardDriveCapacityId,
-		operatingSystemId: [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		].includes(formData.statusId),
+		operatingSystemId:
+			status === StatusOptions.INUSE ||
+			status === StatusOptions.PRESTAMO ||
+			status === StatusOptions.CONTINGENCIA ||
+			status === StatusOptions.GUARDIA,
 		operatingSystemArqId: !!formData.operatingSystemId
 	}
-	return newState
+	return {
+		formData,
+		errors,
+		disabled,
+		required
+	}
 }

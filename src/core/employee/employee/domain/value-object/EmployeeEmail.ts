@@ -1,30 +1,46 @@
-import { StringValueObject } from '@/core/shared/domain/value-objects/StringValueObjects'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
+import { EmployeeType, EmployeeTypes } from './EmployeeType'
+import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 
-export class EmployeeEmail extends StringValueObject {
+export class EmployeeEmail extends AcceptedNullValueObject<string> {
 	static readonly regex =
 		/^(?=.*[@](?:bnc\.com\.ve)$)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9_-]*$/
 
 	private static error = ''
 
-	constructor(value: string) {
+	constructor(value: string | null, type: Primitives<EmployeeType>) {
 		super(value)
-		if (!EmployeeEmail.isValid(value)) {
+		if (!EmployeeEmail.isValid({ value, type })) {
 			throw new Error(EmployeeEmail.invalidMessage())
 		}
 	}
 
-	public static isValid(value: string): boolean {
-		const errors: string[] = []
-		const validFormat = EmployeeEmail.regex.test(value)
-		if (!validFormat) {
-			errors.push('No es un formato de correo electrónico válido.')
-		}
-		if (validFormat) {
+	public static isValid({
+		value,
+		type
+	}: {
+		value?: Nullable<Primitives<EmployeeEmail>>
+		type?: Primitives<EmployeeType>
+	}): boolean {
+		// El correo electronico es opcional, si no se envia se asume que es valido
+		// si es generico no puede tener un correo
+		EmployeeEmail.error = ''
+		if (!value || !type) {
+			// si no tiene un correo y no hay validación específica, es valido
 			return true
-		} else {
-			EmployeeEmail.error = errors.join(' ')
+		}
+
+		if (type === EmployeeTypes.GENERIC && value) {
+			EmployeeEmail.error = 'Si es genérico no puede tener un correo electrónico.'
 			return false
 		}
+
+		if (!EmployeeEmail.regex.test(value)) {
+			EmployeeEmail.error = 'No es un formato de correo electrónico válido.'
+			return false
+		}
+		return true
 	}
 
 	public static invalidMessage(): string {

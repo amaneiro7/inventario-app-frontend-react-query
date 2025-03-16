@@ -51,4 +51,5 @@ export type EmployeeDto = Employee & {
 	location: LocationDto
 	departamento: DepartamentoDto
 	cargo: Cargo
+	updatedAt: string
 }

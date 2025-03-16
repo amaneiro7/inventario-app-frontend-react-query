@@ -1,5 +1,5 @@
-import { Props } from './ListenersProps'
+import { type Props } from './ListenersProps'
 
 export interface Listeners {
-	update({ type, message }: Props): void
+	update(props: Props): void
 }

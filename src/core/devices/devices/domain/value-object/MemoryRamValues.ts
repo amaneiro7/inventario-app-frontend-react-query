@@ -1,5 +1,5 @@
 import { NumberValueObject } from '@/core/shared/domain/value-objects/NumberValueObject'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class MemoryRamValues extends NumberValueObject {
 	static readonly min = 0

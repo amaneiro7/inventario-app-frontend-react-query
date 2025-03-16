@@ -1,19 +1,26 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
-import { type HardDriveCapacityId } from '@/core/devices/features/hardDrive/hardDriveCapacity/domain/value-object/HardDriveCapacityId'
-import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/operatingSystem/domain/value-object/OperatingSystemId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/operatingSystem/domain/value-object/OperatingSystemId'
+import { type StatusId } from '@/core/status/domain/value-object/StatusId'
+import { type ComputerHDDCapacity } from './ComputerHDDCapacity'
 
 export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSystemId>> {
 	private static errors = ''
 	constructor(
 		value: Primitives<OperatingSystemId> | null,
-		private readonly status: (typeof StatusOptions)[keyof typeof StatusOptions],
-		private readonly hardDriveCapacity: Primitives<HardDriveCapacityId> | null
+		private readonly status: Primitives<StatusId>,
+		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity> | null
 	) {
 		super(value)
 
-		if (!ComputerOs.isValid(this.value, this.status, this.hardDriveCapacity)) {
+		if (
+			!ComputerOs.isValid({
+				value: this.value,
+				status: this.status,
+				hardDriveCapacity: this.hardDriveCapacity
+			})
+		) {
 			throw new Error(ComputerOs.invalidMessage())
 		}
 	}
@@ -26,34 +33,45 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 		return ComputerOs.errors
 	}
 
-	public static isValid(
-		value: Primitives<ComputerOs>,
-		status: (typeof StatusOptions)[keyof typeof StatusOptions],
-		hardDriveCapacity: Primitives<HardDriveCapacityId> | null
-	): boolean {
-		// Si el equipo esta en uso, a prestamo, contingencia o de guardia el sistema es obligatorio
-		const allowedStatusOptions = [
-			StatusOptions.INUSE,
-			StatusOptions.PRESTAMO,
-			StatusOptions.CONTINGENCIA,
-			StatusOptions.GUARDIA
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (allowedStatusOptions.includes(status) && !value) {
-			ComputerOs.updateError('Si el equipo está en uso, el sistema operativo es requerido.')
-			return false
+	public static isValid({
+		value,
+		status,
+		hardDriveCapacity
+	}: {
+		value?: Primitives<OperatingSystemId> | null
+		status?: Primitives<StatusId>
+		hardDriveCapacity?: Primitives<ComputerHDDCapacity>
+	}): boolean {
+		ComputerOs.updateError('')
+		if (!status) return true
+		switch (status) {
+			// Si el equipo esta en uso, a prestamo, contingencia o de guardia el sistema es obligatorio
+			case StatusOptions.INUSE:
+			case StatusOptions.PRESTAMO:
+			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.GUARDIA:
+				if (!value) {
+					ComputerOs.updateError(
+						'Si el equipo está en uso, el sistema operativo es requerido.'
+					)
+					return false
+				}
+				break
+			// Si el equipo esta no esta en usuo, desincorporado, en almacen o por desincorporar el sistema no es requerido
+			case StatusOptions.PORDESINCORPORAR:
+			case StatusOptions.DESINCORPORADO:
+			case StatusOptions.INALMACEN:
+				if (value) {
+					ComputerOs.updateError(
+						'Si el equipo no está en uso, el sistema operativo no es requerido.'
+					)
+					return false
+				}
+				break
+			default:
+				break
 		}
-		// Si el equipo esta no esta en usuo, desincorporado, en almacen o por desincorporar el sistema no es requerido
-		const notAllowedStausOptions = [
-			StatusOptions.PORDESINCORPORAR,
-			StatusOptions.DESINCORPORADO,
-			StatusOptions.INALMACEN
-		] as (typeof StatusOptions)[keyof typeof StatusOptions][]
-		if (notAllowedStausOptions.includes(status) && value) {
-			ComputerOs.updateError(
-				'Si el equipo no está en uso, el sistema operativo no es requerido.'
-			)
-			return false
-		}
+
 		// Si el equipo no posee disco duro o no esta definido no puede tener sistema operativo
 		if (!hardDriveCapacity && value) {
 			ComputerOs.updateError(
