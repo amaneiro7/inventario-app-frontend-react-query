@@ -5,7 +5,7 @@ type Props = React.DetailedHTMLProps<
 export function ButtonOpen({ id, onClick, ...props }: Props) {
 	return (
 		<button
-			className="openButton w-6 aspect-square rounded-full hover:bg-slate-200 disabled:hover:bg-transparent disabled:cursor-default"
+			className="openButton w-6 min-w-6 aspect-square rounded-full hover:bg-slate-200 disabled:hover:bg-transparent disabled:cursor-default disabled:invisible"
 			tabIndex={-1}
 			id={id}
 			key={id}

@@ -12,7 +12,6 @@ export function formattedDate(date: string | Date): string {
 			minute: 'numeric'
 		}
 		const userLocal = navigator.language || 'es-VE'
-		console.log(navigator)
 		return dateObj.toLocaleString(userLocal, options)
 	} catch {
 		return 'Fecha inválida'

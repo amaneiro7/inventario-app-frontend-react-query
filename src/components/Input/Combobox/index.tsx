@@ -17,6 +17,7 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	required?: boolean
 	error?: boolean
 	valid?: boolean
+	clearButton?: boolean
 	errorMessage?: string
 	className?: string
 	loading?: boolean
@@ -58,6 +59,7 @@ export const Combobox = memo(function <
 	searchField = true,
 	rightIcon,
 	inputValue,
+	clearButton = true,
 	onInputChange,
 	onRightIconClick,
 	onChangeValue,
@@ -180,7 +182,7 @@ export const Combobox = memo(function <
 
 			<div className="flex items-center justify-center pr-1">
 				{loading && <CircleSpinningIcon width={16} height={16} color="gray" />}
-				{value && (
+				{value && clearButton && (
 					<ButtonClear
 						tabIndex={-1}
 						onClick={() => {
@@ -188,6 +190,7 @@ export const Combobox = memo(function <
 						}}
 					/>
 				)}
+
 				<ButtonOpen
 					tabIndex={-1}
 					id={id}

@@ -26,7 +26,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		defaultState ?? initialEmployeeState.formData
 	)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(
+	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		employeeFormReducer,
 		initialEmployeeState
 	)
@@ -52,29 +52,16 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (
-			name === 'init' ||
-			name === 'reset' ||
-			name === 'departamentoId' ||
-			name === 'extension' ||
-			name === 'phone'
-		)
-			return
+		if (name === 'init' || name === 'reset' || name === 'departamentoId') return
 		dispatch({ type: name, payload: { value } })
 	}, [])
 
-	const handleLocation = useCallback(
+	const handleDepartment = useCallback(
 		async ({ value, centroCostoId }: { value: string; centroCostoId: string }) => {
 			dispatch({
 				type: 'departamentoId',
 				payload: { value, centroCostoId }
 			})
-		},
-		[]
-	)
-	const handlePhpneNumber = useCallback(
-		async (name: 'phone' | 'extension', value: string, index: number) => {
-			dispatch({ type: name, payload: { value, index } })
 		},
 		[]
 	)
@@ -93,10 +80,10 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		mode,
 		errors,
 		required,
+		disabled,
 		resetForm,
 		handleSubmit,
 		handleChange,
-		handlePhpneNumber,
-		handleLocation
+		handleDepartment
 	}
 }

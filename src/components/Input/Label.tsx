@@ -15,7 +15,6 @@ interface Props<T extends string | number | readonly string[]>
 
 export function Label<T extends string | number | readonly string[]>({
 	label,
-	type,
 	value,
 	error,
 	required,
@@ -28,7 +27,7 @@ export function Label<T extends string | number | readonly string[]>({
 	const labelClasses = twMerge(
 		cn({
 			['group-focus-within:text-focus']: !disabled,
-			['transform']: (value || type === 'number') && !disabled,
+			['transform']: value && !disabled,
 			['!text-error']: error,
 			['!text-success']: valid,
 			['with-left-icon']: leftIcon

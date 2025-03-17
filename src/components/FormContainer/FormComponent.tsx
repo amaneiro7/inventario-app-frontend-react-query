@@ -46,7 +46,7 @@ export function FormComponent({
 		}),
 		className
 	)
-	console.log(status)
+
 	return (
 		<form id={id} action="submit" onSubmit={handleSubmit} className={classes} {...props}>
 			<fieldset className="w-full grid gap-5 relative">

@@ -12,6 +12,7 @@ interface InputProps<T extends string | number | readonly string[]>
 	errorMessage?: string
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
+	selectInput?: React.ReactNode
 	rightAdorment?: React.ReactNode
 	onRightIconClick?: () => void
 }
@@ -29,6 +30,7 @@ export const Input = memo(
 		rightAdorment,
 		type,
 		name,
+		selectInput,
 		onRightIconClick,
 		...props
 	}: InputProps<T>) => {
@@ -44,6 +46,7 @@ export const Input = memo(
 				required={required}
 				leftIcon={leftIcon}
 				rightIcon={rightIcon}
+				selectInput={selectInput}
 				rightAdorment={rightAdorment}
 				onRightIconClick={onRightIconClick}
 			>

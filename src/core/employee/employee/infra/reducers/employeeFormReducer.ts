@@ -4,6 +4,7 @@ import { EmployeeCode } from '../../domain/value-object/EmployeeCode'
 import { EmployeeEmail } from '../../domain/value-object/EmployeeEmail'
 import { EmployeeLastName } from '../../domain/value-object/EmployeeLastName'
 import { EmployeeName } from '../../domain/value-object/EmployeeName'
+import { Nationalities } from '../../domain/value-object/EmployeeNationality'
 import { EmployeeTypes } from '../../domain/value-object/EmployeeType'
 import { EmployeeUserName } from '../../domain/value-object/EmployeUsername'
 
@@ -25,6 +26,7 @@ export interface DefaultEmployee {
 	cargoId: EmployeeDto['cargoId']
 	extension: EmployeeDto['extension']
 	phone: EmployeeDto['phone']
+	devices: EmployeeDto['devices']
 	updatedAt?: EmployeeDto['updatedAt']
 }
 
@@ -95,6 +97,7 @@ export const initialEmployeeState: State = {
 		cargoId: '',
 		extension: [],
 		phone: [],
+		devices: [],
 		updatedAt: undefined
 	},
 	errors: {
@@ -112,13 +115,13 @@ export const initialEmployeeState: State = {
 		type: true,
 		name: true,
 		lastName: true,
-		email: true,
+		email: false,
 		employeeCode: true,
 		nationality: true,
 		cedula: true,
 		centroCostoId: true,
 		centroTrabajoId: true,
-		locationId: true,
+		locationId: false,
 		departamentoId: true,
 		cargoId: true
 	},
@@ -161,40 +164,51 @@ export type Action =
 	  }
 	| { type: 'centroTrabajoId'; payload: { value: DefaultEmployee['centroTrabajoId'] } }
 	| { type: 'cargoId'; payload: { value: DefaultEmployee['cargoId'] } }
-	| { type: 'extension'; payload: { value: string; index: number } }
-	| { type: 'phone'; payload: { value: string; index: number } }
+	| { type: 'extension'; payload: { value: DefaultEmployee['extension'] } }
+	| { type: 'phone'; payload: { value: DefaultEmployee['phone'] } }
 
 export const employeeFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'reset':
 		case 'init': {
+			const { type } = action.payload.formData
 			return {
 				...state,
-				formData: { ...action.payload.formData },
+				formData: {
+					...action.payload.formData,
+					type,
+					employeeCode:
+						type === EmployeeTypes.GENERIC || !type
+							? ''
+							: action.payload.formData.employeeCode ?? 1,
+					nationality:
+						type === EmployeeTypes.GENERIC || !type
+							? ''
+							: action.payload.formData.nationality ?? Nationalities.V
+				},
 				disabled: {
 					...state.disabled,
-					name: action.payload.formData.type === EmployeeTypes.GENERIC,
-					lastName: action.payload.formData.type === EmployeeTypes.GENERIC,
-					email: action.payload.formData.type === EmployeeTypes.GENERIC,
-					employeeCode: action.payload.formData.type === EmployeeTypes.GENERIC,
-					nationality: action.payload.formData.type === EmployeeTypes.GENERIC,
-					cedula: action.payload.formData.type === EmployeeTypes.GENERIC,
-					locationId: action.payload.formData.type === EmployeeTypes.GENERIC,
-					centroTrabajoId: action.payload.formData.type === EmployeeTypes.GENERIC,
-					departamentoId: action.payload.formData.type === EmployeeTypes.GENERIC,
-					cargoId: action.payload.formData.type === EmployeeTypes.GENERIC
+					name: !type || type === EmployeeTypes.GENERIC,
+					lastName: !type || type === EmployeeTypes.GENERIC,
+					email: !type || type === EmployeeTypes.GENERIC,
+					employeeCode: !type || type === EmployeeTypes.GENERIC,
+					nationality: !type || type === EmployeeTypes.GENERIC,
+					cedula: !type || type === EmployeeTypes.GENERIC,
+					locationId: !type || type === EmployeeTypes.GENERIC,
+					centroTrabajoId: !type || type === EmployeeTypes.GENERIC,
+					departamentoId: !type || type === EmployeeTypes.GENERIC,
+					cargoId: !type || type === EmployeeTypes.GENERIC
 				},
 				required: {
-					...state.disabled,
-					name: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					lastName: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					email: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					employeeCode: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					nationality: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					cedula: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					centroTrabajoId: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					departamentoId: action.payload.formData.type !== EmployeeTypes.GENERIC,
-					cargoId: action.payload.formData.type !== EmployeeTypes.GENERIC
+					...state.required,
+					name: type !== EmployeeTypes.GENERIC,
+					lastName: type !== EmployeeTypes.GENERIC,
+					employeeCode: type !== EmployeeTypes.GENERIC,
+					nationality: type !== EmployeeTypes.GENERIC,
+					cedula: type !== EmployeeTypes.GENERIC,
+					centroTrabajoId: type !== EmployeeTypes.GENERIC,
+					departamentoId: type !== EmployeeTypes.GENERIC,
+					cargoId: type !== EmployeeTypes.GENERIC
 				}
 			}
 		}
@@ -221,8 +235,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					name: '',
 					lastName: '',
 					email: '',
-					employeeCode: '',
-					nationality: '',
+					employeeCode: type === EmployeeTypes.GENERIC || !type ? '' : 1,
+					nationality: type === EmployeeTypes.GENERIC || !type ? '' : Nationalities.V,
 					cedula: '',
 					locationId: '',
 					centroTrabajoId: '',
@@ -233,19 +247,19 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				},
 				disabled: {
 					...state.disabled,
-					name: type === EmployeeTypes.GENERIC,
-					lastName: type === EmployeeTypes.GENERIC,
-					email: type === EmployeeTypes.GENERIC,
-					employeeCode: type === EmployeeTypes.GENERIC,
-					nationality: type === EmployeeTypes.GENERIC,
-					cedula: type === EmployeeTypes.GENERIC,
-					locationId: type === EmployeeTypes.GENERIC,
-					centroTrabajoId: type === EmployeeTypes.GENERIC,
-					departamentoId: type === EmployeeTypes.GENERIC,
-					cargoId: type === EmployeeTypes.GENERIC
+					name: !type || type === EmployeeTypes.GENERIC,
+					lastName: !type || type === EmployeeTypes.GENERIC,
+					email: !type || type === EmployeeTypes.GENERIC,
+					employeeCode: !type || type === EmployeeTypes.GENERIC,
+					nationality: !type || type === EmployeeTypes.GENERIC,
+					cedula: !type || type === EmployeeTypes.GENERIC,
+					locationId: !type || type === EmployeeTypes.GENERIC,
+					centroTrabajoId: !type || type === EmployeeTypes.GENERIC,
+					departamentoId: !type || type === EmployeeTypes.GENERIC,
+					cargoId: !type || type === EmployeeTypes.GENERIC
 				},
 				required: {
-					...state.disabled,
+					...state.required,
 					name: type !== EmployeeTypes.GENERIC,
 					lastName: type !== EmployeeTypes.GENERIC,
 					email: type !== EmployeeTypes.GENERIC,
@@ -312,7 +326,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'employeeCode': {
-			const employeeCode = action.payload.value
+			const { value } = action.payload
+			const employeeCode = value ? Number(value) : ''
 			return {
 				...state,
 				formData: { ...state.formData, employeeCode },
@@ -335,7 +350,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'cedula': {
-			const cedula = action.payload.value
+			const { value } = action.payload
+			const cedula = value ? Number(value) : ''
 			return {
 				...state,
 				formData: { ...state.formData, cedula },
@@ -388,18 +404,14 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'extension': {
-			const { index, value } = action.payload
-			const extension = [...state.formData.extension]
-			extension[index] = value
+			const extension = action.payload.value
 			return {
 				...state,
 				formData: { ...state.formData, extension }
 			}
 		}
 		case 'phone': {
-			const { index, value } = action.payload
-			const phone = [...state.formData.phone]
-			phone[index] = value
+			const phone = action.payload.value
 			return {
 				...state,
 				formData: { ...state.formData, phone }

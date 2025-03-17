@@ -47,6 +47,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 			cargoId: employee.cargoId,
 			extension: employee.extension,
 			phone: employee.phone,
+			devices: employee.devices ?? [],
 			updatedAt: employee.updatedAt
 		})
 	}, [])

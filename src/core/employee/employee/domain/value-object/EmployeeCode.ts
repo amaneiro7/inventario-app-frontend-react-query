@@ -1,13 +1,13 @@
 import { NumberValueObject } from '@/core/shared/domain/value-objects/NumberValueObject'
-import { Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { EmployeeType, EmployeeTypes } from './EmployeeType'
-import { Nullable } from '@/core/shared/domain/value-objects/Nullable'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type EmployeeType, EmployeeTypes } from './EmployeeType'
+import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 
 export class EmployeeCode extends NumberValueObject {
 	private static error = ''
 	constructor(value: number, type: Primitives<EmployeeType>) {
 		super(value)
-		if (EmployeeCode.isValid({ value, type })) {
+		if (!EmployeeCode.isValid({ value, type })) {
 			throw new Error(EmployeeCode.invalidMessage())
 		}
 	}

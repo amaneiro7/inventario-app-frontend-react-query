@@ -15,17 +15,10 @@ export class EmployeeCedula extends NumberValueObject {
 	 * @param type el tipo del empleado, si es genérico no se puede tener una cédula
 	 * @throws InvalidArgumentError si el valor no es válido
 	 */
-	constructor(value: number | null | undefined, type: Primitives<EmployeeType>) {
-		if (!value) {
-			if (type !== EmployeeTypes.GENERIC) {
-				throw new InvalidArgumentError('La cédula es obligatoria.')
-			}
-			super(null)
-		} else {
-			super(value)
-			if (!EmployeeCedula.isValid({ value, type })) {
-				throw new InvalidArgumentError(EmployeeCedula.invalidMessage())
-			}
+	constructor(value: number, type: Primitives<EmployeeType>) {
+		super(value)
+		if (!EmployeeCedula.isValid({ value, type })) {
+			throw new InvalidArgumentError(EmployeeCedula.invalidMessage())
 		}
 	}
 

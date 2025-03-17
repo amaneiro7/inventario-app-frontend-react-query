@@ -22,6 +22,7 @@ import { type Cargo } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 import { type DepartamentoDto } from '@/core/employee/departamento/domain/dto/Departamento.dto'
 import { type GenericEmployeeParams } from './GenericEmployee.dto'
 import { type RegularEmployeeParams } from './RegularEmployee.dto'
+import { DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 export interface Employee {
 	id: Primitives<EmployeeId>
@@ -34,9 +35,9 @@ export interface Employee {
 	employeeCode: Nullable<Primitives<EmployeeCode>>
 	nationality: Nullable<Primitives<EmployeeNationality>>
 	cedula: Nullable<Primitives<EmployeeCedula>>
-	centroTrabajoId: Nullable<Primitives<CentroTrabajoId>>
 	locationId: Nullable<Primitives<LocationId>>
 	departamentoId: Nullable<Primitives<DepartamentoId>>
+	centroTrabajoId: Nullable<Primitives<CentroTrabajoId>>
 	cargoId: Nullable<Primitives<CargoId>>
 	extension: Primitives<EmployeeExtension>[]
 	phone: Primitives<EmployeePhoneNumber>[]
@@ -55,5 +56,6 @@ export type EmployeeDto = Employee & {
 	location: LocationDto
 	departamento: DepartamentoDto
 	cargo: Cargo
+	devices: DeviceDto[]
 	updatedAt: string
 }

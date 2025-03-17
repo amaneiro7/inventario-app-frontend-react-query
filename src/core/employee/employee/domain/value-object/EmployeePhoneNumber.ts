@@ -11,34 +11,36 @@ enum AreaCode {
 
 export class EmployeePhoneNumber extends StringValueObject {
 	private static readonly areaCodes = Object.values(AreaCode)
-	private static readonly numberLenght = 7
-	private static readonly extension = `^(${this.areaCodes.join('|')})\\d{${this.numberLenght}}$`
-	private static readonly phoneRegex = new RegExp(this.extension)
-	private static error = ''
+	private static readonly numberLength = 7
+	private static readonly totalLength = 11 // 4 dígitos de área + 7 dígitos del número
+	private static readonly phoneRegex = new RegExp(
+		`^(${EmployeePhoneNumber.areaCodes.join('|')})\\d{${EmployeePhoneNumber.numberLength}}$`
+	)
+	private static errorMessage = ''
 
 	constructor(value: string) {
 		super(value)
 
-		if (EmployeePhoneNumber.isValid(value)) {
+		if (!EmployeePhoneNumber.isValid(value)) {
 			throw new InvalidArgumentError(EmployeePhoneNumber.invalidMessage())
 		}
 	}
 	public static isValid(value: string): boolean {
-		const errors: string[] = []
-		const validFormat = this.phoneRegex.test(value)
-		if (!validFormat) {
-			errors.push(`${value} no es un número de teléfono válido.`)
-		}
-
-		if (validFormat) {
-			return true
-		} else {
-			this.error = errors.join(' ')
+		if (value.length !== EmployeePhoneNumber.totalLength) {
+			EmployeePhoneNumber.errorMessage = `${value} no tiene la longitud correcta. Debe tener ${EmployeePhoneNumber.totalLength} dígitos.`
 			return false
 		}
+		if (!EmployeePhoneNumber.phoneRegex.test(value)) {
+			EmployeePhoneNumber.errorMessage = `${value} no es un número de teléfono válido. Debe comenzar con ${EmployeePhoneNumber.areaCodes.join(
+				', '
+			)} y tener ${EmployeePhoneNumber.numberLength} dígitos adicionales.`
+			return false
+		}
+		EmployeePhoneNumber.errorMessage = ''
+		return true
 	}
 
 	public static invalidMessage(): string {
-		return EmployeePhoneNumber.error
+		return EmployeePhoneNumber.errorMessage
 	}
 }

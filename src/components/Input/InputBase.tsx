@@ -16,6 +16,7 @@ interface Props<T extends string | number | readonly string[]>
 	errorMessage?: string
 	className?: string
 	leftIcon?: React.ReactNode
+	selectInput?: React.ReactNode
 	rightIcon?: React.ReactNode
 	rightAdorment?: React.ReactNode
 	ref?: React.RefObject<HTMLDivElement | null>
@@ -33,6 +34,7 @@ export const InputBase = memo(
 		required = false,
 		disabled = false,
 		leftIcon,
+		selectInput,
 		rightIcon,
 		rightAdorment,
 		type,
@@ -55,10 +57,11 @@ export const InputBase = memo(
 					disabled={disabled}
 					type={type}
 					valid={valid}
-					leftIcon={leftIcon ? true : false}
+					leftIcon={leftIcon || selectInput ? true : false}
 				/>
 				<div className="inputArea">
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
+					{selectInput ? <>{selectInput}</> : null}
 					{children}
 					{rightAdorment ? <span className="rightAdorment">{rightAdorment}</span> : null}
 					{rightIcon ? (

@@ -1,13 +1,11 @@
 import { memo, useCallback, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
-import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 import { Combobox } from '@/components/Input/Combobox'
+import { type DepartamentoFilters } from '@/core/employee/departamento/application/createDepartamentoQueryParams'
+import { useGetAllDepartamento } from '@/core/employee/departamento/infra/hook/useGetAllDepartamento'
 interface BaseProps {
 	value?: string
 	name: string
-	categoryId?: string
-	brandId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
@@ -22,49 +20,41 @@ interface FormProps extends BaseProps {
 	method?: 'form'
 	handleFormChange: ({
 		value,
-		memoryRamSlotQuantity,
-		memoryRamType,
-		generic
+		centroCostoId
 	}: {
 		value: string
-		memoryRamSlotQuantity?: number
-		memoryRamType?: string
-		generic?: boolean
+		centroCostoId: string
 	}) => Promise<void>
 }
 
 type Props = SearchProps | FormProps
 
-export const ModelCombobox = memo(function ({
+export const DepartamentoCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
 	required = false,
 	disabled = false,
 	readonly = false,
-	categoryId,
-	brandId,
 	method = 'search',
 	...props
 }: Props) {
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 
-	const query: ModelFilters = useMemo(() => {
+	const query: DepartamentoFilters = useMemo(() => {
 		return {
 			...(value ? { id: value } : { id: undefined }),
-			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-			categoryId,
-			brandId
+			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 })
 		}
-	}, [debouncedSearch, value, name, categoryId, brandId])
+	}, [debouncedSearch, value, name])
 
-	const { models, isLoading } = useGetAllModel(query)
-	const options = useMemo(() => models?.data ?? [], [models])
+	const { departamentos, isLoading } = useGetAllDepartamento(query)
+	const options = useMemo(() => departamentos?.data ?? [], [departamentos])
 
-	const getModelsData = useCallback(
+	const getDepartamentosData = useCallback(
 		(value: string | number) => {
-			return options.find(model => model.id === value)
+			return options.find(dep => dep.id === value)
 		},
 		[options]
 	)
@@ -72,12 +62,11 @@ export const ModelCombobox = memo(function ({
 	const handleChangeValue = useCallback(
 		(name: string, value: string | number) => {
 			if (method === 'form' && 'handleFormChange' in props) {
-				const data = getModelsData(value)
+				const data = getDepartamentosData(value)
+				console.log('departamento combobox', data)
 				props.handleFormChange({
 					value: `${value}`,
-					memoryRamSlotQuantity: data?.modelComputer?.memoryRamSlotQuantity,
-					memoryRamType: data?.modelComputer?.memoryRamType.name ?? '',
-					generic: data?.generic ?? undefined
+					centroCostoId: data?.centroCostoId ?? ''
 				})
 			} else if (method === 'search' && 'handleChange' in props) {
 				props.handleChange(name, value)
@@ -89,8 +78,8 @@ export const ModelCombobox = memo(function ({
 	return (
 		<>
 			<Combobox
-				id="modelId"
-				label="Modelos"
+				id="departamentoId"
+				label="departamentos"
 				value={value}
 				inputValue={inputValue}
 				name={name}

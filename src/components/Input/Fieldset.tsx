@@ -20,11 +20,10 @@ export function Fieldset<T extends string | number | readonly string[]>({
 	value,
 	required,
 	disabled,
-	type,
 	className,
 	...props
 }: FieldsetProps<T>) {
-	const legendTransform = value || type === 'number'
+	const legendTransform = value
 
 	const filedSetClasses = twMerge(
 		cn({

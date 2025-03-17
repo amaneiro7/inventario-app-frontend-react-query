@@ -62,8 +62,9 @@ export class RegularEmployee extends Employee {
 	}
 
 	static create(params: RegularEmployeeParams): RegularEmployee {
+		console.log('params', params)
 		return new RegularEmployee(
-			new EmployeeUserName(params.username),
+			new EmployeeUserName(params.userName),
 			new EmployeeType(params.type),
 			new EmployeeName(params.name, params.type),
 			new EmployeeLastName(params.lastName, params.type),
@@ -76,8 +77,8 @@ export class RegularEmployee extends Employee {
 			params?.locationId ? new LocationId(params.locationId) : null,
 			new DepartamentoId(params.departamentoId),
 			new CargoId(params.cargoId),
-			params.extension?.map(ext => new EmployeeExtension(ext)),
-			params.phone?.map(phone => new EmployeePhoneNumber(phone))
+			params.extension?.map(ext => new EmployeeExtension(ext)) ?? [],
+			params.phone?.map(phone => new EmployeePhoneNumber(phone)) ?? []
 		)
 	}
 }
