@@ -25,6 +25,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	const { initialState, mode, resetState } = useEmployeeInitialState(
 		defaultState ?? initialEmployeeState.formData
 	)
+
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		employeeFormReducer,

@@ -50,7 +50,6 @@ export const EmployeeInputs = memo(function ({
 	const nacionalities = useMemo(() => {
 		return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
 	}, [Nationalities])
-
 	return (
 		<div className="flex flex-col gap-4">
 			{/* Informacion Principal */}

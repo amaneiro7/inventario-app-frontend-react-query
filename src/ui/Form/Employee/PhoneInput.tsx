@@ -14,19 +14,11 @@ export const PhoneInput = memo(({ value, index, onChange }: PhoneInputProps) => 
 	const [errorMessage, setErrorMessage] = useState('')
 	const [isError, setIsError] = useState(false)
 	const [operadora, setOperadora] = useState<string>(() => {
-		// Inicializar con la operadora del valor si existe
-		if (!value) {
-			return ''
-		}
-		const match = value.match(/(\+\d+)\s(\d+)/)
-		return match ? match[1] : operadoras[0]?.id || ''
+		const match = value.match(/(\d{4})(\d{7})/)
+		return match ? match[1] : ''
 	})
 	const [numero, setNumero] = useState<string>(() => {
-		// Inicializar con el número del valor si existe
-		if (!value) {
-			return ''
-		}
-		const match = value.match(/(\+\d+)\s(\d+)/)
+		const match = value.match(/(\d{4})(\d{7})/)
 		return match ? match[2] : ''
 	})
 
@@ -66,7 +58,7 @@ export const PhoneInput = memo(({ value, index, onChange }: PhoneInputProps) => 
 					onChange={handleOperadoraChange}
 					className="leftIcon focus:outline-none appearance-none"
 				>
-					<option hidden value="default"></option>
+					<option value="default"></option>
 					{operadoras.map(op => (
 						<option key={op.id} value={op.id}>
 							{op.id}

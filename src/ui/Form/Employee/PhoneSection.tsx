@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo, useCallback, useState } from 'react'
+import { memo, useCallback, useEffect, useState } from 'react'
 import {
 	type Action,
 	type DefaultEmployee
@@ -12,9 +12,15 @@ interface PhoneSectionProps {
 }
 
 export const PhoneSection = memo(({ handleChange, value }: PhoneSectionProps) => {
-	const [phones, setPhones] = useState<string[]>(
-		Array.isArray(value) && value.length > 0 ? value : ['']
-	)
+	const [phones, setPhones] = useState<string[]>([''])
+
+	useEffect(() => {
+		if (Array.isArray(value) && value.length > 0) {
+			setPhones(value)
+		} else {
+			setPhones([''])
+		}
+	}, [value])
 
 	const handlePhoneChange = useCallback(
 		(index: number, value: string) => {
@@ -48,6 +54,7 @@ export const PhoneSection = memo(({ handleChange, value }: PhoneSectionProps) =>
 			{phones.map((phone, index) => (
 				<div key={index} className="flex items-center gap-4">
 					<PhoneInput
+						key={'phone-' + index}
 						index={index}
 						value={phone}
 						onChange={(value, index) => handlePhoneChange(index, value)}
