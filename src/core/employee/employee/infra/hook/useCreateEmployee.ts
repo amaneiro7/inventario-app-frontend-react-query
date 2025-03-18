@@ -56,9 +56,15 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 			name === 'init' ||
 			name === 'reset' ||
 			name === 'departamentoId' ||
-			name === 'phoneNumber' ||
+			name === 'addExtension' ||
+			name === 'addPhone' ||
+			name === 'removeExtension' ||
+			name === 'removePhone' ||
+			name === 'clearExtension' ||
+			name === 'clearPhone' ||
+			name === 'phoneNumero' ||
 			name === 'phoneOperadora' ||
-			name === 'extensionNumber' ||
+			name === 'extensionNumero' ||
 			name === 'extensionOperadora'
 		)
 			return
@@ -68,7 +74,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		if (
 			name === 'phoneNumber' ||
 			name === 'phoneOperadora' ||
-			name === 'extensionNumber' ||
+			name === 'extensionNume' ||
 			name === 'extensionOperadora'
 		)
 			dispatch({ type: name, payload: { index, value } })

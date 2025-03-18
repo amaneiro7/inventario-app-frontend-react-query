@@ -546,6 +546,71 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+		case 'extensionOperadora': {
+			const { index, value } = action.payload
+
+			const extension = [...state.formData.extension]
+			const extensionSegments = [...state.formData.extensionSegments]
+
+			extensionSegments[index] = {
+				...extensionSegments[index],
+				operadora: value
+			}
+			const combinedValue = `${value}${extensionSegments[index].numero}`
+			extension[index] = combinedValue
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					extension,
+					extensionSegments
+				}
+			}
+		}
+		case 'phoneNumero': {
+			const { index, value } = action.payload
+
+			const phone = [...state.formData.phone]
+			const phoneSegments = [...state.formData.phoneSegments]
+			const maxLength = 7 // Define el límite de caracteres
+			const trucatedValue = value.trim().slice(0, maxLength)
+
+			phoneSegments[index] = {
+				...phoneSegments[index],
+				numero: trucatedValue
+			}
+			const combinedValue = `${phoneSegments[index].operadora}${trucatedValue}`
+			phone[index] = combinedValue
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					phone,
+					phoneSegments
+				}
+			}
+		}
+		case 'phoneOperadora': {
+			const { index, value } = action.payload
+
+			const phone = [...state.formData.phone]
+			const phoneSegments = [...state.formData.phoneSegments]
+
+			phoneSegments[index] = {
+				...phoneSegments[index],
+				operadora: value
+			}
+			const combinedValue = `${value}${phoneSegments[index].numero}`
+			phone[index] = combinedValue
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					phone,
+					phoneSegments
+				}
+			}
+		}
 
 		default:
 			return state
