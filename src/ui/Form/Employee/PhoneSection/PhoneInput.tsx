@@ -22,23 +22,34 @@ export const PhoneInput = memo(({ value, index, onChange }: PhoneInputProps) => 
 		return match ? match[2] : ''
 	})
 
-	const handleOperadoraChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-		setOperadora(event.target.value)
-	}, [])
-
-	const handleNumeroChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			const value = event.target.value.trim()
-			const maxLength = 7 // Define el límite de caracteres
-			const truncatedValue = value.slice(0, maxLength) // Trunca el valor si excede el límite
-			setNumero(truncatedValue)
-			const combinedValue = `${operadora}${truncatedValue}`
+	const uptadeCombinedValue = useCallback(
+		({ newOperadora, newNumero }: { newOperadora: string; newNumero: string }) => {
+			const combinedValue = `${newOperadora}${newNumero}`
 			const isValid = EmployeePhoneNumber.isValid(combinedValue)
 			setIsError(!isValid)
 			setErrorMessage(isValid ? '' : EmployeePhoneNumber.invalidMessage())
 			onChange(combinedValue, index)
 		},
-		[operadora, index, onChange]
+		[index, onChange]
+	)
+
+	const handleOperadoraChange = useCallback(
+		(event: React.ChangeEvent<HTMLSelectElement>) => {
+			const newOperadora = event.target.value
+			setOperadora(newOperadora)
+			uptadeCombinedValue({ newOperadora, newNumero: numero })
+		},
+		[numero, uptadeCombinedValue]
+	)
+
+	const handleNumeroChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			const maxLength = 7 // Define el límite de caracteres
+			const newNumero = event.target.value.trim().slice(0, maxLength)
+			setNumero(newNumero)
+			uptadeCombinedValue({ newOperadora: operadora, newNumero })
+		},
+		[operadora, uptadeCombinedValue]
 	)
 
 	return (
@@ -58,7 +69,7 @@ export const PhoneInput = memo(({ value, index, onChange }: PhoneInputProps) => 
 					onChange={handleOperadoraChange}
 					className="leftIcon focus:outline-none appearance-none"
 				>
-					<option value="default"></option>
+					<option value="">-</option>
 					{operadoras.map(op => (
 						<option key={op.id} value={op.id}>
 							{op.id}

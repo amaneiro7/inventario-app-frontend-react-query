@@ -13,6 +13,9 @@ import { EmployeeCreator } from '../../application/EmployeeCreator'
 import { useEmployeeInitialState } from './useEmployeeInitialState'
 
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
+	const { initialState, mode, resetState } = useEmployeeInitialState(
+		defaultState ?? initialEmployeeState.formData
+	)
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
@@ -20,10 +23,6 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 			return await new EmployeeCreator(new EmployeeSaveService(), events).create(formData)
 		},
 		[events]
-	)
-
-	const { initialState, mode, resetState } = useEmployeeInitialState(
-		defaultState ?? initialEmployeeState.formData
 	)
 
 	const prevState = usePrevious(initialState)
@@ -67,13 +66,16 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		[]
 	)
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData as never).then(() => {
-			resetState()
-		})
-	}
+	const handleSubmit = useCallback(
+		async (event: React.FormEvent) => {
+			event.preventDefault()
+			event.stopPropagation()
+			await create(formData as never).then(() => {
+				resetState()
+			})
+		},
+		[create, formData, resetState]
+	)
 
 	return {
 		key,

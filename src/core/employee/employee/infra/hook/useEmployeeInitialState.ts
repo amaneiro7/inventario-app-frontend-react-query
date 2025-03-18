@@ -13,6 +13,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	initialState: DefaultEmployee
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -21,7 +22,11 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultEmployee>(defaultState)
 
-	const { data: employeeData, refetch } = useQuery({
+	const {
+		data: employeeData,
+		refetch,
+		isFetching
+	} = useQuery({
 		queryKey: ['employee', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.Employee,
@@ -63,9 +68,12 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 			return
 		}
 
+		console.log('node', mode)
+		console.log('me estoy ejecutando', isFetching)
+
 		if (location?.state?.employee) {
 			setState(location.state.employee)
-		} else if (employeeData) {
+		} else if (employeeData && !isFetching) {
 			mappedEmployeeState(employeeData)
 		}
 	}, [mode, employeeData, location.state, defaultState, navigate, id, mappedEmployeeState])
@@ -86,6 +94,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		resetState,
+		isLoading: isFetching
 	}
 }

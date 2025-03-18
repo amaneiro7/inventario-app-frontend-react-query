@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo, useMemo } from 'react'
+import { useMemo } from 'react'
 import { Input } from '@/components/Input/Input'
 import {
 	type Action,
@@ -19,8 +19,8 @@ import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/Departamen
 import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
 import { Nationalities } from '@/core/employee/employee/domain/value-object/EmployeeNationality'
 import { EmployeeCedula } from '@/core/employee/employee/domain/value-object/EmployeeCedula'
-import { PhoneSection } from './PhoneSection'
 import { ExtensionSection } from './ExtensionSection'
+import { PhoneSection } from './PhoneSection'
 
 interface Props {
 	formData: DefaultEmployee
@@ -38,7 +38,7 @@ interface Props {
 	}) => Promise<void>
 }
 
-export const EmployeeInputs = memo(function ({
+export const EmployeeInputs = ({
 	errors,
 	required,
 	disabled,
@@ -46,7 +46,7 @@ export const EmployeeInputs = memo(function ({
 	mode,
 	handleChange,
 	handleDepartment
-}: Props) {
+}: Props) => {
 	const nacionalities = useMemo(() => {
 		return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
 	}, [Nationalities])
@@ -217,10 +217,9 @@ export const EmployeeInputs = memo(function ({
 						required={required.cargoId}
 						disabled={disabled.cargoId}
 					/>
-					<Typography color="azul" variant="h6">
-						Números de teléfono
-					</Typography>
+
 					<PhoneSection handleChange={handleChange} value={formData.phone} />
+
 					<Typography color="azul" variant="h6">
 						Extensión
 					</Typography>
@@ -229,4 +228,4 @@ export const EmployeeInputs = memo(function ({
 			</div>
 		</div>
 	)
-})
+}
