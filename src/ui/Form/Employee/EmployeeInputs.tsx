@@ -29,6 +29,7 @@ interface Props {
 	disabled: EmployeeDisabled
 	mode: FormMode
 	handleChange: (name: Action['type'], value: any) => void
+	handlePhoneInputs: (name: Action['type'], index: number, value: string) => void
 	handleDepartment: ({
 		value,
 		centroCostoId
@@ -45,7 +46,8 @@ export const EmployeeInputs = ({
 	formData,
 	mode,
 	handleChange,
-	handleDepartment
+	handleDepartment,
+	handlePhoneInputs
 }: Props) => {
 	const nacionalities = useMemo(() => {
 		return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
@@ -218,11 +220,11 @@ export const EmployeeInputs = ({
 						disabled={disabled.cargoId}
 					/>
 
-					<PhoneSection handleChange={handleChange} value={formData.phone} />
-
-					<Typography color="azul" variant="h6">
-						Extensión
-					</Typography>
+					<PhoneSection
+						handlePhoneInputs={handlePhoneInputs}
+						handleChange={handleChange}
+						value={formData.phone}
+					/>
 					<ExtensionSection handleChange={handleChange} value={formData.extension} />
 				</div>
 			</div>

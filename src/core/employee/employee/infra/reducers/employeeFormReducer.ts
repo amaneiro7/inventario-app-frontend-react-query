@@ -25,7 +25,9 @@ export interface DefaultEmployee {
 	centroTrabajoId: EmployeeDto['centroTrabajoId']
 	cargoId: EmployeeDto['cargoId']
 	extension: EmployeeDto['extension']
+	extensionSegments: { operadora: string; numero: string }[]
 	phone: EmployeeDto['phone']
+	phoneSegments: { operadora: string; numero: string }[]
 	devices: EmployeeDto['devices']
 	updatedAt?: EmployeeDto['updatedAt']
 }
@@ -95,8 +97,10 @@ export const initialEmployeeState: State = {
 		centroCostoId: '',
 		centroTrabajoId: '',
 		cargoId: '',
-		extension: [],
-		phone: [],
+		extension: [''],
+		extensionSegments: [{ numero: '', operadora: '' }],
+		phone: [''],
+		phoneSegments: [{ numero: '', operadora: '' }],
 		devices: [],
 		updatedAt: undefined
 	},
@@ -164,14 +168,22 @@ export type Action =
 	  }
 	| { type: 'centroTrabajoId'; payload: { value: DefaultEmployee['centroTrabajoId'] } }
 	| { type: 'cargoId'; payload: { value: DefaultEmployee['cargoId'] } }
-	| { type: 'extension'; payload: { value: DefaultEmployee['extension'] } }
-	| { type: 'phone'; payload: { value: DefaultEmployee['phone'] } }
+	| { type: 'addPhone' }
+	| { type: 'addExtension' }
+	| { type: 'removePhone'; payload: { index: number } }
+	| { type: 'removeExtension'; payload: { index: number } }
+	| { type: 'clearPhone'; payload: { index: number } }
+	| { type: 'clearExtension'; payload: { index: number } }
+	| { type: 'phoneOperadora'; payload: { index: number; value: string } }
+	| { type: 'extensionOperadora'; payload: { index: number; value: string } }
+	| { type: 'phoneNumero'; payload: { index: number; value: string } }
+	| { type: 'extensionNumero'; payload: { index: number; value: string } }
 
 export const employeeFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'reset':
 		case 'init': {
-			const { type } = action.payload.formData
+			const { type, phone, extension } = action.payload.formData
 			return {
 				...state,
 				formData: {
@@ -184,7 +196,9 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					nationality:
 						type === EmployeeTypes.GENERIC || !type
 							? ''
-							: action.payload.formData.nationality ?? Nationalities.V
+							: action.payload.formData.nationality ?? Nationalities.V,
+					phone: phone.length > 0 ? phone : [''],
+					extension: extension.length > 0 ? extension : ['']
 				},
 				disabled: {
 					...state.disabled,
@@ -403,18 +417,133 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, cargoId }
 			}
 		}
-		case 'extension': {
-			const extension = action.payload.value
+		case 'addPhone': {
+			const phone = [...state.formData.phone]
+			const phoneSegments = [...state.formData.phoneSegments]
+			if (phone[phone.length - 1] !== '') {
+				phone.push('')
+				phoneSegments.push({
+					numero: '',
+					operadora: ''
+				})
+				return {
+					...state,
+					formData: { ...state.formData, phone, phoneSegments }
+				}
+			}
+			return state
+		}
+		case 'addExtension': {
+			const extension = [...state.formData.extension]
+			const extensionSegments = [...state.formData.extensionSegments]
+			if (extension[extension.length - 1] !== '') {
+				extension.push('')
+				extensionSegments.push({
+					numero: '',
+					operadora: ''
+				})
+				return {
+					...state,
+					formData: { ...state.formData, extension, extensionSegments }
+				}
+			}
+			return state
+		}
+		case 'removePhone': {
+			const index = action.payload.index
+			const phone = [...state.formData.phone]
+			const phoneSegments = [...state.formData.phoneSegments]
+			if (phone.length > 1) {
+				phone.splice(index, 1)
+				phoneSegments.splice(index, 1)
+				return {
+					...state,
+					formData: {
+						...state.formData,
+						phone,
+						phoneSegments
+					}
+				}
+			}
+			return state
+		}
+		case 'removeExtension': {
+			const index = action.payload.index
+			const extension = [...state.formData.extension]
+			const extensionSegments = [...state.formData.extensionSegments]
+			if (extension.length > 1) {
+				extension.splice(index, 1)
+				extensionSegments.splice(index, 1)
+				return {
+					...state,
+					formData: {
+						...state.formData,
+						extension,
+						extensionSegments
+					}
+				}
+			}
+			return state
+		}
+		case 'clearPhone': {
+			const index = action.payload.index
+			const phone = [...state.formData.phone]
+			const phoneSegments = [...state.formData.phoneSegments]
+
+			phone[index] = ''
+			phoneSegments[index] = {
+				numero: '',
+				operadora: ''
+			}
 			return {
 				...state,
-				formData: { ...state.formData, extension }
+				formData: {
+					...state.formData,
+					phone,
+					phoneSegments
+				}
 			}
 		}
-		case 'phone': {
-			const phone = action.payload.value
+		case 'clearExtension': {
+			const index = action.payload.index
+			const extension = [...state.formData.extension]
+			const extensionSegments = [...state.formData.extensionSegments]
+
+			extension[index] = ''
+			extensionSegments[index] = {
+				numero: '',
+				operadora: ''
+			}
 			return {
 				...state,
-				formData: { ...state.formData, phone }
+				formData: {
+					...state.formData,
+					extension,
+					extensionSegments
+				}
+			}
+		}
+		case 'extensionNumero': {
+			const { index, value } = action.payload
+
+			const extension = [...state.formData.extension]
+			const extensionSegments = [...state.formData.extensionSegments]
+			const maxLength = 7 // Define el límite de caracteres
+			const trucatedValue = value.trim().slice(0, maxLength)
+
+			extensionSegments[index] = {
+				...extensionSegments[index],
+				numero: trucatedValue
+			}
+			const combinedValue = `${extensionSegments[index].operadora}${trucatedValue}`
+			extension[index] = combinedValue
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					extension,
+					extensionSegments
+				}
 			}
 		}
 

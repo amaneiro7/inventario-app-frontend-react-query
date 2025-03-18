@@ -52,8 +52,26 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset' || name === 'departamentoId') return
+		if (
+			name === 'init' ||
+			name === 'reset' ||
+			name === 'departamentoId' ||
+			name === 'phoneNumber' ||
+			name === 'phoneOperadora' ||
+			name === 'extensionNumber' ||
+			name === 'extensionOperadora'
+		)
+			return
 		dispatch({ type: name, payload: { value } })
+	}, [])
+	const handlePhoneInputs = useCallback((name: Action['type'], index: number, value: string) => {
+		if (
+			name === 'phoneNumber' ||
+			name === 'phoneOperadora' ||
+			name === 'extensionNumber' ||
+			name === 'extensionOperadora'
+		)
+			dispatch({ type: name, payload: { index, value } })
 	}, [])
 
 	const handleDepartment = useCallback(
@@ -84,6 +102,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		errors,
 		required,
 		disabled,
+		handlePhoneInputs,
 		resetForm,
 		handleSubmit,
 		handleChange,

@@ -14,6 +14,7 @@ export default function FormEmployee() {
 		handleChange,
 		handleDepartment,
 		handleSubmit,
+		handlePhoneInputs,
 		resetForm
 	} = useCreateEmployee()
 
@@ -40,6 +41,7 @@ export default function FormEmployee() {
 				mode={mode}
 				handleChange={handleChange}
 				handleDepartment={handleDepartment}
+				handlePhoneInputs={handlePhoneInputs}
 			/>
 		</FormContainer>
 	)

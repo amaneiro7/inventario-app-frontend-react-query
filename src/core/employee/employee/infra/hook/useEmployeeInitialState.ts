@@ -68,15 +68,21 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 			return
 		}
 
-		console.log('node', mode)
-		console.log('me estoy ejecutando', isFetching)
-
 		if (location?.state?.employee) {
 			setState(location.state.employee)
 		} else if (employeeData && !isFetching) {
 			mappedEmployeeState(employeeData)
 		}
-	}, [mode, employeeData, location.state, defaultState, navigate, id, mappedEmployeeState])
+	}, [
+		mode,
+		employeeData,
+		isFetching,
+		location.state,
+		defaultState,
+		navigate,
+		id,
+		mappedEmployeeState
+	])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('employee')) return

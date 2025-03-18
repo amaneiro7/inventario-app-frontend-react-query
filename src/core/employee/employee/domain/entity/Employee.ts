@@ -60,7 +60,9 @@ export class Employee {
 			extension: params?.extension
 				? params.extension.map(ext => new EmployeeExtension(ext))
 				: [],
-			phone: params?.phone ? params.phone.map(phone => new EmployeePhoneNumber(phone)) : []
+			phone: params?.phone
+				? params.phone.filter(phone => phone).map(phone => new EmployeePhoneNumber(phone))
+				: []
 		}
 	}
 
