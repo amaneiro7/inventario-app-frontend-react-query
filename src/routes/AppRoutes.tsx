@@ -1,34 +1,33 @@
+import { Loading } from '@/components/Loading'
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-const ListComputer = lazy(async () => import('@/pages/ListComputer'))
-const ListMonitor = lazy(async () => import('@/pages/ListMonitor'))
-const ListPrinter = lazy(async () => import('@/pages/ListPrinter'))
-const ListParts = lazy(async () => import('@/pages/ListParts'))
-const ListFinantialPrinter = lazy(async () => import('@/pages/ListFinantialPrinter'))
-const ListModels = lazy(async () => import('@/pages/ListModel'))
-const UserManagement = lazy(async () => import('@/pages/UserManagement'))
-const NotFound = lazy(async () => await import('@/pages/404'))
-const Home = lazy(async () => await import('@/pages/Home'))
-const Profile = lazy(async () => await import('@/pages/Profile'))
-const Layout = lazy(async () => await import('@/components/Layout/Layout'))
-const Login = lazy(async () => await import('@/pages/Login'))
-const FormBrand = lazy(async () => import('@/pages/FormBrand'))
-const FormEmployee = lazy(async () => import('@/pages/FormEmployee'))
-const FormModel = lazy(async () => import('@/pages/FormModel'))
-const FormCity = lazy(async () => import('@/pages/FormCity'))
-const FormSite = lazy(async () => import('@/pages/FormSite'))
-const FormDepartamento = lazy(async () => import('@/pages/FormDepartamento'))
-const FormCargo = lazy(async () => import('@/pages/FormCargo'))
-const FormDirectiva = lazy(async () => import('@/pages/FormDirectiva'))
-const FormVicepresidenciaEjecutivas = lazy(
-	async () => import('@/pages/FormVicepresidenciaEjecutiva')
-)
-const FormCentroCosto = lazy(async () => import('@/pages/FormCentroCosto'))
-const FormCentroTrabajo = lazy(async () => import('@/pages/FormCentroTrabajo'))
-const FormLocation = lazy(async () => import('@/pages/FormLocation'))
-const FormProcessor = lazy(async () => import('@/pages/FormProcessor'))
-const FormDevice = lazy(async () => import('@/pages/FormDevice'))
+const ListComputer = lazy(() => import('@/pages/ListComputer'))
+const ListMonitor = lazy(() => import('@/pages/ListMonitor'))
+const ListPrinter = lazy(() => import('@/pages/ListPrinter'))
+const ListParts = lazy(() => import('@/pages/ListParts'))
+const ListFinantialPrinter = lazy(() => import('@/pages/ListFinantialPrinter'))
+const ListModels = lazy(() => import('@/pages/ListModel'))
+const UserManagement = lazy(() => import('@/pages/UserManagement'))
+const NotFound = lazy(() => import('@/pages/404'))
+const Home = lazy(() => import('@/pages/Home'))
+const Profile = lazy(() => import('@/pages/Profile'))
+const Layout = lazy(() => import('@/components/Layout/Layout'))
+const Login = lazy(() => import('@/pages/Login'))
+const FormBrand = lazy(() => import('@/pages/FormBrand'))
+const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
+const FormModel = lazy(() => import('@/pages/FormModel'))
+const FormCity = lazy(() => import('@/pages/FormCity'))
+const FormSite = lazy(() => import('@/pages/FormSite'))
+const FormDepartamento = lazy(() => import('@/pages/FormDepartamento'))
+const FormCargo = lazy(() => import('@/pages/FormCargo'))
+const FormDirectiva = lazy(() => import('@/pages/FormDirectiva'))
+const FormVicepresidenciaEjecutivas = lazy(() => import('@/pages/FormVicepresidenciaEjecutiva'))
+const FormCentroCosto = lazy(() => import('@/pages/FormCentroCosto'))
+const FormCentroTrabajo = lazy(() => import('@/pages/FormCentroTrabajo'))
+const FormLocation = lazy(() => import('@/pages/FormLocation'))
+const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
+const FormDevice = lazy(() => import('@/pages/FormDevice'))
 
 export function AppRoutes() {
 	return (
@@ -36,7 +35,7 @@ export function AppRoutes() {
 			<Route
 				path="/login"
 				element={
-					<Suspense>
+					<Suspense fallback={<Loading />}>
 						<Login />
 					</Suspense>
 				}
@@ -44,7 +43,7 @@ export function AppRoutes() {
 			<Route
 				path="/"
 				element={
-					<Suspense>
+					<Suspense fallback={<Loading />}>
 						<Layout />
 					</Suspense>
 				}
@@ -52,7 +51,7 @@ export function AppRoutes() {
 				<Route
 					path="/"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<Home />
 						</Suspense>
 					}
@@ -60,7 +59,7 @@ export function AppRoutes() {
 				<Route
 					path="/profile"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<Profile />
 						</Suspense>
 					}
@@ -68,7 +67,7 @@ export function AppRoutes() {
 				<Route
 					path="/user-management"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<UserManagement />
 						</Suspense>
 					}
@@ -76,7 +75,7 @@ export function AppRoutes() {
 				<Route
 					path="/computer"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<ListComputer />
 						</Suspense>
 					}
@@ -84,7 +83,7 @@ export function AppRoutes() {
 				<Route
 					path="/monitor"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<ListMonitor />
 						</Suspense>
 					}
@@ -92,7 +91,7 @@ export function AppRoutes() {
 				<Route
 					path="/printer"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<ListPrinter />
 						</Suspense>
 					}
@@ -100,7 +99,7 @@ export function AppRoutes() {
 				<Route
 					path="/finantialprinter"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<ListFinantialPrinter />
 						</Suspense>
 					}
@@ -108,7 +107,7 @@ export function AppRoutes() {
 				<Route
 					path="/parts"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<ListParts />
 						</Suspense>
 					}
@@ -116,7 +115,7 @@ export function AppRoutes() {
 				<Route
 					path="/model"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<ListModels />
 						</Suspense>
 					}
@@ -124,7 +123,7 @@ export function AppRoutes() {
 				<Route
 					path="/device/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormDevice />
 						</Suspense>
 					}
@@ -132,7 +131,7 @@ export function AppRoutes() {
 				<Route
 					path="/device/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormDevice />
 						</Suspense>
 					}
@@ -140,7 +139,7 @@ export function AppRoutes() {
 				<Route
 					path="/employee/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormEmployee />
 						</Suspense>
 					}
@@ -148,7 +147,7 @@ export function AppRoutes() {
 				<Route
 					path="/employee/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormEmployee />
 						</Suspense>
 					}
@@ -156,7 +155,7 @@ export function AppRoutes() {
 				<Route
 					path="/brand/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormBrand />
 						</Suspense>
 					}
@@ -164,7 +163,7 @@ export function AppRoutes() {
 				<Route
 					path="/brand/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormBrand />
 						</Suspense>
 					}
@@ -172,7 +171,7 @@ export function AppRoutes() {
 				<Route
 					path="/directiva/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormDirectiva />
 						</Suspense>
 					}
@@ -180,7 +179,7 @@ export function AppRoutes() {
 				<Route
 					path="/directiva/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormDirectiva />
 						</Suspense>
 					}
@@ -188,7 +187,7 @@ export function AppRoutes() {
 				<Route
 					path="/vicepresidenciaEjecutivas/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormVicepresidenciaEjecutivas />
 						</Suspense>
 					}
@@ -196,7 +195,7 @@ export function AppRoutes() {
 				<Route
 					path="/vicepresidenciaEjecutivas/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormVicepresidenciaEjecutivas />
 						</Suspense>
 					}
@@ -204,7 +203,7 @@ export function AppRoutes() {
 				<Route
 					path="/model/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormModel />
 						</Suspense>
 					}
@@ -212,7 +211,7 @@ export function AppRoutes() {
 				<Route
 					path="/model/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormModel />
 						</Suspense>
 					}
@@ -220,7 +219,7 @@ export function AppRoutes() {
 				<Route
 					path="/site/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormSite />
 						</Suspense>
 					}
@@ -228,7 +227,7 @@ export function AppRoutes() {
 				<Route
 					path="/site/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormSite />
 						</Suspense>
 					}
@@ -236,7 +235,7 @@ export function AppRoutes() {
 				<Route
 					path="/location/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormLocation />
 						</Suspense>
 					}
@@ -244,7 +243,7 @@ export function AppRoutes() {
 				<Route
 					path="/location/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormLocation />
 						</Suspense>
 					}
@@ -252,7 +251,7 @@ export function AppRoutes() {
 				<Route
 					path="/city/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCity />
 						</Suspense>
 					}
@@ -260,7 +259,7 @@ export function AppRoutes() {
 				<Route
 					path="/city/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCity />
 						</Suspense>
 					}
@@ -268,7 +267,7 @@ export function AppRoutes() {
 				<Route
 					path="/centrocosto/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCentroCosto />
 						</Suspense>
 					}
@@ -276,7 +275,7 @@ export function AppRoutes() {
 				<Route
 					path="/centrocosto/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCentroCosto />
 						</Suspense>
 					}
@@ -284,7 +283,7 @@ export function AppRoutes() {
 				<Route
 					path="/centrotrabajo/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCentroTrabajo />
 						</Suspense>
 					}
@@ -292,7 +291,7 @@ export function AppRoutes() {
 				<Route
 					path="/centrotrabajo/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCentroTrabajo />
 						</Suspense>
 					}
@@ -300,7 +299,7 @@ export function AppRoutes() {
 				<Route
 					path="/departamento/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormDepartamento />
 						</Suspense>
 					}
@@ -308,7 +307,7 @@ export function AppRoutes() {
 				<Route
 					path="/departamento/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormDepartamento />
 						</Suspense>
 					}
@@ -316,7 +315,7 @@ export function AppRoutes() {
 				<Route
 					path="/cargo/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCargo />
 						</Suspense>
 					}
@@ -324,7 +323,7 @@ export function AppRoutes() {
 				<Route
 					path="/cargo/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormCargo />
 						</Suspense>
 					}
@@ -332,7 +331,7 @@ export function AppRoutes() {
 				<Route
 					path="/processors/add"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormProcessor />
 						</Suspense>
 					}
@@ -340,7 +339,7 @@ export function AppRoutes() {
 				<Route
 					path="/processors/edit/:id"
 					element={
-						<Suspense>
+						<Suspense fallback={<Loading />}>
 							<FormProcessor />
 						</Suspense>
 					}
@@ -349,7 +348,7 @@ export function AppRoutes() {
 			<Route
 				path="*"
 				element={
-					<Suspense>
+					<Suspense fallback={<Loading />}>
 						<NotFound />
 					</Suspense>
 				}

@@ -12,7 +12,7 @@ export class EmployeeExtension extends StringValueObject {
 	constructor(value: string) {
 		super(value)
 
-		if (EmployeeExtension.isValid(value)) {
+		if (!EmployeeExtension.isValid(value)) {
 			throw new InvalidArgumentError(EmployeeExtension.invalidMessage())
 		}
 	}

@@ -25,14 +25,15 @@ export const EmployeeCombobox = memo(function ({
 
 	const query: EmployeeFilters = useMemo(() => {
 		return {
+			...(value ? { id: value } : {}),
 			...(debouncedLocalSearch
 				? {
+						id: undefined,
 						name: debouncedLocalSearch,
 						userName: debouncedLocalSearch,
 						lastName: debouncedLocalSearch
 				  }
-				: { pageSize: 10 }),
-			...(value ? { id: value } : {})
+				: { pageSize: 10 })
 		}
 	}, [debouncedLocalSearch, value])
 
