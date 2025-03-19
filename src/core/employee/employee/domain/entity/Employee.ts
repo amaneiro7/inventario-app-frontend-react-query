@@ -36,7 +36,7 @@ export class Employee {
 		private readonly phone: EmployeePhoneNumber[]
 	) {}
 
-	private static assignValues(params: EmployeePrimitives) {
+	static assignValues(params: EmployeePrimitives) {
 		return {
 			userName: new EmployeeUserName(params.userName),
 			type: new EmployeeType(params.type),
@@ -58,7 +58,7 @@ export class Employee {
 				: null,
 			cargoId: params?.cargoId ? new CargoId(params.cargoId) : null,
 			extension: params?.extension
-				? params.extension.map(ext => new EmployeeExtension(ext))
+				? params.extension.filter(ext => ext).map(ext => new EmployeeExtension(ext))
 				: [],
 			phone: params?.phone
 				? params.phone.filter(phone => phone).map(phone => new EmployeePhoneNumber(phone))

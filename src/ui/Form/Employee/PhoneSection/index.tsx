@@ -1,29 +1,47 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { type Action } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
 import { PhoneInput } from './PhoneInput'
 import Typography from '@/components/Typography'
 import Button from '@/components/Button'
 import { CloseIcon } from '@/icon/CloseIcon'
 import { BrushIcon } from '@/icon/BrushIcon'
-import { usePhoneSection } from './usePhoneSection'
+import { type DefaultEmployee } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
 
 interface PhoneSectionProps {
-	value: string[]
-	handleChange: (name: Action['type'], value: any) => void
-	handlePhoneInputs: (name: Action['type'], index: number, value: string) => void
+	phones: DefaultEmployee['phone']
+	phoneSegments: DefaultEmployee['phoneSegments']
+	handleAddPhones: ({ type }: { type: 'addPhone' | 'addExtension' }) => void
+	handleClearFirstPhone: ({
+		type,
+		index
+	}: {
+		type: 'clearPhone' | 'clearExtension'
+		index: number
+	}) => void
+	handlePhoneChange: ({
+		type,
+		index,
+		value
+	}: {
+		type: 'phoneNumero' | 'phoneOperadora' | 'extensionNumero' | 'extensionOperadora'
+		index: number
+		value: string
+	}) => void
+	handleRemovePhones: ({
+		type,
+		index
+	}: {
+		type: 'removePhone' | 'removeExtension'
+		index: number
+	}) => void
 }
 
-export const PhoneSection = ({ handleChange, handlePhoneInputs, value }: PhoneSectionProps) => {
-	const {
-		handleAddPhone,
-		handleClearFirstPhone,
-		handlePhoneChange,
-		handleNumeroChange,
-		handleOperadoraChange,
-		handleRemovePhone,
-		phones
-	} = usePhoneSection({ handleChange, handlePhoneInputs, value })
-
+export const PhoneSection = ({
+	handleAddPhones,
+	handleClearFirstPhone,
+	handlePhoneChange,
+	handleRemovePhones,
+	phones,
+	phoneSegments
+}: PhoneSectionProps) => {
 	const addPhoneButtonText = 'Agregar otro teléfono'
 	const removePhoneButtonTitle = 'Eliminar el teléfono'
 	const clearPhoneButtonTitle = 'Limpiar teléfono'
@@ -39,56 +57,49 @@ export const PhoneSection = ({ handleChange, handlePhoneInputs, value }: PhoneSe
 					size="content"
 					type="button"
 					color="orange"
-					disabled={phones[phones.length - 1] === ''}
+					disabled={!phones[phones?.length - 1]}
 					title={addPhoneButtonText}
-					onClick={handleAddPhone}
+					onClick={() => handleAddPhones({ type: 'addPhone' })}
 				/>
 			</div>
-			{phones.map(
-				(phone, index) => (
-					console.log('phone', phone),
-					(
-						<div key={index} className="flex items-center gap-2">
-							<PhoneInput
-								index={index}
-								value={phone}
-								onNumeroChange={handleNumeroChange}
-								onOperadoraChange={handleOperadoraChange}
-								onChange={(value, index) => handlePhoneChange(index, value)}
-							/>
+			{phoneSegments.map(({ numero, operadora }, index) => (
+				<div key={index} className="flex items-center gap-2">
+					<PhoneInput
+						index={index}
+						numero={numero}
+						operadora={operadora}
+						handlePhoneChange={handlePhoneChange}
+					/>
 
-							{index === 0 ? (
-								<Button
-									className="rounded-full mb-3 aspect-square flex items-center font-black justify-center"
-									buttonSize="medium"
-									text=""
-									icon={<BrushIcon className="h-4 w-4 fill-white text-white" />}
-									size="content"
-									color="blue"
-									type="button"
-									disabled={!phone}
-									title={clearPhoneButtonTitle}
-									onClick={handleClearFirstPhone}
-								/>
-							) : (
-								index > 0 && (
-									<Button
-										className="rounded-full mb-3 aspect-square flex items-center font-black justify-center"
-										buttonSize="medium"
-										text=""
-										type="button"
-										icon={<CloseIcon className="h-4 w-4" />}
-										size="content"
-										color="blue"
-										title={removePhoneButtonTitle}
-										onClick={() => handleRemovePhone(index)}
-									/>
-								)
-							)}
-						</div>
-					)
-				)
-			)}
+					{index === 0 ? (
+						<Button
+							className="rounded-full mb-3 aspect-square flex items-center font-black justify-center"
+							buttonSize="medium"
+							text=""
+							icon={<BrushIcon className="h-4 w-4 fill-white text-white" />}
+							size="content"
+							color="blue"
+							type="button"
+							title={clearPhoneButtonTitle}
+							onClick={() => handleClearFirstPhone({ type: 'clearPhone', index })}
+						/>
+					) : (
+						index > 0 && (
+							<Button
+								className="rounded-full mb-3 aspect-square flex items-center font-black justify-center"
+								buttonSize="medium"
+								text=""
+								type="button"
+								icon={<CloseIcon className="h-4 w-4" />}
+								size="content"
+								color="blue"
+								title={removePhoneButtonTitle}
+								onClick={() => handleRemovePhones({ type: 'removePhone', index })}
+							/>
+						)
+					)}
+				</div>
+			))}
 		</>
 	)
 }

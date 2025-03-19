@@ -70,15 +70,38 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 			return
 		dispatch({ type: name, payload: { value } })
 	}, [])
-	const handlePhoneInputs = useCallback((name: Action['type'], index: number, value: string) => {
-		if (
-			name === 'phoneNumber' ||
-			name === 'phoneOperadora' ||
-			name === 'extensionNume' ||
-			name === 'extensionOperadora'
-		)
-			dispatch({ type: name, payload: { index, value } })
+	const handlePhoneChange = useCallback(
+		({
+			type,
+			index,
+			value
+		}: {
+			type: 'phoneNumero' | 'phoneOperadora' | 'extensionNumero' | 'extensionOperadora'
+			index: number
+			value: string
+		}) => {
+			dispatch({ type, payload: { index, value } })
+		},
+		[]
+	)
+
+	const handleAddPhones = useCallback(({ type }: { type: 'addPhone' | 'addExtension' }) => {
+		dispatch({ type })
 	}, [])
+
+	const handleRemovePhones = useCallback(
+		({ type, index }: { type: 'removePhone' | 'removeExtension'; index: number }) => {
+			dispatch({ type, payload: { index } })
+		},
+		[]
+	)
+
+	const handleClearFirstPhone = useCallback(
+		({ type, index }: { type: 'clearPhone' | 'clearExtension'; index: number }) => {
+			dispatch({ type, payload: { index } })
+		},
+		[]
+	)
 
 	const handleDepartment = useCallback(
 		async ({ value, centroCostoId }: { value: string; centroCostoId: string }) => {
@@ -108,7 +131,10 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		errors,
 		required,
 		disabled,
-		handlePhoneInputs,
+		handlePhoneChange,
+		handleAddPhones,
+		handleRemovePhones,
+		handleClearFirstPhone,
 		resetForm,
 		handleSubmit,
 		handleChange,

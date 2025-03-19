@@ -20,7 +20,7 @@ export function EmployeeTypeCombobox({
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const options = useMemo(() => {
-		return Object.values(EmployeeTypes).flatMap(opt => ({ id: opt }))
+		return Object.values(EmployeeTypes).flatMap(opt => ({ id: opt, name: opt.toUpperCase() }))
 	}, [EmployeeTypes])
 	return (
 		<>
@@ -37,7 +37,6 @@ export function EmployeeTypeCombobox({
 				searchField={false}
 				onChangeValue={handleChange}
 				readOnly={readonly}
-				displayAccessor="id"
 			/>
 		</>
 	)

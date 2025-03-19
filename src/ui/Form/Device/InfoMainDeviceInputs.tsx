@@ -79,6 +79,7 @@ export const InfoMainDeviceInputs = memo(function ({
 	requiredLocationId,
 	requiredStockNumber,
 	requiredObservation,
+	mode,
 	handleLocation,
 	handleChange
 }: Props) {
@@ -91,6 +92,7 @@ export const InfoMainDeviceInputs = memo(function ({
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('serial', e.target.value)
 				}
+				readOnly={mode === 'edit'}
 				error={!!errorSerial}
 				errorMessage={errorSerial}
 				required={requiredSerial}

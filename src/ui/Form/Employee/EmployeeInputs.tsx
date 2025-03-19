@@ -29,7 +29,30 @@ interface Props {
 	disabled: EmployeeDisabled
 	mode: FormMode
 	handleChange: (name: Action['type'], value: any) => void
-	handlePhoneInputs: (name: Action['type'], index: number, value: string) => void
+	handleAddPhones: ({ type }: { type: 'addPhone' | 'addExtension' }) => void
+	handleClearFirstPhone: ({
+		type,
+		index
+	}: {
+		type: 'clearPhone' | 'clearExtension'
+		index: number
+	}) => void
+	handlePhoneChange: ({
+		type,
+		index,
+		value
+	}: {
+		type: 'phoneNumero' | 'phoneOperadora' | 'extensionNumero' | 'extensionOperadora'
+		index: number
+		value: string
+	}) => void
+	handleRemovePhones: ({
+		type,
+		index
+	}: {
+		type: 'removePhone' | 'removeExtension'
+		index: number
+	}) => void
 	handleDepartment: ({
 		value,
 		centroCostoId
@@ -47,7 +70,10 @@ export const EmployeeInputs = ({
 	mode,
 	handleChange,
 	handleDepartment,
-	handlePhoneInputs
+	handleAddPhones,
+	handleClearFirstPhone,
+	handlePhoneChange,
+	handleRemovePhones
 }: Props) => {
 	const nacionalities = useMemo(() => {
 		return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
@@ -67,6 +93,7 @@ export const EmployeeInputs = ({
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('userName', e.target.value)
 						}
+						readOnly={mode === 'edit'}
 						error={!!errors?.userName}
 						errorMessage={errors?.userName}
 						required={required.userName}
@@ -141,6 +168,7 @@ export const EmployeeInputs = ({
 								handleChange('employeeCode', e.target.value)
 							}
 							min={1}
+							readOnly={mode === 'edit'}
 							error={!!errors?.employeeCode}
 							errorMessage={errors?.employeeCode}
 							required={required.employeeCode}
@@ -161,6 +189,7 @@ export const EmployeeInputs = ({
 							disabled={disabled.cedula}
 							min={EmployeeCedula.MIN}
 							max={EmployeeCedula.MAX}
+							readOnly={mode === 'edit'}
 							selectInput={
 								<select
 									value={formData.nationality ?? ''}
@@ -168,7 +197,7 @@ export const EmployeeInputs = ({
 										handleChange('nationality', e.target.value)
 									}
 									className="leftIcon focus:outline-none appearance-none"
-									disabled={disabled.nationality}
+									disabled={disabled.nationality || mode === 'edit'}
 								>
 									<option hidden value="default"></option>
 									{nacionalities.map(op => (
@@ -221,11 +250,21 @@ export const EmployeeInputs = ({
 					/>
 
 					<PhoneSection
-						handlePhoneInputs={handlePhoneInputs}
-						handleChange={handleChange}
-						value={formData.phone}
+						handleAddPhones={handleAddPhones}
+						handleClearFirstPhone={handleClearFirstPhone}
+						handlePhoneChange={handlePhoneChange}
+						handleRemovePhones={handleRemovePhones}
+						phones={formData.phone}
+						phoneSegments={formData.phoneSegments}
 					/>
-					<ExtensionSection handleChange={handleChange} value={formData.extension} />
+					<ExtensionSection
+						handleAddPhones={handleAddPhones}
+						handleClearFirstPhone={handleClearFirstPhone}
+						handlePhoneChange={handlePhoneChange}
+						handleRemovePhones={handleRemovePhones}
+						extension={formData.extension}
+						extensionSegments={formData.extensionSegments}
+					/>
 				</div>
 			</div>
 		</div>

@@ -23,8 +23,9 @@ export const Input = memo(
 		valid,
 		errorMessage,
 		required = false,
+		readOnly = false,
+		disabled = false,
 		label,
-		readOnly,
 		leftIcon,
 		rightIcon,
 		rightAdorment,
@@ -56,6 +57,7 @@ export const Input = memo(
 					value={value}
 					required={required}
 					readOnly={readOnly}
+					disabled={disabled || readOnly}
 					onMouseDown={
 						readOnly
 							? e => {

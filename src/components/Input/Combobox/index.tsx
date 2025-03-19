@@ -114,6 +114,7 @@ export const Combobox = memo(function <
 					value={labelValue}
 					required={required}
 					readOnly
+					disabled
 					onMouseDown={e => e.preventDefault()}
 					aria-readonly
 					tabIndex={-1}

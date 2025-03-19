@@ -50,15 +50,20 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 			centroCostoId: employee.departamento.centroCostoId,
 			centroTrabajoId: employee.centroTrabajoId,
 			cargoId: employee.cargoId,
-			extension: employee.extension ?? [],
-			phone: employee.phone ?? [],
+			extension: employee.extension,
+			phone: employee.phone,
 			extensionSegments: employee.extension.map(extension => {
 				const match = extension.match(/(\d{4})(\d{7})/)
 				const operadora = match ? match?.[1] : ''
 				const numero = match ? match?.[2] : ''
 
 				return { operadora, numero }
-			}),
+			}) ?? [
+				{
+					operadora: '',
+					numero: ''
+				}
+			],
 			phoneSegments: employee.phone.map(phone => {
 				const match = phone.match(/(\d{4})(\d{7})/)
 				const operadora = match ? match?.[1] : ''

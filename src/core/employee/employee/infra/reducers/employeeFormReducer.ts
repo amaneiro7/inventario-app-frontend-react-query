@@ -198,7 +198,25 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 							? ''
 							: action.payload.formData.nationality ?? Nationalities.V,
 					phone: phone.length > 0 ? phone : [''],
-					extension: extension.length > 0 ? extension : ['']
+					extension: extension.length > 0 ? extension : [''],
+					phoneSegments:
+						phone.length > 0
+							? phone.map(phone => {
+									const match = phone.match(/(\d{4})(\d{7})/)
+									const operadora = match ? match?.[1] : ''
+									const numero = match ? match?.[2] : ''
+									return { operadora, numero }
+							  })
+							: [{ numero: '', operadora: '' }],
+					extensionSegments:
+						extension.length > 0
+							? extension.map(phone => {
+									const match = phone.match(/(\d{4})(\d{7})/)
+									const operadora = match ? match?.[1] : ''
+									const numero = match ? match?.[2] : ''
+									return { operadora, numero }
+							  })
+							: [{ numero: '', operadora: '' }]
 				},
 				disabled: {
 					...state.disabled,

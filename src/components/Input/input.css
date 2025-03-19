@@ -120,12 +120,6 @@
 	}
 }
 
-.inputBox:has(input:disabled) fieldset {
-	color: var(--text-color-disabled);
-	border-color: var(--border-color-disabled);
-	background-color: var(--bg-color-disabled);
-}
-
 .inputBox:not(input:disabled):hover fieldset {
 	border-color: var(--border-color-hover);
 }
@@ -142,6 +136,11 @@
 	border-color: var(--border-color-readonly);
 }
 
+.inputBox:has(input:disabled) fieldset {
+	color: var(--text-color-disabled);
+	border-color: var(--border-color-disabled);
+	background-color: var(--bg-color-disabled);
+}
 .inputBox input:focus-visible,
 .inputBox .button-popover:focus-visible {
 	outline: none;

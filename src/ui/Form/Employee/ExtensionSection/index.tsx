@@ -1,21 +1,47 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { type Action } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
 import { ExtensionInput } from './ExtensionInput'
 import Typography from '@/components/Typography'
 import Button from '@/components/Button'
 import { CloseIcon } from '@/icon/CloseIcon'
 import { BrushIcon } from '@/icon/BrushIcon'
-import { usePhoneSection } from './useExtensionSection'
+import { type DefaultEmployee } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
 
 interface ExtensionSectionProps {
-	value: string[]
-	handleChange: (name: Action['type'], value: any) => void
+	extension: DefaultEmployee['extension']
+	extensionSegments: DefaultEmployee['extensionSegments']
+	handleAddPhones: ({ type }: { type: 'addPhone' | 'addExtension' }) => void
+	handleClearFirstPhone: ({
+		type,
+		index
+	}: {
+		type: 'clearPhone' | 'clearExtension'
+		index: number
+	}) => void
+	handlePhoneChange: ({
+		type,
+		index,
+		value
+	}: {
+		type: 'phoneNumero' | 'phoneOperadora' | 'extensionNumero' | 'extensionOperadora'
+		index: number
+		value: string
+	}) => void
+	handleRemovePhones: ({
+		type,
+		index
+	}: {
+		type: 'removePhone' | 'removeExtension'
+		index: number
+	}) => void
 }
 
-export const ExtensionSection = ({ handleChange, value }: ExtensionSectionProps) => {
-	const { handleAddPhone, handleClearFirstPhone, handlePhoneChange, handleRemovePhone, phones } =
-		usePhoneSection({ handleChange, value })
-
+export const ExtensionSection = ({
+	handleAddPhones,
+	handleClearFirstPhone,
+	handlePhoneChange,
+	handleRemovePhones,
+	extension,
+	extensionSegments
+}: ExtensionSectionProps) => {
 	const addPhoneButtonText = 'Agregar otra extensión'
 	const removePhoneButtonTitle = 'Eliminar extensión'
 	const clearPhoneButtonTitle = 'Limpiar extensión'
@@ -31,17 +57,18 @@ export const ExtensionSection = ({ handleChange, value }: ExtensionSectionProps)
 					size="content"
 					type="button"
 					color="orange"
-					disabled={phones[phones.length - 1] === ''}
+					disabled={extension[extension?.length - 1] === ''}
 					title={addPhoneButtonText}
-					onClick={handleAddPhone}
+					onClick={() => handleAddPhones({ type: 'addExtension' })}
 				/>
 			</div>
-			{phones.map((phone, index) => (
+			{extensionSegments.map(({ numero, operadora }, index) => (
 				<div key={index} className="flex items-center gap-2">
 					<ExtensionInput
 						index={index}
-						value={phone}
-						onChange={(value, index) => handlePhoneChange(index, value)}
+						numero={numero}
+						operadora={operadora}
+						handlePhoneChange={handlePhoneChange}
 					/>
 
 					{index === 0 ? (
@@ -53,9 +80,9 @@ export const ExtensionSection = ({ handleChange, value }: ExtensionSectionProps)
 							size="content"
 							color="blue"
 							type="button"
-							disabled={!phone}
+							disabled={extension[index] === ''}
 							title={clearPhoneButtonTitle}
-							onClick={handleClearFirstPhone}
+							onClick={() => handleClearFirstPhone({ type: 'clearExtension', index })}
 						/>
 					) : (
 						index < 1 && (
@@ -68,7 +95,9 @@ export const ExtensionSection = ({ handleChange, value }: ExtensionSectionProps)
 								size="content"
 								color="blue"
 								title={removePhoneButtonTitle}
-								onClick={() => handleRemovePhone(index)}
+								onClick={() =>
+									handleRemovePhones({ type: 'removeExtension', index })
+								}
 							/>
 						)
 					)}
