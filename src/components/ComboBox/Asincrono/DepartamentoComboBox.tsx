@@ -79,7 +79,7 @@ export const DepartamentoCombobox = memo(function ({
 		<>
 			<Combobox
 				id="departamentoId"
-				label="departamentos"
+				label="Departamentos"
 				value={value}
 				inputValue={inputValue}
 				name={name}

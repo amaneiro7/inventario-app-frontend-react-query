@@ -46,8 +46,8 @@ export class Criteria {
 			filters: this.filters?.value ?? [],
 			orderBy: this.order?.orderBy.value,
 			orderType: this.order?.orderType.value,
-			pageSize: this.pageSize,
-			pageNumber: this.pageNumber
+			pageSize: Number(this.pageSize),
+			pageNumber: Number(this.pageNumber)
 		}
 	}
 

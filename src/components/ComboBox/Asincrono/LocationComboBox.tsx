@@ -12,6 +12,9 @@ interface BaseProps {
 	typeOfSiteId?: string
 	siteId?: string
 	statusId?: string
+	cityId?: string
+	stateId?: string
+	regionId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
@@ -70,6 +73,9 @@ export const LocationCombobox = memo(function ({
 	siteId,
 	statusId,
 	method = 'search',
+	cityId,
+	stateId,
+	regionId,
 	...props
 }: Props) {
 	const [inputValue, setInputValue] = useState('')
@@ -80,9 +86,12 @@ export const LocationCombobox = memo(function ({
 			...(value ? { id: value } : { id: undefined }),
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
 			typeOfSiteId: typeOfSiteFilter,
-			siteId
+			siteId,
+			cityId,
+			stateId,
+			regionId
 		}
-	}, [debouncedSearch, value, name, typeOfSiteId, siteId, statusId])
+	}, [debouncedSearch, value, name, typeOfSiteId, siteId, statusId, cityId, stateId, regionId])
 
 	const { locations, isLoading } = useGetAllLocations(query)
 	const options = useMemo(() => locations?.data ?? [], [locations])

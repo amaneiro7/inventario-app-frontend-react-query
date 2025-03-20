@@ -21,7 +21,7 @@ export interface DefaultEmployee {
 	cedula: EmployeeDto['cedula'] | ''
 	locationId: EmployeeDto['locationId']
 	departamentoId: EmployeeDto['departamentoId']
-	centroCostoId: EmployeeDto['centoTrabajo']['centroCostoId']
+	centroCostoId: EmployeeDto['centroTrabajo']['centroCostoId']
 	centroTrabajoId: EmployeeDto['centroTrabajoId']
 	cargoId: EmployeeDto['cargoId']
 	extension: EmployeeDto['extension']

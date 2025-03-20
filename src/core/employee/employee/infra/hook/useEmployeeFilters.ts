@@ -17,10 +17,10 @@ export function useEmployeeFilter() {
 		(filters: EmployeeFilters) => {
 			setSearchParams(params => {
 				Object.entries(filters).forEach(([key, value]) => {
-					if (value !== undefined && value !== null) {
-						params.set(key, String(value))
-					} else {
+					if (!value) {
 						params.delete(key)
+					} else {
+						params.set(key, String(value))
 					}
 				})
 				return params
@@ -68,19 +68,15 @@ export function useEmployeeFilter() {
 		departamentoId: getFilterValue('departamentoId'),
 		vicepresidenciaEjecutivaId: getFilterValue('vicepresidenciaEjecutivaId'),
 		directivaId: getFilterValue('directivaId'),
-		cargoId: getFilterValue('cargoId')
+		cargoId: getFilterValue('cargoId'),
+		pageNumber: getFilterValue('pageNumber')
 	}
-
-	const pageNumber = searchParams.get('pageNumber')
-		? parseInt(searchParams.get('pageNumber') as string)
-		: undefined
 	const pageSize = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)
 		: EmployeeGetByCriteria.defaultPageSize
 
 	return {
 		...filters,
-		pageNumber,
 		pageSize,
 		cleanFilters,
 		setFilters,

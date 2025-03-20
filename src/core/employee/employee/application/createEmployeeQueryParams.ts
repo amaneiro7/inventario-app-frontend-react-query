@@ -4,25 +4,27 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type EmployeeDto } from '../domain/dto/Employee.dto'
 
 export interface EmployeeFilters {
-	id?: EmployeeDto['id']
-	userName?: EmployeeDto['userName']
-	type?: EmployeeDto['type']
-	name?: EmployeeDto['name']
-	lastName?: EmployeeDto['lastName']
-	email?: EmployeeDto['email']
-	isStillWorking?: EmployeeDto['isStillWorking']
-	employeeCode?: EmployeeDto['employeeCode']
-	nationality?: EmployeeDto['nationality']
-	cedula?: EmployeeDto['cedula']
-	centroTrabajoId?: EmployeeDto['centroTrabajoId']
-	locationId?: EmployeeDto['locationId']
-	departamentoId?: EmployeeDto['departamentoId']
-	vicepresidenciaEjecutivaId?: EmployeeDto['departamento']['vicepresidenciaEjecutivaId']
-	directivaId?: EmployeeDto['departamento']['vicepresidenciaEjecutiva']['directivaId']
-	cargoId?: EmployeeDto['cargoId']
+	id?: string
+	userName?: string
+	type?: string
+	name?: string
+	lastName?: string
+	email?: string
+	isStillWorking?: boolean
+	employeeCode?: number
+	nationality?: string
+	cedula?: number
+	centroTrabajoId?: string
+	locationId?: string
+	departamentoId?: string
+	vicepresidenciaEjecutivaId?: string
+	directivaId?: string
+	cargoId?: string
+	regionId?: string
+	stateId?: string
+	cityId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
@@ -61,8 +63,8 @@ export async function createEmployeeParams({
 						key === 'userName' || key === 'name' || key === 'lastName'
 							? Operator.OR
 							: key === 'email' || key === 'employeeCode' || key === 'cedula'
-								? Operator.CONTAINS
-								: Operator.EQUAL,
+							? Operator.CONTAINS
+							: Operator.EQUAL,
 					value
 				})
 			}
