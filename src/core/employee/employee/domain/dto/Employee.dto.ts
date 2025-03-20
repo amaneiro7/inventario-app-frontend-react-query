@@ -52,7 +52,7 @@ export type EmployeeParams = EmployeePrimitives & {
 export type Params = RegularEmployeeParams | GenericEmployeeParams
 
 export type EmployeeDto = Employee & {
-	centoTrabajo: CentroTrabajoDto
+	centroTrabajo: CentroTrabajoDto
 	location: LocationDto
 	departamento: DepartamentoDto
 	cargo: Cargo

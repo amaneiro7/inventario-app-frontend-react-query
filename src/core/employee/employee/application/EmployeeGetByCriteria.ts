@@ -3,6 +3,9 @@ import { EmployeeGetAll } from './EmployeeGetAll'
 import { createEmployeeParams, type EmployeeFilters } from './createEmployeeQueryParams'
 
 export class EmployeeGetByCriteria {
+	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly defaultPageSize = 25
+	static readonly defaultOrderBy = 'userName'
 	private readonly getAll: EmployeeGetAll
 	constructor(private readonly repository: EmployeeGetAllRepository) {
 		this.getAll = new EmployeeGetAll(this.repository)

@@ -52,6 +52,11 @@ export const navigation: Navigation[] = [
 		img: 'officeMac',
 		navs: [
 			{
+				title: 'Listado de usuarios',
+				desc: 'Listado de usuarios',
+				path: '/list/usuarios'
+			},
+			{
 				title: 'Listado de Sitios',
 				desc: 'Listado de sitios',
 				path: '/location'

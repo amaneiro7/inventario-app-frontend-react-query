@@ -8,6 +8,7 @@ const ListPrinter = lazy(() => import('@/pages/ListPrinter'))
 const ListParts = lazy(() => import('@/pages/ListParts'))
 const ListFinantialPrinter = lazy(() => import('@/pages/ListFinantialPrinter'))
 const ListModels = lazy(() => import('@/pages/ListModel'))
+const ListEmployee = lazy(() => import('@/pages/ListEmployee'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const NotFound = lazy(() => import('@/pages/404'))
 const Home = lazy(() => import('@/pages/Home'))
@@ -28,6 +29,7 @@ const FormCentroTrabajo = lazy(() => import('@/pages/FormCentroTrabajo'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
 const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
+const ListWrapper = lazy(() => import('@/ui/ListWrapper'))
 
 export function AppRoutes() {
 	return (
@@ -48,6 +50,23 @@ export function AppRoutes() {
 					</Suspense>
 				}
 			>
+				<Route
+					path="/list"
+					element={
+						<Suspense>
+							<ListWrapper />
+						</Suspense>
+					}
+				>
+					<Route
+						path="usuarios"
+						element={
+							<Suspense>
+								<ListEmployee />
+							</Suspense>
+						}
+					/>
+				</Route>
 				<Route
 					path="/"
 					element={

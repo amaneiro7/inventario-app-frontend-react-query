@@ -60,9 +60,9 @@ export const ListWrapper = memo(function ({
 					<FilterSection>
 						<>
 							{mainFilter}
-							{otherFilter ? (
+							{otherFilter && (
 								<FilterAside ref={filterAsideRef}>{otherFilter}</FilterAside>
-							) : null}
+							)}
 						</>
 					</FilterSection>
 

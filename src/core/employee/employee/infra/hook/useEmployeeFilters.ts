@@ -1,27 +1,23 @@
 import { useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import {
-	DeviceComputerFilter,
-	defaultMainCategoryValue
-} from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
+import { EmployeeGetByCriteria } from '../../application/EmployeeGetByCriteria'
+import { type EmployeeFilters } from '../../application/createEmployeeQueryParams'
 
-export function useComputerFilter() {
-	const mainCategoryId = defaultMainCategoryValue
+export function useEmployeeFilter() {
 	const [searchParams, setSearchParams] = useSearchParams()
 
 	const getFilterValue = useCallback(
-		<T extends keyof DeviceComputerFilters>(key: T): DeviceComputerFilters[T] => {
-			return searchParams.get(key) as DeviceComputerFilters[T]
+		<T extends keyof EmployeeFilters>(key: T): EmployeeFilters[T] => {
+			return searchParams.get(key) as EmployeeFilters[T]
 		},
 		[searchParams]
 	)
 
 	const setFilters = useCallback(
-		(filters: DeviceComputerFilters) => {
+		(filters: EmployeeFilters) => {
 			setSearchParams(params => {
 				Object.entries(filters).forEach(([key, value]) => {
-					if (value) {
+					if (value !== undefined && value !== null) {
 						params.set(key, String(value))
 					} else {
 						params.delete(key)
@@ -57,24 +53,22 @@ export function useComputerFilter() {
 		setSearchParams(new URLSearchParams())
 	}, [searchParams])
 
-	const filters: DeviceComputerFilters = {
-		categoryId: getFilterValue('categoryId'),
-		brandId: getFilterValue('brandId'),
-		statusId: getFilterValue('statusId'),
-		activo: getFilterValue('activo'),
-		serial: getFilterValue('serial'),
-		modelId: getFilterValue('modelId'),
-		employeeId: getFilterValue('employeeId'),
+	const filters: EmployeeFilters = {
+		userName: getFilterValue('userName'),
+		type: getFilterValue('type'),
+		name: getFilterValue('name'),
+		lastName: getFilterValue('lastName'),
+		email: getFilterValue('email'),
+		isStillWorking: getFilterValue('isStillWorking'),
+		employeeCode: getFilterValue('employeeCode'),
+		nationality: getFilterValue('nationality'),
+		cedula: getFilterValue('cedula'),
+		centroTrabajoId: getFilterValue('centroTrabajoId'),
 		locationId: getFilterValue('locationId'),
-		typeOfSiteId: getFilterValue('typeOfSiteId'),
-		cityId: getFilterValue('cityId'),
-		stateId: getFilterValue('stateId'),
-		regionId: getFilterValue('regionId'),
-		computerName: getFilterValue('computerName'),
-		operatingSystemId: getFilterValue('operatingSystemId'),
-		operatingSystemArqId: getFilterValue('operatingSystemArqId'),
-		processor: getFilterValue('processor'),
-		ipAddress: getFilterValue('ipAddress')
+		departamentoId: getFilterValue('departamentoId'),
+		vicepresidenciaEjecutivaId: getFilterValue('vicepresidenciaEjecutivaId'),
+		directivaId: getFilterValue('directivaId'),
+		cargoId: getFilterValue('cargoId')
 	}
 
 	const pageNumber = searchParams.get('pageNumber')
@@ -82,11 +76,10 @@ export function useComputerFilter() {
 		: undefined
 	const pageSize = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)
-		: DeviceComputerFilter.defaultPageSize
+		: EmployeeGetByCriteria.defaultPageSize
 
 	return {
 		...filters,
-		mainCategoryId,
 		pageNumber,
 		pageSize,
 		cleanFilters,
