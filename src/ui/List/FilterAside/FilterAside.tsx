@@ -1,9 +1,8 @@
-import React, { lazy, useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
+import React, { useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 import './filterContainerStyle.css'
-
-const CloseIcon = lazy(async () => import('@/icon/CloseIcon').then(m => ({ default: m.CloseIcon })))
+import { CloseIcon } from '@/icon/CloseIcon'
 
 type Props = React.PropsWithChildren<
 	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
@@ -48,7 +47,7 @@ const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>
 			>
 				<CloseIcon className="w-8 h-8 p-1 text-gray-800/55 rounded-full hover:bg-gray-200 transition-colors" />
 			</button>
-			<div className="p-1 w-full h-full flex flex-col gap-4 overflow-auto overscroll-contain pr-6">
+			<div className="p-1 w-full h-full flex flex-col gap-4 overflow-auto overscroll-auto pr-6">
 				{children}
 			</div>
 		</aside>,

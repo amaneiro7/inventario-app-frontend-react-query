@@ -13,9 +13,9 @@ export interface EmployeeFilters {
 	lastName?: string
 	email?: string
 	isStillWorking?: boolean
-	employeeCode?: number
+	employeeCode?: string
 	nationality?: string
-	cedula?: number
+	cedula?: string
 	centroTrabajoId?: string
 	locationId?: string
 	departamentoId?: string
@@ -62,7 +62,7 @@ export async function createEmployeeParams({
 					operator:
 						key === 'userName' || key === 'name' || key === 'lastName'
 							? Operator.OR
-							: key === 'email' || key === 'employeeCode' || key === 'cedula'
+							: key === 'email'
 							? Operator.CONTAINS
 							: Operator.EQUAL,
 					value

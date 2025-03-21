@@ -14,7 +14,8 @@ interface EmployeeOtherilterProps {
 	lastName?: string
 	email?: string
 	cedula?: string
-	CentroTrabajoId?: string
+	employeeCode?: string
+	centroTrabajoId?: string
 	directivaId?: string
 	vicepresidenciaEjecutivaId?: string
 	regionId?: string
@@ -27,8 +28,9 @@ export const EmployeeOtherilter = memo(
 	({
 		handleChange,
 		name,
+		employeeCode,
 		cedula,
-		CentroTrabajoId,
+		centroTrabajoId,
 		cityId,
 		directivaId,
 		email,
@@ -41,10 +43,12 @@ export const EmployeeOtherilter = memo(
 		const [localLastName, setLocalLastName] = useState(lastName ?? '')
 		const [localEmail, setLocalEmail] = useState(email ?? '')
 		const [localCedula, setLocalCedula] = useState(cedula ?? '')
+		const [localEmployeeCode, setLocalEmployeeCode] = useState(employeeCode ?? '')
 		const [debouncedName] = useDebounce(localName)
 		const [debouncedLastName] = useDebounce(localLastName)
 		const [debouncedEmail] = useDebounce(localEmail)
 		const [debouncedCedula] = useDebounce(localCedula)
+		const [debouncedEmployeeCode] = useDebounce(localEmployeeCode)
 
 		useEffectAfterMount(() => {
 			handleChange('name', debouncedName)
@@ -61,9 +65,22 @@ export const EmployeeOtherilter = memo(
 		useEffectAfterMount(() => {
 			handleChange('cedula', debouncedCedula)
 		}, [debouncedCedula, handleChange])
+		useEffectAfterMount(() => {
+			handleChange('employeeCode', debouncedEmployeeCode)
+		}, [debouncedEmployeeCode, handleChange])
 
 		return (
 			<>
+				<Input
+					value={localEmployeeCode}
+					name="employeeCode"
+					label="Código de empleado"
+					type="number"
+					inputMode="numeric"
+					onChange={e => {
+						setLocalEmployeeCode(e.target.value.trim().toLowerCase())
+					}}
+				/>
 				<Input
 					value={localName}
 					name="name"
@@ -111,9 +128,9 @@ export const EmployeeOtherilter = memo(
 					value={vicepresidenciaEjecutivaId}
 				/>
 				<CentroTrabajoCombobox
-					name="CentroTrabajoId"
+					name="centroTrabajoId"
 					handleChange={handleChange}
-					value={CentroTrabajoId}
+					value={centroTrabajoId}
 				/>
 				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
 				<StateCombobox

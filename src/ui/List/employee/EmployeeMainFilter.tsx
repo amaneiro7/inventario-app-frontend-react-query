@@ -6,13 +6,19 @@ import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/Departamen
 import { EmployeeTypeCombobox } from '@/components/ComboBox/Sincrono/EmployeeTypeComboBox'
 import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
 import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
+import { IsStillWorkingCombobox } from '@/components/ComboBox/Sincrono/IsStillWorkinfComboBox'
+import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
 
 interface EmployeeMainFilterProps {
 	userName?: string
+	isStillWorking?: boolean
 	departamentoId?: string
 	locationId?: string
 	cargoId?: string
 	type?: string
+	cityId?: string
+	stateId?: string
+	regionId?: string
 	handleChange: (name: string, value: string | number) => void
 }
 
@@ -23,6 +29,10 @@ export const EmployeeMainFilter = memo(
 		cargoId,
 		locationId,
 		type,
+		isStillWorking,
+		cityId,
+		stateId,
+		regionId,
 		handleChange
 	}: EmployeeMainFilterProps) => {
 		const [localUserName, setLocalUserName] = useState(userName ?? '')
@@ -43,6 +53,12 @@ export const EmployeeMainFilter = memo(
 						setLocalUserName(e.target.value.trim().toLowerCase())
 					}}
 				/>
+				<IsStillWorkingCombobox
+					handleChange={handleChange}
+					name="isStillWorking"
+					value={isStillWorking === undefined ? 'all' : String(isStillWorking)}
+				/>
+
 				<EmployeeTypeCombobox name="type" handleChange={handleChange} value={type} />
 				<DepartamentoCombobox
 					name="departamentoId"
@@ -55,6 +71,10 @@ export const EmployeeMainFilter = memo(
 					name="locationId"
 					handleChange={handleChange}
 					value={locationId}
+					cityId={cityId}
+					stateId={stateId}
+					regionId={regionId}
+					statusId={StatusOptions.INUSE}
 				/>
 			</>
 		)

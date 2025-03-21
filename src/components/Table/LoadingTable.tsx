@@ -1,24 +1,14 @@
-import { lazy } from 'react'
-
-const TableCell = lazy(async () =>
-	import('@/components/Table/TableCell').then(m => ({
-		default: m.TableCell
-	}))
-)
-const TableCellOpenIcon = lazy(async () =>
-	import('@/components/Table/TableCellOpenIcon').then(m => ({
-		default: m.TableCellOpenIcon
-	}))
-)
+import { TableCell } from './TableCell'
+import { TableCellOpenIcon } from './TableCellOpenIcon'
 
 export function LoadingTable({
 	registerPerPage,
 	colspan
 }: {
-	registerPerPage: number
+	registerPerPage?: number
 	colspan: number
 }) {
-	const rows = Array.from({ length: registerPerPage })
+	const rows = Array.from({ length: registerPerPage ?? 0 })
 	return (
 		<>
 			{rows.map((_, index) => (

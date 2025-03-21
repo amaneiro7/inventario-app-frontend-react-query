@@ -35,7 +35,7 @@ export const Header = memo(() => {
 
 	return (
 		<>
-			<header className="min-h-16 h-16 md:text-sm md:border-none gap-4 flex items-center justify-between md:top-0 md:sticky z-50 bg-azul w-full shadow-lg pr-8 py-4 overflow-visible">
+			<header className="min-h-16 h-16 md:text-sm md:border-none gap-4 flex items-center justify-between md:top-0 md:sticky z-50 bg-azul w-full shadow-lg pr-4 py-4 overflow-visible">
 				<div className="pl-8 pr-4 p-1 bg-white rounded-e-full">
 					<Logo />
 				</div>

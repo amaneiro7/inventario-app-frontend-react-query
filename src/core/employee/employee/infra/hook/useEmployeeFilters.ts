@@ -69,7 +69,11 @@ export function useEmployeeFilter() {
 		vicepresidenciaEjecutivaId: getFilterValue('vicepresidenciaEjecutivaId'),
 		directivaId: getFilterValue('directivaId'),
 		cargoId: getFilterValue('cargoId'),
-		pageNumber: getFilterValue('pageNumber')
+		cityId: getFilterValue('cityId'),
+		stateId: getFilterValue('stateId'),
+		regionId: getFilterValue('regionId'),
+		pageNumber: getFilterValue('pageNumber'),
+		pageSize: getFilterValue('pageSize')
 	}
 	const pageSize = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)

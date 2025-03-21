@@ -1,12 +1,7 @@
-import { lazy, memo } from 'react'
+import { memo } from 'react'
 import ReactPaginate from 'react-paginate'
+import { ArrowRightBadgeIcon } from '@/icon/ArrowRightBadge'
 import './PaginationList.css'
-
-const ArrowRightBadgeIcon = lazy(async () =>
-	import('@/icon/ArrowRightBadge').then(m => ({
-		default: m.ArrowRightBadgeIcon
-	}))
-)
 
 export const PaginationList = memo(
 	({

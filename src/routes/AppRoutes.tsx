@@ -33,345 +33,340 @@ const ListWrapper = lazy(() => import('@/ui/ListWrapper'))
 
 export function AppRoutes() {
 	return (
-		<Routes>
-			<Route
-				path="/login"
-				element={
-					<Suspense fallback={<Loading />}>
-						<Login />
-					</Suspense>
-				}
-			/>
-			<Route
-				path="/"
-				element={
-					<Suspense fallback={<Loading />}>
-						<Layout />
-					</Suspense>
-				}
-			>
+		<Suspense>
+			<Routes>
 				<Route
-					path="/list"
+					path="/login"
 					element={
-						<Suspense>
-							<ListWrapper />
+						<Suspense fallback={<Loading />}>
+							<Login />
+						</Suspense>
+					}
+				/>
+				<Route
+					path="/"
+					element={
+						<Suspense fallback={<Loading />}>
+							<Layout />
 						</Suspense>
 					}
 				>
 					<Route
-						path="usuarios"
+						path="/list"
 						element={
 							<Suspense>
-								<ListEmployee />
+								<ListWrapper />
+							</Suspense>
+						}
+					>
+						<Route path="usuarios" element={<ListEmployee />} />
+					</Route>
+					<Route
+						path="/"
+						element={
+							<Suspense fallback={<Loading />}>
+								<Home />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/profile"
+						element={
+							<Suspense fallback={<Loading />}>
+								<Profile />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/user-management"
+						element={
+							<Suspense fallback={<Loading />}>
+								<UserManagement />
+							</Suspense>
+						}
+					></Route>
+					<Route
+						path="/computer"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListComputer />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/monitor"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListMonitor />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/printer"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListPrinter />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/finantialprinter"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListFinantialPrinter />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/parts"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListParts />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/model"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListModels />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/device/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormDevice />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/device/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormDevice />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/employee/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormEmployee />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/employee/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormEmployee />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/brand/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormBrand />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/brand/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormBrand />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/directiva/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormDirectiva />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/directiva/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormDirectiva />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/vicepresidenciaEjecutivas/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormVicepresidenciaEjecutivas />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/vicepresidenciaEjecutivas/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormVicepresidenciaEjecutivas />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/model/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormModel />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/model/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormModel />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/site/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormSite />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/site/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormSite />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/location/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormLocation />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/location/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormLocation />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/city/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCity />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/city/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCity />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/centrocosto/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCentroCosto />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/centrocosto/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCentroCosto />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/centrotrabajo/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCentroTrabajo />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/centrotrabajo/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCentroTrabajo />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/departamento/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormDepartamento />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/departamento/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormDepartamento />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/cargo/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCargo />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/cargo/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormCargo />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/processors/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormProcessor />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/processors/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormProcessor />
 							</Suspense>
 						}
 					/>
 				</Route>
 				<Route
-					path="/"
+					path="*"
 					element={
 						<Suspense fallback={<Loading />}>
-							<Home />
+							<NotFound />
 						</Suspense>
 					}
 				/>
-				<Route
-					path="/profile"
-					element={
-						<Suspense fallback={<Loading />}>
-							<Profile />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/user-management"
-					element={
-						<Suspense fallback={<Loading />}>
-							<UserManagement />
-						</Suspense>
-					}
-				></Route>
-				<Route
-					path="/computer"
-					element={
-						<Suspense fallback={<Loading />}>
-							<ListComputer />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/monitor"
-					element={
-						<Suspense fallback={<Loading />}>
-							<ListMonitor />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/printer"
-					element={
-						<Suspense fallback={<Loading />}>
-							<ListPrinter />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/finantialprinter"
-					element={
-						<Suspense fallback={<Loading />}>
-							<ListFinantialPrinter />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/parts"
-					element={
-						<Suspense fallback={<Loading />}>
-							<ListParts />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/model"
-					element={
-						<Suspense fallback={<Loading />}>
-							<ListModels />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/device/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormDevice />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/device/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormDevice />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/employee/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormEmployee />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/employee/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormEmployee />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/brand/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormBrand />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/brand/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormBrand />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/directiva/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormDirectiva />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/directiva/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormDirectiva />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/vicepresidenciaEjecutivas/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormVicepresidenciaEjecutivas />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/vicepresidenciaEjecutivas/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormVicepresidenciaEjecutivas />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/model/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormModel />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/model/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormModel />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/site/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormSite />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/site/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormSite />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/location/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormLocation />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/location/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormLocation />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/city/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCity />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/city/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCity />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/centrocosto/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCentroCosto />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/centrocosto/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCentroCosto />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/centrotrabajo/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCentroTrabajo />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/centrotrabajo/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCentroTrabajo />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/departamento/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormDepartamento />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/departamento/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormDepartamento />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/cargo/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCargo />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/cargo/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormCargo />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/processors/add"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormProcessor />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/processors/edit/:id"
-					element={
-						<Suspense fallback={<Loading />}>
-							<FormProcessor />
-						</Suspense>
-					}
-				/>
-			</Route>
-			<Route
-				path="*"
-				element={
-					<Suspense fallback={<Loading />}>
-						<NotFound />
-					</Suspense>
-				}
-			/>
-		</Routes>
+			</Routes>
+		</Suspense>
 	)
 }

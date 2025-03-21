@@ -1,19 +1,14 @@
-import { useCallback, useMemo, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
-import { LoadingTable } from '@/components/Table/LoadingTable'
-import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
 import { useEmployeeFilter } from '@/core/employee/employee/infra/hook/useEmployeeFilters'
-import { useGetAllEmployees } from '@/core/employee/employee/infra/hook/useGetAllEmployee'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { EmployeeMainFilter } from '@/ui/List/employee/EmployeeMainFilter'
-import { TableEmployees } from '@/ui/List/employee/TableEmployees'
 import { TableEmployeeWrapper } from '@/ui/List/employee/TableEmployeeWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
-import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
 import { EmployeeOtherilter } from '@/ui/List/employee/OtherFilter'
+import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
 
 export default function ListEmployee() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, ...query } = useEmployeeFilter()
@@ -28,39 +23,19 @@ export default function ListEmployee() {
 		[setFilters, setPageNumber]
 	)
 
-	const handlePageSize = useCallback(
-		(pageSize: number) => {
-			setPageSize(pageSize)
-			setPageNumber(1)
-		},
-		[setPageSize, setPageNumber]
-	)
-
-	const handlePageClick = useCallback(
-		({ selected }: { selected: number }) => {
-			setPageNumber(selected + 1)
-		},
-		[setPageNumber]
-	)
-
-	const { employees, isLoading } = useGetAllEmployees({ ...query })
-
-	const tableContent = useMemo(() => {
-		return isLoading || !employees ? (
-			<LoadingTable registerPerPage={query.pageSize} colspan={10} />
-		) : (
-			<TableEmployees employees={employees.data} />
-		)
-	}, [isLoading, employees?.data, query.pageSize])
-
 	return (
-		<DetailsWrapper borderColor="blue">
+		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
 					<EmployeeMainFilter
 						cargoId={query.cargoId}
+						isStillWorking={query.isStillWorking}
+						locationId={query.locationId}
 						departamentoId={query.departamentoId}
 						type={query.type}
+						cityId={query.cityId}
+						stateId={query.stateId}
+						regionId={query.regionId}
 						userName={query.userName}
 						handleChange={handleChange}
 					/>
@@ -70,6 +45,7 @@ export default function ListEmployee() {
 							lastName={query.lastName}
 							email={query.email}
 							cedula={query.cedula}
+							employeeCode={query.employeeCode}
 							centroTrabajoId={query.centroTrabajoId}
 							directivaId={query.directivaId}
 							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
@@ -88,9 +64,12 @@ export default function ListEmployee() {
 					handleFilter={filterAsideRef.current?.handleOpen}
 				/>
 			</DetailsBoxWrapper>
-			<TablePageWrapper>
-				<TableEmployeeWrapper>{tableContent}</TableEmployeeWrapper>
-			</TablePageWrapper>
-		</DetailsWrapper>
+
+			<TableEmployeeWrapper
+				setPageNumber={setPageNumber}
+				setPageSize={setPageSize}
+				query={query}
+			/>
+		</>
 	)
 }
