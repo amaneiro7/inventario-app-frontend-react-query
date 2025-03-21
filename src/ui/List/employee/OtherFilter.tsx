@@ -52,22 +52,22 @@ export const EmployeeOtherilter = memo(
 
 		useEffectAfterMount(() => {
 			handleChange('name', debouncedName)
-		}, [debouncedName, handleChange])
+		}, [debouncedName])
 
 		useEffectAfterMount(() => {
 			handleChange('lastName', debouncedLastName)
-		}, [debouncedLastName, handleChange])
+		}, [debouncedLastName])
 
 		useEffectAfterMount(() => {
 			handleChange('email', debouncedEmail)
-		}, [debouncedEmail, handleChange])
+		}, [debouncedEmail])
 
 		useEffectAfterMount(() => {
 			handleChange('cedula', debouncedCedula)
-		}, [debouncedCedula, handleChange])
+		}, [debouncedCedula])
 		useEffectAfterMount(() => {
 			handleChange('employeeCode', debouncedEmployeeCode)
-		}, [debouncedEmployeeCode, handleChange])
+		}, [debouncedEmployeeCode])
 
 		return (
 			<>

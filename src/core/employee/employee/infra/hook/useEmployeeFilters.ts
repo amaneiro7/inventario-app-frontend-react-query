@@ -71,10 +71,11 @@ export function useEmployeeFilter() {
 		cargoId: getFilterValue('cargoId'),
 		cityId: getFilterValue('cityId'),
 		stateId: getFilterValue('stateId'),
-		regionId: getFilterValue('regionId'),
-		pageNumber: getFilterValue('pageNumber'),
-		pageSize: getFilterValue('pageSize')
+		regionId: getFilterValue('regionId')
 	}
+	const pageNumber = searchParams.get('pageNumber')
+		? parseInt(searchParams.get('pageNumber') as string)
+		: undefined
 	const pageSize = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)
 		: EmployeeGetByCriteria.defaultPageSize
@@ -82,6 +83,7 @@ export function useEmployeeFilter() {
 	return {
 		...filters,
 		pageSize,
+		pageNumber,
 		cleanFilters,
 		setFilters,
 		setPageNumber,

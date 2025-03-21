@@ -14,6 +14,7 @@ export default function ListEmployee() {
 	const { setFilters, cleanFilters, setPageNumber, setPageSize, ...query } = useEmployeeFilter()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
 	const navigate = useNavigate()
+
 	const handleChange = useCallback(
 		(name: string, value: string | number) => {
 			const key = name as keyof EmployeeFilters

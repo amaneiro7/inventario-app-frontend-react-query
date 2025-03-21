@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Combobox } from '@/components/Input/Combobox'
 
 export function IsStillWorkingCombobox({
-	value = '',
+	value,
 	name,
 	error = '',
 	required = false,
@@ -10,7 +10,7 @@ export function IsStillWorkingCombobox({
 	readonly = false,
 	handleChange
 }: {
-	value?: string
+	value?: string | null
 	name: string
 	error?: string
 	required?: boolean
@@ -30,7 +30,7 @@ export function IsStillWorkingCombobox({
 			<Combobox
 				id="isStillWorking"
 				label="Filtrar por estado"
-				value={value}
+				value={value ?? 'all'}
 				name={name}
 				options={options}
 				required={required}

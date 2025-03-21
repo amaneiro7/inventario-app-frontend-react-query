@@ -9,8 +9,8 @@ import { TableHeader } from '@/components/Table/TableHeader'
 import { TableRow } from '@/components/Table/TableRow'
 import { LoadingTable } from '@/components/Table/LoadingTable'
 import { PaginationBar } from '../Pagination/PaginationBar'
-import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
 import { TabsNav } from '../Tab/TabsNav'
+import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
 
 interface TableEmployeeWrapperProps {
 	query: EmployeeFilters

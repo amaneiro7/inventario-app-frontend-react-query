@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
@@ -42,6 +42,17 @@ export const EmployeeMainFilter = memo(
 			handleChange('userName', debouncedUserName)
 		}, [debouncedUserName])
 
+		useEffectAfterMount(() => {
+			if (!userName) {
+				setLocalUserName('')
+			}
+		}, [userName])
+
+		const handleUserName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.trim().toLowerCase()
+			setLocalUserName(value)
+		}, [])
+
 		return (
 			<>
 				<Input
@@ -49,14 +60,16 @@ export const EmployeeMainFilter = memo(
 					name="userName"
 					label="Nombre de Usuario"
 					type="search"
-					onChange={e => {
-						setLocalUserName(e.target.value.trim().toLowerCase())
-					}}
+					onChange={handleUserName}
 				/>
 				<IsStillWorkingCombobox
 					handleChange={handleChange}
 					name="isStillWorking"
-					value={isStillWorking === undefined ? 'all' : String(isStillWorking)}
+					value={
+						isStillWorking === undefined || isStillWorking === null
+							? 'all'
+							: String(isStillWorking)
+					}
 				/>
 
 				<EmployeeTypeCombobox name="type" handleChange={handleChange} value={type} />

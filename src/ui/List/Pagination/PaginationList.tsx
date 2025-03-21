@@ -15,7 +15,7 @@ export const PaginationList = memo(
 	}) => {
 		return (
 			<>
-				{totalPages > 1 ? (
+				{totalPages > 1 && (
 					<ReactPaginate
 						pageCount={totalPages}
 						pageRangeDisplayed={5}
@@ -33,7 +33,7 @@ export const PaginationList = memo(
 						previousClassName="page"
 						nextClassName="page"
 					/>
-				) : null}
+				)}
 			</>
 		)
 	}
