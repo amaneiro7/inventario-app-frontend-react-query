@@ -54,12 +54,18 @@ export function AppRoutes() {
 					<Route
 						path="/list"
 						element={
-							<Suspense>
+							<Suspense fallback={<Loading />}>
 								<ListWrapper />
 							</Suspense>
 						}
 					>
 						<Route path="usuarios" element={<ListEmployee />} />
+						<Route path="computer" element={<ListComputer />} />
+						<Route path="monitor" element={<ListMonitor />} />
+						<Route path="printer" element={<ListPrinter />} />
+						<Route path="finantialprinter" element={<ListFinantialPrinter />} />
+						<Route path="parts" element={<ListParts />} />
+						<Route path="model" element={<ListModels />} />
 					</Route>
 					<Route
 						path="/"
@@ -85,54 +91,7 @@ export function AppRoutes() {
 							</Suspense>
 						}
 					></Route>
-					<Route
-						path="/computer"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListComputer />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/monitor"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListMonitor />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/printer"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListPrinter />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/finantialprinter"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListFinantialPrinter />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/parts"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListParts />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/model"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListModels />
-							</Suspense>
-						}
-					/>
+
 					<Route
 						path="/device/add"
 						element={

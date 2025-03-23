@@ -1,29 +1,8 @@
-import { lazy, memo, Suspense } from 'react'
-
-const CategoryCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
-			default: m.CategoryCombobox
-		}))
-)
-const MainCategoryCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Sincrono/MainCategoryComboBox').then(m => ({
-			default: m.MainCategoryCombobox
-		}))
-)
-const BrandCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
-			default: m.BrandCombobox
-		}))
-)
-const ModelCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
-			default: m.ModelCombobox
-		}))
-)
+import { memo } from 'react'
+import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
+import { ModelCombobox } from '@/components/ComboBox/Asincrono/ModelComboBox'
+import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
+import { MainCategoryCombobox } from '@/components/ComboBox/Sincrono/MainCategoryComboBox'
 
 export const MainModelFilter = memo(function ({
 	handleChange,
@@ -40,33 +19,28 @@ export const MainModelFilter = memo(function ({
 }) {
 	return (
 		<>
-			<Suspense>
-				<MainCategoryCombobox
-					name="mainCategoryId"
-					handleChange={handleChange}
-					value={mainCategoryId}
-				/>
-			</Suspense>
-			<Suspense>
-				<CategoryCombobox
-					name="categoryId"
-					mainCategoryId={mainCategoryId}
-					handleChange={handleChange}
-					value={categoryId}
-				/>
-			</Suspense>
-			<Suspense>
-				<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
-			</Suspense>
-			<Suspense>
-				<ModelCombobox
-					name="id"
-					value={id}
-					brandId={brandId}
-					categoryId={categoryId}
-					handleChange={handleChange}
-				/>
-			</Suspense>
+			<MainCategoryCombobox
+				name="mainCategoryId"
+				handleChange={handleChange}
+				value={mainCategoryId}
+			/>
+
+			<CategoryCombobox
+				name="categoryId"
+				mainCategoryId={mainCategoryId}
+				handleChange={handleChange}
+				value={categoryId}
+			/>
+
+			<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
+
+			<ModelCombobox
+				name="id"
+				value={id}
+				brandId={brandId}
+				categoryId={categoryId}
+				handleChange={handleChange}
+			/>
 		</>
 	)
 })

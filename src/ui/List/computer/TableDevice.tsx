@@ -1,35 +1,28 @@
-import React, { lazy } from 'react'
+import React, { memo } from 'react'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
+import { TableRow } from '@/components/Table/TableRow'
+import { TableCell } from '@/components/Table/TableCell'
+import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
+import { ComputerDescription } from './ComputerDescription'
+import { TableCellError } from '@/components/Table/TableCellError'
+import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
-interface Props {
+interface TableDeviceProps {
 	devices?: DeviceDto[]
+	isError: boolean
+	colSpan: number
 }
 
-const TableCell = lazy(async () =>
-	import('@/components/Table/TableCell').then(m => ({
-		default: m.TableCell
-	}))
-)
-const TableRow = lazy(async () =>
-	import('@/components/Table/TableRow').then(m => ({
-		default: m.TableRow
-	}))
-)
-const TableCellOpenIcon = lazy(async () =>
-	import('@/components/Table/TableCellOpenIcon').then(m => ({
-		default: m.TableCellOpenIcon
-	}))
-)
-
-const ComputerDescription = lazy(async () =>
-	import('./ComputerDescription').then(m => ({
-		default: m.ComputerDescription
-	}))
-)
-
-export function TableDevice({ devices }: Props) {
+export const TableDevice = memo(({ devices, isError, colSpan }: TableDeviceProps) => {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+
+	if (isError) {
+		return <TableCellError colSpan={colSpan} />
+	}
+	if (devices && devices.length === 0) {
+		return <TableCellEmpty colSpan={colSpan} />
+	}
 
 	return (
 		<>
@@ -58,4 +51,4 @@ export function TableDevice({ devices }: Props) {
 			))}
 		</>
 	)
-}
+})

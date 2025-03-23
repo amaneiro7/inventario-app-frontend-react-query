@@ -1,26 +1,22 @@
-import { lazy } from 'react'
+import { ArrowRightBadgeIcon } from '@/icon/ArrowRightBadge'
 
 type Props = React.DetailedHTMLProps<
 	React.TdHTMLAttributes<HTMLTableCellElement>,
 	HTMLTableCellElement
 > & {
 	open: boolean
+	index?: number
 }
-
-const ArrowRightBadgeIcon = lazy(async () =>
-	import('@/icon/ArrowRightBadge').then(m => ({ default: m.ArrowRightBadgeIcon }))
-)
-
-export function TableCellOpenIcon({ open, ...props }: React.PropsWithChildren<Props>) {
+export function TableCellOpenIcon({ open, index, ...props }: React.PropsWithChildren<Props>) {
 	return (
 		<td
+			aria-colindex={index}
 			className="min-w-min max-w-min w-8 border-b-2 border-b-gray-300 content-center"
 			{...props}
 		>
 			<ArrowRightBadgeIcon
-				className={`w-4 mx-0 my-auto text-center aspect-square transition-transform duration-500 ${
-					open ? 'rotate-90' : '-rotate-90'
-				} text-azul-600 hover:text-azul-700`}
+				data-open={open}
+				className="w-4 mx-0 my-auto text-center aspect-square transition-transform duration-500 data-[open=true]:rotate-90 data-[open=false]:-rotate-90 text-azul-600 hover:text-azul-700"
 			/>
 		</td>
 	)

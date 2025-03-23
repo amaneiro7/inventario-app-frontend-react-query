@@ -1,4 +1,4 @@
-import { memo, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
@@ -69,6 +69,53 @@ export const EmployeeOtherilter = memo(
 			handleChange('employeeCode', debouncedEmployeeCode)
 		}, [debouncedEmployeeCode])
 
+		useEffectAfterMount(() => {
+			if (!name) {
+				setLocalName('')
+			}
+		}, [name])
+		useEffectAfterMount(() => {
+			if (!lastName) {
+				setLocalLastName('')
+			}
+		}, [lastName])
+		useEffectAfterMount(() => {
+			if (!email) {
+				setLocalEmail('')
+			}
+		}, [email])
+		useEffectAfterMount(() => {
+			if (!cedula) {
+				setLocalCedula('')
+			}
+		}, [cedula])
+		useEffectAfterMount(() => {
+			if (!employeeCode) {
+				setLocalEmployeeCode('')
+			}
+		}, [employeeCode])
+
+		const handleName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.trim().toLowerCase()
+			setLocalName(value)
+		}, [])
+		const handleLastName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.trim().toLowerCase()
+			setLocalLastName(value)
+		}, [])
+		const handleEmail = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.trim().toLowerCase()
+			setLocalEmail(value)
+		}, [])
+		const handleCedula = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value
+			setLocalCedula(value)
+		}, [])
+		const handleEmployeeCode = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value
+			setLocalEmployeeCode(value)
+		}, [])
+
 		return (
 			<>
 				<Input
@@ -77,45 +124,35 @@ export const EmployeeOtherilter = memo(
 					label="Código de empleado"
 					type="number"
 					inputMode="numeric"
-					onChange={e => {
-						setLocalEmployeeCode(e.target.value.trim().toLowerCase())
-					}}
+					onChange={handleEmployeeCode}
 				/>
 				<Input
 					value={localName}
 					name="name"
 					label="Nombre"
 					type="search"
-					onChange={e => {
-						setLocalName(e.target.value.trim().toLowerCase())
-					}}
+					onChange={handleName}
 				/>
 				<Input
 					value={localLastName}
 					name="lastName"
 					label="Apellido"
 					type="search"
-					onChange={e => {
-						setLocalLastName(e.target.value.trim().toLowerCase())
-					}}
+					onChange={handleLastName}
 				/>
 				<Input
 					value={localEmail}
 					name="email"
 					label="Correo electronico"
 					type="search"
-					onChange={e => {
-						setLocalEmail(e.target.value.trim().toLowerCase())
-					}}
+					onChange={handleEmail}
 				/>
 				<Input
 					value={localCedula}
 					name="cedula"
 					label="Cedula"
 					type="search"
-					onChange={e => {
-						setLocalCedula(e.target.value.trim().toLowerCase())
-					}}
+					onChange={handleCedula}
 				/>
 				<DirectivaCombobox
 					name="directivaId"

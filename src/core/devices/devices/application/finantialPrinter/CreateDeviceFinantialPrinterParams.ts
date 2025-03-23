@@ -15,6 +15,8 @@ export interface DeviceFinantialPrinterFilters {
 	modelId?: string
 	employeeId?: string
 	locationId?: string
+	departamentoId?: string
+	cargoId?: string
 	typeOfSiteId?: string
 	cityId?: string
 	stateId?: string

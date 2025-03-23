@@ -1,39 +1,12 @@
-import { lazy, Suspense, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
-const StatusCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Sincrono/StatusComboBox').then(m => ({
-			default: m.StatusCombobox
-		}))
-)
-const BrandCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
-			default: m.BrandCombobox
-		}))
-)
-const ModelCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
-			default: m.ModelCombobox
-		}))
-)
-const StateCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({
-			default: m.StateCombobox
-		}))
-)
-const CityCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({
-			default: m.CityCombobox
-		}))
-)
+import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
+import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
+import { ModelCombobox } from '@/components/ComboBox/Asincrono/ModelComboBox'
+import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
+import { StatusCombobox } from '@/components/ComboBox/Sincrono/StatusComboBox'
+import { Input } from '@/components/Input/Input'
 
 export function DefaultDeviceFilter({
 	activo,
@@ -62,51 +35,53 @@ export function DefaultDeviceFilter({
 	useEffectAfterMount(() => {
 		handleChange('activo', debounceActivo)
 	}, [debounceActivo])
+
+	useEffectAfterMount(() => {
+		if (!activo) {
+			setLocalActivo('')
+		}
+	}, [activo])
+
+	const handleActivo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.trim().toUpperCase()
+		setLocalActivo(value)
+	}, [])
 	return (
-		<Suspense>
+		<>
 			<Input
 				value={localActivo}
 				label="Activo"
 				name="activo"
 				type="search"
-				onChange={e => {
-					let { value } = e.target
-					value = value.trim().toUpperCase()
-					setLocalActivo(value)
-				}}
+				onChange={handleActivo}
 			/>
-			<Suspense>
-				<StatusCombobox handleChange={handleChange} name="state" value={statusId} />
-			</Suspense>
-			<Suspense>
-				<BrandCombobox handleChange={handleChange} name="brandId" value={brandId} />
-			</Suspense>
-			<Suspense>
-				<ModelCombobox
-					handleChange={handleChange}
-					brandId={brandId}
-					categoryId={categoryId}
-					name="modelId"
-					value={modelId}
-				/>
-			</Suspense>
-			<Suspense>
-				<StateCombobox
-					handleChange={handleChange}
-					name="stateId"
-					regionId={regionId}
-					value={stateId}
-				/>
-			</Suspense>
-			<Suspense>
-				<CityCombobox
-					handleChange={handleChange}
-					name="cityId"
-					stateId={stateId}
-					regionId={regionId}
-					value={cityId}
-				/>
-			</Suspense>
-		</Suspense>
+
+			<StatusCombobox handleChange={handleChange} name="state" value={statusId} />
+
+			<BrandCombobox handleChange={handleChange} name="brandId" value={brandId} />
+
+			<ModelCombobox
+				handleChange={handleChange}
+				brandId={brandId}
+				categoryId={categoryId}
+				name="modelId"
+				value={modelId}
+			/>
+
+			<StateCombobox
+				handleChange={handleChange}
+				name="stateId"
+				regionId={regionId}
+				value={stateId}
+			/>
+
+			<CityCombobox
+				handleChange={handleChange}
+				name="cityId"
+				stateId={stateId}
+				regionId={regionId}
+				value={cityId}
+			/>
+		</>
 	)
 }

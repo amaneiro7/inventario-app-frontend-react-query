@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense, useCallback, useMemo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import { useGetAllEmployees } from '@/core/employee/employee/infra/hook/useGetAllEmployee'
 import { EmployeeGetByCriteria } from '@/core/employee/employee/application/EmployeeGetByCriteria'
 import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
@@ -14,8 +14,9 @@ import { type EmployeeFilters } from '@/core/employee/employee/application/creat
 
 interface TableEmployeeWrapperProps {
 	query: EmployeeFilters
-	setPageNumber: (page: number) => void
-	setPageSize: (pageSize: number) => void
+	handlePageSize: (pageSize: number) => void
+	handlePageClick: ({ selected }: { selected: number }) => void
+	handleSort: (field: string) => void
 }
 
 const TableEmployees = lazy(() =>
@@ -24,51 +25,81 @@ const TableEmployees = lazy(() =>
 
 export const TableEmployeeWrapper = memo(function ({
 	query,
-	setPageNumber,
-	setPageSize
+	handlePageSize,
+	handlePageClick,
+	handleSort
 }: TableEmployeeWrapperProps) {
-	const { employees, isLoading } = useGetAllEmployees(query)
-	const handlePageSize = useCallback(
-		(pageSize: number) => {
-			setPageSize(pageSize)
-			setPageNumber(1)
-		},
-		[setPageSize, setPageNumber]
-	)
+	const { employees, isLoading, isError } = useGetAllEmployees(query)
+	const colSpan = 9
 
-	const handlePageClick = useCallback(
-		({ selected }: { selected: number }) => {
-			setPageNumber(selected + 1)
-		},
-		[setPageNumber]
-	)
-
-	const start = useMemo(() => {
-		if (query.pageSize && query.pageNumber) {
-			return query?.pageSize * (query?.pageNumber - 1) + 1
-		}
-		return 1
-	}, [query?.pageSize, query?.pageNumber])
-	const end = useMemo(() => {
-		if (query.pageSize && query.pageNumber) {
-			return query?.pageSize * query?.pageNumber
-		}
-		return EmployeeGetByCriteria.defaultPageSize
-	}, [query?.pageSize, query?.pageNumber])
 	return (
 		<>
 			<TablePageWrapper>
-				<TabsNav total={employees?.info?.total} start={start} end={end} />
+				<TabsNav
+					total={employees?.info?.total}
+					pageSize={query.pageSize}
+					pageNumber={query.pageNumber}
+					defaultPageSize={EmployeeGetByCriteria.defaultPageSize}
+				/>
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead size="xxSmall" name="Cod. Empleado" />
-							<TableHead size="small" name="Usuario" />
-							<TableHead size="small" name="Nombres" />
-							<TableHead size="small" name="Apellidos" />
-							<TableHead size="xxSmall" name="Centro Trabajo" />
-							<TableHead size="xLarge" name="Departamento" />
-							<TableHead size="xLarge" name="Cargo" />
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="employeeCode"
+								size="xxSmall"
+								name="Cod. Empleado"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="userName"
+								size="small"
+								name="Usuario"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="name"
+								size="small"
+								name="Nombres"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="lastName"
+								size="small"
+								name="Apellidos"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="centroTrabajoId"
+								size="xxSmall"
+								name="Centro Trabajo"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="departamentoId"
+								size="xLarge"
+								name="Departamento"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="cargoId"
+								size="xLarge"
+								name="Cargo"
+							/>
 							<TableHead size="small" name="Teléfono" />
 							<TableHead size="small" name="Extensón" />
 							<TableHead size="xxSmall" name="" />
@@ -77,16 +108,20 @@ export const TableEmployeeWrapper = memo(function ({
 					<TableBody>
 						<Suspense>
 							{isLoading && (
-								<LoadingTable registerPerPage={query?.pageSize} colspan={9} />
+								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
 							)}
 							{employees !== undefined && (
-								<TableEmployees employees={employees.data} />
+								<TableEmployees
+									colSpan={colSpan}
+									isError={isError}
+									employees={employees.data}
+								/>
 							)}
 						</Suspense>
 					</TableBody>
 				</Table>
 			</TablePageWrapper>
-			{!isLoading && employees !== undefined && (
+			{employees && !isLoading && !isError && (
 				<PaginationBar
 					registerOptions={EmployeeGetByCriteria.pegaSizeOptions}
 					totalPages={employees?.info?.totalPage}

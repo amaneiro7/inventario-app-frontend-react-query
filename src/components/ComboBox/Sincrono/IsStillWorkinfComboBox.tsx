@@ -38,7 +38,10 @@ export function IsStillWorkingCombobox({
 				error={!!error}
 				errorMessage={error}
 				searchField={false}
-				onChangeValue={handleChange}
+				onChangeValue={(name, value) => {
+					const newValue = value === 'all' ? '' : value
+					handleChange(name, newValue)
+				}}
 				readOnly={readonly}
 			/>
 		</>

@@ -1,3 +1,13 @@
+/**
+ * A function that wraps a function that returns a promise, and prevents that function from being
+ * called multiple times in quick succession. This is useful for preventing accidental double clicks
+ * on buttons, for example.
+ *
+ * @param fn The function to be wrapped.
+ * @returns A function that can be called instead of the original function. This function will
+ *          wait 2000ms after the last call before allowing the function to be called again.
+ */
+
 export function eventManager<T extends (...args: never[]) => Promise<void>>(
 	fn: T
 ): (...args: Parameters<T>) => Promise<void> {

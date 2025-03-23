@@ -22,27 +22,27 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Lista de equipos de computación',
 				desc: 'Equipos asignados en agencia',
-				path: '/computer'
+				path: '/list/computer'
 			},
 			{
 				title: 'Lista de Monitores',
 				desc: 'Lista de Monitores',
-				path: '/monitor'
+				path: '/list/monitor'
 			},
 			{
 				title: 'Lista de Impresoras',
 				desc: 'Lista de Impresoras',
-				path: '/printer'
+				path: '/list/printer'
 			},
 			{
 				title: 'Lista de Impresoras Financieras',
 				desc: 'Lista de Impresoras Financieras',
-				path: '/finantialprinter'
+				path: '/list/finantialprinter'
 			},
 			{
 				title: 'Lista de Partes y piezas',
 				desc: 'Lista de Partes y piezas',
-				path: '/parts'
+				path: '/list/parts'
 			}
 		]
 	},

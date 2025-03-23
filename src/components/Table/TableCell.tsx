@@ -42,7 +42,15 @@ export function TableCell<T>({
 		})
 	)
 	return (
-		<td className={classes} aria-label={`${value}`} title={`${value}`} {...props}>
+		<td
+			role="row"
+			tabIndex={-1}
+			data-key={value}
+			className={classes}
+			aria-label={`${value}`}
+			title={`${value}`}
+			{...props}
+		>
 			{url ? (
 				<Suspense>
 					<TableCellWithUrl value={value} url={url} state={state} />

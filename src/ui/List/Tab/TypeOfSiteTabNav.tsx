@@ -5,7 +5,7 @@ import { TabNav } from './TabNav'
 
 interface Props {
 	handleChange: (name: string, value: string) => void
-	value: string
+	value?: string
 }
 export const TypeOfSiteTabNav = memo(function ({ handleChange, value }: Props) {
 	const [inputValue, setInputValue] = useState(() => (value ? value : '0'))

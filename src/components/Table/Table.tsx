@@ -20,7 +20,7 @@ function TableComponent<T extends typeof TableBody | typeof TableHeader>({
 		className
 	)
 	return (
-		<table className={classes} {...props}>
+		<table tabIndex={-1} role="table" className={classes} {...props}>
 			{children}
 		</table>
 	)

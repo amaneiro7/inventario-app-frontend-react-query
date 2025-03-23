@@ -2,16 +2,28 @@ import React, { memo } from 'react'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
 import { TableRow } from '@/components/Table/TableRow'
 import { TableCell } from '@/components/Table/TableCell'
+import { TableCellError } from '@/components/Table/TableCellError'
+import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
 import { EmployeeDescription } from './EmployeesDescription'
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
 
 interface TableEmployeesProps {
 	employees?: EmployeeDto[]
+	isError: boolean
+	colSpan: number
 }
 
-export const TableEmployees = memo(({ employees }: TableEmployeesProps) => {
+export const TableEmployees = memo(({ employees, isError, colSpan }: TableEmployeesProps) => {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+
+	if (isError) {
+		return <TableCellError colSpan={colSpan} />
+	}
+	if (employees && employees.length === 0) {
+		return <TableCellEmpty colSpan={colSpan} />
+	}
+
 	return (
 		<>
 			{employees !== undefined &&

@@ -12,8 +12,9 @@ interface Props
 export function TableHeader({ children, ...props }: Props) {
 	return (
 		<thead
-			{...props}
 			className="w-max min-w-max sticky z-10 top-0 drop-shadow-lg border-l-3 border-l-azul bg-azul text-white"
+			role="rowgroup"
+			{...props}
 		>
 			{children}
 		</thead>

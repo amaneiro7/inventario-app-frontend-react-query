@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { useEmployeeFilter } from '@/core/employee/employee/infra/hook/useEmployeeFilters'
@@ -8,21 +8,12 @@ import { TableEmployeeWrapper } from '@/ui/List/employee/TableEmployeeWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
 import { EmployeeOtherilter } from '@/ui/List/employee/OtherFilter'
-import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
 
 export default function ListEmployee() {
-	const { setFilters, cleanFilters, setPageNumber, setPageSize, ...query } = useEmployeeFilter()
+	const { handleChange, cleanFilters, handlePageSize, handlePageClick, handleSort, ...query } =
+		useEmployeeFilter()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
 	const navigate = useNavigate()
-
-	const handleChange = useCallback(
-		(name: string, value: string | number) => {
-			const key = name as keyof EmployeeFilters
-			setFilters({ [key]: value })
-			setPageNumber(1)
-		},
-		[setFilters, setPageNumber]
-	)
 
 	return (
 		<>
@@ -67,8 +58,9 @@ export default function ListEmployee() {
 			</DetailsBoxWrapper>
 
 			<TableEmployeeWrapper
-				setPageNumber={setPageNumber}
-				setPageSize={setPageSize}
+				handlePageSize={handlePageSize}
+				handlePageClick={handlePageClick}
+				handleSort={handleSort}
 				query={query}
 			/>
 		</>

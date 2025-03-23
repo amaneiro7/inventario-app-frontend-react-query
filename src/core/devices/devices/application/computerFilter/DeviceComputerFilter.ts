@@ -15,7 +15,7 @@ export class DeviceComputerFilter {
 	}
 
 	async search({
-		pageNumber = 1,
+		pageNumber,
 		pageSize = DeviceComputerFilter.defaultPageSize,
 		orderBy = DeviceComputerFilter.defaultOrderBy,
 		orderType,

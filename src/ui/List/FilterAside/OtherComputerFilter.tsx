@@ -1,20 +1,10 @@
-import { lazy, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useDebounce } from '@/hooks/utils/useDebounce'
+import { Input } from '@/components/Input/Input'
+import { OperatingSystemCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemComboBox'
+import { OperatingSystemArqCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemArqComboBox'
 
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
-const OperatingSystemCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/OperatingSystemComboBox').then(m => ({
-		default: m.OperatingSystemCombobox
-	}))
-)
-const OperatingSystemArqCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/OperatingSystemArqComboBox').then(m => ({
-		default: m.OperatingSystemArqCombobox
-	}))
-)
 export function OtherComputerFilter({
 	computerName = '',
 	operatingSystemId = '',
@@ -46,6 +36,30 @@ export function OtherComputerFilter({
 	useEffectAfterMount(() => {
 		handleChange('ipAddress', debounceIPAddress)
 	}, [debounceIPAddress])
+	useEffectAfterMount(() => {
+		if (!computerName) setLocalComputerName('')
+	}, [computerName])
+	useEffectAfterMount(() => {
+		if (!processor) setLocalProcessor('')
+	}, [processor])
+
+	useEffectAfterMount(() => {
+		if (!ipAddress) setLocalIPAddress('')
+	}, [ipAddress])
+
+	const handleComputerName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.trim().toUpperCase()
+		setLocalComputerName(value)
+	}, [])
+	const handleProcessor = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.trim().toUpperCase()
+		setLocalProcessor(value)
+	}, [])
+
+	const handleIPAddress = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.trim().toUpperCase()
+		setLocalIPAddress(value)
+	}, [])
 	return (
 		<>
 			<Input
@@ -53,11 +67,7 @@ export function OtherComputerFilter({
 				label="Nombre del computador"
 				name="computerName"
 				type="search"
-				onChange={e => {
-					let { value } = e.target
-					value = value.trim().toUpperCase()
-					setLocalComputerName(value)
-				}}
+				onChange={handleComputerName}
 			/>
 
 			<OperatingSystemCombobox
@@ -77,11 +87,7 @@ export function OtherComputerFilter({
 				label="Procesador"
 				name="processor"
 				type="search"
-				onChange={e => {
-					let { value } = e.target
-					value = value.trim().toUpperCase()
-					setLocalProcessor(value)
-				}}
+				onChange={handleProcessor}
 			/>
 
 			<Input
@@ -89,11 +95,7 @@ export function OtherComputerFilter({
 				label="Direccón IP"
 				name="ipAddress"
 				type="search"
-				onChange={e => {
-					let { value } = e.target
-					value = value.trim().toUpperCase()
-					setLocalIPAddress(value)
-				}}
+				onChange={handleIPAddress}
 			/>
 		</>
 	)

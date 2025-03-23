@@ -1,34 +1,12 @@
-import { lazy, memo, useState, Suspense } from 'react'
+import { memo, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-
-const CategoryCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
-			default: m.CategoryCombobox
-		}))
-)
-const RegionCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
-			default: m.RegionCombobox
-		}))
-)
-const EmployeeCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
-			default: m.EmployeeCombobox
-		}))
-)
-const LocationCombobox = lazy(
-	async () =>
-		await import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
-			default: m.LocationCombobox
-		}))
-)
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
-)
+import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
+import { EmployeeCombobox } from '@/components/ComboBox/Asincrono/EmployeeComboBox'
+import { Input } from '@/components/Input/Input'
+import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
+import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
+import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/DepartamentoComboBox'
 
 export const MainComputerFilter = memo(function ({
 	handleChange,
@@ -38,7 +16,8 @@ export const MainComputerFilter = memo(function ({
 	locationId,
 	regionId,
 	typeOfSiteId,
-	serial
+	serial,
+	departamentoId
 }: {
 	employeeId?: string
 	categoryId?: string
@@ -46,6 +25,7 @@ export const MainComputerFilter = memo(function ({
 	regionId?: string
 	locationId?: string
 	serial?: string
+	departamentoId?: string
 	typeOfSiteId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
@@ -56,48 +36,50 @@ export const MainComputerFilter = memo(function ({
 		handleChange('serial', debounceSerial)
 	}, [debounceSerial])
 
+	useEffectAfterMount(() => {
+		if (!serial) {
+			setLocalSerial('')
+		}
+	}, [serial])
+
+	const handleSerial = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.trim().toUpperCase()
+		setLocalSerial(value)
+	}, [])
+
 	return (
 		<>
-			<Suspense>
-				<EmployeeCombobox
-					name="employeeId"
-					handleChange={handleChange}
-					value={employeeId}
-				/>
-			</Suspense>
-			<Suspense>
-				<CategoryCombobox
-					name="categoryId"
-					mainCategoryId={mainCategoryId}
-					handleChange={handleChange}
-					value={categoryId}
-				/>
-			</Suspense>
-			<Suspense>
-				<Input
-					value={localSerial}
-					label="Serial"
-					name="serial"
-					type="search"
-					onChange={e => {
-						let { value } = e.target
-						value = value.trim().toUpperCase()
-						setLocalSerial(value)
-					}}
-				/>
-			</Suspense>
-			<Suspense>
-				<LocationCombobox
-					name="locationId"
-					handleChange={handleChange}
-					value={locationId}
-					method="search"
-					typeOfSiteId={typeOfSiteId}
-				/>
-			</Suspense>
-			<Suspense>
-				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
-			</Suspense>
+			<EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} />
+
+			<CategoryCombobox
+				name="categoryId"
+				mainCategoryId={mainCategoryId}
+				handleChange={handleChange}
+				value={categoryId}
+			/>
+
+			<Input
+				value={localSerial}
+				label="Serial"
+				name="serial"
+				type="search"
+				onChange={handleSerial}
+			/>
+
+			<LocationCombobox
+				name="locationId"
+				handleChange={handleChange}
+				value={locationId}
+				method="search"
+				typeOfSiteId={typeOfSiteId}
+			/>
+
+			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+			<DepartamentoCombobox
+				name="departamentoId"
+				handleChange={handleChange}
+				value={departamentoId}
+			/>
 		</>
 	)
 })

@@ -1,9 +1,11 @@
 import { memo, useMemo } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from './PageTitle'
 import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
 
 const ListWrapper = memo(() => {
+	const location = useLocation()
+
 	const routeTitles = useMemo(
 		(): Record<string, string> => ({
 			'/computer': 'Lista de equipos de computación',
@@ -18,20 +20,22 @@ const ListWrapper = memo(() => {
 		[]
 	)
 
-	const title = useMemo(() => {
-		const path = location.pathname
+	const defaultTitle = useMemo(() => {
 		for (const route in routeTitles) {
-			if (path.includes(route)) {
+			if (location.pathname.includes(route)) {
 				return routeTitles[route]
 			}
 		}
 		return 'Lista'
 	}, [location.pathname, routeTitles])
+
+	const outletTitle = useOutletContext<string>()
+	const title = outletTitle || defaultTitle
 	return (
 		<>
 			<PageTitle title={title} />
 			<DetailsWrapper>
-				<Outlet />
+				<Outlet context={title} />
 			</DetailsWrapper>
 		</>
 	)

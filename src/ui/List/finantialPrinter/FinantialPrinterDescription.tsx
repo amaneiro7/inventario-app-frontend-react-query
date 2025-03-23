@@ -1,26 +1,12 @@
-import { lazy } from 'react'
+import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
+import { TableCellDescription } from '@/components/Table/TableCellDescription'
+import { TableDescDivider } from '@/components/Table/TableDescDivider'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
 	open: boolean
 	device: DeviceDto
 }
-
-const TableCellDescInfo = lazy(async () =>
-	import('@/components/Table/TableCellDescInfo').then(m => ({
-		default: m.TableCellDescInfo
-	}))
-)
-const TableCellDescription = lazy(async () =>
-	import('@/components/Table/TableCellDescription').then(m => ({
-		default: m.TableCellDescription
-	}))
-)
-const TableDescDivider = lazy(async () =>
-	import('@/components/Table/TableDescDivider').then(m => ({
-		default: m.TableDescDivider
-	}))
-)
 
 export function FinantialPrinterDescription({ open, device }: Props) {
 	return (
@@ -30,7 +16,7 @@ export function FinantialPrinterDescription({ open, device }: Props) {
 				state={device}
 				stateId={device.id}
 				url={`/device/edit/${device.id}`}
-				colspan={10}
+				colspan={7}
 			>
 				<TableDescDivider label="Información básica">
 					<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />

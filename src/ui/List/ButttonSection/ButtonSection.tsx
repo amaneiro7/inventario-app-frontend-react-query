@@ -1,21 +1,27 @@
+import { memo, MouseEventHandler } from 'react'
 import Button from '@/components/Button'
 import { AddIcon } from '@/icon/AddIcon'
 import { CircleSpinningIcon } from '@/icon/CircleSpinning'
 import { DownloadIcon } from '@/icon/DownloadIcon'
 import { FilterIcon } from '@/icon/FilterIcon'
-import { memo, MouseEventHandler } from 'react'
+import { eventManager } from '@/utils/eventManager'
 
-interface Props {
+interface ButtonSectionProps {
 	handleClear?: () => void
 	handleAdd: () => void
-	handleExportToExcel?: () => void
+	handleExportToExcel?: () => Promise<void>
 	loading?: boolean
-	isFilterOpen?: boolean
 	handleFilter?: MouseEventHandler<HTMLButtonElement>
 }
 
 export const ButtonSection = memo(
-	({ loading, handleFilter, handleAdd, handleClear, handleExportToExcel }: Props) => {
+	({
+		loading = false,
+		handleFilter,
+		handleAdd,
+		handleClear,
+		handleExportToExcel
+	}: ButtonSectionProps) => {
 		return (
 			<section className="my-4 min-h-8 flex gap-2">
 				<Button
@@ -32,7 +38,7 @@ export const ButtonSection = memo(
 							<DownloadIcon width={20} className="aspect-square" />
 						)
 					}
-					onClick={handleExportToExcel}
+					onClick={handleExportToExcel ? eventManager(handleExportToExcel) : undefined}
 				/>
 
 				<Button
