@@ -1,4 +1,7 @@
-import { lazy } from 'react'
+import { memo } from 'react'
+import { TableCellDescription } from '@/components/Table/TableCellDescription'
+import { TableDescDivider } from '@/components/Table/TableDescDivider'
+import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
@@ -6,23 +9,7 @@ interface Props {
 	device: DeviceDto
 }
 
-const TableCellDescInfo = lazy(async () =>
-	import('@/components/Table/TableCellDescInfo').then(m => ({
-		default: m.TableCellDescInfo
-	}))
-)
-const TableCellDescription = lazy(async () =>
-	import('@/components/Table/TableCellDescription').then(m => ({
-		default: m.TableCellDescription
-	}))
-)
-const TableDescDivider = lazy(async () =>
-	import('@/components/Table/TableDescDivider').then(m => ({
-		default: m.TableDescDivider
-	}))
-)
-
-export function PartsDescription({ open, device }: Props) {
+export const PartsDescription = memo(({ open, device }: Props) => {
 	return (
 		<>
 			<TableCellDescription
@@ -87,4 +74,4 @@ export function PartsDescription({ open, device }: Props) {
 			</TableCellDescription>
 		</>
 	)
-}
+})

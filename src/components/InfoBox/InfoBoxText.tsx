@@ -9,7 +9,14 @@ interface InfoBoxTextProps {
 
 export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) => {
 	return (
-		<Typography variant="p" color="gris" align="left" weight="normal" className={className}>
+		<Typography
+			variant="p"
+			color="gris"
+			align="left"
+			weight="normal"
+			option="small"
+			className={className}
+		>
 			<b>{`${desc}: `}</b>
 			{text}
 		</Typography>

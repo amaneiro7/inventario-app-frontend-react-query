@@ -1,4 +1,4 @@
-import { useGenericFilter } from '../useHookFilter'
+import { useGenericFilter } from '../../../../../hooks/useHookFilter'
 import {
 	DeviceFinantialPrinterFilter,
 	defaultMainCategoryValue

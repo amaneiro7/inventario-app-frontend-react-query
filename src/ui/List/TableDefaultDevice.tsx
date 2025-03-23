@@ -10,6 +10,7 @@ import { TypeOfSiteTabNav } from './Tab/TypeOfSiteTabNav'
 import { LoadingTable } from '@/components/Table/LoadingTable'
 import { eventManager } from '@/utils/eventManager'
 import { OrderTypes } from '@/core/shared/domain/criteria/OrderType'
+import { Suspense } from 'react'
 
 interface TableDefaultDeviceProps<T> {
 	children?: React.ReactElement<T>
@@ -58,6 +59,7 @@ export function TableDefaultDevice<T>({
 		<>
 			<TablePageWrapper>
 				<TabsNav
+					isLoading={isLoading}
 					total={total}
 					pageSize={pageSize}
 					pageNumber={pageNumber}
@@ -69,6 +71,8 @@ export function TableDefaultDevice<T>({
 					<TableHeader>
 						<TableRow>
 							<TableHead
+								isTab
+								aria-colindex={1}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -77,6 +81,8 @@ export function TableDefaultDevice<T>({
 								name="Usuario"
 							/>
 							<TableHead
+								isTab
+								aria-colindex={2}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -85,6 +91,8 @@ export function TableDefaultDevice<T>({
 								name="Ubicación"
 							/>
 							<TableHead
+								isTab
+								aria-colindex={3}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -93,6 +101,8 @@ export function TableDefaultDevice<T>({
 								name="Serial"
 							/>
 							<TableHead
+								isTab
+								aria-colindex={4}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -101,6 +111,8 @@ export function TableDefaultDevice<T>({
 								name="Categoria"
 							/>
 							<TableHead
+								isTab
+								aria-colindex={5}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -109,6 +121,8 @@ export function TableDefaultDevice<T>({
 								name="Marca"
 							/>
 							<TableHead
+								isTab
+								aria-colindex={6}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -117,6 +131,8 @@ export function TableDefaultDevice<T>({
 								name="Modelo"
 							/>
 							<TableHead
+								isTab
+								aria-colindex={7}
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
 								orderType={orderType}
@@ -132,7 +148,13 @@ export function TableDefaultDevice<T>({
 							{isLoading && (
 								<LoadingTable registerPerPage={pageSize} colspan={colSpan} />
 							)}
-							{children}
+							<Suspense
+								fallback={
+									<LoadingTable registerPerPage={pageSize} colspan={colSpan} />
+								}
+							>
+								{children}
+							</Suspense>
 						</>
 					</TableBody>
 				</Table>

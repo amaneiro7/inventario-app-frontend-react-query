@@ -1,28 +1,15 @@
-import { ModelDto } from '@/core/model/models/domain/dto/Model.dto'
-import { lazy } from 'react'
+import { memo } from 'react'
+import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
+import { TableCellDescription } from '@/components/Table/TableCellDescription'
+import { TableDescDivider } from '@/components/Table/TableDescDivider'
+import { type ModelDto } from '@/core/model/models/domain/dto/Model.dto'
 
-interface Props {
+interface ModelDescriptionProps {
 	open: boolean
 	model: ModelDto
 }
 
-const TableCellDescInfo = lazy(async () =>
-	import('@/components/Table/TableCellDescInfo').then(m => ({
-		default: m.TableCellDescInfo
-	}))
-)
-const TableCellDescription = lazy(async () =>
-	import('@/components/Table/TableCellDescription').then(m => ({
-		default: m.TableCellDescription
-	}))
-)
-const TableDescDivider = lazy(async () =>
-	import('@/components/Table/TableDescDivider').then(m => ({
-		default: m.TableDescDivider
-	}))
-)
-
-export function ModelDescription({ open, model }: Props) {
+export const ModelDescription = memo(({ open, model }: ModelDescriptionProps) => {
 	return (
 		<>
 			<TableCellDescription
@@ -112,4 +99,4 @@ export function ModelDescription({ open, model }: Props) {
 			</TableCellDescription>
 		</>
 	)
-}
+})

@@ -1,108 +1,50 @@
-import { lazy, Suspense, useCallback, useMemo } from 'react'
-import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { useModelsFilter } from '@/hooks/filters/useModelsFilters'
-import { ModelGetByCriteria } from '@/core/model/models/application/ModelGetByCriteria'
-import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
-import { Loading } from '@/components/Loading'
-import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
+import { useNavigate } from 'react-router-dom'
+import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
+import { useModelsFilter } from '@/core/model/models/infra/hook/useModelsFilters'
+import { TableModelWrapper } from '@/ui/List/models/TableModelWrapper'
+import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { FilterSection } from '@/ui/List/FilterSection'
+import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { MainModelFilter } from '@/ui/List/MainModelFilter'
 
-const ListWrapper = lazy(
-	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
-)
-const TableModelWrapper = lazy(async () =>
-	import('@/ui/List/models/TableModelWrapper').then(m => ({ default: m.TableModelWrapper }))
-)
-const TableModels = lazy(async () =>
-	import('@/ui/List/models/TableModels').then(m => ({ default: m.TableModels }))
-)
+export default function ListModel() {
+	const navigate = useNavigate()
+	const { cleanFilters, handlePageSize, handlePageClick, handleSort, handleChange, ...query } =
+		useModelsFilter()
 
-const LoadingTable = lazy(async () =>
-	import('@/components/Table/LoadingTable').then(m => ({
-		default: m.LoadingTable
-	}))
-)
+	const { download, isDownloading } = useDownloadExcelService()
 
-const MainModelFilter = lazy(async () =>
-	import('@/ui/List/MainModelFilter').then(m => ({ default: m.MainModelFilter }))
-)
-
-export default function ListMonitor() {
-	const { setFilters, cleanFilters, setPageNumber, setPageSize, ...query } = useModelsFilter()
-
-	const handleChange = useCallback(
-		(name: string, value: string | number) => {
-			const key = name as keyof ModelFilters
-			setFilters({ [key]: value })
-			setPageNumber(1)
-		},
-		[setFilters]
-	)
-
-	const handlePageSize = useCallback(
-		(pageSize: number) => {
-			setPageSize(pageSize)
-			setPageNumber(1)
-		},
-		[setPageSize, setPageNumber]
-	)
-
-	const handlePageSelection = useCallback(
-		({ selected }: { selected: number }) => {
-			setPageNumber(selected + 1)
-		},
-		[setPageNumber]
-	)
-
-	const { download, isDownloading } = useDownloadExcelService({
-		query,
-		source: 'model'
-	})
-
-	const { models, isLoading } = useGetAllModel({
-		...query
-	})
-
-	const tableContent = useMemo(() => {
-		return isLoading || models?.data === undefined ? (
-			<LoadingTable registerPerPage={query.pageSize} colspan={5} />
-		) : (
-			<Suspense fallback={<LoadingTable registerPerPage={query.pageSize} colspan={5} />}>
-				<TableModels models={models.data} />
-			</Suspense>
-		)
-	}, [isLoading, models?.data, query.pageSize])
+	const handleDownloadToExcel = async () => {
+		await download({ source: 'model', query })
+	}
 
 	return (
-		<Suspense fallback={<Loading />}>
-			<ListWrapper
-				title="Lista de modelos"
-				handleChange={handleChange}
-				handleClear={cleanFilters}
-				handleExportToExcel={download}
-				isDownloading={isDownloading}
-				url="/model/add"
-				mainFilter={
-					<Suspense>
-						<MainModelFilter
-							handleChange={handleChange}
-							categoryId={query.categoryId}
-							mainCategoryId={query.mainCategoryId}
-							brandId={query.brandId}
-							id={query.id}
-						/>
-					</Suspense>
-				}
-				// otherFilter={}
-				total={models?.info.total}
-				currentPage={models?.info.page}
-				totalPages={models?.info.totalPage}
-				loading={isLoading}
-				table={<TableModelWrapper>{tableContent}</TableModelWrapper>}
-				registerOptions={ModelGetByCriteria.pegaSizeOptions}
-				pageSize={query.pageSize}
-				handlePageClick={handlePageSelection}
+		<>
+			<DetailsBoxWrapper>
+				<FilterSection>
+					<MainModelFilter
+						handleChange={handleChange}
+						categoryId={query.categoryId}
+						mainCategoryId={query.mainCategoryId}
+						brandId={query.brandId}
+						id={query.id}
+					/>
+				</FilterSection>
+				<ButtonSection
+					handleExportToExcel={handleDownloadToExcel}
+					loading={isDownloading}
+					handleClear={cleanFilters}
+					handleAdd={() => {
+						navigate('/model/add')
+					}}
+				/>
+			</DetailsBoxWrapper>
+			<TableModelWrapper
 				handlePageSize={handlePageSize}
+				handlePageClick={handlePageClick}
+				handleSort={handleSort}
+				query={query}
 			/>
-		</Suspense>
+		</>
 	)
 }

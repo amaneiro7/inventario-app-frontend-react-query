@@ -1,3 +1,4 @@
+import { twMerge } from 'tailwind-merge'
 import { type TableCell } from './TableCell'
 import { type TableHead } from './TableHead'
 
@@ -11,14 +12,12 @@ interface Props<T extends typeof TableHead | typeof TableCell>
 
 export function TableRow<T extends typeof TableHead | typeof TableCell>({
 	children,
+	className,
 	...props
 }: Props<T>) {
+	const classes = twMerge('[&>td]:bg-slate-100 [&>td]:hover:bg-slate-200 text-xs', className)
 	return (
-		<tr
-			{...props}
-			role="row"
-			className={`[&>td]:bg-slate-100 [&>td]:hover:bg-slate-200 text-xs ${props.className}`}
-		>
+		<tr className={classes} role="row" {...props}>
 			{children}
 		</tr>
 	)

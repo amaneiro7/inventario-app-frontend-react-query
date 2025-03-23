@@ -1,43 +1,15 @@
+import { lazy, useContext } from 'react'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { useChangePassword } from '@/hooks/useChangePassword'
-import { lazy, useContext } from 'react'
+import { PageTitle } from '@/ui/PageTitle'
+import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
+import { DetailsInfo } from '@/components/DetailsWrapper/DetailsInfo'
+import { DescriptionListElement } from '@/components/DetailsWrapper/DescriptionListElement'
+import { ChangePassowrdForm } from '@/ui/Profile/ChangePasswordForm'
+import { DescriptionDesc } from '@/components/DetailsWrapper/DescriptionDesc'
+import { StepsToFollow } from '@/components/StepsToFollow/StepsToFollow'
+import { ChangePasswordStepsToFollow } from '@/components/StepsToFollow/ChangePasswordStepsToFollow'
 
-const PageTitle = lazy(async () => import('@/ui/PageTitle').then(m => ({ default: m.PageTitle })))
-const DetailsWrapper = lazy(async () =>
-	import('@/components/DetailsWrapper/DetailsWrapper').then(m => ({
-		default: m.DetailsWrapper
-	}))
-)
-const DetailsInfo = lazy(async () =>
-	import('@/components/DetailsWrapper/DetailsInfo').then(m => ({
-		default: m.DetailsInfo
-	}))
-)
-const DescriptionListElement = lazy(async () =>
-	import('@/components/DetailsWrapper/DescriptionListElement').then(m => ({
-		default: m.DescriptionListElement
-	}))
-)
-const DescriptionDesc = lazy(async () =>
-	import('@/components/DetailsWrapper/DescriptionDesc').then(m => ({
-		default: m.DescriptionDesc
-	}))
-)
-const ChangePassowrdForm = lazy(async () =>
-	import('@/ui/Profile/ChangePasswordForm').then(m => ({
-		default: m.ChangePassowrdForm
-	}))
-)
-const StepsToFollow = lazy(async () =>
-	import('@/components/StepsToFollow/StepsToFollow').then(m => ({
-		default: m.StepsToFollow
-	}))
-)
-const ChangePasswordStepsToFollow = lazy(async () =>
-	import('@/components/StepsToFollow/ChangePasswordStepsToFollow').then(m => ({
-		default: m.ChangePasswordStepsToFollow
-	}))
-)
 const Modal = lazy(async () =>
 	import('@/components/Modal/Modal').then(m => ({ default: m.Dialog }))
 )

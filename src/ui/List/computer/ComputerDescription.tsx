@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { getRelativeTime } from '@/utils/getRelativeTime'
 
 interface Props {
 	open: boolean
@@ -151,7 +152,13 @@ export function ComputerDescription({ open, device }: Props) {
 				</TableDescDivider>
 				<TableCellDescInfo
 					title="Última Actualización"
-					text={device.updatedAt ? new Date(device.updatedAt).toLocaleDateString() : ''}
+					text={
+						device.updatedAt
+							? `${new Date(
+									device.updatedAt
+							  ).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
+							: 'Sin Actualización'
+					}
 				/>
 			</TableCellDescription>
 		</>

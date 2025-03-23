@@ -18,6 +18,7 @@ const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>
 
 	const handleOpen = useCallback((event: React.MouseEvent) => {
 		event.stopPropagation()
+		event.preventDefault()
 		setOpen(true)
 	}, [])
 	const handleClose = useCallback(() => {

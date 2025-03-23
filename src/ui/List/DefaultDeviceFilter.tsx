@@ -56,7 +56,7 @@ export function DefaultDeviceFilter({
 				onChange={handleActivo}
 			/>
 
-			<StatusCombobox handleChange={handleChange} name="state" value={statusId} />
+			<StatusCombobox handleChange={handleChange} name="statusId" value={statusId} />
 
 			<BrandCombobox handleChange={handleChange} name="brandId" value={brandId} />
 

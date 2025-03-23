@@ -24,22 +24,24 @@ export const ButtonSection = memo(
 	}: ButtonSectionProps) => {
 		return (
 			<section className="my-4 min-h-8 flex gap-2">
-				<Button
-					type="button"
-					color="green"
-					size="content"
-					text={loading ? 'Descargando' : `Descargar`}
-					buttonSize="medium"
-					disabled={loading}
-					icon={
-						loading ? (
-							<CircleSpinningIcon width={20} />
-						) : (
-							<DownloadIcon width={20} className="aspect-square" />
-						)
-					}
-					onClick={handleExportToExcel ? eventManager(handleExportToExcel) : undefined}
-				/>
+				{handleExportToExcel && (
+					<Button
+						type="button"
+						color="green"
+						size="content"
+						text={loading ? 'Descargando' : `Descargar`}
+						buttonSize="medium"
+						disabled={loading}
+						icon={
+							loading ? (
+								<CircleSpinningIcon width={20} />
+							) : (
+								<DownloadIcon width={20} className="aspect-square" />
+							)
+						}
+						onClick={eventManager(handleExportToExcel)}
+					/>
+				)}
 
 				<Button
 					type="button"
@@ -60,17 +62,18 @@ export const ButtonSection = memo(
 					onClick={handleClear}
 				/>
 
-				{handleFilter ? (
+				{handleFilter && (
 					<Button
 						type="button"
 						color="blanco"
 						size="content"
 						text="Filtros"
+						data-filter-aside-button="true"
 						buttonSize="medium"
 						onClick={handleFilter}
 						icon={<FilterIcon width={14} className="aspect-square" />}
 					/>
-				) : null}
+				)}
 			</section>
 		)
 	}

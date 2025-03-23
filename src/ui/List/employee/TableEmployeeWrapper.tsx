@@ -36,6 +36,7 @@ export const TableEmployeeWrapper = memo(function ({
 		<>
 			<TablePageWrapper>
 				<TabsNav
+					isLoading={isLoading}
 					total={employees?.info?.total}
 					pageSize={query.pageSize}
 					pageNumber={query.pageNumber}
@@ -45,6 +46,7 @@ export const TableEmployeeWrapper = memo(function ({
 					<TableHeader>
 						<TableRow>
 							<TableHead
+								aria-colindex={1}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -53,6 +55,7 @@ export const TableEmployeeWrapper = memo(function ({
 								name="Cod. Empleado"
 							/>
 							<TableHead
+								aria-colindex={2}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -61,6 +64,7 @@ export const TableEmployeeWrapper = memo(function ({
 								name="Usuario"
 							/>
 							<TableHead
+								aria-colindex={3}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -69,6 +73,7 @@ export const TableEmployeeWrapper = memo(function ({
 								name="Nombres"
 							/>
 							<TableHead
+								aria-colindex={4}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -77,6 +82,7 @@ export const TableEmployeeWrapper = memo(function ({
 								name="Apellidos"
 							/>
 							<TableHead
+								aria-colindex={5}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -85,6 +91,7 @@ export const TableEmployeeWrapper = memo(function ({
 								name="Centro Trabajo"
 							/>
 							<TableHead
+								aria-colindex={6}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -93,6 +100,7 @@ export const TableEmployeeWrapper = memo(function ({
 								name="Departamento"
 							/>
 							<TableHead
+								aria-colindex={7}
 								handleSort={handleSort}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -100,24 +108,33 @@ export const TableEmployeeWrapper = memo(function ({
 								size="xLarge"
 								name="Cargo"
 							/>
-							<TableHead size="small" name="Teléfono" />
-							<TableHead size="small" name="Extensón" />
-							<TableHead size="xxSmall" name="" />
+							<TableHead aria-colindex={8} size="small" name="Teléfono" />
+							<TableHead aria-colindex={9} size="small" name="Extensón" />
+							<TableHead aria-colindex={10} size="xxSmall" name="" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						<Suspense>
+						<>
 							{isLoading && (
 								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
 							)}
 							{employees !== undefined && (
-								<TableEmployees
-									colSpan={colSpan}
-									isError={isError}
-									employees={employees.data}
-								/>
+								<Suspense
+									fallback={
+										<LoadingTable
+											registerPerPage={query?.pageSize}
+											colspan={colSpan}
+										/>
+									}
+								>
+									<TableEmployees
+										colSpan={colSpan}
+										isError={isError}
+										employees={employees.data}
+									/>
+								</Suspense>
 							)}
-						</Suspense>
+						</>
 					</TableBody>
 				</Table>
 			</TablePageWrapper>

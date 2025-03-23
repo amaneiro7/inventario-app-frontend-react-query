@@ -1,36 +1,29 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
+import { TableCellError } from '@/components/Table/TableCellError'
+import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
+import { TableRow } from '@/components/Table/TableRow'
+import { TableCell } from '@/components/Table/TableCell'
+import { PartsDescription } from './PartsDescription'
+import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
 
-interface Props {
+interface TablePartsProps {
 	devices?: DeviceDto[]
+	isError: boolean
+	colSpan: number
 }
 
-const TableCell = lazy(async () =>
-	import('@/components/Table/TableCell').then(m => ({
-		default: m.TableCell
-	}))
-)
-const TableRow = lazy(async () =>
-	import('@/components/Table/TableRow').then(m => ({
-		default: m.TableRow
-	}))
-)
-const TableCellOpenIcon = lazy(async () =>
-	import('@/components/Table/TableCellOpenIcon').then(m => ({
-		default: m.TableCellOpenIcon
-	}))
-)
-const PartsDescription = lazy(async () =>
-	import('@/ui/List/parts/PartsDescription').then(m => ({
-		default: m.PartsDescription
-	}))
-)
-
-export function TableParts({ devices }: Props) {
+export function TableParts({ devices, colSpan, isError }: TablePartsProps) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+	if (isError) {
+		return <TableCellError colSpan={colSpan} />
+	}
+	if (devices && devices.length === 0) {
+		return <TableCellEmpty colSpan={colSpan} />
+	}
 	return (
-		<Suspense>
+		<>
 			{devices?.map(device => (
 				<React.Fragment key={device.id}>
 					<TableRow
@@ -49,11 +42,10 @@ export function TableParts({ devices }: Props) {
 						<TableCell size="small" value={device.observation ?? ''} />
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
-					<Suspense>
-						<PartsDescription open={expandedRows.includes(device.id)} device={device} />
-					</Suspense>
+
+					<PartsDescription open={expandedRows.includes(device.id)} device={device} />
 				</React.Fragment>
 			))}
-		</Suspense>
+		</>
 	)
 }

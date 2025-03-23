@@ -1,13 +1,11 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { LocationGetByCriteria } from '@/core/locations/locations/application/LocationGetByCriteria'
 import { LocationGetAllService } from '@/core/locations/locations/infra/service/locationGetAll.service'
 import { type LocationFilters } from '../../application/CreateLocationQueryParams'
 
+const repository = new LocationGetAllService()
+const getAll = new LocationGetByCriteria(repository)
 export const useGetAllLocations = (query: LocationFilters) => {
-	const repository = useMemo(() => new LocationGetAllService(), [])
-	const getAll = useMemo(() => new LocationGetByCriteria(repository), [repository])
-
 	const {
 		isLoading,
 		refetch,

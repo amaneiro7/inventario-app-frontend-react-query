@@ -1,36 +1,29 @@
-import React, { lazy, Suspense } from 'react'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import React from 'react'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
+import { TableCellError } from '@/components/Table/TableCellError'
+import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
+import { TableRow } from '@/components/Table/TableRow'
+import { MonitorDescription } from './MonitorDescription'
+import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
+import { TableCell } from '@/components/Table/TableCell'
+import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
 	devices?: DeviceDto[]
+	isError: boolean
+	colSpan: number
 }
 
-const TableCell = lazy(async () =>
-	import('@/components/Table/TableCell').then(m => ({
-		default: m.TableCell
-	}))
-)
-const TableRow = lazy(async () =>
-	import('@/components/Table/TableRow').then(m => ({
-		default: m.TableRow
-	}))
-)
-const TableCellOpenIcon = lazy(async () =>
-	import('@/components/Table/TableCellOpenIcon').then(m => ({
-		default: m.TableCellOpenIcon
-	}))
-)
-const MonitorDescription = lazy(async () =>
-	import('@/ui/List/screen/MonitorDescription').then(m => ({
-		default: m.MonitorDescription
-	}))
-)
-
-export function TableMonitor({ devices }: Props) {
+export function TableScreen({ devices, isError, colSpan }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+	if (isError) {
+		return <TableCellError colSpan={colSpan} />
+	}
+	if (devices && devices.length === 0) {
+		return <TableCellEmpty colSpan={colSpan} />
+	}
 	return (
-		<Suspense>
+		<>
 			{devices?.map(device => (
 				<React.Fragment key={device.id}>
 					<TableRow
@@ -49,14 +42,10 @@ export function TableMonitor({ devices }: Props) {
 						<TableCell size="small" value={device.observation ?? ''} />
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
-					<Suspense>
-						<MonitorDescription
-							open={expandedRows.includes(device.id)}
-							device={device}
-						/>
-					</Suspense>
+
+					<MonitorDescription open={expandedRows.includes(device.id)} device={device} />
 				</React.Fragment>
 			))}
-		</Suspense>
+		</>
 	)
 }

@@ -16,6 +16,7 @@ type Props = React.DetailedHTMLProps<
 	handleSort?: (field: string) => void
 	orderBy?: Primitives<OrderBy>
 	orderType?: Primitives<OrderType>
+	isTab?: boolean
 }
 
 const Size = {
@@ -28,11 +29,23 @@ const Size = {
 } as const
 
 export const TableHead = memo(
-	({ name, size, className, orderByField, handleSort, orderBy, orderType, ...props }: Props) => {
+	({
+		name,
+		size,
+		className,
+		orderByField,
+		handleSort,
+		isTab = false,
+		orderBy,
+		orderType,
+		...props
+	}: Props) => {
 		const classes = twMerge(
-			'group/th min-h-9 h-9 p-2 font-semibold tracking-wider align-middle whitespace-nowrap capitalize first:rounded-s-lg last:rounded-e-lg data-[sortable=true]:cursor-pointer data-[sortable=true]:hover:text-azul-500 outline-none :z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 text-start',
+			'group/th min-h-9 h-9 p-2 font-semibold tracking-wider align-middle whitespace-nowrap capitalize last:rounded-e-lg data-[sortable=true]:cursor-pointer data-[sortable=true]:hover:text-azul-500 outline-none focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 text-start',
 			cn({
-				[`${Size[size]}`]: size
+				[`${Size[size]}`]: size,
+				['first:rounded-es-lg']: isTab,
+				['first:rounded-s-lg']: !isTab
 			}),
 			className
 		)

@@ -16,6 +16,8 @@ export interface DevicePrinterFilters {
 	employeeId?: string
 	locationId?: string
 	typeOfSiteId?: string
+	departamentoId?: string
+	cargoId?: string
 	cityId?: string
 	stateId?: string
 	regionId?: string

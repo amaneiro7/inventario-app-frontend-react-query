@@ -1,36 +1,11 @@
-import { lazy } from 'react'
 import { navigation } from '@/routes/navigation'
+import { TilesContainer } from './TilesContainer'
+import { TilesInvisible } from './TilesInvisible'
+import { TilesBox } from './TilesBox'
+import { TilesInvisibleInfo } from './TilesInvisibleInfo'
+import { TilesVisible } from './TilesVisible'
 
 type Props = React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
-
-const TilesContainer = lazy(
-	async () =>
-		await import('@/components/TilesSection/TilesContainer').then(m => ({
-			default: m.TilesContainer
-		}))
-)
-const TilesBox = lazy(
-	async () =>
-		await import('@/components/TilesSection/TilesBox').then(m => ({ default: m.TilesBox }))
-)
-const TilesInvisible = lazy(
-	async () =>
-		await import('@/components/TilesSection/TilesInvisible').then(m => ({
-			default: m.TilesInvisible
-		}))
-)
-const TilesInvisibleInfo = lazy(
-	async () =>
-		await import('@/components/TilesSection/TilesInvisibleInfo').then(m => ({
-			default: m.TilesInvisibleInfo
-		}))
-)
-const TilesVisible = lazy(
-	async () =>
-		await import('@/components/TilesSection/TilesVisible').then(m => ({
-			default: m.TilesVisible
-		}))
-)
 
 export function TilesSection({ ...props }: Props) {
 	return (

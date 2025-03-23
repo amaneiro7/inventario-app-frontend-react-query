@@ -1,49 +1,114 @@
-import { lazy } from 'react'
+import { Table } from '@/components/Table/Table'
+import { TableBody } from '@/components/Table/TableBody'
+import { TableHead } from '@/components/Table/TableHead'
+import { TableHeader } from '@/components/Table/TableHeader'
+import { TableRow } from '@/components/Table/TableRow'
+import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
+import { lazy, Suspense } from 'react'
+import { TabsNav } from '../Tab/TabsNav'
+import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
+import { ModelGetByCriteria } from '@/core/model/models/application/ModelGetByCriteria'
+import { PaginationBar } from '../Pagination/PaginationBar'
+import { LoadingTable } from '@/components/Table/LoadingTable'
+import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 
-const Table = lazy(async () =>
-	import('@/components/Table/Table').then(m => ({
-		default: m.Table
-	}))
-)
-const TableHeader = lazy(async () =>
-	import('@/components/Table/TableHeader').then(m => ({
-		default: m.TableHeader
-	}))
-)
-const TableRow = lazy(async () =>
-	import('@/components/Table/TableRow').then(m => ({
-		default: m.TableRow
-	}))
-)
-const TableBody = lazy(async () =>
-	import('@/components/Table/TableBody').then(m => ({
-		default: m.TableBody
-	}))
-)
-const TableHead = lazy(async () =>
-	import('@/components/Table/TableHead').then(m => ({
-		default: m.TableHead
-	}))
-)
-
-interface Props<T> {
-	children?: React.ReactElement<T>
+interface Props {
+	query: ModelFilters
+	handlePageSize: (pageSize: number) => void
+	handlePageClick: ({ selected }: { selected: number }) => void
+	handleSort: (field: string) => void
 }
 
-export function TableModelWrapper<T>({ children }: Props<T>) {
+const TableModels = lazy(() => import('./TableModels').then(m => ({ default: m.TableModels })))
+
+export function TableModelWrapper({ query, handlePageSize, handlePageClick, handleSort }: Props) {
+	const { models, isError, isLoading } = useGetAllModel(query)
+	const colSpan = 5
 	return (
-		<Table>
-			<TableHeader>
-				<TableRow>
-					<TableHead size="small" name="Category" />
-					<TableHead size="small" name="SubCategoria" />
-					<TableHead size="small" name="Marca" />
-					<TableHead size="large" name="Modelo" />
-					<TableHead size="small" name="Genérico" />
-					<TableHead size="xxSmall" name="" />
-				</TableRow>
-			</TableHeader>
-			<TableBody>{children}</TableBody>
-		</Table>
+		<>
+			<TablePageWrapper>
+				<TabsNav
+					isLoading={isLoading}
+					total={models?.info?.total}
+					pageSize={query.pageSize}
+					pageNumber={query.pageNumber}
+					defaultPageSize={ModelGetByCriteria.defaultPageSize}
+				/>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="categoryId"
+								size="small"
+								name="Category"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="mainCategoyId"
+								size="small"
+								name="SubCategoria"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="brandId"
+								size="small"
+								name="Marca"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="name"
+								size="large"
+								name="Modelo"
+							/>
+							<TableHead
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="generic"
+								size="small"
+								name="Genérico"
+							/>
+							<TableHead size="xxSmall" name="" />
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						<>
+							{isLoading && (
+								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
+							)}
+							{models !== undefined && (
+								<Suspense>
+									<TableModels
+										colSpan={colSpan}
+										isError={isError}
+										models={models.data}
+									/>
+								</Suspense>
+							)}
+						</>
+					</TableBody>
+				</Table>
+			</TablePageWrapper>
+			{models && !isLoading && !isError && (
+				<PaginationBar
+					registerOptions={ModelGetByCriteria.pegaSizeOptions}
+					totalPages={models?.info?.totalPage}
+					total={models?.info?.total}
+					currentPage={models?.info?.page}
+					pageSize={query.pageSize}
+					handlePageClick={handlePageClick}
+					handlePageSize={handlePageSize}
+				/>
+			)}
+		</>
 	)
 }

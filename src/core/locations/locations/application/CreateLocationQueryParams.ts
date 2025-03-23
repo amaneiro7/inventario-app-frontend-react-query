@@ -4,14 +4,16 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type LocationDto } from '../domain/dto/Location.dto'
 
 export interface LocationFilters {
-	id?: LocationDto['id']
-	name?: LocationDto['name']
-	siteId?: LocationDto['siteId']
-	typeOfSiteId?: LocationDto['typeOfSiteId'] | LocationDto['typeOfSiteId'][]
-	subnet?: LocationDto['subnet']
+	id?: string
+	name?: string
+	siteId?: string
+	typeOfSiteId?: string | string[]
+	subnet?: string
+	cityId?: string
+	stateId?: string
+	regionId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
@@ -56,8 +58,8 @@ export async function createLocationParams({
 						key === 'name' || key === 'subnet'
 							? Operator.CONTAINS
 							: key === 'typeOfSiteId'
-								? Operator.OR
-								: Operator.EQUAL,
+							? Operator.OR
+							: Operator.EQUAL,
 					value: val
 				})
 			})

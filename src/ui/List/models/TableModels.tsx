@@ -1,36 +1,29 @@
-import React, { lazy, Suspense } from 'react'
+import React from 'react'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
+import { TableRow } from '@/components/Table/TableRow'
+import { TableCell } from '@/components/Table/TableCell'
+import { ModelDescription } from './ModelsDescription'
+import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
+import { TableCellError } from '@/components/Table/TableCellError'
+import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { type ModelDto } from '@/core/model/models/domain/dto/Model.dto'
 
 interface Props {
 	models?: ModelDto[]
+	isError: boolean
+	colSpan: number
 }
 
-const TableCell = lazy(async () =>
-	import('@/components/Table/TableCell').then(m => ({
-		default: m.TableCell
-	}))
-)
-const TableRow = lazy(async () =>
-	import('@/components/Table/TableRow').then(m => ({
-		default: m.TableRow
-	}))
-)
-const TableCellOpenIcon = lazy(async () =>
-	import('@/components/Table/TableCellOpenIcon').then(m => ({
-		default: m.TableCellOpenIcon
-	}))
-)
-const ModelDescription = lazy(async () =>
-	import('@/ui/List/models/ModelsDescription').then(m => ({
-		default: m.ModelDescription
-	}))
-)
-
-export function TableModels({ models }: Props) {
+export function TableModels({ models, colSpan, isError }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+	if (isError) {
+		return <TableCellError colSpan={colSpan} />
+	}
+	if (models && models.length === 0) {
+		return <TableCellEmpty colSpan={colSpan} />
+	}
 	return (
-		<Suspense>
+		<>
 			{models?.map(model => (
 				<React.Fragment key={model.id}>
 					<TableRow
@@ -47,11 +40,10 @@ export function TableModels({ models }: Props) {
 						<TableCell size="small" value={model?.generic ? 'Si' : 'No'} />
 						<TableCellOpenIcon open={expandedRows.includes(model.id)} />
 					</TableRow>
-					<Suspense>
-						<ModelDescription open={expandedRows.includes(model.id)} model={model} />
-					</Suspense>
+
+					<ModelDescription open={expandedRows.includes(model.id)} model={model} />
 				</React.Fragment>
 			))}
-		</Suspense>
+		</>
 	)
 }

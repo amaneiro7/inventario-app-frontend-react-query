@@ -1,110 +1,51 @@
-import { lazy, Suspense, useCallback, useMemo } from 'react'
-import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { usePartsFilter } from '@/hooks/filters/usePartsFilters'
-import { useGetAllPartsDevices } from '@/core/devices/devices/infra/hook/useGetAllPartsDevices'
-import { DevicePartsFilter } from '@/core/devices/devices/application/parts/DevicePartsFilter'
+import { Suspense, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { usePartsFilter } from '@/core/devices/devices/infra/hook/usePartsFilters'
+import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
+import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
 import { Loading } from '@/components/Loading'
-import { type DevicePartsFilters } from '@/core/devices/devices/application/parts/CreateDevicePartsParams'
-
-const ListWrapper = lazy(
-	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
-)
-const MainComputerFilter = lazy(
-	async () =>
-		await import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
-)
-const DefaultDeviceFilter = lazy(
-	async () =>
-		await import('@/ui/List/DefaultDeviceFilter').then(m => ({
-			default: m.DefaultDeviceFilter
-		}))
-)
-const TableDefaultDevice = lazy(() =>
-	import('@/ui/List/TableDefaultDevice').then(m => ({ default: m.TableDefaultDevice }))
-)
-const TableParts = lazy(() =>
-	import('@/ui/List/parts/TableParts').then(m => ({ default: m.TableParts }))
-)
-
-const LoadingTable = lazy(async () =>
-	import('@/components/Table/LoadingTable').then(m => ({
-		default: m.LoadingTable
-	}))
-)
+import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { FilterSection } from '@/ui/List/FilterSection'
+import { MainComputerFilter } from '@/ui/List/MainComputerFilter'
+import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
+import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { TablePartsWrapper } from '@/ui/List/parts/TablePartsWrapper'
 
 export default function ListParts() {
-	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
-		usePartsFilter()
-
-	const handleChange = useCallback(
-		(name: string, value: string | number) => {
-			const key = name as keyof DevicePartsFilters
-			setFilters({ [key]: value })
-			setPageNumber(1)
-		},
-		[setFilters]
-	)
-
-	const handlePageSize = useCallback(
-		(pageSize: number) => {
-			setPageSize(pageSize)
-			setPageNumber(1)
-		},
-		[setPageSize, setPageNumber]
-	)
-
-	const handlePageClick = useCallback(
-		({ selected }: { selected: number }) => {
-			setPageNumber(selected + 1)
-		},
-		[setPageNumber]
-	)
-
-	const { download, isDownloading } = useDownloadExcelService({
-		query,
-		source: 'parts'
-	})
-
-	const { devices, isLoading } = useGetAllPartsDevices({
+	const filterAsideRef = useRef<FilterAsideRef>(null)
+	const navigate = useNavigate()
+	const {
+		cleanFilters,
+		handlePageSize,
+		handlePageClick,
+		handleSort,
+		handleChange,
+		mainCategoryId,
 		...query
-	})
+	} = usePartsFilter()
 
-	const tableContent = useMemo(() => {
-		return isLoading || devices === undefined ? (
-			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
-		) : (
-			<Suspense>
-				<TableParts devices={devices.data} />
-			</Suspense>
-		)
-	}, [isLoading, devices?.data, query.pageSize])
+	const { download, isDownloading } = useDownloadExcelService()
+
+	const handleDownloadToExcel = async () => {
+		await download({ source: 'parts', query })
+	}
 
 	return (
 		<Suspense fallback={<Loading />}>
-			<ListWrapper
-				title="Lista de partes y piezas"
-				typeOfSiteId={query.typeOfSiteId}
-				handleChange={handleChange}
-				handleClear={cleanFilters}
-				handleExportToExcel={download}
-				isDownloading={isDownloading}
-				url="/device/add"
-				mainFilter={
-					<Suspense>
-						<MainComputerFilter
-							categoryId={query.categoryId}
-							employeeId={query.employeeId}
-							serial={query.serial}
-							locationId={query.locationId}
-							regionId={query.regionId}
-							mainCategoryId={mainCategoryId}
-							typeOfSiteId={query.typeOfSiteId}
-							handleChange={handleChange}
-						/>
-					</Suspense>
-				}
-				otherFilter={
-					<Suspense>
+			<DetailsBoxWrapper>
+				<FilterSection>
+					<MainComputerFilter
+						categoryId={query.categoryId}
+						employeeId={query.employeeId}
+						serial={query.serial}
+						locationId={query.locationId}
+						regionId={query.regionId}
+						mainCategoryId={mainCategoryId}
+						typeOfSiteId={query.typeOfSiteId}
+						departamentoId={query.departamentoId}
+						handleChange={handleChange}
+					/>
+					<FilterAside ref={filterAsideRef}>
 						<DefaultDeviceFilter
 							activo={query.activo}
 							statusId={query.statusId}
@@ -116,17 +57,24 @@ export default function ListParts() {
 							cityId={query.cityId}
 							handleChange={handleChange}
 						/>
-					</Suspense>
-				}
-				total={devices?.info.total}
-				loading={isLoading}
-				table={<TableDefaultDevice>{tableContent}</TableDefaultDevice>}
-				currentPage={devices?.info.page}
-				totalPages={devices?.info.totalPage}
-				registerOptions={DevicePartsFilter.pegaSizeOptions}
-				pageSize={query.pageSize}
-				handlePageClick={handlePageClick}
+					</FilterAside>
+				</FilterSection>
+				<ButtonSection
+					handleExportToExcel={handleDownloadToExcel}
+					loading={isDownloading}
+					handleClear={cleanFilters}
+					handleAdd={() => {
+						navigate('/device/add')
+					}}
+					handleFilter={filterAsideRef.current?.handleOpen}
+				/>
+			</DetailsBoxWrapper>
+			<TablePartsWrapper
 				handlePageSize={handlePageSize}
+				handlePageClick={handlePageClick}
+				handleChange={handleChange}
+				handleSort={handleSort}
+				query={query}
 			/>
 		</Suspense>
 	)

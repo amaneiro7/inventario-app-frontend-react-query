@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useComputerFilter } from '@/hooks/filters/useComputerFilters'
-import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
+import { useComputerFilter } from '@/core/devices/devices/infra/hook/useComputerFilters'
+import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
@@ -43,6 +43,7 @@ export default function ListComputer() {
 						regionId={query.regionId}
 						mainCategoryId={mainCategoryId}
 						typeOfSiteId={query.typeOfSiteId}
+						departamentoId={query.departamentoId}
 						handleChange={handleChange}
 					/>
 					<FilterAside ref={filterAsideRef}>

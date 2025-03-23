@@ -1,110 +1,50 @@
-import { lazy, Suspense, useCallback, useMemo } from 'react'
-import { useDownloadExcelService } from '@/hooks/download/useDownloadExcelService'
-import { useScreenFilter } from '@/hooks/filters/useScreenFilters'
-import { DeviceScreenFilter } from '@/core/devices/devices/application/screenFilter/DeviceScreenFilter'
-import { useGetAllScreenDevices } from '@/core/devices/devices/infra/hook/useGetAllScreenDevices'
-import { Loading } from '@/components/Loading'
-import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
-
-const ListWrapper = lazy(
-	async () => await import('@/ui/List/ListWrapper').then(m => ({ default: m.ListWrapper }))
-)
-const MainComputerFilter = lazy(
-	async () =>
-		await import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
-)
-const DefaultDeviceFilter = lazy(
-	async () =>
-		await import('@/ui/List/DefaultDeviceFilter').then(m => ({
-			default: m.DefaultDeviceFilter
-		}))
-)
-const TableDefaultDevice = lazy(() =>
-	import('@/ui/List/TableDefaultDevice').then(m => ({ default: m.TableDefaultDevice }))
-)
-const TableMonitor = lazy(() =>
-	import('@/ui/List/screen/TableMonitor').then(m => ({ default: m.TableMonitor }))
-)
-
-const LoadingTable = lazy(async () =>
-	import('@/components/Table/LoadingTable').then(m => ({
-		default: m.LoadingTable
-	}))
-)
+import { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
+import { useScreenFilter } from '@/core/devices/devices/infra/hook/useScreenFilters'
+import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
+import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { FilterSection } from '@/ui/List/FilterSection'
+import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { TableScreenWrapper } from '@/ui/List/screen/TableScreenWrapper'
+import { MainComputerFilter } from '@/ui/List/MainComputerFilter'
+import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
 
 export default function ListMonitor() {
-	const { setFilters, cleanFilters, setPageNumber, setPageSize, mainCategoryId, ...query } =
-		useScreenFilter()
-
-	const handleChange = useCallback(
-		(name: string, value: string | number) => {
-			const key = name as keyof DeviceScreenFilters
-			setFilters({ [key]: value })
-			setPageNumber(1)
-		},
-		[setFilters]
-	)
-
-	const handlePageSize = useCallback(
-		(pageSize: number) => {
-			setPageSize(pageSize)
-			setPageNumber(1)
-		},
-		[setPageSize, setPageNumber]
-	)
-
-	const handlePageClick = useCallback(
-		({ selected }: { selected: number }) => {
-			setPageNumber(selected + 1)
-		},
-		[setPageNumber]
-	)
-
-	const { download, isDownloading } = useDownloadExcelService({
-		query,
-		source: 'monitor'
-	})
-
-	const { devices, isLoading } = useGetAllScreenDevices({
+	const filterAsideRef = useRef<FilterAsideRef>(null)
+	const navigate = useNavigate()
+	const {
+		cleanFilters,
+		handlePageSize,
+		handlePageClick,
+		handleSort,
+		handleChange,
+		mainCategoryId,
 		...query
-	})
+	} = useScreenFilter()
 
-	const tableContent = useMemo(() => {
-		return isLoading || devices === undefined ? (
-			<LoadingTable registerPerPage={query.pageSize} colspan={7} />
-		) : (
-			<Suspense>
-				<TableMonitor devices={devices.data} />
-			</Suspense>
-		)
-	}, [isLoading, devices?.data, query.pageSize])
+	const { download, isDownloading } = useDownloadExcelService()
+
+	const handleDownloadToExcel = async () => {
+		await download({ source: 'monitor', query })
+	}
 
 	return (
-		<Suspense fallback={<Loading />}>
-			<ListWrapper
-				title="Lista de pantallas"
-				typeOfSiteId={query.typeOfSiteId}
-				handleChange={handleChange}
-				handleClear={cleanFilters}
-				handleExportToExcel={download}
-				isDownloading={isDownloading}
-				url="/device/add"
-				mainFilter={
-					<Suspense>
-						<MainComputerFilter
-							categoryId={query.categoryId}
-							employeeId={query.employeeId}
-							serial={query.serial}
-							locationId={query.locationId}
-							regionId={query.regionId}
-							mainCategoryId={mainCategoryId}
-							typeOfSiteId={query.typeOfSiteId}
-							handleChange={handleChange}
-						/>
-					</Suspense>
-				}
-				otherFilter={
-					<Suspense>
+		<>
+			<DetailsBoxWrapper>
+				<FilterSection>
+					<MainComputerFilter
+						categoryId={query.categoryId}
+						employeeId={query.employeeId}
+						serial={query.serial}
+						locationId={query.locationId}
+						regionId={query.regionId}
+						mainCategoryId={mainCategoryId}
+						typeOfSiteId={query.typeOfSiteId}
+						departamentoId={query.departamentoId}
+						handleChange={handleChange}
+					/>
+					<FilterAside ref={filterAsideRef}>
 						<DefaultDeviceFilter
 							activo={query.activo}
 							statusId={query.statusId}
@@ -116,18 +56,25 @@ export default function ListMonitor() {
 							cityId={query.cityId}
 							handleChange={handleChange}
 						/>
-					</Suspense>
-				}
-				total={devices?.info.total}
-				loading={isLoading}
-				table={<TableDefaultDevice>{tableContent}</TableDefaultDevice>}
-				currentPage={devices?.info.page}
-				totalPages={devices?.info.totalPage}
-				registerOptions={DeviceScreenFilter.pegaSizeOptions}
-				pageSize={query.pageSize}
-				handlePageClick={handlePageClick}
+					</FilterAside>
+				</FilterSection>
+				<ButtonSection
+					handleExportToExcel={handleDownloadToExcel}
+					loading={isDownloading}
+					handleClear={cleanFilters}
+					handleAdd={() => {
+						navigate('/device/add')
+					}}
+					handleFilter={filterAsideRef.current?.handleOpen}
+				/>
+			</DetailsBoxWrapper>
+			<TableScreenWrapper
 				handlePageSize={handlePageSize}
+				handlePageClick={handlePageClick}
+				handleChange={handleChange}
+				handleSort={handleSort}
+				query={query}
 			/>
-		</Suspense>
+		</>
 	)
 }

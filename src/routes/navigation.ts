@@ -59,12 +59,12 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Listado de Sitios',
 				desc: 'Listado de sitios',
-				path: '/location'
+				path: '/list/location'
 			},
 			{
 				title: 'Listado de Modelos',
 				desc: 'Listado de modelos',
-				path: '/model'
+				path: '/list/model'
 			}
 		]
 	},

@@ -1,8 +1,14 @@
-import { lazy, Suspense } from 'react'
 import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
 import { type Errors, type FormData, type ToggleInputs } from '@/reducers/changePassword.reducers'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type UserEmail } from '@/core/user/domain/value-objects/UserEmail'
+import { Input } from '@/components/Input/Input'
+import { UnlockIcon } from '@/icon/UnlockIcon'
+import { LockIcon } from '@/icon/LockIcon'
+import Typography from '@/components/Typography'
+import Button from '@/components/Button'
+import { RightArrowIcon } from '@/icon/RightArrowIcon'
+import { CancelIcon } from '@/icon/CancelIcon'
 
 interface Props {
 	formId?: string
@@ -18,20 +24,6 @@ interface Props {
 	handleToggleInputs: (name: 'password' | 'newPassword' | 'reTypePassword') => void
 	isDisabled: boolean
 }
-const Typography = lazy(async () => await import('@/components/Typography'))
-
-const Input = lazy(async () => import('@/components/Input/Input').then(m => ({ default: m.Input })))
-const Button = lazy(async () => await import('@/components/Button/Button'))
-const CancelIcon = lazy(() => import('@/icon/CancelIcon').then(m => ({ default: m.CancelIcon })))
-const RightArrowIcon = lazy(() =>
-	import('@/icon/RightArrowIcon').then(m => ({ default: m.RightArrowIcon }))
-)
-const LockIcon = lazy(
-	async () => await import('@/icon/LockIcon').then(m => ({ default: m.LockIcon }))
-)
-const UnlockIcon = lazy(
-	async () => await import('@/icon/UnlockIcon').then(m => ({ default: m.UnlockIcon }))
-)
 
 export function ChangePassowrdForm({
 	formData,
@@ -152,15 +144,7 @@ export function ChangePassowrdForm({
 					text={loading ? 'Actualizando...' : 'Continuar'}
 					hoverTranslation
 					buttonSize="large"
-					icon={
-						<Suspense
-							fallback={
-								<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-							}
-						>
-							<RightArrowIcon width={20} className="aspect-square fill-white" />
-						</Suspense>
-					}
+					icon={<RightArrowIcon width={20} className="aspect-square fill-white" />}
 				/>
 				<Button
 					type="button"
@@ -170,15 +154,7 @@ export function ChangePassowrdForm({
 					size="content"
 					hoverTranslation
 					buttonSize="large"
-					icon={
-						<Suspense
-							fallback={
-								<div className="w-6 h-6 rounded-full bg-slate-200 animate-pulse" />
-							}
-						>
-							<CancelIcon width={20} className="aspect-square" />
-						</Suspense>
-					}
+					icon={<CancelIcon width={20} className="aspect-square" />}
 				/>
 			</div>
 		</form>

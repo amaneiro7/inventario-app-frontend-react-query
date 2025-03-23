@@ -1,6 +1,7 @@
 import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { TableCellDescription } from '@/components/Table/TableCellDescription'
 import { TableDescDivider } from '@/components/Table/TableDescDivider'
+import { getRelativeTime } from '@/utils/getRelativeTime'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
@@ -68,7 +69,13 @@ export function FinantialPrinterDescription({ open, device }: Props) {
 
 				<TableCellDescInfo
 					title="Última Actualización"
-					text={device.updatedAt ? new Date(device.updatedAt).toLocaleDateString() : ''}
+					text={
+						device.updatedAt
+							? `${new Date(
+									device.updatedAt
+							  ).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
+							: 'Sin Actualización'
+					}
 				/>
 			</TableCellDescription>
 		</>

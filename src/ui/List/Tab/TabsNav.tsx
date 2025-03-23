@@ -7,6 +7,7 @@ interface Props<T>
 	pageSize?: number
 	pageNumber?: number
 	defaultPageSize?: number
+	isLoading?: boolean
 	total?: number
 }
 export const TabsNav = memo(function <T extends typeof TabNav>({
@@ -14,6 +15,7 @@ export const TabsNav = memo(function <T extends typeof TabNav>({
 	pageSize,
 	pageNumber,
 	total,
+	isLoading,
 	defaultPageSize,
 	...props
 }: Props<T>) {
@@ -28,6 +30,9 @@ export const TabsNav = memo(function <T extends typeof TabNav>({
 	return (
 		<div className="min-h-7 flex items-center justify-between" {...props}>
 			<div className="flex items-center">{children}</div>
+			{isLoading && (
+				<div className="w-52 h-3 mr-2 animate-pulse-medium rounded-xl bg-gray-300"></div>
+			)}
 			{total !== undefined && (
 				<Typography variant="p" option="small" color="gris" className="mr-2">
 					{`Mostrando ${getPaginationRange.start}-${getPaginationRange.end} de ${total} resultados`}

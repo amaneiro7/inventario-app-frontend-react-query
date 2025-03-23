@@ -1,36 +1,29 @@
-import React, { lazy, Suspense } from 'react'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import React, { memo } from 'react'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
+import { TableCellError } from '@/components/Table/TableCellError'
+import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
+import { TableRow } from '@/components/Table/TableRow'
+import { TableCell } from '@/components/Table/TableCell'
+import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
+import { PrinterDescription } from './PrinterDescription'
+import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
-interface Props {
+interface TablePrinterProps {
 	devices?: DeviceDto[]
+	isError: boolean
+	colSpan: number
 }
 
-const TableCell = lazy(async () =>
-	import('@/components/Table/TableCell').then(m => ({
-		default: m.TableCell
-	}))
-)
-const TableRow = lazy(async () =>
-	import('@/components/Table/TableRow').then(m => ({
-		default: m.TableRow
-	}))
-)
-const TableCellOpenIcon = lazy(async () =>
-	import('@/components/Table/TableCellOpenIcon').then(m => ({
-		default: m.TableCellOpenIcon
-	}))
-)
-const PrinterDescription = lazy(async () =>
-	import('@/ui/List/printer/PrinterDescription').then(m => ({
-		default: m.PrinterDescription
-	}))
-)
-
-export function TablePrinter({ devices }: Props) {
+export const TablePrinter = memo(({ devices, colSpan, isError }: TablePrinterProps) => {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+	if (isError) {
+		return <TableCellError colSpan={colSpan} />
+	}
+	if (devices && devices.length === 0) {
+		return <TableCellEmpty colSpan={colSpan} />
+	}
 	return (
-		<Suspense>
+		<>
 			{devices?.map(device => (
 				<React.Fragment key={device.id}>
 					<TableRow
@@ -49,14 +42,9 @@ export function TablePrinter({ devices }: Props) {
 						<TableCell size="small" value={device.observation ?? ''} />
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
-					<Suspense>
-						<PrinterDescription
-							open={expandedRows.includes(device.id)}
-							device={device}
-						/>
-					</Suspense>
+					<PrinterDescription open={expandedRows.includes(device.id)} device={device} />
 				</React.Fragment>
 			))}
-		</Suspense>
+		</>
 	)
-}
+})

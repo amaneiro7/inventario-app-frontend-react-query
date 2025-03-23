@@ -22,7 +22,7 @@ export type LocationParams = LocationPrimitives & {
 }
 
 export type LocationDto = Location & {
-	typeOtSite: TypeOfSiteDto
+	typeOfSite: TypeOfSiteDto
 	site: SiteDto
 	createdAt: string
 	updatedAt: string
