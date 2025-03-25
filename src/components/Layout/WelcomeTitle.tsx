@@ -1,4 +1,5 @@
-import { lazy, memo } from 'react'
+import { memo } from 'react'
+import Typography from '../Typography'
 import { type LoginUserDto } from '@/core/user/domain/dto/LoginUser.dto'
 
 type Props = React.DetailedHTMLProps<
@@ -7,7 +8,6 @@ type Props = React.DetailedHTMLProps<
 > & {
 	user: LoginUserDto | null
 }
-const Typography = lazy(async () => import('@/components/Typography'))
 
 export const WelcomeTitle = memo(({ user }: Props) => {
 	if (user === null) return null

@@ -1,29 +1,16 @@
-import { lazy, memo, Suspense, useContext, useRef } from 'react'
+import { memo, Suspense, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
-import { type ModalRef } from '@/components/Modal/Modal'
-
-const LogoutIcon = lazy(() => import('@/icon/LogoutIcon').then(m => ({ default: m.LogoutIcon })))
-const Nav = lazy(async () => import('./Nav').then(m => ({ default: m.Nav })))
-const WelcomeTitle = lazy(async () =>
-	import('./WelcomeTitle').then(m => ({ default: m.WelcomeTitle }))
-)
-const HamburgerMenu = lazy(async () =>
-	import('./HamburgerMenu').then(m => ({ default: m.HamburgerMenu }))
-)
-const WrapperBox = lazy(async () => import('./WrapperBox').then(m => ({ default: m.WrapperBox })))
-const Logo = lazy(async () => import('../Logo/Logo'))
-const Button = lazy(async () => import('../Button/Button').then(m => ({ default: m.default })))
-
-const ConfirmationModal = lazy(async () =>
-	import('@/components/Modal/ConfirmationModal').then(m => ({
-		default: m.ConfirmationModal
-	}))
-)
-const Modal = lazy(async () =>
-	import('@/components/Modal/Modal').then(m => ({ default: m.Dialog }))
-)
+import { Dialog, type ModalRef } from '@/components/Modal/Modal'
+import Logo from '../Logo/Logo'
+import { WelcomeTitle } from './WelcomeTitle'
+import Button from '../Button'
+import { HamburgerMenu } from './HamburgerMenu'
+import { WrapperBox } from './WrapperBox'
+import { Nav } from './Nav'
+import { ConfirmationModal } from '../Modal/ConfirmationModal'
+import { LogoutIcon } from '@/icon/LogoutIcon'
 
 export const Header = memo(() => {
 	const location = useLocation()
@@ -80,14 +67,14 @@ export const Header = memo(() => {
 				</div>
 			</header>
 			<Suspense>
-				<Modal ref={dialogExitRef}>
+				<Dialog ref={dialogExitRef}>
 					<ConfirmationModal
 						handleClose={() => dialogExitRef.current?.handleClose()}
 						handle={logout}
 						text="¿Está seguro que desea "
 						strongText="Cerrar la Sesión?"
 					/>
-				</Modal>
+				</Dialog>
 			</Suspense>
 		</>
 	)

@@ -1,6 +1,5 @@
-import { lazy, memo } from 'react'
-
-const Typography = lazy(async () => await import('../Typography'))
+import { memo } from 'react'
+import Typography from '../Typography'
 
 export const Footer = memo(() => {
 	return (

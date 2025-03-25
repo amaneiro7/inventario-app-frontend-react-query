@@ -65,6 +65,11 @@ export const navigation: Navigation[] = [
 				title: 'Listado de Modelos',
 				desc: 'Listado de modelos',
 				path: '/list/model'
+			},
+			{
+				title: 'Historial de modificaciones',
+				desc: 'Historial de modificaciones',
+				path: '/list/history'
 			}
 		]
 	},
@@ -119,8 +124,8 @@ export const navigation: Navigation[] = [
 				path: '/directiva/add'
 			},
 			{
-				title: 'Agregar una nueva vicepresidencia ejecutivas',
-				desc: 'Aqui se puede agregar una nueva vicepresidencia ejecutivas',
+				title: 'Agregar una nueva V.P.E.',
+				desc: 'Aqui se puede agregar una nueva V.P.E.',
 				path: '/vicepresidenciaejecutivas/add'
 			},
 			{

@@ -10,6 +10,7 @@ const ListFinantialPrinter = lazy(() => import('@/pages/ListFinantialPrinter'))
 const ListModels = lazy(() => import('@/pages/ListModel'))
 const ListEmployee = lazy(() => import('@/pages/ListEmployee'))
 const ListSite = lazy(() => import('@/pages/ListSite'))
+const ListHistory = lazy(() => import('@/pages/ListHistory'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const NotFound = lazy(() => import('@/pages/404'))
 const Home = lazy(() => import('@/pages/Home'))
@@ -68,6 +69,7 @@ export function AppRoutes() {
 						<Route path="parts" element={<ListParts />} />
 						<Route path="model" element={<ListModels />} />
 						<Route path="location" element={<ListSite />} />
+						<Route path="history" element={<ListHistory />} />
 					</Route>
 					<Route
 						path="/"
