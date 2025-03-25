@@ -63,6 +63,11 @@ export function useGenericFilter<T>(config: UseFilterConfig<T>) {
 	const handleSort = useCallback(
 		async (field: string) => {
 			setSearchParams(params => {
+				if (field === '') {
+					params.delete('orderBy')
+					params.delete('orderType')
+					return params
+				}
 				const currentOrderBy = params.get('orderBy')
 				const currentOrderType = params.get('orderType')
 				if (currentOrderBy !== field) {
