@@ -1,13 +1,11 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { HistoryGetAllService } from '../service/historyGetAll.service'
 import { HistoryGetByCriteria } from '../../application/HistoryGetByCriteria'
 import { type HistoryFilters } from '../../application/createHistoryQueryParams'
 
+const repository = new HistoryGetAllService()
+const getAll = new HistoryGetByCriteria(repository)
 export const useGetAllHistorys = (query: HistoryFilters) => {
-	const repository = useMemo(() => new HistoryGetAllService(), [])
-	const getAll = useMemo(() => new HistoryGetByCriteria(repository), [repository])
-
 	const {
 		isLoading,
 		refetch,

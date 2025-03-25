@@ -22,7 +22,7 @@ export interface History {
 
 export type HistoryPrimitives = Omit<History, 'id'>
 
-export type HistoryDto = HistoryPrimitives & {
+export type HistoryDto = History & {
 	device: DeviceDto
 	user: LoginUserDto
 	employee: EmployeeDto
