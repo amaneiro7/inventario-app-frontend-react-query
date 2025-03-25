@@ -9,6 +9,7 @@ interface InputProps<T extends string | number | readonly string[]>
 	error?: boolean
 	name: string
 	valid?: boolean
+	transform?: boolean
 	errorMessage?: string
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
@@ -25,6 +26,7 @@ export const Input = memo(
 		required = false,
 		readOnly = false,
 		disabled = false,
+		transform = false,
 		label,
 		leftIcon,
 		rightIcon,
@@ -43,6 +45,7 @@ export const Input = memo(
 				name={name}
 				error={error}
 				valid={valid}
+				transform={transform}
 				errorMessage={errorMessage}
 				required={required}
 				leftIcon={leftIcon}

@@ -11,6 +11,7 @@ interface Props<T extends string | number | readonly string[]>
 	type?: React.HTMLInputTypeAttribute
 	value: T
 	leftIcon?: boolean
+	transform?: boolean
 }
 
 export function Label<T extends string | number | readonly string[]>({
@@ -22,12 +23,13 @@ export function Label<T extends string | number | readonly string[]>({
 	leftIcon,
 	className,
 	disabled,
+	transform,
 	...props
 }: Props<T>) {
 	const labelClasses = twMerge(
 		cn({
 			['group-focus-within:text-focus']: !disabled,
-			['transform']: value && !disabled,
+			['transform']: (value && !disabled) || transform,
 			['!text-error']: error,
 			['!text-success']: valid,
 			['with-left-icon']: leftIcon

@@ -8,9 +8,9 @@ interface Props extends LinkProps {
 }
 export const SearchLink = memo(function Component({ to, title, isDisabled, ...props }: Props) {
 	return (
-		<span className="grid place-content-center bg-azul relative px-4 py-2 rounded-e-full">
+		<span className="-left-1 h-11 self-start grid place-content-center bg-azul relative px-4 py-2 rounded-e-full">
 			<Link
-				className={`absolute w-full h-full ${
+				className={`absolute w-full h-11 ${
 					isDisabled ? 'cursor-default' : 'cursor-pointer'
 				}`}
 				to={isDisabled ? '#' : to}
@@ -19,8 +19,7 @@ export const SearchLink = memo(function Component({ to, title, isDisabled, ...pr
 				{...props}
 			/>
 			<SearchIcon
-				width={24}
-				className={`aspect-square ${
+				className={`h-11 aspect-square ${
 					isDisabled ? 'stroke-white' : 'stroke-white'
 				} stroke-[3px]`}
 			/>

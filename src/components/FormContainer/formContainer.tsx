@@ -1,5 +1,14 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo, Suspense } from 'react'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
+import { DetailsWrapper } from '../DetailsWrapper/DetailsWrapper'
+import { DetailsBoxWrapper } from '../DetailsWrapper/DetailsBoxWrapper'
+import Typography from '../Typography'
+import { StepsToFollow } from '../StepsToFollow/StepsToFollow'
+import { RegisterNewDeviceToFollow } from '../StepsToFollow/RegisterNewDeviceToFollow'
+import { FormComponent } from './FormComponent'
+import { SearchSection } from './SearchSection'
+import { Tag } from '../Tag'
+import { AddIcon } from '@/icon/AddIcon'
 interface Props {
 	id: string
 	title: string
@@ -15,36 +24,6 @@ interface Props {
 	handleClose: () => void
 	reset?: () => void
 }
-
-const Tag = lazy(async () => import('@/components/Tag').then(m => ({ default: m.Tag })))
-const DetailsWrapper = lazy(async () =>
-	import('@/components/DetailsWrapper/DetailsWrapper').then(m => ({
-		default: m.DetailsWrapper
-	}))
-)
-const DetailsBoxWrapper = lazy(async () =>
-	import('@/components/DetailsWrapper/DetailsBoxWrapper').then(m => ({
-		default: m.DetailsBoxWrapper
-	}))
-)
-const Typography = lazy(async () => import('@/components/Typography'))
-const SearchSection = lazy(() =>
-	import('./SearchSection').then(m => ({ default: m.SearchSection }))
-)
-const AddIcon = lazy(() => import('@/icon/AddIcon').then(m => ({ default: m.AddIcon })))
-const FormComponent = lazy(() =>
-	import('./FormComponent').then(m => ({ default: m.FormComponent }))
-)
-const StepsToFollow = lazy(() =>
-	import('@/components/StepsToFollow/StepsToFollow').then(m => ({
-		default: m.StepsToFollow
-	}))
-)
-const RegisterNewDeviceToFollow = lazy(() =>
-	import('@/components/StepsToFollow/RegisterNewDeviceToFollow').then(m => ({
-		default: m.RegisterNewDeviceToFollow
-	}))
-)
 
 export const FormContainer = memo(function ({
 	id,

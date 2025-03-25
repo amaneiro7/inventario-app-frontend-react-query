@@ -11,6 +11,7 @@ interface FieldsetProps<T extends string | number | readonly string[]>
 	valid?: boolean
 	label: string
 	type?: React.HTMLInputTypeAttribute
+	transform?: boolean
 	value: T
 }
 export function Fieldset<T extends string | number | readonly string[]>({
@@ -21,9 +22,10 @@ export function Fieldset<T extends string | number | readonly string[]>({
 	required,
 	disabled,
 	className,
+	transform,
 	...props
 }: FieldsetProps<T>) {
-	const legendTransform = value
+	const legendTransform = value || transform
 
 	const filedSetClasses = twMerge(
 		cn({

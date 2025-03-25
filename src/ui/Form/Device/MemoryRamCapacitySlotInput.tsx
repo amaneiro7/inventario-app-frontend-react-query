@@ -31,6 +31,7 @@ export function MemoryRamCapacitySlotInput({ value, index, onChange }: Props) {
 			label={`Memoria Ram Slot ${index}`}
 			type="number"
 			value={value}
+			transform
 			onChange={event => {
 				const { value } = event.target
 				onChange(value, index)

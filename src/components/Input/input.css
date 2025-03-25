@@ -22,6 +22,7 @@
 	flex-direction: column;
 	position: relative;
 	width: 100%;
+	height: 3.75rem;
 	min-width: 0;
 	vertical-align: top;
 	border: 0;
@@ -37,12 +38,20 @@
 		display: inline-block;
 		border-radius: 0.25rem;
 		z-index: 1;
-		padding-left: 0.75rem;
-		margin-left: 0.25rem;
+		padding-inline: 0.25rem;
+		margin-inline: 0.25rem;
 		font-size: 0.75rem;
-		height: 0.5rem;
-		width: 98%;
+		max-width: 100%;
+		height: fit-content;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		background-color: hsl(2, 93%, 94%);
+		transition: all 0.2s ease-in-out;
 	}
+}
+.inputBox:hover::after {
+	overflow: visible;
+	z-index: 1000;
 }
 
 .inputBox input,
@@ -55,7 +64,7 @@
 	border: 0;
 	box-sizing: content-box;
 	background: none;
-	height: 1.25rem;
+	height: 1.75rem;
 	margin: 0;
 	display: block;
 	padding: var(--input-padding);
@@ -98,6 +107,7 @@
 	width: 100%;
 	height: min-content;
 	max-height: 250px;
+	margin-top: 0.25rem;
 	left: 0;
 	top: 0;
 	right: 0;
@@ -203,8 +213,7 @@
 }
 
 .inputBox .inputArea {
-	height: 100%;
-	min-height: 1.25rem;
+	height: 2.5rem;
 	font-size: 0.75rem;
 	line-height: 1.4375em;
 	letter-spacing: 0.00938em;
@@ -284,7 +293,7 @@
 	text-align: center;
 	justify-content: center;
 	height: 100%;
-	min-height: 2.3rem;
+	min-height: 2.5rem;
 	width: fit-content;
 	min-width: 45px;
 	&:focus {

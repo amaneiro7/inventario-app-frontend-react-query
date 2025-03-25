@@ -131,6 +131,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 						label="Total Memoria Ram"
 						type="number"
 						readOnly
+						transform
 						aria-readonly
 						tabIndex={-1}
 						onMouseDown={e => {

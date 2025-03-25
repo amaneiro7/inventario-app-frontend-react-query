@@ -81,8 +81,8 @@ export function SearchInput<
 	)
 
 	return (
-		<div className="md:max-w-xl lg:max-w-2xl w-full flex justify-center items-center">
-			<Typography className="pr-2" variant="p" color="gris">
+		<div className="relative h-16 md:max-w-sm lg:max-w-md w-full flex items-end">
+			<Typography className="pr-2 mt-3 self-start" variant="p" color="gris">
 				Buscar:
 			</Typography>
 			<InputBase

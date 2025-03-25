@@ -13,6 +13,7 @@ interface Props<T extends string | number | readonly string[]>
 	disabled?: boolean
 	error?: boolean
 	valid?: boolean
+	transform?: boolean
 	errorMessage?: string
 	className?: string
 	leftIcon?: React.ReactNode
@@ -33,6 +34,7 @@ export const InputBase = memo(
 		label,
 		required = false,
 		disabled = false,
+		transform = false,
 		leftIcon,
 		selectInput,
 		rightIcon,
@@ -46,7 +48,7 @@ export const InputBase = memo(
 			<div
 				ref={ref}
 				className={`inputBox group after:text-error ${error ? 'error' : ''}`}
-				data-error={errorMessage}
+				data-error={error ? errorMessage : undefined}
 				{...props}
 			>
 				<Label
@@ -58,6 +60,7 @@ export const InputBase = memo(
 					type={type}
 					valid={valid}
 					leftIcon={leftIcon || selectInput ? true : false}
+					transform={transform}
 				/>
 				<div className="inputArea">
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
@@ -83,6 +86,7 @@ export const InputBase = memo(
 						disabled={disabled}
 						type={type}
 						valid={valid}
+						transform={transform}
 					/>
 				</div>
 			</div>
