@@ -20,10 +20,11 @@ export const ButtonSection = memo(
 		handleFilter,
 		handleAdd,
 		handleClear,
-		handleExportToExcel
-	}: ButtonSectionProps) => {
+		handleExportToExcel,
+		children
+	}: React.PropsWithChildren<ButtonSectionProps>) => {
 		return (
-			<section className="my-4 min-h-8 flex gap-2">
+			<section className="w-full my-4 min-h-8 flex justify-start items-start gap-2">
 				{handleExportToExcel && (
 					<Button
 						type="button"
@@ -74,6 +75,7 @@ export const ButtonSection = memo(
 						icon={<FilterIcon width={14} className="aspect-square" />}
 					/>
 				)}
+				<div className="w-56 ml-auto">{children}</div>
 			</section>
 		)
 	}

@@ -11,6 +11,7 @@ import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
 import { OtherComputerFilter } from '@/ui/List/FilterAside/OtherComputerFilter'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableWrapper } from '@/ui/List/computer/TableWrapper'
+import { ComputerOrderByCombobox } from '@/components/ComboBox/Sincrono/ComputerOrderByComboBox'
 
 export default function ListComputer() {
 	const filterAsideRef = useRef<FilterAsideRef>(null)
@@ -77,7 +78,14 @@ export default function ListComputer() {
 						navigate('/device/add')
 					}}
 					handleFilter={filterAsideRef.current?.handleOpen}
-				/>
+				>
+					<ComputerOrderByCombobox
+						handleSort={handleSort}
+						orderBy={query.orderBy}
+						orderType={query.orderType}
+						name="orderBy"
+					/>
+				</ButtonSection>
 			</DetailsBoxWrapper>
 			<TableWrapper
 				handlePageSize={handlePageSize}
