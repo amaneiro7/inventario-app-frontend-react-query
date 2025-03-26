@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react'
-import cn from 'classnames'
 import { twMerge } from 'tailwind-merge'
+import cn from 'classnames'
+import { type BackgroundType, type ColorType } from '../Typography/types'
 
 const TableCellWithUrl = lazy(() =>
 	import('./TableCellWithUrl').then(m => ({ default: m.TableCellWithUrl }))
@@ -8,6 +9,8 @@ const TableCellWithUrl = lazy(() =>
 const TableCellText = lazy(() =>
 	import('./TableCellText').then(m => ({ default: m.TableCellText }))
 )
+const Tag = lazy(() => import('../Tag').then(m => ({ default: m.Tag })))
+
 interface Props<T>
 	extends React.DetailedHTMLProps<
 		React.TdHTMLAttributes<HTMLTableCellElement>,
@@ -16,6 +19,9 @@ interface Props<T>
 	value: string | number
 	url?: string
 	state?: T
+	tag?: boolean
+	color?: ColorType
+	backgroundColor?: BackgroundType
 	size: keyof typeof Size
 }
 
@@ -33,6 +39,9 @@ export function TableCell<T>({
 	url,
 	state,
 	size,
+	tag = false,
+	color = 'black',
+	backgroundColor = 'white',
 	...props
 }: React.PropsWithChildren<Props<T>>) {
 	const classes = twMerge(
@@ -54,6 +63,15 @@ export function TableCell<T>({
 			{url ? (
 				<Suspense>
 					<TableCellWithUrl value={value} url={url} state={state} />
+				</Suspense>
+			) : tag ? (
+				<Suspense>
+					<Tag
+						backgroundColor={backgroundColor}
+						color={color}
+						option="tiny"
+						iconText={value ?? ''}
+					/>
 				</Suspense>
 			) : (
 				<Suspense>

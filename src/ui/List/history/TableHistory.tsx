@@ -6,6 +6,8 @@ import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
 import { TableCellError } from '@/components/Table/TableCellError'
 import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
+import { getRelativeTime } from '@/utils/getRelativeTime'
+import { BackgroundType } from '@/components/Typography/types'
 
 interface TableHistoryProps {
 	histories?: HistoryDto[]
@@ -25,24 +27,39 @@ export const TableHistory = memo(({ histories, isError, colSpan }: TableHistoryP
 
 	return (
 		<>
-			{histories?.map(history => (
-				<React.Fragment key={history.id}>
-					<TableRow
-						className={`[&>td]:cursor-pointer ${
-							expandedRows.includes(history.id) &&
-							'[&>td]:bg-slate-200 [&>td]:border-b-slate-200'
-						}`}
-						onClick={() => handleRowClick(history.id)}
-					>
-						<TableCell size="small" value={history.user?.email ?? ''} />
-						<TableCell size="large" value={history.action} />
-						<TableCell size="small" value={history.device?.serial ?? ''} />
-						<TableCell size="small" value={history.updatedAt ?? ''} />
-						<TableCellOpenIcon open={expandedRows.includes(history.id)} />
-					</TableRow>
-					{/* <ComputerDescription open={expandedRows.includes(device.id)} device={device} /> */}
-				</React.Fragment>
-			))}
+			{histories?.map(history => {
+				const relativeTime = `${new Date(
+					history.updatedAt
+				).toLocaleDateString()} (${getRelativeTime(history.updatedAt)})`
+				const operation = history.action === 'UPDATE' ? 'Modificación' : 'Creación'
+				const backGroundColor: BackgroundType =
+					operation === 'Creación' ? 'naranja' : 'verde'
+				return (
+					<React.Fragment key={history.id}>
+						<TableRow
+							className={`[&>td]:cursor-pointer ${
+								expandedRows.includes(history.id) &&
+								'[&>td]:bg-slate-200 [&>td]:border-b-slate-200'
+							}`}
+							onClick={() => handleRowClick(history.id)}
+						>
+							<TableCell size="medium" value={history.user?.email ?? ''} />
+							<TableCell
+								size="small"
+								tag
+								backgroundColor={backGroundColor}
+								color="white"
+								value={operation}
+							/>
+							<TableCell size="small" value={history.device?.category?.name ?? ''} />
+							<TableCell size="small" value={history.device?.serial ?? ''} />
+							<TableCell size="small" value={relativeTime} />
+							<TableCellOpenIcon open={expandedRows.includes(history.id)} />
+						</TableRow>
+						{/* <ComputerDescription open={expandedRows.includes(device.id)} device={device} /> */}
+					</React.Fragment>
+				)
+			})}
 		</>
 	)
 })

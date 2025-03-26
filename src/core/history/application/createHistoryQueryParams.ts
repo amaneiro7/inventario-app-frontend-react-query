@@ -5,6 +5,7 @@ import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type HistoryDto } from '../domain/dto/History.dto'
+import { HistoryGetByCriteria } from './HistoryGetByCriteria'
 
 export interface HistoryFilters {
 	deviceId?: HistoryDto['deviceId']
@@ -29,8 +30,8 @@ export async function createHistoryParams({
 		filters: [],
 		pageSize,
 		pageNumber,
-		orderBy,
-		orderType
+		orderBy: orderBy ?? HistoryGetByCriteria.defaultOrderBy,
+		orderType: !orderBy && !orderType ? HistoryGetByCriteria.defaultOrderType : orderType
 	}
 
 	Object.entries(options).forEach(([key, value]) => {

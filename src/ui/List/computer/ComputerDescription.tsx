@@ -1,29 +1,17 @@
-import { lazy } from 'react'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { memo } from 'react'
+import { TableCellDescription } from '@/components/Table/TableCellDescription'
+import { TableDescDivider } from '@/components/Table/TableDescDivider'
+import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { getRelativeTime } from '@/utils/getRelativeTime'
+import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
 	open: boolean
 	device: DeviceDto
+	colSpan: number
 }
 
-const TableCellDescInfo = lazy(async () =>
-	import('@/components/Table/TableCellDescInfo').then(m => ({
-		default: m.TableCellDescInfo
-	}))
-)
-const TableCellDescription = lazy(async () =>
-	import('@/components/Table/TableCellDescription').then(m => ({
-		default: m.TableCellDescription
-	}))
-)
-const TableDescDivider = lazy(async () =>
-	import('@/components/Table/TableDescDivider').then(m => ({
-		default: m.TableDescDivider
-	}))
-)
-
-export function ComputerDescription({ open, device }: Props) {
+export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 	return (
 		<>
 			<TableCellDescription
@@ -31,7 +19,7 @@ export function ComputerDescription({ open, device }: Props) {
 				state={device}
 				stateId={device.id}
 				url={`/device/edit/${device.id}`}
-				colspan={10}
+				colspan={colSpan}
 			>
 				<TableDescDivider label="Información básica">
 					<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
@@ -163,4 +151,4 @@ export function ComputerDescription({ open, device }: Props) {
 			</TableCellDescription>
 		</>
 	)
-}
+})

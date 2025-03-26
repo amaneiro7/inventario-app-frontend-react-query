@@ -1,3 +1,4 @@
+import { OrderTypes } from '@/core/shared/domain/criteria/OrderType'
 import { HistoryGetAllRepository } from '../domain/repository/HistoryGetAllRepository'
 import { HistoryGetAll } from './HistoryGetAll'
 import { createHistoryParams, type HistoryFilters } from './createHistoryQueryParams'
@@ -6,6 +7,7 @@ export class HistoryGetByCriteria {
 	static readonly pegaSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	static readonly defaultOrderBy = 'updatedAt'
+	static readonly defaultOrderType = OrderTypes.DESC
 	private readonly getAll: HistoryGetAll
 	constructor(private readonly repository: HistoryGetAllRepository) {
 		this.getAll = new HistoryGetAll(this.repository)

@@ -31,7 +31,7 @@ export function TableHistoryWrapper({
 	handlePageClick
 }: TableHistoryWrapperProps) {
 	const { histories, isError, isLoading } = useGetAllHistorys(query)
-	const colSpan = 9
+	const colSpan = 5
 	return (
 		<>
 			<TablePageWrapper>
@@ -47,17 +47,15 @@ export function TableHistoryWrapper({
 					<TableHeader>
 						<TableRow>
 							<TableHead
-								isTab
 								aria-colindex={1}
 								handleSort={eventManager(handleSort)}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
 								orderByField="userId"
-								size="small"
+								size="medium"
 								name="Realizado por"
 							/>
 							<TableHead
-								isTab
 								aria-colindex={2}
 								handleSort={eventManager(handleSort)}
 								orderBy={query.orderBy}
@@ -67,8 +65,16 @@ export function TableHistoryWrapper({
 								name="Acción"
 							/>
 							<TableHead
-								isTab
 								aria-colindex={3}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="categoryId"
+								size="small"
+								name="Categoria"
+							/>
+							<TableHead
+								aria-colindex={4}
 								handleSort={eventManager(handleSort)}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -77,8 +83,7 @@ export function TableHistoryWrapper({
 								name="Serial"
 							/>
 							<TableHead
-								isTab
-								aria-colindex={4}
+								aria-colindex={5}
 								handleSort={eventManager(handleSort)}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
@@ -86,7 +91,7 @@ export function TableHistoryWrapper({
 								size="small"
 								name="Fecha de Actualización"
 							/>
-							<TableHead aria-colindex={10} size="xxSmall" name="" />
+							<TableHead aria-colindex={6} size="xxSmall" name="" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>

@@ -46,7 +46,11 @@ export const TableDevice = memo(({ devices, isError, colSpan }: TableDeviceProps
 						<TableCell size="small" value={device.observation ?? ''} />
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
-					<ComputerDescription open={expandedRows.includes(device.id)} device={device} />
+					<ComputerDescription
+						open={expandedRows.includes(device.id)}
+						colSpan={colSpan}
+						device={device}
+					/>
 				</React.Fragment>
 			))}
 		</>

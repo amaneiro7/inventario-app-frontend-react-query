@@ -8,6 +8,7 @@ import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableHistoryWrapper } from '@/ui/List/history/TableHistoryWrapper'
 
 import { useHistoryFilter } from '@/core/history/infra/hook/useHistoryFilters'
+import { MainHistoryFilter } from '@/ui/List/MainHistoryFilter'
 
 export default function ListHstory() {
 	const navigate = useNavigate()
@@ -24,17 +25,13 @@ export default function ListHstory() {
 		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					{/* <MainComputerFilter
-						categoryId={query.categoryId}
+					<MainHistoryFilter
 						employeeId={query.employeeId}
-						serial={query.serial}
-						locationId={query.locationId}
-						regionId={query.regionId}
-						mainCategoryId={mainCategoryId}
-						typeOfSiteId={query.typeOfSiteId}
-						departamentoId={query.departamentoId}
+						deviceId={query.deviceId}
+						userId={query.userId}
+						action={query.action}
 						handleChange={handleChange}
-					/> */}
+					/>
 				</FilterSection>
 				<ButtonSection
 					handleClear={cleanFilters}

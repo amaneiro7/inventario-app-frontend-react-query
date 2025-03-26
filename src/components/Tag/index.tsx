@@ -1,16 +1,10 @@
-import { lazy } from 'react'
-import {
-	ColorType,
-	ParagraphOption,
-	type BackgroundType
-} from '../Typography/types'
+import { type ColorType, type ParagraphOption, type BackgroundType } from '../Typography/types'
+import Typography from '../Typography'
 
-const Typography = lazy(async () => await import('@/components/Typography'))
-
-interface Props {
+interface TagProps {
 	icon?: React.JSX.Element
 	option?: ParagraphOption
-	iconText?: string
+	iconText?: string | number
 	color?: ColorType
 	backgroundColor?: BackgroundType
 }
@@ -21,7 +15,7 @@ export function Tag({
 	iconText,
 	option,
 	backgroundColor
-}: React.PropsWithChildren<Props>) {
+}: React.PropsWithChildren<TagProps>) {
 	return (
 		<Typography
 			color={color}
