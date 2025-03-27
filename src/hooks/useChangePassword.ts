@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useReducer, useRef } from 'react'
 import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { ChangePassword } from '@/core/user/application/ChangePassword'
-import { ChangePasswordService } from '@/core/user/infra/ChangePassword.service'
+import { ChangePasswordService } from '@/core/user/infra/service/ChangePassword.service'
 import { type ModalRef } from '@/components/Modal/Modal'
 import {
 	changePasswordInitialState as initialState,

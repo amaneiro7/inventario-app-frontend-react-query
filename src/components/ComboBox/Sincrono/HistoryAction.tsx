@@ -34,7 +34,7 @@ export function HistoryActionCombobox({
 		<>
 			<Combobox
 				id="historyAction"
-				label="Filtrar por operación"
+				label="Filtrar por tipo operación"
 				value={value ?? 'all'}
 				name={name}
 				options={options}

@@ -4,36 +4,33 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type HistoryDto } from '../domain/dto/History.dto'
-import { HistoryGetByCriteria } from './HistoryGetByCriteria'
+import { type LoginUserDto } from '../domain/dto/LoginUser.dto'
 
-export interface HistoryFilters {
-	deviceId?: HistoryDto['deviceId']
-	employeeId?: HistoryDto['employeeId']
-	userId?: HistoryDto['userId']
-	updatedAt?: HistoryDto['updatedAt']
-	startDate?: HistoryDto['updatedAt']
-	endDate?: HistoryDto['updatedAt']
-	action?: HistoryDto['action']
+export interface UserFilters {
+	id?: LoginUserDto['id']
+	name?: LoginUserDto['name']
+	lastName?: LoginUserDto['lastName']
+	email?: LoginUserDto['email']
+	roleId?: LoginUserDto['roleId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
 	orderType?: Primitives<OrderType>
 }
 
-export async function createHistoryParams({
+export async function createUserParams({
 	pageNumber,
 	pageSize,
 	orderBy,
 	orderType,
 	...options
-}: HistoryFilters): Promise<string> {
+}: UserFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,
 		pageNumber,
-		orderBy: orderBy ?? HistoryGetByCriteria.defaultOrderBy,
-		orderType: !orderBy && !orderType ? HistoryGetByCriteria.defaultOrderType : orderType
+		orderBy,
+		orderType
 	}
 
 	Object.entries(options).forEach(([key, value]) => {
@@ -49,7 +46,10 @@ export async function createHistoryParams({
 			} else {
 				query.filters.push({
 					field: key,
-					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
+					operator:
+						key === 'name' || key === 'lastName' || key === 'email'
+							? Operator.OR
+							: Operator.EQUAL,
 					value
 				})
 			}

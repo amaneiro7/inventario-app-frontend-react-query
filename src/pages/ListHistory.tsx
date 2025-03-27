@@ -30,6 +30,8 @@ export default function ListHstory() {
 						deviceId={query.deviceId}
 						userId={query.userId}
 						action={query.action}
+						startDate={query.startDate}
+						endDate={query.endDate}
 						handleChange={handleChange}
 					/>
 				</FilterSection>

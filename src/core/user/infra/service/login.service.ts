@@ -1,6 +1,6 @@
 import { fetching } from '@/api/api'
-import { type UserAuthDTO, type LoginParams } from '../domain/dto/LoginAuth.dto'
-import { type LoginUserRepository } from '../domain/repository/loginUserRepository'
+import { type UserAuthDTO, type LoginParams } from '../../domain/dto/LoginAuth.dto'
+import { type LoginUserRepository } from '../../domain/repository/loginUserRepository'
 
 export class LoginService implements LoginUserRepository {
 	async run({ email, password }: LoginParams): Promise<UserAuthDTO> {

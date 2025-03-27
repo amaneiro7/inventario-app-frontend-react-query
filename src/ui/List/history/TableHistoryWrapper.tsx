@@ -31,7 +31,7 @@ export function TableHistoryWrapper({
 	handlePageClick
 }: TableHistoryWrapperProps) {
 	const { histories, isError, isLoading } = useGetAllHistorys(query)
-	const colSpan = 5
+	const colSpan = 6
 	return (
 		<>
 			<TablePageWrapper>
@@ -78,7 +78,7 @@ export function TableHistoryWrapper({
 								handleSort={eventManager(handleSort)}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
-								orderByField="deviceId"
+								orderByField="serial"
 								size="small"
 								name="Serial"
 							/>

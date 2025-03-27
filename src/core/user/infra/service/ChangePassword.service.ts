@@ -1,6 +1,6 @@
 import { fetching } from '@/api/api'
-import { type ChangePassordParams } from '../domain/dto/ChangePasword.dto'
-import { type ChangePasswordRepository } from '../domain/repository/changePasswordRepository'
+import { type ChangePassordParams } from '../../domain/dto/ChangePasword.dto'
+import { type ChangePasswordRepository } from '../../domain/repository/changePasswordRepository'
 
 export class ChangePasswordService implements ChangePasswordRepository {
 	async run(params: ChangePassordParams): Promise<{ message: string }> {

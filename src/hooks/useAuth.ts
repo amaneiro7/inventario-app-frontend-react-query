@@ -11,9 +11,9 @@ import { Logout } from '@/core/user/application/Logout'
 import { Login } from '@/core/user/application/Login'
 import { RefreshToken } from '@/core/user/application/RefreshToken'
 // capa de infra
-import { RefreshTokenService } from '@/core/user/infra/refreshToken.service'
-import { LoginService } from '@/core/user/infra/login.service'
-import { LogoutService } from '@/core/user/infra/logout.service'
+import { RefreshTokenService } from '@/core/user/infra/service/refreshToken.service'
+import { LoginService } from '@/core/user/infra/service/login.service'
+import { LogoutService } from '@/core/user/infra/service/logout.service'
 import { useLocalStorage } from './utils/useLocalStorage'
 
 export function useAuth() {
