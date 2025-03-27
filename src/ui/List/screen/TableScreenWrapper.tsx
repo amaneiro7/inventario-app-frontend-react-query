@@ -22,7 +22,7 @@ export function TableScreenWrapper({
 	handlePageClick
 }: TableScreenWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllScreenDevices(query)
-	const colSpan = 7
+	const colSpan = 8
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}

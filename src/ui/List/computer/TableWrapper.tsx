@@ -36,7 +36,7 @@ export function TableWrapper({
 	handlePageClick
 }: TableWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllComputerDevices(query)
-	const colSpan = 9
+	const colSpan = 10
 	return (
 		<>
 			<TablePageWrapper>

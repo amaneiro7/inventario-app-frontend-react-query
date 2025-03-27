@@ -22,7 +22,7 @@ export function TablePrinterWrapper({
 	handlePageClick
 }: TablePrinterWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllPrinterDevices(query)
-	const colSpan = 7
+	const colSpan = 8
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}

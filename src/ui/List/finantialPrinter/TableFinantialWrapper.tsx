@@ -24,7 +24,7 @@ export function TableFinantialWrapper({
 	handlePageClick
 }: TableFinantialWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllFinantialPrinterDevices(query)
-	const colSpan = 7
+	const colSpan = 8
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}

@@ -30,7 +30,7 @@ export const TableEmployeeWrapper = memo(function ({
 	handleSort
 }: TableEmployeeWrapperProps) {
 	const { employees, isLoading, isError } = useGetAllEmployees(query)
-	const colSpan = 9
+	const colSpan = 10
 
 	return (
 		<>

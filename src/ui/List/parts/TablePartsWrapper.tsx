@@ -22,7 +22,7 @@ export function TablePartsWrapper({
 	handlePageClick
 }: TablePartsWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllPartsDevices(query)
-	const colSpan = 7
+	const colSpan = 8
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}

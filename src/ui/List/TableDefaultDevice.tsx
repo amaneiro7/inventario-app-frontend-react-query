@@ -140,7 +140,7 @@ export function TableDefaultDevice<T>({
 								size="small"
 								name="Observaciones"
 							/>
-							<TableHead size="xxSmall" name="" />
+							<TableHead aria-colindex={8} size="xxSmall" name="" />
 						</TableRow>
 					</TableHeader>
 					<TableBody>
