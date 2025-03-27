@@ -18,8 +18,6 @@ export const useGetAllUser = (query: UserFilters) => {
 		staleTime: Infinity
 	})
 
-	console.log('useQuery', users)
-
 	return {
 		isLoading,
 		refetch,

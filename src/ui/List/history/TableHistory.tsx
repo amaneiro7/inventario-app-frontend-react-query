@@ -8,6 +8,7 @@ import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 import { getRelativeTime } from '@/utils/getRelativeTime'
 import { BackgroundType } from '@/components/Typography/types'
+import { HistoryDescription } from './TableDescription'
 
 interface TableHistoryProps {
 	histories?: HistoryDto[]
@@ -56,7 +57,11 @@ export const TableHistory = memo(({ histories, isError, colSpan }: TableHistoryP
 							<TableCell size="small" value={relativeTime} />
 							<TableCellOpenIcon open={expandedRows.includes(history.id)} />
 						</TableRow>
-						{/* <ComputerDescription open={expandedRows.includes(device.id)} device={device} /> */}
+						<HistoryDescription
+							open={expandedRows.includes(history.id)}
+							colSpan={colSpan}
+							history={history}
+						/>
 					</React.Fragment>
 				)
 			})}

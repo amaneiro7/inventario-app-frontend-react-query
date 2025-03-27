@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from './PageTitle'
 import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
@@ -15,7 +15,8 @@ const ListWrapper = memo(() => {
 			'/finantialprinter': 'Lista de impresoras financieras',
 			'/usuarios': 'Gestión de empleados',
 			'/model': 'Lista de modelos',
-			'/location': 'Lista de sitios'
+			'/location': 'Lista de sitios',
+			'/history': 'Historial de cambios'
 		}),
 		[]
 	)
@@ -35,7 +36,9 @@ const ListWrapper = memo(() => {
 		<>
 			<PageTitle title={title} />
 			<DetailsWrapper>
-				<Outlet context={title} />
+				<Suspense>
+					<Outlet context={title} />
+				</Suspense>
 			</DetailsWrapper>
 		</>
 	)

@@ -15,14 +15,16 @@ export function ComputerOrderByCombobox({
 }) {
 	const options = useMemo(() => {
 		return [
-			{ id: 'operatingSystemId', name: 'Sistema Operativo' },
-			{ id: 'operatingSystemArqId', name: 'Arquitectura de Sistema Operativo' },
-			{ id: 'hardDriveCapacityId', name: 'Capacidad de disco duro' },
-			{ id: 'hardDriveTypeId', name: 'Tipo de disco duro' },
-			{ id: 'memoryRamCapacity', name: 'Memoria Ram' },
-			{ id: 'regionId', name: 'Region' },
-			{ id: 'stateId', name: 'Estado' },
-			{ id: 'cityId', name: 'Ciudad' }
+			{ id: 'departamentoId', name: 'Por departamento' },
+			{ id: 'cargoId', name: 'Por cargo' },
+			{ id: 'operatingSystemId', name: 'Por Sistema Operativo' },
+			{ id: 'operatingSystemArqId', name: 'Por Arquitectura de Sistema Operativo' },
+			{ id: 'hardDriveCapacityId', name: 'Por Capacidad de disco duro' },
+			{ id: 'hardDriveTypeId', name: 'Por Tipo de disco duro' },
+			{ id: 'memoryRamCapacity', name: 'Por Memoria Ram' },
+			{ id: 'regionId', name: 'Por Region' },
+			{ id: 'stateId', name: 'Por Estado' },
+			{ id: 'cityId', name: 'Por Ciudad' }
 		]
 	}, [])
 

@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import { TableCellDescription } from '@/components/Table/TableCellDescription'
-import { TableDescDivider } from '@/components/Table/TableDescDivider'
 import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { getRelativeTime } from '@/utils/getRelativeTime'
+import { convertNumberMiles } from '@/utils/convertNumberMiles'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
@@ -21,27 +21,30 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 				url={`/device/edit/${device.id}`}
 				colspan={colSpan}
 			>
-				<TableDescDivider label="Información básica">
-					<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
-					<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
-				</TableDescDivider>
+				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
+				<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
+
+				<TableCellDescInfo
+					title="Región"
+					text={`${device?.location?.site.city.state.region.name ?? ''}`}
+				/>
+				<TableCellDescInfo
+					title="Estado"
+					text={`${device?.location?.site.city.state.name ?? ''}`}
+				/>
+				<TableCellDescInfo
+					title="Ciudad"
+					text={`${device?.location?.site.city.name ?? ''}`}
+				/>
+				<TableCellDescInfo title="Sitio" text={`${device?.location?.site?.name ?? ''}`} />
 
 				{device.employee?.name && (
-					<TableDescDivider label="Información de usuario">
+					<>
 						<TableCellDescInfo
 							title="Nombre y Apellido"
 							text={`${device?.employee?.name ?? ''} ${
 								device?.employee?.lastName ?? ''
 							}`}
-						/>
-
-						<TableCellDescInfo
-							title="Area"
-							text={device?.employee?.departamento?.name ?? ''}
-						/>
-						<TableCellDescInfo
-							title="Cargo"
-							text={device?.employee?.cargo?.name ?? ''}
 						/>
 						<TableCellDescInfo
 							title="Código de empleado"
@@ -49,29 +52,42 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 						/>
 						<TableCellDescInfo
 							title="Cédula"
-							text={`${device?.employee?.cedula ?? ''}`}
+							text={`${device?.employee.nationality ?? ''}-${
+								convertNumberMiles(device?.employee?.cedula) ?? ''
+							}`}
 						/>
-					</TableDescDivider>
+					</>
+				)}
+				{device.employee?.name && (
+					<>
+						<TableCellDescInfo
+							title="Directiva"
+							text={
+								device?.employee?.departamento?.vicepresidenciaEjecutiva?.directiva
+									?.name ?? ''
+							}
+						/>
+						<TableCellDescInfo
+							title="V.P.E."
+							text={
+								device?.employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''
+							}
+						/>
+						<TableCellDescInfo
+							title="Departamento"
+							text={device?.employee?.departamento?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="Cargo"
+							text={device?.employee?.cargo?.name ?? ''}
+						/>
+					</>
 				)}
 
-				<TableDescDivider label="Información de ubicación">
-					<TableCellDescInfo
-						title="Región"
-						text={`${device?.location?.site.city.state.region.name ?? ''}`}
-					/>
-					<TableCellDescInfo
-						title="Estado"
-						text={`${device?.location?.site.city.state.name ?? ''}`}
-					/>
-					<TableCellDescInfo
-						title="Ciudad"
-						text={`${device?.location?.site.city.name ?? ''}`}
-					/>
-				</TableDescDivider>
-
-				<TableDescDivider label="Procesador">
+				<div className="md:grid md:grid-cols-2 md:grid-rows-2 md:gap-2">
 					<TableCellDescInfo
 						title="Procesador"
+						className="col-span-2"
 						text={
 							device.computer
 								? `${device?.computer?.processor?.productCollection} ${device?.computer?.processor?.numberModel}`
@@ -87,11 +103,11 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 						title="Frecuencia"
 						text={device.computer ? `${device?.computer?.processor?.frequency}` : ''}
 					/>
-				</TableDescDivider>
-
-				<TableDescDivider label="Memoria Ram">
+				</div>
+				<div className="md:grid md:grid-cols-2 md:grid-rows-2 md:gap-2">
 					<TableCellDescInfo
 						title="Memoria Ram"
+						className="md:col-span-2"
 						text={device.computer ? `${device?.computer?.memoryRamCapacity} Gb` : ''}
 					/>
 					<TableCellDescInfo
@@ -113,8 +129,8 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 								: ''
 						}
 					/>
-				</TableDescDivider>
-				<TableDescDivider label="Disco Duro">
+				</div>
+				<div className="md:grid md:grid-cols-1 gap-2">
 					<TableCellDescInfo
 						title="Disco Duro"
 						text={
@@ -127,8 +143,9 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 						title="Tipo"
 						text={device?.computer?.hardDriveType?.name ?? 'No Aplica'}
 					/>
-				</TableDescDivider>
-				<TableDescDivider label="Sistema Operativo">
+				</div>
+
+				<div className="md:grid md:grid-cols-1 gap-2">
 					<TableCellDescInfo
 						title="Sistema Operativo"
 						text={device?.computer?.operatingSystem?.name ?? 'No Aplica'}
@@ -137,7 +154,8 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 						title="Arquitectura"
 						text={device?.computer?.operatingSystemArq?.name ?? 'No Aplica'}
 					/>
-				</TableDescDivider>
+				</div>
+
 				<TableCellDescInfo
 					title="Última Actualización"
 					text={

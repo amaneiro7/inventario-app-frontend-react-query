@@ -12,7 +12,7 @@ interface Props
 
 export function TableDescDivider({ label, className, children }: React.PropsWithChildren<Props>) {
 	return (
-		<fieldset className={`flex border-azul border-2 rounded p-2 gap-6 flex-wrap ${className}`}>
+		<fieldset className={`flex border-azul border rounded p-2 gap-6 flex-wrap ${className}`}>
 			<legend>
 				<Typography className="p-1" variant="p" option="tiny" color="azul" weight="bold">
 					{label}
