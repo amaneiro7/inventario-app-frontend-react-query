@@ -74,6 +74,18 @@ export const navigation: Navigation[] = [
 		]
 	},
 	{
+		label: 'Dashboards computer',
+		desc: 'Listas de Dashboard',
+		img: 'officeMac',
+		navs: [
+			{
+				title: 'Dashboard de computador',
+				desc: 'Dashboard de computador',
+				path: '/dashboard/computer'
+			}
+		]
+	},
+	{
 		label: 'Gestión',
 		desc: 'Aqui se encuentran las rutas que se utilizan para la gestion de crear actualizar',
 		img: 'codeScreen',
