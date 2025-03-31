@@ -1,4 +1,9 @@
-import { type ColorType, type ParagraphOption, type BackgroundType } from '../Typography/types'
+import {
+	type ColorType,
+	type ParagraphOption,
+	type BackgroundType,
+	type AlignType
+} from '../Typography/types'
 import Typography from '../Typography'
 
 interface TagProps {
@@ -7,6 +12,7 @@ interface TagProps {
 	iconText?: string | number
 	color?: ColorType
 	backgroundColor?: BackgroundType
+	align?: AlignType
 }
 
 export function Tag({
@@ -14,6 +20,7 @@ export function Tag({
 	color,
 	iconText,
 	option,
+	align = 'left',
 	backgroundColor
 }: React.PropsWithChildren<TagProps>) {
 	return (
@@ -21,6 +28,7 @@ export function Tag({
 			color={color}
 			option={option}
 			variant="span"
+			align={align}
 			className="w-fit inline-flex items-center gap-1 rounded-2xl px-2"
 			background={backgroundColor}
 		>

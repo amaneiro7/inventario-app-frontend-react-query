@@ -25,7 +25,8 @@ const Size = {
 	small: 'w-28', // 112px
 	medium: 'w-36', // 144px
 	large: 'w-44', // 176px
-	xLarge: 'w-52' // 224px
+	xLarge: 'w-52', // 224px
+	auto: 'w-auto' // 224px
 } as const
 
 export const TableHead = memo(

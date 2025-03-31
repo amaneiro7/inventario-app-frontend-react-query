@@ -23,9 +23,11 @@ interface Props<T>
 	color?: ColorType
 	backgroundColor?: BackgroundType
 	size: keyof typeof Size
+	align?: AlignType
 }
 
 const Size = {
+	auto: 'w-auto', // auto
 	xxSmall: 'max-w-8 min-w-8 w-8', // 32px
 	xSmall: 'max-w-20 min-w-20 w-20', // 80px
 	small: 'max-w-28 min-w-28 w-28', // 112px
@@ -33,6 +35,7 @@ const Size = {
 	large: 'max-w-44 min-w-44 w-44', // 176px
 	xLarge: 'max-w-52 min-w-52 w-52' // 224px
 } as const
+type AlignType = 'left' | 'center' | 'right'
 
 export function TableCell<T>({
 	value,
@@ -40,6 +43,8 @@ export function TableCell<T>({
 	state,
 	size,
 	tag = false,
+	className,
+	align = 'left',
 	color = 'black',
 	backgroundColor = 'white',
 	...props
@@ -48,7 +53,8 @@ export function TableCell<T>({
 		'min-h-8 h-8 p-0 text-gray-800 overflow-hidden whitespace-nowrap text-ellipsis border-b-2 border-b-gray-300',
 		cn({
 			[`${Size[size]}`]: size
-		})
+		}),
+		className
 	)
 	return (
 		<td
@@ -62,11 +68,12 @@ export function TableCell<T>({
 		>
 			{url ? (
 				<Suspense>
-					<TableCellWithUrl value={value} url={url} state={state} />
+					<TableCellWithUrl align={align} value={value} url={url} state={state} />
 				</Suspense>
 			) : tag ? (
 				<Suspense>
 					<Tag
+						align={align}
 						backgroundColor={backgroundColor}
 						color={color}
 						option="tiny"
@@ -75,7 +82,7 @@ export function TableCell<T>({
 				</Suspense>
 			) : (
 				<Suspense>
-					<TableCellText value={value} />
+					<TableCellText align={align} value={value} />
 				</Suspense>
 			)}
 		</td>
