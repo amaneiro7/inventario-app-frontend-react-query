@@ -10,7 +10,8 @@ import {
 	ResponsiveContainer,
 	PieChart,
 	Pie,
-	Cell
+	Cell,
+	LabelList
 } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
@@ -53,7 +54,13 @@ export const BrandDistribution = memo(({ brandData }: BrandDistributionProps) =>
 								<YAxis />
 								<Tooltip />
 								<Legend />
-								<Bar dataKey="count" fill="#0ea5e9" name="Cantidad" />
+								<Bar dataKey="count" fill="#0ea5e9" name="Cantidad" barSize={30}>
+									<LabelList
+										dataKey="count"
+										position="top"
+										style={{ fontSize: '0.65rem' }}
+									/>
+								</Bar>
 							</BarChart>
 						</ResponsiveContainer>
 					</CardContent>
@@ -111,7 +118,13 @@ export const BrandDistribution = memo(({ brandData }: BrandDistributionProps) =>
 							<YAxis />
 							<Tooltip />
 							<Legend />
-							<Bar dataKey="models" fill="#8b5cf6" name="Model Count" />
+							<Bar dataKey="models" fill="#8b5cf6" name="Model Count" barSize={45}>
+								<LabelList
+									dataKey="count"
+									position="top"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
 						</BarChart>
 					</ResponsiveContainer>
 				</CardContent>

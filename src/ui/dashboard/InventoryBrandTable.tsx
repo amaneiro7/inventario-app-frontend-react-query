@@ -1,5 +1,6 @@
 import { memo, useState } from 'react'
-import { useFilteredData } from './useilteredData'
+import { useInventoryBrandTable } from './hooks/useInventoryBrandTable'
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { Input } from '@/components/Input/Input'
@@ -18,7 +19,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 	const [filterBrand, setFilterBrand] = useState('All')
 	const [filterCategory, setFilterCategory] = useState('All')
 
-	const { filteredData, uniqueBrands, uniqueCategories } = useFilteredData({
+	const { filteredData, uniqueBrands, uniqueCategories } = useInventoryBrandTable({
 		data,
 		filterBrand,
 		filterCategory,
@@ -118,7 +119,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 									colSpan={7}
 									className="text-center py-4"
 									size="medium"
-									value={'No results found'}
+									value={'No se encontraron resultados'}
 								/>
 							</TableRow>
 						)}

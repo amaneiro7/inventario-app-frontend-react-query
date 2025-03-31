@@ -17,7 +17,12 @@ interface ModelData {
 	inAlmacen: number
 	status: 'In Stock' | 'Low Stock' | 'Out of Stock'
 }
-export const useFilteredData = ({ data, filterBrand, filterCategory, searchTerm }: FilterProps) => {
+export const useInventoryBrandTable = ({
+	data,
+	filterBrand,
+	filterCategory,
+	searchTerm
+}: FilterProps) => {
 	const uniqueBrands = ['All', ...Array.from(new Set(data.map(item => item.name)))]
 
 	// Obtener categorías únicas de todos los modelos

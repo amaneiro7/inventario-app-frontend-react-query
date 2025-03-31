@@ -32,7 +32,7 @@ const DashboardWrapper = memo(() => {
 	const outletTitle = useOutletContext<string>()
 	const title = outletTitle || defaultTitle
 	return (
-		<div className="container mx-auto">
+		<div>
 			<PageTitle title={title} />
 
 			<Outlet context={title} />

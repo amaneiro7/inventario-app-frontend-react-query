@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from 'react'
+import { memo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import {
 	BarChart,
@@ -8,49 +8,20 @@ import {
 	CartesianGrid,
 	Tooltip,
 	Legend,
-	ResponsiveContainer
+	ResponsiveContainer,
+	LabelList
 } from 'recharts'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { useModelBreakdown } from './hooks/useModelBreakdown'
 
 interface ModelBreakdownProps {
 	data: ComputerDashboardDto['brand']
 }
 
 export const ModelBreakdown = memo(({ data }: ModelBreakdownProps) => {
-	const [selectedBrand, setSelectedBrand] = useState<string>('All Brands')
-
-	// Get unique brands for the filter
-	const brands = useMemo(() => {
-		return ['All Brands', ...Array.from(new Set(data.map(item => item.name)))].sort()
-	}, [data])
-	// Prepare model data based on selected brand
-	const modelData = useMemo(() => {
-		let filteredData = data
-		if (selectedBrand !== 'All Brands') {
-			filteredData = data.filter(item => item.name === selectedBrand)
-		}
-		const result: Record<string, { name: string; quantity: number; brand: string }> = {}
-		filteredData.forEach(brand => {
-			brand.model.forEach(model => {
-				result[model.name] = {
-					name: model.name,
-					quantity: model.count,
-					brand: brand.name
-				}
-			})
-		}, {} as Record<string, { name: string; quantity: number; brand: string }>)
-		return result
-	}, [data, selectedBrand])
-
-	const modelChartData = useMemo(() => {
-		return Object.values(modelData).sort((a, b) => b.quantity - a.quantity)
-	}, [modelData])
-
-	// Calculate dynamic height based on the number of bars and barSize
-	const barHeight = 16 // Size of each bar
-	const barSpacing = 40 // Spacing between bars and other elements
-	const dynamicHeight = `${modelChartData.length * barSpacing + 100}px` // Add extra space for margins and labels
+	const { selectedBrand, barHeight, brands, dynamicHeight, modelChartData, setSelectedBrand } =
+		useModelBreakdown({ data })
 
 	return (
 		<div className="space-y-4">
@@ -103,7 +74,13 @@ export const ModelBreakdown = memo(({ data }: ModelBreakdownProps) => {
 								name="Cantidad"
 								fill="#0ea5e9"
 								barSize={barHeight}
-							/>
+							>
+								<LabelList
+									dataKey="quantity"
+									position="right"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
 						</BarChart>
 					</ResponsiveContainer>
 				</CardContent>
