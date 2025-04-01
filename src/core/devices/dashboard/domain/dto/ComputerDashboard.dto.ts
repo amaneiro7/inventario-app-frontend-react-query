@@ -6,6 +6,7 @@ export interface ComputerDashboardDto {
 	category: Category[]
 	brand: Brand[]
 	region: Region[]
+	hardDrive: HardDrive[]
 }
 
 export interface Brand {
@@ -57,4 +58,14 @@ export interface Site {
 	siteName: string
 	count: number
 	names: Status[]
+}
+
+export interface HardDrive {
+	name: string
+	count: number
+	hddType: HardDriveType[]
+}
+export interface HardDriveType {
+	name: string
+	count: number
 }

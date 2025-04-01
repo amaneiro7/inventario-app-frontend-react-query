@@ -1,25 +1,11 @@
 import { memo, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
-
-import { ChartContainer } from '@/components/Chart'
-import {
-	PieChart,
-	Pie,
-	Cell,
-	Legend,
-	Tooltip,
-	ResponsiveContainer,
-	BarChart,
-	Bar,
-	XAxis,
-	YAxis,
-	CartesianGrid
-} from 'recharts'
+import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts'
 import { HardDrive } from 'lucide-react'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface HardDriveAnalysisProps {
-	data: ComputerDashboardDto[]
+	data: ComputerDashboardDto['hardDrive']
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
@@ -29,74 +15,42 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 	const typeData = useMemo(() => {
 		const resultMap = new Map<string, number>()
 
-		data.forEach(item => {
-			const key = item.driveType
-			if (key) {
-				const currentCount = resultMap.get(key) || 0
-				resultMap.set(key, currentCount + item.quantity)
-			}
+		data.forEach(hddCapacity => {
+			hddCapacity.hddType.forEach(hddType => {
+				const key = hddType.name
+				if (key) {
+					const currentCount = resultMap.get(key) || 0
+					resultMap.set(key, currentCount + hddType.count)
+				}
+			})
 		})
 
 		return Array.from(resultMap)
-			.map(([name, value]) => ({ name, value }))
-			.sort((a, b) => b.value - a.value)
+			.map(([name, count]) => ({ name, count }))
+			.sort((a, b) => b.count - a.count)
 	}, [data])
 
-	// Process data by drive capacity
-	const capacityData = useMemo(() => {
-		const resultMap = new Map<string, number>()
-
-		data.forEach(item => {
-			const key = item.driveCapacity
-			if (key) {
-				const currentCount = resultMap.get(key) || 0
-				resultMap.set(key, currentCount + item.quantity)
-			}
-		})
-
-		return Array.from(resultMap)
-			.map(([name, value]) => ({ name, value }))
-			.sort((a, b) => b.value - a.value)
-	}, [data])
-
-	const config = {
-		data: { label: 'Hard Drives' }
-	}
-
-	const totalDrivesByType = typeData.reduce((sum, item) => sum + item.value, 0)
-	const totalDrivesByCapacity = capacityData.reduce((sum, item) => sum + item.value, 0)
-
-	const renderCustomizedLabel = ({
-		cx,
-		cy,
-		midAngle,
-		innerRadius,
-		outerRadius,
-		percent
-	}: any) => {
-		const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-		const x = cx + radius * Math.cos((-midAngle * Math.PI) / 180)
-		const y = cy + radius * Math.sin((-midAngle * Math.PI) / 180)
-
-		return (
-			<text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
-				{`${(percent * 100).toFixed(0)}%`}
-			</text>
-		)
-	}
+	const totalDrivesByCapacity = useMemo(
+		() => data.reduce((sum, item) => sum + item.count, 0),
+		[data]
+	)
+	const totalDrivesByType = useMemo(
+		() => typeData.reduce((sum, item) => sum + item.count, 0),
+		[typeData]
+	)
 
 	return (
-		<>
-			<Card className="col-span-12">
+		<div className="container grid grid- gap-4">
+			<Card>
 				<CardHeader>
 					<div>
-						<CardTitle>Hard Drive Type Analysis</CardTitle>
-						<CardDescription>Distribution of hard drives by type</CardDescription>
+						<CardTitle>Analisis Tipos de Disco duros</CardTitle>
+						<CardDescription>Distribución de Discos por tipo</CardDescription>
 					</div>
 				</CardHeader>
-				<CardContent>
-					<div className="grid md:grid-cols-5 gap-6">
-						<div className="md:col-span-2">
+				<CardContent className="items-center">
+					<div className="flex items-center gap-6">
+						<div>
 							<div className="space-y-4">
 								{typeData.map((entry, index) => (
 									<div
@@ -113,11 +67,11 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 											<span className="font-medium">{entry.name}</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<span className="font-bold">{entry.value}</span>
+											<span className="font-bold">{entry.count}</span>
 											<span className="text-muted-foreground text-sm">
 												(
 												{Math.round(
-													(entry.value / totalDrivesByType) * 100
+													(entry.count / totalDrivesByType) * 100
 												)}
 												%)
 											</span>
@@ -127,21 +81,25 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 							</div>
 						</div>
 
-						<div className="md:col-span-3 h-80">
+						<div className="w-full h-80">
 							{typeData.length > 0 ? (
-								<ChartContainer config={config}>
+								<ResponsiveContainer width="100%" height="100%">
 									<PieChart>
 										<Pie
 											data={typeData}
 											cx="50%"
 											cy="50%"
 											labelLine={false}
-											label={renderCustomizedLabel}
+											label={({ name, percent }) => {
+												const minVisiblePercent = 0.05
+												if (percent > minVisiblePercent)
+													return `${name}: ${(percent * 100).toFixed(0)}%`
+											}}
 											outerRadius={80}
 											fill="#8884d8"
-											dataKey="value"
+											dataKey="count"
 										>
-											{typeData.map((entry, index) => (
+											{typeData.map((_entry, index) => (
 												<Cell
 													key={`cell-${index}`}
 													fill={COLORS[index % COLORS.length]}
@@ -158,7 +116,7 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 										/>
 										<Legend />
 									</PieChart>
-								</ChartContainer>
+								</ResponsiveContainer>
 							) : (
 								<div className="h-full flex items-center justify-center">
 									<div className="text-center text-muted-foreground">
@@ -172,21 +130,21 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 				</CardContent>
 			</Card>
 
-			<Card className="col-span-12 mt-4">
+			<Card className="">
 				<CardHeader>
 					<div>
-						<CardTitle>Hard Drive Capacity Analysis</CardTitle>
-						<CardDescription>Distribution of hard drives by capacity</CardDescription>
+						<CardTitle>Analisis de Discos duros</CardTitle>
+						<CardDescription>Distribución de Discos por capacidad</CardDescription>
 					</div>
 				</CardHeader>
 				<CardContent>
-					<div className="grid md:grid-cols-5 gap-6">
-						<div className="md:col-span-2">
+					<div className="flex items-center gap-6">
+						<div>
 							<div className="space-y-4">
-								{capacityData.map((entry, index) => (
+								{data.map((entry, index) => (
 									<div
 										key={entry.name}
-										className="flex items-center justify-between"
+										className="flex gap-4 items-center justify-between"
 									>
 										<div className="flex items-center gap-2">
 											<div
@@ -198,11 +156,11 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 											<span className="font-medium">{entry.name}</span>
 										</div>
 										<div className="flex items-center gap-2">
-											<span className="font-bold">{entry.value}</span>
+											<span className="font-bold">{entry.count}</span>
 											<span className="text-muted-foreground text-sm">
 												(
 												{Math.round(
-													(entry.value / totalDrivesByCapacity) * 100
+													(entry.count / totalDrivesByCapacity) * 100
 												)}
 												%)
 											</span>
@@ -212,21 +170,25 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 							</div>
 						</div>
 
-						<div className="md:col-span-3 h-80">
-							{capacityData.length > 0 ? (
-								<ChartContainer config={config}>
+						<div className="w-full h-80">
+							{data.length > 0 ? (
+								<ResponsiveContainer width="100%" height="100%">
 									<PieChart>
 										<Pie
-											data={capacityData}
+											data={data}
 											cx="50%"
 											cy="50%"
 											labelLine={false}
-											label={renderCustomizedLabel}
+											label={({ name, percent }) => {
+												const minVisiblePercent = 0.05
+												if (percent > minVisiblePercent)
+													return `${name}: ${(percent * 100).toFixed(0)}%`
+											}}
 											outerRadius={80}
 											fill="#8884d8"
-											dataKey="value"
+											dataKey="count"
 										>
-											{capacityData.map((entry, index) => (
+											{data.map((_entry, index) => (
 												<Cell
 													key={`cell-${index}`}
 													fill={COLORS[index % COLORS.length]}
@@ -243,7 +205,7 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 										/>
 										<Legend />
 									</PieChart>
-								</ChartContainer>
+								</ResponsiveContainer>
 							) : (
 								<div className="h-full flex items-center justify-center">
 									<div className="text-center text-muted-foreground">
@@ -256,6 +218,6 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 					</div>
 				</CardContent>
 			</Card>
-		</>
+		</div>
 	)
 })

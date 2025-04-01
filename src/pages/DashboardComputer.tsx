@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
 import { useGetComputerDashboard } from '@/core/devices/dashboard/infra/hooks/useGetComputerDashboard'
 import { BrandDistribution } from '@/ui/dashboard/BrandDistribution'
 import { GeographicalDistribution } from '@/ui/dashboard/GeographicalDistribution'
+import { HardDriveAnalysis } from '@/ui/dashboard/HardDriveAnalysis'
 import { InventoryOerview } from '@/ui/dashboard/InventoryBrandOverview'
 import { InventoryBrandTable } from '@/ui/dashboard/InventoryBrandTable'
 import { ModelBreakdown } from '@/ui/dashboard/ModelBreakdown'
@@ -59,6 +60,7 @@ export default function DashboardComputer() {
 					<TabsTrigger value="brands">Marcas</TabsTrigger>
 					<TabsTrigger value="models">Modelos</TabsTrigger>
 					<TabsTrigger value="geographical">Geográfico</TabsTrigger>
+					<TabsTrigger value="harddrive">Disco Duros</TabsTrigger>
 					<TabsTrigger value="inventory">Inventario</TabsTrigger>
 				</TabsList>
 
@@ -79,6 +81,9 @@ export default function DashboardComputer() {
 
 				<TabsContent value="geographical" className="space-y-4">
 					<GeographicalDistribution data={computerDashboard.region} />
+				</TabsContent>
+				<TabsContent value="harddrive" className="space-y-4">
+					<HardDriveAnalysis data={computerDashboard.hardDrive} />
 				</TabsContent>
 				<TabsContent value="inventory" className="space-y-4">
 					<InventoryBrandTable data={computerDashboard.brand} />
