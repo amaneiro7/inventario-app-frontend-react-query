@@ -26,6 +26,7 @@ const Size = {
 	medium: 'w-36', // 144px
 	large: 'w-44', // 176px
 	xLarge: 'w-52', // 224px
+	xxLarge: 'w-64', // 256px
 	auto: 'w-auto' // 224px
 } as const
 

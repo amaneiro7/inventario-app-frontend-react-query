@@ -28,6 +28,30 @@ export default function DashboardComputer() {
 						</CardContent>
 					</CardHeader>
 				</Card>
+				<Card>
+					<CardHeader className="pb-2">
+						<CardTitle className="text-base font-semibold text-muted-foreground">
+							Total de empleados activos
+						</CardTitle>
+						<CardContent>
+							<div className="text-3xl font-bold">
+								{computerDashboard?.activeEmployees}
+							</div>
+						</CardContent>
+					</CardHeader>
+				</Card>
+				<Card>
+					<CardHeader className="pb-2">
+						<CardTitle className="text-base font-semibold text-muted-foreground">
+							Total de agencias
+						</CardTitle>
+						<CardContent>
+							<div className="text-3xl font-bold">
+								{computerDashboard?.totalAgencies}
+							</div>
+						</CardContent>
+					</CardHeader>
+				</Card>
 			</div>
 			<Tabs defaultValue="overview" className="space-y-4">
 				<TabsList>

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
 	Cell,
 	Bar,
@@ -9,12 +10,18 @@ import {
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
-	YAxis
+	YAxis,
+	LabelList
 } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
+const SITE_TYPE_COLORS = {
+	Agencia: '#0088FE',
+	Almacén: '#00C49F',
+	'Sede Administrativa': '#FFBB28'
+}
 
 export const InventoryOerview = ({
 	categoryData,
@@ -23,6 +30,33 @@ export const InventoryOerview = ({
 	categoryData: ComputerDashboardDto['category']
 	statusData: ComputerDashboardDto['status']
 }) => {
+	// Prepare data for grouped bar chart with triple bars
+	const prepareGroupedBarData = useMemo(() => {
+		// Get unique site types
+		const siteTypes = new Set<string>()
+		categoryData.forEach(category => {
+			category.typeOfSite.forEach(site => {
+				siteTypes.add(site.name)
+			})
+		})
+
+		// Create a mapping for each category and site type
+		return categoryData.map(category => {
+			const result: Record<string, unknown> = {
+				name: category.name
+			}
+
+			// Add counts for each site type
+			Array.from(siteTypes).forEach(siteType => {
+				const site = category.typeOfSite.find(s => s.name === siteType)
+				result[siteType] = site ? site.count : 0
+			})
+
+			return result
+		})
+	}, [categoryData])
+	console.log(prepareGroupedBarData)
+	const barHeight = useMemo(() => 30, [])
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
 			<Card>
@@ -81,6 +115,62 @@ export const InventoryOerview = ({
 							/>
 							<Legend />
 						</PieChart>
+					</ResponsiveContainer>
+				</CardContent>
+			</Card>
+
+			<Card className="md:col-span-2">
+				<CardHeader>
+					<CardTitle>Distribución de Equipos por tipo de sitio</CardTitle>
+				</CardHeader>
+				<CardContent className="h-80">
+					<ResponsiveContainer width="100%" height="100%">
+						<BarChart
+							data={prepareGroupedBarData}
+							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+						>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="name" />
+							<YAxis />
+							<Tooltip formatter={(value, name) => [`${value} equipos`, name]} />
+							<Legend />
+							<Bar
+								dataKey="Agencia"
+								name="Agencia"
+								fill={SITE_TYPE_COLORS['Agencia']}
+								barSize={barHeight}
+							>
+								<LabelList
+									dataKey="Agencia"
+									position="top"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
+							<Bar
+								dataKey="Almacén"
+								name="Almacén"
+								fill={SITE_TYPE_COLORS['Almacén']}
+								barSize={barHeight}
+							>
+								<LabelList
+									dataKey="Almacén"
+									position="top"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
+							<Bar
+								dataKey="Sede Administrativa"
+								name="Sede Administrativa"
+								fill={SITE_TYPE_COLORS['Sede Administrativa']}
+								barSize={barHeight}
+							>
+								<LabelList
+									dataKey="Sede Administrativa"
+									position="top"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
+						</BarChart>
 					</ResponsiveContainer>
 				</CardContent>
 			</Card>

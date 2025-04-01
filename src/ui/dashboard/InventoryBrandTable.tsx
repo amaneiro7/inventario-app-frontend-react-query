@@ -45,18 +45,20 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 				<CardTitle>Detale de inventario</CardTitle>
 				<CardDescription className="pb-2">Lista completa de equipos</CardDescription>
 				<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 mt-2">
-					<Input
-						placeholder="Buscar por marca o modelo..."
-						transform
-						value={searchTerm}
-						onChange={e => setSearchTerm(e.target.value)}
-						className="md:w-1/3"
-						label="Search"
-						name="name"
-					/>
+					<div className="relative w-full sm:max-w-[300px]">
+						<Input
+							placeholder="Buscar por marca o modelo..."
+							transform
+							value={searchTerm}
+							onChange={e => setSearchTerm(e.target.value)}
+							className="md:w-1/3"
+							label="Search"
+							name="name"
+						/>
+					</div>
 					<Select value={filterBrand} onValueChange={setFilterBrand}>
 						<SelectTrigger className="md:w-1/4">
-							<SelectValue placeholder="Filter by brand" />
+							<SelectValue placeholder="Filtro por marca" />
 						</SelectTrigger>
 						<SelectContent>
 							{uniqueBrands.map(brand => (
@@ -84,7 +86,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 				<Table className="table-fixed">
 					<TableHeader>
 						<TableRow>
-							<TableHead size="auto" name="Modelo" />
+							<TableHead size="xxLarge" name="Modelo" />
 							<TableHead size="xLarge" name="Marca" />
 							<TableHead size="medium" name="Categoria" />
 							<TableHead size="small" className="text-center" name="Cantidad" />
@@ -97,7 +99,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 						{filteredData.length > 0 ? (
 							filteredData.map((item, index) => (
 								<TableRow key={index}>
-									<TableCell value={item.name} size="auto" />
+									<TableCell value={item.name} size="xxLarge" />
 									<TableCell value={item.brand} size="xLarge" />
 									<TableCell value={item.category} size="medium" />
 									<TableCell value={item.count} size="small" align="center" />

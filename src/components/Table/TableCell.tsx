@@ -33,7 +33,8 @@ const Size = {
 	small: 'max-w-28 min-w-28 w-28', // 112px
 	medium: 'max-w-36 min-w-36 w-36', // 144px
 	large: 'max-w-44 min-w-44 w-44', // 176px
-	xLarge: 'max-w-52 min-w-52 w-52' // 224px
+	xLarge: 'max-w-52 min-w-52 w-52', // 224px
+	xxLarge: 'max-w-60 min-w-60 w-60' // 256px
 } as const
 type AlignType = 'left' | 'center' | 'right'
 
@@ -50,7 +51,7 @@ export function TableCell<T>({
 	...props
 }: React.PropsWithChildren<Props<T>>) {
 	const classes = twMerge(
-		'min-h-8 h-8 p-0 text-gray-800 overflow-hidden whitespace-nowrap text-ellipsis border-b-2 border-b-gray-300',
+		'min-h-8 h-8 p-0 text-gray-800 overflow-hidden whitespace-nowrap text-ellipsis border-b-2 border-b-gray-300 ',
 		cn({
 			[`${Size[size]}`]: size
 		}),

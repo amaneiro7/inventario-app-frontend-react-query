@@ -1,5 +1,7 @@
 export interface ComputerDashboardDto {
 	total: number
+	totalAgencies: number
+	activeEmployees: number
 	status: Status[]
 	category: Category[]
 	brand: Brand[]
