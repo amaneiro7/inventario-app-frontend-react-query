@@ -7,6 +7,7 @@ export interface ComputerDashboardDto {
 	brand: Brand[]
 	region: Region[]
 	hardDrive: HardDrive[]
+	operatingSystem: OperatingSystem[]
 }
 
 export interface Brand {
@@ -37,27 +38,47 @@ export interface Category {
 }
 
 export interface Region {
-	regionName: string
+	name: string
 	count: number
 	states: State[]
 }
 
 export interface State {
-	stateName: string
+	name: string
 	count: number
 	cities: City[]
 }
 
 export interface City {
-	cityName: string
+	name: string
 	count: number
 	sites: Site[]
 }
 
 export interface Site {
-	siteName: string
+	name: string
 	count: number
-	names: Status[]
+	locations: Location[]
+}
+export interface Location {
+	name: string
+	count: number
+	typeOfSite: string
+	operatingSystem: OSByRegion[]
+}
+export interface OSByRegion {
+	name: string
+	count: number
+}
+
+export interface OperatingSystem {
+	name: string
+	count: number
+	arq: OperatingSystemArq[]
+}
+export interface OperatingSystemArq {
+	name: string
+	count: number
 }
 
 export interface HardDrive {

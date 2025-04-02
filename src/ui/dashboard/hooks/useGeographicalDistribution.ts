@@ -36,39 +36,38 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 
 	// Get unique regions, states, and cities from data
 	const uniqueRegions = useMemo(() => {
-		return [...new Set(data.map(item => item.regionName))].sort()
+		return [...new Set(data.map(item => item.name))].sort()
 	}, [data])
 
 	const allStates = useMemo(() => {
-		return data.flatMap(region => region.states.map(state => state.stateName))
+		return data.flatMap(region => region.states.map(state => state.name))
 	}, [data])
 
 	const uniqueStates = useMemo(() => {
 		const states = regionFilter
-			? data
-					.find(region => region.regionName === regionFilter)
-					?.states.map(state => state.stateName) || []
+			? data.find(region => region.name === regionFilter)?.states.map(state => state.name) ||
+			  []
 			: allStates
 		return [...new Set(states)].sort()
 	}, [regionFilter, allStates])
 
 	const uniqueCities = useMemo(() => {
 		let cities = data.flatMap(region =>
-			region.states.flatMap(state => state.cities.map(city => city.cityName))
+			region.states.flatMap(state => state.cities.map(city => city.name))
 		)
 
 		if (regionFilter) {
 			cities =
 				data
-					.find(region => region.regionName === regionFilter)
-					?.states.flatMap(state => state.cities.map(city => city.cityName)) || []
+					.find(region => region.name === regionFilter)
+					?.states.flatMap(state => state.cities.map(city => city.name)) || []
 		}
 
 		if (stateFilter) {
 			cities = data.flatMap(region =>
 				region.states
-					.filter(state => state.stateName === stateFilter)
-					.flatMap(state => state.cities.map(city => city.cityName))
+					.filter(state => state.name === stateFilter)
+					.flatMap(state => state.cities.map(city => city.name))
 			)
 		}
 
@@ -81,7 +80,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 
 		// 2. Aplicar los filtros de región
 		if (regionFilter) {
-			filteredData = filteredData.filter(region => region.regionName === regionFilter)
+			filteredData = filteredData.filter(region => region.name === regionFilter)
 		}
 
 		// 3. Filtrado por estado
@@ -89,7 +88,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 			filteredData = filteredData
 				.map(region => ({
 					...region,
-					states: region.states.filter(state => state.stateName === stateFilter)
+					states: region.states.filter(state => state.name === stateFilter)
 				}))
 				.filter(region => region.states.length > 0)
 		}
@@ -102,7 +101,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 					states: region.states
 						.map(state => ({
 							...state,
-							cities: state.cities.filter(city => city.cityName === cityFilter)
+							cities: state.cities.filter(city => city.name === cityFilter)
 						}))
 						.filter(state => state.cities.length > 0)
 				}))
@@ -112,27 +111,24 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 
 		filteredData.forEach(region => {
 			if (viewBy === 'region') {
-				locationMap.set(
-					region.regionName,
-					(locationMap.get(region.regionName) || 0) + region.count
-				)
+				locationMap.set(region.name, (locationMap.get(region.name) || 0) + region.count)
 			} else {
 				region.states.forEach(state => {
 					if (viewBy === 'state') {
 						locationMap.set(
-							state.stateName,
-							(locationMap.get(state.stateName) || 0) + state.count
+							state.name,
+							(locationMap.get(state.name) || 0) + state.count
 						)
 					} else {
 						state.cities.forEach(city => {
 							if (viewBy === 'city') {
 								locationMap.set(
-									city.cityName,
-									(locationMap.get(city.cityName) || 0) + city.count
+									city.name,
+									(locationMap.get(city.name) || 0) + city.count
 								)
 							} else if (viewBy === 'location') {
 								city.sites.forEach(site => {
-									site.names.forEach(name => {
+									site.locations.forEach(name => {
 										locationMap.set(
 											name.name,
 											(locationMap.get(name.name) || 0) + name.count
