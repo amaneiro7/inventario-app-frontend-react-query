@@ -1,8 +1,9 @@
 import { memo, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
-import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { HardDrive } from 'lucide-react'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import Typography from '@/components/Typography'
 
 interface HardDriveAnalysisProps {
 	data: ComputerDashboardDto['hardDrive']
@@ -40,7 +41,7 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 	)
 
 	return (
-		<div className="container grid grid- gap-4">
+		<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">
 			<Card>
 				<CardHeader>
 					<div>
@@ -48,14 +49,14 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 						<CardDescription>Distribución de Discos por tipo</CardDescription>
 					</div>
 				</CardHeader>
-				<CardContent className="items-center">
+				<CardContent>
 					<div className="flex items-center gap-6">
 						<div>
 							<div className="space-y-4">
 								{typeData.map((entry, index) => (
 									<div
 										key={entry.name}
-										className="flex items-center justify-between"
+										className="flex items-center justify-between gap-2"
 									>
 										<div className="flex items-center gap-2">
 											<div
@@ -64,26 +65,34 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 													backgroundColor: COLORS[index % COLORS.length]
 												}}
 											/>
-											<span className="font-medium">{entry.name}</span>
+											<Typography variant="span" weight="medium">
+												{' '}
+												{entry.name}
+											</Typography>
 										</div>
 										<div className="flex items-center gap-2">
-											<span className="font-bold">{entry.count}</span>
-											<span className="text-muted-foreground text-sm">
+											<Typography variant="span" weight="bold">
+												{entry.count}
+											</Typography>
+											<Typography
+												variant="span"
+												className="text-muted-foreground"
+											>
 												(
 												{Math.round(
 													(entry.count / totalDrivesByType) * 100
 												)}
 												%)
-											</span>
+											</Typography>
 										</div>
 									</div>
 								))}
 							</div>
 						</div>
 
-						<div className="w-full h-80">
+						<div className="h-80">
 							{typeData.length > 0 ? (
-								<ResponsiveContainer width="100%" height="100%">
+								<ResponsiveContainer width={400} height="100%">
 									<PieChart>
 										<Pie
 											data={typeData}
@@ -114,7 +123,6 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 												border: '1px solid #e2e8f0'
 											}}
 										/>
-										<Legend />
 									</PieChart>
 								</ResponsiveContainer>
 							) : (
@@ -138,7 +146,7 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 					</div>
 				</CardHeader>
 				<CardContent>
-					<div className="flex items-center gap-6">
+					<div className="flex flex-row flex-wrap items-center gap-6">
 						<div>
 							<div className="space-y-4">
 								{data.map((entry, index) => (
@@ -153,26 +161,33 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 													backgroundColor: COLORS[index % COLORS.length]
 												}}
 											/>
-											<span className="font-medium">{entry.name}</span>
+											<Typography variant="span" weight="medium">
+												{entry.name}
+											</Typography>
 										</div>
 										<div className="flex items-center gap-2">
-											<span className="font-bold">{entry.count}</span>
-											<span className="text-muted-foreground text-sm">
+											<Typography variant="span" weight="bold">
+												{entry.count}
+											</Typography>
+											<Typography
+												variant="span"
+												className="text-muted-foreground"
+											>
 												(
 												{Math.round(
 													(entry.count / totalDrivesByCapacity) * 100
 												)}
 												%)
-											</span>
+											</Typography>
 										</div>
 									</div>
 								))}
 							</div>
 						</div>
 
-						<div className="w-full h-80">
+						<div className="h-80">
 							{data.length > 0 ? (
-								<ResponsiveContainer width="100%" height="100%">
+								<ResponsiveContainer width={400} height="100%">
 									<PieChart>
 										<Pie
 											data={data}
@@ -203,7 +218,6 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 												border: '1px solid #e2e8f0'
 											}}
 										/>
-										<Legend />
 									</PieChart>
 								</ResponsiveContainer>
 							) : (

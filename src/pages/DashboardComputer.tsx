@@ -5,7 +5,7 @@ import { useGetComputerDashboard } from '@/core/devices/dashboard/infra/hooks/us
 import { BrandDistribution } from '@/ui/dashboard/BrandDistribution'
 import { GeographicalDistribution } from '@/ui/dashboard/GeographicalDistribution'
 import { HardDriveAnalysis } from '@/ui/dashboard/HardDriveAnalysis'
-import { InventoryOerview } from '@/ui/dashboard/InventoryBrandOverview'
+import { InventoryOverview } from '@/ui/dashboard/InventoryBrandOverview'
 import { InventoryBrandTable } from '@/ui/dashboard/InventoryBrandTable'
 import { ModelBreakdown } from '@/ui/dashboard/ModelBreakdown'
 
@@ -65,7 +65,7 @@ export default function DashboardComputer() {
 				</TabsList>
 
 				<TabsContent value="overview" className="space-y-4">
-					<InventoryOerview
+					<InventoryOverview
 						categoryData={computerDashboard.category}
 						statusData={computerDashboard.status}
 					/>

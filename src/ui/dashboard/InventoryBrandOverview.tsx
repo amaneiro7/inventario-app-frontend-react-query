@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import {
 	Cell,
 	Bar,
@@ -13,7 +12,9 @@ import {
 	YAxis,
 	LabelList
 } from 'recharts'
+import { useInventoryOverview } from './hooks/useInventoryOverview'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
@@ -23,42 +24,23 @@ const SITE_TYPE_COLORS = {
 	'Sede Administrativa': '#FFBB28'
 }
 
-export const InventoryOerview = ({
+export const InventoryOverview = ({
 	categoryData,
 	statusData
 }: {
 	categoryData: ComputerDashboardDto['category']
 	statusData: ComputerDashboardDto['status']
 }) => {
-	// Prepare data for grouped bar chart with triple bars
-	const prepareGroupedBarData = useMemo(() => {
-		// Get unique site types
-		const siteTypes = new Set<string>()
-		categoryData.forEach(category => {
-			category.typeOfSite.forEach(site => {
-				siteTypes.add(site.name)
-			})
-		})
-
-		// Create a mapping for each category and site type
-		return categoryData.map(category => {
-			const result: Record<string, unknown> = {
-				name: category.name
-			}
-
-			// Add counts for each site type
-			Array.from(siteTypes).forEach(siteType => {
-				const site = category.typeOfSite.find(s => s.name === siteType)
-				result[siteType] = site ? site.count : 0
-			})
-
-			return result
-		})
-	}, [categoryData])
-	console.log(prepareGroupedBarData)
-	const barHeight = useMemo(() => 30, [])
+	const {
+		barHeight,
+		selectedCategory,
+		prepareGroupedBarData,
+		getTotalCount,
+		getSelectedCategoryData,
+		setSelectedCategory
+	} = useInventoryOverview({ categoryData })
 	return (
-		<div className="grid gap-4 md:grid-cols-2">
+		<div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(450px,_1fr))]">
 			<Card>
 				<CardHeader>
 					<CardTitle>Distribución por categoria</CardTitle>
@@ -75,7 +57,13 @@ export const InventoryOerview = ({
 							<YAxis />
 							<Tooltip />
 							<Legend />
-							<Bar dataKey={'count'} name="Cantidad" fill="#0EA5E9" />
+							<Bar dataKey={'count'} name="Cantidad" fill="#0EA5E9">
+								<LabelList
+									dataKey="count"
+									position="top"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
 						</BarChart>
 					</ResponsiveContainer>
 				</CardContent>
@@ -118,8 +106,53 @@ export const InventoryOerview = ({
 					</ResponsiveContainer>
 				</CardContent>
 			</Card>
-
-			<Card className="md:col-span-2">
+			{/* Equipment by Site Type Card with Category Filter */}
+			<Card>
+				<CardHeader>
+					<div className="flex flex-col md:flex-row md:items-center md:justify-between">
+						<div>
+							<CardTitle>Equipos por Tipo de Sitio</CardTitle>
+							<CardDescription>Total: {getTotalCount} Equipos</CardDescription>
+						</div>
+						<Select value={selectedCategory} onValueChange={setSelectedCategory}>
+							<SelectTrigger className="w-[180px] mt-2 md:mt-0">
+								<SelectValue placeholder="Seleccionar Categoría" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="all">Todos</SelectItem>
+								{categoryData.map(category => (
+									<SelectItem key={category.name} value={category.name}>
+										{category.name}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+					</div>
+				</CardHeader>
+				<CardContent className="h-80">
+					<ResponsiveContainer width="100%" height="100%">
+						<BarChart
+							data={getSelectedCategoryData}
+							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+						>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="name" />
+							<YAxis />
+							<Tooltip formatter={value => [`${value} equipos`, 'Cantidad']} />
+							<Legend />
+							<Bar dataKey="count" name="Cantidad" fill="#8b5cf6" barSize={barHeight}>
+								<LabelList
+									dataKey="count"
+									position="top"
+									style={{ fontSize: '0.65rem' }}
+								/>
+							</Bar>
+						</BarChart>
+					</ResponsiveContainer>
+				</CardContent>
+			</Card>
+			{/* New Triple Bar Chart showing all equipment by category and site type */}
+			<Card>
 				<CardHeader>
 					<CardTitle>Distribución de Equipos por tipo de sitio</CardTitle>
 				</CardHeader>
