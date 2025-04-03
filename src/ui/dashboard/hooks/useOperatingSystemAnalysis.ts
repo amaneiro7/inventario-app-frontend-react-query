@@ -56,6 +56,8 @@ export function useOperatingSystemAnalysys({ data }: UseOperatingSystemAnalysisP
 		})
 	}, [data])
 
+	console.log('prepareGroupedBarData', prepareGroupedBarData)
+
 	return {
 		arqData,
 		totalOperatingSystem,

@@ -142,47 +142,91 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 				}))
 				.filter(operatingSystem => operatingSystem.region.length > 0)
 		}
-		const locationMap = new Map()
+		// const locationMap = new Map()
+		// const operatingSystem = new Set<string>()
+		// filteredData.forEach(operatingSystem => {
+		// 	operatingSystem.region.forEach(region => {
+		// 		if (viewBy === 'region') {
 
-		filteredData.forEach(region => {
-			if (viewBy === 'region') {
-				locationMap.set(region.name, (locationMap.get(region.name) || 0) + region.count)
-			} else {
-				region.states.forEach(state => {
-					if (viewBy === 'state') {
-						locationMap.set(
-							state.name,
-							(locationMap.get(state.name) || 0) + state.count
-						)
-					} else {
-						state.cities.forEach(city => {
-							if (viewBy === 'city') {
-								locationMap.set(
-									city.name,
-									(locationMap.get(city.name) || 0) + city.count
-								)
-							} else if (viewBy === 'location') {
-								city.sites.forEach(site => {
-									site.locations.forEach(location => {
-										locationMap.set(
-											location.name,
-											(locationMap.get(location.name) || 0) + location.count
-										)
-									})
-								})
-							}
-						})
+		// 			locationMap.set(region.name, (locationMap.get(region.name) || 0) + region.count)
+		// 		} else {
+		// 			region.states.forEach(state => {
+		// 				if (viewBy === 'state') {
+		// 					locationMap.set(
+		// 						state.name,
+		// 						(locationMap.get(state.name) || 0) + state.count
+		// 					)
+		// 				} else {
+		// 					state.cities.forEach(city => {
+		// 						if (viewBy === 'city') {
+		// 							locationMap.set(
+		// 								city.name,
+		// 								(locationMap.get(city.name) || 0) + city.count
+		// 							)
+		// 						} else if (viewBy === 'location') {
+		// 							city.sites.forEach(site => {
+		// 								site.locations.forEach(location => {
+		// 									locationMap.set(
+		// 										location.name,
+		// 										(locationMap.get(location.name) || 0) +
+		// 											location.count
+		// 									)
+		// 								})
+		// 							})
+		// 						}
+		// 					})
+		// 				}
+		// 			})
+		// 		}
+		// 	})
+		// })
+
+		// // 6. Conversión a array y ordenamiento
+		// const resultArray = Array.from(locationMap, ([name, value]) => ({ name, value })).sort(
+		// 	(a, b) => b.value - a.value
+		// )
+
+		// return resultArray
+
+		const result = filteredData.map(operatingSystem => {
+			return operatingSystem.region.map(region => {
+				if (viewBy === 'region') {
+					return {
+						name: region.name,
+						[operatingSystem.name]: region.count
 					}
-				})
-			}
+				} else {
+					return region.states.map(state => {
+						if (viewBy === 'state') {
+							return {
+								name: state.name,
+								[operatingSystem.name]: state.count
+							}
+						} else {
+							return state.cities.map(city => {
+								if (viewBy === 'city') {
+									return {
+										name: city.name,
+										[operatingSystem.name]: city.count
+									}
+								} else if (viewBy === 'location') {
+									return city.sites.map(site => {
+										return site.locations.map(location => {
+											return {
+												name: location.name,
+												[operatingSystem.name]: location.count
+											}
+										})
+									})
+								}
+							})
+						}
+					})
+				}
+			})
 		})
-
-		// 6. Conversión a array y ordenamiento
-		const resultArray = Array.from(locationMap, ([name, value]) => ({ name, value })).sort(
-			(a, b) => b.value - a.value
-		)
-
-		return resultArray
+		console.log(result)
+		return result
 	}, [data, regionFilter, stateFilter, cityFilter, viewBy])
 
 	// Clear filters
@@ -215,6 +259,9 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		uniqueOperatingSystem,
 		clearFilters,
 		hasActiveFilters,
-		dynamicHeight
+		dynamicHeight,
+		uniqueStates,
+		uniqueCities,
+		uniqueRegions
 	}
 }
