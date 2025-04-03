@@ -88,7 +88,10 @@ export default function DashboardComputer() {
 					<HardDriveAnalysis data={computerDashboard.hardDrive} />
 				</TabsContent>
 				<TabsContent value="operatingSystem" className="space-y-4">
-					<OSAnalysis data={computerDashboard.operatingSystem} />
+					<OSAnalysis
+						data={computerDashboard.operatingSystem}
+						operatingSystemByRegion={computerDashboard.operatingSystemByRegion}
+					/>
 				</TabsContent>
 				<TabsContent value="inventory" className="space-y-4">
 					<InventoryBrandTable data={computerDashboard.brand} />

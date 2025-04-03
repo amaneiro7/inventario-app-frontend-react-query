@@ -15,17 +15,20 @@ import { MapPin } from 'lucide-react'
 import { PieCard } from './PieCard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { useOperatingSystemByRegion } from './hooks/useOperatingSystemByRegion'
 
 interface OSAnalysisProps {
 	data: ComputerDashboardDto['operatingSystem']
+	operatingSystemByRegion: ComputerDashboardDto['operatingSystemByRegion']
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 
-export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
+export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data, operatingSystemByRegion }) => {
 	const { arqData, barHeight, prepareGroupedBarData, totalArq, totalOperatingSystem } =
 		useOperatingSystemAnalysys({ data })
 
+	useOperatingSystemByRegion({ data: operatingSystemByRegion })
 	return (
 		<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">
 			<PieCard

@@ -1,16 +1,15 @@
 import { useMemo, useState } from 'react'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
-interface UseGeographicalDistributionProps {
-	data: ComputerDashboardDto['region']
+interface UseOperatingSystemByRegionProps {
+	data: ComputerDashboardDto['operatingSystemByRegion']
 }
-export function useGeographicalDistribution({ data }: UseGeographicalDistributionProps) {
+export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionProps) {
 	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'location'>('region')
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
 	const [cityFilter, setCityFilter] = useState<string>('')
-	const [searchFilter, setSearchFilter] = useState<string>('')
-
+	const [typeOfSiteFilter, setTypeOfSiteFilter] = useState<string>('')
 	const barName = useMemo(() => {
 		let name
 		switch (viewBy) {
@@ -34,26 +33,38 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		return `Distribución de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
-	// Get unique regions, states, and cities from data
-	const uniqueRegions = useMemo(() => {
+	// Obtener lista unicas de Sistema Operativos
+	const uniqueOperatingSystem = useMemo(() => {
 		return [...new Set(data.map(item => item.name))].sort()
 	}, [data])
 
+	const uniqueRegions = useMemo(() => {
+		return [...new Set(data.flatMap(os => os.region.flatMap(region => region.name)))].sort()
+	}, [data])
+
 	const allStates = useMemo(() => {
-		return data.flatMap(region => region.states.map(state => state.name))
+		return data.flatMap(os =>
+			os.region.flatMap(region => region.states.flatMap(state => state.name))
+		)
 	}, [data])
 
 	const uniqueStates = useMemo(() => {
-		const states = regionFilter
-			? data.find(region => region.name === regionFilter)?.states.map(state => state.name) ||
-			  []
+		let states = structuredClone(allStates)
+		states = regionFilter
+			? data.flatMap(operatingSystem =>
+					operatingSystem.region
+						.filter(region => region.name === regionFilter)
+						.flatMap(region => region.states.map(state => state.name))
+			  ) || []
 			: allStates
 		return [...new Set(states)].sort()
 	}, [regionFilter, allStates])
 
 	const allCities = useMemo(() => {
-		return data.flatMap(region =>
-			region.states.flatMap(state => state.cities.map(city => city.name))
+		return data.flatMap(operatingSystem =>
+			operatingSystem.region.flatMap(region =>
+				region.states.flatMap(state => state.cities.flatMap(city => city.name))
+			)
 		)
 	}, [data])
 
@@ -61,17 +72,22 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		let cities = structuredClone(allCities)
 
 		if (regionFilter) {
-			cities =
-				data
-					.find(region => region.name === regionFilter)
-					?.states.flatMap(state => state.cities.map(city => city.name)) || []
+			cities = data.flatMap(operatingSystem =>
+				operatingSystem.region
+					.filter(region => region.name === regionFilter)
+					.flatMap(region =>
+						region.states.flatMap(state => state.cities.map(city => city.name))
+					)
+			)
 		}
 
 		if (stateFilter) {
-			cities = data.flatMap(region =>
-				region.states
-					.filter(state => state.name === stateFilter)
-					.flatMap(state => state.cities.map(city => city.name))
+			cities = data.flatMap(operatingSystem =>
+				operatingSystem.region.flatMap(region =>
+					region.states
+						.filter(state => state.name === stateFilter)
+						.flatMap(state => state.cities.map(city => city.name))
+				)
 			)
 		}
 
@@ -84,32 +100,47 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 
 		// 2. Aplicar los filtros de región
 		if (regionFilter) {
-			filteredData = filteredData.filter(region => region.name === regionFilter)
+			filteredData = filteredData
+				.map(operatingSystem => ({
+					...operatingSystem,
+					region: operatingSystem.region.filter(region => region.name === regionFilter)
+				}))
+				.filter(operatingSystem => operatingSystem.region.length > 0)
 		}
 
 		// 3. Filtrado por estado
 		if (stateFilter) {
 			filteredData = filteredData
-				.map(region => ({
-					...region,
-					states: region.states.filter(state => state.name === stateFilter)
+				.map(operatingSystem => ({
+					...operatingSystem,
+					region: operatingSystem.region
+						.map(region => ({
+							...region,
+							states: region.states.filter(state => state.name === stateFilter)
+						}))
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
+				.filter(operatingSystem => operatingSystem.region.length > 0)
 		}
 
 		// 4. Filtrado por ciudad
 		if (cityFilter) {
 			filteredData = filteredData
-				.map(region => ({
-					...region,
-					states: region.states
-						.map(state => ({
-							...state,
-							cities: state.cities.filter(city => city.name === cityFilter)
+				.map(operatingSystem => ({
+					...operatingSystem,
+					region: operatingSystem.region
+						.map(region => ({
+							...region,
+							states: region.states
+								.map(state => ({
+									...state,
+									cities: state.cities.filter(city => city.name === cityFilter)
+								}))
+								.filter(state => state.cities.length > 0)
 						}))
-						.filter(state => state.cities.length > 0)
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
+				.filter(operatingSystem => operatingSystem.region.length > 0)
 		}
 		const locationMap = new Map()
 
@@ -159,12 +190,10 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		setRegionFilter('')
 		setStateFilter('')
 		setCityFilter('')
-		setSearchFilter('')
 	}
 
 	// Determine if filters are active
-	const hasActiveFilters =
-		regionFilter !== null || stateFilter !== null || cityFilter !== null || searchFilter !== ''
+	const hasActiveFilters = regionFilter !== null || stateFilter !== null || cityFilter !== null
 
 	// Calculate dynamic height based on the number of bars and barSize
 	const barHeight = 16 // Size of each bar
@@ -172,24 +201,20 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	const dynamicHeight = `${distributionData.length * (barHeight * 2) + barSpacing}px` // Add extra space for margins and labels
 
 	return {
-		distributionData,
-		barHeight,
-		barName,
-		dynamicHeight,
-		hasActiveFilters,
-		uniqueRegions,
-		uniqueStates,
-		uniqueCities,
 		viewBy,
-		regionFilter,
-		stateFilter,
-		cityFilter,
-		searchFilter,
-		clearFilters,
 		setViewBy,
+		regionFilter,
 		setRegionFilter,
+		stateFilter,
 		setStateFilter,
+		cityFilter,
 		setCityFilter,
-		setSearchFilter
+		typeOfSiteFilter,
+		setTypeOfSiteFilter,
+		barName,
+		uniqueOperatingSystem,
+		clearFilters,
+		hasActiveFilters,
+		dynamicHeight
 	}
 }
