@@ -1,145 +1,87 @@
-import React, { useMemo } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { memo } from 'react'
 import {
-	PieChart,
-	Pie,
-	Cell,
-	XAxis,
-	YAxis,
+	Bar,
+	BarChart,
 	CartesianGrid,
-	Tooltip,
 	Legend,
 	ResponsiveContainer,
-	BarChart,
-	Bar
+	Tooltip,
+	XAxis,
+	YAxis,
+	LabelList
 } from 'recharts'
-import { InventoryItem } from '@/data/inventory'
-import { ChartContainer } from '@/components/ui/chart'
+import { useOperatingSystemAnalysys } from './hooks/useOperatingSystemAnalysis'
 import { MapPin } from 'lucide-react'
+import { PieCard } from './PieCard'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
+import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface OSAnalysisProps {
-	data: InventoryItem[]
+	data: ComputerDashboardDto['operatingSystem']
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 
-const OSAnalysis: React.FC<OSAnalysisProps> = ({ data }) => {
-	// OS data processing
-	const osData = useMemo(() => {
-		const osCounts: Record<string, number> = {}
-		data.forEach(item => {
-			if (item.os) {
-				osCounts[item.os] = (osCounts[item.os] || 0) + item.quantity
-			}
-		})
-
-		return Object.keys(osCounts)
-			.map(name => ({ name, value: osCounts[name] }))
-			.sort((a, b) => b.value - a.value)
-	}, [data])
-
-	// Architecture data processing
-	const architectureData = useMemo(() => {
-		const archCounts: Record<string, number> = {}
-		data.forEach(item => {
-			if (item.architecture) {
-				archCounts[item.architecture] = (archCounts[item.architecture] || 0) + item.quantity
-			}
-		})
-
-		return Object.keys(archCounts)
-			.map(name => ({ name, value: archCounts[name] }))
-			.sort((a, b) => b.value - a.value)
-	}, [data])
-
-	// OS by site type data processing
-	const osBySiteTypeData = useMemo(() => {
-		const osTypeCounts: Record<string, Record<string, number>> = {}
-
-		// First pass: collect all site types to ensure consistent data structure
-		const siteTypes = new Set<string>()
-		data.forEach(item => {
-			if (item.siteType) {
-				siteTypes.add(item.siteType)
-			}
-		})
-
-		// Second pass: collect OS counts by site type
-		data.forEach(item => {
-			if (item.os && item.siteType) {
-				if (!osTypeCounts[item.os]) {
-					osTypeCounts[item.os] = {}
-					// Initialize all site types with zero
-					Array.from(siteTypes).forEach(siteType => {
-						osTypeCounts[item.os][siteType] = 0
-					})
-				}
-				osTypeCounts[item.os][item.siteType] =
-					(osTypeCounts[item.os][item.siteType] || 0) + item.quantity
-			}
-		})
-
-		// Convert to array format for chart
-		return Object.keys(osTypeCounts).map(os => {
-			const result: any = { name: os }
-			Object.keys(osTypeCounts[os]).forEach(siteType => {
-				result[siteType] = osTypeCounts[os][siteType]
-			})
-			return result
-		})
-	}, [data])
-
-	const totalDevices = osData.reduce((sum, item) => sum + item.value, 0)
-	const totalArchitectures = architectureData.reduce((sum, item) => sum + item.value, 0)
-
-	const renderCustomizedLabel = ({
-		cx,
-		cy,
-		midAngle,
-		innerRadius,
-		outerRadius,
-		percent
-	}: any) => {
-		const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-		const x = cx + radius * Math.cos((-midAngle * Math.PI) / 180)
-		const y = cy + radius * Math.sin((-midAngle * Math.PI) / 180)
-
-		return (
-			<text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
-				{`${(percent * 100).toFixed(0)}%`}
-			</text>
-		)
-	}
-
-	const config = {
-		data: { label: 'Operating Systems' }
-	}
-
-	// Get site types for bar chart colors
-	const siteTypes = useMemo(() => {
-		const types = new Set<string>()
-		data.forEach(item => {
-			if (item.siteType) {
-				types.add(item.siteType)
-			}
-		})
-		return Array.from(types)
-	}, [data])
-
-	const SITE_TYPE_COLORS: Record<string, string> = {
-		Oficina: COLORS[0],
-		Agencia: COLORS[1],
-		Tienda: COLORS[2],
-		Sucursal: COLORS[3],
-		Almacén: COLORS[4],
-		Torre: COLORS[5],
-		Fábrica: COLORS[6],
-		Educacional: COLORS[0]
-	}
+export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
+	const { arqData, barHeight, prepareGroupedBarData, totalArq, totalOperatingSystem } =
+		useOperatingSystemAnalysys({ data })
 
 	return (
-		<>
-			<Card className="col-span-12">
+		<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">
+			<PieCard
+				data={data}
+				total={totalOperatingSystem}
+				title="Analisis de Sistemas Operativos"
+				desc="Distribución de Sistemas Operativos"
+				dataKey="count"
+				colors={COLORS}
+				icon={<MapPin className="mx-auto h-12 w-12 mb-2 opacity-20" />}
+			/>
+			<PieCard
+				data={arqData}
+				total={totalArq}
+				title="Analisis de Arquitecturas de sistemas operativos"
+				desc="Distribución de Arquitecturas de sistemas operativos"
+				dataKey="count"
+				colors={COLORS}
+				icon={<MapPin className="mx-auto h-12 w-12 mb-2 opacity-20" />}
+			/>
+			<Card className="col-span-2">
+				<CardHeader>
+					<CardTitle>Distribución de Sistemas Operativos por Arquitecturas</CardTitle>
+				</CardHeader>
+				<CardContent className="h-80">
+					<ResponsiveContainer width="100%" height="100%">
+						<BarChart
+							data={prepareGroupedBarData}
+							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+						>
+							<CartesianGrid strokeDasharray="3 3" />
+							<XAxis dataKey="name" />
+							<YAxis />
+							<Tooltip formatter={(value, name) => [`${value} equipos`, name]} />
+							<Legend />
+							{arqData.length > 0 &&
+								arqData.map((type, index) => (
+									<Bar
+										key={type.name}
+										dataKey={type.name}
+										name={type.name}
+										fill={COLORS[index + 1]}
+										barSize={barHeight}
+									>
+										<LabelList
+											dataKey={type.name}
+											position="top"
+											style={{ fontSize: '0.65rem' }}
+										/>
+									</Bar>
+								))}
+						</BarChart>
+					</ResponsiveContainer>
+				</CardContent>
+			</Card>
+			{/* <Card className="col-span-12">
 				<CardHeader>
 					<div>
 						<CardTitle>Operating System Analysis</CardTitle>
@@ -355,9 +297,7 @@ const OSAnalysis: React.FC<OSAnalysisProps> = ({ data }) => {
 						)}
 					</div>
 				</CardContent>
-			</Card>
-		</>
+			</Card> */}
+		</div>
 	)
-}
-
-export default OSAnalysis
+})

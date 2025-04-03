@@ -128,10 +128,10 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 								)
 							} else if (viewBy === 'location') {
 								city.sites.forEach(site => {
-									site.locations.forEach(name => {
+									site.locations.forEach(location => {
 										locationMap.set(
-											name.name,
-											(locationMap.get(name.name) || 0) + name.count
+											location.name,
+											(locationMap.get(location.name) || 0) + location.count
 										)
 									})
 								})

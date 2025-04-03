@@ -8,6 +8,7 @@ export interface ComputerDashboardDto {
 	region: Region[]
 	hardDrive: HardDrive[]
 	operatingSystem: OperatingSystem[]
+	operatingSystemByRegion: OperatingSystemSystemByRegion[]
 }
 
 export interface Brand {
@@ -64,11 +65,6 @@ export interface Location {
 	name: string
 	count: number
 	typeOfSite: string
-	operatingSystem: OSByRegion[]
-}
-export interface OSByRegion {
-	name: string
-	count: number
 }
 
 export interface OperatingSystem {
@@ -89,4 +85,10 @@ export interface HardDrive {
 export interface HardDriveType {
 	name: string
 	count: number
+}
+
+export interface OperatingSystemSystemByRegion {
+	name: string
+	count: number
+	region: Region[]
 }

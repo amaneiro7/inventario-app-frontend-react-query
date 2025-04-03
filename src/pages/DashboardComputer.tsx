@@ -8,6 +8,7 @@ import { HardDriveAnalysis } from '@/ui/dashboard/HardDriveAnalysis'
 import { InventoryOverview } from '@/ui/dashboard/InventoryBrandOverview'
 import { InventoryBrandTable } from '@/ui/dashboard/InventoryBrandTable'
 import { ModelBreakdown } from '@/ui/dashboard/ModelBreakdown'
+import { OSAnalysis } from '@/ui/dashboard/OSAnalysis'
 
 export default function DashboardComputer() {
 	const { computerDashboard, isLoading } = useGetComputerDashboard()
@@ -61,6 +62,7 @@ export default function DashboardComputer() {
 					<TabsTrigger value="models">Modelos</TabsTrigger>
 					<TabsTrigger value="geographical">Geográfico</TabsTrigger>
 					<TabsTrigger value="harddrive">Disco Duros</TabsTrigger>
+					<TabsTrigger value="operatingSystem">Sistemas Operativos</TabsTrigger>
 					<TabsTrigger value="inventory">Inventario</TabsTrigger>
 				</TabsList>
 
@@ -84,6 +86,9 @@ export default function DashboardComputer() {
 				</TabsContent>
 				<TabsContent value="harddrive" className="space-y-4">
 					<HardDriveAnalysis data={computerDashboard.hardDrive} />
+				</TabsContent>
+				<TabsContent value="operatingSystem" className="space-y-4">
+					<OSAnalysis data={computerDashboard.operatingSystem} />
 				</TabsContent>
 				<TabsContent value="inventory" className="space-y-4">
 					<InventoryBrandTable data={computerDashboard.brand} />

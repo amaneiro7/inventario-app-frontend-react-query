@@ -1,8 +1,4 @@
-import { memo, useMemo } from 'react'
-import { HardDrive } from 'lucide-react'
-import { PieCard } from './PieCard'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
+import { memo } from 'react'
 import {
 	Bar,
 	BarChart,
@@ -14,6 +10,11 @@ import {
 	YAxis,
 	LabelList
 } from 'recharts'
+import { HardDrive } from 'lucide-react'
+import { useHardDriveAnalysys } from './hooks/useHardDriveAnalysys'
+import { PieCard } from './PieCard'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
+import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface HardDriveAnalysisProps {
 	data: ComputerDashboardDto['hardDrive']
@@ -22,59 +23,8 @@ interface HardDriveAnalysisProps {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 
 export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data }) => {
-	// Process data by drive type
-	const typeData = useMemo(() => {
-		const resultMap = new Map<string, number>()
-
-		data.forEach(hddCapacity => {
-			hddCapacity.hddType.forEach(hddType => {
-				const key = hddType.name
-				if (key) {
-					const currentCount = resultMap.get(key) || 0
-					resultMap.set(key, currentCount + hddType.count)
-				}
-			})
-		})
-
-		return Array.from(resultMap)
-			.map(([name, count]) => ({ name, count }))
-			.sort((a, b) => b.count - a.count)
-	}, [data])
-
-	const totalDrivesByCapacity = useMemo(
-		() => data.reduce((sum, item) => sum + item.count, 0),
-		[data]
-	)
-	const totalDrivesByType = useMemo(
-		() => typeData.reduce((sum, item) => sum + item.count, 0),
-		[typeData]
-	)
-
-	const barHeight = useMemo(() => 30, [])
-	const prepareGroupedBarData = useMemo(() => {
-		// Get unique hdd types
-		const hddTypes = new Set<string>()
-		data.forEach(hddCapacity => {
-			hddCapacity.hddType.forEach(hddType => {
-				hddTypes.add(hddType.name)
-			})
-		})
-
-		// Create a mapping for each hddCapacity and hddType
-		return data.map(hddCapacity => {
-			const result: Record<string, unknown> = {
-				name: hddCapacity.name
-			}
-
-			// Add counts for each site type
-			Array.from(hddTypes).forEach(hddType => {
-				const type = hddCapacity.hddType.find(s => s.name === hddType)
-				result[hddType] = type ? type.count : 0
-			})
-
-			return result
-		})
-	}, [data])
+	const { typeData, barHeight, prepareGroupedBarData, totalDrivesByCapacity, totalDrivesByType } =
+		useHardDriveAnalysys({ data })
 
 	return (
 		<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">

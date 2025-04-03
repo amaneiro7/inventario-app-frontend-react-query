@@ -1,4 +1,4 @@
-import { memo, useMemo } from 'react'
+import { memo } from 'react'
 import {
 	BarChart,
 	Bar,
@@ -8,30 +8,19 @@ import {
 	Tooltip,
 	Legend,
 	ResponsiveContainer,
-	PieChart,
-	Pie,
-	Cell,
 	LabelList
 } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { PieCard } from './PieCard'
+import { useBrandDistribution } from './hooks/useBrandDistribution'
 
 interface BrandDistributionProps {
 	brandData: ComputerDashboardDto['brand']
 }
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d', '#8dd1e1']
-export const BrandDistribution = memo(({ brandData }: BrandDistributionProps) => {
-	const data = useMemo(
-		() =>
-			brandData.map(brand => ({
-				name: brand.name.replace('-', ' '), // Reemplaza el guion con un espacio
-				count: brand.count,
-				models: brand.model.length
-			})),
-		[brandData]
-	)
-
-	console.log(data)
+export const BrandDistribution = memo(({ brandData: data }: BrandDistributionProps) => {
+	const { brandData, total } = useBrandDistribution({ data })
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
 			<Card>
@@ -41,7 +30,7 @@ export const BrandDistribution = memo(({ brandData }: BrandDistributionProps) =>
 					<CardContent className="h-80">
 						<ResponsiveContainer width="100%" height="100%">
 							<BarChart
-								data={data}
+								data={brandData}
 								margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
 							>
 								<CartesianGrid strokeDasharray="3 3" />
@@ -66,53 +55,26 @@ export const BrandDistribution = memo(({ brandData }: BrandDistributionProps) =>
 					</CardContent>
 				</CardHeader>
 			</Card>
-			<Card>
-				<CardHeader>
-					<CardTitle>Marca</CardTitle>
-					<CardDescription>Distribución de equipos por marca</CardDescription>
-				</CardHeader>
-				<CardContent className="h-80">
-					<ResponsiveContainer width="100%" height="100%">
-						<PieChart>
-							<Pie
-								data={data}
-								cx="50%"
-								cy="50%"
-								labelLine={false}
-								outerRadius={80}
-								fill="#8884d8"
-								dataKey="count"
-								nameKey="name"
-								label={({ name, percent }) => {
-									const minVisiblePercent = 0.05
-									if (percent > minVisiblePercent)
-										return `${name}: ${(percent * 100).toFixed(1)}%`
-								}}
-							>
-								{brandData.map((_entry, index) => (
-									<Cell
-										key={`cell-${index}`}
-										fill={COLORS[index % COLORS.length]}
-									/>
-								))}
-							</Pie>
-							<Tooltip
-								formatter={value => [`${value.toLocaleString()}`, 'Cantidad']}
-							/>
-							<Legend />
-						</PieChart>
-					</ResponsiveContainer>
-				</CardContent>
-			</Card>
+			<PieCard
+				data={brandData}
+				desc="Distribución de equipos por marca"
+				title="Marca"
+				dataKey="count"
+				colors={COLORS}
+				total={total}
+			/>
 
-			<Card className="md:col-span-2">
+			<Card>
 				<CardHeader>
 					<CardTitle>Distribución por cantidad de modelos</CardTitle>
 					<CardDescription>Número de modelos por marca</CardDescription>
 				</CardHeader>
 				<CardContent className="h-80">
 					<ResponsiveContainer width="100%" height="100%">
-						<BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+						<BarChart
+							data={brandData}
+							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+						>
 							<CartesianGrid strokeDasharray="3 3" />
 							<XAxis dataKey="name" />
 							<YAxis />

@@ -41,45 +41,10 @@ export const PieCard = ({
 				</div>
 			</CardHeader>
 			<CardContent>
-				<div className="flex flex-row flex-wrap items-center gap-6">
-					<div>
-						<div className="space-y-4">
-							{data?.map((entry, index) => (
-								<div
-									key={entry.name}
-									className="flex gap-4 items-center justify-between"
-								>
-									<div className="flex items-center gap-2">
-										<div
-											className="w-3 h-3 rounded-full"
-											style={{
-												backgroundColor: colors[index % colors.length]
-											}}
-										/>
-										<Typography variant="span" weight="medium">
-											{entry.name}
-										</Typography>
-									</div>
-									<div className="flex items-center gap-2">
-										<Typography variant="span" weight="bold">
-											{entry.count}
-										</Typography>
-										<Typography
-											variant="span"
-											className="text-muted-foreground"
-										>
-											({Math.round((entry.count / total) * 100)}
-											%)
-										</Typography>
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-
+				<div>
 					<div className="h-80">
 						{data && data?.length > 0 ? (
-							<ResponsiveContainer width={400} height="100%">
+							<ResponsiveContainer width="100%" height="100%">
 								<PieChart>
 									<Pie
 										data={data}
@@ -120,6 +85,37 @@ export const PieCard = ({
 								</div>
 							</div>
 						)}
+					</div>
+					<div>
+						<div className="flex flex-wrap gap-4 items-center justify-center">
+							{data?.map((entry, index) => (
+								<div key={entry.name} className="flex gap-4 items-center">
+									<div className="flex items-center gap-2">
+										<span
+											className="w-3 h-3 rounded-full"
+											style={{
+												backgroundColor: colors[index % colors.length]
+											}}
+										/>
+										<Typography variant="span" weight="medium">
+											{entry.name}:
+										</Typography>
+									</div>
+									<div className="flex items-center gap-2">
+										<Typography variant="span" weight="bold">
+											{entry.count}
+										</Typography>
+										<Typography
+											variant="span"
+											className="text-muted-foreground"
+										>
+											({Math.round((entry.count / total) * 100)}
+											%)
+										</Typography>
+									</div>
+								</div>
+							))}
+						</div>
 					</div>
 				</div>
 			</CardContent>
