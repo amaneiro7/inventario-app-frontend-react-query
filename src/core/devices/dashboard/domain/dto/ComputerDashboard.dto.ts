@@ -8,6 +8,7 @@ export interface ComputerDashboardDto {
 	region: Region[]
 	hardDrive: HardDrive[]
 	operatingSystem: OperatingSystem[]
+	memoryRamCapacity: MemoryRamCapacity[]
 	operatingSystemByRegion: OperatingSystemSystemByRegion[]
 }
 
@@ -91,4 +92,14 @@ export interface OperatingSystemSystemByRegion {
 	name: string
 	count: number
 	region: Region[]
+}
+
+export interface MemoryRamCapacity {
+	name: string
+	memoryRamTotal: MemoryRamTotal[]
+}
+
+export interface MemoryRamTotal {
+	name: string
+	count: number
 }
