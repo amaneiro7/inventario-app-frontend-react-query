@@ -13,7 +13,7 @@ import { OSAnalysis } from '@/ui/dashboard/OSAnalysis'
 export default function DashboardComputer() {
 	const { computerDashboard, isLoading } = useGetComputerDashboard()
 
-	if (isLoading) {
+	if (isLoading || !computerDashboard) {
 		return <Loading />
 	}
 

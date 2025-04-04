@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { ComputerDashboardService } from '../service/computerGetDashboard.service'
 import { GetComputerDashboard } from '../../application/GetComputerDashboard'
 
@@ -10,7 +10,7 @@ export const useGetComputerDashboard = () => {
 		refetch,
 		isError,
 		data: computerDashboard
-	} = useSuspenseQuery({
+	} = useQuery({
 		queryKey: ['computerDashboard'],
 		queryFn: () => get.execute()
 	})

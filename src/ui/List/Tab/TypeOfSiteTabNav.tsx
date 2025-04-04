@@ -12,7 +12,7 @@ export const TypeOfSiteTabNav = memo(function ({ handleChange, value }: Props) {
 	const { typeOfSites } = useGetAllTypeOfSite({})
 
 	const typeOfSiteTab = useMemo(() => {
-		return [{ id: '0', name: 'Todos' }].concat(typeOfSites?.data)
+		return [{ id: '0', name: 'Todos' }].concat(typeOfSites?.data ?? [])
 	}, [typeOfSites?.data])
 
 	const handleClick = (typeId: string) => {
