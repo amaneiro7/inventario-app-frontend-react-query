@@ -5,11 +5,13 @@ interface UseOperatingSystemByRegionProps {
 	data: ComputerDashboardDto['operatingSystemByRegion']
 }
 export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionProps) {
-	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'location'>('location')
+	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'location'>('region')
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
 	const [cityFilter, setCityFilter] = useState<string>('')
 	const [typeOfSiteFilter, setTypeOfSiteFilter] = useState<string>('')
+	const [searchFilter, setSearchFilter] = useState<string>('')
+	const [sortOrder, setSortOrder] = useState<'name' | 'count'>('count')
 
 	const barName = useMemo(() => {
 		const names = {
@@ -23,23 +25,55 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		return `Distribución de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
+	const allNames = useMemo(() => {
+		const operatingSystem = [...new Set(data.map(item => item.name))].sort()
+		const regions = [
+			...new Set(data.flatMap(os => os.region.map(region => region.name)))
+		].sort()
+		const states = data
+			.flatMap(os => os.region.flatMap(region => region.states.map(state => state.name)))
+			.sort()
+		const cities = data
+			.flatMap(os =>
+				os.region.flatMap(region =>
+					region.states.flatMap(state => state.cities.map(city => city.name))
+				)
+			)
+			.sort()
+		const sites = data
+			.flatMap(os =>
+				os.region.flatMap(region =>
+					region.states.flatMap(state =>
+						state.cities.flatMap(city => city.sites.map(site => site.name))
+					)
+				)
+			)
+			.sort()
+
+		return {
+			operatingSystem,
+			regions,
+			states,
+			cities,
+			sites
+		}
+	}, [data])
+
 	// Obtener lista unicas de Sistema Operativos
 	const uniqueOperatingSystem = useMemo(() => {
-		return [...new Set(data.map(item => item.name))].sort()
-	}, [data])
+		return allNames.operatingSystem.filter(
+			os => !searchFilter || os.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [allNames.operatingSystem, searchFilter])
 
 	const uniqueRegions = useMemo(() => {
-		return [...new Set(data.flatMap(os => os.region.flatMap(region => region.name)))].sort()
-	}, [data])
-
-	const allStates = useMemo(() => {
-		return data.flatMap(os =>
-			os.region.flatMap(region => region.states.flatMap(state => state.name))
+		return allNames.regions.filter(
+			os => !searchFilter || os.toLowerCase().includes(searchFilter.toLowerCase())
 		)
-	}, [data])
+	}, [allNames.regions, searchFilter])
 
 	const uniqueStates = useMemo(() => {
-		let states = allStates
+		let states = allNames.states
 		if (regionFilter) {
 			states = data.flatMap(os =>
 				os.region
@@ -48,11 +82,11 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 			)
 		}
 		return [...new Set(states)].sort()
-	}, [regionFilter, allStates])
+	}, [data, regionFilter, allNames.states, searchFilter])
 
 	const allCities = useMemo(() => {
-		return data.flatMap(operatingSystem =>
-			operatingSystem.region.flatMap(region =>
+		return data.flatMap(os =>
+			os.region.flatMap(region =>
 				region.states.flatMap(state => state.cities.flatMap(city => city.name))
 			)
 		)
@@ -62,8 +96,8 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		let cities = allCities
 
 		if (regionFilter) {
-			cities = data.flatMap(operatingSystem =>
-				operatingSystem.region
+			cities = data.flatMap(os =>
+				os.region
 					.filter(region => region.name === regionFilter)
 					.flatMap(region =>
 						region.states.flatMap(state => state.cities.map(city => city.name))
@@ -72,8 +106,8 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		}
 
 		if (stateFilter) {
-			cities = data.flatMap(operatingSystem =>
-				operatingSystem.region.flatMap(region =>
+			cities = data.flatMap(os =>
+				os.region.flatMap(region =>
 					region.states
 						.filter(state => state.name === stateFilter)
 						.flatMap(state => state.cities.map(city => city.name))
@@ -82,7 +116,7 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		}
 
 		return [...new Set(cities)].sort()
-	}, [allCities, regionFilter, stateFilter])
+	}, [data, regionFilter, stateFilter, allNames.cities, searchFilter])
 
 	const filteredData = useMemo(() => {
 		// 1. Copia superficial de 'data' y filtrado directo
@@ -137,102 +171,59 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 
 	const distributionData = useMemo(() => {
 		// Crear un mapping para cada region por sistema operativos
-		const result: Record<string, unknown>[] = []
-		// filteredData.forEach(os => {
-		// 	os.region.forEach(region => {
-		// 		if (viewBy === 'region') {
-		// 			// Buscar su ka region ya existe en el resultado
-		// 			let regionData = result.find(item => item.name === region.name)
+		const aggregatedData: Record<string, Record<string, number>> = {}
 
-		// 			// si no existe, crear un nuevo objeto para la región
-		// 			if (!regionData) {
-		// 				regionData = { name: region.name }
-		// 				result.push(regionData)
-		// 			}
-
-		// 			// agregar el conteio del sistema operativo para esta región
-		// 			regionData[os.name] = os.count
-		// 		} else {
-		// 			region.states.forEach(state => {
-		// 				if (viewBy === 'state') {
-		// 					// Buscar si el estado ya existe en el resultado
-		// 					let stateData = result.find(item => item.name === state.name)
-
-		// 					// si no existe, crear un nuevo objeto para el estado
-		// 					if (!stateData) {
-		// 						stateData = { name: state.name }
-		// 						result.push(stateData)
-		// 					}
-
-		// 					// agregar el conteo del sistema operativo para este estado
-		// 					stateData[os.name] = os.count
-		// 				} else {
-		// 					state.cities.forEach(city => {
-		// 						if (viewBy === 'city') {
-		// 							// Buscar si la ciudad ya existe en el resultado
-		// 							let cityData = result.find(item => item.name === city.name)
-
-		// 							// si no existe, crear un nuevo objeto para la ciudad
-		// 							if (!cityData) {
-		// 								cityData = { name: city.name }
-		// 								result.push(cityData)
-		// 							}
-
-		// 							// agregar el conteo del sistema operativo para esta ciudad
-		// 							cityData[os.name] = os.count
-		// 						} else if (viewBy === 'location') {
-		// 							city.sites.forEach(sites => {
-		// 								sites.locations.forEach(location => {
-		// 									// Buscar si la ubicación ya existe en el resultado
-		// 									let locationData = result.find(
-		// 										item => item.name === location.name
-		// 									)
-
-		// 									// si no existe, crear un nuevo objeto para la ubicación
-		// 									if (!locationData) {
-		// 										locationData = { name: location.name }
-		// 										result.push(locationData)
-		// 									}
-
-		// 									// agregar el conteo del sistema operativo para esta ubicación
-		// 									locationData[os.name] = os.count
-		// 								})
-		// 							})
-		// 						}
-		// 					})
-		// 				}
-		// 			})
-		// 		}
-		// 	})
-		// })
 		filteredData.forEach(os => {
 			os.region.forEach(region => {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				let dataToUse: any[] = []
+				let items: { name: string; count: number }[] = []
 
 				if (viewBy === 'region') {
-					dataToUse = [region]
+					items = [region]
+				} else if (viewBy === 'state') {
+					items = region.states
 				} else if (viewBy === 'city') {
-					dataToUse = region.states.flatMap(state => state.cities)
+					items = region.states.flatMap(state => state.cities)
 				} else if (viewBy === 'location') {
-					dataToUse = region.states.flatMap(state =>
+					items = region.states.flatMap(state =>
 						state.cities.flatMap(city => city.sites.flatMap(site => site.locations))
 					)
 				}
 
-				dataToUse.forEach(item => {
-					const existing = result.find(r => r.name === item.name)
-					if (existing) {
-						existing[os.name] = os.count
-					} else {
-						result.push({ name: item.name, [os.name]: os.count })
+				items.forEach(item => {
+					if (!aggregatedData[item.name]) {
+						aggregatedData[item.name] = {}
 					}
+					aggregatedData[item.name][os.name] =
+						(aggregatedData[item.name][os.name] || 0) + item.count
 				})
 			})
 		})
-		console.log(result)
+
+		let result = Object.entries(aggregatedData).map(([name, counts]) => ({ name, ...counts }))
+
+		//Aplicar filter por searchFilter
+		if (searchFilter) {
+			result = result.filter(item =>
+				item.name.toLowerCase().includes(searchFilter.toLowerCase())
+			)
+		}
+
+		// Aplicar el ordenamiento
+		if (sortOrder === 'name') {
+			result.sort((a, b) => a.name.localeCompare(b.name))
+		} else if (sortOrder === 'count') {
+			result.sort((a, b) => {
+				const countA = Object.values(a)
+					.slice(1)
+					.reduce((sum, val) => sum + (val as unknown as number), 0)
+				const countB = Object.values(b)
+					.slice(1)
+					.reduce((sum, val) => sum + (val as unknown as number), 0)
+				return countB - countA
+			})
+		}
 		return result
-	}, [filteredData, viewBy])
+	}, [filteredData, viewBy, searchFilter, sortOrder])
 
 	// Clear filters
 	const clearFilters = () => {
@@ -247,26 +238,32 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 	// Calculate dynamic height based on the number of bars and barSize
 	const barHeight = 16 // Size of each bar
 	const barSpacing = 10 // Spacing between bars and other elements
-	const dynamicHeight = `${distributionData.length * (barHeight * 2) + barSpacing}px` // Add extra space for margins and labels
+	const dynamicHeight = `${distributionData.length * (barHeight * 4) + barSpacing}px` // Add extra space for margins and labels
 
 	return {
+		distributionData,
 		viewBy,
-		setViewBy,
 		regionFilter,
-		setRegionFilter,
 		stateFilter,
-		setStateFilter,
 		cityFilter,
-		setCityFilter,
 		typeOfSiteFilter,
-		setTypeOfSiteFilter,
 		barName,
 		uniqueOperatingSystem,
-		clearFilters,
 		hasActiveFilters,
+		barHeight,
 		dynamicHeight,
 		uniqueStates,
 		uniqueCities,
-		uniqueRegions
+		uniqueRegions,
+		searchFilter,
+		sortOrder,
+		setRegionFilter,
+		setStateFilter,
+		setCityFilter,
+		setSearchFilter,
+		setTypeOfSiteFilter,
+		setViewBy,
+		setSortOrder,
+		clearFilters
 	}
 }

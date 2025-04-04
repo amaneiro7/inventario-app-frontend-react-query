@@ -6,16 +6,16 @@ interface UseModelBreakdownProps {
 }
 
 export function useModelBreakdown({ data }: UseModelBreakdownProps) {
-	const [selectedBrand, setSelectedBrand] = useState<string>('All Brands')
+	const [selectedBrand, setSelectedBrand] = useState<string>('Todas las marcas')
 
 	// Get unique brands for the filter
 	const brands = useMemo(() => {
-		return ['All Brands', ...Array.from(new Set(data.map(item => item.name)))].sort()
+		return ['Todas las marcas', ...Array.from(new Set(data.map(item => item.name)))].sort()
 	}, [data])
 	// Prepare model data based on selected brand
 	const modelData = useMemo(() => {
 		let filteredData = data
-		if (selectedBrand !== 'All Brands') {
+		if (selectedBrand !== 'Todas las marcas') {
 			filteredData = data.filter(item => item.name === selectedBrand)
 		}
 		const result: Record<string, { name: string; quantity: number; brand: string }> = {}

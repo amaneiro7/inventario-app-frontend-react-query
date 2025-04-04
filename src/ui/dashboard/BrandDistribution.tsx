@@ -82,7 +82,7 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 							<Legend />
 							<Bar dataKey="models" fill="#8b5cf6" name="Model Count" barSize={45}>
 								<LabelList
-									dataKey="count"
+									dataKey="models"
 									position="top"
 									style={{ fontSize: '0.65rem' }}
 								/>

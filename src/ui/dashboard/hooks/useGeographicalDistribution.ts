@@ -5,66 +5,79 @@ interface UseGeographicalDistributionProps {
 	data: ComputerDashboardDto['region']
 }
 export function useGeographicalDistribution({ data }: UseGeographicalDistributionProps) {
-	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'location'>('region')
+	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'sites' | 'location'>(
+		'region'
+	)
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
 	const [cityFilter, setCityFilter] = useState<string>('')
 	const [searchFilter, setSearchFilter] = useState<string>('')
+	const [sortOrder, setSortOrder] = useState<'name' | 'count'>('count')
 
 	const barName = useMemo(() => {
-		let name
-		switch (viewBy) {
-			case 'region':
-				name = 'Regiones'
-				break
-			case 'state':
-				name = 'Estados'
-				break
-			case 'city':
-				name = 'Ciudades'
-				break
-			case 'location':
-				name = 'Ubicaciones'
-				break
-			default:
-				name = 'Regiones'
-				break
+		const names = {
+			region: 'Regiones',
+			state: 'Estdos',
+			city: 'Ciudades',
+			sites: 'Sitios',
+			location: 'Ubicaciones'
 		}
+		const name = names[viewBy] || 'Regiones'
 
 		return `Distribución de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
+	const allNames = useMemo(() => {
+		const regions = [...new Set(data.map(item => item.name))].sort()
+		const states = data.flatMap(region => region.states.map(state => state.name))
+		const cities = data
+			.flatMap(region => region.states.flatMap(state => state.cities.map(city => city.name)))
+			.sort()
+		const sites = data
+			.flatMap(region =>
+				region.states.flatMap(state =>
+					state.cities.flatMap(city => city.sites.map(site => site.name))
+				)
+			)
+			.sort()
+
+		return {
+			regions,
+			states,
+			sites,
+			cities
+		}
+	}, [data])
+
 	// Get unique regions, states, and cities from data
 	const uniqueRegions = useMemo(() => {
-		return [...new Set(data.map(item => item.name))].sort()
-	}, [data])
-
-	const allStates = useMemo(() => {
-		return data.flatMap(region => region.states.map(state => state.name))
-	}, [data])
+		return allNames.regions.filter(
+			region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [allNames.regions, searchFilter])
 
 	const uniqueStates = useMemo(() => {
-		const states = regionFilter
-			? data.find(region => region.name === regionFilter)?.states.map(state => state.name) ||
-			  []
-			: allStates
-		return [...new Set(states)].sort()
-	}, [regionFilter, allStates])
+		let states = allNames.states
+		if (regionFilter) {
+			states = data
+				.filter(region => region.name === regionFilter)
+				.flatMap(region => region.states.map(state => state.name))
+		}
 
-	const allCities = useMemo(() => {
-		return data.flatMap(region =>
-			region.states.flatMap(state => state.cities.map(city => city.name))
-		)
-	}, [data])
+		return [...new Set(states)]
+			.sort()
+			.filter(
+				state => !searchFilter || state.toLowerCase().includes(searchFilter.toLowerCase())
+			)
+	}, [data, regionFilter, allNames.states, searchFilter])
 
 	const uniqueCities = useMemo(() => {
-		let cities = structuredClone(allCities)
+		let cities = allNames.cities
 
 		if (regionFilter) {
-			cities =
-				data
-					.find(region => region.name === regionFilter)
-					?.states.flatMap(state => state.cities.map(city => city.name)) || []
+			cities = data
+				.filter(region => region.name === regionFilter)
+				.flatMap(region => region.states.flatMap(city => city.name))
 		}
 
 		if (stateFilter) {
@@ -75,12 +88,17 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 			)
 		}
 
-		return [...new Set(cities)].sort()
-	}, [data, allCities, regionFilter, stateFilter])
+		return [...new Set(cities)]
+			.sort()
+			.filter(
+				city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
+			)
+	}, [data, regionFilter, stateFilter, allNames.cities, searchFilter])
 
-	const distributionData = useMemo(() => {
+	const filteredData = useMemo(() => {
 		// 1. Copia superficial de 'data' y filtrado directo
-		let filteredData = structuredClone(data)
+		// let filteredData = structuredClone(data)
+		let filteredData = data
 
 		// 2. Aplicar los filtros de región
 		if (regionFilter) {
@@ -111,49 +129,80 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 				}))
 				.filter(region => region.states.length > 0)
 		}
-		const locationMap = new Map()
+		return filteredData
+	}, [data, regionFilter, stateFilter, cityFilter])
 
-		filteredData.forEach(region => {
-			if (viewBy === 'region') {
-				locationMap.set(region.name, (locationMap.get(region.name) || 0) + region.count)
-			} else {
-				region.states.forEach(state => {
-					if (viewBy === 'state') {
-						locationMap.set(
-							state.name,
-							(locationMap.get(state.name) || 0) + state.count
-						)
-					} else {
-						state.cities.forEach(city => {
-							if (viewBy === 'city') {
-								locationMap.set(
-									city.name,
-									(locationMap.get(city.name) || 0) + city.count
-								)
-							} else if (viewBy === 'location') {
-								city.sites.forEach(site => {
-									site.locations.forEach(location => {
-										locationMap.set(
-											location.name,
-											(locationMap.get(location.name) || 0) + location.count
-										)
-									})
-								})
-							}
-						})
-					}
-				})
-			}
-		})
+	const distributionData = useMemo(() => {
+		const locationMap = new Map<string, number>()
+
+		// filteredData.forEach(region => {
+		// 	if (viewBy === 'region') {
+		// 		locationMap.set(region.name, (locationMap.get(region.name) || 0) + region.count)
+		// 	} else {
+		// 		region.states.forEach(state => {
+		// 			if (viewBy === 'state') {
+		// 				locationMap.set(
+		// 					state.name,
+		// 					(locationMap.get(state.name) || 0) + state.count
+		// 				)
+		// 			} else {
+		// 				state.cities.forEach(city => {
+		// 					if (viewBy === 'city') {
+		// 						locationMap.set(
+		// 							city.name,
+		// 							(locationMap.get(city.name) || 0) + city.count
+		// 						)
+		// 					} else if (viewBy === 'location') {
+		// 						city.sites.forEach(site => {
+		// 							site.locations.forEach(location => {
+		// 								locationMap.set(
+		// 									location.name,
+		// 									(locationMap.get(location.name) || 0) + location.count
+		// 								)
+		// 							})
+		// 						})
+		// 					}
+		// 				})
+		// 			}
+		// 		})
+		// 	}
+		// })
 
 		// 6. Conversión a array y ordenamiento
-		const resultArray = Array.from(locationMap, ([name, value]) => ({ name, value })).sort(
-			(a, b) => b.value - a.value
+		filteredData.forEach(region => {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			let dataToUse: any[] = []
+
+			if (viewBy === 'region') {
+				dataToUse = [region]
+			} else if (viewBy === 'state') {
+				dataToUse = region.states
+			} else if (viewBy === 'city') {
+				dataToUse = region.states.flatMap(state => state.cities)
+			} else if (viewBy === 'sites') {
+				dataToUse = region.states.flatMap(state => state.cities).flatMap(city => city.sites)
+			} else if (viewBy === 'location') {
+				dataToUse = region.states
+					.flatMap(state => state.cities)
+					.flatMap(city => city.sites.flatMap(site => site.locations))
+			}
+
+			dataToUse.forEach(item => {
+				locationMap.set(item.name, (locationMap.get(item.name) || 0) + item.count)
+			})
+		})
+		const resultArray = Array.from(locationMap, ([name, value]) => ({ name, value })).filter(
+			item => !searchFilter || item.name.toLowerCase().includes(searchFilter.toLowerCase())
 		)
+		// Aplicar el ordenamiento
+		if (sortOrder === 'name') {
+			resultArray.sort((a, b) => a.name.localeCompare(b.name))
+		} else if (sortOrder === 'count') {
+			resultArray.sort((a, b) => a.value - b.value)
+		}
 
 		return resultArray
-	}, [data, regionFilter, stateFilter, cityFilter, viewBy])
-
+	}, [filteredData, viewBy, searchFilter, sortOrder])
 	// Clear filters
 	const clearFilters = () => {
 		setRegionFilter('')
@@ -181,6 +230,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		uniqueStates,
 		uniqueCities,
 		viewBy,
+		sortOrder,
 		regionFilter,
 		stateFilter,
 		cityFilter,
@@ -190,6 +240,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		setRegionFilter,
 		setStateFilter,
 		setCityFilter,
-		setSearchFilter
+		setSearchFilter,
+		setSortOrder
 	}
 }
