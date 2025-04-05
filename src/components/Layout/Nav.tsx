@@ -10,7 +10,7 @@ export function Nav() {
 			style={{
 				height: 'calc(100vh - 64px)'
 			}}
-			className="nav-content md:-right-96 fixed top-16 px-8 py-4 max-w-2/3 md:w-96 z-40 text-white bg-azul-950/95 transition-transform transform-gpu will-change-transform duration-300 ease-in-out overflow-auto"
+			className="nav-content -right-96 fixed top-16 px-8 py-4 max-w-2/3 w-96 z-40 text-white bg-azul-950/95 transition-transform transform-gpu will-change-transform duration-300 ease-in-out overflow-auto"
 		>
 			<ul>
 				<li className="list-item">

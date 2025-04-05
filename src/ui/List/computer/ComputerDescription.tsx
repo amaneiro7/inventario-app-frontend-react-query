@@ -9,9 +9,10 @@ interface Props {
 	open: boolean
 	device: DeviceDto
 	colSpan: number
+	visibleColumns: string[]
 }
 
-export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
+export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns }: Props) => {
 	return (
 		<>
 			<TableCellDescription
@@ -24,19 +25,33 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
 				<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
 
-				<TableCellDescInfo
-					title="Región"
-					text={`${device?.location?.site.city.state.region.name ?? ''}`}
-				/>
-				<TableCellDescInfo
-					title="Estado"
-					text={`${device?.location?.site.city.state.name ?? ''}`}
-				/>
-				<TableCellDescInfo
-					title="Ciudad"
-					text={`${device?.location?.site.city.name ?? ''}`}
-				/>
-				<TableCellDescInfo title="Sitio" text={`${device?.location?.site?.name ?? ''}`} />
+				{device?.location?.site?.city?.state?.region?.name && (
+					<TableCellDescInfo
+						title="Región"
+						text={`${device?.location?.site?.city?.state?.region?.name ?? ''}`}
+					/>
+				)}
+				{device?.location?.site.city.state.name && (
+					<TableCellDescInfo
+						title="Estado"
+						text={`${device?.location?.site.city.state.name ?? ''}`}
+					/>
+				)}
+				{device?.location?.site.city.name && (
+					<TableCellDescInfo
+						title="Ciudad"
+						text={`${device?.location?.site.city.name ?? ''}`}
+					/>
+				)}
+				{device?.location?.site?.name && (
+					<TableCellDescInfo
+						title="Sitio"
+						text={`${device?.location?.site?.name ?? ''}`}
+					/>
+				)}
+				{!visibleColumns.includes('locationId') && (
+					<TableCellDescInfo title="Ubicación" text={`${device?.locationId ?? ''}`} />
+				)}
 
 				{device.employee?.name && (
 					<>
@@ -82,6 +97,22 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 							text={device?.employee?.cargo?.name ?? ''}
 						/>
 					</>
+				)}
+
+				{!visibleColumns.includes('categoryId') && (
+					<TableCellDescInfo title="Categoria" text={device.category.name ?? ''} />
+				)}
+				{!visibleColumns.includes('brandId') && (
+					<TableCellDescInfo title="Marca" text={device.brand.name ?? ''} />
+				)}
+				{!visibleColumns.includes('modelId') && (
+					<TableCellDescInfo title="Modelo" text={device.model.name ?? ''} />
+				)}
+				{!visibleColumns.includes('computerName') && device.computer?.computerName && (
+					<TableCellDescInfo
+						title="Nombre de Equipo"
+						text={device.computer?.computerName}
+					/>
 				)}
 
 				<div className="md:grid md:grid-cols-2 md:grid-rows-2 md:gap-2">
@@ -155,6 +186,10 @@ export const ComputerDescription = memo(({ open, device, colSpan }: Props) => {
 						text={device?.computer?.operatingSystemArq?.name ?? 'No Aplica'}
 					/>
 				</div>
+
+				{!visibleColumns.includes('observation') && (
+					<TableCellDescInfo title="Observación" text={device.observation ?? ''} />
+				)}
 
 				<TableCellDescInfo
 					title="Última Actualización"

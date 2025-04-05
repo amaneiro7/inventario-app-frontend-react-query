@@ -3,6 +3,7 @@ import { useGetAllScreenDevices } from '@/core/devices/devices/infra/hook/useGet
 import { TableDefaultDevice } from '../TableDefaultDevice'
 import { DeviceScreenFilter } from '@/core/devices/devices/application/screenFilter/DeviceScreenFilter'
 import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
+import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 
 interface TableScreenWrapperProps {
 	query: DeviceScreenFilters
@@ -22,7 +23,7 @@ export function TableScreenWrapper({
 	handlePageClick
 }: TableScreenWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllScreenDevices(query)
-	const colSpan = 8
+	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}
@@ -43,11 +44,17 @@ export function TableScreenWrapper({
 			totalPage={devices?.info?.totalPage}
 			pageSize={query?.pageSize}
 			total={devices?.info?.total}
+			headers={headers}
 		>
 			<>
 				{devices !== undefined && (
 					<Suspense>
-						<TableScreen colSpan={colSpan} isError={isError} devices={devices.data} />
+						<TableScreen
+							colSpan={colSpan}
+							isError={isError}
+							devices={devices.data}
+							visibleColumns={visibleColumns}
+						/>
 					</Suspense>
 				)}
 			</>

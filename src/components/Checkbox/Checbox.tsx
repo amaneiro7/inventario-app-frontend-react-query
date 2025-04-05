@@ -42,3 +42,5 @@ export const Checkbox = memo(function ({
 		</div>
 	)
 })
+
+Checkbox.displayName = 'Checkbox'

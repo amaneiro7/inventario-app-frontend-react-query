@@ -21,3 +21,5 @@ export const Chip = memo(function ({ label, onDelete }: ChipProps) {
 		</div>
 	)
 })
+
+Chip.displayName = 'Chip'

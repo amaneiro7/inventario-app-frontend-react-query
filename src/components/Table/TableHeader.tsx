@@ -1,5 +1,14 @@
-import { type TableHead } from './TableHead'
+import { type TableHeadSize, type TableHead } from './TableHead'
 import { type TableRow } from './TableRow'
+
+export interface Headers {
+	key: string
+	label: string
+	hasOrder: boolean
+	size: keyof typeof TableHeadSize
+	isTab: boolean
+	visible: boolean
+}
 
 interface Props
 	extends React.DetailedHTMLProps<

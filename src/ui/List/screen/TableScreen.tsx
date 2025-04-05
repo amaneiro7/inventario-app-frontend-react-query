@@ -12,10 +12,12 @@ interface Props {
 	devices?: DeviceDto[]
 	isError: boolean
 	colSpan: number
+	visibleColumns: string[]
 }
 
-export function TableScreen({ devices, isError, colSpan }: Props) {
+export function TableScreen({ devices, isError, colSpan, visibleColumns }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
+	console.log(visibleColumns)
 	if (isError) {
 		return <TableCellError colSpan={colSpan} />
 	}
@@ -33,13 +35,27 @@ export function TableScreen({ devices, isError, colSpan }: Props) {
 						}`}
 						onClick={() => handleRowClick(device.id)}
 					>
-						<TableCell size="small" value={device.employee?.userName} />
-						<TableCell size="large" value={device.location?.name} />
-						<TableCell size="small" value={device.serial ?? ''} />
-						<TableCell size="small" value={device.category?.name} />
-						<TableCell size="small" value={device.brand?.name} />
-						<TableCell size="xLarge" value={device.model?.name} />
-						<TableCell size="small" value={device.observation ?? ''} />
+						{visibleColumns.includes('employeeId') ? (
+							<TableCell size="small" value={device.employee?.userName} />
+						) : null}
+						{visibleColumns.includes('locationId') ? (
+							<TableCell size="large" value={device.location?.name} />
+						) : null}
+						{visibleColumns.includes('serial') ? (
+							<TableCell size="small" value={device.serial ?? ''} />
+						) : null}
+						{visibleColumns.includes('categoryId') ? (
+							<TableCell size="small" value={device.category?.name} />
+						) : null}
+						{visibleColumns.includes('brandId') ? (
+							<TableCell size="small" value={device.brand?.name} />
+						) : null}
+						{visibleColumns.includes('modelId') ? (
+							<TableCell size="xLarge" value={device.model?.name} />
+						) : null}
+						{visibleColumns.includes('observation') ? (
+							<TableCell size="small" value={device.observation ?? ''} />
+						) : null}
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
 

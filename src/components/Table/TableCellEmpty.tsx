@@ -9,3 +9,5 @@ export const TableCellEmpty = memo(({ colSpan }: { colSpan: number }) => {
 		</TableRow>
 	)
 })
+
+TableCellEmpty.displayName = 'TableCellEmpty'

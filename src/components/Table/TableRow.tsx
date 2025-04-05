@@ -7,7 +7,9 @@ interface Props<T extends typeof TableHead | typeof TableCell>
 		React.HTMLAttributes<HTMLTableRowElement>,
 		HTMLTableRowElement
 	> {
-	children: React.ReactElement<T> | React.ReactElement<T>[]
+	children:
+		| (React.ReactElement<T> | undefined | null)
+		| (React.ReactElement<T> | undefined | null)[]
 }
 
 export function TableRow<T extends typeof TableHead | typeof TableCell>({
