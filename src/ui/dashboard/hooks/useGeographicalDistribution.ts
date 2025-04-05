@@ -27,6 +27,11 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		return `Distribución de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
+	// Determine if filters are active
+	const hasActiveFilters =
+		regionFilter !== '' || stateFilter !== '' || cityFilter !== '' || searchFilter !== ''
+	const MAX_ITEMS_WITHOUT_FILTER = 15
+
 	const allNames = useMemo(() => {
 		const regions = [...new Set(data.map(item => item.name))].sort()
 		const states = data.flatMap(region => region.states.map(state => state.name))
@@ -135,39 +140,6 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	const distributionData = useMemo(() => {
 		const locationMap = new Map<string, number>()
 
-		// filteredData.forEach(region => {
-		// 	if (viewBy === 'region') {
-		// 		locationMap.set(region.name, (locationMap.get(region.name) || 0) + region.count)
-		// 	} else {
-		// 		region.states.forEach(state => {
-		// 			if (viewBy === 'state') {
-		// 				locationMap.set(
-		// 					state.name,
-		// 					(locationMap.get(state.name) || 0) + state.count
-		// 				)
-		// 			} else {
-		// 				state.cities.forEach(city => {
-		// 					if (viewBy === 'city') {
-		// 						locationMap.set(
-		// 							city.name,
-		// 							(locationMap.get(city.name) || 0) + city.count
-		// 						)
-		// 					} else if (viewBy === 'location') {
-		// 						city.sites.forEach(site => {
-		// 							site.locations.forEach(location => {
-		// 								locationMap.set(
-		// 									location.name,
-		// 									(locationMap.get(location.name) || 0) + location.count
-		// 								)
-		// 							})
-		// 						})
-		// 					}
-		// 				})
-		// 			}
-		// 		})
-		// 	}
-		// })
-
 		// 6. Conversión a array y ordenamiento
 		filteredData.forEach(region => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -191,7 +163,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 				locationMap.set(item.name, (locationMap.get(item.name) || 0) + item.count)
 			})
 		})
-		const resultArray = Array.from(locationMap, ([name, value]) => ({ name, value })).filter(
+		let resultArray = Array.from(locationMap, ([name, value]) => ({ name, value })).filter(
 			item => !searchFilter || item.name.toLowerCase().includes(searchFilter.toLowerCase())
 		)
 		// Aplicar el ordenamiento
@@ -201,6 +173,9 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 			resultArray.sort((a, b) => a.value - b.value)
 		}
 
+		if (!hasActiveFilters) {
+			resultArray = resultArray.slice(0, MAX_ITEMS_WITHOUT_FILTER)
+		}
 		return resultArray
 	}, [filteredData, viewBy, searchFilter, sortOrder])
 	// Clear filters
@@ -210,10 +185,6 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		setCityFilter('')
 		setSearchFilter('')
 	}
-
-	// Determine if filters are active
-	const hasActiveFilters =
-		regionFilter !== null || stateFilter !== null || cityFilter !== null || searchFilter !== ''
 
 	// Calculate dynamic height based on the number of bars and barSize
 	const barHeight = 16 // Size of each bar

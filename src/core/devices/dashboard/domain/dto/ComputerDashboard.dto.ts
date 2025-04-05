@@ -9,6 +9,7 @@ export interface ComputerDashboardDto {
 	hardDrive: HardDrive[]
 	operatingSystem: OperatingSystem[]
 	memoryRamCapacity: MemoryRamCapacity[]
+	modulosMemoryRam: ModulosMemoryRam[]
 	operatingSystemByRegion: OperatingSystemSystemByRegion[]
 }
 
@@ -100,6 +101,21 @@ export interface MemoryRamCapacity {
 }
 
 export interface MemoryRamTotal {
+	name: string
+	count: number
+}
+
+export interface ModulosMemoryRam {
+	name: string
+	memoryRamType: MemoryRamType[]
+}
+
+export interface MemoryRamType {
+	name: string
+	memoryRamValues: MemoryRamValues[]
+}
+
+export interface MemoryRamValues {
 	name: string
 	count: number
 }

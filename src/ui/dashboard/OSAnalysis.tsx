@@ -11,25 +11,21 @@ import {
 	LabelList
 } from 'recharts'
 import { useOperatingSystemAnalysys } from './hooks/useOperatingSystemAnalysis'
-import { useOperatingSystemByRegion } from './hooks/useOperatingSystemByRegion'
 import { MapPin } from 'lucide-react'
 import { PieCard } from './PieCard'
-import { OSDIstributionByRegion } from './OSDistributionByRegion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface OSAnalysisProps {
 	data: ComputerDashboardDto['operatingSystem']
-	operatingSystemByRegion: ComputerDashboardDto['operatingSystemByRegion']
 }
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 
-export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data, operatingSystemByRegion }) => {
+export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 	const { arqData, barHeight, prepareGroupedBarData, totalArq, totalOperatingSystem } =
 		useOperatingSystemAnalysys({ data })
 
-	useOperatingSystemByRegion({ data: operatingSystemByRegion })
 	return (
 		<>
 			<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">
@@ -51,7 +47,7 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data, operatingSyst
 					colors={COLORS}
 					icon={<MapPin className="mx-auto h-12 w-12 mb-2 opacity-20" />}
 				/>
-				<Card>
+				<Card className="col-span-2">
 					<CardHeader>
 						<CardTitle>Distribución de Sistemas Operativos por Arquitecturas</CardTitle>
 					</CardHeader>
@@ -87,7 +83,6 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data, operatingSyst
 					</CardContent>
 				</Card>
 			</div>
-			<OSDIstributionByRegion data={operatingSystemByRegion} />
 		</>
 	)
 })

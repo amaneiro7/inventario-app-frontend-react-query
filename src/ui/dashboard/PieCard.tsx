@@ -10,6 +10,7 @@ interface PieCardProps {
 	total: number
 	icon?: React.ReactNode
 	colors?: string[]
+	selectSection?: React.ReactNode
 }
 
 const COLORS = [
@@ -30,14 +31,18 @@ export const PieCard = ({
 	total,
 	icon,
 	colors = COLORS,
-	dataKey = 'value'
+	dataKey = 'value',
+	selectSection
 }: PieCardProps) => {
 	return (
 		<Card>
 			<CardHeader>
-				<div>
-					<CardTitle>{title}</CardTitle>
-					<CardDescription>{desc}</CardDescription>
+				<div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+					<div>
+						<CardTitle>{title}</CardTitle>
+						<CardDescription>{desc}</CardDescription>
+					</div>
+					{selectSection}
 				</div>
 			</CardHeader>
 			<CardContent>

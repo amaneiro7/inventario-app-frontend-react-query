@@ -25,6 +25,10 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		return `Distribución de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
+	// Determine if filters are active
+	const hasActiveFilters = regionFilter !== '' || stateFilter !== '' || cityFilter !== ''
+	const MAX_ITEMS_WITHOUT_FILTER = 15
+
 	const allNames = useMemo(() => {
 		const operatingSystem = [...new Set(data.map(item => item.name))].sort()
 		const regions = [
@@ -222,6 +226,9 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 				return countB - countA
 			})
 		}
+		if (!hasActiveFilters) {
+			result = result.slice(0, MAX_ITEMS_WITHOUT_FILTER)
+		}
 		return result
 	}, [filteredData, viewBy, searchFilter, sortOrder])
 
@@ -231,9 +238,6 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		setStateFilter('')
 		setCityFilter('')
 	}
-
-	// Determine if filters are active
-	const hasActiveFilters = regionFilter !== null || stateFilter !== null || cityFilter !== null
 
 	// Calculate dynamic height based on the number of bars and barSize
 	const barHeight = 16 // Size of each bar
