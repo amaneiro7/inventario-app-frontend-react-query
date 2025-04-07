@@ -131,6 +131,11 @@ export const navigation: Navigation[] = [
 				path: '/city/add'
 			},
 			{
+				title: 'Asignación de las regiones por zona',
+				desc: 'Aqui se puede modificar a que zona pertenece la región',
+				path: '/region/'
+			},
+			{
 				title: 'Agregar una nueva directiva',
 				desc: 'Aqui se puede agregar una nueva directiva',
 				path: '/directiva/add'

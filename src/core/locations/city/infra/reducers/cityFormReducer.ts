@@ -3,6 +3,7 @@ import { CityName } from '../../domain/value-object/CityName'
 
 export interface DefaultCity extends CityParams {
 	regionId: CityDto['state']['regionId']
+	administrativeRegionId: CityDto['state']['region']['administrativeRegionId']
 }
 
 export interface CityErrors {
@@ -12,6 +13,7 @@ export interface CityRequired {
 	name: boolean
 	stateId: boolean
 	regionId: boolean
+	administrativeRegionId: boolean
 }
 
 export interface State {
@@ -25,7 +27,8 @@ export const initialCityState: State = {
 		id: undefined,
 		name: '',
 		stateId: '',
-		regionId: ''
+		regionId: '',
+		administrativeRegionId: ''
 	},
 	errors: {
 		name: ''
@@ -33,7 +36,8 @@ export const initialCityState: State = {
 	required: {
 		name: true,
 		stateId: true,
-		regionId: false
+		regionId: false,
+		administrativeRegionId: false
 	}
 }
 
@@ -43,6 +47,7 @@ export type Action =
 	| { type: 'name'; payload: { value: DefaultCity['name'] } }
 	| { type: 'stateId'; payload: { value: DefaultCity['stateId'] } }
 	| { type: 'regionId'; payload: { value: DefaultCity['regionId'] } }
+	| { type: 'administrativeRegionId'; payload: { value: DefaultCity['administrativeRegionId'] } }
 
 export const cityFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
@@ -83,6 +88,18 @@ export const cityFormReducer = (state: State, action: Action): State => {
 					...state.formData,
 					stateId: '',
 					regionId
+				}
+			}
+		}
+		case 'administrativeRegionId': {
+			const administrativeRegionId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					stateId: '',
+					regionId: '',
+					administrativeRegionId
 				}
 			}
 		}

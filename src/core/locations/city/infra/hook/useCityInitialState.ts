@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { useGetFormMode } from '@/hooks/useGetFormMode'
@@ -6,6 +6,9 @@ import { CityGetService } from '../service/cityGet.service'
 import { CityGetter } from '../../application/CityGetter'
 import { type DefaultCity } from '../reducers/cityFormReducer'
 import { type CityDto } from '../../domain/dto/City.dto'
+
+const repository = new CityGetService()
+const get = new CityGetter(repository)
 
 export function useCityInitialState(defaultState: DefaultCity): {
 	initialState: DefaultCity
@@ -19,9 +22,6 @@ export function useCityInitialState(defaultState: DefaultCity): {
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultCity>(defaultState)
 
-	const repository = useMemo(() => new CityGetService(), [])
-	const get = useMemo(() => new CityGetter(repository), [repository])
-
 	const { data: cityData, refetch } = useQuery({
 		queryKey: ['city', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
@@ -34,7 +34,8 @@ export function useCityInitialState(defaultState: DefaultCity): {
 			id: city.id,
 			name: city.name,
 			stateId: city.stateId,
-			regionId: city.state.regionId
+			regionId: city.state.regionId,
+			administrativeRegionId: city.state.region.administrativeRegionId
 		})
 	}, [])
 

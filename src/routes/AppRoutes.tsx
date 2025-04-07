@@ -22,6 +22,7 @@ const Login = lazy(() => import('@/pages/Login'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
 const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
 const FormModel = lazy(() => import('@/pages/FormModel'))
+const FormRegion = lazy(() => import('@/pages/FormRegion'))
 const FormCity = lazy(() => import('@/pages/FormCity'))
 const FormSite = lazy(() => import('@/pages/FormSite'))
 const FormDepartamento = lazy(() => import('@/pages/FormDepartamento'))
@@ -201,6 +202,22 @@ export function AppRoutes() {
 						element={
 							<Suspense fallback={<Loading />}>
 								<FormModel />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/region/"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormRegion />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/region/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormRegion />
 							</Suspense>
 						}
 					/>

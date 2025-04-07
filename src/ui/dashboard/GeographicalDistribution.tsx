@@ -40,23 +40,26 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 	const {
 		distributionData,
 		hasActiveFilters,
-		uniqueCities,
+		uniqueAdmRegions,
 		uniqueRegions,
 		uniqueStates,
+		uniqueCities,
 		viewBy,
 		barName,
-		cityFilter,
+		admRegionFilter,
 		regionFilter,
-		searchFilter,
 		stateFilter,
+		cityFilter,
+		searchFilter,
 		dynamicHeight,
 		barHeight,
 		setViewBy,
 		clearFilters,
-		setCityFilter,
+		setAdmRegionFilter,
 		setRegionFilter,
-		setSearchFilter,
-		setStateFilter
+		setStateFilter,
+		setCityFilter,
+		setSearchFilter
 	} = useGeographicalDistribution({ data })
 	return (
 		<Card className="col-span-12">
@@ -70,9 +73,10 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 					</div>
 					<Select value={viewBy} onValueChange={value => setViewBy(value as any)}>
 						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="View by..." />
+							<SelectValue placeholder="Ver por..." />
 						</SelectTrigger>
 						<SelectContent>
+							<SelectItem value="admRegion">Por zona</SelectItem>
 							<SelectItem value="region">Por región</SelectItem>
 							<SelectItem value="state">Por estado</SelectItem>
 							<SelectItem value="city">Por ciudad</SelectItem>
@@ -97,7 +101,30 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 							/>
 						</div>
 
-						{viewBy !== 'region' && (
+						{viewBy !== 'admRegion' && (
+							<Select
+								value={admRegionFilter || 'all'}
+								onValueChange={value => {
+									setAdmRegionFilter(value === 'all' ? '' : value)
+									setRegionFilter('')
+									setStateFilter('')
+									setCityFilter('')
+								}}
+							>
+								<SelectTrigger className="w-full sm:w-[180px]">
+									<SelectValue placeholder="Todas las zonas" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="all">Todas las zonas</SelectItem>
+									{uniqueAdmRegions.map(admRegion => (
+										<SelectItem key={admRegion} value={admRegion}>
+											{admRegion}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
+						)}
+						{(viewBy === 'state' || viewBy === 'city' || viewBy === 'location') && (
 							<Select
 								value={regionFilter || 'all'}
 								onValueChange={value => {

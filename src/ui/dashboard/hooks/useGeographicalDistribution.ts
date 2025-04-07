@@ -5,9 +5,10 @@ interface UseGeographicalDistributionProps {
 	data: ComputerDashboardDto['region']
 }
 export function useGeographicalDistribution({ data }: UseGeographicalDistributionProps) {
-	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'sites' | 'location'>(
-		'region'
-	)
+	const [viewBy, setViewBy] = useState<
+		'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'
+	>('admRegion')
+	const [admRegionFilter, setAdmRegionFilter] = useState<string>('')
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
 	const [cityFilter, setCityFilter] = useState<string>('')
@@ -16,6 +17,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 
 	const barName = useMemo(() => {
 		const names = {
+			admRegion: 'Zonas Administrativas',
 			region: 'Regiones',
 			state: 'Estdos',
 			city: 'Ciudades',
@@ -33,20 +35,31 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	const MAX_ITEMS_WITHOUT_FILTER = 15
 
 	const allNames = useMemo(() => {
-		const regions = [...new Set(data.map(item => item.name))].sort()
-		const states = data.flatMap(region => region.states.map(state => state.name))
+		const administrativeRegions = [...new Set(data.map(item => item.name))].sort()
+		const regions = data.flatMap(admRegion => admRegion.regions.map(region => region.name))
+
+		const states = data.flatMap(admRegion =>
+			admRegion.regions.flatMap(region => region.states.map(state => state.name))
+		)
 		const cities = data
-			.flatMap(region => region.states.flatMap(state => state.cities.map(city => city.name)))
+			.flatMap(admRegion =>
+				admRegion.regions.flatMap(region =>
+					region.states.flatMap(state => state.cities.map(city => city.name))
+				)
+			)
 			.sort()
 		const sites = data
-			.flatMap(region =>
-				region.states.flatMap(state =>
-					state.cities.flatMap(city => city.sites.map(site => site.name))
+			.flatMap(admRegion =>
+				admRegion.regions.flatMap(region =>
+					region.states.flatMap(state =>
+						state.cities.flatMap(city => city.sites.map(site => site.name))
+					)
 				)
 			)
 			.sort()
 
 		return {
+			administrativeRegions,
 			regions,
 			states,
 			sites,
@@ -55,18 +68,42 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	}, [data])
 
 	// Get unique regions, states, and cities from data
-	const uniqueRegions = useMemo(() => {
-		return allNames.regions.filter(
-			region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
+	const uniqueAdmRegions = useMemo(() => {
+		return allNames.administrativeRegions.filter(
+			admRegion =>
+				!searchFilter || admRegion.toLowerCase().includes(searchFilter.toLowerCase())
 		)
-	}, [allNames.regions, searchFilter])
+	}, [allNames.administrativeRegions, searchFilter])
+
+	const uniqueRegions = useMemo(() => {
+		let regions = allNames.regions
+		if (admRegionFilter) {
+			regions = data
+				.filter(admRegion => admRegion.name === admRegionFilter)
+				.flatMap(admRegion => admRegion.regions.map(region => region.name))
+		}
+		return [...new Set(regions)]
+			.sort()
+			.filter(
+				region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
+			)
+	}, [allNames.regions, admRegionFilter, searchFilter])
 
 	const uniqueStates = useMemo(() => {
 		let states = allNames.states
+		if (admRegionFilter) {
+			states = data
+				.filter(admRegion => admRegion.name === admRegionFilter)
+				.flatMap(admRegion =>
+					admRegion.regions.flatMap(region => region.states.map(state => state.name))
+				)
+		}
 		if (regionFilter) {
 			states = data
 				.filter(region => region.name === regionFilter)
-				.flatMap(region => region.states.map(state => state.name))
+				.flatMap(admRegion =>
+					admRegion.regions.flatMap(region => region.states.map(state => state.name))
+				)
 		}
 
 		return [...new Set(states)]
@@ -74,22 +111,33 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 			.filter(
 				state => !searchFilter || state.toLowerCase().includes(searchFilter.toLowerCase())
 			)
-	}, [data, regionFilter, allNames.states, searchFilter])
+	}, [data, regionFilter, admRegionFilter, allNames.states, searchFilter])
 
 	const uniqueCities = useMemo(() => {
 		let cities = allNames.cities
 
-		if (regionFilter) {
+		if (admRegionFilter) {
 			cities = data
-				.filter(region => region.name === regionFilter)
-				.flatMap(region => region.states.flatMap(city => city.name))
+				.filter(admRegion => admRegion.name === admRegionFilter)
+				.flatMap(admRegion =>
+					admRegion.regions.flatMap(region => region.states.map(city => city.name))
+				)
+		}
+		if (regionFilter) {
+			cities = data.flatMap(admRegion =>
+				admRegion.regions
+					.filter(region => region.name === regionFilter)
+					.flatMap(region => region.states.map(city => city.name))
+			)
 		}
 
 		if (stateFilter) {
-			cities = data.flatMap(region =>
-				region.states
-					.filter(state => state.name === stateFilter)
-					.flatMap(state => state.cities.map(city => city.name))
+			cities = data.flatMap(admRegion =>
+				admRegion.regions.flatMap(region =>
+					region.states
+						.filter(state => state.name === stateFilter)
+						.flatMap(state => state.cities.map(city => city.name))
+				)
 			)
 		}
 
@@ -98,65 +146,88 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 			.filter(
 				city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
 			)
-	}, [data, regionFilter, stateFilter, allNames.cities, searchFilter])
+	}, [data, regionFilter, stateFilter, admRegionFilter, allNames.cities, searchFilter])
 
 	const filteredData = useMemo(() => {
 		// 1. Copia superficial de 'data' y filtrado directo
 		// let filteredData = structuredClone(data)
 		let filteredData = data
 
-		// 2. Aplicar los filtros de región
-		if (regionFilter) {
-			filteredData = filteredData.filter(region => region.name === regionFilter)
+		// 2. Aplicar los filtros de región administrativa
+		if (admRegionFilter) {
+			filteredData = filteredData.filter(admRegion => admRegion.name === admRegionFilter)
 		}
 
-		// 3. Filtrado por estado
+		// 3. Filtrado por región
+		if (regionFilter) {
+			filteredData = filteredData
+				.map(admRegion => ({
+					...admRegion,
+					regions: admRegion.regions.filter(region => region.name === regionFilter)
+				}))
+				.filter(admRegion => admRegion.regions.length > 0)
+		}
+
+		// 4. Filtrado por estado
 		if (stateFilter) {
 			filteredData = filteredData
-				.map(region => ({
-					...region,
-					states: region.states.filter(state => state.name === stateFilter)
+				.map(admRegion => ({
+					...admRegion,
+					regions: admRegion.regions
+						.map(region => ({
+							...region,
+							states: region.states.filter(state => state.name === stateFilter)
+						}))
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
+				.filter(admRegion => admRegion.regions.length > 0)
 		}
-
-		// 4. Filtrado por ciudad
+		// 5. Filtrado por ciudad
 		if (cityFilter) {
 			filteredData = filteredData
-				.map(region => ({
-					...region,
-					states: region.states
-						.map(state => ({
-							...state,
-							cities: state.cities.filter(city => city.name === cityFilter)
+				.map(amdRegion => ({
+					...amdRegion,
+					regions: amdRegion.regions
+						.map(region => ({
+							...region,
+							states: region.states
+								.map(state => ({
+									...state,
+									cities: state.cities.filter(city => city.name === cityFilter)
+								}))
+								.filter(state => state.cities.length > 0)
 						}))
-						.filter(state => state.cities.length > 0)
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
+				.filter(admRegion => admRegion.regions.length > 0)
 		}
 		return filteredData
-	}, [data, regionFilter, stateFilter, cityFilter])
+	}, [data, regionFilter, stateFilter, cityFilter, admRegionFilter])
 
 	const distributionData = useMemo(() => {
 		const locationMap = new Map<string, number>()
 
 		// 6. Conversión a array y ordenamiento
-		filteredData.forEach(region => {
+		filteredData.forEach(admRegion => {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			let dataToUse: any[] = []
 
-			if (viewBy === 'region') {
-				dataToUse = [region]
+			if (viewBy === 'admRegion') {
+				dataToUse = [admRegion]
+			} else if (viewBy === 'region') {
+				dataToUse = admRegion.regions
 			} else if (viewBy === 'state') {
-				dataToUse = region.states
+				dataToUse = admRegion.regions.flatMap(region => region.states)
 			} else if (viewBy === 'city') {
-				dataToUse = region.states.flatMap(state => state.cities)
-			} else if (viewBy === 'sites') {
-				dataToUse = region.states.flatMap(state => state.cities).flatMap(city => city.sites)
-			} else if (viewBy === 'location') {
-				dataToUse = region.states
+				dataToUse = admRegion.regions
+					.flatMap(region => region.states)
 					.flatMap(state => state.cities)
-					.flatMap(city => city.sites.flatMap(site => site.locations))
+			} else if (viewBy === 'location') {
+				dataToUse = admRegion.regions
+					.flatMap(region => region.states)
+					.flatMap(state =>
+						state.cities.flatMap(city => city.sites.flatMap(site => site.locations))
+					)
 			}
 
 			dataToUse.forEach(item => {
@@ -180,6 +251,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	}, [filteredData, viewBy, searchFilter, sortOrder])
 	// Clear filters
 	const clearFilters = () => {
+		setAdmRegionFilter('')
 		setRegionFilter('')
 		setStateFilter('')
 		setCityFilter('')
@@ -197,11 +269,13 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		barName,
 		dynamicHeight,
 		hasActiveFilters,
+		uniqueAdmRegions,
 		uniqueRegions,
 		uniqueStates,
 		uniqueCities,
 		viewBy,
 		sortOrder,
+		admRegionFilter,
 		regionFilter,
 		stateFilter,
 		cityFilter,
@@ -212,6 +286,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		setStateFilter,
 		setCityFilter,
 		setSearchFilter,
+		setAdmRegionFilter,
 		setSortOrder
 	}
 }

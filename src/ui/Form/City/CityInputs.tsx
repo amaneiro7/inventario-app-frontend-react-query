@@ -8,6 +8,7 @@ import {
 } from '@/core/locations/city/infra/reducers/cityFormReducer'
 import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
 import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
+import { AdministrativeRegionCombobox } from '@/components/ComboBox/Sincrono/AdministrativeRegionComboBox'
 
 interface Props {
 	formData: DefaultCity
@@ -19,10 +20,17 @@ interface Props {
 export const CityInputs = memo(function ({ errors, required, formData, handleChange }: Props) {
 	return (
 		<>
+			<AdministrativeRegionCombobox
+				value={formData.administrativeRegionId}
+				handleChange={(_name, value) => handleChange('administrativeRegionId', value)}
+				name="administrativeRegionId"
+				required={required.administrativeRegionId}
+			/>
 			<RegionCombobox
 				value={formData.regionId}
 				handleChange={(_name, value) => handleChange('regionId', value)}
 				name="regionId"
+				administrativeRegionId={formData.administrativeRegionId}
 				required={required.regionId}
 			/>
 			<StateCombobox

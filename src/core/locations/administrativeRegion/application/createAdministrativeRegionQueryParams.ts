@@ -4,25 +4,24 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type RegionDto } from '../domain/dto/region.dto'
+import { type AdministrativeRegionDto } from '../domain/dto/administrativeRegion.dto'
 
-export interface RegionFilters {
-	id?: RegionDto['id']
-	name?: RegionDto['name']
-	administrativeRegionId?: RegionDto['administrativeRegionId']
+export interface AdministrativeRegionFilters {
+	id?: AdministrativeRegionDto['id']
+	name?: AdministrativeRegionDto['name']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
 	orderType?: Primitives<OrderType>
 }
 
-export async function createRegionParams({
+export async function createAdministrativeRegionParams({
 	pageNumber,
 	pageSize,
 	orderBy,
 	orderType,
 	...options
-}: RegionFilters): Promise<string> {
+}: AdministrativeRegionFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,

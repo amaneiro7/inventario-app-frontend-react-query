@@ -5,7 +5,7 @@ export interface ComputerDashboardDto {
 	status: Status[]
 	category: Category[]
 	brand: Brand[]
-	region: Region[]
+	region: Regions[]
 	hardDrive: HardDrive[]
 	operatingSystem: OperatingSystem[]
 	memoryRamCapacity: MemoryRamCapacity[]
@@ -40,6 +40,11 @@ export interface Category {
 	typeOfSite: TypeOfSite[]
 }
 
+export interface Regions {
+	name: string
+	count: number
+	regions: Region[]
+}
 export interface Region {
 	name: string
 	count: number
