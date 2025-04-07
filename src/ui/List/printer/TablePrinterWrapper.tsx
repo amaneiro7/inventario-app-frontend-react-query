@@ -3,6 +3,7 @@ import { useGetAllPrinterDevices } from '@/core/devices/devices/infra/hook/useGe
 import { TableDefaultDevice } from '../TableDefaultDevice'
 import { DevicePrinterFilter } from '@/core/devices/devices/application/printer/DevicePrinterFilter'
 import { type DevicePrinterFilters } from '@/core/devices/devices/application/printer/CreateDevicePrinterParams'
+import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 
 interface TablePrinterWrapperProps {
 	query: DevicePrinterFilters
@@ -22,7 +23,7 @@ export function TablePrinterWrapper({
 	handlePageClick
 }: TablePrinterWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllPrinterDevices(query)
-	const colSpan = 8
+	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}
@@ -43,11 +44,17 @@ export function TablePrinterWrapper({
 			totalPage={devices?.info?.totalPage}
 			pageSize={query?.pageSize}
 			total={devices?.info?.total}
+			headers={headers}
 		>
 			<>
 				{devices !== undefined && (
 					<Suspense>
-						<TablePrinter colSpan={colSpan} isError={isError} devices={devices.data} />
+						<TablePrinter
+							colSpan={colSpan}
+							isError={isError}
+							devices={devices.data}
+							visibleColumns={visibleColumns}
+						/>
 					</Suspense>
 				)}
 			</>

@@ -29,7 +29,6 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 	})
 
 	const mapDepartamentoToState = useCallback((departamento: DepartamentoDto): void => {
-		console.log(departamento)
 		setState({
 			id: departamento.id,
 			name: departamento.name,

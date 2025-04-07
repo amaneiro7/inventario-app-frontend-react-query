@@ -6,7 +6,10 @@ export function useDefaulDeviceHeader() {
 	const isBreakpointSmall = useMediaQuery('(max-width: 1120px)')
 	const isBreakpointExtraSmall = useMediaQuery('(max-width: 970px)')
 	const isBreakpointUltraSmall = useMediaQuery('(max-width: 855px)')
-	const colSpan = isBreakpointUltraSmall
+	const isBreakpointUltraTinySmall = useMediaQuery('(max-width: 750px)')
+	const colSpan = isBreakpointUltraTinySmall
+		? 4
+		: isBreakpointUltraSmall
 		? 5
 		: isBreakpointExtraSmall
 		? 6
@@ -29,7 +32,7 @@ export function useDefaulDeviceHeader() {
 				hasOrder: true,
 				size: 'large',
 				isTab: true,
-				visible: true
+				visible: !isBreakpointUltraTinySmall
 			},
 			{
 				key: 'serial',
@@ -80,7 +83,12 @@ export function useDefaulDeviceHeader() {
 				visible: true
 			}
 		],
-		[isBreakpointSmall, isBreakpointExtraSmall, isBreakpointUltraSmall]
+		[
+			isBreakpointSmall,
+			isBreakpointExtraSmall,
+			isBreakpointUltraSmall,
+			isBreakpointUltraTinySmall
+		]
 	)
 
 	const visibleColumns = useMemo(() => {

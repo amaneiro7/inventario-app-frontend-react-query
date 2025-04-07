@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllScreenDevices } from '@/core/devices/devices/infra/hook/useGetAllScreenDevices'
+import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 import { TableDefaultDevice } from '../TableDefaultDevice'
 import { DeviceScreenFilter } from '@/core/devices/devices/application/screenFilter/DeviceScreenFilter'
 import { type DeviceScreenFilters } from '@/core/devices/devices/application/screenFilter/CreateDeviceScreenParams'
-import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 
 interface TableScreenWrapperProps {
 	query: DeviceScreenFilters

@@ -1,10 +1,13 @@
+import { lazy, Suspense } from 'react'
+import { eventManager } from '@/utils/eventManager'
+import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
+import { useTableModelWrapper } from './useTableModelWrapper'
+
 import { Table } from '@/components/Table/Table'
 import { TableBody } from '@/components/Table/TableBody'
 import { TableHead } from '@/components/Table/TableHead'
 import { TableHeader } from '@/components/Table/TableHeader'
 import { TableRow } from '@/components/Table/TableRow'
-import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
-import { lazy, Suspense } from 'react'
 import { TabsNav } from '../Tab/TabsNav'
 import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
 import { ModelGetByCriteria } from '@/core/model/models/application/ModelGetByCriteria'
@@ -16,14 +19,14 @@ interface Props {
 	query: ModelFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
-	handleSort: (field: string) => void
+	handleSort: (field: string) => Promise<void>
 }
 
 const TableModels = lazy(() => import('./TableModels').then(m => ({ default: m.TableModels })))
 
 export function TableModelWrapper({ query, handlePageSize, handlePageClick, handleSort }: Props) {
 	const { models, isError, isLoading } = useGetAllModel(query)
-	const colSpan = 6
+	const { colSpan, headers, visibleColumns } = useTableModelWrapper()
 	return (
 		<>
 			<TablePageWrapper>
@@ -37,65 +40,48 @@ export function TableModelWrapper({ query, handlePageSize, handlePageClick, hand
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead
-								handleSort={handleSort}
-								aria-colindex={1}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="categoryId"
-								size="small"
-								name="Category"
-							/>
-							<TableHead
-								handleSort={handleSort}
-								aria-colindex={2}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="mainCategoyId"
-								size="small"
-								name="SubCategoria"
-							/>
-							<TableHead
-								handleSort={handleSort}
-								aria-colindex={3}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="brandId"
-								size="small"
-								name="Marca"
-							/>
-							<TableHead
-								handleSort={handleSort}
-								aria-colindex={4}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="name"
-								size="large"
-								name="Modelo"
-							/>
-							<TableHead
-								handleSort={handleSort}
-								aria-colindex={5}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="generic"
-								size="small"
-								name="Genérico"
-							/>
-							<TableHead aria-colindex={6} size="xxSmall" name="" />
+							{headers
+								.filter(header => header.visible)
+								.map((header, index) => (
+									<TableHead
+										aria-colindex={index}
+										key={header.key}
+										isTab={header.isTab}
+										handleSort={
+											header.hasOrder ? eventManager(handleSort) : undefined
+										}
+										name={header.label}
+										orderBy={header.hasOrder ? query.orderBy : undefined}
+										orderType={header.hasOrder ? query.orderType : undefined}
+										orderByField={header.hasOrder ? header.key : undefined}
+										size={header.size}
+									/>
+								))}
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						<>
-							{isLoading && (
-								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
-							)}
+							{isLoading ||
+								(models === undefined && (
+									<LoadingTable
+										registerPerPage={query?.pageSize}
+										colspan={colSpan}
+									/>
+								))}
 							{models !== undefined && (
-								<Suspense>
+								<Suspense
+									fallback={
+										<LoadingTable
+											registerPerPage={query?.pageSize}
+											colspan={colSpan}
+										/>
+									}
+								>
 									<TableModels
 										colSpan={colSpan}
 										isError={isError}
 										models={models.data}
+										visibleColumns={visibleColumns}
 									/>
 								</Suspense>
 							)}

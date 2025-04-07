@@ -25,6 +25,48 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
 				<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
 
+				{device.employee?.name && (
+					<>
+						<TableCellDescInfo
+							title="Nombre y Apellido"
+							text={`${device?.employee?.name ?? ''} ${
+								device?.employee?.lastName ?? ''
+							}`}
+						/>
+						<TableCellDescInfo
+							title="Código de empleado"
+							text={`${device?.employee?.employeeCode ?? ''}`}
+						/>
+						<TableCellDescInfo
+							title="Cédula"
+							text={`${device?.employee.nationality ?? ''}-${
+								convertNumberMiles(device?.employee?.cedula) ?? ''
+							}`}
+						/>
+						<TableCellDescInfo
+							title="Directiva"
+							text={
+								device?.employee?.departamento?.vicepresidenciaEjecutiva?.directiva
+									?.name ?? ''
+							}
+						/>
+						<TableCellDescInfo
+							title="V.P.E."
+							text={
+								device?.employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''
+							}
+						/>
+						<TableCellDescInfo
+							title="Departamento"
+							text={device?.employee?.departamento?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="Cargo"
+							text={device?.employee?.cargo?.name ?? ''}
+						/>
+					</>
+				)}
+
 				{device?.location?.site?.city?.state?.region?.name && (
 					<TableCellDescInfo
 						title="Región"
@@ -51,52 +93,6 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 				)}
 				{!visibleColumns.includes('locationId') && (
 					<TableCellDescInfo title="Ubicación" text={`${device?.locationId ?? ''}`} />
-				)}
-
-				{device.employee?.name && (
-					<>
-						<TableCellDescInfo
-							title="Nombre y Apellido"
-							text={`${device?.employee?.name ?? ''} ${
-								device?.employee?.lastName ?? ''
-							}`}
-						/>
-						<TableCellDescInfo
-							title="Código de empleado"
-							text={`${device?.employee?.employeeCode ?? ''}`}
-						/>
-						<TableCellDescInfo
-							title="Cédula"
-							text={`${device?.employee.nationality ?? ''}-${
-								convertNumberMiles(device?.employee?.cedula) ?? ''
-							}`}
-						/>
-					</>
-				)}
-				{device.employee?.name && (
-					<>
-						<TableCellDescInfo
-							title="Directiva"
-							text={
-								device?.employee?.departamento?.vicepresidenciaEjecutiva?.directiva
-									?.name ?? ''
-							}
-						/>
-						<TableCellDescInfo
-							title="V.P.E."
-							text={
-								device?.employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''
-							}
-						/>
-						<TableCellDescInfo
-							title="Departamento"
-							text={device?.employee?.departamento?.name ?? ''}
-						/>
-						<TableCellDescInfo
-							title="Cargo"
-							text={device?.employee?.cargo?.name ?? ''}
-						/>
-					</>
 				)}
 
 				{!visibleColumns.includes('categoryId') && (

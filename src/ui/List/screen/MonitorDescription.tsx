@@ -1,28 +1,17 @@
-import { lazy } from 'react'
+import { memo } from 'react'
+import { TableCellDescription } from '@/components/Table/TableCellDescription'
+import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
+import { getRelativeTime } from '@/utils/getRelativeTime'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 
 interface Props {
 	open: boolean
 	device: DeviceDto
+	colSpan: number
+	visibleColumns: string[]
 }
 
-const TableCellDescInfo = lazy(async () =>
-	import('@/components/Table/TableCellDescInfo').then(m => ({
-		default: m.TableCellDescInfo
-	}))
-)
-const TableCellDescription = lazy(async () =>
-	import('@/components/Table/TableCellDescription').then(m => ({
-		default: m.TableCellDescription
-	}))
-)
-const TableDescDivider = lazy(async () =>
-	import('@/components/Table/TableDescDivider').then(m => ({
-		default: m.TableDescDivider
-	}))
-)
-
-export function MonitorDescription({ open, device }: Props) {
+export const MonitorDescription = memo(({ open, device, visibleColumns, colSpan }: Props) => {
 	return (
 		<>
 			<TableCellDescription
@@ -30,15 +19,13 @@ export function MonitorDescription({ open, device }: Props) {
 				state={device}
 				stateId={device.id}
 				url={`/device/edit/${device.id}`}
-				colspan={10}
+				colspan={colSpan}
 			>
-				<TableDescDivider label="Información básica">
-					<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
-					<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
-				</TableDescDivider>
+				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
+				<TableCellDescInfo title="Activo" text={device.activo ?? 'Sin Activo'} />
 
 				{device.employee?.name && (
-					<TableDescDivider label="Información de usuario">
+					<>
 						<TableCellDescInfo
 							title="Nombre y Apellido"
 							text={`${device?.employee?.name ?? ''} ${
@@ -62,52 +49,85 @@ export function MonitorDescription({ open, device }: Props) {
 							title="Cédula"
 							text={`${device?.employee?.cedula ?? ''}`}
 						/>
-					</TableDescDivider>
+					</>
 				)}
 
-				<TableDescDivider label="Información de ubicación">
+				{device?.location?.site?.city?.state?.region?.name && (
 					<TableCellDescInfo
 						title="Región"
-						text={`${device?.location?.site.city.state.region.name ?? ''}`}
+						text={`${device?.location?.site?.city?.state?.region?.name ?? ''}`}
 					/>
+				)}
+				{device?.location?.site.city.state.name && (
 					<TableCellDescInfo
 						title="Estado"
 						text={`${device?.location?.site.city.state.name ?? ''}`}
 					/>
+				)}
+				{device?.location?.site.city.name && (
 					<TableCellDescInfo
 						title="Ciudad"
 						text={`${device?.location?.site.city.name ?? ''}`}
 					/>
-				</TableDescDivider>
+				)}
+				{device?.location?.site?.name && (
+					<TableCellDescInfo
+						title="Sitio"
+						text={`${device?.location?.site?.name ?? ''}`}
+					/>
+				)}
+				{!visibleColumns.includes('locationId') && (
+					<TableCellDescInfo title="Ubicación" text={`${device?.locationId ?? ''}`} />
+				)}
 
-				<TableDescDivider label="Información de pantalla">
-					<TableCellDescInfo
-						title="Tamaño de Pantalla"
-						text={
-							device?.model?.modelMonitor
-								? `${device?.model?.modelMonitor?.screenSize}'`
-								: ''
-						}
-					/>
-					<TableCellDescInfo
-						title="Puerto VGA"
-						text={device?.model?.modelMonitor?.hasVGA ? 'Si' : 'No'}
-					/>
-					<TableCellDescInfo
-						title="Puerto DVI"
-						text={device?.model?.modelMonitor?.hasDVI ? 'Si' : 'No'}
-					/>
-					<TableCellDescInfo
-						title="Puerto HDMI"
-						text={device?.model?.modelMonitor?.hasHDMI ? 'Si' : 'No'}
-					/>
-				</TableDescDivider>
+				{!visibleColumns.includes('categoryId') && (
+					<TableCellDescInfo title="Categoria" text={device.category.name ?? ''} />
+				)}
+				{!visibleColumns.includes('brandId') && (
+					<TableCellDescInfo title="Marca" text={device.brand.name ?? ''} />
+				)}
+				{!visibleColumns.includes('modelId') && (
+					<TableCellDescInfo title="Modelo" text={device.model.name ?? ''} />
+				)}
+
+				<TableCellDescInfo
+					title="Tamaño de Pantalla"
+					text={
+						device?.model?.modelMonitor
+							? `${device?.model?.modelMonitor?.screenSize}'`
+							: ''
+					}
+				/>
+				<TableCellDescInfo
+					title="Puerto VGA"
+					text={device?.model?.modelMonitor?.hasVGA ? 'Si' : 'No'}
+				/>
+				<TableCellDescInfo
+					title="Puerto DVI"
+					text={device?.model?.modelMonitor?.hasDVI ? 'Si' : 'No'}
+				/>
+				<TableCellDescInfo
+					title="Puerto HDMI"
+					text={device?.model?.modelMonitor?.hasHDMI ? 'Si' : 'No'}
+				/>
+
+				{!visibleColumns.includes('observation') && (
+					<TableCellDescInfo title="Observación" text={device.observation ?? ''} />
+				)}
 
 				<TableCellDescInfo
 					title="Última Actualización"
-					text={device.updatedAt ? new Date(device.updatedAt).toLocaleDateString() : ''}
+					text={
+						device.updatedAt
+							? `${new Date(
+									device.updatedAt
+							  ).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
+							: 'Sin Actualización'
+					}
 				/>
 			</TableCellDescription>
 		</>
 	)
-}
+})
+
+MonitorDescription.displayName = 'MonitorDescription'

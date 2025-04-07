@@ -1,72 +1,128 @@
 import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { TableCellDescription } from '@/components/Table/TableCellDescription'
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
+import { getRelativeTime } from '@/utils/getRelativeTime'
+import { memo } from 'react'
 
 interface EmployeeDescriptionProps {
 	open: boolean
 	employee: EmployeeDto
+	colSpan: number
+	visibleColumns: string[]
 }
 
-export function EmployeeDescription({ open, employee }: EmployeeDescriptionProps) {
-	return (
-		<>
-			<TableCellDescription
-				open={open}
-				state={employee}
-				stateId={employee.id}
-				url={`/employee/edit/${employee.id}`}
-				colspan={11}
-			>
-				<TableCellDescInfo title="Tipo de usuario" text={employee?.type} />
-				<TableCellDescInfo title="Activo" text={employee?.isStillWorking ? 'Si' : 'No'} />
-
-				{employee?.cedula && (
+export const EmployeeDescription = memo(
+	({ open, employee, colSpan, visibleColumns }: EmployeeDescriptionProps) => {
+		return (
+			<>
+				<TableCellDescription
+					open={open}
+					state={employee}
+					stateId={employee.id}
+					url={`/employee/edit/${employee.id}`}
+					colspan={colSpan}
+				>
+					<TableCellDescInfo title="Tipo de usuario" text={employee?.type} />
 					<TableCellDescInfo
-						title="Cedula"
-						text={`${employee.nationality}-${employee.cedula}`}
+						title="Activo"
+						text={employee?.isStillWorking ? 'Si' : 'No'}
 					/>
-				)}
-				<TableCellDescInfo title="Correo eléctronico" text={employee.email ?? ''} />
+					{!visibleColumns.includes('employeeCode') && employee?.employeeCode && (
+						<TableCellDescInfo
+							title="Cod. de Empleado"
+							text={`${employee?.employeeCode}`}
+						/>
+					)}
 
-				<TableCellDescInfo
-					title="Centro de Costo"
-					text={`${employee?.centroTrabajo?.centroCosto?.id} - ${employee?.centroTrabajo?.centroCosto?.name}`}
-				/>
+					{!visibleColumns.includes('name') && employee?.name && (
+						<TableCellDescInfo title="Nombres" text={employee.name} />
+					)}
+					{!visibleColumns.includes('lastName') && employee?.lastName && (
+						<TableCellDescInfo title="Apellidos" text={employee.lastName} />
+					)}
+					{employee?.cedula && (
+						<TableCellDescInfo
+							title="Cedula"
+							text={`${employee.nationality}-${employee.cedula}`}
+						/>
+					)}
+					<TableCellDescInfo title="Correo eléctronico" text={employee.email ?? ''} />
 
-				<TableCellDescInfo
-					title="Centro de Trabajo"
-					text={`${employee?.centroTrabajoId} - ${employee?.centroTrabajo?.name}`}
-				/>
+					{employee?.centroTrabajo?.centroCosto?.id && (
+						<TableCellDescInfo
+							title="Centro de Costo"
+							text={`${employee?.centroTrabajo?.centroCosto?.id} - ${employee?.centroTrabajo?.centroCosto?.name}`}
+						/>
+					)}
 
-				<TableCellDescInfo
-					title="Directiva"
-					text={employee?.departamento?.vicepresidenciaEjecutiva?.directiva?.name ?? ''}
-				/>
-				<TableCellDescInfo
-					title="V.P.E"
-					text={employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''}
-				/>
-				<TableCellDescInfo
-					title="Región"
-					text={`${employee?.location?.site?.city?.state?.region?.name ?? ''}`}
-				/>
-				<TableCellDescInfo
-					title="Estado"
-					text={`${employee?.location?.site?.city?.state?.name ?? ''}`}
-				/>
-				<TableCellDescInfo
-					title="Ciudad"
-					text={`${employee?.location?.site?.city?.name ?? ''}`}
-				/>
-				<TableCellDescInfo title="Ubicación" text={`${employee?.location?.name ?? ''}`} />
+					{employee?.centroTrabajoId && (
+						<TableCellDescInfo
+							title="Centro de Trabajo"
+							text={`${employee?.centroTrabajoId} - ${employee?.centroTrabajo?.name}`}
+						/>
+					)}
 
-				<TableCellDescInfo
-					title="Última Actualización"
-					text={
-						employee.updatedAt ? new Date(employee.updatedAt).toLocaleDateString() : ''
-					}
-				/>
-			</TableCellDescription>
-		</>
-	)
-}
+					{employee?.departamento?.vicepresidenciaEjecutiva?.directiva?.name && (
+						<TableCellDescInfo
+							title="Directiva"
+							text={
+								employee?.departamento?.vicepresidenciaEjecutiva?.directiva?.name ??
+								''
+							}
+						/>
+					)}
+					{employee?.departamento?.vicepresidenciaEjecutiva?.name && (
+						<TableCellDescInfo
+							title="V.P.E"
+							text={employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''}
+						/>
+					)}
+					{employee?.departamento?.name && !visibleColumns.includes('departamentoId') && (
+						<TableCellDescInfo
+							title="Departamento"
+							text={employee?.departamento?.name ?? ''}
+						/>
+					)}
+					{employee?.cargo?.name && !visibleColumns.includes('cargoId') && (
+						<TableCellDescInfo title="Cargo" text={employee?.cargo?.name ?? ''} />
+					)}
+					{employee?.location?.site?.city?.state?.region?.name && (
+						<TableCellDescInfo
+							title="Región"
+							text={`${employee?.location?.site?.city?.state?.region?.name ?? ''}`}
+						/>
+					)}
+					{employee?.location?.site?.city?.state?.name && (
+						<TableCellDescInfo
+							title="Estado"
+							text={`${employee?.location?.site?.city?.state?.name ?? ''}`}
+						/>
+					)}
+					{employee?.location?.site?.city?.name && (
+						<TableCellDescInfo
+							title="Ciudad"
+							text={`${employee?.location?.site?.city?.name ?? ''}`}
+						/>
+					)}
+					{employee?.location?.name && (
+						<TableCellDescInfo
+							title="Ubicación"
+							text={`${employee?.location?.name ?? ''}`}
+						/>
+					)}
+
+					<TableCellDescInfo
+						title="Última Actualización"
+						text={
+							employee.updatedAt
+								? `${new Date(
+										employee.updatedAt
+								  ).toLocaleDateString()} (${getRelativeTime(employee.updatedAt)})`
+								: 'Sin Actualización'
+						}
+					/>
+				</TableCellDescription>
+			</>
+		)
+	}
+)

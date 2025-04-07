@@ -1,5 +1,8 @@
 import { lazy, memo, Suspense } from 'react'
 import { useGetAllEmployees } from '@/core/employee/employee/infra/hook/useGetAllEmployee'
+import { eventManager } from '@/utils/eventManager'
+import { useTableDeviceWrapper } from './useTableEmployeeWrapper'
+
 import { EmployeeGetByCriteria } from '@/core/employee/employee/application/EmployeeGetByCriteria'
 import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
 import { Table } from '@/components/Table/Table'
@@ -16,7 +19,7 @@ interface TableEmployeeWrapperProps {
 	query: EmployeeFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
-	handleSort: (field: string) => void
+	handleSort: (field: string) => Promise<void>
 }
 
 const TableEmployees = lazy(() =>
@@ -30,7 +33,7 @@ export const TableEmployeeWrapper = memo(function ({
 	handleSort
 }: TableEmployeeWrapperProps) {
 	const { employees, isLoading, isError } = useGetAllEmployees(query)
-	const colSpan = 10
+	const { colSpan, headers, visibleColumns } = useTableDeviceWrapper()
 
 	return (
 		<>
@@ -45,79 +48,34 @@ export const TableEmployeeWrapper = memo(function ({
 				<Table>
 					<TableHeader>
 						<TableRow>
-							<TableHead
-								aria-colindex={1}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="employeeCode"
-								size="xxSmall"
-								name="Cod. Empleado"
-							/>
-							<TableHead
-								aria-colindex={2}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="userName"
-								size="small"
-								name="Usuario"
-							/>
-							<TableHead
-								aria-colindex={3}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="name"
-								size="small"
-								name="Nombres"
-							/>
-							<TableHead
-								aria-colindex={4}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="lastName"
-								size="small"
-								name="Apellidos"
-							/>
-							<TableHead
-								aria-colindex={5}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="centroTrabajoId"
-								size="xxSmall"
-								name="Centro Trabajo"
-							/>
-							<TableHead
-								aria-colindex={6}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="departamentoId"
-								size="xLarge"
-								name="Departamento"
-							/>
-							<TableHead
-								aria-colindex={7}
-								handleSort={handleSort}
-								orderBy={query.orderBy}
-								orderType={query.orderType}
-								orderByField="cargoId"
-								size="xLarge"
-								name="Cargo"
-							/>
-							<TableHead aria-colindex={8} size="small" name="Teléfono" />
-							<TableHead aria-colindex={9} size="small" name="Extensón" />
-							<TableHead aria-colindex={10} size="xxSmall" name="" />
+							{headers
+								.filter(header => header.visible)
+								.map((header, index) => (
+									<TableHead
+										aria-colindex={index}
+										key={header.key}
+										isTab={header.isTab}
+										handleSort={
+											header.hasOrder ? eventManager(handleSort) : undefined
+										}
+										name={header.label}
+										orderBy={header.hasOrder ? query.orderBy : undefined}
+										orderType={header.hasOrder ? query.orderType : undefined}
+										orderByField={header.hasOrder ? header.key : undefined}
+										size={header.size}
+									/>
+								))}
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						<>
-							{isLoading && (
-								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
-							)}
+							{isLoading ||
+								(employees === undefined && (
+									<LoadingTable
+										registerPerPage={query?.pageSize}
+										colspan={colSpan}
+									/>
+								))}
 							{employees !== undefined && (
 								<Suspense
 									fallback={
@@ -131,6 +89,7 @@ export const TableEmployeeWrapper = memo(function ({
 										colSpan={colSpan}
 										isError={isError}
 										employees={employees.data}
+										visibleColumns={visibleColumns}
 									/>
 								</Suspense>
 							)}

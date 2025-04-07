@@ -12,9 +12,10 @@ interface Props {
 	models?: ModelDto[]
 	isError: boolean
 	colSpan: number
+	visibleColumns: string[]
 }
 
-export function TableModels({ models, colSpan, isError }: Props) {
+export function TableModels({ models, colSpan, isError, visibleColumns }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
 	if (isError) {
 		return <TableCellError colSpan={colSpan} />
@@ -33,15 +34,30 @@ export function TableModels({ models, colSpan, isError }: Props) {
 						}`}
 						onClick={() => handleRowClick(model.id)}
 					>
-						<TableCell size="small" value={model?.category?.mainCategory?.name} />
-						<TableCell size="small" value={model?.category?.name} />
-						<TableCell size="small" value={model?.brand?.name} />
-						<TableCell size="large" value={model?.name} />
-						<TableCell size="small" value={model?.generic ? 'Si' : 'No'} />
+						{visibleColumns.includes('mainCategoryId') ? (
+							<TableCell size="small" value={model?.category?.mainCategory?.name} />
+						) : null}
+						{visibleColumns.includes('categoryId') ? (
+							<TableCell size="small" value={model?.category?.name} />
+						) : null}
+						{visibleColumns.includes('brandId') ? (
+							<TableCell size="small" value={model?.brand?.name} />
+						) : null}
+						{visibleColumns.includes('name') ? (
+							<TableCell size="large" value={model?.name} />
+						) : null}
+						{visibleColumns.includes('generic') ? (
+							<TableCell size="small" value={model?.generic ? 'Si' : 'No'} />
+						) : null}
 						<TableCellOpenIcon open={expandedRows.includes(model.id)} />
 					</TableRow>
 
-					<ModelDescription open={expandedRows.includes(model.id)} model={model} />
+					<ModelDescription
+						open={expandedRows.includes(model.id)}
+						model={model}
+						colSpan={colSpan}
+						visibleColumns={visibleColumns}
+					/>
 				</React.Fragment>
 			))}
 		</>

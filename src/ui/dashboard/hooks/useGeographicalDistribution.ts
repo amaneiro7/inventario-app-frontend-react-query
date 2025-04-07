@@ -170,7 +170,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		if (sortOrder === 'name') {
 			resultArray.sort((a, b) => a.name.localeCompare(b.name))
 		} else if (sortOrder === 'count') {
-			resultArray.sort((a, b) => a.value - b.value)
+			resultArray.sort((a, b) => b.value - a.value)
 		}
 
 		if (!hasActiveFilters) {

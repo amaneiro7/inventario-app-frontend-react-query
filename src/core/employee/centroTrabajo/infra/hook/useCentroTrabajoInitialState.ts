@@ -29,7 +29,6 @@ export function useCentroTrabajoInitialState(defaultState: DefaultCentroTrabajo)
 	})
 
 	const mappedCentroTrabajoState = useCallback((centroTrabajo: CentroTrabajoDto): void => {
-		console.log('centroTrabajo', centroTrabajo)
 		setState({
 			id: centroTrabajo.id,
 			name: centroTrabajo.name,

@@ -71,8 +71,8 @@ export const TableDevice = memo(
 						</TableRow>
 						<ComputerDescription
 							open={expandedRows.includes(device.id)}
-							colSpan={colSpan}
 							device={device}
+							colSpan={colSpan}
 							visibleColumns={visibleColumns}
 						/>
 					</React.Fragment>

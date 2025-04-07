@@ -17,7 +17,7 @@ interface Props {
 
 export function TableScreen({ devices, isError, colSpan, visibleColumns }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
-	console.log(visibleColumns)
+
 	if (isError) {
 		return <TableCellError colSpan={colSpan} />
 	}
@@ -59,7 +59,12 @@ export function TableScreen({ devices, isError, colSpan, visibleColumns }: Props
 						<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 					</TableRow>
 
-					<MonitorDescription open={expandedRows.includes(device.id)} device={device} />
+					<MonitorDescription
+						open={expandedRows.includes(device.id)}
+						device={device}
+						colSpan={colSpan}
+						visibleColumns={visibleColumns}
+					/>
 				</React.Fragment>
 			))}
 		</>

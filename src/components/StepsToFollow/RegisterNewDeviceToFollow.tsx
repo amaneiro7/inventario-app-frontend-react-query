@@ -1,45 +1,24 @@
-import { lazy, Suspense } from 'react'
+import { memo } from 'react'
+import { RightArrowIcon } from '@/icon/RightArrowIcon'
+import { StepsText } from './StepsTexto'
+import { CancelIcon } from '@/icon/CancelIcon'
+import { ResetIcon } from '@/icon/ResetIcon'
 
-const RightArrowIcon = lazy(async () =>
-	import('@/icon/RightArrowIcon').then(m => ({ default: m.RightArrowIcon }))
-)
-const CancelIcon = lazy(async () =>
-	import('@/icon/CancelIcon').then(m => ({ default: m.CancelIcon }))
-)
-const ResetIcon = lazy(async () => import('@/icon/ResetIcon').then(m => ({ default: m.ResetIcon })))
-const StepsText = lazy(async () => import('./StepsTexto').then(m => ({ default: m.StepsText })))
-
-export function RegisterNewDeviceToFollow({ isEdit = true }: { isEdit: boolean }) {
+export const RegisterNewDeviceToFollow = memo(({ isEdit = true }: { isEdit: boolean }) => {
 	return (
 		<>
 			<StepsText
 				requisito="obligatorio"
 				text="Ingrese la informacón solicitada, si es correcto, oprima "
 				iconText="Guardar"
-				icon={
-					<Suspense
-						fallback={
-							<span className="w-4 h-4 rounded-full bg-slate-200 animate-pulse" />
-						}
-					>
-						<RightArrowIcon width={16} className="fill-white" />
-					</Suspense>
-				}
+				icon={<RightArrowIcon width={16} className="fill-white" />}
 				backgroundColor="verde"
 			/>
 			<StepsText
 				requisito="opcional"
 				text="Si desea abortar la operación, oprima "
 				iconText="Regresar"
-				icon={
-					<Suspense
-						fallback={
-							<span className="w-4 h-4 rounded-full bg-slate-200 animate-pulse" />
-						}
-					>
-						<CancelIcon width={16} />
-					</Suspense>
-				}
+				icon={<CancelIcon width={16} />}
 				backgroundColor="gris"
 			/>
 			{isEdit ? (
@@ -47,18 +26,12 @@ export function RegisterNewDeviceToFollow({ isEdit = true }: { isEdit: boolean }
 					requisito="opcional"
 					text="Si desea restaurar los cambios sin guardar, oprima "
 					iconText="Reset"
-					icon={
-						<Suspense
-							fallback={
-								<span className="w-4 h-4 rounded-full bg-slate-200 animate-pulse" />
-							}
-						>
-							<ResetIcon width={16} />
-						</Suspense>
-					}
+					icon={<ResetIcon width={16} />}
 					backgroundColor="azul"
 				/>
 			) : null}
 		</>
 	)
-}
+})
+
+RegisterNewDeviceToFollow.displayName = 'RegisterNewDeviceToFollow'

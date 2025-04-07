@@ -63,7 +63,7 @@ export const DepartamentoCombobox = memo(function ({
 		(name: string, value: string | number) => {
 			if (method === 'form' && 'handleFormChange' in props) {
 				const data = getDepartamentosData(value)
-				console.log('departamento combobox', data)
+
 				props.handleFormChange({
 					value: `${value}`,
 					centroCostoId: data?.centroCostoId ?? ''

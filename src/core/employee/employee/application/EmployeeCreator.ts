@@ -31,7 +31,7 @@ export class EmployeeCreator {
 
 			// Crea el payload del modelo.
 			const payload = employee.toPrimitives()
-			console.log('payload', payload)
+
 			const result = params.id
 				? await this.repository.update({ id: new EmployeeId(params.id).value, payload })
 				: await this.repository.save({ payload })

@@ -1,5 +1,6 @@
 import { lazy } from 'react'
 import { useGetAllPartsDevices } from '@/core/devices/devices/infra/hook/useGetAllPartsDevices'
+import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 import { TableDefaultDevice } from '../TableDefaultDevice'
 import { DevicePartsFilter } from '@/core/devices/devices/application/parts/DevicePartsFilter'
 import { type DevicePartsFilters } from '@/core/devices/devices/application/parts/CreateDevicePartsParams'
@@ -22,7 +23,7 @@ export function TablePartsWrapper({
 	handlePageClick
 }: TablePartsWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllPartsDevices(query)
-	const colSpan = 8
+	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}
@@ -43,10 +44,16 @@ export function TablePartsWrapper({
 			totalPage={devices?.info?.totalPage}
 			pageSize={query?.pageSize}
 			total={devices?.info?.total}
+			headers={headers}
 		>
 			<>
 				{devices !== undefined && (
-					<TableParts colSpan={colSpan} isError={isError} devices={devices.data} />
+					<TableParts
+						colSpan={colSpan}
+						isError={isError}
+						devices={devices.data}
+						visibleColumns={visibleColumns}
+					/>
 				)}
 			</>
 		</TableDefaultDevice>

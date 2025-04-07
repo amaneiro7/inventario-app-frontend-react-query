@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllFinantialPrinterDevices } from '@/core/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
+import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 import { DeviceFinantialPrinterFilter } from '@/core/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
 import { TableDefaultDevice } from '../TableDefaultDevice'
 import { type DeviceFinantialPrinterFilters } from '@/core/devices/devices/application/finantialPrinter/CreateDeviceFinantialPrinterParams'
@@ -24,7 +25,7 @@ export function TableFinantialWrapper({
 	handlePageClick
 }: TableFinantialWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllFinantialPrinterDevices(query)
-	const colSpan = 8
+	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
 		<TableDefaultDevice
 			colSpan={colSpan}
@@ -45,6 +46,7 @@ export function TableFinantialWrapper({
 			totalPage={devices?.info?.totalPage}
 			pageSize={query?.pageSize}
 			total={devices?.info?.total}
+			headers={headers}
 		>
 			<>
 				{devices !== undefined && (
@@ -53,6 +55,7 @@ export function TableFinantialWrapper({
 							colSpan={colSpan}
 							isError={isError}
 							devices={devices.data}
+							visibleColumns={visibleColumns}
 						/>
 					</Suspense>
 				)}
