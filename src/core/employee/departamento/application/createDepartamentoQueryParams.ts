@@ -9,9 +9,9 @@ import { type DepartamentoDto } from '../domain/dto/Departamento.dto'
 export interface DepartamentoFilters {
 	id?: DepartamentoDto['id']
 	name?: DepartamentoDto['name']
-	centroCostoId?: DepartamentoDto['centroCostoId']
-	vicepresidenciaEjecutivaId?: DepartamentoDto['vicepresidenciaEjecutivaId']
-	directivaId?: DepartamentoDto['vicepresidenciaEjecutiva']['directivaId']
+	vicepresidenciaId?: DepartamentoDto['vicepresidenciaId']
+	vicepresidenciaEjecutivaId?: DepartamentoDto['vicepresidencia']['vicepresidenciaEjecutivaId']
+	directivaId?: DepartamentoDto['vicepresidencia']['vicepresidenciaEjecutiva']['directivaId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>

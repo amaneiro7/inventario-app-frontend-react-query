@@ -26,33 +26,24 @@ export class EmployeeLastName extends AcceptedNullValueObject<string> {
 	}): boolean {
 		const errors: string[] = []
 
-		switch (type) {
-			case EmployeeTypes.GENERIC: {
-				if (value) {
-					errors.push('Si es generico no puede tener un apellido.')
-				}
-				break
+		if (type !== EmployeeTypes.GENERIC && !value) {
+			errors.push('El apellido es obligatorio.')
+		}
+
+		if (value) {
+			const validFormat = EmployeeLastName.regex.test(value)
+			if (!validFormat) {
+				errors.push(
+					'La primera letra debe ser en mayúsculas, el resto en minúsculas, y no puede tener espacios al final al menos que sea un nombre compuesto.'
+				)
 			}
-			case EmployeeTypes.REGULAR:
-			case EmployeeTypes.SERVICE: {
-				if (!value) {
-					errors.push('El apellido es obligatorio.')
-					break
-				}
-				const validFormat = EmployeeLastName.regex.test(value)
-				if (!validFormat) {
-					errors.push(
-						'La primera letra debe ser en mayúsculas, el resto en minúsculas, y no puede tener espacios al final al menos que sea un nombre compuesto.'
-					)
-				}
-				const validLength =
-					value?.length >= EmployeeLastName.NAME_MIN_LENGTH &&
-					value?.length <= EmployeeLastName.NAME_MAX_LENGTH
-				if (!validLength) {
-					errors.push(
-						`${value} no es un nombre válido. Debe tener entre ${EmployeeLastName.NAME_MIN_LENGTH} y ${EmployeeLastName.NAME_MAX_LENGTH} caracteres`
-					)
-				}
+			const validLength =
+				value.length >= EmployeeLastName.NAME_MIN_LENGTH &&
+				value.length <= EmployeeLastName.NAME_MAX_LENGTH
+			if (!validLength) {
+				errors.push(
+					`El nombre debe tener entre ${EmployeeLastName.NAME_MIN_LENGTH} y ${EmployeeLastName.NAME_MAX_LENGTH} caracteres.`
+				)
 			}
 		}
 		if (errors.length === 0) {

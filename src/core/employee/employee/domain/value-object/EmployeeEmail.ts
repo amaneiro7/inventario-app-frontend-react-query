@@ -1,6 +1,5 @@
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { EmployeeType, EmployeeTypes } from './EmployeeType'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class EmployeeEmail extends AcceptedNullValueObject<string> {
 	static readonly regex =
@@ -8,34 +7,17 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 
 	private static error = ''
 
-	constructor(value: string | null, type: Primitives<EmployeeType>) {
+	constructor(value: string | null) {
 		super(value)
-		if (!EmployeeEmail.isValid({ value, type })) {
+		if (!EmployeeEmail.isValid({ value })) {
 			throw new Error(EmployeeEmail.invalidMessage())
 		}
 	}
 
-	public static isValid({
-		value,
-		type
-	}: {
-		value?: Primitives<EmployeeEmail>
-		type?: Primitives<EmployeeType>
-	}): boolean {
-		// El correo electronico es opcional, si no se envia se asume que es valido
-		// si es generico no puede tener un correo
+	public static isValid({ value }: { value?: Primitives<EmployeeEmail> }): boolean {
 		EmployeeEmail.error = ''
-		if (!value || !type) {
-			// si no tiene un correo y no hay validación específica, es valido
-			return true
-		}
 
-		if (type === EmployeeTypes.GENERIC && value) {
-			EmployeeEmail.error = 'Si es genérico no puede tener un correo electrónico.'
-			return false
-		}
-
-		if (!EmployeeEmail.regex.test(value)) {
+		if (value && !EmployeeEmail.regex.test(value)) {
 			EmployeeEmail.error = 'No es un formato de correo electrónico válido.'
 			return false
 		}

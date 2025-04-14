@@ -4,41 +4,43 @@ import { type EmployeeUserName } from '../value-object/EmployeUsername'
 import { type EmployeeTypes } from '../value-object/EmployeeType'
 import { type EmployeeName } from '../value-object/EmployeeName'
 import { type EmployeeLastName } from '../value-object/EmployeeLastName'
-import { type Nullable } from '@/core/shared/domain/value-objects/Nullable'
 import { type EmployeeEmail } from '../value-object/EmployeeEmail'
 import { type EmployeeIsStillWorking } from '../value-object/EmployeeIsStillWorking'
 import { type EmployeeCode } from '../value-object/EmployeeCode'
 import { type EmployeeNationality } from '../value-object/EmployeeNationality'
 import { type EmployeeCedula } from '../value-object/EmployeeCedula'
-import { type CentroTrabajoId } from '@/core/employee/centroTrabajo/domain/value-object/CentroTrabajoId'
-import { type DepartamentoId } from '@/core/employee/departamento/domain/value-object/DepartamentoId'
-import { type LocationId } from '@/core/locations/locations/domain/value-object/LocationId'
-import { type CargoId } from '@/core/employee/cargo/domain/value-object/CargoId'
 import { type EmployeeExtension } from '../value-object/EmployeeExtension'
 import { type EmployeePhoneNumber } from '../value-object/EmployeePhoneNumber'
-import { type CentroTrabajoDto } from '@/core/employee/centroTrabajo/domain/dto/CentroTrabajo.dto'
 import { type LocationDto } from '@/core/locations/locations/domain/dto/Location.dto'
 import { type Cargo } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 import { type DepartamentoDto } from '@/core/employee/departamento/domain/dto/Departamento.dto'
-import { type GenericEmployeeParams } from './GenericEmployee.dto'
-import { type RegularEmployeeParams } from './RegularEmployee.dto'
-import { DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { type VicepresidenciaEjecutivaDto } from '@/core/employee/vicepresidenciaEjecutiva/domain/dto/VicepresidenciaEjecutiva.dto'
+import { type VicepresidenciaDto } from '@/core/employee/vicepresidencia/domain/dto/Vicepresidencia.dto'
+import { type EmployeeDirectiva } from '../value-object/EmployeeDirectiva'
+import { type EmployeeVicepresidenciaEjecutiva } from '../value-object/EmployeeVicepresidenciaEjecutiva'
+import { type EmployeeVicepresidencia } from '../value-object/EmployeeVicepresidencia'
+import { type EmployeeDepartamento } from '../value-object/EmployeeDepartamento'
+import { type EmployeeCargo } from '../value-object/EmployeeCargo'
+import { type EmployeeLocation } from '../value-object/EmployeeLocation'
 
 export interface Employee {
 	id: Primitives<EmployeeId>
 	userName: Primitives<EmployeeUserName>
 	type: EmployeeTypes
-	name: Nullable<Primitives<EmployeeName>>
-	lastName: Nullable<Primitives<EmployeeLastName>>
-	email: Nullable<Primitives<EmployeeEmail>>
+	name: Primitives<EmployeeName>
+	lastName: Primitives<EmployeeLastName>
+	email: Primitives<EmployeeEmail>
 	isStillWorking: Primitives<EmployeeIsStillWorking>
-	employeeCode: Nullable<Primitives<EmployeeCode>>
-	nationality: Nullable<Primitives<EmployeeNationality>>
-	cedula: Nullable<Primitives<EmployeeCedula>>
-	locationId: Nullable<Primitives<LocationId>>
-	departamentoId: Nullable<Primitives<DepartamentoId>>
-	centroTrabajoId: Nullable<Primitives<CentroTrabajoId>>
-	cargoId: Nullable<Primitives<CargoId>>
+	employeeCode: Primitives<EmployeeCode>
+	nationality: Primitives<EmployeeNationality>
+	cedula: Primitives<EmployeeCedula>
+	locationId: Primitives<EmployeeLocation>
+	directivaId: Primitives<EmployeeDirectiva>
+	vicepresidenciaEjecutivaId: Primitives<EmployeeVicepresidenciaEjecutiva>
+	vicepresidenciaId: Primitives<EmployeeVicepresidencia>
+	departamentoId: Primitives<EmployeeDepartamento>
+	cargoId: Primitives<EmployeeCargo>
 	extension: Primitives<EmployeeExtension>[]
 	phone: Primitives<EmployeePhoneNumber>[]
 }
@@ -49,13 +51,13 @@ export type EmployeeParams = EmployeePrimitives & {
 	id?: Primitives<EmployeeId>
 }
 
-export type Params = RegularEmployeeParams | GenericEmployeeParams
-
 export type EmployeeDto = Employee & {
-	centroTrabajo: CentroTrabajoDto
-	location: LocationDto
-	departamento: DepartamentoDto
-	cargo: Cargo
+	location: LocationDto | null
+	directiva: DepartamentoDto | null
+	vicepresidenciaEjecutiva: VicepresidenciaEjecutivaDto | null
+	vicepresidencia: VicepresidenciaDto | null
+	departamento: DepartamentoDto | null
+	cargo: Cargo | null
 	devices: DeviceDto[]
 	updatedAt: string
 }

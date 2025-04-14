@@ -4,40 +4,25 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { type VicepresidenciaDto } from '../domain/dto/Vicepresidencia.dto'
 
-export interface EmployeeFilters {
-	id?: string
-	userName?: string
-	type?: string
-	name?: string
-	lastName?: string
-	email?: string
-	isStillWorking?: boolean
-	employeeCode?: string
-	nationality?: string
-	cedula?: string
-	locationId?: string
-	departamentoId?: string
-	vicepresidenciaId?: string
-	vicepresidenciaEjecutivaId?: string
-	directivaId?: string
-	cargoId?: string
-	regionId?: string
-	stateId?: string
-	cityId?: string
+export interface VicepresidenciaFilters {
+	id?: VicepresidenciaDto['id']
+	name?: VicepresidenciaDto['name']
+	vicepresidenciaEjecutivaId?: VicepresidenciaDto['vicepresidenciaEjecutivaId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
 	orderType?: Primitives<OrderType>
 }
 
-export async function createEmployeeParams({
+export async function createVicepresidenciaParams({
 	pageNumber,
 	pageSize,
 	orderBy,
 	orderType,
 	...options
-}: EmployeeFilters): Promise<string> {
+}: VicepresidenciaFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,
@@ -59,12 +44,7 @@ export async function createEmployeeParams({
 			} else {
 				query.filters.push({
 					field: key,
-					operator:
-						key === 'userName' || key === 'name' || key === 'lastName'
-							? Operator.OR
-							: key === 'email'
-							? Operator.CONTAINS
-							: Operator.EQUAL,
+					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
 					value
 				})
 			}

@@ -32,9 +32,9 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		setState({
 			id: departamento.id,
 			name: departamento.name,
-			directivaId: departamento.vicepresidenciaEjecutiva?.directiva?.id,
-			vicepresidenciaEjecutivaId: departamento.vicepresidenciaEjecutiva?.id,
-			centroCostoId: departamento.centroCosto?.id,
+			directivaId: departamento.vicepresidencia?.vicepresidenciaEjecutiva?.directivaId,
+			vicepresidenciaEjecutivaId: departamento?.vicepresidencia?.vicepresidenciaEjecutivaId,
+			vicepresidenciaId: departamento?.vicepresidencia?.id,
 			cargos: departamento.cargos.map(cargo => cargo.id),
 			updatedAt: departamento.updatedAt
 		})

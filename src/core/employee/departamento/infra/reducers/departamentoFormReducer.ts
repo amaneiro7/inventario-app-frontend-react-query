@@ -1,8 +1,9 @@
-import { DepartamentoDto, DepartamentoParams } from '../../domain/dto/Departamento.dto'
+import { type DepartamentoDto, type DepartamentoParams } from '../../domain/dto/Departamento.dto'
 import { DepartamentoName } from '../../domain/value-object/DepartamentoName'
 
 export type DefaultDepartamento = DepartamentoParams & {
-	directivaId: DepartamentoDto['vicepresidenciaEjecutiva']['directivaId']
+	vicepresidenciaEjecutivaId: DepartamentoDto['vicepresidencia']['vicepresidenciaEjecutivaId']
+	directivaId: DepartamentoDto['vicepresidencia']['vicepresidenciaEjecutiva']['directivaId']
 	updatedAt?: string
 }
 
@@ -13,14 +14,14 @@ export interface DepartamentoRequired {
 	name: boolean
 	directivaId: boolean
 	vicepresidenciaEjecutivaId: boolean
-	centroCostoId: boolean
+	vicepresidenciaId: boolean
 	cargos: boolean
 }
 export interface DepartamentoDisabled {
 	name: boolean
 	directivaId: boolean
 	vicepresidenciaEjecutivaId: boolean
-	centroCostoId: boolean
+	vicepresidenciaId: boolean
 	cargos: boolean
 }
 
@@ -36,7 +37,7 @@ export const initialDepartamentoState: State = {
 		id: '',
 		directivaId: '',
 		vicepresidenciaEjecutivaId: '',
-		centroCostoId: '',
+		vicepresidenciaId: '',
 		name: '',
 		cargos: [],
 		updatedAt: undefined
@@ -48,13 +49,13 @@ export const initialDepartamentoState: State = {
 		name: true,
 		directivaId: true,
 		vicepresidenciaEjecutivaId: true,
-		centroCostoId: true,
+		vicepresidenciaId: true,
 		cargos: false
 	},
 	disabled: {
 		directivaId: false,
 		vicepresidenciaEjecutivaId: true,
-		centroCostoId: false,
+		vicepresidenciaId: true,
 		name: false,
 		cargos: false
 	}
@@ -68,7 +69,7 @@ export type Action =
 			type: 'vicepresidenciaEjecutivaId'
 			payload: { value: DefaultDepartamento['vicepresidenciaEjecutivaId'] }
 	  }
-	| { type: 'centroCostoId'; payload: { value: DefaultDepartamento['centroCostoId'] } }
+	| { type: 'vicepresidenciaId'; payload: { value: DefaultDepartamento['vicepresidenciaId'] } }
 	| { type: 'addCargo'; payload: { value: string } }
 	| { type: 'removeCargo'; payload: { value: string } }
 	| { type: 'name'; payload: { value: DefaultDepartamento['name'] } }
@@ -82,7 +83,8 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				formData: { ...action.payload.formData },
 				disabled: {
 					...state.disabled,
-					vicepresidenciaEjecutivaId: !action.payload.formData.directivaId
+					vicepresidenciaEjecutivaId: !action.payload.formData.directivaId,
+					vicepresidenciaId: !action.payload.formData.vicepresidenciaEjecutivaId
 				}
 			}
 		}
@@ -102,21 +104,26 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 			return {
 				...state,
 				formData: { ...state.formData, directivaId },
-				disabled: { ...state.disabled, vicepresidenciaEjecutivaId: !directivaId }
+				disabled: {
+					...state.disabled,
+					vicepresidenciaEjecutivaId: !directivaId,
+					vicepresidenciaId: !directivaId
+				}
 			}
 		}
 		case 'vicepresidenciaEjecutivaId': {
 			const vicepresidenciaEjecutivaId = action.payload.value
 			return {
 				...state,
-				formData: { ...state.formData, vicepresidenciaEjecutivaId }
+				formData: { ...state.formData, vicepresidenciaEjecutivaId },
+				disabled: { ...state.disabled, vicepresidenciaId: !vicepresidenciaEjecutivaId }
 			}
 		}
-		case 'centroCostoId': {
-			const centroCostoId = action.payload.value
+		case 'vicepresidenciaId': {
+			const vicepresidenciaId = action.payload.value
 			return {
 				...state,
-				formData: { ...state.formData, centroCostoId }
+				formData: { ...state.formData, vicepresidenciaId }
 			}
 		}
 		case 'addCargo': {

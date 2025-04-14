@@ -1,6 +1,5 @@
 import { DepartamentoName } from '../value-object/DepartamentoName'
-import { VicepresidenciaEjecutivaId } from '@/core/employee/vicepresidenciaEjecutiva/domain/value-object/VicepresidenciaEjecutivaId'
-import { CentroCostoId } from '@/core/employee/centroCosto/domain/value-object/CentroCostoId'
+import { VicepresidenciaId } from '@/core/employee/vicepresidencia/domain/value-object/VicepresidenciaId'
 import { CargoId } from '@/core/employee/cargo/domain/value-object/CargoId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type DepartamentoPrimitives } from '../dto/Departamento.dto'
@@ -8,8 +7,7 @@ import { type DepartamentoPrimitives } from '../dto/Departamento.dto'
 export class Departamento {
 	constructor(
 		private readonly name: DepartamentoName,
-		private readonly vicepresidenciaEjecutivaId: VicepresidenciaEjecutivaId,
-		private readonly centroCostoId: CentroCostoId,
+		private readonly vicepresidenciaId: VicepresidenciaId,
 		private readonly cargos: CargoId[]
 	) {}
 
@@ -17,8 +15,7 @@ export class Departamento {
 		const cargos = params.cargos.map(cargo => new CargoId(cargo))
 		return new Departamento(
 			new DepartamentoName(params.name),
-			new VicepresidenciaEjecutivaId(params.vicepresidenciaEjecutivaId),
-			new CentroCostoId(params.centroCostoId),
+			new VicepresidenciaId(params.vicepresidenciaId),
 			cargos
 		)
 	}
@@ -27,12 +24,8 @@ export class Departamento {
 		return this.name.value
 	}
 
-	get vicepresidenciaEjecutivaValue(): Primitives<VicepresidenciaEjecutivaId> {
-		return this.vicepresidenciaEjecutivaId.value
-	}
-
-	get centroCostoValue(): Primitives<CentroCostoId> {
-		return this.centroCostoId.value
+	get vicepresidenciaValue(): Primitives<VicepresidenciaId> {
+		return this.vicepresidenciaId.value
 	}
 
 	get cargosValue(): Primitives<CargoId>[] {
@@ -42,8 +35,7 @@ export class Departamento {
 	toPrimitives(): DepartamentoPrimitives {
 		return {
 			name: this.nameValue,
-			vicepresidenciaEjecutivaId: this.vicepresidenciaEjecutivaValue,
-			centroCostoId: this.centroCostoValue,
+			vicepresidenciaId: this.vicepresidenciaValue,
 			cargos: this.cargosValue
 		}
 	}

@@ -1,13 +1,17 @@
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type EmployeeType, EmployeeTypes } from './EmployeeType'
+import { type CargoId } from '@/core/employee/cargo/domain/value-object/CargoId'
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 
-export class EmployeeCode extends AcceptedNullValueObject<number> {
+export class EmployeeCargo extends AcceptedNullValueObject<Primitives<CargoId>> {
 	private static error = ''
-	constructor(value: number | null, private readonly type: Primitives<EmployeeType>) {
+	constructor(
+		value: Primitives<CargoId> | null,
+		private readonly type: Primitives<EmployeeType>
+	) {
 		super(value)
-		if (!EmployeeCode.isValid({ value, type: this.type })) {
-			throw new Error(EmployeeCode.invalidMessage())
+		if (!EmployeeCargo.isValid({ value, type: this.type })) {
+			throw new Error(EmployeeCargo.invalidMessage())
 		}
 	}
 
@@ -15,35 +19,30 @@ export class EmployeeCode extends AcceptedNullValueObject<number> {
 		value,
 		type
 	}: {
-		value?: Primitives<EmployeeCode>
+		value?: Primitives<EmployeeCargo>
 		type?: Primitives<EmployeeType>
 	}): boolean {
 		// El código del empleado es obligatorio si el tipo no es genérico
 		// si es generico no puede tener un código de empleado
 		// el código de empleado solo acepta números
-		EmployeeCode.error = '' // se limpia el error
+		EmployeeCargo.error = '' // se limpia el error
 
 		if (type === EmployeeTypes.GENERIC) {
 			if (value) {
-				EmployeeCode.error = 'Si es genérico no puede tener un código de empleado.'
+				EmployeeCargo.error = 'Si es genérico no puede tener un cargo.'
 				return false
 			}
 			return true
 		}
 
 		if (!value) {
-			EmployeeCode.error = 'El código del empleado es obligatorio.'
-			return false
-		}
-
-		if (typeof value !== 'number') {
-			EmployeeCode.error = 'El código del empleado debe ser numérico.'
+			EmployeeCargo.error = 'El cargo es obligatorio.'
 			return false
 		}
 		return true
 	}
 
 	public static invalidMessage(): string {
-		return EmployeeCode.error
+		return EmployeeCargo.error
 	}
 }
