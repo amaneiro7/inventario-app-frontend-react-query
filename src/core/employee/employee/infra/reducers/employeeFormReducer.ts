@@ -20,9 +20,10 @@ export interface DefaultEmployee {
 	nationality: EmployeeDto['nationality'] | ''
 	cedula: EmployeeDto['cedula'] | ''
 	locationId: EmployeeDto['locationId']
+	directivaId: EmployeeDto['directivaId']
+	vicepresidenciaEjecutivaId: EmployeeDto['vicepresidenciaEjecutivaId']
+	vicepresidenciaId: EmployeeDto['vicepresidenciaId']
 	departamentoId: EmployeeDto['departamentoId']
-	centroCostoId: EmployeeDto['centroTrabajo']['centroCostoId']
-	centroTrabajoId: EmployeeDto['centroTrabajoId']
 	cargoId: EmployeeDto['cargoId']
 	extension: EmployeeDto['extension']
 	extensionSegments: { operadora: string; numero: string }[]
@@ -40,6 +41,9 @@ export interface EmployeeErrors {
 	email: string
 	employeeCode: string
 	nationality: string
+	directivaId: string
+	vicepresidenciaEjecutivaId: string
+	vicepresidenciaId: string
 	cedula: string
 }
 export interface EmployeeRequired {
@@ -51,10 +55,11 @@ export interface EmployeeRequired {
 	employeeCode: boolean
 	nationality: boolean
 	cedula: boolean
-	centroCostoId: boolean
-	centroTrabajoId: boolean
 	locationId: boolean
 	departamentoId: boolean
+	directivaId: boolean
+	vicepresidenciaEjecutivaId: boolean
+	vicepresidenciaId: boolean
 	cargoId: boolean
 }
 export interface EmployeeDisabled {
@@ -66,10 +71,11 @@ export interface EmployeeDisabled {
 	employeeCode: boolean
 	nationality: boolean
 	cedula: boolean
-	centroCostoId: boolean
-	centroTrabajoId: boolean
 	locationId: boolean
 	departamentoId: boolean
+	directivaId: boolean
+	vicepresidenciaEjecutivaId: boolean
+	vicepresidenciaId: boolean
 	cargoId: boolean
 }
 
@@ -93,9 +99,10 @@ export const initialEmployeeState: State = {
 		nationality: '',
 		cedula: '',
 		locationId: '',
+		directivaId: '',
+		vicepresidenciaEjecutivaId: '',
+		vicepresidenciaId: '',
 		departamentoId: '',
-		centroCostoId: '',
-		centroTrabajoId: '',
 		cargoId: '',
 		extension: [''],
 		extensionSegments: [{ numero: '', operadora: '' }],
@@ -112,7 +119,10 @@ export const initialEmployeeState: State = {
 		email: '',
 		employeeCode: '',
 		nationality: '',
-		cedula: ''
+		cedula: '',
+		directivaId: '',
+		vicepresidenciaEjecutivaId: '',
+		vicepresidenciaId: ''
 	},
 	required: {
 		userName: true,
@@ -123,10 +133,11 @@ export const initialEmployeeState: State = {
 		employeeCode: true,
 		nationality: true,
 		cedula: true,
-		centroCostoId: true,
-		centroTrabajoId: true,
 		locationId: false,
-		departamentoId: true,
+		directivaId: false,
+		vicepresidenciaEjecutivaId: false,
+		vicepresidenciaId: false,
+		departamentoId: false,
 		cargoId: true
 	},
 	disabled: {
@@ -138,10 +149,11 @@ export const initialEmployeeState: State = {
 		employeeCode: false,
 		nationality: false,
 		cedula: false,
-		centroCostoId: false,
-		centroTrabajoId: false,
 		locationId: false,
 		departamentoId: false,
+		directivaId: false,
+		vicepresidenciaEjecutivaId: false,
+		vicepresidenciaId: false,
 		cargoId: false
 	}
 }
@@ -159,14 +171,13 @@ export type Action =
 	| { type: 'nationality'; payload: { value: DefaultEmployee['nationality'] } }
 	| { type: 'cedula'; payload: { value: DefaultEmployee['cedula'] } }
 	| { type: 'locationId'; payload: { value: DefaultEmployee['locationId'] } }
+	| { type: 'directivaId'; payload: { value: DefaultEmployee['directivaId'] } }
 	| {
-			type: 'departamentoId'
-			payload: {
-				value: DefaultEmployee['departamentoId']
-				centroCostoId: DefaultEmployee['centroCostoId']
-			}
+			type: 'vicepresidenciaEjecutivaId'
+			payload: { value: DefaultEmployee['vicepresidenciaEjecutivaId'] }
 	  }
-	| { type: 'centroTrabajoId'; payload: { value: DefaultEmployee['centroTrabajoId'] } }
+	| { type: 'vicepresidenciaId'; payload: { value: DefaultEmployee['vicepresidenciaId'] } }
+	| { type: 'departamentoId'; payload: { value: DefaultEmployee['departamentoId'] } }
 	| { type: 'cargoId'; payload: { value: DefaultEmployee['cargoId'] } }
 	| { type: 'addPhone' }
 	| { type: 'addExtension' }
@@ -220,15 +231,20 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				},
 				disabled: {
 					...state.disabled,
-					name: !type || type === EmployeeTypes.GENERIC,
-					lastName: !type || type === EmployeeTypes.GENERIC,
-					email: !type || type === EmployeeTypes.GENERIC,
 					employeeCode: !type || type === EmployeeTypes.GENERIC,
 					nationality: !type || type === EmployeeTypes.GENERIC,
 					cedula: !type || type === EmployeeTypes.GENERIC,
 					locationId: !type || type === EmployeeTypes.GENERIC,
-					centroTrabajoId: !type || type === EmployeeTypes.GENERIC,
-					departamentoId: !type || type === EmployeeTypes.GENERIC,
+					vicepresidenciaEjecutivaId: !type || !state.formData.directivaId,
+					vicepresidenciaId:
+						!type ||
+						!state.formData.directivaId ||
+						!state.formData.vicepresidenciaEjecutivaId,
+					departamentoId:
+						!type ||
+						!state.formData.directivaId ||
+						!state.formData.vicepresidenciaEjecutivaId ||
+						!state.formData.vicepresidenciaId,
 					cargoId: !type || type === EmployeeTypes.GENERIC
 				},
 				required: {
@@ -238,8 +254,18 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					employeeCode: type !== EmployeeTypes.GENERIC,
 					nationality: type !== EmployeeTypes.GENERIC,
 					cedula: type !== EmployeeTypes.GENERIC,
-					centroTrabajoId: type !== EmployeeTypes.GENERIC,
-					departamentoId: type !== EmployeeTypes.GENERIC,
+					directivaId: type !== EmployeeTypes.GENERIC,
+					vicepresidenciaEjecutivaId:
+						type !== EmployeeTypes.GENERIC || !state.formData.directivaId,
+					vicepresidenciaId:
+						type !== EmployeeTypes.GENERIC ||
+						!state.formData.directivaId ||
+						!state.formData.vicepresidenciaEjecutivaId,
+					departamentoId:
+						type !== EmployeeTypes.GENERIC ||
+						!state.formData.directivaId ||
+						!state.formData.vicepresidenciaEjecutivaId ||
+						!state.formData.vicepresidenciaId,
 					cargoId: type !== EmployeeTypes.GENERIC
 				}
 			}
@@ -271,7 +297,9 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					nationality: type === EmployeeTypes.GENERIC || !type ? '' : Nationalities.V,
 					cedula: '',
 					locationId: '',
-					centroTrabajoId: '',
+					directivaId: '',
+					vicepresidenciaEjecutivaId: '',
+					vicepresidenciaId: '',
 					departamentoId: '',
 					cargoId: '',
 					extension: [],
@@ -279,15 +307,17 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				},
 				disabled: {
 					...state.disabled,
-					name: !type || type === EmployeeTypes.GENERIC,
-					lastName: !type || type === EmployeeTypes.GENERIC,
-					email: !type || type === EmployeeTypes.GENERIC,
+					name: !type,
+					lastName: !type,
+					email: !type,
 					employeeCode: !type || type === EmployeeTypes.GENERIC,
 					nationality: !type || type === EmployeeTypes.GENERIC,
 					cedula: !type || type === EmployeeTypes.GENERIC,
 					locationId: !type || type === EmployeeTypes.GENERIC,
-					centroTrabajoId: !type || type === EmployeeTypes.GENERIC,
-					departamentoId: !type || type === EmployeeTypes.GENERIC,
+					directivaId: !type,
+					vicepresidenciaEjecutivaId: !type,
+					vicepresidenciaId: !type,
+					departamentoId: !type,
 					cargoId: !type || type === EmployeeTypes.GENERIC
 				},
 				required: {
@@ -298,7 +328,9 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					employeeCode: type !== EmployeeTypes.GENERIC,
 					nationality: type !== EmployeeTypes.GENERIC,
 					cedula: type !== EmployeeTypes.GENERIC,
-					centroTrabajoId: type !== EmployeeTypes.GENERIC,
+					directivaId: type !== EmployeeTypes.GENERIC,
+					vicepresidenciaEjecutivaId: type !== EmployeeTypes.GENERIC,
+					vicepresidenciaId: type !== EmployeeTypes.GENERIC,
 					departamentoId: type !== EmployeeTypes.GENERIC,
 					cargoId: type !== EmployeeTypes.GENERIC
 				}
@@ -342,8 +374,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				errors: {
 					...state.errors,
 					email: EmployeeEmail.isValid({
-						value: email,
-						type: state.formData.type
+						value: email
 					})
 						? ''
 						: EmployeeEmail.invalidMessage()
@@ -405,27 +436,64 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, locationId }
 			}
 		}
-		case 'departamentoId': {
-			const { value: departamentoId, centroCostoId } = action.payload
+		case 'directivaId': {
+			const { value: directivaId } = action.payload
 
 			return {
 				...state,
-				formData: { ...state.formData, departamentoId, centroCostoId },
+				formData: {
+					...state.formData,
+					directivaId,
+					vicepresidenciaEjecutivaId: '',
+					vicepresidenciaId: '',
+					departamentoId: '',
+					cargoId: ''
+				},
 				disabled: {
 					...state.disabled,
-					centroTrabajoId: !centroCostoId
+					vicepresidenciaEjecutivaId: !directivaId,
+					vicepresidenciaId: true,
+					departamentoId: true
 				}
 			}
 		}
-		case 'centroTrabajoId': {
-			const centroTrabajoId = action.payload.value
+		case 'vicepresidenciaEjecutivaId': {
+			const { value: vicepresidenciaEjecutivaId } = action.payload
+
 			return {
 				...state,
-				formData: { ...state.formData, centroTrabajoId },
+				formData: {
+					...state.formData,
+					vicepresidenciaEjecutivaId,
+					vicepresidenciaId: '',
+					departamentoId: '',
+					cargoId: ''
+				},
 				disabled: {
 					...state.disabled,
-					cargoId: !centroTrabajoId
+					vicepresidenciaId: !vicepresidenciaEjecutivaId,
+					departamentoId: true
 				}
+			}
+		}
+		case 'vicepresidenciaId': {
+			const { value: vicepresidenciaId } = action.payload
+
+			return {
+				...state,
+				formData: { ...state.formData, vicepresidenciaId, departamentoId: '', cargoId: '' },
+				disabled: {
+					...state.disabled,
+					departamentoId: !vicepresidenciaId
+				}
+			}
+		}
+		case 'departamentoId': {
+			const { value: departamentoId } = action.payload
+
+			return {
+				...state,
+				formData: { ...state.formData, departamentoId, cargoId: '' }
 			}
 		}
 		case 'cargoId': {

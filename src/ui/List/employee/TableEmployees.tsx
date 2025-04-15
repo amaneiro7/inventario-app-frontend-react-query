@@ -53,12 +53,6 @@ export const TableEmployees = memo(
 								{visibleColumns.includes('lastName') ? (
 									<TableCell size="small" value={employee?.lastName ?? ''} />
 								) : null}
-								{visibleColumns.includes('centroTrabajoId') ? (
-									<TableCell
-										size="xxSmall"
-										value={employee?.centroTrabajoId ?? ''}
-									/>
-								) : null}
 								{visibleColumns.includes('departamentoId') ? (
 									<TableCell
 										size="xLarge"

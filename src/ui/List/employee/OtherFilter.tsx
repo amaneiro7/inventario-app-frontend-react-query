@@ -7,7 +7,7 @@ import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono
 import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
 import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
 import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
-import { CentroTrabajoCombobox } from '@/components/ComboBox/Asincrono/CentroTrabajoComboBox'
+import { VicepresidenciaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaComboBox'
 
 interface EmployeeOtherilterProps {
 	name?: string
@@ -15,9 +15,9 @@ interface EmployeeOtherilterProps {
 	email?: string
 	cedula?: string
 	employeeCode?: string
-	centroTrabajoId?: string
 	directivaId?: string
 	vicepresidenciaEjecutivaId?: string
+	vicepresidenciaId?: string
 	regionId?: string
 	stateId?: string
 	cityId?: string
@@ -30,14 +30,14 @@ export const EmployeeOtherilter = memo(
 		name,
 		employeeCode,
 		cedula,
-		centroTrabajoId,
 		cityId,
 		directivaId,
 		email,
 		lastName,
 		regionId,
 		stateId,
-		vicepresidenciaEjecutivaId
+		vicepresidenciaEjecutivaId,
+		vicepresidenciaId
 	}: EmployeeOtherilterProps) => {
 		const [localName, setLocalName] = useState(name ?? '')
 		const [localLastName, setLocalLastName] = useState(lastName ?? '')
@@ -163,11 +163,13 @@ export const EmployeeOtherilter = memo(
 					name="vicepresidenciaEjecutivaId"
 					handleChange={handleChange}
 					value={vicepresidenciaEjecutivaId}
+					directivaId={directivaId}
 				/>
-				<CentroTrabajoCombobox
-					name="centroTrabajoId"
+				<VicepresidenciaCombobox
+					name="vicepresidenciaId"
 					handleChange={handleChange}
-					value={centroTrabajoId}
+					value={vicepresidenciaId}
+					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
 				/>
 				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
 				<StateCombobox

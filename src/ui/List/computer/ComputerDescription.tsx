@@ -45,16 +45,15 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 						/>
 						<TableCellDescInfo
 							title="Directiva"
-							text={
-								device?.employee?.departamento?.vicepresidenciaEjecutiva?.directiva
-									?.name ?? ''
-							}
+							text={device?.employee?.directiva?.name ?? ''}
 						/>
 						<TableCellDescInfo
 							title="V.P.E."
-							text={
-								device?.employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''
-							}
+							text={device?.employee?.vicepresidenciaEjecutiva?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="V.P."
+							text={device?.employee?.vicepresidencia?.name ?? ''}
 						/>
 						<TableCellDescInfo
 							title="Departamento"

@@ -7,7 +7,7 @@ import {
 	initialEmployeeState,
 	employeeFormReducer
 } from '../reducers/employeeFormReducer'
-import { type Params } from '../../domain/dto/Employee.dto'
+import { type EmployeeParams } from '../../domain/dto/Employee.dto'
 import { EmployeeSaveService } from '../service/employeeSave.service'
 import { EmployeeCreator } from '../../application/EmployeeCreator'
 import { useEmployeeInitialState } from './useEmployeeInitialState'
@@ -19,7 +19,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	const { events } = useContext(EventContext)
 
 	const create = useMemo(
-		() => async (formData: Params) => {
+		() => async (formData: EmployeeParams) => {
 			return await new EmployeeCreator(new EmployeeSaveService(), events).create(formData)
 		},
 		[events]
@@ -55,7 +55,6 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		if (
 			name === 'init' ||
 			name === 'reset' ||
-			name === 'departamentoId' ||
 			name === 'addExtension' ||
 			name === 'addPhone' ||
 			name === 'removeExtension' ||
@@ -103,16 +102,6 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		[]
 	)
 
-	const handleDepartment = useCallback(
-		async ({ value, centroCostoId }: { value: string; centroCostoId: string }) => {
-			dispatch({
-				type: 'departamentoId',
-				payload: { value, centroCostoId }
-			})
-		},
-		[]
-	)
-
 	const handleSubmit = useCallback(
 		async (event: React.FormEvent) => {
 			event.preventDefault()
@@ -137,7 +126,6 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		handleClearFirstPhone,
 		resetForm,
 		handleSubmit,
-		handleChange,
-		handleDepartment
+		handleChange
 	}
 }

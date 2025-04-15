@@ -3,6 +3,7 @@ import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { TableCellDescription } from '@/components/Table/TableCellDescription'
 import { getRelativeTime } from '@/utils/getRelativeTime'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { convertNumberMiles } from '@/utils/convertNumberMiles'
 
 interface Props {
 	open: boolean
@@ -32,22 +33,35 @@ export const PrinterDescription = memo(({ open, device, visibleColumns, colSpan 
 								device?.employee?.lastName ?? ''
 							}`}
 						/>
-
-						<TableCellDescInfo
-							title="Area"
-							text={device?.employee?.departamento?.name ?? ''}
-						/>
-						<TableCellDescInfo
-							title="Cargo"
-							text={device?.employee?.cargo?.name ?? ''}
-						/>
 						<TableCellDescInfo
 							title="Código de empleado"
 							text={`${device?.employee?.employeeCode ?? ''}`}
 						/>
 						<TableCellDescInfo
 							title="Cédula"
-							text={`${device?.employee?.cedula ?? ''}`}
+							text={`${device?.employee.nationality ?? ''}-${
+								convertNumberMiles(device?.employee?.cedula) ?? ''
+							}`}
+						/>
+						<TableCellDescInfo
+							title="Directiva"
+							text={device?.employee?.directiva?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="V.P.E."
+							text={device?.employee?.vicepresidenciaEjecutiva?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="V.P."
+							text={device?.employee?.vicepresidencia?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="Departamento"
+							text={device?.employee?.departamento?.name ?? ''}
+						/>
+						<TableCellDescInfo
+							title="Cargo"
+							text={device?.employee?.cargo?.name ?? ''}
 						/>
 					</>
 				)}

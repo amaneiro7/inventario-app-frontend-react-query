@@ -45,14 +45,6 @@ export function useTableDeviceWrapper() {
 				visible: !isBreakpointUltraTinySmall
 			},
 			{
-				key: 'centroTrabajoId',
-				label: 'Centro Trabajo',
-				hasOrder: true,
-				size: 'xxSmall',
-				isTab: false,
-				visible: !isBreakpointLarg
-			},
-			{
 				key: 'departamentoId',
 				label: 'Departamento',
 				hasOrder: true,
@@ -103,18 +95,18 @@ export function useTableDeviceWrapper() {
 		]
 	)
 	const colSpan = isBreakpointUltraTinySmall
-		? 4
+		? 3
 		: isBreakpointUltraSmall
-		? 5
+		? 4
 		: isBreakpointExtraSmall
-		? 6
+		? 5
 		: isBreakpointSmall
-		? 7
+		? 6
 		: isBreakpointMedium
-		? 8
+		? 7
 		: isBreakpointLarg
-		? 9
-		: 10 // Ajusta el colSpan dinámicamente
+		? 8
+		: 9 // Ajusta el colSpan dinámicamente
 
 	const visibleColumns = useMemo(() => {
 		return headers.filter(header => header.visible).map(h => h.key)

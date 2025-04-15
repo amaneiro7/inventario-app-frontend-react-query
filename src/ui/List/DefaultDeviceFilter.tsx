@@ -7,6 +7,9 @@ import { ModelCombobox } from '@/components/ComboBox/Asincrono/ModelComboBox'
 import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
 import { StatusCombobox } from '@/components/ComboBox/Sincrono/StatusComboBox'
 import { Input } from '@/components/Input/Input'
+import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
+import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
+import { VicepresidenciaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaComboBox'
 
 export function DefaultDeviceFilter({
 	activo,
@@ -17,6 +20,9 @@ export function DefaultDeviceFilter({
 	cityId,
 	categoryId,
 	regionId,
+	directivaId,
+	vicepresidenciaEjecutivaId,
+	vicepresidenciaId,
 	handleChange
 }: {
 	activo?: string
@@ -24,6 +30,9 @@ export function DefaultDeviceFilter({
 	brandId?: string
 	modelId?: string
 	categoryId?: string
+	directivaId?: string
+	vicepresidenciaEjecutivaId?: string
+	vicepresidenciaId?: string
 	stateId?: string
 	regionId?: string
 	cityId?: string
@@ -81,6 +90,19 @@ export function DefaultDeviceFilter({
 				stateId={stateId}
 				regionId={regionId}
 				value={cityId}
+			/>
+			<DirectivaCombobox name="directivaId" handleChange={handleChange} value={directivaId} />
+			<VicepresidenciaEjecutivaCombobox
+				name="vicepresidenciaEjecutivaId"
+				handleChange={handleChange}
+				value={vicepresidenciaEjecutivaId}
+				directivaId={directivaId}
+			/>
+			<VicepresidenciaCombobox
+				name="vicepresidenciaId"
+				handleChange={handleChange}
+				value={vicepresidenciaId}
+				vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
 			/>
 		</>
 	)

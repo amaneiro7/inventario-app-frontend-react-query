@@ -19,7 +19,7 @@ export class EmployeeCedula extends AcceptedNullValueObject<number> {
 		value,
 		type
 	}: {
-		value?: Primitives<EmployeeCedula>
+		value?: Primitives<EmployeeCedula> | ''
 		type?: Primitives<EmployeeType>
 	}): boolean {
 		EmployeeCedula.error = ''

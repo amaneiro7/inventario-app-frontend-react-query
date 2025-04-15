@@ -24,6 +24,7 @@ export default function ListEmployee() {
 						isStillWorking={query.isStillWorking}
 						locationId={query.locationId}
 						departamentoId={query.departamentoId}
+						vicepresidenciaId={query.vicepresidenciaId}
 						type={query.type}
 						cityId={query.cityId}
 						stateId={query.stateId}
@@ -38,7 +39,7 @@ export default function ListEmployee() {
 							email={query.email}
 							cedula={query.cedula}
 							employeeCode={query.employeeCode}
-							centroTrabajoId={query.centroTrabajoId}
+							vicepresidenciaId={query.vicepresidenciaId}
 							directivaId={query.directivaId}
 							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
 							regionId={query.regionId}

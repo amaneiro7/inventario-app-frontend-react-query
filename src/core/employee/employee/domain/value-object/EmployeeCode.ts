@@ -15,7 +15,7 @@ export class EmployeeCode extends AcceptedNullValueObject<number> {
 		value,
 		type
 	}: {
-		value?: Primitives<EmployeeCode>
+		value?: Primitives<EmployeeCode> | ''
 		type?: Primitives<EmployeeType>
 	}): boolean {
 		// El código del empleado es obligatorio si el tipo no es genérico

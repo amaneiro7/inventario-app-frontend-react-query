@@ -13,6 +13,7 @@ interface EmployeeMainFilterProps {
 	userName?: string
 	isStillWorking?: boolean
 	departamentoId?: string
+	vicepresidenciaId?: string
 	locationId?: string
 	cargoId?: string
 	type?: string
@@ -26,6 +27,7 @@ export const EmployeeMainFilter = memo(
 	({
 		userName,
 		departamentoId,
+		vicepresidenciaId,
 		cargoId,
 		locationId,
 		type,
@@ -77,6 +79,7 @@ export const EmployeeMainFilter = memo(
 					name="departamentoId"
 					handleChange={handleChange}
 					value={departamentoId}
+					vicepresidenciaId={vicepresidenciaId}
 				/>
 				<CargoCombobox name="cargoId" handleChange={handleChange} value={cargoId} />
 				<LocationCombobox

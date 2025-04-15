@@ -48,33 +48,22 @@ export const EmployeeDescription = memo(
 					)}
 					<TableCellDescInfo title="Correo eléctronico" text={employee.email ?? ''} />
 
-					{employee?.centroTrabajo?.centroCosto?.id && (
-						<TableCellDescInfo
-							title="Centro de Costo"
-							text={`${employee?.centroTrabajo?.centroCosto?.id} - ${employee?.centroTrabajo?.centroCosto?.name}`}
-						/>
-					)}
-
-					{employee?.centroTrabajoId && (
-						<TableCellDescInfo
-							title="Centro de Trabajo"
-							text={`${employee?.centroTrabajoId} - ${employee?.centroTrabajo?.name}`}
-						/>
-					)}
-
-					{employee?.departamento?.vicepresidenciaEjecutiva?.directiva?.name && (
+					{employee?.directiva?.name && (
 						<TableCellDescInfo
 							title="Directiva"
-							text={
-								employee?.departamento?.vicepresidenciaEjecutiva?.directiva?.name ??
-								''
-							}
+							text={employee?.directiva?.name ?? ''}
 						/>
 					)}
-					{employee?.departamento?.vicepresidenciaEjecutiva?.name && (
+					{employee?.vicepresidenciaEjecutiva?.name && (
 						<TableCellDescInfo
 							title="V.P.E"
-							text={employee?.departamento?.vicepresidenciaEjecutiva?.name ?? ''}
+							text={employee?.vicepresidenciaEjecutiva?.name ?? ''}
+						/>
+					)}
+					{employee?.vicepresidencia?.name && (
+						<TableCellDescInfo
+							title="V.P."
+							text={employee?.vicepresidencia?.name ?? ''}
 						/>
 					)}
 					{employee?.departamento?.name && !visibleColumns.includes('departamentoId') && (

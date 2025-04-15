@@ -45,10 +45,15 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 			const memoryRam =
 				computer && memoryRamSlotQuantity
 					? computer.memoryRam.length !== memoryRamSlotQuantity
-						? [
-								...computer.memoryRam,
-								...Array(memoryRamSlotQuantity - computer.memoryRam.length)
-						  ]
+						? computer.memoryRam.length < memoryRamSlotQuantity
+							? [
+									...computer.memoryRam,
+									...Array(memoryRamSlotQuantity - computer.memoryRam.length)
+							  ]
+							: (console.error(
+									'Error: memoryRamSlotQuantity es menor que la cantidad actual de módulos de RAM.'
+							  ),
+							  computer.memoryRam.slice(0, memoryRamSlotQuantity)) // Truncar el array existente
 						: computer.memoryRam
 					: [0]
 

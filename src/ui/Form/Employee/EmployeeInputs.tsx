@@ -14,13 +14,15 @@ import { EmployeeTypeCombobox } from '@/components/ComboBox/Sincrono/EmployeeTyp
 import { Checkbox } from '@/components/Checkbox/Checbox'
 import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
 import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
-import { CentroTrabajoCombobox } from '@/components/ComboBox/Asincrono/CentroTrabajoComboBox'
 import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/DepartamentoComboBox'
 import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
 import { Nationalities } from '@/core/employee/employee/domain/value-object/EmployeeNationality'
 import { EmployeeCedula } from '@/core/employee/employee/domain/value-object/EmployeeCedula'
 import { ExtensionSection } from './ExtensionSection'
 import { PhoneSection } from './PhoneSection'
+import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
+import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
+import { VicepresidenciaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaComboBox'
 
 interface Props {
 	formData: DefaultEmployee
@@ -53,13 +55,6 @@ interface Props {
 		type: 'removePhone' | 'removeExtension'
 		index: number
 	}) => void
-	handleDepartment: ({
-		value,
-		centroCostoId
-	}: {
-		value: string
-		centroCostoId: string
-	}) => Promise<void>
 }
 
 export const EmployeeInputs = ({
@@ -69,7 +64,6 @@ export const EmployeeInputs = ({
 	formData,
 	mode,
 	handleChange,
-	handleDepartment,
 	handleAddPhones,
 	handleClearFirstPhone,
 	handlePhoneChange,
@@ -224,21 +218,38 @@ export const EmployeeInputs = ({
 						required={required.locationId}
 						disabled={disabled.locationId}
 					/>
+					<DirectivaCombobox
+						value={formData.directivaId ?? ''}
+						handleChange={(_name, value) => handleChange('directivaId', value)}
+						name="directivaId"
+						required={required.directivaId}
+						disabled={disabled.directivaId}
+					/>
+					<VicepresidenciaEjecutivaCombobox
+						value={formData.vicepresidenciaEjecutivaId ?? ''}
+						handleChange={(_name, value) =>
+							handleChange('vicepresidenciaEjecutivaId', value)
+						}
+						name="vicepresidenciaEjecutivaId"
+						directivaId={formData.directivaId ?? ''}
+						required={required.vicepresidenciaEjecutivaId}
+						disabled={disabled.vicepresidenciaEjecutivaId}
+					/>
+					<VicepresidenciaCombobox
+						value={formData.vicepresidenciaId ?? ''}
+						vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId ?? ''}
+						handleChange={(_name, value) => handleChange('vicepresidenciaId', value)}
+						name="vicepresidenciaId"
+						required={required.vicepresidenciaId}
+						disabled={disabled.vicepresidenciaId}
+					/>
 					<DepartamentoCombobox
 						value={formData.departamentoId ?? ''}
-						handleFormChange={handleDepartment}
+						vicepresidenciaId={formData.vicepresidenciaId ?? ''}
+						handleChange={(_name, value) => handleChange('departamentoId', value)}
 						name="departamentoId"
-						method="form"
 						required={required.departamentoId}
 						disabled={disabled.departamentoId}
-					/>
-					<CentroTrabajoCombobox
-						value={formData.centroTrabajoId ?? ''}
-						handleChange={(_name, value) => handleChange('centroTrabajoId', value)}
-						name="centroTrabajoId"
-						centroCostoId={formData.centroCostoId}
-						required={required.centroTrabajoId}
-						disabled={disabled.centroTrabajoId}
 					/>
 					<CargoCombobox
 						value={formData.cargoId ?? ''}

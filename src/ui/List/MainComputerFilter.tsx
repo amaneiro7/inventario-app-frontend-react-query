@@ -17,7 +17,8 @@ export const MainComputerFilter = memo(function ({
 	regionId,
 	typeOfSiteId,
 	serial,
-	departamentoId
+	departamentoId,
+	vicepresidenciaId
 }: {
 	employeeId?: string
 	categoryId?: string
@@ -26,6 +27,7 @@ export const MainComputerFilter = memo(function ({
 	locationId?: string
 	serial?: string
 	departamentoId?: string
+	vicepresidenciaId?: string
 	typeOfSiteId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
@@ -79,6 +81,7 @@ export const MainComputerFilter = memo(function ({
 				name="departamentoId"
 				handleChange={handleChange}
 				value={departamentoId}
+				vicepresidenciaId={vicepresidenciaId}
 			/>
 		</>
 	)
