@@ -32,8 +32,8 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		setState({
 			id: departamento.id,
 			name: departamento.name,
-			directivaId: departamento.vicepresidencia?.vicepresidenciaEjecutiva?.directivaId,
-			vicepresidenciaEjecutivaId: departamento?.vicepresidencia?.vicepresidenciaEjecutivaId,
+			directivaId: departamento.vicepresidencia?.vicepresidenciaEjecutiva?.directiva.id,
+			vicepresidenciaEjecutivaId: departamento?.vicepresidencia?.vicepresidenciaEjecutiva?.id,
 			vicepresidenciaId: departamento?.vicepresidencia?.id,
 			cargos: departamento.cargos.map(cargo => cargo.id),
 			updatedAt: departamento.updatedAt

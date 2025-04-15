@@ -3,8 +3,8 @@ import { useGetAllCargo } from '@/core/employee/cargo/infra/hook/useGetAllCargo'
 import { useFilterOptions } from '@/hooks/useFilterOptions'
 import { Combobox } from '@/components/Input/Combobox'
 import Typography from '@/components/Typography'
-import { type CargoDto } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 import { TransferListItem } from './TransferListItem'
+import { type CargoDto } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 
 interface CargoTransferListProps {
 	value?: CargoDto['id'][]

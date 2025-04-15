@@ -10,8 +10,8 @@ import {
 import { type FormMode } from '@/hooks/useGetFormMode'
 import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
 import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
-import { CentroCostoCombobox } from '@/components/ComboBox/Asincrono/CentroCostoComboBox'
 import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
+import { VicepresidenciaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaComboBox'
 
 interface Props {
 	formData: DefaultDepartamento
@@ -52,12 +52,13 @@ export const DepartamentoInputs = memo(function ({
 					disabled={disabled.vicepresidenciaEjecutivaId}
 					readonly={mode === 'edit'}
 				/>
-				<CentroCostoCombobox
-					value={formData.centroCostoId}
-					handleChange={(_name, value) => handleChange('centroCostoId', value)}
-					name="centroCostoId"
-					required={required.centroCostoId}
-					disabled={disabled.centroCostoId}
+				<VicepresidenciaCombobox
+					value={formData.vicepresidenciaId}
+					handleChange={(_name, value) => handleChange('vicepresidenciaId', value)}
+					name="vicepresidenciaId"
+					vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId}
+					required={required.vicepresidenciaId}
+					disabled={disabled.vicepresidenciaId}
 					readonly={mode === 'edit'}
 				/>
 			</div>

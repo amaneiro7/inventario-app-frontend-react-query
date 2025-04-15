@@ -3,6 +3,8 @@ import { type VicepresidenciaEjecutivaId } from '../value-object/Vicepresidencia
 import { type VicepresidenciaEjecutivaName } from '../value-object/VicepresidenciaEjecutivaName'
 import { type DirectivaId } from '@/core/employee/directiva/domain/value-object/DirectivaId'
 import { type DirectivaDto } from '@/core/employee/directiva/domain/dto/Directiva.dto'
+import { type CargoId } from '@/core/employee/cargo/domain/value-object/CargoId'
+import { type Cargo } from '@/core/employee/cargo/domain/dto/Cargo.dto'
 
 export interface VicepresidenciaEjecutiva {
 	id: Primitives<VicepresidenciaEjecutivaId>
@@ -10,12 +12,17 @@ export interface VicepresidenciaEjecutiva {
 	directivaId: Primitives<DirectivaId>
 }
 
-export type VicepresidenciaEjecutivaPrimitives = Omit<VicepresidenciaEjecutiva, 'id'>
+export type VicepresidenciaEjecutivaPrimitives = Omit<VicepresidenciaEjecutiva, 'id'> & {
+	cargos: Primitives<CargoId>[]
+}
 
 export type VicepresidenciaEjecutivaParams = VicepresidenciaEjecutivaPrimitives & {
-	id?: Primitives<VicepresidenciaEjecutivaId> | undefined
+	id?: Primitives<VicepresidenciaEjecutivaId>
+	cargos: Primitives<CargoId>[]
 }
 
 export type VicepresidenciaEjecutivaDto = VicepresidenciaEjecutiva & {
 	directiva: DirectivaDto
+	cargos: Cargo[]
+	updatedAt: string
 }

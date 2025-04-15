@@ -1,13 +1,16 @@
 import { type DirectivaDto, type DirectivaParams } from '../../domain/dto/Directiva.dto'
 import { DirectivaName } from '../../domain/value-object/DirectivaName'
 
-export type DefaultDirectiva = DirectivaParams
+export type DefaultDirectiva = DirectivaParams & {
+	updatedAt?: string
+}
 
 export interface DirectivaErrors {
 	name: DirectivaDto['name']
 }
 export interface DirectivaRequired {
 	name: boolean
+	cargos: boolean
 }
 
 export interface State {
@@ -19,13 +22,16 @@ export interface State {
 export const initialDirectivaState: State = {
 	formData: {
 		id: undefined,
-		name: ''
+		name: '',
+		cargos: [],
+		updatedAt: undefined
 	},
 	errors: {
 		name: ''
 	},
 	required: {
-		name: true
+		name: true,
+		cargos: false
 	}
 }
 
@@ -33,6 +39,8 @@ export type Action =
 	| { type: 'init'; payload: { formData: DefaultDirectiva } }
 	| { type: 'reset'; payload: { formData: DefaultDirectiva } }
 	| { type: 'name'; payload: { value: DefaultDirectiva['name'] } }
+	| { type: 'addCargo'; payload: { value: string } }
+	| { type: 'removeCargo'; payload: { value: string } }
 
 export const directivaFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
@@ -52,6 +60,26 @@ export const directivaFormReducer = (state: State, action: Action): State => {
 				errors: {
 					...state.errors,
 					name: DirectivaName.isValid(name) ? '' : DirectivaName.invalidMessage()
+				}
+			}
+		}
+		case 'addCargo': {
+			const cargos = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					cargos: [...state.formData.cargos, cargos]
+				}
+			}
+		}
+		case 'removeCargo': {
+			const cargos = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					cargos: state.formData.cargos.filter(c => c !== cargos)
 				}
 			}
 		}

@@ -35,7 +35,9 @@ export function useVicepresidenciaEjecutivaInitialState(
 			setState({
 				id: vicepresidenciaEjecutiva.id,
 				name: vicepresidenciaEjecutiva.name,
-				directivaId: vicepresidenciaEjecutiva.directivaId
+				directivaId: vicepresidenciaEjecutiva.directivaId,
+				cargos: vicepresidenciaEjecutiva.cargos?.map(cargo => cargo.id),
+				updatedAt: vicepresidenciaEjecutiva?.updatedAt
 			})
 		},
 		[]

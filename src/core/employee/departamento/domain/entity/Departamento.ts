@@ -12,11 +12,10 @@ export class Departamento {
 	) {}
 
 	public static create(params: DepartamentoPrimitives): Departamento {
-		const cargos = params.cargos.map(cargo => new CargoId(cargo))
 		return new Departamento(
 			new DepartamentoName(params.name),
 			new VicepresidenciaId(params.vicepresidenciaId),
-			cargos
+			params.cargos.map(cargo => new CargoId(cargo))
 		)
 	}
 

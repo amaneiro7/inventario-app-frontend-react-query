@@ -6,6 +6,7 @@ import {
 	type DefaultDirectiva,
 	type DirectivaRequired
 } from '@/core/employee/directiva/infra/reducers/directivaFormReducer'
+import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
 
 interface Props {
 	formData: DefaultDirectiva
@@ -27,6 +28,13 @@ export const DirectivaInputs = memo(function ({ errors, required, formData, hand
 				error={!!errors?.name}
 				errorMessage={errors?.name}
 				required={required.name}
+			/>
+			<CargoTransferList
+				value={formData.cargos}
+				name="cargos"
+				onAddCargo={handleChange}
+				onRemoveCargo={handleChange}
+				required={required.cargos}
 			/>
 		</>
 	)

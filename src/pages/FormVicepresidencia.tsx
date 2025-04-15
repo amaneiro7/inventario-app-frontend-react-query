@@ -1,0 +1,44 @@
+import { FormContainer } from '@/components/FormContainer/formContainer'
+import { useCreateVicepresidencia } from '@/core/employee/vicepresidencia/infra/hook/useCreateVicepresidencia'
+import { VicepresidenciasInputs } from '@/ui/Form/Vicepresidencia/VicepresidenciaInputs'
+import { VicepresidenciaSearch } from '@/ui/Form/Vicepresidencia/VicepresidenciaSearch'
+
+export default function FormVicepresidencia() {
+	const {
+		formData,
+		mode,
+		key,
+		errors,
+		required,
+		disabled,
+		handleChange,
+		handleSubmit,
+		resetForm
+	} = useCreateVicepresidencia()
+
+	return (
+		<FormContainer
+			id={key}
+			title="vicepresidencia"
+			description="Ingrese los datos de la vicepresidencia el cual desea registar."
+			isAddForm={mode === 'add'}
+			handleSubmit={handleSubmit}
+			handleClose={() => {
+				return
+			}}
+			reset={mode === 'edit' ? resetForm : undefined}
+			url="/vicepresidencia/add"
+			border
+			searchInput={<VicepresidenciaSearch />}
+		>
+			<VicepresidenciasInputs
+				required={required}
+				formData={formData}
+				disabled={disabled}
+				handleChange={handleChange}
+				errors={errors}
+				mode={mode}
+			/>
+		</FormContainer>
+	)
+}

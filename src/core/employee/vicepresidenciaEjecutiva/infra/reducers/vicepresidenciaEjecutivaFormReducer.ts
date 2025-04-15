@@ -1,7 +1,9 @@
 import { type VicepresidenciaEjecutivaParams } from '../../domain/dto/VicepresidenciaEjecutiva.dto'
 import { VicepresidenciaEjecutivaName } from '../../domain/value-object/VicepresidenciaEjecutivaName'
 
-export type DefaultVicepresidenciaEjecutiva = VicepresidenciaEjecutivaParams
+export type DefaultVicepresidenciaEjecutiva = VicepresidenciaEjecutivaParams & {
+	updatedAt?: string
+}
 
 export interface VicepresidenciaEjecutivaErrors {
 	name: string
@@ -10,6 +12,7 @@ export interface VicepresidenciaEjecutivaErrors {
 export interface VicepresidenciaEjecutivaRequired {
 	name: boolean
 	directivaId: boolean
+	cargos: boolean
 }
 
 export interface State {
@@ -22,7 +25,9 @@ export const initialVicepresidenciaEjecutivaState: State = {
 	formData: {
 		id: undefined,
 		name: '',
-		directivaId: ''
+		directivaId: '',
+		cargos: [],
+		updatedAt: undefined
 	},
 	errors: {
 		name: '',
@@ -30,7 +35,8 @@ export const initialVicepresidenciaEjecutivaState: State = {
 	},
 	required: {
 		name: true,
-		directivaId: true
+		directivaId: true,
+		cargos: false
 	}
 }
 
@@ -39,6 +45,8 @@ export type Action =
 	| { type: 'reset'; payload: { formData: DefaultVicepresidenciaEjecutiva } }
 	| { type: 'name'; payload: { value: DefaultVicepresidenciaEjecutiva['name'] } }
 	| { type: 'directivaId'; payload: { value: DefaultVicepresidenciaEjecutiva['directivaId'] } }
+	| { type: 'addCargo'; payload: { value: string } }
+	| { type: 'removeCargo'; payload: { value: string } }
 
 export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
@@ -68,6 +76,26 @@ export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action
 			return {
 				...state,
 				formData: { ...state.formData, directivaId }
+			}
+		}
+		case 'addCargo': {
+			const cargos = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					cargos: [...state.formData.cargos, cargos]
+				}
+			}
+		}
+		case 'removeCargo': {
+			const cargos = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					cargos: state.formData.cargos.filter(c => c !== cargos)
+				}
 			}
 		}
 		default:

@@ -255,6 +255,9 @@ export const EmployeeInputs = ({
 						value={formData.cargoId ?? ''}
 						handleChange={(_name, value) => handleChange('cargoId', value)}
 						name="cargoId"
+						directivaId={formData.directivaId ?? ''}
+						vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId ?? ''}
+						vicepresidenciaId={formData.vicepresidenciaId ?? ''}
 						departamentoId={formData.departamentoId ?? ''}
 						required={required.cargoId}
 						disabled={disabled.cargoId}

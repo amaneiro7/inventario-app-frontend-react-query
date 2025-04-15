@@ -29,8 +29,9 @@ const FormDepartamento = lazy(() => import('@/pages/FormDepartamento'))
 const FormCargo = lazy(() => import('@/pages/FormCargo'))
 const FormDirectiva = lazy(() => import('@/pages/FormDirectiva'))
 const FormVicepresidenciaEjecutivas = lazy(() => import('@/pages/FormVicepresidenciaEjecutiva'))
-const FormCentroCosto = lazy(() => import('@/pages/FormCentroCosto'))
-const FormCentroTrabajo = lazy(() => import('@/pages/FormCentroTrabajo'))
+const FormVicepresidencia = lazy(() => import('@/pages/FormVicepresidencia'))
+// const FormCentroCosto = lazy(() => import('@/pages/FormCentroCosto'))
+// const FormCentroTrabajo = lazy(() => import('@/pages/FormCentroTrabajo'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
 const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
@@ -174,7 +175,7 @@ export function AppRoutes() {
 						}
 					/>
 					<Route
-						path="/vicepresidenciaEjecutivas/add"
+						path="/vicepresidenciaEjecutiva/add"
 						element={
 							<Suspense fallback={<Loading />}>
 								<FormVicepresidenciaEjecutivas />
@@ -182,10 +183,26 @@ export function AppRoutes() {
 						}
 					/>
 					<Route
-						path="/vicepresidenciaEjecutivas/edit/:id"
+						path="/vicepresidenciaEjecutiva/edit/:id"
 						element={
 							<Suspense fallback={<Loading />}>
 								<FormVicepresidenciaEjecutivas />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/vicepresidencia/add"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormVicepresidencia />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/vicepresidencia/edit/:id"
+						element={
+							<Suspense fallback={<Loading />}>
+								<FormVicepresidencia />
 							</Suspense>
 						}
 					/>
@@ -269,7 +286,7 @@ export function AppRoutes() {
 							</Suspense>
 						}
 					/>
-					<Route
+					{/* <Route
 						path="/centrocosto/add"
 						element={
 							<Suspense fallback={<Loading />}>
@@ -300,7 +317,7 @@ export function AppRoutes() {
 								<FormCentroTrabajo />
 							</Suspense>
 						}
-					/>
+					/> */}
 					<Route
 						path="/departamento/add"
 						element={

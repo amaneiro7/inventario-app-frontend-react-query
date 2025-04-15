@@ -10,11 +10,17 @@ export function CargoCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	directivaId = '',
+	vicepresidenciaEjecutivaId = '',
+	vicepresidenciaId = '',
 	departamentoId = '',
 	handleChange
 }: {
 	value?: string
 	departamentoId?: string
+	directivaId?: string
+	vicepresidenciaEjecutivaId?: string
+	vicepresidenciaId?: string
 	name: string
 	error?: string
 	required?: boolean
@@ -29,9 +35,19 @@ export function CargoCombobox({
 		return {
 			...(value ? { id: value } : {}),
 			...(debouncedSearch ? { name: debouncedSearch, id: undefined } : { pageSize: 10 }),
+			directivaId,
+			vicepresidenciaEjecutivaId,
+			vicepresidenciaId,
 			departamentoId
 		}
-	}, [debouncedSearch, value, departamentoId])
+	}, [
+		debouncedSearch,
+		value,
+		departamentoId,
+		directivaId,
+		vicepresidenciaEjecutivaId,
+		vicepresidenciaId
+	])
 
 	const { cargos, isLoading } = useGetAllCargo(query)
 

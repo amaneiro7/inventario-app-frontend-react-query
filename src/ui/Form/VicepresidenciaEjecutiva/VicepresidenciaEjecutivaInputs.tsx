@@ -8,6 +8,7 @@ import {
 	type VicepresidenciaEjecutivaErrors,
 	type VicepresidenciaEjecutivaRequired
 } from '@/core/employee/vicepresidenciaEjecutiva/infra/reducers/vicepresidenciaEjecutivaFormReducer'
+import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
 
 interface Props {
 	formData: DefaultVicepresidenciaEjecutiva
@@ -40,6 +41,13 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 				error={!!errors?.name}
 				errorMessage={errors?.name}
 				required={required.name}
+			/>
+			<CargoTransferList
+				value={formData.cargos}
+				name="cargos"
+				onAddCargo={handleChange}
+				onRemoveCargo={handleChange}
+				required={required.cargos}
 			/>
 		</>
 	)

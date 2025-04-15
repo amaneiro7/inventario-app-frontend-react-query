@@ -32,7 +32,10 @@ export function useVicepresidenciaInitialState(defaultState: DefaultVicepresiden
 		setState({
 			id: vicepresidencia.id,
 			name: vicepresidencia.name,
-			vicepresidenciaEjecutivaId: vicepresidencia.vicepresidenciaEjecutivaId
+			vicepresidenciaEjecutivaId: vicepresidencia?.vicepresidenciaEjecutivaId,
+			directivaId: vicepresidencia?.vicepresidenciaEjecutiva?.directiva.id,
+			cargos: vicepresidencia.cargos?.map(cargo => cargo.id),
+			updatedAt: vicepresidencia?.updatedAt
 		})
 	}, [])
 

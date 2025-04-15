@@ -31,7 +31,9 @@ export function useDirectivaInitialState(defaultState: DefaultDirectiva): {
 	const mappedDirectivaState = useCallback((directiva: DirectivaDto): void => {
 		setState({
 			id: directiva.id,
-			name: directiva.name
+			name: directiva.name,
+			cargos: directiva.cargos.map(cargo => cargo.id),
+			updatedAt: directiva.updatedAt
 		})
 	}, [])
 
