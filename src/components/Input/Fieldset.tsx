@@ -29,10 +29,10 @@ export function Fieldset<T extends string | number | readonly string[]>({
 
 	const filedSetClasses = twMerge(
 		cn({
-			['group-focus-within:!border-focus group-focus-within:!border-2']:
+			['group-focus-within:border-focus! group-focus-within:border-2!']:
 				!error && !valid && !disabled,
-			['!border-2 !border-error']: error,
-			['!border-2 !border-success']: valid
+			['border-2! border-error!']: error,
+			['border-2! border-success!']: valid
 		}),
 		className
 	)

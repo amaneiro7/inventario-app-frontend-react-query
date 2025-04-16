@@ -30,8 +30,8 @@ export function Label<T extends string | number | readonly string[]>({
 		cn({
 			['group-focus-within:text-focus']: !disabled,
 			['transform']: (value && !disabled) || transform,
-			['!text-error']: error,
-			['!text-success']: valid,
+			['text-error!']: error,
+			['text-success!']: valid,
 			['with-left-icon']: leftIcon
 		}),
 		className

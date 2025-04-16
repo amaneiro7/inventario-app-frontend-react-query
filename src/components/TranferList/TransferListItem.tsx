@@ -17,7 +17,7 @@ export const TransferListItem = memo(function ({
 		>
 			<span>{name}</span>
 			<button
-				className="text-black rounded-full p-1 transition-colors hover:bg-slate-300 focus:outline-none"
+				className="text-black rounded-full p-1 transition-colors hover:bg-slate-300 focus:outline-hidden"
 				type="button"
 				onClick={() => onRemove(id)}
 				title="Eliminar elemento de la lista"

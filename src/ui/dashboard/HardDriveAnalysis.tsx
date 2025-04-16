@@ -27,7 +27,7 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 		useHardDriveAnalysys({ data })
 
 	return (
-		<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">
+		<div className="grid grid-cols-[repeat(auto-fit,minmax(550px,1fr))] gap-4">
 			<PieCard
 				data={typeData}
 				total={totalDrivesByType}

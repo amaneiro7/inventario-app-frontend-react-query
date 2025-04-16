@@ -28,7 +28,7 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 
 	return (
 		<>
-			<div className="grid grid-cols-[repeat(auto-fit,_minmax(550px,_1fr))] gap-4">
+			<div className="grid grid-cols-[repeat(auto-fit,minmax(550px,1fr))] gap-4">
 				<PieCard
 					data={data}
 					total={totalOperatingSystem}

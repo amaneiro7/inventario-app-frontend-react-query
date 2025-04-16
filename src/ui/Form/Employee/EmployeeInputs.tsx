@@ -190,7 +190,7 @@ export const EmployeeInputs = ({
 									onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
 										handleChange('nationality', e.target.value)
 									}
-									className="leftIcon focus:outline-none appearance-none"
+									className="leftIcon focus:outline-hidden appearance-none"
 									disabled={disabled.nationality || mode === 'edit'}
 								>
 									<option hidden value="default"></option>

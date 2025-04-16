@@ -30,7 +30,7 @@ export function SearchBar({ id, value, onInputChange, open }: Props) {
 				<path d="m21 21-4.3-4.3"></path>
 			</svg>
 			<input
-				className="flex w-full rounded-md bg-transparent py-3 outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-9"
+				className="flex w-full rounded-md bg-transparent py-3 outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-9"
 				placeholder="Buscar"
 				autoFocus
 				ref={inputRef}

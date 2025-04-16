@@ -17,7 +17,7 @@ export function TableRow<T extends typeof TableHead | typeof TableCell>({
 	className,
 	...props
 }: Props<T>) {
-	const classes = twMerge('[&>td]:bg-slate-100 [&>td]:hover:bg-slate-200 text-xs', className)
+	const classes = twMerge('[&>td]:bg-slate-100 hover:[&>td]:bg-slate-200 text-xs', className)
 	return (
 		<tr className={classes} role="row" {...props}>
 			{children}

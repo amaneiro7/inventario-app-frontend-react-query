@@ -36,7 +36,7 @@ export function ConfirmationModal({ text, strongText, handle, handleClose, formI
                         hoverTranslation
                         icon={
                             <Suspense fallback={<div className='w-6 h-6 rounded-full bg-slate-200 animate-pulse' />}>
-                                <CheckIcon width={20} className='aspect-square stroke-[3]' />
+                                <CheckIcon width={20} className='aspect-square stroke-3' />
                             </Suspense>
                         }
                     />

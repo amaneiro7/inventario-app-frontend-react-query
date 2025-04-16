@@ -38,7 +38,7 @@ export const ExtensionInput = memo(
 						value={operadora}
 						onChange={handleOperadoraChange}
 						required={numero.length > 0}
-						className="leftIcon focus:outline-none appearance-none"
+						className="leftIcon focus:outline-hidden appearance-none"
 					>
 						<option value="">-</option>
 						{codAreaGroupBy.map(([estado, ciudades]) => (

@@ -12,7 +12,7 @@ export const Chip = memo(function ({ label, onDelete }: ChipProps) {
 			<span>{label}</span>
 			{onDelete && (
 				<button
-					className="ml-2 text-gray-400 hover:text-gray-600 focus:outline-none"
+					className="ml-2 text-gray-400 hover:text-gray-600 focus:outline-hidden"
 					onClick={onDelete}
 				>
 					<CloseIcon className="h-4 w-4" />

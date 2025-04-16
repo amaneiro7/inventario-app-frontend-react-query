@@ -10,7 +10,7 @@ interface Props {
 
 export const DetailsInfo = memo(({ title, children }: Props) => {
     return (
-        <div className='fit w-full p-4 flex justify-center bg-white rounded-2xl shadow'>
+        <div className='fit w-full p-4 flex justify-center bg-white rounded-2xl shadow-sm'>
             <div className='w-1/2 h-full rounded shadow-lg shadow-slate-400'>
                 <Typography color="white" className='w-full rounded-t px-4 py-2 bg-azul'>{title}</Typography>
                 <dl className='divide-y divide-gray-300'>

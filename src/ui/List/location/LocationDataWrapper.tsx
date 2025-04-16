@@ -40,7 +40,7 @@ export const LocationDataWrapper = memo(
 					pageNumber={query.pageNumber}
 					defaultPageSize={LocationGetByCriteria.defaultPageSize}
 				/>
-				<section className="grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))] gap-8">
+				<section className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8">
 					{isLoading && <SpinnerSKCircle />}
 					{!isLoading && locations && locations.data.length === 0 && (
 						<p>No hay resultados</p>

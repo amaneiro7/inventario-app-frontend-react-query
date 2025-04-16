@@ -69,7 +69,7 @@ export const PhoneInput = memo(
 						value={operadora}
 						onChange={handleOperadoraChange}
 						required={numero.length > 0}
-						className="leftIcon focus:outline-none appearance-none"
+						className="leftIcon focus:outline-hidden appearance-none"
 					>
 						<option value="">-</option>
 						{operadoras.map(op => (

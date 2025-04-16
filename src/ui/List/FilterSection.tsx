@@ -6,7 +6,7 @@ export const FilterSection = memo(
 		return (
 			<search {...props}>
 				<form
-					className={`relative h-10 min-h-min w-full grid grid-cols-[repeat(auto-fit,_250px)] gap-4 ${className}`}
+					className={`relative h-10 min-h-min w-full grid grid-cols-[repeat(auto-fit,250px)] gap-4 ${className}`}
 				>
 					{children}
 				</form>

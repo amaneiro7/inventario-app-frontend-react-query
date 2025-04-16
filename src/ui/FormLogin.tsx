@@ -22,7 +22,7 @@ export const FormLogin = () => {
 	return (
 		<main className="bg-gray-300 dark:bg-gray-900">
 			<section className="flex flex-col items-center justify-center gap-2 px-6 py-8 mx-auto md:h-screen lg:py-0">
-				<div className="text-quat w-full flex flex-col gap-4 md:gap-6 p-6 sm:p-8 bg-white rounded-lg shadow dark:bg-gray-800 dark:border md:mt-0 sm:max-w-md dark:border-gray-700 ">
+				<div className="text-quat w-full flex flex-col gap-4 md:gap-6 p-6 sm:p-8 bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:border md:mt-0 sm:max-w-md dark:border-gray-700 ">
 					<Logo />
 
 					<Typography color="azul" weight="bold" variant="h4">

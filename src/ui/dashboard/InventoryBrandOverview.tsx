@@ -43,7 +43,7 @@ export const InventoryOverview = ({
 		return statusData.reduce((sum, cat) => sum + cat.count, 0)
 	}, [statusData])
 	return (
-		<div className="grid gap-4 grid-cols-[repeat(auto-fit,_minmax(450px,_1fr))]">
+		<div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(450px,1fr))]">
 			<Card>
 				<CardHeader>
 					<div className="flex flex-col md:flex-row md:items-center md:justify-between">

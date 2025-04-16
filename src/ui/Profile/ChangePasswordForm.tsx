@@ -41,7 +41,7 @@ export function ChangePassowrdForm({
 }: Props) {
 	return (
 		<form
-			className="p-4 rounded-2xl shadow bg-white grid md:grid-cols-2 gap-4"
+			className="p-4 rounded-2xl shadow-sm bg-white grid md:grid-cols-2 gap-4"
 			method="post"
 			id={formId}
 			onSubmit={handleSubmit}
