@@ -49,9 +49,9 @@ export function FormComponent({
 
 	return (
 		<form id={id} action="submit" onSubmit={handleSubmit} className={classes} {...props}>
-			<fieldset className="w-full grid gap-5 relative">
+			<fieldset className="relative grid min-h-64 w-full gap-5">
 				{children}
-				<div className="flex flex-col mt-8 md:flex-row md:w-1/3 gap-5 justify-end justify-self-end">
+				<div className="mt-8 flex flex-col justify-end gap-5 justify-self-end md:w-1/3 md:flex-row">
 					<Button
 						color={method === 'form' ? 'green' : 'blue'}
 						type="submit"

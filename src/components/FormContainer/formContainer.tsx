@@ -15,6 +15,7 @@ interface Props {
 	description: string
 	url: string
 	isAddForm: boolean
+	standBy?: boolean
 	border?: boolean
 	action?: React.FormHTMLAttributes<HTMLFormElement>['action']
 	lastUpdated?: string
@@ -36,6 +37,7 @@ export const FormContainer = memo(function ({
 	border,
 	updatedBy,
 	lastUpdated,
+	standBy = false,
 	handleSubmit,
 	handleClose,
 	reset
@@ -51,7 +53,7 @@ export const FormContainer = memo(function ({
 					</Typography>
 					<Typography
 						variant="p"
-						className="inline-flex gap-1 text-center justify-start items-center "
+						className="inline-flex items-center justify-start gap-1 text-center"
 					>
 						<Typography color="gris" variant="span">
 							{description}
@@ -69,23 +71,27 @@ export const FormContainer = memo(function ({
 						<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 					</Suspense>
 				</DetailsBoxWrapper>
-				<DetailsBoxWrapper position="center">
-					<FormComponent
-						id={id}
-						handleSubmit={handleSubmit}
-						handleClose={handleClose}
-						reset={reset}
-						border={border}
-						updatedBy={updatedBy}
-						lastUpdated={lastUpdated}
-					>
-						{children}
-					</FormComponent>
-				</DetailsBoxWrapper>
+				{!standBy && (
+					<DetailsBoxWrapper position="center">
+						<FormComponent
+							id={id}
+							handleSubmit={handleSubmit}
+							handleClose={handleClose}
+							reset={reset}
+							border={border}
+							updatedBy={updatedBy}
+							lastUpdated={lastUpdated}
+						>
+							{children}
+						</FormComponent>
+					</DetailsBoxWrapper>
+				)}
 			</DetailsWrapper>
-			<StepsToFollow>
-				<RegisterNewDeviceToFollow isEdit={!isAddForm} />
-			</StepsToFollow>
+			{!standBy && (
+				<StepsToFollow>
+					<RegisterNewDeviceToFollow isEdit={!isAddForm} />
+				</StepsToFollow>
+			)}
 		</>
 	)
 })

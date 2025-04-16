@@ -20,24 +20,27 @@ export default function FormRegion() {
 		<FormContainer
 			id={key}
 			title="región"
-			description="Ingrese los datos de la región el cual desea registar."
-			isAddForm={mode === 'add'}
+			description="Busque la región el cual desea registrar en una de las zonas administrativas"
+			isAddForm
 			handleSubmit={handleSubmit}
 			handleClose={() => {
 				return
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/region/add"
+			url="/region/"
 			border
+			standBy={mode !== 'edit'}
 			searchInput={<RegionSearch />}
 		>
-			<RegionInputs
-				required={required}
-				formData={formData}
-				disabled={disabled}
-				handleChange={handleChange}
-				errors={errors}
-			/>
+			{mode === 'edit' && (
+				<RegionInputs
+					required={required}
+					formData={formData}
+					disabled={disabled}
+					handleChange={handleChange}
+					errors={errors}
+				/>
+			)}
 		</FormContainer>
 	)
 }

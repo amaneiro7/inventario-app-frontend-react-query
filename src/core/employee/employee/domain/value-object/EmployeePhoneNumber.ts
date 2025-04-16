@@ -1,5 +1,6 @@
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { StringValueObject } from '@/core/shared/domain/value-objects/StringValueObjects'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 enum AreaCode {
 	MOVISTAR1 = '0414',
@@ -24,6 +25,10 @@ export class EmployeePhoneNumber extends StringValueObject {
 		if (!EmployeePhoneNumber.isValid(value)) {
 			throw new InvalidArgumentError(EmployeePhoneNumber.invalidMessage())
 		}
+	}
+
+	public static fromValues(phones: Primitives<EmployeePhoneNumber>[]): EmployeePhoneNumber[] {
+		return phones.filter(Boolean).map(phones => new EmployeePhoneNumber(phones)) ?? []
 	}
 	public static isValid(value: string): boolean {
 		if (value.length !== EmployeePhoneNumber.totalLength) {

@@ -36,26 +36,38 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 		retry: false // Deshabilita los reintentos automáticos en caso de error.
 	})
 
+	const setMemoryRamValues = useCallback(
+		(computer: DeviceDto['computer'], memoryRamSlotQuantity?: number): number[] => {
+			if (!computer || !memoryRamSlotQuantity) {
+				return [0]
+			}
+
+			const { memoryRam } = computer
+			const currentRamCount = memoryRam.length
+
+			if (currentRamCount === memoryRamSlotQuantity) {
+				return memoryRam
+			}
+
+			if (currentRamCount < memoryRamSlotQuantity) {
+				return [...memoryRam, ...Array(memoryRamSlotQuantity - currentRamCount)]
+			}
+
+			// Caso donde currentRamCount > memoryRamSlotQuantity
+			console.error(
+				'Error: memoryRamSlotQuantity es menor que la cantidad actual de módulos de RAM.'
+			)
+			return memoryRam.slice(0, memoryRamSlotQuantity)
+		},
+		[]
+	)
+
 	const mappedDeviceState = useCallback(
 		(device: DeviceDto): void => {
 			const { computer, model, hardDrive, mfp } = device
 			const memoryRamSlotQuantity = model?.modelComputer?.memoryRamSlotQuantity
 			const memoryRamType = model?.modelComputer?.memoryRamType?.name ?? ''
-			// Lógica para manejar el array memoryRam.
-			const memoryRam =
-				computer && memoryRamSlotQuantity
-					? computer.memoryRam.length !== memoryRamSlotQuantity
-						? computer.memoryRam.length < memoryRamSlotQuantity
-							? [
-									...computer.memoryRam,
-									...Array(memoryRamSlotQuantity - computer.memoryRam.length)
-							  ]
-							: (console.error(
-									'Error: memoryRamSlotQuantity es menor que la cantidad actual de módulos de RAM.'
-							  ),
-							  computer.memoryRam.slice(0, memoryRamSlotQuantity)) // Truncar el array existente
-						: computer.memoryRam
-					: [0]
+			const memoryRam = setMemoryRamValues(computer, memoryRamSlotQuantity)
 
 			// Si la capacidad de la RAM está definida y el número de slots no coincide, actualiza el primer slot.
 			if (
@@ -100,7 +112,7 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 				updatedAt: device.updatedAt
 			})
 		},
-		[defaultState]
+		[defaultState, setMemoryRamValues]
 	)
 
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
@@ -144,7 +156,7 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 				mappedDeviceState(data)
 			}
 		}
-	}, [defaultState, location.pathname, mode, refetch])
+	}, [defaultState, location.pathname, mode, refetch, mappedDeviceState])
 
 	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {

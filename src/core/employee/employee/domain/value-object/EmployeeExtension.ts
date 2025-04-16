@@ -1,6 +1,7 @@
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { StringValueObject } from '@/core/shared/domain/value-objects/StringValueObjects'
 import { codigosAreaVenezuela } from './codigosAreaVenezuela'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export class EmployeeExtension extends StringValueObject {
 	private static readonly areaCodes = codigosAreaVenezuela.map(areaCode => areaCode.codigo)
@@ -15,6 +16,10 @@ export class EmployeeExtension extends StringValueObject {
 		if (!EmployeeExtension.isValid(value)) {
 			throw new InvalidArgumentError(EmployeeExtension.invalidMessage())
 		}
+	}
+
+	public static fromValues(extensions: Primitives<EmployeeExtension>[]): EmployeeExtension[] {
+		return extensions.filter(Boolean).map(extension => new EmployeeExtension(extension)) ?? []
 	}
 	public static isValid(value: string): boolean {
 		const validFormat = this.phoneRegex.test(value)

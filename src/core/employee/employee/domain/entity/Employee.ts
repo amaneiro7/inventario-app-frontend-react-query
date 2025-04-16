@@ -62,8 +62,8 @@ export class Employee {
 			),
 			new EmployeeDepartamento(params.departamentoId, params.vicepresidenciaId),
 			new EmployeeCargo(params.cargoId, params.type),
-			params.extension?.map(ext => new EmployeeExtension(ext)),
-			params.phone?.map(phone => new EmployeePhoneNumber(phone))
+			EmployeeExtension.fromValues(params.extension),
+			EmployeePhoneNumber.fromValues(params.phone)
 		)
 	}
 

@@ -10,7 +10,7 @@ interface Props {
 
 export const SearchSection = memo(function ({ isEdit, searchInput, url }: Props) {
 	return (
-		<div className="w-full flex flex-col justify-start items-center md:flex-row md:justify-between gap-3">
+		<div className="flex w-full flex-col items-center justify-start gap-3 md:flex-row md:justify-between">
 			{searchInput}
 			{isEdit && (
 				<LinkAsButton
