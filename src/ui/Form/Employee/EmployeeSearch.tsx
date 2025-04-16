@@ -1,11 +1,11 @@
-import { useMemo, useState } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { SearchInput } from '@/components/Input/Search'
 import { useGetAllEmployees } from '@/core/employee/employee/infra/hook/useGetAllEmployee'
 import { EmployeeRenderOption } from '@/components/Input/Combobox/RenderOption/EmployeeRenderOption'
 import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
 
-export function EmployeeSearch() {
+export const EmployeeSearch = memo(() => {
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch] = useDebounce(searchValue, 250)
 	const [value, setValue] = useState('')
@@ -38,4 +38,6 @@ export function EmployeeSearch() {
 			renderOption={EmployeeRenderOption}
 		/>
 	)
-}
+})
+
+EmployeeSearch.displayName = 'EmployeeSearch'

@@ -71,9 +71,9 @@ export const ExtensionSection = ({
 						handlePhoneChange={handlePhoneChange}
 					/>
 
-					{index === 0 ? (
+					{index === 0 && extension.length <= 1 ? (
 						<Button
-							className="rounded-full mb-3 aspect-square flex items-center font-black justify-center"
+							className="mb-3 flex aspect-square items-center justify-center rounded-full font-black"
 							buttonSize="medium"
 							text=""
 							icon={<BrushIcon className="h-4 w-4 fill-white text-white" />}
@@ -85,9 +85,9 @@ export const ExtensionSection = ({
 							onClick={() => handleClearFirstPhone({ type: 'clearExtension', index })}
 						/>
 					) : (
-						index < 1 && (
+						(index > 0 || extension.length > 1) && (
 							<Button
-								className="rounded-full mb-3 aspect-square flex items-center font-black justify-center"
+								className="mb-3 flex aspect-square items-center justify-center rounded-full font-black"
 								buttonSize="medium"
 								text=""
 								type="button"

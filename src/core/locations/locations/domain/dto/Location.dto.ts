@@ -4,7 +4,7 @@ import { type LocationName } from '../value-object/LocationName'
 import { type TypeOfSiteId } from '@/core/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 import { type SiteId } from '@/core/locations/site/domain/value-object/SiteId'
 import { type LocationSubnet } from '../value-object/LocationSubnet'
-import { type TypeOfSiteDto } from '@/core/locations/typeOfSites/domain/dto/TypeOfSite.dto'
+import { TypeOfSiteDto } from '@/core/locations/typeOfSites/domain/dto/TypeOfSites.dto'
 import { type SiteDto } from '@/core/locations/site/domain/dto/Site.dto'
 
 export interface Location {

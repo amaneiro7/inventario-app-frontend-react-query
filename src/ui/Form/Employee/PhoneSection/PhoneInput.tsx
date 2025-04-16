@@ -1,5 +1,5 @@
-import { memo, useState, useCallback, useEffect } from 'react'
-import { EmployeePhoneNumber } from '@/core/employee/employee/domain/value-object/EmployeePhoneNumber'
+import { memo } from 'react'
+import { usePhone } from './usePhone'
 import { Input } from '@/components/Input/Input'
 
 interface PhoneInputProps {
@@ -21,37 +21,12 @@ const operadoras = [{ id: '0412' }, { id: '0414' }, { id: '0424' }, { id: '0416'
 
 export const PhoneInput = memo(
 	({ operadora, numero, index, handlePhoneChange }: PhoneInputProps) => {
-		const [errorMessage, setErrorMessage] = useState('')
-		const [isError, setIsError] = useState(false)
-
-		useEffect(() => {
-			const combinedValue = `${operadora}${numero}`
-
-			if (combinedValue.length === 0) {
-				setIsError(false)
-				setErrorMessage('')
-				return
-			}
-			const isValid = EmployeePhoneNumber.isValid(combinedValue)
-			setIsError(!isValid)
-			setErrorMessage(isValid ? '' : EmployeePhoneNumber.invalidMessage())
-		}, [numero, operadora])
-
-		const handleOperadoraChange = useCallback(
-			(event: React.ChangeEvent<HTMLSelectElement>) => {
-				const value = event.target.value
-				handlePhoneChange({ type: 'phoneOperadora', index, value })
-			},
-			[index, handlePhoneChange]
-		)
-
-		const handleNumeroChange = useCallback(
-			(event: React.ChangeEvent<HTMLInputElement>) => {
-				const value = event.target.value
-				handlePhoneChange({ type: 'phoneNumero', index, value })
-			},
-			[index, handlePhoneChange]
-		)
+		const { errorMessage, handleOperadoraChange, handleNumeroChange, isError } = usePhone({
+			handlePhoneChange,
+			index,
+			numero,
+			operadora
+		})
 
 		return (
 			<Input
@@ -69,7 +44,7 @@ export const PhoneInput = memo(
 						value={operadora}
 						onChange={handleOperadoraChange}
 						required={numero.length > 0}
-						className="leftIcon focus:outline-hidden appearance-none"
+						className="leftIcon appearance-none focus:outline-hidden"
 					>
 						<option value="">-</option>
 						{operadoras.map(op => (

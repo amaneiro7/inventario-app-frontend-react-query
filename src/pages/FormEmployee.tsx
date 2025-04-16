@@ -1,13 +1,17 @@
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { FormContainer } from '@/components/FormContainer/formContainer'
-import { InfoBox } from '@/components/InfoBox/InfoBox'
-import { InfoBoxText } from '@/components/InfoBox/InfoBoxText'
-import { InfoBoxTitle } from '@/components/InfoBox/InfoBoxTitle'
-import Typography from '@/components/Typography'
 import { useCreateEmployee } from '@/core/employee/employee/infra/hook/useCreateEmployee'
-import { EmployeeInputs } from '@/ui/Form/Employee/EmployeeInputs'
 import { EmployeeSearch } from '@/ui/Form/Employee/EmployeeSearch'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
 
-export default function FormEmployee() {
+const AsignDevices = lazy(() =>
+	import('@/ui/Form/Employee/AsignDevices').then(m => ({ default: m.AsignDevices }))
+)
+const EmployeeInputs = lazy(() =>
+	import('@/ui/Form/Employee/EmployeeInputs').then(m => ({ default: m.EmployeeInputs }))
+)
+
+const FormEmployee = memo(() => {
 	const {
 		formData,
 		key,
@@ -16,7 +20,6 @@ export default function FormEmployee() {
 		disabled,
 		required,
 		handleChange,
-		handleDepartment,
 		handleSubmit,
 		resetForm,
 		handleAddPhones,
@@ -24,6 +27,9 @@ export default function FormEmployee() {
 		handlePhoneChange,
 		handleRemovePhones
 	} = useCreateEmployee()
+	const updatedAt = useMemo(() => {
+		return formData.updatedAt
+	}, [formData.updatedAt])
 	return (
 		<FormContainer
 			id={key}
@@ -36,46 +42,43 @@ export default function FormEmployee() {
 			}}
 			searchInput={<EmployeeSearch />}
 			reset={mode === 'edit' ? resetForm : undefined}
-			lastUpdated={formData.updatedAt}
+			lastUpdated={updatedAt}
 			url="/employee/add"
 		>
-			<EmployeeInputs
-				formData={formData}
-				errors={errors}
-				required={required}
-				disabled={disabled}
-				mode={mode}
-				handleChange={handleChange}
-				handleDepartment={handleDepartment}
-				handleAddPhones={handleAddPhones}
-				handleClearFirstPhone={handleClearFirstPhone}
-				handlePhoneChange={handlePhoneChange}
-				handleRemovePhones={handleRemovePhones}
-			/>
-			{formData.devices.length > 0 && (
-				<div className="flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4">
-					<Typography color="azul" variant="h5">
-						Información de dispositivos asignados
-					</Typography>
-					{formData.devices.map(
-						({ id, category, brand, serial, model, location, computer }) => (
-							<InfoBox key={id}>
-								<InfoBoxTitle title={category.name} url={`/device/edit/${id}`} />
-								<InfoBoxText desc="Marca" text={brand.name} />
-								<InfoBoxText desc="Model" text={model.name} />
-								<InfoBoxText desc="Serial" text={serial ?? 'Sin serial'} />
-								<InfoBoxText desc="Ubicación" text={location.name} />
-								{computer && (
-									<InfoBoxText
-										desc="Dirección IP"
-										text={computer.ipAddress ?? 'Sin IP'}
-									/>
-								)}
-							</InfoBox>
-						)
+			<Tabs defaultValue="overview" className="space-y-4">
+				<TabsList>
+					<TabsTrigger value="form">Fomrulario</TabsTrigger>
+					{mode === 'edit' && (
+						<TabsTrigger value="asignDevice">Dispositvios asignados</TabsTrigger>
 					)}
-				</div>
-			)}
+				</TabsList>
+
+				<TabsContent value="form" className="space-y-4">
+					<Suspense fallback={<div className="min-h-[765px]">Loading...</div>}>
+						<EmployeeInputs
+							formData={formData}
+							errors={errors}
+							required={required}
+							disabled={disabled}
+							mode={mode}
+							handleChange={handleChange}
+							handleAddPhones={handleAddPhones}
+							handleClearFirstPhone={handleClearFirstPhone}
+							handlePhoneChange={handlePhoneChange}
+							handleRemovePhones={handleRemovePhones}
+						/>
+					</Suspense>
+				</TabsContent>
+
+				<TabsContent value="asignDevice" className="space-y-4">
+					<Suspense fallback={<div className="min-h-[765px]">Loading...</div>}>
+						<AsignDevices devices={formData.devices} />
+					</Suspense>
+				</TabsContent>
+			</Tabs>
 		</FormContainer>
 	)
-}
+})
+
+FormEmployee.displayName = 'FormEmployee'
+export default FormEmployee

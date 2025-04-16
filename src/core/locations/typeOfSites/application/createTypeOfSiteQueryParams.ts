@@ -4,7 +4,7 @@ import { OrderBy } from '@/core/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/core/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/core/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type TypeOfSiteDto } from '../domain/dto/TypeOfSite.dto'
+import { type TypeOfSiteDto } from '../domain/dto/TypeOfSites.dto'
 
 export interface TypeOfSiteFilters {
 	id?: TypeOfSiteDto['id']

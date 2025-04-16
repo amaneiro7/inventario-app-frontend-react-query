@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { AdministrativeRegionGetByCriteria } from '../../application/AdministrativeRegionGetByCriteria'
-import { AdministrativeRegionGetAllService } from '../service/AdministrativeRegionGetlAll.service'
+import { AdministrativeRegionGetAllService } from '../service/administrativeRegionGetlAll.service'
 import { type AdministrativeRegionFilters } from '../../application/createAdministrativeRegionQueryParams'
 
 const repository = new AdministrativeRegionGetAllService()

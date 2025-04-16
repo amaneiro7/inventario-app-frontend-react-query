@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { memo } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface Props
@@ -15,7 +16,7 @@ const Color = {
 	red: 'rojo'
 } as const
 
-export function DetailsWrapper({ borderColor = 'blue', children, ...props }: Props) {
+export const DetailsWrapper = memo(({ borderColor = 'blue', children, ...props }: Props) => {
 	const classes = twMerge(
 		'w-full mx-auto overflow-visible flex flex-col gap-4 p-4 mb-5 border-t-2 rounded bg-gray-200',
 		cn({
@@ -28,4 +29,4 @@ export function DetailsWrapper({ borderColor = 'blue', children, ...props }: Pro
 			{children}
 		</section>
 	)
-}
+})
