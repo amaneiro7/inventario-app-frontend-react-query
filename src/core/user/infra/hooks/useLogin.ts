@@ -1,13 +1,13 @@
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { use, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { UserEmail } from '@/core/user/domain/value-objects/UserEmail'
 import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
 export function useLogin() {
 	const {
 		auth: { isLoginLoading, login }
-	} = useContext(AuthContext)
+	} = use(AuthContext)
 	const [formData, setFormData] = useState<{
 		email: Primitives<UserEmail>
 		password: Primitives<UserPassword>

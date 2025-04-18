@@ -2,7 +2,7 @@ import Button from '@/components/Button'
 import { Input } from '@/components/Input/Input'
 import Logo from '@/components/Logo/Logo'
 import Typography from '@/components/Typography'
-import { useLogin } from '@/hooks/useLogin'
+import { useLogin } from '@/core/user/infra/hooks/useLogin'
 import { CircleSpinningIcon } from '@/icon/CircleSpinning'
 import { LockIcon } from '@/icon/LockIcon'
 import { MailIcon } from '@/icon/MailIcon'
@@ -21,8 +21,8 @@ export const FormLogin = () => {
 
 	return (
 		<main className="bg-gray-300 dark:bg-gray-900">
-			<section className="flex flex-col items-center justify-center gap-2 px-6 py-8 mx-auto md:h-screen lg:py-0">
-				<div className="text-quat w-full flex flex-col gap-4 md:gap-6 p-6 sm:p-8 bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:border md:mt-0 sm:max-w-md dark:border-gray-700 ">
+			<section className="mx-auto flex flex-col items-center justify-center gap-2 px-6 py-8 md:h-screen lg:py-0">
+				<div className="text-quat flex w-full flex-col gap-4 rounded-lg bg-white p-6 shadow-sm sm:max-w-md sm:p-8 md:mt-0 md:gap-6 dark:border dark:border-gray-700 dark:bg-gray-800">
 					<Logo />
 
 					<Typography color="azul" weight="bold" variant="h4">
@@ -30,9 +30,9 @@ export const FormLogin = () => {
 					</Typography>
 
 					<form id="login" action="submit" onSubmit={handleSubmit}>
-						<div className="space-y-6 md:space-y-8 mb-20">
+						<div className="mb-20 space-y-6 md:space-y-8">
 							<Input
-								leftIcon={<MailIcon className="w-4 fill-black/60 aspect-square" />}
+								leftIcon={<MailIcon className="aspect-square w-4 fill-black/60" />}
 								label="Correo electrónico"
 								name="email"
 								type="email"
@@ -44,7 +44,7 @@ export const FormLogin = () => {
 								required
 							/>
 							<Input
-								leftIcon={<LockIcon className="w-4 fill-black/60 aspect-square" />}
+								leftIcon={<LockIcon className="aspect-square w-4 fill-black/60" />}
 								label="Contraseña"
 								name="password"
 								value={formData.password}
@@ -56,9 +56,9 @@ export const FormLogin = () => {
 								required
 								rightIcon={
 									togglePassword ? (
-										<UnlockIcon className="w-4 fill-black/60 aspect-square" />
+										<UnlockIcon className="aspect-square w-4 fill-black/60" />
 									) : (
-										<LockIcon className="w-4 fill-black/60 aspect-square" />
+										<LockIcon className="aspect-square w-4 fill-black/60" />
 									)
 								}
 								onRightIconClick={handleToggleViewPassword}

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useReducer, useRef } from 'react'
+import { use, useEffect, useMemo, useReducer, useRef } from 'react'
 import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
 import { EventContext } from '@/context/EventManager/EventContext'
 import { ChangePassword } from '@/core/user/application/ChangePassword'
@@ -10,7 +10,7 @@ import {
 } from '@/reducers/changePassword.reducers'
 
 export function useChangePassword() {
-	const { events } = useContext(EventContext)
+	const { events } = use(EventContext)
 	const repository = useMemo(() => {
 		return new ChangePasswordService()
 	}, [])

@@ -1,6 +1,6 @@
 import { lazy, useContext } from 'react'
 import { AuthContext } from '@/context/Auth/AuthContext'
-import { useChangePassword } from '@/hooks/useChangePassword'
+import { useChangePassword } from '@/core/user/infra/hooks/useChangePassword'
 import { PageTitle } from '@/ui/PageTitle'
 import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
 import { DetailsInfo } from '@/components/DetailsWrapper/DetailsInfo'
