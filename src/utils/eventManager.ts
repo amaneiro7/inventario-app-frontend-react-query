@@ -8,12 +8,14 @@
  *          wait 2000ms after the last call before allowing the function to be called again.
  */
 
-export function eventManager<T extends (...args: never[]) => Promise<void>>(
+export function eventManager<R, T extends (...args: never[]) => Promise<R>>(
 	fn: T
 ): (...args: Parameters<T>) => Promise<void> {
+	console.log('eventManager start')
 	let executing = false
 	return async (...args: Parameters<T>) => {
 		if (!executing) {
+			console.log('eventManager ejecutando')
 			executing = true
 			await fn(...args)
 			setTimeout(() => {
