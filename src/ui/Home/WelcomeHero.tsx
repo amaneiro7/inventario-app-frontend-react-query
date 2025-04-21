@@ -4,7 +4,7 @@ import Typography from '@/components/Typography'
 
 export const WelcomeHero = memo(() => {
 	return (
-		<section className="from-azul-600 to-azul-800 relative overflow-hidden rounded-xl bg-gradient-to-r">
+		<section className="from-azul-950 to-azul-800 relative overflow-hidden rounded-xl bg-gradient-to-r">
 			<div className="bg-grid-white/[0.05] absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,white)]" />
 			<div className="relative px-6 py-8 text-white md:px-8 md:py-12">
 				<div className="max-w-3xl">

@@ -76,7 +76,7 @@
 	--color-error: #d32f2f;
 	--color-success: #2e7d32;
 	--color-focus: #1976d2;
-	--color-gris: #77838f;
+	--color-gris: hsl(210, 10%, 51%);
 	--color-cancel: #77838f;
 	--color-background: hsl(var(--background));
 	--color-foreground: hsl(var(--foreground));

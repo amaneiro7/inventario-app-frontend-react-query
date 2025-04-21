@@ -1,174 +1,162 @@
-import { TypeOFImg } from '@/components/TilesSection/TilesBox'
-
 interface Navigation {
 	label: string
-	desc: string
-	img: TypeOFImg
 	navs: Navs[]
 }
 
 interface Navs {
 	title: string
-	desc: string
 	path: string
+	desc: string
 }
 
 export const navigation: Navigation[] = [
 	{
 		label: 'Listado de Perifericos',
-		desc: 'Aqui se encuentran las rutas por categorias, equipos de computación, monitores, impresoras y partes y piezas',
-		img: 'inventoryBox',
 		navs: [
 			{
 				title: 'Lista de equipos de computación',
-				desc: 'Equipos asignados en agencia',
-				path: '/list/computer'
+				path: '/list/computer',
+				desc: 'Ver la lista completa de equipos de computación disponibles.'
 			},
 			{
 				title: 'Lista de Monitores',
-				desc: 'Lista de Monitores',
-				path: '/list/monitor'
+				path: '/list/monitor',
+				desc: 'Ver la lista de todos los monitores registrados.'
 			},
 			{
 				title: 'Lista de Impresoras',
-				desc: 'Lista de Impresoras',
-				path: '/list/printer'
+				path: '/list/printer',
+				desc: 'Ver la lista de todas las impresoras disponibles.'
 			},
 			{
 				title: 'Lista de Impresoras Financieras',
-				desc: 'Lista de Impresoras Financieras',
-				path: '/list/finantialprinter'
+				path: '/list/finantialprinter',
+				desc: 'Ver la lista específica de impresoras financieras.'
 			},
 			{
 				title: 'Lista de Partes y piezas',
-				desc: 'Lista de Partes y piezas',
-				path: '/list/parts'
+				path: '/list/parts',
+				desc: 'Ver el inventario de partes y piezas de repuesto.'
 			}
 		]
 	},
 	{
 		label: 'Otras listas',
-		desc: 'Listas de Sitios, y modelos',
-		img: 'officeMac',
 		navs: [
 			{
 				title: 'Listado de usuarios',
-				desc: 'Listado de usuarios',
-				path: '/list/usuarios'
+				path: '/list/usuarios',
+				desc: 'Ver la lista de todos los usuarios del sistema.'
 			},
 			{
 				title: 'Listado de Sitios',
-				desc: 'Listado de sitios',
-				path: '/list/location'
+				path: '/list/location',
+				desc: 'Ver la lista de todas las ubicaciones o sitios registrados.'
 			},
 			{
 				title: 'Listado de Modelos',
-				desc: 'Listado de modelos',
-				path: '/list/model'
+				path: '/list/model',
+				desc: 'Ver la lista de todos los modelos de dispositivos registrados.'
 			},
 			{
 				title: 'Historial de modificaciones',
-				desc: 'Historial de modificaciones',
-				path: '/list/history'
+				path: '/list/history',
+				desc: 'Ver el registro de todas las modificaciones realizadas en el sistema.'
 			}
 		]
 	},
 	{
-		label: 'Dashboards computer',
-		desc: 'Listas de Dashboard',
-		img: 'officeMac',
+		label: 'Dashboards',
 		navs: [
 			{
 				title: 'Dashboard de computador',
-				desc: 'Dashboard de computador',
-				path: '/dashboard/computer'
+				path: '/dashboard/computer',
+				desc: 'Ver el panel de control con información relevante sobre los equipos de computación.'
 			}
 		]
 	},
 	{
-		label: 'Gestión',
-		desc: 'Aqui se encuentran las rutas que se utilizan para la gestion de crear actualizar',
-		img: 'codeScreen',
+		label: 'Gestión de Dispositivos',
 		navs: [
 			{
 				title: 'Agregar un nuevo dispositivo',
-				desc: 'Aqui se puede agregar un nuevo dispositivo',
-				path: '/device/add'
-			},
-			{
-				title: 'Agregar un nuevo usuario',
-				desc: 'Aqui se puede agregar un nuevo usuario',
-				path: '/employee/add'
+				path: '/device/add',
+				desc: 'Formulario para registrar un nuevo dispositivo en el sistema.'
 			},
 			{
 				title: 'Agregar un nuevo Modelo',
-				desc: 'Aqui se puede agregar un nuevo modelo',
-				path: '/model/add'
+				path: '/model/add',
+				desc: 'Formulario para registrar un nuevo modelo de dispositivo.'
 			},
 			{
 				title: 'Agregar un nueva Marca',
-				desc: 'Aqui se puede agregar un nueva marca',
-				path: '/brand/add'
+				path: '/brand/add',
+				desc: 'Formulario para registrar una nueva marca de dispositivos.'
 			},
 			{
 				title: 'Agregar un nuevo Procesador',
-				desc: 'Aqui se puede agregar un nuevo procesador',
-				path: '/processors/add'
-			},
+				path: '/processors/add',
+				desc: 'Formulario para registrar un nuevo tipo de procesador.'
+			}
+		]
+	},
+	{
+		label: 'Gestión de Empleados',
+		navs: [
 			{
-				title: 'Agregar una nueva ubicación',
-				desc: 'Aqui se puede agregar una nueva ubicación',
-				path: '/location/add'
-			},
-			{
-				title: 'Agregar una nuevo sitio',
-				desc: 'Aqui se puede agregar un nuevo sitio',
-				path: '/site/add'
-			},
-			{
-				title: 'Agregar una nueva ciudad',
-				desc: 'Aqui se puede agregar una nueva ciudad',
-				path: '/city/add'
-			},
-			{
-				title: 'Asignación de las regiones por zona',
-				desc: 'Aqui se puede modificar a que zona pertenece la región',
-				path: '/region/'
+				title: 'Agregar un nuevo usuario',
+				path: '/employee/add',
+				desc: 'Formulario para registrar un nuevo empleado o usuario del sistema.'
 			},
 			{
 				title: 'Agregar una nueva directiva',
-				desc: 'Aqui se puede agregar una nueva directiva',
-				path: '/directiva/add'
+				path: '/directiva/add',
+				desc: 'Formulario para registrar una nueva directiva organizacional.'
 			},
 			{
 				title: 'Agregar una nueva V.P.E.',
-				desc: 'Aqui se puede agregar una nueva V.P.E.',
-				path: '/vicepresidenciaejecutiva/add'
+				path: '/vicepresidenciaejecutiva/add',
+				desc: 'Formulario para registrar una nueva Vicepresidencia Ejecutiva.'
 			},
 			{
 				title: 'Agregar una nueva V.P.',
-				desc: 'Aqui se puede agregar una nueva V.P.',
-				path: '/vicepresidencia/add'
+				path: '/vicepresidencia/add',
+				desc: 'Formulario para registrar una nueva Vicepresidencia.'
 			},
-			// {
-			// 	title: 'Agregar un nuevo centro de costo',
-			// 	desc: 'Aqui se puede agregar un nuevo centro de costo',
-			// 	path: '/centrocosto/add'
-			// },
-			// {
-			// 	title: 'Agregar un nuevo centro de trabajo',
-			// 	desc: 'Aqui se puede agregar un nuevo centro de trabajo',
-			// 	path: '/centrotrabajo/add'
-			// },
 			{
 				title: 'Agregar un nuevo departamento',
-				desc: 'Aqui se puede agregar un nuevo departamento',
-				path: '/departamento/add'
+				path: '/departamento/add',
+				desc: 'Formulario para registrar un nuevo departamento dentro de la organización.'
 			},
 			{
 				title: 'Agregar un nuevo cargo',
-				desc: 'Aqui se puede agregar un nuevo cargo',
-				path: '/cargo/add'
+				path: '/cargo/add',
+				desc: 'Formulario para registrar un nuevo cargo o puesto de trabajo.'
+			}
+		]
+	},
+	{
+		label: 'Gestión de Sitios',
+		navs: [
+			{
+				title: 'Agregar una nueva ubicación',
+				path: '/location/add',
+				desc: 'Formulario para registrar una nueva ubicación física.'
+			},
+			{
+				title: 'Agregar una nuevo sitio',
+				path: '/site/add',
+				desc: 'Formulario para registrar un nuevo sitio específico dentro de una ubicación.'
+			},
+			{
+				title: 'Agregar una nueva ciudad',
+				path: '/city/add',
+				desc: 'Formulario para registrar una nueva ciudad.'
+			},
+			{
+				title: 'Asignación de las regiones por zona',
+				path: '/region/',
+				desc: 'Interfaz para gestionar la asignación de regiones a diferentes zonas geográficas.'
 			}
 		]
 	}

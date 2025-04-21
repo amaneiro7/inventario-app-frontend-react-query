@@ -7,7 +7,11 @@ export const Main = memo(({ children, className, ...props }: React.PropsWithChil
 	const classes = twMerge('overflow-y-auto flex flex-col px-8 pt-4 pb-0 md:flex-1', className)
 
 	return (
-		<main className={classes} style={{ width: 'calc(100vw - 1rem)' }} {...props}>
+		<main
+			className={classes}
+			style={{ width: 'calc(100vw - 1rem)', background: '#F8F8F8' }}
+			{...props}
+		>
 			{children}
 		</main>
 	)

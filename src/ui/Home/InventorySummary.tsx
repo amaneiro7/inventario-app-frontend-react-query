@@ -16,35 +16,35 @@ export const InventorySummary = memo(() => {
 					title="Computadoras"
 					value={generalDashboard?.totalComputer ?? 0}
 					icon={Laptop}
-					color="green"
+					color="orange"
 					description="Total de computadoras en inventario"
 				/>
 				<StatCard
 					title="Monitores"
 					value={generalDashboard?.totalScreens ?? 0}
 					icon={Monitor}
-					color="amber"
+					color="blue"
 					description="Total de pantallas registradas"
 				/>
 				<StatCard
 					title="Usuarios"
 					value={generalDashboard?.totalActiveUsers ?? 0}
 					icon={User}
-					color="blue"
+					color="green"
 					description="Usuarios Activos"
 				/>
 				<StatCard
 					title="Agencias"
 					value={generalDashboard?.totalAgencies ?? 0}
 					icon={HomeIcon}
-					color="rose"
+					color="yellow"
 					description="Agencias activas registradas"
 				/>
 				<StatCard
 					title="Torres Administrativas"
 					value={generalDashboard?.totalAdministrativeSites ?? 0}
 					icon={Building}
-					color="blue"
+					color="violet"
 					description="Torres administraticas registradas"
 				/>
 			</div>

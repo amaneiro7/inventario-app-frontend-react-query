@@ -8,7 +8,7 @@ import { Suspense } from 'react'
 
 export default function Home() {
 	return (
-		<div className="space-y-6">
+		<div className="mb-6 space-y-6">
 			<WelcomeHero />
 			<InventorySummary />
 			<QuickActions />
