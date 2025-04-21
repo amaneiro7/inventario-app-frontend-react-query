@@ -1,6 +1,7 @@
 import { LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { memo } from 'react'
+import Typography from '@/components/Typography'
 
 interface StatCardProps {
 	title: string
@@ -25,25 +26,25 @@ export const StatCard = memo(
 		className
 	}: StatCardProps) => {
 		const colorVariants = {
-			blue: 'from-blue-500/20 to-blue-500/5 text-blue-700 dark:from-blue-500/30 dark:to-blue-500/10 dark:text-blue-400',
-			green: 'from-verde-500/20 to-verde-500/5 text-verde-700 dark:from-verde-500/30 dark:to-verde-500/10 dark:text-verde-400',
-			amber: 'from-amber-500/20 to-amber-500/5 text-amber-700 dark:from-amber-500/30 dark:to-amber-500/10 dark:text-amber-400',
-			orange: 'from-naranja-500/20 to-naranja-500/5 text-naranja-700 dark:from-naranja-500/30 dark:to-naranja-500/10 dark:text-naranja-400',
-			yellow: 'from-amarillo-500/20 to-amarillo-500/5 text-amarillo-700 dark:from-amarillo-500/30 dark:to-amarillo-500/10 dark:text-amarillo-400',
-			red: 'from-rojo-500/20 to-rojo-500/5 text-rojo-700 dark:from-rojo-500/30 dark:to-rojo-500/10 dark:text-rojo-400',
-			rose: 'from-rose-500/20 to-rose-500/5 text-rose-700 dark:from-rose-500/30 dark:to-rose-500/10 dark:text-rose-400',
-			violet: 'from-violet-500/20 to-violet-500/5 text-violet-700 dark:from-violet-500/30 dark:to-violet-500/10 dark:text-violet-400'
+			blue: 'from-azul-700 to-azul-700/65 text-dark dark:from-azul-500/30 dark:to-azul-500/10 dark:text-azul-400',
+			green: 'from-verde-700 to-verde-700/65 text-dark dark:from-verde-500/30 dark:to-verde-500/10 dark:text-verde-400',
+			amber: 'from-amber-700 to-amber-700/65 text-dark dark:from-amber-500/30 dark:to-amber-500/10 dark:text-amber-400',
+			orange: 'from-naranja-700 to-naranja-700/65 text-dark dark:from-naranja-500/30 dark:to-naranja-500/10 dark:text-naranja-400',
+			yellow: 'from-amarillo-700 to-amarillo-700/65 text-dark dark:from-amarillo-500/30 dark:to-amarillo-500/10 dark:text-amarillo-400',
+			red: 'from-rojo-700 to-rojo-700/65 text-dark dark:from-rojo-500/30 dark:to-rojo-500/10 dark:text-rojo-400',
+			rose: 'from-rose-700 to-rose-700/65 text-dark dark:from-rose-500/30 dark:to-rose-500/10 dark:text-rose-400',
+			violet: 'from-violet-700 to-violet-700/65 text-dark dark:from-violet-500/30 dark:to-violet-500/10 dark:text-violet-400'
 		}
 
 		const iconColorVariants = {
-			blue: 'text-azul-500',
-			green: 'text-verde-500',
-			amber: 'text-amber-500',
-			orange: 'text-naranja-500',
-			yellow: 'text-amarillo-500',
-			red: 'text-rojo-500',
-			rose: 'text-rose-500',
-			violet: 'text-violet-500'
+			blue: 'text-azul-700',
+			green: 'text-verde-700',
+			amber: 'text-amber-700',
+			orange: 'text-naranja-700',
+			yellow: 'text-amarillo-700',
+			red: 'text-rojo-700',
+			rose: 'text-rose-700',
+			violet: 'text-violet-700'
 		}
 
 		const trendVariants = {
@@ -118,9 +119,20 @@ export const StatCard = memo(
 						</div>
 					)}
 				</div>
-				<h3 className="mb-1 text-sm font-medium opacity-80 text-shadow-2xs">{title}</h3>
-				<div className="mb-1 text-2xl font-bold">{value}</div>
-				{description && <p className="text-xs opacity-70">{description}</p>}
+				<Typography
+					variant="h3"
+					className="mb-1 text-sm font-medium opacity-80 text-shadow-2xs"
+				>
+					{title}
+				</Typography>
+				<Typography variant="p" weight="bold" option="large" className="mb-1">
+					{value}
+				</Typography>
+				{description && (
+					<Typography variant="p" option="tiny" className="opacity-70 text-shadow-2xs">
+						{description}
+					</Typography>
+				)}
 			</div>
 		)
 	}

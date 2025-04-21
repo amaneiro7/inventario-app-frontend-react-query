@@ -1,3 +1,4 @@
+import { InventoryChart } from '@/ui/Home/InventoryChart'
 import { InventoryDistribution } from '@/ui/Home/InventoryDistribution'
 import { InventoryStatus } from '@/ui/Home/InventoryStatus'
 import { InventorySummary } from '@/ui/Home/InventorySummary'
@@ -13,6 +14,9 @@ export default function Home() {
 			<InventorySummary />
 			<QuickActions />
 			<div className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
+				<Suspense fallback={<div className="animate-pulse-medium min-h-[710px] w-full" />}>
+					<InventoryChart />
+				</Suspense>
 				<RecentActivities />
 			</div>
 			<div className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">

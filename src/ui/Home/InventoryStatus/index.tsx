@@ -14,7 +14,7 @@ export const InventoryStatus = memo(() => {
 	const currentData = statusDashboard.status[activeTab as keyof typeof statusDashboard.status]
 
 	return (
-		<Card className="h-full">
+		<Card className="h-full md:min-h-[560px]">
 			<CardHeader>
 				<CardTitle>Estado de Equipos</CardTitle>
 				<CardDescription>Condición actual del inventario</CardDescription>
