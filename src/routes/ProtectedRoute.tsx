@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { use } from 'react'
 import { Navigate } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -9,7 +9,7 @@ export function ProtectedRoute(Component: React.ComponentType) {
 	return () => {
 		const {
 			auth: { isLogged }
-		} = useContext(AuthContext)
+		} = use(AuthContext)
 
 		if (!isLogged) {
 			return <Navigate to="/login" replace={true} />

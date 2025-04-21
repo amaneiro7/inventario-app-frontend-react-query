@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { StatusGetByCriteria } from '@/core/status/application/StatusGetByCriteria'
+import { StatusGetByCriteria } from '../../application/StatusGetByCriteria'
 import { StatusGetAllService } from '../service/StatusGetAll.service'
 import { type StatusFilters } from '../../application/createStatusQueryParams'
 

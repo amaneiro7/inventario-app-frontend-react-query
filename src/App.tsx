@@ -2,7 +2,6 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { ErrorBoundary } from './ErrorBoundary'
 import { AuthContextProvider } from './context/Auth/AuthContextProvider'
-import { EventContextProvider } from './context/EventManager/EventContextProvider'
 import { Loading } from './components/Loading'
 const AppRoutes = lazy(async () =>
 	import('./routes/AppRoutes').then(m => ({ default: m.AppRoutes }))
@@ -18,16 +17,14 @@ function App() {
 					v7_relativeSplatPath: true
 				}}
 			>
-				<EventContextProvider>
-					<AuthContextProvider>
-						<Suspense fallback={<Loading />}>
-							<AppRoutes />
-						</Suspense>
-						<Suspense>
-							<Toaster richColors visibleToasts={3} closeButton />
-						</Suspense>
-					</AuthContextProvider>
-				</EventContextProvider>
+				<AuthContextProvider>
+					<Suspense fallback={<Loading />}>
+						<AppRoutes />
+					</Suspense>
+					<Suspense>
+						<Toaster richColors visibleToasts={3} closeButton />
+					</Suspense>
+				</AuthContextProvider>
 			</BrowserRouter>
 		</ErrorBoundary>
 	)

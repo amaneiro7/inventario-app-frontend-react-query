@@ -1,8 +1,8 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { EmployeeId } from '@/core/employee/employee/domain/value-object/EmployeeId'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type StatusId } from '@/core/status/domain/value-object/StatusId'
+import { type StatusId } from '@/core/status/status/domain/value-object/StatusId'
 
 export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeId>> {
 	private static errors = ''

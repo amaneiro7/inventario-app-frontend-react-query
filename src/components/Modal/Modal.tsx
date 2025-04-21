@@ -10,27 +10,23 @@ export interface ModalRef {
 export function Dialog({ children, ref }: React.PropsWithChildren<{ ref: React.Ref<ModalRef> }>) {
 	const modalRef = useRef<HTMLDialogElement>(null)
 
-	useImperativeHandle(
-		ref,
-		() => {
-			return {
-				handleOpen() {
-					modalRef.current?.showModal()
-				},
-				handleClose() {
-					modalRef.current?.close()
-				}
+	useImperativeHandle(ref, () => {
+		return {
+			handleOpen() {
+				modalRef.current?.showModal()
+			},
+			handleClose() {
+				modalRef.current?.close()
 			}
-		},
-		[]
-	)
+		}
+	}, [])
 
 	return (
 		<>
 			{createPortal(
 				<dialog
 					ref={modalRef}
-					className="modalDialog w-1/2 shadow-lg shadow-slate-500 rounded backdrop:bg-black/35"
+					className="modalDialog w-1/2 rounded shadow-lg shadow-slate-500 backdrop:bg-black/35"
 				>
 					{children}
 				</dialog>,

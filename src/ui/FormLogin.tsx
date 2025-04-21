@@ -21,7 +21,7 @@ export const FormLogin = () => {
 
 	return (
 		<main className="bg-gray-300 dark:bg-gray-900">
-			<section className="mx-auto flex flex-col items-center justify-center gap-2 px-6 py-8 md:h-screen lg:py-0">
+			<section className="mx-auto flex h-screen flex-col items-center justify-center gap-2 px-6 py-8 lg:py-0">
 				<div className="text-quat flex w-full flex-col gap-4 rounded-lg bg-white p-6 shadow-sm sm:max-w-md sm:p-8 md:mt-0 md:gap-6 dark:border dark:border-gray-700 dark:bg-gray-800">
 					<Logo />
 

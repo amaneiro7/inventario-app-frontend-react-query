@@ -1,8 +1,8 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 import { type OperatingSystemId } from '@/core/devices/features/operatingSystem/operatingSystem/domain/value-object/OperatingSystemId'
-import { type StatusId } from '@/core/status/domain/value-object/StatusId'
+import { type StatusId } from '@/core/status/status/domain/value-object/StatusId'
 import { type ComputerHDDCapacity } from './ComputerHDDCapacity'
 
 export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSystemId>> {

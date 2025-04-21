@@ -1,9 +1,20 @@
 import { useCallback, useState } from 'react'
 
-export function useComboboxFocusInputs({ ref }: { ref: React.RefObject<HTMLDivElement | null> }) {
+export function useComboboxFocusInputs({
+	ref,
+	onInputChange
+}: {
+	ref: React.RefObject<HTMLDivElement | null>
+	onInputChange?: (value: string) => void
+}) {
 	const [open, setOpen] = useState(false)
 
-	const handlePopoverClose = useCallback(() => setOpen(false), [])
+	const handlePopoverClose = useCallback(() => {
+		setOpen(false)
+		if (onInputChange) {
+			onInputChange('')
+		}
+	}, [])
 	const handlePopoverOpen = useCallback(() => setOpen(true), [])
 
 	const handleInputFocus = useCallback((event: React.FocusEvent) => {

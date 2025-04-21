@@ -3,7 +3,7 @@ import { type DeviceDto } from '../../domain/dto/Device.dto'
 import { type DeviceComputerDto } from '../../domain/dto/DeviceComputer.dto'
 import { type DeviceHardDriveDto } from '../../domain/dto/DeviceHardDrive.dto'
 import { type DeviceMFPDto } from '../../domain/dto/DeviceMFPParams'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { MemoryRam } from '../../domain/value-object/MemoryRam'
 import { updateValidation } from './errorManagement'
 

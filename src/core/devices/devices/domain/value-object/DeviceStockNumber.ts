@@ -1,14 +1,17 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
-import { StatusId } from '@/core/status/domain/value-object/StatusId'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
+import { StatusId } from '@/core/status/status/domain/value-object/StatusId'
 
 export class DeviceStockNumber extends AcceptedNullValueObject<string> {
 	static readonly NAME_MIN_LENGTH = 2
 	static readonly NAME_MAX_LENGTH = 10
 	static errors = ''
 
-	constructor(value: string | null, private readonly status: Primitives<StatusId>) {
+	constructor(
+		value: string | null,
+		private readonly status: Primitives<StatusId>
+	) {
 		super(value)
 		if (!DeviceStockNumber.isValid({ value: this.value, status: this.status })) {
 			throw new Error(DeviceStockNumber.invalidMessage())

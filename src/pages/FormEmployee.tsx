@@ -45,9 +45,9 @@ const FormEmployee = memo(() => {
 			lastUpdated={updatedAt}
 			url="/employee/add"
 		>
-			<Tabs defaultValue="overview" className="space-y-4">
+			<Tabs defaultValue="form" className="space-y-4">
 				<TabsList>
-					<TabsTrigger value="form">Fomrulario</TabsTrigger>
+					<TabsTrigger value="form">Formulario</TabsTrigger>
 					{mode === 'edit' && (
 						<TabsTrigger value="asignDevice">Dispositvios asignados</TabsTrigger>
 					)}

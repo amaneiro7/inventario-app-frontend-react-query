@@ -5,7 +5,6 @@ interface InputProps<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	label: string
 	value: T
-	isRequired?: boolean
 	error?: boolean
 	name: string
 	valid?: boolean
@@ -65,7 +64,7 @@ export const Input = memo(
 						readOnly
 							? e => {
 									e.preventDefault()
-							  }
+								}
 							: undefined
 					}
 					aria-readonly={readOnly}

@@ -1,7 +1,7 @@
 import { NumberValueObject } from '@/core/shared/domain/value-objects/NumberValueObject'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type StatusId } from '@/core/status/domain/value-object/StatusId'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { type StatusId } from '@/core/status/status/domain/value-object/StatusId'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 
 export class MemoryRamCapacity extends NumberValueObject {
 	static readonly minStep = 0.5

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useGetAllStatus } from '@/core/status/infra/hook/useGetAllStatus'
+import { useGetAllStatus } from '@/core/status/status/infra/hook/useGetAllStatus'
 import { Combobox } from '@/components/Input/Combobox'
 
 export function StatusCombobox({

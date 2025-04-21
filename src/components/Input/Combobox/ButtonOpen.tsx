@@ -5,7 +5,7 @@ type Props = React.DetailedHTMLProps<
 export function ButtonOpen({ id, onClick, ...props }: Props) {
 	return (
 		<button
-			className="openButton w-6 min-w-6 aspect-square rounded-full hover:bg-slate-200 disabled:hover:bg-transparent disabled:cursor-default disabled:invisible"
+			className="openButton aspect-square w-6 min-w-6 cursor-pointer rounded-full hover:bg-slate-200 disabled:invisible disabled:cursor-default disabled:hover:bg-transparent"
 			tabIndex={-1}
 			id={id}
 			key={id}
@@ -16,7 +16,7 @@ export function ButtonOpen({ id, onClick, ...props }: Props) {
 			{...props}
 		>
 			<svg
-				className="w-6 aspect-square transition-transform duration-300"
+				className="aspect-square w-6 transition-transform duration-300"
 				focusable="false"
 				aria-hidden="true"
 				viewBox="0 0 24 24"

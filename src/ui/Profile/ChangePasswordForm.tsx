@@ -41,7 +41,7 @@ export function ChangePassowrdForm({
 }: Props) {
 	return (
 		<form
-			className="p-4 rounded-2xl shadow-sm bg-white grid md:grid-cols-2 gap-4"
+			className="grid gap-4 rounded-2xl bg-white p-4 shadow-sm md:grid-cols-2"
 			method="post"
 			id={formId}
 			onSubmit={handleSubmit}
@@ -69,12 +69,12 @@ export function ChangePassowrdForm({
 					value={formData.password}
 					errorMessage={errors.password}
 					error={errors.password ? true : false}
-					isRequired
+					required
 					rightIcon={
 						toggleInputs.password ? (
-							<UnlockIcon className="w-4 fill-black/60 aspect-square" />
+							<UnlockIcon className="aspect-square w-4 fill-black/60" />
 						) : (
-							<LockIcon className="w-4 fill-black/60 aspect-square" />
+							<LockIcon className="aspect-square w-4 fill-black/60" />
 						)
 					}
 					onRightIconClick={() => handleToggleInputs('password')}
@@ -89,12 +89,12 @@ export function ChangePassowrdForm({
 					value={formData.newPassword}
 					errorMessage={errors.newPassword}
 					error={errors.newPassword ? true : false}
-					isRequired
+					required
 					rightIcon={
 						toggleInputs.newPassword ? (
-							<UnlockIcon className="w-4 fill-black/60 aspect-square" />
+							<UnlockIcon className="aspect-square w-4 fill-black/60" />
 						) : (
-							<LockIcon className="w-4 fill-black/60 aspect-square" />
+							<LockIcon className="aspect-square w-4 fill-black/60" />
 						)
 					}
 					onRightIconClick={() => handleToggleInputs('newPassword')}
@@ -109,18 +109,18 @@ export function ChangePassowrdForm({
 					value={formData.reTypePassword}
 					errorMessage={errors.reTypePassword}
 					error={errors.reTypePassword ? true : false}
-					isRequired
+					required
 					rightIcon={
 						toggleInputs.reTypePassword ? (
-							<UnlockIcon className="w-4 fill-black/60 aspect-square" />
+							<UnlockIcon className="aspect-square w-4 fill-black/60" />
 						) : (
-							<LockIcon className="w-4 fill-black/60 aspect-square" />
+							<LockIcon className="aspect-square w-4 fill-black/60" />
 						)
 					}
 					onRightIconClick={() => handleToggleInputs('reTypePassword')}
 				/>
 			</div>
-			<div className="rounded text-sm bg-gray-200 p-4">
+			<div className="rounded bg-gray-200 p-4 text-sm">
 				<Typography>
 					<strong>Nota:</strong> Su nueva clave debe cumplir las siguientes condiciones:
 				</Typography>
@@ -134,7 +134,7 @@ export function ChangePassowrdForm({
 				</ol>
 			</div>
 			<div />
-			<div className="flex gap-4 justify-center">
+			<div className="flex justify-center gap-4">
 				<Button
 					color="green"
 					type="button"

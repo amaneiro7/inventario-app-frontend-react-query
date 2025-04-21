@@ -1,7 +1,7 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type StatusId } from '@/core/status/domain/value-object/StatusId'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { type StatusId } from '@/core/status/status/domain/value-object/StatusId'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 
 export class ComputerName extends AcceptedNullValueObject<string> {
 	static readonly NAME_MIN_LENGTH = 5
@@ -10,7 +10,10 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	private static readonly notLowerCase = /^[^a-z]*$/
 	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 
-	constructor(value: string | null, readonly status: Primitives<StatusId>) {
+	constructor(
+		value: string | null,
+		readonly status: Primitives<StatusId>
+	) {
 		super(value)
 
 		if (!ComputerName.isValid({ value: this.value, status: this.status })) {

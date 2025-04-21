@@ -6,7 +6,7 @@ import { LiOption } from './LiOption'
 import { type Highlight, RenderComboboxOption } from './RenderOption/RenderComboboxOption'
 
 interface OptionListProps<O extends { id: string | number }> {
-	options: O[]
+	options?: O[]
 	inputValue?: string
 	selectedIndex: number
 	onOptionClick: (option: O) => void
@@ -25,7 +25,7 @@ interface OptionListProps<O extends { id: string | number }> {
 }
 
 export function OptionList<O extends { id: string | number }>({
-	options,
+	options = [],
 	inputValue,
 	selectedIndex,
 	onOptionClick,
@@ -51,7 +51,7 @@ export function OptionList<O extends { id: string | number }>({
 	const popoverContent = useMemo(() => {
 		if (loading) {
 			return (
-				<li className="w-full pl-2 rounded py-1">
+				<li className="w-full rounded py-1 pl-2">
 					<Typography variant="span" option="tiny">
 						Cargando...
 					</Typography>
@@ -59,17 +59,26 @@ export function OptionList<O extends { id: string | number }>({
 			)
 		}
 
-		if (options.length === 0) {
+		if (options?.length === 0) {
 			return (
-				<li className="w-full pl-2 rounded py-1">
+				<li className="w-full rounded py-1 pl-2">
 					<Typography variant="p" option="tiny">
 						No existe
 					</Typography>
 				</li>
 			)
 		}
+		if (!options) {
+			return (
+				<li className="w-full rounded py-1 pl-2">
+					<Typography variant="p" option="tiny">
+						Ha ocurrido un error!
+					</Typography>
+				</li>
+			)
+		}
 
-		return options.map((option, index) => {
+		return options?.map((option, index) => {
 			const isSelected = selectedIndex === index
 			return (
 				<LiOption

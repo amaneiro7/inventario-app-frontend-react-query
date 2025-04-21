@@ -1,4 +1,4 @@
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { ComputerHDDCapacity } from '../../domain/value-object/ComputerHDDCapacity'
 import { ComputerHDDType } from '../../domain/value-object/ComputerHDDType'
 import { IPAddress } from '../../domain/value-object/ComputerIPAddress'

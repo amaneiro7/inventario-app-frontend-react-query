@@ -1,13 +1,16 @@
 import { AcceptedNullValueObject } from '@/core/shared/domain/value-objects/AcceptedNullValueObject'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { StatusId } from '@/core/status/domain/value-object/StatusId'
+import { StatusId } from '@/core/status/status/domain/value-object/StatusId'
 
 export class IPAddress extends AcceptedNullValueObject<string> {
 	static readonly IPADRRESS_VALIDATION =
 		/^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}$/
 	private static errors = ''
-	constructor(value: string | null, private readonly status: Primitives<StatusId>) {
+	constructor(
+		value: string | null,
+		private readonly status: Primitives<StatusId>
+	) {
 		super(value)
 
 		if (!IPAddress.isValid({ value: this.value, status: this.status })) {

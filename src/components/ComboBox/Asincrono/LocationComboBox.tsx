@@ -1,7 +1,7 @@
 import { useState, memo, useMemo, useCallback } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllLocations } from '@/core/locations/locations/infra/hook/useGetAllLocation'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { Combobox } from '@/components/Input/Combobox'
 import { type LocationFilters } from '@/core/locations/locations/application/CreateLocationQueryParams'

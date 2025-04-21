@@ -14,7 +14,7 @@ import {
 	type Action,
 	EmployeeDisabled
 } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 
 interface AdditionalEmployeeInfoProps {
 	locationId: DefaultEmployee['locationId']

@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from 'axios'
-import { mode } from '../config'
 import { api } from './axios.config'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolean }): Promise<T> {
 	try {
@@ -11,25 +11,22 @@ export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolea
 		return response.data as T
 	} catch (error) {
 		const axiosError = axios.isAxiosError(error)
+		const originalRequest = config as AxiosRequestConfig & { _retry?: boolean }
 
-		if (mode === 'development') {
-			if (axiosError && error.response) {
-				throw new Error(
-					error.response.data || `Error HTTP ${error.response.status}: Error desconocido`
-				)
-			} else if (error instanceof Error) {
-				throw new Error(`Error de petición: ${error.message}`)
-			} else {
-				throw new Error('Error desconocido en la petición.')
-			}
+		if (axiosError && error?.status === 401 && !originalRequest._retry) {
+			originalRequest._retry = true
+
+			const accessToken = await useAuthStore.getState().refreshTokenValidity()
+
+			originalRequest.headers = originalRequest.headers ?? {}
+			originalRequest.headers.Authorization = `Bearer ${accessToken}`
+			originalRequest._retry = true
 		}
 
+		// Manejo de otros errores
 		if (axiosError && error.response) {
 			const { status, data } = error.response
-
 			switch (status) {
-				case 401:
-					throw new Error('No autorizado.')
 				case 403:
 					throw new Error('Acceso denegado.')
 				case 404:

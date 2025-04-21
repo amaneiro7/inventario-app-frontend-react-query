@@ -7,7 +7,7 @@ import { EmployeeTypeCombobox } from '@/components/ComboBox/Sincrono/EmployeeTyp
 import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
 import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
 import { IsStillWorkingCombobox } from '@/components/ComboBox/Sincrono/IsStillWorkinfComboBox'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 
 interface EmployeeMainFilterProps {
 	userName?: string

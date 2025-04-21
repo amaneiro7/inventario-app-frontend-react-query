@@ -1,4 +1,4 @@
-import { StatusId } from '@/core/status/domain/value-object/StatusId'
+import { StatusId } from '@/core/status/status/domain/value-object/StatusId'
 import { ComputerHDDCapacity } from '../value-object/ComputerHDDCapacity'
 import { ComputerHDDType } from '../value-object/ComputerHDDType'
 import { IPAddress } from '../value-object/ComputerIPAddress'

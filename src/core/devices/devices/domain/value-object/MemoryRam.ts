@@ -1,7 +1,7 @@
 import { MemoryRamValues } from './MemoryRamValues'
-import { StatusOptions } from '@/core/status/domain/entity/StatusOptions'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type StatusId } from '@/core/status/domain/value-object/StatusId'
+import { type StatusId } from '@/core/status/status/domain/value-object/StatusId'
 
 export class MemoryRam {
 	constructor(readonly value: MemoryRamValues[]) {}

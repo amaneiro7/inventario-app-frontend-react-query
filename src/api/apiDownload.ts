@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from 'axios'
 import { api } from './axios.config'
 import { fileSaver } from '@/utils/filseServer'
+import { useAuthStore } from '@/store/useAuthStore'
 import { type Source } from '@/types/type'
 
 export async function apiDownload(
@@ -23,23 +24,35 @@ export async function apiDownload(
 		}
 		fileSaver(response.data, source)
 	} catch (error) {
-		if (axios.isAxiosError(error) && error.response) {
-			const { status } = error.response
-			if (status === 401) {
-				throw new Error('No autorizado')
-			}
-			if (status === 403) {
-				throw new Error('Acceso Denegado')
-			}
-			if (status === 404) {
-				throw new Error('No encontrado')
-			}
-			if (status === 500) {
-				throw new Error('Error interno del servidor')
-			}
+		const axiosError = axios.isAxiosError(error)
+		const originalRequest = config as AxiosRequestConfig & { _retry?: boolean }
 
-			throw new Error(error.response.data || 'Error desconocido')
+		if (axiosError && error?.status === 401 && !originalRequest._retry) {
+			originalRequest._retry = true
+
+			const accessToken = await useAuthStore.getState().refreshTokenValidity()
+
+			originalRequest.headers = originalRequest.headers ?? {}
+			originalRequest.headers.Authorization = `Bearer ${accessToken}`
+			originalRequest._retry = true
 		}
-		throw new Error('Ha ocurrido un error. Por favor, inténtelo de nuevo más tarde')
+
+		// Manejo de otros errores
+		if (axiosError && error.response) {
+			const { status, data } = error.response
+			switch (status) {
+				case 403:
+					throw new Error('Acceso denegado.')
+				case 404:
+					throw new Error('Recurso no encontrado.')
+				case 500:
+					throw new Error('Error interno del servidor.')
+				default:
+					throw new Error(data || `Error HTTP ${status}: Error desconocido`)
+			}
+		}
+		throw new Error(
+			'Ha ocurrido un error al realizar la petición. Por favor, inténtelo de nuevo más tarde.'
+		)
 	}
 }
