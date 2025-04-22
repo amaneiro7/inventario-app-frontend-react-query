@@ -55,6 +55,7 @@ function getTypeOfSiteFilter(
 		case StatusOptions.PRESTAMO:
 		case StatusOptions.CONTINGENCIA:
 		case StatusOptions.GUARDIA:
+		case StatusOptions.JORNADA:
 		case StatusOptions.DISPONIBLE:
 			return [TypeOfSiteOptions.AGENCY, TypeOfSiteOptions.ADMINISTRATIVE]
 		default:

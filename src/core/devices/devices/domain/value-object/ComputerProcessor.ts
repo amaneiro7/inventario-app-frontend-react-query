@@ -43,6 +43,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 			case StatusOptions.INUSE:
 			case StatusOptions.INALMACEN:
 			case StatusOptions.PRESTAMO:
+			case StatusOptions.JORNADA:
 			case StatusOptions.GUARDIA:
 			case StatusOptions.CONTINGENCIA:
 				if (!value) {

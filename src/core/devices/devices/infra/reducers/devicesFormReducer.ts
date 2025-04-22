@@ -5,7 +5,20 @@ import { type DeviceHardDriveDto } from '../../domain/dto/DeviceHardDrive.dto'
 import { type DeviceMFPDto } from '../../domain/dto/DeviceMFPParams'
 import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 import { MemoryRam } from '../../domain/value-object/MemoryRam'
-import { updateValidation } from './errorManagement'
+import { DeviceLocation } from '../../domain/value-object/DeviceLocation'
+import { DeviceStockNumber } from '../../domain/value-object/DeviceStockNumber'
+import { IPAddress } from '../../domain/value-object/ComputerIPAddress'
+import { ComputerHDDCapacity } from '../../domain/value-object/ComputerHDDCapacity'
+import { ComputerHDDType } from '../../domain/value-object/ComputerHDDType'
+import { ComputerOs } from '../../domain/value-object/ComputerOS'
+import { ComputerOsArq } from '../../domain/value-object/ComputerOSArq'
+import { DeviceSerial } from '../../domain/value-object/DeviceSerial'
+import { DeviceActivo } from '../../domain/value-object/DeviceActivo'
+import { DeviceEmployee } from '../../domain/value-object/DeviceEmployee'
+import { ComputerName } from '../../domain/value-object/ComputerName'
+import { ComputerProcessor } from '../../domain/value-object/ComputerProcessor'
+import { MACAddress } from '../../domain/value-object/MACAddress'
+import { HardDriveHealth } from '../../domain/value-object/HardDriveHealth'
 
 export interface DefaultDevice {
 	id?: DeviceDto['id']
@@ -264,214 +277,679 @@ export type Action =
 	| { type: 'macAddress'; payload: { value: string } }
 	| { type: 'health'; payload: { value: number } }
 
-const updateFormData = <T extends keyof DefaultDevice>(
-	state: State,
-	field: T,
-	value: DefaultDevice[T],
-	additionalUpdates?: Partial<DefaultDevice>
-): State => ({
-	...state,
-	formData: {
-		...state.formData,
-		[field]: value,
-		...additionalUpdates
-	}
-})
-
-const updateAndValidate = <T extends keyof DefaultDevice>(
-	state: State,
-	field: T,
-	value: DefaultDevice[T],
-	additionalUpdates?: Partial<DefaultDevice>
-): State => {
-	const updateState = updateFormData(state, field, value, additionalUpdates)
-	return updateValidation(updateState)
-}
 export const devicesFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'init':
-		case 'reset':
-			return updateValidation({
+		case 'reset': {
+			const status = action.payload.formData.statusId
+			return {
 				...state,
-				formData: { ...action.payload.formData }
-			})
-		case 'statusId': {
-			const { value } = action.payload
+				formData: {
+					...action.payload.formData
+				},
+				errors: {
+					...state.errors
+				},
+				required: {
+					...state.required,
+					serial: !action.payload.formData.genericModel,
+					employeeId:
+						status === StatusOptions.PRESTAMO ||
+						status === StatusOptions.CONTINGENCIA ||
+						status === StatusOptions.GUARDIA,
+					locationId: status !== StatusOptions.DESINCORPORADO,
+					computerName: !(
+						status === StatusOptions.INALMACEN ||
+						status === StatusOptions.PORDESINCORPORAR ||
+						status === StatusOptions.DESINCORPORADO
+					),
+					ipAddress: status === StatusOptions.INUSE,
+					memoryRamCapacity:
+						status === StatusOptions.INUSE ||
+						status === StatusOptions.PRESTAMO ||
+						status === StatusOptions.CONTINGENCIA ||
+						status === StatusOptions.GUARDIA,
+					processorId:
+						status === StatusOptions.INUSE ||
+						status === StatusOptions.INALMACEN ||
+						status === StatusOptions.PRESTAMO ||
+						status === StatusOptions.GUARDIA ||
+						status === StatusOptions.CONTINGENCIA,
+					hardDriveCapacityId:
+						status === StatusOptions.INUSE ||
+						status === StatusOptions.PRESTAMO ||
+						status === StatusOptions.CONTINGENCIA ||
+						status === StatusOptions.GUARDIA,
+					hardDriveTypeId: !!action.payload.formData.hardDriveCapacityId,
+					operatingSystemId:
+						status === StatusOptions.INUSE ||
+						status === StatusOptions.PRESTAMO ||
+						status === StatusOptions.CONTINGENCIA ||
+						status === StatusOptions.GUARDIA,
+					operatingSystemArqId: !!action.payload.formData.operatingSystemId
+				},
+				disabled: {
+					...state.disabled,
+					categoryId: !action.payload.formData.mainCategoryId,
+					brandId: !action.payload.formData.categoryId,
+					modelId: !action.payload.formData.brandId,
+					locationId: !status || status === StatusOptions.DESINCORPORADO,
+					stockNumber:
+						!status ||
+						!(
+							status === StatusOptions.INALMACEN ||
+							status === StatusOptions.PORDESINCORPORAR
+						),
+					employeeId:
+						!status ||
+						status === StatusOptions.INALMACEN ||
+						status === StatusOptions.PORDESINCORPORAR ||
+						status === StatusOptions.DESINCORPORADO ||
+						status === StatusOptions.JORNADA ||
+						status === StatusOptions.DISPONIBLE,
 
-			switch (value) {
-				case StatusOptions.INALMACEN:
-				case StatusOptions.PORDESINCORPORAR:
-				case StatusOptions.DESINCORPORADO:
-					return updateAndValidate(state, 'statusId', value, {
-						employeeId: '',
-						locationId: '',
-						computerName: '',
-						operatingSystemId: '',
-						operatingSystemArqId: '',
-						ipAddress: ''
-					})
-				case StatusOptions.DISPONIBLE:
-					return updateAndValidate(state, 'statusId', value, {
-						employeeId: '',
-						stockNumber: ''
-					})
-				default:
-					return updateAndValidate(state, 'statusId', value, { stockNumber: '' })
+					computerName:
+						status === StatusOptions.INALMACEN ||
+						status === StatusOptions.PORDESINCORPORAR ||
+						status === StatusOptions.DESINCORPORADO,
+					ipAddress:
+						status === StatusOptions.INALMACEN ||
+						status === StatusOptions.PORDESINCORPORAR ||
+						status === StatusOptions.DESINCORPORADO,
+					hardDriveTypeId: !action.payload.formData.hardDriveCapacityId,
+					operatingSystemId:
+						status === StatusOptions.INALMACEN ||
+						status === StatusOptions.PORDESINCORPORAR ||
+						status === StatusOptions.DESINCORPORADO ||
+						!action.payload.formData.hardDriveCapacityId,
+					operatingSystemArqId: !action.payload.formData.operatingSystemId
+				}
+			}
+		}
+		case 'statusId': {
+			const statusId = action.payload.value
+
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					statusId,
+					employeeId:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.DISPONIBLE
+							? ''
+							: state.formData.employeeId,
+					locationId:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO
+							? ''
+							: state.formData.locationId,
+					computerName:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO
+							? ''
+							: state.formData.computerName,
+					operatingSystemId:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO
+							? ''
+							: state.formData.operatingSystemId,
+					operatingSystemArqId:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO
+							? ''
+							: state.formData.operatingSystemArqId,
+					ipAddress:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.DESINCORPORADO
+							? ''
+							: state.formData.ipAddress,
+					stockNumber: ''
+				},
+				disabled: {
+					...state.disabled,
+					locationId: !statusId || statusId === StatusOptions.DESINCORPORADO,
+					stockNumber:
+						!statusId ||
+						!(
+							statusId === StatusOptions.INALMACEN ||
+							statusId === StatusOptions.PORDESINCORPORAR
+						),
+					employeeId:
+						!statusId ||
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.DISPONIBLE,
+
+					computerName:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO,
+					ipAddress:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.DESINCORPORADO,
+					operatingSystemId:
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO ||
+						!state.formData.hardDriveCapacityId
+				},
+				required: {
+					...state.required,
+					employeeId:
+						statusId === StatusOptions.PRESTAMO ||
+						statusId === StatusOptions.CONTINGENCIA ||
+						statusId === StatusOptions.GUARDIA,
+					locationId: statusId !== StatusOptions.DESINCORPORADO,
+					computerName: !(
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PORDESINCORPORAR ||
+						statusId === StatusOptions.DESINCORPORADO
+					),
+					ipAddress: statusId === StatusOptions.INUSE,
+					memoryRamCapacity:
+						statusId === StatusOptions.INUSE ||
+						statusId === StatusOptions.PRESTAMO ||
+						statusId === StatusOptions.CONTINGENCIA ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.GUARDIA,
+					processorId:
+						statusId === StatusOptions.INUSE ||
+						statusId === StatusOptions.INALMACEN ||
+						statusId === StatusOptions.PRESTAMO ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.GUARDIA ||
+						statusId === StatusOptions.CONTINGENCIA,
+					hardDriveCapacityId:
+						statusId === StatusOptions.INUSE ||
+						statusId === StatusOptions.PRESTAMO ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.CONTINGENCIA ||
+						statusId === StatusOptions.GUARDIA,
+					operatingSystemId:
+						statusId === StatusOptions.INUSE ||
+						statusId === StatusOptions.PRESTAMO ||
+						statusId === StatusOptions.JORNADA ||
+						statusId === StatusOptions.CONTINGENCIA ||
+						statusId === StatusOptions.GUARDIA
+				}
 			}
 		}
 
-		case 'categoryId':
-			return updateAndValidate(state, 'categoryId', action.payload.value, {
-				brandId: '',
-				modelId: '',
-				computerName: '',
-				processorId: '',
-				memoryRamSlotQuantity: undefined,
-				memoryRamType: '',
-				memoryRamCapacity: 0,
-				memoryRam: [],
-				hardDriveCapacityId: '',
-				hardDriveTypeId: '',
-				operatingSystemArqId: '',
-				operatingSystemId: '',
-				ipAddress: '',
-				macAddress: '',
-				health: 100
-			})
-
-		case 'mainCategoryId':
-			return updateAndValidate(state, 'mainCategoryId', action.payload.value, {
-				categoryId: '',
-				brandId: '',
-				modelId: '',
-				computerName: '',
-				processorId: '',
-				memoryRamSlotQuantity: undefined,
-				memoryRamType: '',
-				memoryRamCapacity: 0,
-				memoryRam: [],
-				hardDriveCapacityId: '',
-				hardDriveTypeId: '',
-				operatingSystemArqId: '',
-				operatingSystemId: '',
-				ipAddress: '',
-				macAddress: '',
-				health: 100
-			})
-
-		case 'brandId':
-			return updateAndValidate(state, 'brandId', action.payload.value, {
-				modelId: '',
-				memoryRamSlotQuantity: undefined,
-				memoryRamType: '',
-				memoryRamCapacity: 0,
-				memoryRam: []
-			})
-
+		case 'categoryId': {
+			const categoryId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					categoryId,
+					brandId: '',
+					modelId: '',
+					computerName: '',
+					processorId: '',
+					memoryRamSlotQuantity: undefined,
+					memoryRamType: '',
+					memoryRamCapacity: 0,
+					memoryRam: [],
+					hardDriveCapacityId: '',
+					hardDriveTypeId: '',
+					operatingSystemArqId: '',
+					operatingSystemId: '',
+					ipAddress: '',
+					macAddress: '',
+					health: 100
+				},
+				disabled: {
+					...state.disabled,
+					brandId: !categoryId
+				}
+			}
+		}
+		case 'mainCategoryId': {
+			const mainCategoryId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					mainCategoryId,
+					categoryId: '',
+					brandId: '',
+					modelId: '',
+					computerName: '',
+					processorId: '',
+					memoryRamSlotQuantity: undefined,
+					memoryRamType: '',
+					memoryRamCapacity: 0,
+					memoryRam: [],
+					hardDriveCapacityId: '',
+					hardDriveTypeId: '',
+					operatingSystemArqId: '',
+					operatingSystemId: '',
+					ipAddress: '',
+					macAddress: '',
+					health: 100
+				},
+				disabled: {
+					...state.disabled,
+					categoryId: !mainCategoryId
+				}
+			}
+		}
+		case 'brandId': {
+			const brandId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					brandId,
+					modelId: '',
+					memoryRamSlotQuantity: undefined,
+					memoryRamType: '',
+					memoryRamCapacity: 0,
+					memoryRam: []
+				},
+				disabled: {
+					...state.disabled,
+					modelId: !brandId
+				}
+			}
+		}
 		case 'modelId': {
-			const { value, memoryRamSlotQuantity, memoryRamType, generic } = action.payload
+			const { value: modelId, memoryRamSlotQuantity, memoryRamType, generic } = action.payload
 			const memoryRam =
 				state.formData.memoryRam?.length === memoryRamSlotQuantity
 					? state.formData.memoryRam
 					: new Array(memoryRamSlotQuantity).fill(0)
 
-			return updateAndValidate(state, 'modelId', value, {
-				memoryRamSlotQuantity,
-				memoryRamType,
-				memoryRam,
-				genericModel: generic
-			})
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					modelId,
+					memoryRamSlotQuantity,
+					memoryRamType: memoryRamType ?? '',
+					memoryRam,
+					genericModel: generic
+				}
+			}
 		}
 		case 'memoryRam': {
 			const { value, index } = action.payload
 			const memoryRam = [...state.formData.memoryRam]
 			const parsedValue = parseFloat(value)
 			memoryRam[index] = isNaN(parsedValue) ? 0 : parsedValue
-
-			return updateAndValidate(state, 'memoryRam', memoryRam, {
-				memoryRamCapacity: MemoryRam.totalAmount(memoryRam)
-			})
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					memoryRam,
+					memoryRamCapacity: MemoryRam.totalAmount(memoryRam)
+				},
+				errors: {
+					...state.errors,
+					memoryRamCapacity: MemoryRam.isValid({
+						value: memoryRam,
+						status: state.formData.statusId
+					})
+						? ''
+						: MemoryRam.invalidMessage()
+				}
+			}
 		}
 		case 'locationId': {
-			const { value, typeOfSiteId, ipAddress } = action.payload
+			const { value: locationId, typeOfSiteId, ipAddress } = action.payload
 			const newIpAddress = ipAddress
 				? ipAddress.split('.').slice(0, -1).join('.') + '.'
 				: state.formData.ipAddress
 
-			return updateAndValidate(state, 'locationId', value, {
-				typeOfSiteId,
-				stockNumber: '',
-				ipAddress: newIpAddress
-			})
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					locationId,
+					typeOfSiteId: typeOfSiteId ?? '',
+					stockNumber: '',
+					ipAddress: newIpAddress
+				},
+				errors: {
+					...state.errors,
+					locationId: DeviceLocation.isValid({
+						typeOfSite: typeOfSiteId,
+						status: state.formData.statusId
+					})
+						? ''
+						: DeviceLocation.invalidMessage(),
+					ipAddress: IPAddress.isValid({
+						value: newIpAddress,
+						status: state.formData.statusId
+					})
+						? ''
+						: IPAddress.invalidMessage()
+				}
+			}
 		}
 		case 'hardDriveCapacityId': {
-			const { value } = action.payload
-			const additionalUpdates = value
-				? {}
-				: {
-						hardDriveTypeId: '',
-						operatingSystemId: '',
-						operatingSystemArqId: ''
-					}
-			return updateAndValidate(state, 'hardDriveCapacityId', value, additionalUpdates)
+			const hardDriveCapacityId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					hardDriveCapacityId,
+					hardDriveTypeId: !hardDriveCapacityId ? '' : state.formData.hardDriveTypeId,
+					operatingSystemId: !hardDriveCapacityId ? '' : state.formData.operatingSystemId,
+					operatingSystemArqId: !hardDriveCapacityId
+						? ''
+						: state.formData.operatingSystemArqId
+				},
+				required: {
+					...state.required,
+					hardDriveTypeId: Boolean(hardDriveCapacityId)
+				},
+				disabled: {
+					...state.disabled,
+					hardDriveTypeId: !hardDriveCapacityId,
+					operatingSystemArqId: !hardDriveCapacityId
+				},
+				errors: {
+					...state.errors,
+					hardDriveCapacityId: ComputerHDDCapacity.isValid({
+						value: hardDriveCapacityId,
+						status: state.formData.statusId
+					})
+						? ''
+						: ComputerHDDCapacity.invalidMessage(),
+					hardDriveTypeId: ComputerHDDType.isValid({
+						value: !hardDriveCapacityId ? '' : state.formData.hardDriveTypeId,
+						hardDriveCapacity: hardDriveCapacityId
+					})
+						? ''
+						: ComputerHDDType.invalidMessage(),
+					operatingSystemId: ComputerOs.isValid({
+						value: !hardDriveCapacityId ? '' : state.formData.operatingSystemId,
+						status: state.formData.statusId,
+						hardDriveCapacity: hardDriveCapacityId
+					})
+						? ''
+						: ComputerOs.invalidMessage(),
+					operatingSystemArqId: ComputerOsArq.isValid({
+						value: !hardDriveCapacityId ? '' : state.formData.operatingSystemArqId,
+						operatingSystem: !hardDriveCapacityId
+							? ''
+							: state.formData.operatingSystemId
+					})
+						? ''
+						: ComputerOsArq.invalidMessage()
+				}
+			}
 		}
 		case 'operatingSystemId': {
-			const { value } = action.payload
-			const additionalUpdates = value ? {} : { operatingSystemArqId: '' }
-
-			return updateAndValidate(state, 'operatingSystemId', value, additionalUpdates)
+			const operatingSystemId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					operatingSystemId,
+					operatingSystemArqId: !operatingSystemId
+						? ''
+						: state.formData.operatingSystemArqId
+				},
+				disabled: {
+					...state.disabled,
+					operatingSystemArqId: !operatingSystemId
+				},
+				required: {
+					...state.required,
+					operatingSystemArqId: Boolean(operatingSystemId)
+				},
+				errors: {
+					...state.errors,
+					operatingSystemId: ComputerOs.isValid({
+						value: operatingSystemId,
+						status: state.formData.statusId,
+						hardDriveCapacity: state.formData.hardDriveCapacityId
+					})
+						? ''
+						: ComputerOs.invalidMessage(),
+					operatingSystemArqId: ComputerOsArq.isValid({
+						value: !operatingSystemId ? '' : state.formData.operatingSystemArqId,
+						operatingSystem: operatingSystemId
+					})
+						? ''
+						: ComputerOsArq.invalidMessage()
+				}
+			}
 		}
 		case 'serial': {
-			const { value } = action.payload
+			const serial = action.payload.value
 
-			return updateAndValidate(state, 'serial', value.trim().toUpperCase())
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					serial
+				},
+				errors: {
+					...state.errors,
+					serial: DeviceSerial.isValid({
+						serial,
+						genericModel: state.formData.genericModel
+					})
+						? ''
+						: DeviceSerial.invalidMessage()
+				}
+			}
 		}
 		case 'activo': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'activo', value)
+			const activo = action.payload.value
+
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					activo
+				},
+				errors: {
+					...state.errors,
+					activo: DeviceActivo.isValid({ value: activo })
+						? ''
+						: DeviceActivo.invalidMessage()
+				}
+			}
 		}
 		case 'employeeId': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'employeeId', value)
+			const employeeId = action.payload.value
+
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					employeeId
+				},
+				errors: {
+					...state.errors,
+					employeeId: DeviceEmployee.isValid({
+						value: employeeId,
+						status: state.formData.statusId
+					})
+						? ''
+						: DeviceEmployee.invalidMessage()
+				}
+			}
 		}
 		case 'stockNumber': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'stockNumber', value)
+			const stockNumber = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					stockNumber
+				},
+				errors: {
+					...state.errors,
+					stockNumber: DeviceStockNumber.isValid({
+						value: stockNumber,
+						status: state.formData.statusId
+					})
+						? ''
+						: DeviceStockNumber.invalidMessage()
+				}
+			}
 		}
 		case 'observation': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'observation', value)
+			const observation = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					observation
+				}
+			}
 		}
 		case 'computerName': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'computerName', value)
+			const computerName = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					computerName
+				},
+				errors: {
+					...state.errors,
+					computerName: ComputerName.isValid({
+						value: computerName,
+						status: state.formData.statusId
+					})
+						? ''
+						: ComputerName.invalidMessage()
+				}
+			}
 		}
 		case 'processorId': {
-			const { value } = action.payload
-			value.toUpperCase().trim()
-			return updateAndValidate(state, 'processorId', value)
+			const processorId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					processorId
+				},
+				errors: {
+					...state.errors,
+					processorId: ComputerProcessor.isValid({
+						value: processorId,
+						status: state.formData.statusId
+					})
+						? ''
+						: ComputerProcessor.invalidMessage()
+				}
+			}
 		}
 		case 'hardDriveTypeId': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'hardDriveTypeId', value)
+			const hardDriveTypeId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					hardDriveTypeId
+				},
+				errors: {
+					...state.errors,
+					hardDriveTypeId: ComputerHDDType.isValid({
+						value: hardDriveTypeId,
+						hardDriveCapacity: state.formData.hardDriveCapacityId
+					})
+						? ''
+						: ComputerHDDType.invalidMessage()
+				}
+			}
 		}
 		case 'operatingSystemArqId': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'operatingSystemArqId', value)
+			const operatingSystemArqId = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					operatingSystemArqId
+				},
+				errors: {
+					...state.errors,
+					operatingSystemArqId: ComputerOsArq.isValid({
+						value: operatingSystemArqId,
+						operatingSystem: state.formData.operatingSystemId
+					})
+						? ''
+						: ComputerOsArq.invalidMessage()
+				}
+			}
 		}
 		case 'ipAddress': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'ipAddress', value)
+			const ipAddress = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					ipAddress
+				},
+				errors: {
+					...state.errors,
+					ipAddress: IPAddress.isValid({
+						value: ipAddress,
+						status: state.formData.statusId
+					})
+						? ''
+						: IPAddress.invalidMessage()
+				}
+			}
 		}
 		case 'macAddress': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'macAddress', value)
+			const macAddress = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					macAddress
+				},
+				errors: {
+					...state.errors,
+					macAddress: MACAddress.isValid({
+						value: macAddress
+					})
+						? ''
+						: MACAddress.invalidMessage(macAddress)
+				}
+			}
 		}
 		case 'health': {
-			const { value } = action.payload
-			return updateAndValidate(state, 'health', value)
+			const health = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					health
+				},
+				errors: {
+					...state.errors,
+					health: HardDriveHealth.isValid({
+						value: health
+					})
+						? ''
+						: HardDriveHealth.invalidMessage()
+				}
+			}
 		}
-		// ... (Other cases: serial, activo, employeeId, stockNumber, observation, computerName, processorId, hardDriveTypeId, operatingSystemArqId, ipAddress, macAddress, health) - all similar to the simpler cases above.  Use updateFormData()
+
 		default:
 			return state
 	}

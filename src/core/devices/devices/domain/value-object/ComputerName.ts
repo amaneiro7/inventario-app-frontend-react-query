@@ -42,6 +42,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 			case StatusOptions.INUSE:
 			case StatusOptions.PRESTAMO:
 			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.JORNADA:
 			case StatusOptions.GUARDIA:
 				if (!value) {
 					this.updateError(

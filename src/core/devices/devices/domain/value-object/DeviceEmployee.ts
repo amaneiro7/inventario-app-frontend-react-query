@@ -46,10 +46,11 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 			case StatusOptions.DESINCORPORADO:
 			case StatusOptions.INALMACEN:
 			case StatusOptions.PORDESINCORPORAR:
+			case StatusOptions.JORNADA:
 			case StatusOptions.DISPONIBLE:
 				if (value) {
 					DeviceEmployee.errors =
-						'No se le puede asignar un usuario si el dispositivo esta desincorporado, en almacén, esta por desincorporar o esta vacante/disponible.'
+						'No se le puede asignar un usuario si el dispositivo esta desincorporado, en almacén, esta por desincorporar, esta asignado para jorndas móviles o esta vacante/disponible.'
 					return false
 				}
 				break

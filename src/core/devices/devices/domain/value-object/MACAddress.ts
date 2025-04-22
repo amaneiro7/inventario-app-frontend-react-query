@@ -6,12 +6,12 @@ export class MACAddress extends AcceptedNullValueObject<string> {
 	constructor(value: string | null) {
 		super(value)
 
-		if (!MACAddress.isValid(this.value)) {
+		if (!MACAddress.isValid({ value: this.value })) {
 			throw new Error(MACAddress.invalidMessage(value))
 		}
 	}
 
-	public static isValid(value: string | null): boolean {
+	public static isValid({ value }: { value: string | null }): boolean {
 		if (value === null || value === '') return true
 		return this.macAddressRegex.test(value)
 	}

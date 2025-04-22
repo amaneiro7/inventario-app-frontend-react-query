@@ -45,6 +45,7 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 			case StatusOptions.INUSE:
 			case StatusOptions.PRESTAMO:
 			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.JORNADA:
 			case StatusOptions.GUARDIA:
 			case StatusOptions.DISPONIBLE:
 				if (typeOfSite === TypeOfSiteOptions.ALMACEN) {

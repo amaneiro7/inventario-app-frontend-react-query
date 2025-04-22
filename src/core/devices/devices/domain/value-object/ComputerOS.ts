@@ -49,6 +49,7 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 			case StatusOptions.INUSE:
 			case StatusOptions.PRESTAMO:
 			case StatusOptions.CONTINGENCIA:
+			case StatusOptions.JORNADA:
 			case StatusOptions.GUARDIA:
 				if (!value) {
 					ComputerOs.updateError(

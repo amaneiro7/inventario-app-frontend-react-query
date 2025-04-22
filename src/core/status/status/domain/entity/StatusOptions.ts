@@ -6,5 +6,6 @@ export const StatusOptions = {
 	PRESTAMO: '5',
 	CONTINGENCIA: '6',
 	GUARDIA: '7',
-	DISPONIBLE: '8'
+	DISPONIBLE: '8',
+	JORNADA: '9'
 } as const

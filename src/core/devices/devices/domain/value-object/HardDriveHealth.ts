@@ -6,12 +6,12 @@ export class HardDriveHealth extends NumberValueObject {
 
 	constructor(value: number) {
 		super(value)
-		if (!HardDriveHealth.isValid(value)) {
+		if (!HardDriveHealth.isValid({ value })) {
 			throw new Error(HardDriveHealth.invalidMessage())
 		}
 	}
 
-	public static isValid(value: number): boolean {
+	public static isValid({ value }: { value: number }): boolean {
 		return value >= HardDriveHealth.MIN && value <= HardDriveHealth.MAX
 	}
 

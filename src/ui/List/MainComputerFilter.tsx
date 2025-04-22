@@ -1,12 +1,34 @@
-import { memo, useCallback, useState } from 'react'
+import { lazy, memo, Suspense, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
-import { EmployeeCombobox } from '@/components/ComboBox/Asincrono/EmployeeComboBox'
-import { Input } from '@/components/Input/Input'
-import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
-import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
-import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/DepartamentoComboBox'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const CategoryCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
+		default: m.CategoryCombobox
+	}))
+)
+const EmployeeCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
+		default: m.EmployeeCombobox
+	}))
+)
+const Input = lazy(() => import('@/components/Input/Input').then(m => ({ default: m.Input })))
+const LocationCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+		default: m.LocationCombobox
+	}))
+)
+const RegionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+		default: m.RegionCombobox
+	}))
+)
+const DepartamentoCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/DepartamentoComboBox').then(m => ({
+		default: m.DepartamentoCombobox
+	}))
+)
 
 export const MainComputerFilter = memo(function ({
 	handleChange,
@@ -51,38 +73,55 @@ export const MainComputerFilter = memo(function ({
 
 	return (
 		<>
-			<EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} />
+			<Suspense fallback={<InputFallback />}>
+				<EmployeeCombobox
+					name="employeeId"
+					handleChange={handleChange}
+					value={employeeId}
+				/>
+			</Suspense>
 
-			<CategoryCombobox
-				name="categoryId"
-				mainCategoryId={mainCategoryId}
-				handleChange={handleChange}
-				value={categoryId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<CategoryCombobox
+					name="categoryId"
+					mainCategoryId={mainCategoryId}
+					handleChange={handleChange}
+					value={categoryId}
+				/>
+			</Suspense>
 
-			<Input
-				value={localSerial}
-				label="Serial"
-				name="serial"
-				type="search"
-				onChange={handleSerial}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<Input
+					value={localSerial}
+					label="Serial"
+					name="serial"
+					type="search"
+					onChange={handleSerial}
+				/>
+			</Suspense>
 
-			<LocationCombobox
-				name="locationId"
-				handleChange={handleChange}
-				value={locationId}
-				method="search"
-				typeOfSiteId={typeOfSiteId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<LocationCombobox
+					name="locationId"
+					handleChange={handleChange}
+					value={locationId}
+					method="search"
+					typeOfSiteId={typeOfSiteId}
+				/>
+			</Suspense>
 
-			<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
-			<DepartamentoCombobox
-				name="departamentoId"
-				handleChange={handleChange}
-				value={departamentoId}
-				vicepresidenciaId={vicepresidenciaId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+			</Suspense>
+
+			<Suspense fallback={<InputFallback />}>
+				<DepartamentoCombobox
+					name="departamentoId"
+					handleChange={handleChange}
+					value={departamentoId}
+					vicepresidenciaId={vicepresidenciaId}
+				/>
+			</Suspense>
 		</>
 	)
 })

@@ -36,8 +36,12 @@ export const updateValidation = (state: State): State => {
 		modelId: '',
 		memoryRam: '',
 		observation: '',
-		serial: DeviceSerial.isValid(formData.serial) ? '' : DeviceSerial.invalidMessage(),
-		activo: DeviceActivo.isValid(formData.activo) ? '' : DeviceActivo.invalidMessage(),
+		serial: DeviceSerial.isValid({ serial: formData.serial })
+			? ''
+			: DeviceSerial.invalidMessage(),
+		activo: DeviceActivo.isValid({ value: formData.activo })
+			? ''
+			: DeviceActivo.invalidMessage(),
 		locationId: DeviceLocation.isValid({
 			typeOfSite: formData.typeOfSiteId,
 			status
@@ -93,16 +97,18 @@ export const updateValidation = (state: State): State => {
 		})
 			? ''
 			: ComputerOs.invalidMessage(),
-		operatingSystemArqId: ComputerOsArq.isValid(
-			formData.operatingSystemArqId,
-			formData.operatingSystemId
-		)
+		operatingSystemArqId: ComputerOsArq.isValid({
+			value: formData.operatingSystemArqId,
+			operatingSystem: formData.operatingSystemId
+		})
 			? ''
 			: ComputerOsArq.invalidMessage(),
-		macAddress: MACAddress.isValid(formData.macAddress)
+		macAddress: MACAddress.isValid({ value: formData.macAddress })
 			? ''
 			: MACAddress.invalidMessage(formData.macAddress),
-		health: HardDriveHealth.isValid(formData.health) ? '' : HardDriveHealth.invalidMessage()
+		health: HardDriveHealth.isValid({ value: formData.health })
+			? ''
+			: HardDriveHealth.invalidMessage()
 	}
 
 	const disabled: DevicesDisabled = {

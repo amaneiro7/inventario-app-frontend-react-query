@@ -9,9 +9,12 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 	static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 	static errors = ''
 
-	constructor(value: string | null, readonly genericModel?: boolean) {
+	constructor(
+		value: string | null,
+		readonly genericModel?: boolean
+	) {
 		super(value)
-		if (!DeviceSerial.isValid(value, genericModel)) {
+		if (!DeviceSerial.isValid({ serial: value, genericModel })) {
 			throw new Error(DeviceSerial.invalidMessage())
 		}
 	}
@@ -24,7 +27,13 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 		return DeviceSerial.errors
 	}
 
-	public static isValid(serial: string | null, genericModel?: Primitives<GenericModel>): boolean {
+	public static isValid({
+		serial,
+		genericModel
+	}: {
+		serial: string | null
+		genericModel?: Primitives<GenericModel>
+	}): boolean {
 		// condiciones para los casos en que el seriel es null
 		if (!serial) {
 			// Si el modelo del equipo no es genérico arroja un error
