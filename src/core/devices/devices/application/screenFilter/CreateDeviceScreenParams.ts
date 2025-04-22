@@ -16,6 +16,9 @@ export interface DeviceScreenFilters {
 	employeeId?: string
 	locationId?: string
 	typeOfSiteId?: string
+	vicepresidenciaEjecutivaId?: string
+	vicepresidenciaId?: string
+	directivaId?: string
 	departamentoId?: string
 	cargoId?: string
 	cityId?: string
