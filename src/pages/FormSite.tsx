@@ -15,7 +15,7 @@ export default function FormSite() {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/site/add"

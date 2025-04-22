@@ -24,7 +24,7 @@ export default function FormCentroCosto() {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/centrocosto/add"

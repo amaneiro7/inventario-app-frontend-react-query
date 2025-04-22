@@ -24,7 +24,7 @@ export default function FormCargo() {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/cargo/add"

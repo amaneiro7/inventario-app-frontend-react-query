@@ -25,7 +25,7 @@ export default function FormLocation() {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/location/add"

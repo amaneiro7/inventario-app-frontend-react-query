@@ -24,7 +24,7 @@ export default function FormRegion() {
 			isAddForm
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/region/"

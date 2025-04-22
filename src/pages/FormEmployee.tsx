@@ -38,7 +38,7 @@ const FormEmployee = memo(() => {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			searchInput={<EmployeeSearch />}
 			reset={mode === 'edit' ? resetForm : undefined}

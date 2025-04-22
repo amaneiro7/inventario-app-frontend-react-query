@@ -27,7 +27,7 @@ export default function FormDevice() {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			searchInput={<SerialSearch />}
 			reset={mode === 'edit' ? resetForm : undefined}

@@ -15,7 +15,7 @@ export default function FormVicepresidenciaEjecutiva() {
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
 			handleClose={() => {
-				return
+				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
 			url="/vicepresidenciaEjecutiva/add"
