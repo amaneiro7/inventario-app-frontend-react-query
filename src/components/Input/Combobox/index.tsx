@@ -75,31 +75,23 @@ export const Combobox = memo(function <
 
 	useCloseClickOrEscape({ open, onClose: handlePopoverClose, ref: divRef })
 
-	const lastLabelValue = useRef('')
-
 	const labelValue: string = useMemo(() => {
 		// caso 1: si el value es un string vacio, devuelve un string vacio
 		if (value === '') {
-			lastLabelValue.current = ''
 			return ''
 		}
 		// caso 2: Si ya hay value, busca en el array devuelve el valor sino un string vacio
 		if (options?.length > 0) {
 			const found = options?.find(data => String(data.id) === String(value))
 			if (!found) {
-				return lastLabelValue.current
+				return ''
 			}
 			if (typeof displayAccessor === 'string') {
-				const label = String(found[displayAccessor as keyof O] ?? '')
-				lastLabelValue.current = label
-				return label
+				return String(found[displayAccessor as keyof O] ?? '')
 			}
-			const label = displayAccessor(found)
-			lastLabelValue.current = label
-			return label
-		}
-		// Caso 4: Si no hay ningún array (options es undefined o vació), devuelve un string vacio sin error
-		lastLabelValue.current = ''
+			return displayAccessor(found)
+		} // Caso 4: Si no hay ningún array (options es undefined o vació), devuelve un string vacio sin error
+
 		return ''
 	}, [value, options, displayAccessor])
 
