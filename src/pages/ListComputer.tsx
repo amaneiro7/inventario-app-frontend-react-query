@@ -73,6 +73,9 @@ export default function ListComputer() {
 							stateId={query.stateId}
 							regionId={query.regionId}
 							cityId={query.cityId}
+							directivaId={query.directivaId}
+							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+							vicepresidenciaId={query.vicepresidenciaId}
 							handleChange={handleChange}
 						/>
 

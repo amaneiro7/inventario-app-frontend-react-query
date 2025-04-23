@@ -3,6 +3,7 @@ import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
 import { InputFallback } from '@/components/Loading/InputFallback'
+import { Divider } from './Divider'
 
 const CityCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
@@ -113,7 +114,7 @@ export function DefaultDeviceFilter({
 				/>
 			</Suspense>
 
-			<hr className="border-verde" />
+			<Divider />
 			<Suspense fallback={<InputFallback />}>
 				<StateCombobox
 					handleChange={handleChange}
@@ -132,7 +133,7 @@ export function DefaultDeviceFilter({
 					value={cityId}
 				/>
 			</Suspense>
-			<hr className="border-verde" />
+			<Divider />
 			<Suspense fallback={<InputFallback />}>
 				<DirectivaCombobox
 					name="directivaId"
