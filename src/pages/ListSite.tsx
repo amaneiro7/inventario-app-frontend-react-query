@@ -1,11 +1,16 @@
+import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLocationFilter } from '@/core/locations/locations/infra/hook/useLocationFilters'
 //components
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
-import { useLocationFilter } from '@/core/locations/locations/infra/hook/useLocationFilters'
-import { LocationMainFilter } from '@/ui/List/location/LocationMainFilter'
 import { LocationDataWrapper } from '@/ui/List/location/LocationDataWrapper'
+import { Loading } from '@/components/Loading'
+
+const LocationMainFilter = lazy(() =>
+	import('@/ui/List/location/LocationMainFilter').then(m => ({ default: m.LocationMainFilter }))
+)
 
 export default function ListSite() {
 	const navigate = useNavigate()
@@ -13,7 +18,7 @@ export default function ListSite() {
 		useLocationFilter()
 
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
 					<LocationMainFilter
@@ -40,6 +45,6 @@ export default function ListSite() {
 				handleSort={handleSort}
 				query={query}
 			/>
-		</>
+		</Suspense>
 	)
 }

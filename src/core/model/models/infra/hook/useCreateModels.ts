@@ -1,5 +1,5 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultModel,
@@ -13,7 +13,7 @@ import { ModelCreator } from '../../application/ModelCreator'
 import { useModelInitialState } from './useModelsInitialState'
 
 export function useCreateModel(defaultState?: DefaultModel) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: never) => {

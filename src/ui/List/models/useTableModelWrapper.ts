@@ -65,7 +65,6 @@ export function useTableModelWrapper() {
 		return headers.filter(header => header.visible).map(h => h.key)
 	}, [headers])
 
-	console.log(visibleColumns)
 	return {
 		headers,
 		colSpan,

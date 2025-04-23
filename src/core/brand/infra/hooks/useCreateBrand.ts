@@ -1,5 +1,4 @@
-import { useContext, useLayoutEffect, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useLayoutEffect, useReducer } from 'react'
 import { BrandCreator } from '@/core/brand/application/BrandCreator'
 import { BrandSaveService } from '@/core/brand/infra/service/brandSave.service'
 import {
@@ -10,10 +9,11 @@ import {
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useBrandInitialState } from './useBrandInitialState'
 import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export function useCreateBrand(defaultState?: BrandParams) {
 	const key = `processor${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = async (formData: BrandParams) => {
 		return await new BrandCreator(new BrandSaveService(), events).create(formData)

@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 import { usePrinterFilter } from '@/core/devices/devices/infra/hook/usePrinterFilters'
@@ -7,9 +7,14 @@ import { TablePrinterWrapper } from '@/ui/List/printer/TablePrinterWrapper'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
-import { MainComputerFilter } from '@/ui/List/MainComputerFilter'
-import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+
+const MainComputerFilter = lazy(() =>
+	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+)
+const DefaultDeviceFilter = lazy(() =>
+	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+)
 
 export default function ListPrinter() {
 	const filterAsideRef = useRef<FilterAsideRef>(null)
@@ -46,17 +51,19 @@ export default function ListPrinter() {
 						handleChange={handleChange}
 					/>
 					<FilterAside ref={filterAsideRef}>
-						<DefaultDeviceFilter
-							activo={query.activo}
-							statusId={query.statusId}
-							brandId={query.brandId}
-							modelId={query.modelId}
-							categoryId={query.categoryId}
-							stateId={query.stateId}
-							regionId={query.regionId}
-							cityId={query.cityId}
-							handleChange={handleChange}
-						/>
+						<Suspense>
+							<DefaultDeviceFilter
+								activo={query.activo}
+								statusId={query.statusId}
+								brandId={query.brandId}
+								modelId={query.modelId}
+								categoryId={query.categoryId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								cityId={query.cityId}
+								handleChange={handleChange}
+							/>
+						</Suspense>
 					</FilterAside>
 				</FilterSection>
 				<ButtonSection
@@ -66,6 +73,7 @@ export default function ListPrinter() {
 					handleAdd={() => {
 						navigate('/device/add')
 					}}
+					filterButton
 					handleFilter={filterAsideRef.current?.handleOpen}
 				/>
 			</DetailsBoxWrapper>

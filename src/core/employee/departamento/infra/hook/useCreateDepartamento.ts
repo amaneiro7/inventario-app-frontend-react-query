@@ -1,6 +1,5 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
-
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultDepartamento,
@@ -14,7 +13,7 @@ import { DepartamentoCreator } from '../../application/DepartamentoCreator'
 import { useDepartamentoInitialState } from './useDepartamentoInitialState'
 
 export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: DepartamentoParams) => {

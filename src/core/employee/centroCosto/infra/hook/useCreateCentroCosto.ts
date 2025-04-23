@@ -1,6 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
-
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultCentroCosto,
@@ -12,9 +10,10 @@ import { type CentroCostoParams } from '../../domain/dto/CentroCosto.dto'
 import { CentroCostoSaveService } from '../service/centroCostoSave.service'
 import { CentroCostoCreator } from '../../application/CentroCostoCreator'
 import { useCentroCostoInitialState } from './useCentroCostoInitialState'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export function useCreateCentroCosto(defaultState?: DefaultCentroCosto) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: CentroCostoParams) => {

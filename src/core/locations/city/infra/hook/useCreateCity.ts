@@ -1,6 +1,5 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
-
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultCity,
@@ -14,7 +13,7 @@ import { CityCreator } from '../../application/CityCreator'
 import { useCityInitialState } from './useCityInitialState'
 
 export function useCreateCity(defaultState?: DefaultCity) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: CityParams) => {

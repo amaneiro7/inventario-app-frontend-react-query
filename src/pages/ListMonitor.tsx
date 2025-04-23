@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 import { useScreenFilter } from '@/core/devices/devices/infra/hook/useScreenFilters'
@@ -7,8 +7,14 @@ import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper
 import { FilterSection } from '@/ui/List/FilterSection'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableScreenWrapper } from '@/ui/List/screen/TableScreenWrapper'
-import { MainComputerFilter } from '@/ui/List/MainComputerFilter'
-import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
+import { Loading } from '@/components/Loading'
+
+const MainComputerFilter = lazy(() =>
+	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+)
+const DefaultDeviceFilter = lazy(() =>
+	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+)
 
 export default function ListMonitor() {
 	const filterAsideRef = useRef<FilterAsideRef>(null)
@@ -30,7 +36,7 @@ export default function ListMonitor() {
 	}
 
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
 					<MainComputerFilter
@@ -45,17 +51,19 @@ export default function ListMonitor() {
 						handleChange={handleChange}
 					/>
 					<FilterAside ref={filterAsideRef}>
-						<DefaultDeviceFilter
-							activo={query.activo}
-							statusId={query.statusId}
-							brandId={query.brandId}
-							modelId={query.modelId}
-							categoryId={query.categoryId}
-							stateId={query.stateId}
-							regionId={query.regionId}
-							cityId={query.cityId}
-							handleChange={handleChange}
-						/>
+						<Suspense>
+							<DefaultDeviceFilter
+								activo={query.activo}
+								statusId={query.statusId}
+								brandId={query.brandId}
+								modelId={query.modelId}
+								categoryId={query.categoryId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								cityId={query.cityId}
+								handleChange={handleChange}
+							/>
+						</Suspense>
 					</FilterAside>
 				</FilterSection>
 				<ButtonSection
@@ -65,6 +73,7 @@ export default function ListMonitor() {
 					handleAdd={() => {
 						navigate('/device/add')
 					}}
+					filterButton
 					handleFilter={filterAsideRef.current?.handleOpen}
 				/>
 			</DetailsBoxWrapper>
@@ -75,6 +84,6 @@ export default function ListMonitor() {
 				handleSort={handleSort}
 				query={query}
 			/>
-		</>
+		</Suspense>
 	)
 }

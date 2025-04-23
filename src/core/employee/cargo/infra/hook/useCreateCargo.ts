@@ -1,5 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
 
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
@@ -12,9 +11,10 @@ import { type CargoParams } from '../../domain/dto/Cargo.dto'
 import { CargoSaveService } from '../service/cargoSave.service'
 import { CargoCreator } from '../../application/CargoCreator'
 import { useCargoInitialState } from './useCargoInitialState'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export function useCreateCargo(defaultState?: DefaultCargo) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: CargoParams) => {

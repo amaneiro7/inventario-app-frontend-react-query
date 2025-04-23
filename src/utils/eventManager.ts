@@ -8,8 +8,6 @@
  *          wait 2000ms after the last call before allowing the function to be called again.
  */
 
-import { mode } from '@/config'
-
 export function eventManager<R, T extends (...args: never[]) => Promise<R>>(
 	fn: T,
 	delay: number = 2000
@@ -17,9 +15,6 @@ export function eventManager<R, T extends (...args: never[]) => Promise<R>>(
 	let executing = false
 	return async (...args: Parameters<T>) => {
 		if (!executing) {
-			if (mode === 'development') {
-				console.log('eventManager ejecutando')
-			}
 			executing = true
 			await fn(...args)
 			setTimeout(() => {

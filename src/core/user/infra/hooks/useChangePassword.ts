@@ -1,6 +1,6 @@
-import { use, useEffect, useMemo, useReducer, useRef } from 'react'
+import { useEffect, useMemo, useReducer, useRef } from 'react'
 import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useAuthStore } from '@/store/useAuthStore'
 import { ChangePassword } from '@/core/user/application/ChangePassword'
 import { ChangePasswordService } from '@/core/user/infra/service/ChangePassword.service'
 import { type ModalRef } from '@/components/Modal/Modal'
@@ -10,7 +10,7 @@ import {
 } from '@/reducers/changePassword.reducers'
 
 export function useChangePassword() {
-	const { events } = use(EventContext)
+	const { events } = useAuthStore.getState()
 	const repository = useMemo(() => {
 		return new ChangePasswordService()
 	}, [])

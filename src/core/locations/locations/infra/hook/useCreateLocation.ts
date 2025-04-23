@@ -1,5 +1,4 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultLocation,
@@ -11,9 +10,10 @@ import { type LocationParams } from '../../domain/dto/Location.dto'
 import { LocationSaveService } from '../service/locationSave.service'
 import { LocationCreator } from '../../application/LocationCreator'
 import { useLocationInitialState } from './useLocationInitialState'
+import { useAuthStore } from '@/store/useAuthStore'
 
 export function useCreateLocation(defaultState?: DefaultLocation) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: LocationParams) => {

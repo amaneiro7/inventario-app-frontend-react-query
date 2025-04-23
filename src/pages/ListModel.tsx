@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 import { useModelsFilter } from '@/core/model/models/infra/hook/useModelsFilters'
@@ -5,7 +6,10 @@ import { TableModelWrapper } from '@/ui/List/models/TableModelWrapper'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
-import { MainModelFilter } from '@/ui/List/MainModelFilter'
+import { Loading } from '@/components/Loading'
+const MainModelFilter = lazy(() =>
+	import('@/ui/List/MainModelFilter').then(m => ({ default: m.MainModelFilter }))
+)
 
 export default function ListModel() {
 	const navigate = useNavigate()
@@ -19,7 +23,7 @@ export default function ListModel() {
 	}
 
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
 					<MainModelFilter
@@ -45,6 +49,6 @@ export default function ListModel() {
 				handleSort={handleSort}
 				query={query}
 			/>
-		</>
+		</Suspense>
 	)
 }

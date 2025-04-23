@@ -1,6 +1,5 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
-
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultSite,
@@ -14,7 +13,7 @@ import { SiteCreator } from '../../application/SiteCreator'
 import { useSiteInitialState } from './useSiteInitialState'
 
 export function useCreateSite(defaultState?: DefaultSite) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: SiteParams) => {

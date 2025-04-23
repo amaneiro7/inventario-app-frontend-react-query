@@ -1,5 +1,5 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultEmployee,
@@ -16,7 +16,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	const { initialState, mode, resetState } = useEmployeeInitialState(
 		defaultState ?? initialEmployeeState.formData
 	)
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: EmployeeParams) => {

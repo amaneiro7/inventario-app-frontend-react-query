@@ -1,5 +1,5 @@
-import { useContext, useLayoutEffect, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
+import { useLayoutEffect, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import { useProcessorInitialState } from './useProcessorInitialState'
 import { ProcessorCreator } from '../../application/ProcessorCreator'
@@ -15,7 +15,7 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 	const key = `processor${
 		initialProcessorState?.formData?.id ? initialProcessorState.formData.id : ''
 	}`
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = async (formData: ProcessorParams) => {
 		return await new ProcessorCreator(new ProcessorSaveService(), events).create(formData)

@@ -1,11 +1,25 @@
-import { memo, useCallback, useState } from 'react'
+import { lazy, memo, Suspense, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
-import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
-import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
-import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
-import { TypeOfSiteCombobox } from '@/components/ComboBox/Sincrono/TypeOfSiteComboBox'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const RegionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+		default: m.RegionCombobox
+	}))
+)
+const StateCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+)
+const CityCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+)
+const TypeOfSiteCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/TypeOfSiteComboBox').then(m => ({
+		default: m.TypeOfSiteCombobox
+	}))
+)
 interface LocationMainFilterProps {
 	name?: string
 	subnet?: string
@@ -70,26 +84,34 @@ export const LocationMainFilter = memo(
 					type="search"
 					onChange={handleName}
 				/>
-				<RegionCombobox handleChange={handleChange} name="regionId" value={regionId} />
-				<StateCombobox
-					handleChange={handleChange}
-					name="stateId"
-					value={stateId}
-					regionId={regionId}
-				/>
-				<CityCombobox
-					handleChange={handleChange}
-					name="cityId"
-					value={cityId}
-					regionId={regionId}
-					stateId={stateId}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<RegionCombobox handleChange={handleChange} name="regionId" value={regionId} />
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<StateCombobox
+						handleChange={handleChange}
+						name="stateId"
+						value={stateId}
+						regionId={regionId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<CityCombobox
+						handleChange={handleChange}
+						name="cityId"
+						value={cityId}
+						regionId={regionId}
+						stateId={stateId}
+					/>
+				</Suspense>
 
-				<TypeOfSiteCombobox
-					name="typeOfSiteId"
-					value={typeof typeOfSiteId === 'string' ? typeOfSiteId : ''}
-					handleChange={handleChange}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<TypeOfSiteCombobox
+						name="typeOfSiteId"
+						value={typeof typeOfSiteId === 'string' ? typeOfSiteId : ''}
+						handleChange={handleChange}
+					/>
+				</Suspense>
 
 				<Input
 					value={localSubnet}

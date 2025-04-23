@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type Action,
@@ -10,7 +11,6 @@ import { DeviceCreator } from '../../application/DeviceCreator'
 import { DeviceSaveService } from '../service/deviceSave.service'
 import { useDeviceInitialState } from './useDeviceInitialState'
 import { type Params } from '../../domain/dto/Device.dto'
-import { useAuthStore } from '@/store/useAuthStore'
 
 export function useCreateDevice(defaultState?: DefaultDevice) {
 	const key = `device${initialDeviceState?.formData?.id ? initialDeviceState.formData.id : ''}`

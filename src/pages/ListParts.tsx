@@ -1,4 +1,4 @@
-import { Suspense, useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePartsFilter } from '@/core/devices/devices/infra/hook/usePartsFilters'
 import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
@@ -6,10 +6,15 @@ import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAs
 import { Loading } from '@/components/Loading'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
-import { MainComputerFilter } from '@/ui/List/MainComputerFilter'
-import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TablePartsWrapper } from '@/ui/List/parts/TablePartsWrapper'
+
+const MainComputerFilter = lazy(() =>
+	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+)
+const DefaultDeviceFilter = lazy(() =>
+	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+)
 
 export default function ListParts() {
 	const filterAsideRef = useRef<FilterAsideRef>(null)
@@ -46,17 +51,19 @@ export default function ListParts() {
 						handleChange={handleChange}
 					/>
 					<FilterAside ref={filterAsideRef}>
-						<DefaultDeviceFilter
-							activo={query.activo}
-							statusId={query.statusId}
-							brandId={query.brandId}
-							modelId={query.modelId}
-							categoryId={query.categoryId}
-							stateId={query.stateId}
-							regionId={query.regionId}
-							cityId={query.cityId}
-							handleChange={handleChange}
-						/>
+						<Suspense>
+							<DefaultDeviceFilter
+								activo={query.activo}
+								statusId={query.statusId}
+								brandId={query.brandId}
+								modelId={query.modelId}
+								categoryId={query.categoryId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								cityId={query.cityId}
+								handleChange={handleChange}
+							/>
+						</Suspense>
 					</FilterAside>
 				</FilterSection>
 				<ButtonSection
@@ -66,6 +73,7 @@ export default function ListParts() {
 					handleAdd={() => {
 						navigate('/device/add')
 					}}
+					filterButton
 					handleFilter={filterAsideRef.current?.handleOpen}
 				/>
 			</DetailsBoxWrapper>

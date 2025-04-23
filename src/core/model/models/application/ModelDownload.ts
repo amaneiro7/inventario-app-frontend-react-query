@@ -1,14 +1,11 @@
-import {
-	createDeviceQueryParams,
-	type DeviceComputerFilters
-} from './computerFilter/CreateDeviceComputerParams'
 import { type Source } from '@/types/type'
-import { type DeviceDownloadRepository } from '../domain/repository/DeviceDownloadRepository'
+import { type ModelDownloadRepository } from '../domain/repository/ModelDownloadRepository'
 import { type EventManager } from '@/core/shared/domain/Observer/EventManager'
+import { createModelParams, type ModelFilters } from './CreateModelsQueryParams'
 
-export class DeviceDownload {
+export class ModelDownload {
 	constructor(
-		private readonly repository: DeviceDownloadRepository,
+		private readonly repository: ModelDownloadRepository,
 		private readonly events: EventManager
 	) {}
 
@@ -17,15 +14,14 @@ export class DeviceDownload {
 		orderType,
 		source,
 		...options
-	}: DeviceComputerFilters & { source: Source }) {
+	}: ModelFilters & { source: Source }) {
 		try {
 			this.events.notify({ type: 'loading', message: 'Procesando...' })
 
-			const queryParams = await createDeviceQueryParams({
+			const queryParams = await createModelParams({
 				pageSize: undefined,
 				orderBy,
 				orderType,
-				defaultQuery: source,
 				...options
 			})
 

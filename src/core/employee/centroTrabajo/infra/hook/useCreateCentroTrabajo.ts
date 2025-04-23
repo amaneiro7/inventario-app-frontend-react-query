@@ -1,6 +1,5 @@
-import { useCallback, useContext, useLayoutEffect, useMemo, useReducer } from 'react'
-import { EventContext } from '@/context/EventManager/EventContext'
-
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useAuthStore } from '@/store/useAuthStore'
 import { usePrevious } from '@/hooks/utils/usePrevious'
 import {
 	type DefaultCentroTrabajo,
@@ -14,7 +13,7 @@ import { CentroTrabajoCreator } from '../../application/CentroTrabajoCreator'
 import { useCentroTrabajoInitialState } from './useCentroTrabajoInitialState'
 
 export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
-	const { events } = useContext(EventContext)
+	const { events } = useAuthStore.getState()
 
 	const create = useMemo(
 		() => async (formData: CentroTrabajoParams) => {
