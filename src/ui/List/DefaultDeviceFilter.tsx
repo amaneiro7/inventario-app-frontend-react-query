@@ -113,6 +113,7 @@ export function DefaultDeviceFilter({
 				/>
 			</Suspense>
 
+			<hr className="border-verde" />
 			<Suspense fallback={<InputFallback />}>
 				<StateCombobox
 					handleChange={handleChange}
@@ -131,6 +132,7 @@ export function DefaultDeviceFilter({
 					value={cityId}
 				/>
 			</Suspense>
+			<hr className="border-verde" />
 			<Suspense fallback={<InputFallback />}>
 				<DirectivaCombobox
 					name="directivaId"

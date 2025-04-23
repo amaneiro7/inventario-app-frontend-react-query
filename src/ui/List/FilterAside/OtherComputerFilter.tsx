@@ -14,12 +14,18 @@ const OperatingSystemArqCombobox = lazy(() =>
 		default: m.OperatingSystemArqCombobox
 	}))
 )
+const HardDriveTypeCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/HardDriveTypeComboBox').then(m => ({
+		default: m.HardDriveTypeCombobox
+	}))
+)
 
 export const OtherComputerFilter = memo(
 	({
 		computerName = '',
 		operatingSystemId = '',
 		operatingSystemArqId = '',
+		hardDriveTypeId = '',
 		processor = '',
 		ipAddress = '',
 		handleChange
@@ -27,6 +33,7 @@ export const OtherComputerFilter = memo(
 		computerName?: string
 		operatingSystemId?: string
 		operatingSystemArqId?: string
+		hardDriveTypeId?: string
 		processor?: string
 		ipAddress?: string
 		handleChange: (name: string, value: string | number) => void
@@ -73,6 +80,7 @@ export const OtherComputerFilter = memo(
 		}, [])
 		return (
 			<>
+				<hr className="border-verde" />
 				<Input
 					value={localComputerName}
 					label="Nombre del computador"
@@ -91,6 +99,13 @@ export const OtherComputerFilter = memo(
 					<OperatingSystemArqCombobox
 						name="operatingSystemArqId"
 						value={operatingSystemArqId}
+						handleChange={handleChange}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<HardDriveTypeCombobox
+						name="hardDriveTypeId"
+						value={hardDriveTypeId}
 						handleChange={handleChange}
 					/>
 				</Suspense>

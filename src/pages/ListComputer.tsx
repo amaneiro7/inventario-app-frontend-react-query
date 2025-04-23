@@ -82,6 +82,7 @@ export default function ListComputer() {
 							computerName={query.computerName}
 							operatingSystemId={query.operatingSystemId}
 							operatingSystemArqId={query.operatingSystemArqId}
+							hardDriveTypeId={query.hardDriveTypeId}
 							processor={query.processor}
 						/>
 					</FilterAside>

@@ -27,6 +27,7 @@ export interface DeviceComputerFilters {
 	computerName?: string
 	operatingSystemId?: string
 	operatingSystemArqId?: string
+	hardDriveTypeId?: string
 	ipAddress?: string
 	processor?: string
 	pageNumber?: number

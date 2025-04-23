@@ -45,7 +45,7 @@ export const navigation: Navigation[] = [
 		navs: [
 			{
 				title: 'Listado de usuarios',
-				path: '/list/usuarios',
+				path: '/list/usuarios?isStillWorking=true',
 				desc: 'Ver la lista de todos los usuarios del sistema.'
 			},
 			{
