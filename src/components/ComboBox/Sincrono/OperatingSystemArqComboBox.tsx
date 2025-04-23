@@ -25,7 +25,7 @@ export const OperatingSystemArqCombobox = memo(function ({
 		<>
 			<Combobox
 				id="operatingSystemArq"
-				label="Arqitectura"
+				label="Arquitectura"
 				value={value}
 				name={name}
 				loading={isLoading}

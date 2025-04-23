@@ -28,7 +28,7 @@ const ButtonSize = {
 } as const
 
 const Color = {
-	orange: 'border-none text-white bg-naranja hover:bg-naranja-700 disabled:bg-naranja-700 active:bg-naranja-800',
+	orange: 'border-none text-white text-shadow-md from-naranja/95 to-naranja/80 bg-gradient-to-br hover:bg-naranja-700 disabled:bg-naranja-700 active:bg-naranja-800',
 	green: 'border-none text-white border-verde bg-verde hover:bg-verde-800 disabled:bg-verde-800 active:bg-verde-900',
 	gray: 'text-cancel border-cancel bg-gray-200 hover:text-white hover:bg-cancel active:bg-cancel hover:shadow-md',
 	red: 'border-none text-white border-rojo bg-rojo hover:bg-rojo-500 disabled:bg-rojo-500 active:bg-rojo-rojo-700',

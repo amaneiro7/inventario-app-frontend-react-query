@@ -29,6 +29,18 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 	const getStatusColor = (status: string) => {
 		switch (status) {
 			case 'In Stock':
+				return 'white'
+			case 'Low Stock':
+				return 'black'
+			case 'Out of Stock':
+				return 'white'
+			default:
+				return 'black'
+		}
+	}
+	const getStatusBackGroundColor = (status: string) => {
+		switch (status) {
+			case 'In Stock':
 				return 'verde'
 			case 'Low Stock':
 				return 'amarillo'
@@ -44,7 +56,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 			<CardHeader>
 				<CardTitle>Detale de inventario</CardTitle>
 				<CardDescription className="pb-2">Lista completa de equipos</CardDescription>
-				<div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 mt-2">
+				<div className="mt-2 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
 					<div className="relative w-full sm:max-w-[300px]">
 						<Input
 							placeholder="Buscar por marca o modelo..."
@@ -109,8 +121,8 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 									<TableCell
 										size="medium"
 										tag
-										backgroundColor={getStatusColor(item.status)}
-										color="white"
+										backgroundColor={getStatusBackGroundColor(item.status)}
+										color={getStatusColor(item.status)}
 										value={item.status}
 									/>
 								</TableRow>
@@ -119,7 +131,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 							<TableRow>
 								<TableCell
 									colSpan={7}
-									className="text-center py-4"
+									className="py-4 text-center"
 									size="medium"
 									value={'No se encontraron resultados'}
 								/>

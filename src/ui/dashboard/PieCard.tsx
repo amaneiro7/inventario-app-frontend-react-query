@@ -16,7 +16,7 @@ interface PieCardProps {
 const COLORS = [
 	'#4CAF50', // Verde
 	'#2196F3', // Azul
-	'#FFC107', // Amarillo
+	'#FFC107', // yellow
 	'#F44336', // Rojo
 	'#9C27B0', // Morado
 	'#795548', // Marrón
@@ -37,7 +37,7 @@ export const PieCard = ({
 	return (
 		<Card>
 			<CardHeader>
-				<div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 					<div>
 						<CardTitle>{title}</CardTitle>
 						<CardDescription>{desc}</CardDescription>
@@ -83,8 +83,8 @@ export const PieCard = ({
 								</PieChart>
 							</ResponsiveContainer>
 						) : (
-							<div className="h-full flex items-center justify-center">
-								<div className="text-center text-muted-foreground">
+							<div className="flex h-full items-center justify-center">
+								<div className="text-muted-foreground text-center">
 									{icon}
 									<p>No hay datos disponibles</p>
 								</div>
@@ -92,12 +92,12 @@ export const PieCard = ({
 						)}
 					</div>
 					<div>
-						<div className="flex flex-wrap gap-4 items-center justify-center">
+						<div className="flex flex-wrap items-center justify-center gap-4">
 							{data?.map((entry, index) => (
-								<div key={entry.name} className="flex gap-4 items-center">
+								<div key={entry.name} className="flex items-center gap-4">
 									<div className="flex items-center gap-2">
 										<span
-											className="w-3 h-3 rounded-full"
+											className="h-3 w-3 rounded-full"
 											style={{
 												backgroundColor: colors[index % colors.length]
 											}}

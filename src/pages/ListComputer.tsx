@@ -64,28 +64,26 @@ export default function ListComputer() {
 					/>
 
 					<FilterAside ref={filterAsideRef}>
-						<Suspense>
-							<DefaultDeviceFilter
-								activo={query.activo}
-								statusId={query.statusId}
-								brandId={query.brandId}
-								modelId={query.modelId}
-								categoryId={query.categoryId}
-								stateId={query.stateId}
-								regionId={query.regionId}
-								cityId={query.cityId}
-								handleChange={handleChange}
-							/>
+						<DefaultDeviceFilter
+							activo={query.activo}
+							statusId={query.statusId}
+							brandId={query.brandId}
+							modelId={query.modelId}
+							categoryId={query.categoryId}
+							stateId={query.stateId}
+							regionId={query.regionId}
+							cityId={query.cityId}
+							handleChange={handleChange}
+						/>
 
-							<OtherComputerFilter
-								handleChange={handleChange}
-								ipAddress={query.ipAddress}
-								computerName={query.computerName}
-								operatingSystemId={query.operatingSystemId}
-								operatingSystemArqId={query.operatingSystemArqId}
-								processor={query.processor}
-							/>
-						</Suspense>
+						<OtherComputerFilter
+							handleChange={handleChange}
+							ipAddress={query.ipAddress}
+							computerName={query.computerName}
+							operatingSystemId={query.operatingSystemId}
+							operatingSystemArqId={query.operatingSystemArqId}
+							processor={query.processor}
+						/>
 					</FilterAside>
 				</FilterSection>
 				<ButtonSection
