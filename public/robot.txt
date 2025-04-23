@@ -1,19 +1,27 @@
+# Reglas específicas para Googlebot
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 10 # Sugerencia: Ajusta según la capacidad de tu servidor local
 
+# Reglas específicas para Bingbot
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 10 # Sugerencia: Ajusta según la capacidad de tu servidor local
 
+# Reglas específicas para Twitterbot
 User-agent: Twitterbot
 Allow: /
 
+# Reglas específicas para Facebook (enlaces compartidos)
 User-agent: facebookexternalhit
 Allow: /
 
+# Reglas por defecto para todos los demás bots
 User-agent: *
 Allow: /
 
-User-agent: *
-Disallow: 
-Disallow: /cgi-bin/
-Sitemap: http://localhost:5173/
+# Deshabilitación específica (si es necesaria)
+Disallow: /cgi-bin/ # Directorio común para scripts CGI (generalmente no relevante para SPAs/APIs modernas)
+
+# Sitemap (asegúrate de que la ruta sea correcta para tu entorno local)
+Sitemap: https://localhost:5173/sitemap.xml # Usando HTTPS ya que configuraste Nginx
