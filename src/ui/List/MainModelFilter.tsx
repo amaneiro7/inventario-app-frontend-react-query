@@ -1,8 +1,26 @@
-import { memo } from 'react'
-import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
-import { ModelCombobox } from '@/components/ComboBox/Asincrono/ModelComboBox'
-import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
-import { MainCategoryCombobox } from '@/components/ComboBox/Sincrono/MainCategoryComboBox'
+import { lazy, memo, Suspense } from 'react'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const BrandCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
+		default: m.BrandCombobox
+	}))
+)
+const ModelCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
+		default: m.ModelCombobox
+	}))
+)
+const CategoryCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
+		default: m.CategoryCombobox
+	}))
+)
+const MainCategoryCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/MainCategoryComboBox').then(m => ({
+		default: m.MainCategoryCombobox
+	}))
+)
 
 export const MainModelFilter = memo(function ({
 	handleChange,
@@ -19,28 +37,36 @@ export const MainModelFilter = memo(function ({
 }) {
 	return (
 		<>
-			<MainCategoryCombobox
-				name="mainCategoryId"
-				handleChange={handleChange}
-				value={mainCategoryId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<MainCategoryCombobox
+					name="mainCategoryId"
+					handleChange={handleChange}
+					value={mainCategoryId}
+				/>
+			</Suspense>
 
-			<CategoryCombobox
-				name="categoryId"
-				mainCategoryId={mainCategoryId}
-				handleChange={handleChange}
-				value={categoryId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<CategoryCombobox
+					name="categoryId"
+					mainCategoryId={mainCategoryId}
+					handleChange={handleChange}
+					value={categoryId}
+				/>
+			</Suspense>
 
-			<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
+			<Suspense fallback={<InputFallback />}>
+				<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
+			</Suspense>
 
-			<ModelCombobox
-				name="id"
-				value={id}
-				brandId={brandId}
-				categoryId={categoryId}
-				handleChange={handleChange}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<ModelCombobox
+					name="id"
+					value={id}
+					brandId={brandId}
+					categoryId={categoryId}
+					handleChange={handleChange}
+				/>
+			</Suspense>
 		</>
 	)
 })

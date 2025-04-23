@@ -61,72 +61,76 @@ export function DeviceInputs({
 		<div className="flex flex-col gap-4">
 			{/* Informacion Principal */}
 			<div className="grid grid-cols-2 gap-5">
-				<div className="flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4">
+				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
 						Información del dispositivo
 					</Typography>
-					<InfoMainDeviceInputs
-						handleChange={handleChange}
-						handleLocation={handleLocation}
-						mode={mode}
-						statusId={formData.statusId}
-						locationId={formData.locationId}
-						stockNumber={formData.stockNumber}
-						typeOfSiteId={formData.typeOfSiteId}
-						serial={formData.serial}
-						activo={formData.activo}
-						employeeId={formData.employeeId}
-						observation={formData.observation}
-						errorSerial={errors.serial}
-						errorLocationId={errors.locationId}
-						errorStockNumber={errors.stockNumber}
-						errorActivo={errors.activo}
-						errorEmployeeId={errors.employeeId}
-						errorObservation={errors.observation}
-						disabledSerial={disabled.serial}
-						disabledActivo={disabled.activo}
-						disabledEmployeeId={disabled.employeeId}
-						disabledLocationId={disabled.locationId}
-						disabledStockNumber={disabled.stockNumber}
-						disabledObservation={disabled.observation}
-						requiredSerial={required.serial}
-						requiredActivo={required.activo}
-						requiredEmployeeId={required.employeeId}
-						requiredObservation={required.observation}
-						requiredLocationId={required.locationId}
-						requiredStockNumber={required.stockNumber}
-					/>
+					<Suspense>
+						<InfoMainDeviceInputs
+							handleChange={handleChange}
+							handleLocation={handleLocation}
+							mode={mode}
+							statusId={formData.statusId}
+							locationId={formData.locationId}
+							stockNumber={formData.stockNumber}
+							typeOfSiteId={formData.typeOfSiteId}
+							serial={formData.serial}
+							activo={formData.activo}
+							employeeId={formData.employeeId}
+							observation={formData.observation}
+							errorSerial={errors.serial}
+							errorLocationId={errors.locationId}
+							errorStockNumber={errors.stockNumber}
+							errorActivo={errors.activo}
+							errorEmployeeId={errors.employeeId}
+							errorObservation={errors.observation}
+							disabledSerial={disabled.serial}
+							disabledActivo={disabled.activo}
+							disabledEmployeeId={disabled.employeeId}
+							disabledLocationId={disabled.locationId}
+							disabledStockNumber={disabled.stockNumber}
+							disabledObservation={disabled.observation}
+							requiredSerial={required.serial}
+							requiredActivo={required.activo}
+							requiredEmployeeId={required.employeeId}
+							requiredObservation={required.observation}
+							requiredLocationId={required.locationId}
+							requiredStockNumber={required.stockNumber}
+						/>
+					</Suspense>
 				</div>
 				{/* Clasificacion Principal */}
-				<div className="flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4">
+				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
 						Clasificación del dispositivo
 					</Typography>
-					<ClasifyMainDeviceInputs
-						handleChange={handleChange}
-						handleModel={handleModel}
-						mode={mode}
-						statusId={formData.statusId}
-						mainCategoryId={formData.mainCategoryId}
-						categoryId={formData.categoryId}
-						brandId={formData.brandId}
-						modelId={formData.modelId}
-						errorStatusId={errors.statusId}
-						errorMainCategoryId={errors.mainCategoryId}
-						errorCategoryId={errors.categoryId}
-						errorBrandId={errors.brandId}
-						errorModelId={errors.modelId}
-						disabledStatusId={disabled.statusId}
-						disabledMainCategoryId={disabled.mainCategoryId}
-						disabledCategoryId={disabled.categoryId}
-						disabledBrandId={disabled.brandId}
-						disabledModelId={disabled.modelId}
-						requiredStatusId={required.statusId}
-						requiredMainCategoryId={required.mainCategoryId}
-						requiredCategoryId={required.categoryId}
-						requiredBrandId={required.brandId}
-						requiredModelId={required.modelId}
-					/>
+					<Suspense>
+						<ClasifyMainDeviceInputs
+							handleChange={handleChange}
+							handleModel={handleModel}
+							mode={mode}
+							statusId={formData.statusId}
+							mainCategoryId={formData.mainCategoryId}
+							categoryId={formData.categoryId}
+							brandId={formData.brandId}
+							modelId={formData.modelId}
+							errorStatusId={errors.statusId}
+							errorMainCategoryId={errors.mainCategoryId}
+							errorCategoryId={errors.categoryId}
+							errorBrandId={errors.brandId}
+							errorModelId={errors.modelId}
+							disabledStatusId={disabled.statusId}
+							disabledMainCategoryId={disabled.mainCategoryId}
+							disabledCategoryId={disabled.categoryId}
+							disabledBrandId={disabled.brandId}
+							disabledModelId={disabled.modelId}
+							requiredStatusId={required.statusId}
+							requiredMainCategoryId={required.mainCategoryId}
+							requiredCategoryId={required.categoryId}
+							requiredBrandId={required.brandId}
+							requiredModelId={required.modelId}
+						/>
+					</Suspense>
 				</div>
 			</div>
 			{/* Informacion Adicional */}

@@ -14,6 +14,7 @@ import { MainCategoryCombobox } from '@/components/ComboBox/Sincrono/MainCategor
 import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
 import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
 import { Checkbox } from '@/components/Checkbox/Checbox'
+import { InputFallback } from '@/components/Loading/InputFallback'
 
 const AddtionalModelFeatures = lazy(async () =>
 	import('./AdditionalModelFeatures').then(m => ({ default: m.AddtionalModelFeatures }))
@@ -39,40 +40,46 @@ export const ModelInputs = memo(function ({
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="grid grid-cols-2 gap-5">
-				<div className="flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4">
+				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
 						Clasificación del dispositivo
 					</Typography>
-					<MainCategoryCombobox
-						value={formData.mainCategoryId}
-						handleChange={(_name, value) => handleChange('mainCategoryId', value)}
-						name="mainCategoryId"
-						error={errors.mainCategoryId}
-						required={required.mainCategoryId}
-						disabled={disabled.mainCategoryId}
-						readonly={mode === 'edit'}
-					/>
-					<CategoryCombobox
-						value={formData.categoryId}
-						handleChange={(_name, value) => handleChange('categoryId', value)}
-						mainCategoryId={formData.mainCategoryId}
-						name="categoryId"
-						error={errors.categoryId}
-						required={required.categoryId}
-						disabled={disabled.categoryId}
-						readonly={mode === 'edit'}
-					/>
-					<BrandCombobox
-						value={formData.brandId}
-						handleChange={(_name, value) => handleChange('brandId', value)}
-						name="brandId"
-						error={errors.brandId}
-						required={required.brandId}
-						disabled={disabled.brandId}
-						readonly={mode === 'edit'}
-					/>
+					<Suspense fallback={<InputFallback />}>
+						<MainCategoryCombobox
+							value={formData.mainCategoryId}
+							handleChange={(_name, value) => handleChange('mainCategoryId', value)}
+							name="mainCategoryId"
+							error={errors.mainCategoryId}
+							required={required.mainCategoryId}
+							disabled={disabled.mainCategoryId}
+							readonly={mode === 'edit'}
+						/>
+					</Suspense>
+					<Suspense fallback={<InputFallback />}>
+						<CategoryCombobox
+							value={formData.categoryId}
+							handleChange={(_name, value) => handleChange('categoryId', value)}
+							mainCategoryId={formData.mainCategoryId}
+							name="categoryId"
+							error={errors.categoryId}
+							required={required.categoryId}
+							disabled={disabled.categoryId}
+							readonly={mode === 'edit'}
+						/>
+					</Suspense>
+					<Suspense fallback={<InputFallback />}>
+						<BrandCombobox
+							value={formData.brandId}
+							handleChange={(_name, value) => handleChange('brandId', value)}
+							name="brandId"
+							error={errors.brandId}
+							required={required.brandId}
+							disabled={disabled.brandId}
+							readonly={mode === 'edit'}
+						/>
+					</Suspense>
 				</div>
-				<div className="flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4">
+				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
 						Información del modelo
 					</Typography>

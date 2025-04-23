@@ -1,15 +1,37 @@
-import { memo, useCallback, useState } from 'react'
+import { lazy, memo, Suspense, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
-import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
-import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
-import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
-import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
-import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
-import { VicepresidenciaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaComboBox'
+import { InputFallback } from '@/components/Loading/InputFallback'
 
-interface EmployeeOtherilterProps {
+const DirectivaCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/DirectivaComboBox').then(m => ({
+		default: m.DirectivaCombobox
+	}))
+)
+const VicepresidenciaEjecutivaCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox').then(m => ({
+		default: m.VicepresidenciaEjecutivaCombobox
+	}))
+)
+const RegionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+		default: m.RegionCombobox
+	}))
+)
+const StateCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+)
+const CityCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+)
+const VicepresidenciaCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/VicepresidenciaComboBox').then(m => ({
+		default: m.VicepresidenciaCombobox
+	}))
+)
+
+interface EmployeeOtherFilterProps {
 	name?: string
 	lastName?: string
 	email?: string
@@ -24,7 +46,7 @@ interface EmployeeOtherilterProps {
 	handleChange: (name: string, value: string | number) => void
 }
 
-export const EmployeeOtherilter = memo(
+export const EmployeeOtherFilter = memo(
 	({
 		handleChange,
 		name,
@@ -38,7 +60,7 @@ export const EmployeeOtherilter = memo(
 		stateId,
 		vicepresidenciaEjecutivaId,
 		vicepresidenciaId
-	}: EmployeeOtherilterProps) => {
+	}: EmployeeOtherFilterProps) => {
 		const [localName, setLocalName] = useState(name ?? '')
 		const [localLastName, setLocalLastName] = useState(lastName ?? '')
 		const [localEmail, setLocalEmail] = useState(email ?? '')
@@ -154,37 +176,49 @@ export const EmployeeOtherilter = memo(
 					type="search"
 					onChange={handleCedula}
 				/>
-				<DirectivaCombobox
-					name="directivaId"
-					handleChange={handleChange}
-					value={directivaId}
-				/>
-				<VicepresidenciaEjecutivaCombobox
-					name="vicepresidenciaEjecutivaId"
-					handleChange={handleChange}
-					value={vicepresidenciaEjecutivaId}
-					directivaId={directivaId}
-				/>
-				<VicepresidenciaCombobox
-					name="vicepresidenciaId"
-					handleChange={handleChange}
-					value={vicepresidenciaId}
-					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
-				/>
-				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
-				<StateCombobox
-					name="stateId"
-					handleChange={handleChange}
-					value={stateId}
-					regionId={regionId}
-				/>
-				<CityCombobox
-					name="cityId"
-					handleChange={handleChange}
-					value={cityId}
-					regionId={regionId}
-					stateId={stateId}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<DirectivaCombobox
+						name="directivaId"
+						handleChange={handleChange}
+						value={directivaId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<VicepresidenciaEjecutivaCombobox
+						name="vicepresidenciaEjecutivaId"
+						handleChange={handleChange}
+						value={vicepresidenciaEjecutivaId}
+						directivaId={directivaId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<VicepresidenciaCombobox
+						name="vicepresidenciaId"
+						handleChange={handleChange}
+						value={vicepresidenciaId}
+						vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<StateCombobox
+						name="stateId"
+						handleChange={handleChange}
+						value={stateId}
+						regionId={regionId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<CityCombobox
+						name="cityId"
+						handleChange={handleChange}
+						value={cityId}
+						regionId={regionId}
+						stateId={stateId}
+					/>
+				</Suspense>
 			</>
 		)
 	}

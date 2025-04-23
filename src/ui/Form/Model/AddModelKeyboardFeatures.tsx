@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import {
 	type Action,
 	type DefaultModel,
@@ -9,7 +9,12 @@ import {
 } from '@/core/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/hooks/useGetFormMode'
 import { Checkbox } from '@/components/Checkbox/Checbox'
-import { InputTypeCombobox } from '@/components/ComboBox/Sincrono/InputTypeComboBox'
+import { InputFallback } from '@/components/Loading/InputFallback'
+const InputTypeCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/InputTypeComboBox').then(m => ({
+		default: m.InputTypeCombobox
+	}))
+)
 
 interface Props {
 	formData: DefaultModel
@@ -20,35 +25,35 @@ interface Props {
 	handleChange: (name: Action['type'], value: any) => void
 }
 
-export const AddModelKeyboardFeatures = memo(function ({
-	handleChange,
-	disabled,
-	errors,
-	formData,
-	required
-}: Props) {
-	return (
-		<>
-			<div className="flex gap-4">
-				<InputTypeCombobox
-					value={formData.inputTypeId}
-					handleChange={(_name, value) => handleChange('inputTypeId', value)}
-					name="inputTypeId"
-					error={errors.inputTypeId}
-					required={required.inputTypeId}
-					disabled={disabled.inputTypeId}
-				/>
+export const AddModelKeyboardFeatures = memo(
+	({ handleChange, disabled, errors, formData, required }: Props) => {
+		return (
+			<>
+				<div className="flex gap-4">
+					<Suspense fallback={<InputFallback />}>
+						<InputTypeCombobox
+							value={formData.inputTypeId}
+							handleChange={(_name, value) => handleChange('inputTypeId', value)}
+							name="inputTypeId"
+							error={errors.inputTypeId}
+							required={required.inputTypeId}
+							disabled={disabled.inputTypeId}
+						/>
+					</Suspense>
 
-				<Checkbox
-					label="Tiene lector de huella"
-					text="¿Tiene lector de huella?"
-					value={formData.hasFingerPrintReader}
-					name="hasFingerPrintReader"
-					onChange={e => {
-						handleChange('hasFingerPrintReader', e.target.checked)
-					}}
-				/>
-			</div>
-		</>
-	)
-})
+					<Checkbox
+						label="Tiene lector de huella"
+						text="¿Tiene lector de huella?"
+						value={formData.hasFingerPrintReader}
+						name="hasFingerPrintReader"
+						onChange={e => {
+							handleChange('hasFingerPrintReader', e.target.checked)
+						}}
+					/>
+				</div>
+			</>
+		)
+	}
+)
+
+AddModelKeyboardFeatures.displayName = 'AddModelKeyboardFeatures'

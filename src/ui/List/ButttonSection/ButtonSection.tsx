@@ -11,12 +11,14 @@ interface ButtonSectionProps {
 	handleAdd: () => void
 	handleExportToExcel?: () => Promise<void>
 	loading?: boolean
+	filterButton?: boolean
 	handleFilter?: MouseEventHandler<HTMLButtonElement>
 }
 
 export const ButtonSection = memo(
 	({
 		loading = false,
+		filterButton = false,
 		handleFilter,
 		handleAdd,
 		handleClear,
@@ -24,7 +26,7 @@ export const ButtonSection = memo(
 		children
 	}: React.PropsWithChildren<ButtonSectionProps>) => {
 		return (
-			<section className="w-full my-4 min-h-8 flex justify-start items-start gap-2">
+			<section className="my-4 flex min-h-8 w-full items-start justify-start gap-2">
 				{handleExportToExcel && (
 					<Button
 						type="button"
@@ -63,7 +65,7 @@ export const ButtonSection = memo(
 					onClick={handleClear}
 				/>
 
-				{handleFilter && (
+				{filterButton && (
 					<Button
 						type="button"
 						color="blanco"
@@ -75,7 +77,7 @@ export const ButtonSection = memo(
 						icon={<FilterIcon width={14} className="aspect-square" />}
 					/>
 				)}
-				<div className="w-56 ml-auto">{children}</div>
+				<div className="ml-auto w-56">{children}</div>
 			</section>
 		)
 	}

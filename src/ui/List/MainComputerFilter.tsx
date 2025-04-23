@@ -2,6 +2,7 @@ import { lazy, memo, Suspense, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { InputFallback } from '@/components/Loading/InputFallback'
+import { Input } from '@/components/Input/Input'
 
 const CategoryCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
@@ -13,7 +14,6 @@ const EmployeeCombobox = lazy(() =>
 		default: m.EmployeeCombobox
 	}))
 )
-const Input = lazy(() => import('@/components/Input/Input').then(m => ({ default: m.Input })))
 const LocationCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
 		default: m.LocationCombobox
@@ -90,15 +90,13 @@ export const MainComputerFilter = memo(function ({
 				/>
 			</Suspense>
 
-			<Suspense fallback={<InputFallback />}>
-				<Input
-					value={localSerial}
-					label="Serial"
-					name="serial"
-					type="search"
-					onChange={handleSerial}
-				/>
-			</Suspense>
+			<Input
+				value={localSerial}
+				label="Serial"
+				name="serial"
+				type="search"
+				onChange={handleSerial}
+			/>
 
 			<Suspense fallback={<InputFallback />}>
 				<LocationCombobox

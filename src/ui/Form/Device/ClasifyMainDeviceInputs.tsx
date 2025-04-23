@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -7,11 +7,33 @@ import {
 	type DevicesErrors
 } from '@/core/devices/devices/infra/reducers/devicesFormReducer'
 import { type FormMode } from '@/hooks/useGetFormMode'
-import { StatusCombobox } from '@/components/ComboBox/Sincrono/StatusComboBox'
-import { MainCategoryCombobox } from '@/components/ComboBox/Sincrono/MainCategoryComboBox'
-import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
-import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
-import { ModelCombobox } from '@/components/ComboBox/Asincrono/ModelComboBox'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const StatusCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/StatusComboBox').then(m => ({
+		default: m.StatusCombobox
+	}))
+)
+const MainCategoryCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/MainCategoryComboBox').then(m => ({
+		default: m.MainCategoryCombobox
+	}))
+)
+const CategoryCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
+		default: m.CategoryCombobox
+	}))
+)
+const BrandCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
+		default: m.BrandCombobox
+	}))
+)
+const ModelCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
+		default: m.ModelCombobox
+	}))
+)
 
 interface Props {
 	mode: FormMode
@@ -76,54 +98,64 @@ export const ClasifyMainDeviceInputs = memo(function ({
 }: Props) {
 	return (
 		<>
-			<StatusCombobox
-				value={statusId}
-				handleChange={(_name, value) => handleChange('statusId', value)}
-				name="statusId"
-				error={errorStatusId}
-				required={requiredStatusId}
-				disabled={disabledStatusId}
-			/>
-			<MainCategoryCombobox
-				value={mainCategoryId}
-				handleChange={(_name, value) => handleChange('mainCategoryId', value)}
-				name="mainCategoryId"
-				error={errorMainCategoryId}
-				required={requiredMainCategoryId}
-				disabled={disabledMainCategoryId}
-				readonly={mode === 'edit'}
-			/>
-			<CategoryCombobox
-				value={categoryId}
-				handleChange={(_name, value) => handleChange('categoryId', value)}
-				mainCategoryId={mainCategoryId}
-				name="categoryId"
-				error={errorCategoryId}
-				required={requiredCategoryId}
-				disabled={disabledCategoryId}
-				readonly={mode === 'edit'}
-			/>
-			<BrandCombobox
-				value={brandId}
-				handleChange={(_name, value) => handleChange('brandId', value)}
-				name="brandId"
-				error={errorBrandId}
-				required={requiredBrandId}
-				disabled={disabledBrandId}
-				readonly={mode === 'edit'}
-			/>
-			<ModelCombobox
-				value={modelId}
-				handleFormChange={handleModel}
-				brandId={brandId}
-				categoryId={categoryId}
-				name="modelId"
-				method="form"
-				readonly={mode === 'edit'}
-				error={errorModelId}
-				required={requiredModelId}
-				disabled={disabledModelId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<StatusCombobox
+					value={statusId}
+					handleChange={(_name, value) => handleChange('statusId', value)}
+					name="statusId"
+					error={errorStatusId}
+					required={requiredStatusId}
+					disabled={disabledStatusId}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<MainCategoryCombobox
+					value={mainCategoryId}
+					handleChange={(_name, value) => handleChange('mainCategoryId', value)}
+					name="mainCategoryId"
+					error={errorMainCategoryId}
+					required={requiredMainCategoryId}
+					disabled={disabledMainCategoryId}
+					readonly={mode === 'edit'}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<CategoryCombobox
+					value={categoryId}
+					handleChange={(_name, value) => handleChange('categoryId', value)}
+					mainCategoryId={mainCategoryId}
+					name="categoryId"
+					error={errorCategoryId}
+					required={requiredCategoryId}
+					disabled={disabledCategoryId}
+					readonly={mode === 'edit'}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<BrandCombobox
+					value={brandId}
+					handleChange={(_name, value) => handleChange('brandId', value)}
+					name="brandId"
+					error={errorBrandId}
+					required={requiredBrandId}
+					disabled={disabledBrandId}
+					readonly={mode === 'edit'}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<ModelCombobox
+					value={modelId}
+					handleFormChange={handleModel}
+					brandId={brandId}
+					categoryId={categoryId}
+					name="modelId"
+					method="form"
+					readonly={mode === 'edit'}
+					error={errorModelId}
+					required={requiredModelId}
+					disabled={disabledModelId}
+				/>
+			</Suspense>
 		</>
 	)
 })

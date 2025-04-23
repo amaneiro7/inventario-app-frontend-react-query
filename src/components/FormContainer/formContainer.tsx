@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo, Suspense } from 'react'
 import { DetailsWrapper } from '../DetailsWrapper/DetailsWrapper'
 import { DetailsBoxWrapper } from '../DetailsWrapper/DetailsBoxWrapper'
 import Typography from '../Typography'
@@ -8,10 +8,8 @@ import { FormComponent } from './FormComponent'
 import { Tag } from '../Tag'
 import { AddIcon } from '@/icon/AddIcon'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
+import { SearchSection } from './SearchSection'
 
-const SearchSection = lazy(() =>
-	import('./SearchSection').then(m => ({ default: m.SearchSection }))
-)
 interface Props {
 	id: string
 	title: string

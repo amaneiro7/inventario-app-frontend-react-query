@@ -1,13 +1,34 @@
-import { memo, useCallback, useState } from 'react'
+import { lazy, memo, Suspense, useCallback, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
-import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/DepartamentoComboBox'
-import { EmployeeTypeCombobox } from '@/components/ComboBox/Sincrono/EmployeeTypeComboBox'
-import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
-import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
-import { IsStillWorkingCombobox } from '@/components/ComboBox/Sincrono/IsStillWorkinfComboBox'
 import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
+import { InputFallback } from '@/components/Loading/InputFallback'
+const IsStillWorkingCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/IsStillWorkinfComboBox').then(m => ({
+		default: m.IsStillWorkingCombobox
+	}))
+)
+const DepartamentoCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/DepartamentoComboBox').then(m => ({
+		default: m.DepartamentoCombobox
+	}))
+)
+const EmployeeTypeCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/EmployeeTypeComboBox').then(m => ({
+		default: m.EmployeeTypeCombobox
+	}))
+)
+const CargoCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/CargoComboBox').then(m => ({
+		default: m.CargoCombobox
+	}))
+)
+const LocationCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+		default: m.LocationCombobox
+	}))
+)
 
 interface EmployeeMainFilterProps {
 	userName?: string
@@ -64,34 +85,44 @@ export const EmployeeMainFilter = memo(
 					type="search"
 					onChange={handleUserName}
 				/>
-				<IsStillWorkingCombobox
-					handleChange={handleChange}
-					name="isStillWorking"
-					value={
-						isStillWorking === undefined || isStillWorking === null
-							? 'all'
-							: String(isStillWorking)
-					}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<IsStillWorkingCombobox
+						handleChange={handleChange}
+						name="isStillWorking"
+						value={
+							isStillWorking === undefined || isStillWorking === null
+								? 'all'
+								: String(isStillWorking)
+						}
+					/>
+				</Suspense>
 
-				<EmployeeTypeCombobox name="type" handleChange={handleChange} value={type} />
-				<DepartamentoCombobox
-					name="departamentoId"
-					handleChange={handleChange}
-					value={departamentoId}
-					vicepresidenciaId={vicepresidenciaId}
-				/>
-				<CargoCombobox name="cargoId" handleChange={handleChange} value={cargoId} />
-				<LocationCombobox
-					method="search"
-					name="locationId"
-					handleChange={handleChange}
-					value={locationId}
-					cityId={cityId}
-					stateId={stateId}
-					regionId={regionId}
-					statusId={StatusOptions.INUSE}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<EmployeeTypeCombobox name="type" handleChange={handleChange} value={type} />
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<DepartamentoCombobox
+						name="departamentoId"
+						handleChange={handleChange}
+						value={departamentoId}
+						vicepresidenciaId={vicepresidenciaId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<CargoCombobox name="cargoId" handleChange={handleChange} value={cargoId} />
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<LocationCombobox
+						method="search"
+						name="locationId"
+						handleChange={handleChange}
+						value={locationId}
+						cityId={cityId}
+						stateId={stateId}
+						regionId={regionId}
+						statusId={StatusOptions.INUSE}
+					/>
+				</Suspense>
 			</>
 		)
 	}

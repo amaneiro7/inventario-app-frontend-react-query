@@ -1,3 +1,4 @@
+import { memo, lazy, Suspense } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -5,12 +6,21 @@ import {
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { EmployeeCombobox } from '@/components/ComboBox/Asincrono/EmployeeComboBox'
-import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { Input } from '@/components/Input/Input'
-import { memo } from 'react'
 import { type FormMode } from '@/hooks/useGetFormMode'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const EmployeeCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
+		default: m.EmployeeCombobox
+	}))
+)
+const LocationCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+		default: m.LocationCombobox
+	}))
+)
 
 interface Props {
 	mode: FormMode
@@ -110,24 +120,28 @@ export const InfoMainDeviceInputs = memo(function ({
 				required={requiredActivo}
 				disabled={disabledActivo}
 			/>
-			<EmployeeCombobox
-				value={employeeId ?? ''}
-				handleChange={(_name, value) => handleChange('employeeId', value)}
-				name="employeeId"
-				error={errorEmployeeId}
-				required={requiredEmployeeId}
-				disabled={disabledEmployeeId}
-			/>
-			<LocationCombobox
-				value={locationId ?? ''}
-				statusId={statusId}
-				handleFormChange={handleLocation}
-				name="locationId"
-				method="form"
-				error={errorLocationId}
-				required={requiredLocationId}
-				disabled={disabledLocationId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<EmployeeCombobox
+					value={employeeId ?? ''}
+					handleChange={(_name, value) => handleChange('employeeId', value)}
+					name="employeeId"
+					error={errorEmployeeId}
+					required={requiredEmployeeId}
+					disabled={disabledEmployeeId}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<LocationCombobox
+					value={locationId ?? ''}
+					statusId={statusId}
+					handleFormChange={handleLocation}
+					name="locationId"
+					method="form"
+					error={errorLocationId}
+					required={requiredLocationId}
+					disabled={disabledLocationId}
+				/>
+			</Suspense>
 			{typeOfSiteId === TypeOfSiteOptions.ALMACEN ? (
 				<Input
 					value={stockNumber ?? ''}

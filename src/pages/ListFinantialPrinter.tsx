@@ -1,14 +1,21 @@
-import { useRef } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 import { useFinantialPrinterFilter } from '@/core/devices/devices/infra/hook/useFinantialPrinterFilters'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
-import { MainComputerFilter } from '@/ui/List/MainComputerFilter'
-import { DefaultDeviceFilter } from '@/ui/List/DefaultDeviceFilter'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableFinantialWrapper } from '@/ui/List/finantialPrinter/TableFinantialWrapper'
+import { Loading } from '@/components/Loading'
+
+const DefaultDeviceFilter = lazy(() =>
+	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+)
+
+const MainComputerFilter = lazy(() =>
+	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+)
 
 export default function ListFinantialPrinter() {
 	const filterAsideRef = useRef<FilterAsideRef>(null)
@@ -30,7 +37,7 @@ export default function ListFinantialPrinter() {
 	}
 
 	return (
-		<>
+		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
 					<MainComputerFilter
@@ -45,17 +52,19 @@ export default function ListFinantialPrinter() {
 						handleChange={handleChange}
 					/>
 					<FilterAside ref={filterAsideRef}>
-						<DefaultDeviceFilter
-							activo={query.activo}
-							statusId={query.statusId}
-							brandId={query.brandId}
-							modelId={query.modelId}
-							categoryId={query.categoryId}
-							stateId={query.stateId}
-							regionId={query.regionId}
-							cityId={query.cityId}
-							handleChange={handleChange}
-						/>
+						<Suspense>
+							<DefaultDeviceFilter
+								activo={query.activo}
+								statusId={query.statusId}
+								brandId={query.brandId}
+								modelId={query.modelId}
+								categoryId={query.categoryId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								cityId={query.cityId}
+								handleChange={handleChange}
+							/>
+						</Suspense>
 					</FilterAside>
 				</FilterSection>
 				<ButtonSection
@@ -65,6 +74,7 @@ export default function ListFinantialPrinter() {
 					handleAdd={() => {
 						navigate('/device/add')
 					}}
+					filterButton
 					handleFilter={filterAsideRef.current?.handleOpen}
 				/>
 			</DetailsBoxWrapper>
@@ -75,6 +85,6 @@ export default function ListFinantialPrinter() {
 				handleSort={handleSort}
 				query={query}
 			/>
-		</>
+		</Suspense>
 	)
 }

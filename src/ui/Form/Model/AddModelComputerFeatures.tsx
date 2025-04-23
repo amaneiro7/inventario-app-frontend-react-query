@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo } from 'react'
-import { MemoryRamTypeCombobox } from '@/components/ComboBox/Sincrono/MemoryRamTypeComboBox'
+import { lazy, memo, Suspense } from 'react'
 import {
 	type Action,
 	type DefaultModel,
@@ -9,10 +8,17 @@ import {
 	type ModelRequired
 } from '@/core/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/hooks/useGetFormMode'
-import { Input } from '@/components/Input/Input'
-import { MemoryRamSlotQuantity } from '@/core/model/models/domain/value-object/MemoryRamSlotQuantity'
-import { Checkbox } from '@/components/Checkbox/Checbox'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
+import { Input } from '@/components/Input/Input'
+import { Checkbox } from '@/components/Checkbox/Checbox'
+import { MemoryRamSlotQuantity } from '@/core/model/models/domain/value-object/MemoryRamSlotQuantity'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const MemoryRamTypeCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/MemoryRamTypeComboBox').then(m => ({
+		default: m.MemoryRamTypeCombobox
+	}))
+)
 
 interface Props {
 	formData: DefaultModel
@@ -33,14 +39,16 @@ export const AddModelComputerFeatures = memo(function ({
 	return (
 		<>
 			<div className="flex gap-4">
-				<MemoryRamTypeCombobox
-					value={formData.memoryRamTypeId}
-					handleChange={(_name, value) => handleChange('memoryRamTypeId', value)}
-					name="memoryRamTypeId"
-					error={errors.memoryRamTypeId}
-					required={required.memoryRamTypeId}
-					disabled={disabled.memoryRamTypeId}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<MemoryRamTypeCombobox
+						value={formData.memoryRamTypeId}
+						handleChange={(_name, value) => handleChange('memoryRamTypeId', value)}
+						name="memoryRamTypeId"
+						error={errors.memoryRamTypeId}
+						required={required.memoryRamTypeId}
+						disabled={disabled.memoryRamTypeId}
+					/>
+				</Suspense>
 				<Input
 					value={formData.memoryRamSlotQuantity}
 					name="memoryRamSlotQuantity"
@@ -56,7 +64,7 @@ export const AddModelComputerFeatures = memo(function ({
 					max={MemoryRamSlotQuantity.MAX}
 				/>
 			</div>
-			<div className="grid md:grid-cols-3 grid-flow-row gap-4">
+			<div className="grid grid-flow-row gap-4 md:grid-cols-3">
 				<Checkbox
 					label="Tiene puerto VGA"
 					text="¿Tiene puerto VGA?"
@@ -120,3 +128,5 @@ export const AddModelComputerFeatures = memo(function ({
 		</>
 	)
 })
+
+AddModelComputerFeatures.displayName = 'AddModelComputerFeatures'

@@ -1,10 +1,26 @@
-import { memo, useState } from 'react'
+import { lazy, memo, Suspense, useState } from 'react'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { EmployeeCombobox } from '@/components/ComboBox/Asincrono/EmployeeComboBox'
-import { HistoryActionCombobox } from '@/components/ComboBox/Sincrono/HistoryAction'
-import { DeviceCombobox } from '@/components/ComboBox/Asincrono/DeviceComboBox'
-import { UserCombobox } from '@/components/ComboBox/Sincrono/UserComboBox'
 import { Input } from '@/components/Input/Input'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const EmployeeCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
+		default: m.EmployeeCombobox
+	}))
+)
+const HistoryActionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/HistoryAction').then(m => ({
+		default: m.HistoryActionCombobox
+	}))
+)
+const DeviceCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/DeviceComboBox').then(m => ({
+		default: m.DeviceCombobox
+	}))
+)
+const UserCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/UserComboBox').then(m => ({ default: m.UserCombobox }))
+)
 
 export const MainHistoryFilter = memo(function ({
 	handleChange,
@@ -46,10 +62,22 @@ export const MainHistoryFilter = memo(function ({
 	}, [endDate])
 	return (
 		<>
-			<UserCombobox name="userId" handleChange={handleChange} value={userId} />
-			<EmployeeCombobox name="employeeId" handleChange={handleChange} value={employeeId} />
-			<HistoryActionCombobox name="action" handleChange={handleChange} value={action} />
-			<DeviceCombobox name="deviceId" handleChange={handleChange} value={deviceId} />
+			<Suspense fallback={<InputFallback />}>
+				<UserCombobox name="userId" handleChange={handleChange} value={userId} />
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<EmployeeCombobox
+					name="employeeId"
+					handleChange={handleChange}
+					value={employeeId}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<HistoryActionCombobox name="action" handleChange={handleChange} value={action} />
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<DeviceCombobox name="deviceId" handleChange={handleChange} value={deviceId} />
+			</Suspense>
 			<Input
 				label="Fecha de inicio"
 				name="startDate"

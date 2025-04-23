@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -6,13 +6,37 @@ import {
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { OperatingSystemCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemComboBox'
-import { OperatingSystemArqCombobox } from '@/components/ComboBox/Sincrono/OperatingSystemArqComboBox'
-import { ProcessorCombobox } from '@/components/ComboBox/Asincrono/ProcessorComboBox'
-import { HardDriveCapacityCombobox } from '@/components/ComboBox/Sincrono/HardDriveCapacityComboBox'
-import { HardDriveTypeCombobox } from '@/components/ComboBox/Sincrono/HardDriveTypeComboBox'
-import { MemoryRamCapacitySlotInput } from './MemoryRamCapacitySlotInput'
 import { Input } from '@/components/Input/Input'
+import { InputFallback } from '@/components/Loading/InputFallback'
+
+const OperatingSystemCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/OperatingSystemComboBox').then(m => ({
+		default: m.OperatingSystemCombobox
+	}))
+)
+const OperatingSystemArqCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/OperatingSystemArqComboBox').then(m => ({
+		default: m.OperatingSystemArqCombobox
+	}))
+)
+const ProcessorCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/ProcessorComboBox').then(m => ({
+		default: m.ProcessorCombobox
+	}))
+)
+const HardDriveCapacityCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/HardDriveCapacityComboBox').then(m => ({
+		default: m.HardDriveCapacityCombobox
+	}))
+)
+const HardDriveTypeCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/HardDriveTypeComboBox').then(m => ({
+		default: m.HardDriveTypeCombobox
+	}))
+)
+const MemoryRamCapacitySlotInput = lazy(() =>
+	import('./MemoryRamCapacitySlotInput').then(m => ({ default: m.MemoryRamCapacitySlotInput }))
+)
 
 interface Props {
 	computerName: DefaultDevice['computerName']
@@ -102,16 +126,18 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 				/>
 			</div>
 
-			<ProcessorCombobox
-				value={props.processorId ?? ''}
-				handleChange={(_name, value) => handleChange('processorId', value)}
-				name="processorId"
-				error={props.errorsProcessorId}
-				required={props.requiredProcessorId}
-				disabled={props.disabledProcessorId}
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<ProcessorCombobox
+					value={props.processorId ?? ''}
+					handleChange={(_name, value) => handleChange('processorId', value)}
+					name="processorId"
+					error={props.errorsProcessorId}
+					required={props.requiredProcessorId}
+					disabled={props.disabledProcessorId}
+				/>
+			</Suspense>
 
-			<div className="grid md:grid-cols-2 gap-4">
+			<div className="grid gap-4 md:grid-cols-2">
 				<div className="grid grid-cols-2 gap-4">
 					{props.memoryRam.length > 0
 						? props.memoryRam?.map((_, index) => (
@@ -121,7 +147,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 									onChange={handleMemory}
 									value={props.memoryRam[index]}
 								/>
-						  ))
+							))
 						: null}
 				</div>
 				<div className="flex gap-4">
@@ -153,48 +179,62 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 					/>
 				</div>
 			</div>
-			<div className="grid md:grid-cols-3 gap-4">
+			<div className="grid gap-4 md:grid-cols-3">
 				<div className="col-span-2">
-					<HardDriveCapacityCombobox
-						value={props.hardDriveCapacityId ?? ''}
-						handleChange={(_name, value) => handleChange('hardDriveCapacityId', value)}
-						name="hardDriveCapacityId"
-						error={props.errorsHardDriveCapacityId}
-						required={props.requiredHardDriveCapacityId}
-						disabled={props.disabledHardDriveCapacityId}
-					/>
+					<Suspense fallback={<InputFallback />}>
+						<HardDriveCapacityCombobox
+							value={props.hardDriveCapacityId ?? ''}
+							handleChange={(_name, value) =>
+								handleChange('hardDriveCapacityId', value)
+							}
+							name="hardDriveCapacityId"
+							error={props.errorsHardDriveCapacityId}
+							required={props.requiredHardDriveCapacityId}
+							disabled={props.disabledHardDriveCapacityId}
+						/>
+					</Suspense>
 				</div>
 				<div>
-					<HardDriveTypeCombobox
-						value={props.hardDriveTypeId ?? ''}
-						handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
-						name="hardDriveTypeId"
-						error={props.errorsHardDriveTypeId}
-						required={props.requiredHardDriveTypeId}
-						disabled={props.disabledHardDriveTypeId}
-					/>
+					<Suspense fallback={<InputFallback />}>
+						<HardDriveTypeCombobox
+							value={props.hardDriveTypeId ?? ''}
+							handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
+							name="hardDriveTypeId"
+							error={props.errorsHardDriveTypeId}
+							required={props.requiredHardDriveTypeId}
+							disabled={props.disabledHardDriveTypeId}
+						/>
+					</Suspense>
 				</div>
 			</div>
-			<div className="grid md:grid-cols-3 gap-4">
+			<div className="grid gap-4 md:grid-cols-3">
 				<div className="col-span-2">
-					<OperatingSystemCombobox
-						value={props.operatingSystemId ?? ''}
-						handleChange={(_name, value) => handleChange('operatingSystemId', value)}
-						name="operatingSystemId"
-						error={props.errorsOperatingSystemId}
-						required={props.requiredOperatingSystemId}
-						disabled={props.disabledOperatingSystemId}
-					/>
+					<Suspense fallback={<InputFallback />}>
+						<OperatingSystemCombobox
+							value={props.operatingSystemId ?? ''}
+							handleChange={(_name, value) =>
+								handleChange('operatingSystemId', value)
+							}
+							name="operatingSystemId"
+							error={props.errorsOperatingSystemId}
+							required={props.requiredOperatingSystemId}
+							disabled={props.disabledOperatingSystemId}
+						/>
+					</Suspense>
 				</div>
 				<div>
-					<OperatingSystemArqCombobox
-						value={props.operatingSystemArqId ?? ''}
-						handleChange={(_name, value) => handleChange('operatingSystemArqId', value)}
-						name="operatingSystemArqId"
-						error={props.errorsOperatingSystemArqId}
-						required={props.requiredOperatingSystemArqId}
-						disabled={props.disabledOperatingSystemArqId}
-					/>
+					<Suspense fallback={<InputFallback />}>
+						<OperatingSystemArqCombobox
+							value={props.operatingSystemArqId ?? ''}
+							handleChange={(_name, value) =>
+								handleChange('operatingSystemArqId', value)
+							}
+							name="operatingSystemArqId"
+							error={props.errorsOperatingSystemArqId}
+							required={props.requiredOperatingSystemArqId}
+							disabled={props.disabledOperatingSystemArqId}
+						/>
+					</Suspense>
 				</div>
 			</div>
 		</>

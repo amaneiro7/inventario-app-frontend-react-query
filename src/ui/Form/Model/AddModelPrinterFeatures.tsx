@@ -45,3 +45,5 @@ export const AddModelPrinterFeatures = memo(function ({
 		</>
 	)
 })
+
+AddModelPrinterFeatures.displayName = 'AddModelPrinterFeatures'

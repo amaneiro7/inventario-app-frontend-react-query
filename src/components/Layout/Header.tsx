@@ -1,4 +1,4 @@
-import { memo, Suspense, useContext, useRef } from 'react'
+import { lazy, memo, Suspense, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
@@ -7,10 +7,10 @@ import Logo from '../Logo/Logo'
 import { WelcomeTitle } from './WelcomeTitle'
 import Button from '../Button'
 import { HamburgerMenu } from './HamburgerMenu'
-import { WrapperBox } from './WrapperBox'
-import { Nav } from './Nav'
 import { ConfirmationModal } from '../Modal/ConfirmationModal'
 import { LogoutIcon } from '@/icon/LogoutIcon'
+const WrapperBox = lazy(() => import('./WrapperBox').then(m => ({ default: m.WrapperBox })))
+const Nav = lazy(() => import('./Nav').then(m => ({ default: m.Nav })))
 
 export const Header = memo(() => {
 	const location = useLocation()
@@ -22,19 +22,19 @@ export const Header = memo(() => {
 
 	return (
 		<>
-			<header className="min-h-16 h-16 md:text-sm md:border-none gap-4 flex items-center justify-between md:top-0 md:sticky z-50 bg-azul w-full shadow-lg pr-4 py-4 overflow-visible">
-				<div className="pl-8 pr-4 p-1 bg-white rounded-e-full">
+			<header className="bg-azul z-50 flex h-16 min-h-16 w-full items-center justify-between gap-4 overflow-visible py-4 pr-4 shadow-lg md:sticky md:top-0 md:border-none md:text-sm">
+				<div className="rounded-e-full bg-white p-1 pr-4 pl-8">
 					<Logo />
 				</div>
 
 				<WelcomeTitle user={user} />
 
-				<div className="flex flex-1 gap-8 items-center justify-end">
+				<div className="flex flex-1 items-center justify-end gap-8">
 					{(user?.roleId === RoleOptions.COORDINADOR ||
 						user?.roleId === RoleOptions.ADMIN) && (
 						<Link
 							to="/user-management"
-							className="text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200"
+							className="hover:text-orange hover:border-orange border-b p-1 text-xs font-medium text-white transition-colors duration-200 md:text-sm lg:text-base"
 						>
 							Gestión de Usuarios
 						</Link>
@@ -43,7 +43,7 @@ export const Header = memo(() => {
 					{/* <Link to='/dashboard' className='text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200'>Dashboard</Link> */}
 					<Link
 						to="/profile"
-						className="text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200"
+						className="hover:text-orange hover:border-orange border-b p-1 text-xs font-medium text-white transition-colors duration-200 md:text-sm lg:text-base"
 					>
 						Perfil
 					</Link>
@@ -62,8 +62,10 @@ export const Header = memo(() => {
 				</div>
 				<div className="hamburger-wrapper">
 					<HamburgerMenu key={location.key} />
-					<WrapperBox />
-					<Nav />
+					<Suspense>
+						<WrapperBox />
+						<Nav />
+					</Suspense>
 				</div>
 			</header>
 			<Suspense>

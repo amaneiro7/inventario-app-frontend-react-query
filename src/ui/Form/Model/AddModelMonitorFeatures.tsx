@@ -47,7 +47,7 @@ export const AddModelMonitorFeatures = memo(function ({
 					step={0.1}
 				/>
 			</div>
-			<div className="grid md:grid-cols-3 grid-flow-row gap-4">
+			<div className="grid grid-flow-row gap-4 md:grid-cols-3">
 				<Checkbox
 					label="Tiene puerto VGA"
 					text="¿Tiene puerto VGA?"
@@ -79,3 +79,5 @@ export const AddModelMonitorFeatures = memo(function ({
 		</>
 	)
 })
+
+AddModelMonitorFeatures.displayName = 'AddModelMonitorFeatures'

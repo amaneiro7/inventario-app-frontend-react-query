@@ -91,6 +91,7 @@ export default function ListComputer() {
 				<ButtonSection
 					handleExportToExcel={handleDownloadToExcel}
 					loading={isDownloading}
+					filterButton
 					handleClear={cleanFilters}
 					handleAdd={() => {
 						navigate('/device/add')

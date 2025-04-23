@@ -1,15 +1,22 @@
-import { lazy, memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { HardDriveCapacityCombobox } from '@/components/ComboBox/Sincrono/HardDriveCapacityComboBox'
 import { HardDriveHealth } from '@/core/devices/devices/domain/value-object/HardDriveHealth'
-import { HardDriveTypeCombobox } from '@/components/ComboBox/Sincrono/HardDriveTypeComboBox'
+import { InputFallback } from '@/components/Loading/InputFallback'
+import { Input } from '@/components/Input/Input'
 
-const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
+const HardDriveTypeCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/HardDriveTypeComboBox').then(m => ({
+		default: m.HardDriveTypeCombobox
+	}))
+)
+const HardDriveCapacityCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/HardDriveCapacityComboBox').then(m => ({
+		default: m.HardDriveCapacityCombobox
+	}))
 )
 
 interface Props {
@@ -43,18 +50,22 @@ export const AddHardDriveFeatures = memo(function ({
 				min={HardDriveHealth.MIN}
 				max={HardDriveHealth.MAX}
 			/>
-			<HardDriveCapacityCombobox
-				value={hardDriveCapacityId ?? ''}
-				handleChange={(_name, value) => handleChange('hardDriveCapacityId', value)}
-				name="hardDriveCapacityId"
-				required
-			/>
-			<HardDriveTypeCombobox
-				value={hardDriveTypeId ?? ''}
-				handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
-				name="hardDriveTypeId"
-				required
-			/>
+			<Suspense fallback={<InputFallback />}>
+				<HardDriveCapacityCombobox
+					value={hardDriveCapacityId ?? ''}
+					handleChange={(_name, value) => handleChange('hardDriveCapacityId', value)}
+					name="hardDriveCapacityId"
+					required
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<HardDriveTypeCombobox
+					value={hardDriveTypeId ?? ''}
+					handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
+					name="hardDriveTypeId"
+					required
+				/>
+			</Suspense>
 		</div>
 	)
 })
