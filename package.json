@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"deploy": "robocopy \"./dist\" \"../../html\" /MIR",
+		"deploy": "robocopy \"./dist\" \"../../nginx/html\" /MIR",
 		"lint": "eslint .",
 		"format": "prettier --write \"**/*.{ts,js,json,md}\"",
 		"preview": "vite preview"
