@@ -35,6 +35,7 @@ const FormVicepresidencia = lazy(() => import('@/pages/FormVicepresidencia'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
 const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
+const PaymentSchedules = lazy(() => import('@/pages/PaymentSchedules'))
 const ListWrapper = lazy(() => import('@/ui/ListWrapper'))
 
 export function AppRoutes() {
@@ -57,6 +58,7 @@ export function AppRoutes() {
 						</Suspense>
 					}
 				>
+					<Route path="/payment-schedules" element={<PaymentSchedules />} />
 					<Route
 						path="/list"
 						element={
