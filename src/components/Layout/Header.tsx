@@ -50,14 +50,14 @@ export const Header = memo(() => {
 
 					<Button
 						aria-label="Botón para cerrar sesión del usuario"
-						role="logout"
+						role="log"
 						color="orange"
 						size="content"
 						text="Salir"
 						onClick={() => dialogExitRef.current?.handleOpen()}
 						type="button"
 						buttonSize="medium"
-						icon={<LogoutIcon width={20} className="aspect-square" />}
+						icon={<LogoutIcon width={20} className="aspect-square" aria-hidden />}
 					/>
 				</div>
 				<div className="hamburger-wrapper">

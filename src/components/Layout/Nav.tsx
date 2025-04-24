@@ -8,6 +8,7 @@ import { Calendar } from 'lucide-react'
 export function Nav() {
 	return (
 		<nav
+			id="main-navigation"
 			style={{
 				height: 'calc(100vh - 64px)'
 			}}
