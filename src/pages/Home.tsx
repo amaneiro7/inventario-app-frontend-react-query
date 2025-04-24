@@ -1,11 +1,19 @@
-import { InventoryChart } from '@/ui/Home/InventoryChart'
-import { InventoryDistribution } from '@/ui/Home/InventoryDistribution'
-import { InventoryStatus } from '@/ui/Home/InventoryStatus'
+import { lazy, Suspense } from 'react'
+import { WelcomeHero } from '@/ui/Home/WelcomeHero'
 import { InventorySummary } from '@/ui/Home/InventorySummary'
 import { QuickActions } from '@/ui/Home/QuickAccess'
-import { RecentActivities } from '@/ui/Home/RecentActivities'
-import { WelcomeHero } from '@/ui/Home/WelcomeHero'
-import { Suspense } from 'react'
+const InventoryChart = lazy(() =>
+	import('@/ui/Home/InventoryChart').then(m => ({ default: m.InventoryChart }))
+)
+const InventoryDistribution = lazy(() =>
+	import('@/ui/Home/InventoryDistribution').then(m => ({ default: m.InventoryDistribution }))
+)
+const InventoryStatus = lazy(() =>
+	import('@/ui/Home/InventoryStatus').then(m => ({ default: m.InventoryStatus }))
+)
+const RecentActivities = lazy(() =>
+	import('@/ui/Home/RecentActivities').then(m => ({ default: m.RecentActivities }))
+)
 
 export default function Home() {
 	return (
@@ -14,14 +22,34 @@ export default function Home() {
 			<InventorySummary />
 			<QuickActions />
 			<div className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
-				<Suspense fallback={<div className="animate-pulse-medium min-h-[710px] w-full" />}>
+				<Suspense
+					fallback={
+						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+					}
+				>
 					<InventoryChart />
 				</Suspense>
-				<RecentActivities />
+				<Suspense
+					fallback={
+						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+					}
+				>
+					<RecentActivities />
+				</Suspense>
 			</div>
 			<div className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
-				<InventoryStatus />
-				<Suspense fallback={<div className="animate-pulse-medium min-h-[710px] w-full" />}>
+				<Suspense
+					fallback={
+						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+					}
+				>
+					<InventoryStatus />
+				</Suspense>
+				<Suspense
+					fallback={
+						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+					}
+				>
 					<InventoryDistribution />
 				</Suspense>
 			</div>

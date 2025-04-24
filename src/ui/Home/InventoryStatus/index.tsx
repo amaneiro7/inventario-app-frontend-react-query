@@ -5,11 +5,11 @@ import { useGetStatusDashboard } from '@/core/status/dashboard/infra/hooks/useGe
 import { StatusList } from './StatusList'
 
 export const InventoryStatus = memo(() => {
-	const { statusDashboard } = useGetStatusDashboard()
+	const { statusDashboard, isLoading } = useGetStatusDashboard()
 	const [activeTab, setActiveTab] = useState('overall')
 
-	if (!statusDashboard) {
-		return <p>...Cargando</p>
+	if (!statusDashboard || isLoading) {
+		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
 	}
 	const currentData = statusDashboard.status[activeTab as keyof typeof statusDashboard.status]
 

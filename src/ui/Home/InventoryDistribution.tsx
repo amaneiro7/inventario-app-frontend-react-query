@@ -1,7 +1,6 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo } from 'react'
 import { useGetGeneralDashboard } from '@/core/devices/dashboard/infra/hooks/useGetGeneralDashboard'
-
-const PieCard = lazy(() => import('../dashboard/PieCard').then(m => ({ default: m.PieCard })))
+import { PieCard } from '../dashboard/PieCard'
 
 const COLORS = [
 	'#3B82F6', // Blue 500
@@ -32,23 +31,21 @@ const COLORS = [
 ]
 
 export const InventoryDistribution = memo(() => {
-	const { generalDashboard } = useGetGeneralDashboard()
+	const { generalDashboard, isLoading } = useGetGeneralDashboard()
 
-	if (!generalDashboard) {
-		return <p>...Cargando</p>
+	if (!generalDashboard || isLoading) {
+		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
 	}
 
 	return (
-		<Suspense fallback={<div className="animate-pulse-medium min-h-[710px] w-full" />}>
-			<PieCard
-				data={generalDashboard.totalByCategory}
-				colors={COLORS}
-				desc="Clasificación por tipo de equipo"
-				title="Distribución de Inventario"
-				dataKey="count"
-				total={generalDashboard.totalByCategory.reduce((sum, item) => sum + item.count, 0)}
-			/>
-		</Suspense>
+		<PieCard
+			data={generalDashboard.totalByCategory}
+			colors={COLORS}
+			desc="Clasificación por tipo de equipo"
+			title="Distribución de Inventario"
+			dataKey="count"
+			total={generalDashboard.totalByCategory.reduce((sum, item) => sum + item.count, 0)}
+		/>
 	)
 })
 

@@ -15,7 +15,7 @@ import { useGetHistoryDashboard } from '@/core/history/infra/hook/useGetGeneralD
 export const InventoryChart = memo(() => {
 	const { historyDashboard, isLoading } = useGetHistoryDashboard()
 	if (!historyDashboard || isLoading) {
-		return <p>...Cargando</p>
+		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
 	}
 	return (
 		<Card className="w-full">
