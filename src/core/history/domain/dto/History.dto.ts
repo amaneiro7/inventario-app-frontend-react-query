@@ -8,12 +8,17 @@ import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
 import { type LoginUserDto } from '@/core/user/domain/dto/LoginUser.dto'
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
 
+interface Cambio {
+	oldValue: any
+	newValue: any
+}
 export interface History {
 	id: Primitives<HistoryId>
+	cambios: Record<string, Cambio>
 	deviceId: Primitives<DeviceId>
 	userId: Primitives<UserId>
 	employeeId: Primitives<EmployeeId>
-	action: Primitives<HistoryActionTypes>
+	action: HistoryActionTypes
 	oldData: object
 	newData: object
 	createdAt: string
