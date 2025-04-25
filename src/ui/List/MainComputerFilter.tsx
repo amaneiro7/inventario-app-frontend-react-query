@@ -123,7 +123,12 @@ export const MainComputerFilter = memo(function ({
 			</Suspense>
 
 			<Suspense fallback={<InputFallback />}>
-				<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
+				<RegionCombobox
+					name="regionId"
+					administrativeRegionId={administrativeRegionId}
+					handleChange={handleChange}
+					value={regionId}
+				/>
 			</Suspense>
 
 			<Suspense fallback={<InputFallback />}>
