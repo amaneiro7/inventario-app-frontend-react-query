@@ -661,7 +661,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				disabled: {
 					...state.disabled,
 					hardDriveTypeId: !hardDriveCapacityId,
-					operatingSystemArqId: !hardDriveCapacityId
+					operatingSystemId: !hardDriveCapacityId
 				},
 				errors: {
 					...state.errors,
