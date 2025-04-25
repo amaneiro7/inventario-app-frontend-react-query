@@ -15,7 +15,9 @@ export const useGetAllPartsDevices = (query: DevicePartsFilters) => {
 		data: devices
 	} = useQuery({
 		queryKey: ['devices', query],
-		queryFn: () => getAll.search(query)
+		queryFn: () => getAll.search(query),
+		staleTime: 60 * 1000,
+		refetchOnMount: true
 	})
 
 	return {

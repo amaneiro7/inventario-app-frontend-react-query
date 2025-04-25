@@ -15,7 +15,9 @@ export const useGetAllFinantialPrinterDevices = (query: DeviceFinantialPrinterFi
 		data: devices
 	} = useQuery({
 		queryKey: ['devices', query],
-		queryFn: () => getAll.search(query)
+		queryFn: () => getAll.search(query),
+		staleTime: 60 * 1000,
+		refetchOnMount: true
 	})
 
 	return {
