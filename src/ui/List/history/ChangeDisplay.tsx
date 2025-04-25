@@ -26,7 +26,7 @@ const titleMap: Record<string, any> = {
 	operatingSystemId: 'Sistema Operativo',
 	processorId: 'Procesador',
 	serial: 'Serial',
-	status: 'Estatus'
+	statusId: 'Estatus'
 }
 
 const renderValue = (value: any): string => {
