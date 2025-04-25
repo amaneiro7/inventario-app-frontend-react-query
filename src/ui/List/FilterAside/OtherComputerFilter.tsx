@@ -3,6 +3,8 @@ import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { Input } from '@/components/Input/Input'
 import { InputFallback } from '@/components/Loading/InputFallback'
+import { Divider } from '../Divider'
+import { MemoryRamTypeCombobox } from '@/components/ComboBox/Sincrono/MemoryRamTypeComboBox'
 
 const OperatingSystemCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/OperatingSystemComboBox').then(m => ({
@@ -26,6 +28,7 @@ export const OtherComputerFilter = memo(
 		operatingSystemId = '',
 		operatingSystemArqId = '',
 		hardDriveTypeId = '',
+		memoryRamTypeId = '',
 		processor = '',
 		ipAddress = '',
 		handleChange
@@ -34,6 +37,7 @@ export const OtherComputerFilter = memo(
 		operatingSystemId?: string
 		operatingSystemArqId?: string
 		hardDriveTypeId?: string
+		memoryRamTypeId?: string
 		processor?: string
 		ipAddress?: string
 		handleChange: (name: string, value: string | number) => void
@@ -80,7 +84,7 @@ export const OtherComputerFilter = memo(
 		}, [])
 		return (
 			<>
-				<hr className="border-verde" />
+				<Divider />
 				<Input
 					value={localComputerName}
 					label="Nombre del computador"
@@ -102,10 +106,25 @@ export const OtherComputerFilter = memo(
 						handleChange={handleChange}
 					/>
 				</Suspense>
+				<Input
+					name="hardDriveCapacity"
+					label="Disco Duro"
+					value={''}
+					type="number"
+					onChange={e => handleChange('hardDriveCapacity', e.target.value)}
+				/>
+
 				<Suspense fallback={<InputFallback />}>
 					<HardDriveTypeCombobox
 						name="hardDriveTypeId"
 						value={hardDriveTypeId}
+						handleChange={handleChange}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<MemoryRamTypeCombobox
+						name="memoryRamTypeId"
+						value={memoryRamTypeId}
 						handleChange={handleChange}
 					/>
 				</Suspense>

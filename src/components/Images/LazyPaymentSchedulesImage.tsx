@@ -25,6 +25,7 @@ export const LazyPaymentSchedulesImage = memo(({ ...props }: Props) => {
 				<img
 					{...props}
 					src={ImgDesktopJpg}
+					className="mx-auto aspect-video object-center"
 					alt="Calendarios de pagos, dias de fiestas y bancarios"
 					loading="lazy"
 				/>

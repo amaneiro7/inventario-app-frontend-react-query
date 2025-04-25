@@ -83,6 +83,7 @@ export default function ListComputer() {
 							handleChange={handleChange}
 							ipAddress={query.ipAddress}
 							computerName={query.computerName}
+							memoryRamTypeId={query.memoryRamTypeId}
 							operatingSystemId={query.operatingSystemId}
 							operatingSystemArqId={query.operatingSystemArqId}
 							hardDriveTypeId={query.hardDriveTypeId}

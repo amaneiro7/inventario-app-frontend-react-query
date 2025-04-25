@@ -32,6 +32,7 @@ export function useComputerFilter() {
 			'operatingSystemId',
 			'operatingSystemArqId',
 			'hardDriveTypeId',
+			'memoryRamTypeId',
 			'processor',
 			'ipAddress',
 			'orderBy',
