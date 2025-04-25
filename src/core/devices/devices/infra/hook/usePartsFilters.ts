@@ -27,6 +27,7 @@ export function usePartsFilter() {
 			'cargoId',
 			'cityId',
 			'stateId',
+			'administrativeRegionId',
 			'regionId',
 			'orderBy',
 			'orderType'

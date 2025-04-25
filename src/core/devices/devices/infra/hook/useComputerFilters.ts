@@ -27,6 +27,7 @@ export function useComputerFilter() {
 			'cargoId',
 			'cityId',
 			'stateId',
+			'administrativeRegionId',
 			'regionId',
 			'computerName',
 			'operatingSystemId',

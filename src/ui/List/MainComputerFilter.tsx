@@ -24,6 +24,11 @@ const RegionCombobox = lazy(() =>
 		default: m.RegionCombobox
 	}))
 )
+const AdministrativeRegionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/AdministrativeRegionComboBox').then(m => ({
+		default: m.AdministrativeRegionCombobox
+	}))
+)
 const DepartamentoCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/DepartamentoComboBox').then(m => ({
 		default: m.DepartamentoCombobox
@@ -37,6 +42,7 @@ export const MainComputerFilter = memo(function ({
 	mainCategoryId,
 	locationId,
 	regionId,
+	administrativeRegionId,
 	typeOfSiteId,
 	serial,
 	departamentoId,
@@ -46,6 +52,7 @@ export const MainComputerFilter = memo(function ({
 	categoryId?: string
 	mainCategoryId?: string
 	regionId?: string
+	administrativeRegionId?: string
 	locationId?: string
 	serial?: string
 	departamentoId?: string
@@ -105,6 +112,13 @@ export const MainComputerFilter = memo(function ({
 					value={locationId}
 					method="search"
 					typeOfSiteId={typeOfSiteId}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<AdministrativeRegionCombobox
+					name="administrativeRegionId"
+					handleChange={handleChange}
+					value={administrativeRegionId}
 				/>
 			</Suspense>
 

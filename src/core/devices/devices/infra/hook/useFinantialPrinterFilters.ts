@@ -27,6 +27,7 @@ export function useFinantialPrinterFilter() {
 			'cargoId',
 			'cityId',
 			'stateId',
+			'administrativeRegionId',
 			'regionId',
 			'orderBy',
 			'orderType'

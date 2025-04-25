@@ -57,6 +57,7 @@ export default function ListComputer() {
 						serial={query.serial}
 						locationId={query.locationId}
 						regionId={query.regionId}
+						administrativeRegionId={query.administrativeRegionId}
 						mainCategoryId={mainCategoryId}
 						typeOfSiteId={query.typeOfSiteId}
 						departamentoId={query.departamentoId}

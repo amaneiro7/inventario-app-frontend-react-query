@@ -28,6 +28,7 @@ export function usePrinterFilter() {
 			'cityId',
 			'stateId',
 			'regionId',
+			'administrativeRegionId',
 			'orderBy',
 			'orderType',
 			'ipAddress'

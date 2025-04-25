@@ -28,6 +28,7 @@ export function useScreenFilter() {
 			'cityId',
 			'stateId',
 			'regionId',
+			'administrativeRegionId',
 			'orderBy',
 			'orderType'
 		]

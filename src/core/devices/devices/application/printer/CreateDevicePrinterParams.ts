@@ -24,6 +24,7 @@ export interface DevicePrinterFilters {
 	cityId?: string
 	stateId?: string
 	regionId?: string
+	administrativeRegionId?: string
 	ipAddress?: string
 	pageNumber?: number
 	pageSize?: number

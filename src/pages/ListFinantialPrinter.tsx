@@ -47,6 +47,7 @@ export default function ListFinantialPrinter() {
 						locationId={query.locationId}
 						regionId={query.regionId}
 						mainCategoryId={mainCategoryId}
+						administrativeRegionId={query.administrativeRegionId}
 						typeOfSiteId={query.typeOfSiteId}
 						departamentoId={query.departamentoId}
 						handleChange={handleChange}

@@ -23,6 +23,7 @@ export interface DeviceComputerFilters {
 	cargoId?: string
 	cityId?: string
 	stateId?: string
+	administrativeRegionId?: string
 	regionId?: string
 	computerName?: string
 	operatingSystemId?: string

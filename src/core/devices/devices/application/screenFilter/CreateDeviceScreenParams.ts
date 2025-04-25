@@ -24,6 +24,7 @@ export interface DeviceScreenFilters {
 	cityId?: string
 	stateId?: string
 	regionId?: string
+	administrativeRegionId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
