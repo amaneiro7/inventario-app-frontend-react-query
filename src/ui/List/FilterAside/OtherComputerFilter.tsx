@@ -156,17 +156,16 @@ export const OtherComputerFilter = memo(
 					/>
 				</Suspense>
 				<Divider />
-				<div className="flex gap-1">
-					<div className="max-w-24">
-						<Input
-							name="memoryRamCapacity"
-							label="Memoria Ram"
-							value={localMemoryRamCapacity}
-							type="number"
-							max={64}
-							onChange={handleMemoryRamCapacity}
-						/>
-					</div>
+				<div className="grid grid-cols-[7rem_1fr] items-center gap-x-2">
+					<Input
+						name="memoryRamCapacity"
+						label="Memoria Ram"
+						value={localMemoryRamCapacity}
+						type="number"
+						max={64}
+						onChange={handleMemoryRamCapacity}
+					/>
+
 					<SelectOperatorCombobox
 						name="memoryRamCapacityOperator"
 						value={memoryRamCapacityOperator}
@@ -181,17 +180,16 @@ export const OtherComputerFilter = memo(
 					/>
 				</Suspense>
 				<Divider />
-				<div className="flex gap-1">
-					<div className="max-w-24">
-						<Input
-							name="hardDriveCapacity"
-							label="Disco Duro"
-							value={localHardDriveCapacity}
-							type="number"
-							max={8000}
-							onChange={handleHardDriveCapacity}
-						/>
-					</div>
+				<div className="grid grid-cols-[7rem_1fr] items-center gap-x-2">
+					<Input
+						name="hardDriveCapacity"
+						label="Disco Duro"
+						value={localHardDriveCapacity}
+						type="number"
+						max={8000}
+						onChange={handleHardDriveCapacity}
+					/>
+
 					<SelectOperatorCombobox
 						name="hardDriveCapacityOperator"
 						value={hardDriveCapacityOperator}

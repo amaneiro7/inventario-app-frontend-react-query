@@ -69,7 +69,7 @@ export function ListBox<O extends { id: string }, T extends string | number | re
 				) : null}
 				<ul
 					role="listbox"
-					className="flex flex-col  text-black/85 text-xs"
+					className="flex flex-col text-xs text-black/85"
 					id={`combo-box-${name}-listbox`}
 					aria-labelledby={`combo-box-${name}-label`}
 					ref={listRef}

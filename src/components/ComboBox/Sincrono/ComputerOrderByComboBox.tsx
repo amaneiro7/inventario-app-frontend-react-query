@@ -3,16 +3,16 @@ import { Combobox } from '@/components/Input/Combobox'
 import { OrderTypes } from '@/core/shared/domain/criteria/OrderType'
 
 const options = [
-	{ id: 'directivaId', name: 'Directiva' },
-	{ id: 'vicepresidenciaEjecutivaId', name: 'Vicepresidencia Ejecutiva' },
-	{ id: 'vicepresidenciaId', name: 'Vicepresidencia' },
-	{ id: 'departamentoId', name: 'Departamento' },
-	{ id: 'cargoId', name: 'Cargo' },
 	{ id: 'operatingSystemId', name: 'Sistema Operativo' },
 	{ id: 'operatingSystemArqId', name: 'Arquitectura S.O.' },
 	{ id: 'hardDriveCapacityId', name: 'Capacidad Disco' },
 	{ id: 'hardDriveTypeId', name: 'Tipo Disco' },
 	{ id: 'memoryRamCapacity', name: 'Ram' },
+	{ id: 'cargoId', name: 'Cargo' },
+	{ id: 'departamentoId', name: 'Departamento' },
+	{ id: 'vicepresidenciaId', name: 'Vicepresidencia' },
+	{ id: 'vicepresidenciaEjecutivaId', name: 'Vicepresidencia Ejecutiva' },
+	{ id: 'directivaId', name: 'Directiva' },
 	{ id: 'administrativeRegionId', name: 'Region Administrativa' },
 	{ id: 'regionId', name: 'Region' },
 	{ id: 'stateId', name: 'Estado' },

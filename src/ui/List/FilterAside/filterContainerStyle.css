@@ -17,12 +17,14 @@
 	right: 0;
 	transform: translateX(450px);
 	z-index: 20;
-	transition: all 0.3s ease-in-out, display 0.1s allow-discrete;
+	transition:
+		all 0.3s ease-in-out,
+		display 0.1s allow-discrete;
 	interpolate-size: allow-keywords;
 }
 
 .filterAside.open {
-	display: flex;
+	display: inline-flex;
 	transform: translateX(0);
 	opacity: 1;
 	@starting-style {
