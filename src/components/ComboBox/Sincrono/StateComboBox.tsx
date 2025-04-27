@@ -9,6 +9,7 @@ export function StateCombobox({
 	name,
 	regionId,
 	error = '',
+	administrativeRegionId = '',
 	required = false,
 	disabled = false,
 	readonly = false,
@@ -17,6 +18,7 @@ export function StateCombobox({
 	value?: string
 	name: string
 	regionId?: string
+	administrativeRegionId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
@@ -26,9 +28,10 @@ export function StateCombobox({
 	const [inputValue, setInputValue] = useState('')
 	const query: StateFilters = useMemo(() => {
 		return {
-			regionId
+			regionId,
+			administrativeRegionId
 		}
-	}, [value, regionId])
+	}, [value, regionId, administrativeRegionId])
 	const { states, isLoading } = useGetAllState(query)
 
 	const options = useMemo(() => states?.data ?? [], [states])

@@ -11,6 +11,7 @@ export interface CityFilters {
 	name?: CityDto['name']
 	stateId?: CityDto['stateId']
 	regionId?: CityDto['state']['regionId']
+	administrativeRegionId?: CityDto['state']['region']['administrativeRegionId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>

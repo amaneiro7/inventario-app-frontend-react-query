@@ -51,6 +51,7 @@ export function DefaultDeviceFilter({
 	cityId,
 	categoryId,
 	regionId,
+	administrativeRegionId,
 	directivaId,
 	vicepresidenciaEjecutivaId,
 	vicepresidenciaId,
@@ -65,6 +66,7 @@ export function DefaultDeviceFilter({
 	vicepresidenciaEjecutivaId?: string
 	vicepresidenciaId?: string
 	stateId?: string
+	administrativeRegionId?: string
 	regionId?: string
 	cityId?: string
 	handleChange: (name: string, value: string | number) => void
@@ -120,6 +122,7 @@ export function DefaultDeviceFilter({
 					handleChange={handleChange}
 					name="stateId"
 					regionId={regionId}
+					administrativeRegionId={administrativeRegionId}
 					value={stateId}
 				/>
 			</Suspense>
@@ -130,6 +133,7 @@ export function DefaultDeviceFilter({
 					name="cityId"
 					stateId={stateId}
 					regionId={regionId}
+					administrativeRegionId={administrativeRegionId}
 					value={cityId}
 				/>
 			</Suspense>

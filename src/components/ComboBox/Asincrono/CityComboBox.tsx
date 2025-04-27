@@ -13,12 +13,14 @@ export function CityCombobox({
 	readonly = false,
 	stateId,
 	regionId,
+	administrativeRegionId = '',
 	handleChange
 }: {
 	value?: string
 	name: string
 	stateId?: string
 	regionId?: string
+	administrativeRegionId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
@@ -33,9 +35,10 @@ export function CityCombobox({
 			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
 			...(value ? { id: value } : {}),
 			stateId,
-			regionId
+			regionId,
+			administrativeRegionId
 		}
-	}, [debouncedSearch, value, stateId, regionId])
+	}, [debouncedSearch, value, stateId, regionId, administrativeRegionId])
 
 	const { cities, isLoading } = useGetAllCity(query)
 

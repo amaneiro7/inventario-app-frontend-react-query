@@ -14,14 +14,14 @@ export enum Operator {
 }
 
 export const operatorArray = [
-	{ id: '=', name: 'es gual a' },
-	{ id: '!=', name: 'no es igual a' },
-	{ id: '>', name: 'es más grande que' },
-	{ id: '>=', name: 'es más grande o igual que' },
-	{ id: '<', name: 'es más pequeño que' },
-	{ id: '<=', name: 'es más pequeño o igual que' },
-	{ id: 'CONTAINS', name: 'contiene' },
-	{ id: 'NOT_CONTAINS', name: 'no contiene' }
+	{ id: '=', name: 'Igual a' },
+	{ id: '!=', name: 'No igual a' },
+	{ id: '>', name: 'Mayor que' },
+	{ id: '>=', name: 'Mayor o igual' },
+	{ id: '<', name: 'Menor que' },
+	{ id: '<=', name: 'Menor o igual' },
+	{ id: 'CONTAINS', name: 'Contiene' },
+	{ id: 'NOT_CONTAINS', name: 'No contiene' }
 ]
 
 export class FilterOperator extends EnumCriteriaValueObject<Operator> {

@@ -5,6 +5,8 @@ import { Input } from '@/components/Input/Input'
 import { InputFallback } from '@/components/Loading/InputFallback'
 import { Divider } from '../Divider'
 import { MemoryRamTypeCombobox } from '@/components/ComboBox/Sincrono/MemoryRamTypeComboBox'
+import { SelectOperatorCombobox } from '@/components/ComboBox/Sincrono/SelectOperator'
+import { Operator } from '@/core/shared/domain/criteria/FilterOperators'
 
 const OperatingSystemCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/OperatingSystemComboBox').then(m => ({
@@ -31,11 +33,19 @@ export const OtherComputerFilter = memo(
 		memoryRamTypeId = '',
 		processor = '',
 		ipAddress = '',
+		memoryRamCapacity = '',
+		memoryRamCapacityOperator = '',
+		hardDriveCapacity = '',
+		hardDriveCapacityOperator = '',
 		handleChange
 	}: {
 		computerName?: string
 		operatingSystemId?: string
 		operatingSystemArqId?: string
+		memoryRamCapacity?: string
+		memoryRamCapacityOperator?: string
+		hardDriveCapacity?: string
+		hardDriveCapacityOperator?: string
 		hardDriveTypeId?: string
 		memoryRamTypeId?: string
 		processor?: string
@@ -45,9 +55,18 @@ export const OtherComputerFilter = memo(
 		const [localComputerName, setLocalComputerName] = useState(computerName ?? '')
 		const [localProcessor, setLocalProcessor] = useState(processor ?? '')
 		const [localIPAddress, setLocalIPAddress] = useState(ipAddress ?? '')
+		const [localMemoryRamCapacity, setLocalMemoryRamCapacity] = useState(
+			memoryRamCapacity ?? ''
+		)
+		const [localHardDriveCapacity, setLocalHardDriveCapacity] = useState(
+			hardDriveCapacity ?? ''
+		)
+
 		const [debounceComputerName] = useDebounce(localComputerName)
 		const [debounceProcessor] = useDebounce(localProcessor)
 		const [debounceIPAddress] = useDebounce(localIPAddress)
+		const [debounceMemoryRamCapacity] = useDebounce(localMemoryRamCapacity, 100)
+		const [debounceHardDriveCapacity] = useDebounce(localHardDriveCapacity, 100)
 
 		useEffectAfterMount(() => {
 			handleChange('computerName', debounceComputerName)
@@ -59,15 +78,27 @@ export const OtherComputerFilter = memo(
 			handleChange('ipAddress', debounceIPAddress)
 		}, [debounceIPAddress])
 		useEffectAfterMount(() => {
+			handleChange('memoryRamCapacity', debounceMemoryRamCapacity)
+		}, [debounceMemoryRamCapacity])
+		useEffectAfterMount(() => {
+			handleChange('hardDriveCapacity', debounceHardDriveCapacity)
+		}, [debounceHardDriveCapacity])
+
+		useEffectAfterMount(() => {
 			if (!computerName) setLocalComputerName('')
 		}, [computerName])
 		useEffectAfterMount(() => {
 			if (!processor) setLocalProcessor('')
 		}, [processor])
-
 		useEffectAfterMount(() => {
 			if (!ipAddress) setLocalIPAddress('')
 		}, [ipAddress])
+		useEffectAfterMount(() => {
+			if (!hardDriveCapacity) setLocalHardDriveCapacity('')
+		}, [hardDriveCapacity])
+		useEffectAfterMount(() => {
+			if (!memoryRamCapacity) setLocalMemoryRamCapacity('')
+		}, [memoryRamCapacity])
 
 		const handleComputerName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
@@ -82,6 +113,23 @@ export const OtherComputerFilter = memo(
 			const value = e.target.value.trim().toUpperCase()
 			setLocalIPAddress(value)
 		}, [])
+		const handleMemoryRamCapacity = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.trim().toUpperCase()
+			setLocalMemoryRamCapacity(value)
+			if (memoryRamCapacityOperator === '' && value) {
+				handleChange('memoryRamCapacityOperator', Operator.EQUAL)
+			} else if (!value && memoryRamCapacityOperator) {
+				handleChange('memoryRamCapacityOperator', '')
+			}
+		}, [])
+		const handleHardDriveCapacity = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.trim().toUpperCase()
+			setLocalHardDriveCapacity(value)
+			if (memoryRamCapacityOperator === '') {
+				handleChange('memoryRamCapacityOperator', Operator.EQUAL)
+			}
+		}, [])
+
 		return (
 			<>
 				<Divider />
@@ -92,6 +140,7 @@ export const OtherComputerFilter = memo(
 					type="search"
 					onChange={handleComputerName}
 				/>
+				<Divider />
 				<Suspense fallback={<InputFallback />}>
 					<OperatingSystemCombobox
 						name="operatingSystemId"
@@ -106,13 +155,49 @@ export const OtherComputerFilter = memo(
 						handleChange={handleChange}
 					/>
 				</Suspense>
-				<Input
-					name="hardDriveCapacity"
-					label="Disco Duro"
-					value={''}
-					type="number"
-					onChange={e => handleChange('hardDriveCapacity', e.target.value)}
-				/>
+				<Divider />
+				<div className="flex gap-1">
+					<div className="max-w-24">
+						<Input
+							name="memoryRamCapacity"
+							label="Memoria Ram"
+							value={localMemoryRamCapacity}
+							type="number"
+							max={64}
+							onChange={handleMemoryRamCapacity}
+						/>
+					</div>
+					<SelectOperatorCombobox
+						name="memoryRamCapacityOperator"
+						value={memoryRamCapacityOperator}
+						handleChange={handleChange}
+					/>
+				</div>
+				<Suspense fallback={<InputFallback />}>
+					<MemoryRamTypeCombobox
+						name="memoryRamTypeId"
+						value={memoryRamTypeId}
+						handleChange={handleChange}
+					/>
+				</Suspense>
+				<Divider />
+				<div className="flex gap-1">
+					<div className="max-w-24">
+						<Input
+							name="hardDriveCapacity"
+							label="Disco Duro"
+							value={localHardDriveCapacity}
+							type="number"
+							max={8000}
+							onChange={handleHardDriveCapacity}
+						/>
+					</div>
+					<SelectOperatorCombobox
+						name="hardDriveCapacityOperator"
+						value={hardDriveCapacityOperator}
+						handleChange={handleChange}
+					/>
+				</div>
 
 				<Suspense fallback={<InputFallback />}>
 					<HardDriveTypeCombobox
@@ -121,13 +206,7 @@ export const OtherComputerFilter = memo(
 						handleChange={handleChange}
 					/>
 				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<MemoryRamTypeCombobox
-						name="memoryRamTypeId"
-						value={memoryRamTypeId}
-						handleChange={handleChange}
-					/>
-				</Suspense>
+				<Divider />
 				<Input
 					value={localProcessor}
 					label="Procesador"

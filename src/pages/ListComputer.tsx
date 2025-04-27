@@ -73,6 +73,7 @@ export default function ListComputer() {
 							categoryId={query.categoryId}
 							stateId={query.stateId}
 							regionId={query.regionId}
+							administrativeRegionId={query.administrativeRegionId}
 							cityId={query.cityId}
 							directivaId={query.directivaId}
 							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
@@ -83,6 +84,10 @@ export default function ListComputer() {
 						<OtherComputerFilter
 							handleChange={handleChange}
 							ipAddress={query.ipAddress}
+							memoryRamCapacity={query.memoryRamCapacity}
+							memoryRamCapacityOperator={query.memoryRamCapacityOperator}
+							hardDriveCapacity={query.hardDriveCapacity}
+							hardDriveCapacityOperator={query.hardDriveCapacityOperator}
 							computerName={query.computerName}
 							memoryRamTypeId={query.memoryRamTypeId}
 							operatingSystemId={query.operatingSystemId}

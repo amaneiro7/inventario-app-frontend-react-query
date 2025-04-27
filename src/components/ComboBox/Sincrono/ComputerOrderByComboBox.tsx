@@ -2,6 +2,23 @@ import { useMemo } from 'react'
 import { Combobox } from '@/components/Input/Combobox'
 import { OrderTypes } from '@/core/shared/domain/criteria/OrderType'
 
+const options = [
+	{ id: 'directivaId', name: 'Directiva' },
+	{ id: 'vicepresidenciaEjecutivaId', name: 'Vicepresidencia Ejecutiva' },
+	{ id: 'vicepresidenciaId', name: 'Vicepresidencia' },
+	{ id: 'departamentoId', name: 'Departamento' },
+	{ id: 'cargoId', name: 'Cargo' },
+	{ id: 'operatingSystemId', name: 'Sistema Operativo' },
+	{ id: 'operatingSystemArqId', name: 'Arquitectura S.O.' },
+	{ id: 'hardDriveCapacityId', name: 'Capacidad Disco' },
+	{ id: 'hardDriveTypeId', name: 'Tipo Disco' },
+	{ id: 'memoryRamCapacity', name: 'Ram' },
+	{ id: 'administrativeRegionId', name: 'Region Administrativa' },
+	{ id: 'regionId', name: 'Region' },
+	{ id: 'stateId', name: 'Estado' },
+	{ id: 'cityId', name: 'Ciudad' }
+]
+
 export function ComputerOrderByCombobox({
 	orderBy,
 	orderType,
@@ -13,44 +30,32 @@ export function ComputerOrderByCombobox({
 	name: string
 	handleSort: (field: string) => void
 }) {
-	const options = useMemo(() => {
-		return [
-			{ id: 'departamentoId', name: 'Por departamento' },
-			{ id: 'cargoId', name: 'Por cargo' },
-			{ id: 'operatingSystemId', name: 'Por Sistema Operativo' },
-			{ id: 'operatingSystemArqId', name: 'Por Arquitectura de Sistema Operativo' },
-			{ id: 'hardDriveCapacityId', name: 'Por Capacidad de disco duro' },
-			{ id: 'hardDriveTypeId', name: 'Por Tipo de disco duro' },
-			{ id: 'memoryRamCapacity', name: 'Por Memoria Ram' },
-			{ id: 'regionId', name: 'Por Region' },
-			{ id: 'stateId', name: 'Por Estado' },
-			{ id: 'cityId', name: 'Por Ciudad' }
-		]
-	}, [])
-
-	const orderIndicator = useMemo(() => {
-		return orderType === OrderTypes.DESC
-			? '▼'
-			: orderType === OrderTypes.ASC || orderBy
-			? '▲'
-			: '' // Indicadores visuales
+	const selectedOptionWithIndicator = useMemo(() => {
+		return options.map(option => {
+			if (option.id === orderBy) {
+				const indicator = orderType === OrderTypes.DESC ? ' ▼' : ' ▲'
+				console.log(indicator)
+				return { ...option, name: `${'✓ '}${option.name}${indicator}` }
+			}
+			return option
+		})
 	}, [orderBy, orderType])
+
+	const isSomeSelected = useMemo(() => options.find(opt => opt.id === orderBy)?.id, [orderBy])
 
 	return (
 		<div className="flex items-start">
 			<Combobox
 				id="orderBy"
 				label="Ordenar por"
-				value={orderBy ?? ''}
+				value={isSomeSelected ?? ''}
 				name={name}
-				options={options}
+				options={selectedOptionWithIndicator}
 				searchField={false}
 				onChangeValue={(_name, value) => {
-					// const newValue = value === 'orderBy' ? '' : value
 					handleSort(value)
 				}}
 			/>
-			<span className="transition-all min-w-3 ml-2 mt-2">{orderIndicator}</span>
 		</div>
 	)
 }

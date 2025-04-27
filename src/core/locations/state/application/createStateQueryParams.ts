@@ -10,6 +10,7 @@ export interface StateFilters {
 	id?: StateDto['id']
 	name?: StateDto['name']
 	regionId?: StateDto['regionId']
+	administrativeRegionId?: StateDto['region']['administrativeRegionId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
