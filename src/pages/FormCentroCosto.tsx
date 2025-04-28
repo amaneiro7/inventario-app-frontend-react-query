@@ -19,7 +19,6 @@ export default function FormCentroCosto() {
 	return (
 		<FormContainer
 			id={key}
-			title="Centro de Costo"
 			description="Ingrese los datos del cenrto de costo el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -27,7 +26,7 @@ export default function FormCentroCosto() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/centrocosto/add"
+			url="form/centrocosto/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<CentroCostoSearch />}

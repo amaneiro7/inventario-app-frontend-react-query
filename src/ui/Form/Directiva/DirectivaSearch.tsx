@@ -28,7 +28,7 @@ export function DirectivaSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/directiva/edit/${value}`}
+			url={`/form/directiva/edit/${value}`}
 			name="directivaSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

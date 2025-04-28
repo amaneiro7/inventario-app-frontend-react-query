@@ -19,7 +19,7 @@ export const EmployeeDescription = memo(
 					open={open}
 					state={employee}
 					stateId={employee.id}
-					url={`/employee/edit/${employee.id}`}
+					url={`/form/employee/edit/${employee.id}`}
 					colspan={colSpan}
 				>
 					<TableCellDescInfo title="Tipo de usuario" text={employee?.type} />
@@ -106,7 +106,7 @@ export const EmployeeDescription = memo(
 							employee.updatedAt
 								? `${new Date(
 										employee.updatedAt
-								  ).toLocaleDateString()} (${getRelativeTime(employee.updatedAt)})`
+									).toLocaleDateString()} (${getRelativeTime(employee.updatedAt)})`
 								: 'Sin Actualización'
 						}
 					/>

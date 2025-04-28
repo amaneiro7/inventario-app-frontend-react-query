@@ -80,22 +80,22 @@ export const navigation: Navigation[] = [
 		navs: [
 			{
 				title: 'Agregar un nuevo dispositivo',
-				path: '/device/add',
+				path: '/form/device/add',
 				desc: 'Formulario para registrar un nuevo dispositivo en el sistema.'
 			},
 			{
 				title: 'Agregar un nuevo Modelo',
-				path: '/model/add',
+				path: '/form/model/add',
 				desc: 'Formulario para registrar un nuevo modelo de dispositivo.'
 			},
 			{
 				title: 'Agregar un nueva Marca',
-				path: '/brand/add',
+				path: '/form/brand/add',
 				desc: 'Formulario para registrar una nueva marca de dispositivos.'
 			},
 			{
 				title: 'Agregar un nuevo Procesador',
-				path: '/processors/add',
+				path: '/form/processors/add',
 				desc: 'Formulario para registrar un nuevo tipo de procesador.'
 			}
 		]
@@ -105,32 +105,32 @@ export const navigation: Navigation[] = [
 		navs: [
 			{
 				title: 'Agregar un nuevo usuario',
-				path: '/employee/add',
+				path: '/form/employee/add',
 				desc: 'Formulario para registrar un nuevo empleado o usuario del sistema.'
 			},
 			{
 				title: 'Agregar una nueva directiva',
-				path: '/directiva/add',
+				path: '/form/directiva/add',
 				desc: 'Formulario para registrar una nueva directiva organizacional.'
 			},
 			{
 				title: 'Agregar una nueva V.P.E.',
-				path: '/vicepresidenciaejecutiva/add',
+				path: '/form/vicepresidenciaejecutiva/add',
 				desc: 'Formulario para registrar una nueva Vicepresidencia Ejecutiva.'
 			},
 			{
 				title: 'Agregar una nueva V.P.',
-				path: '/vicepresidencia/add',
+				path: '/form/vicepresidencia/add',
 				desc: 'Formulario para registrar una nueva Vicepresidencia.'
 			},
 			{
 				title: 'Agregar un nuevo departamento',
-				path: '/departamento/add',
+				path: '/form/departamento/add',
 				desc: 'Formulario para registrar un nuevo departamento dentro de la organización.'
 			},
 			{
 				title: 'Agregar un nuevo cargo',
-				path: '/cargo/add',
+				path: '/form/cargo/add',
 				desc: 'Formulario para registrar un nuevo cargo o puesto de trabajo.'
 			}
 		]
@@ -140,22 +140,22 @@ export const navigation: Navigation[] = [
 		navs: [
 			{
 				title: 'Agregar una nueva ubicación',
-				path: '/location/add',
+				path: '/form/location/add',
 				desc: 'Formulario para registrar una nueva ubicación física.'
 			},
 			{
 				title: 'Agregar una nuevo sitio',
-				path: '/site/add',
+				path: '/form/site/add',
 				desc: 'Formulario para registrar un nuevo sitio específico dentro de una ubicación.'
 			},
 			{
 				title: 'Agregar una nueva ciudad',
-				path: '/city/add',
+				path: '/form/city/add',
 				desc: 'Formulario para registrar una nueva ciudad.'
 			},
 			{
 				title: 'Asignación de las regiones por zona',
-				path: '/region/',
+				path: '/form/region/',
 				desc: 'Interfaz para gestionar la asignación de regiones a diferentes zonas geográficas.'
 			}
 		]

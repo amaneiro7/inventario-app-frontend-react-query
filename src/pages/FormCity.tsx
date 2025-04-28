@@ -10,7 +10,6 @@ export default function FormCity() {
 	return (
 		<FormContainer
 			id={key}
-			title="ciudad"
 			description="Ingrese los datos de la ciudad el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -18,7 +17,7 @@ export default function FormCity() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/city/add"
+			url="form/city/add"
 			border
 			searchInput={<CitySearch />}
 		>

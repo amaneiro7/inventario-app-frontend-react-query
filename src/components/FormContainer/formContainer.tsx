@@ -1,5 +1,4 @@
 import { memo, Suspense } from 'react'
-import { DetailsWrapper } from '../DetailsWrapper/DetailsWrapper'
 import { DetailsBoxWrapper } from '../DetailsWrapper/DetailsBoxWrapper'
 import Typography from '../Typography'
 import { StepsToFollow } from '../StepsToFollow/StepsToFollow'
@@ -7,12 +6,11 @@ import { RegisterNewDeviceToFollow } from '../StepsToFollow/RegisterNewDeviceToF
 import { FormComponent } from './FormComponent'
 import { Tag } from '../Tag'
 import { AddIcon } from '@/icon/AddIcon'
-import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 import { SearchSection } from './SearchSection'
+import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 
 interface Props {
 	id: string
-	title: string
 	description: string
 	url: string
 	isAddForm: boolean
@@ -30,7 +28,6 @@ export const FormContainer = memo(
 	({
 		id,
 		url,
-		title,
 		description,
 		searchInput,
 		isAddForm,
@@ -45,53 +42,43 @@ export const FormContainer = memo(
 	}: React.PropsWithChildren<Props>) => {
 		return (
 			<>
-				<DetailsWrapper borderColor="blue">
-					<DetailsBoxWrapper>
-						<Typography variant="h3" color="azul">
-							{`Gestión de ${title} - ${
-								isAddForm ? 'Registre un nuevo' : 'modifique un'
-							} ${title}`}
+				<DetailsBoxWrapper>
+					<Typography
+						variant="p"
+						className="inline-flex items-center justify-start gap-1 text-center"
+					>
+						<Typography color="gris" variant="span">
+							{description}
 						</Typography>
-						<Typography
-							variant="p"
-							className="inline-flex items-center justify-start gap-1 text-center"
+						{!isAddForm ? (
+							<Tag
+								color="white"
+								backgroundColor="naranja"
+								icon={<AddIcon width={16} />}
+								iconText="Agregar nuevo"
+							></Tag>
+						) : null}
+					</Typography>
+					<Suspense>
+						<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
+					</Suspense>
+				</DetailsBoxWrapper>
+				{!standBy && (
+					<DetailsBoxWrapper position="center">
+						<FormComponent
+							id={id}
+							handleSubmit={handleSubmit}
+							handleClose={handleClose}
+							reset={reset}
+							border={border}
+							updatedBy={updatedBy}
+							lastUpdated={lastUpdated}
 						>
-							<Typography color="gris" variant="span">
-								{description}
-							</Typography>
-							{!isAddForm ? (
-								<Tag
-									color="white"
-									backgroundColor="naranja"
-									icon={<AddIcon width={16} />}
-									iconText="Agregar nuevo"
-								></Tag>
-							) : null}
-						</Typography>
-						<Suspense>
-							<SearchSection
-								searchInput={searchInput}
-								url={url}
-								isEdit={!isAddForm}
-							/>
-						</Suspense>
+							{children}
+						</FormComponent>
 					</DetailsBoxWrapper>
-					{!standBy && (
-						<DetailsBoxWrapper position="center">
-							<FormComponent
-								id={id}
-								handleSubmit={handleSubmit}
-								handleClose={handleClose}
-								reset={reset}
-								border={border}
-								updatedBy={updatedBy}
-								lastUpdated={lastUpdated}
-							>
-								{children}
-							</FormComponent>
-						</DetailsBoxWrapper>
-					)}
-				</DetailsWrapper>
+				)}
+
 				{!standBy && (
 					<StepsToFollow>
 						<RegisterNewDeviceToFollow isEdit={!isAddForm} />

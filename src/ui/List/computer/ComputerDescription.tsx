@@ -19,7 +19,7 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 				open={open}
 				state={device}
 				stateId={device.id}
-				url={`/device/edit/${device.id}`}
+				url={`/form/device/edit/${device.id}`}
 				colspan={colSpan}
 			>
 				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
@@ -151,12 +151,12 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 							device?.model?.modelComputer
 								? device?.model?.modelComputer?.memoryRamType?.name
 								: device?.model?.modelLaptop
-								? device?.model?.modelLaptop?.memoryRamType?.name
-								: ''
+									? device?.model?.modelLaptop?.memoryRamType?.name
+									: ''
 						}
 					/>
 				</div>
-				<div className="md:grid md:grid-cols-1 gap-2">
+				<div className="gap-2 md:grid md:grid-cols-1">
 					<TableCellDescInfo
 						title="Disco Duro"
 						text={
@@ -171,7 +171,7 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 					/>
 				</div>
 
-				<div className="md:grid md:grid-cols-1 gap-2">
+				<div className="gap-2 md:grid md:grid-cols-1">
 					<TableCellDescInfo
 						title="Sistema Operativo"
 						text={device?.computer?.operatingSystem?.name ?? 'No Aplica'}
@@ -192,7 +192,7 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 						device.updatedAt
 							? `${new Date(
 									device.updatedAt
-							  ).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
+								).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
 							: 'Sin Actualización'
 					}
 				/>

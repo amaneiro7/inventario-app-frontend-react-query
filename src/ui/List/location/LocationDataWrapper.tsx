@@ -51,7 +51,7 @@ export const LocationDataWrapper = memo(
 							<InfoBox key={location.id}>
 								<InfoBoxTitle
 									title={location?.name}
-									url={`/location/edit/${location?.id}`}
+									url={`/form/location/edit/${location?.id}`}
 								/>
 								<InfoBoxText desc="Tipo" text={location?.typeOfSite?.name} />
 								<InfoBoxText

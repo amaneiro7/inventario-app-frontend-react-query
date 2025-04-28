@@ -36,7 +36,7 @@ export function CentroCostoSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/centrocosto/edit/${value}`}
+			url={`/form/centrocosto/edit/${value}`}
 			name="centroCostoSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

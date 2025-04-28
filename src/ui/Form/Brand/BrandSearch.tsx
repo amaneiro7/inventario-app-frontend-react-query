@@ -28,7 +28,7 @@ export function BrandSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/brand/edit/${value}`}
+			url={`/form/brand/edit/${value}`}
 			name="brandSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

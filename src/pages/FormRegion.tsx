@@ -19,7 +19,6 @@ export default function FormRegion() {
 	return (
 		<FormContainer
 			id={key}
-			title="región"
 			description="Busque la región el cual desea registrar en una de las zonas administrativas"
 			isAddForm
 			handleSubmit={handleSubmit}
@@ -27,7 +26,7 @@ export default function FormRegion() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/region/"
+			url="form/region/"
 			border
 			standBy={mode !== 'edit'}
 			searchInput={<RegionSearch />}

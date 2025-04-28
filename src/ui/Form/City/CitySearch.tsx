@@ -28,7 +28,7 @@ export function CitySearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/city/edit/${value}`}
+			url={`/form/city/edit/${value}`}
 			name="citySearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

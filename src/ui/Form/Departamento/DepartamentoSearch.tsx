@@ -28,7 +28,7 @@ export function DepartamentoSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/departamento/edit/${value}`}
+			url={`/form/departamento/edit/${value}`}
 			name="departamentoSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

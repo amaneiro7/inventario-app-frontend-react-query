@@ -19,7 +19,6 @@ export default function FormCargo() {
 	return (
 		<FormContainer
 			id={key}
-			title="Cargo"
 			description="Ingrese los datos del Cargo el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -27,7 +26,7 @@ export default function FormCargo() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/cargo/add"
+			url="form/cargo/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<CargoSearch />}

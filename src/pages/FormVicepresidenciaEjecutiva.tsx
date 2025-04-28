@@ -10,7 +10,6 @@ export default function FormVicepresidenciaEjecutiva() {
 	return (
 		<FormContainer
 			id={key}
-			title="vicepresidencia ejecutiva"
 			description="Ingrese los datos de la vicepresidencia ejecutiva el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -18,7 +17,7 @@ export default function FormVicepresidenciaEjecutiva() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/vicepresidenciaEjecutiva/add"
+			url="form/vicepresidenciaEjecutiva/add"
 			border
 			searchInput={<VicepresidenciaEjecutivaSearch />}
 		>

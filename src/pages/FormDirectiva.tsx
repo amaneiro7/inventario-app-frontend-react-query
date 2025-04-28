@@ -10,7 +10,6 @@ export default function FormDirectiva() {
 	return (
 		<FormContainer
 			id={key}
-			title="directiva"
 			description="Ingrese los datos de la directiva el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -18,7 +17,7 @@ export default function FormDirectiva() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/directiva/add"
+			url="form/directiva/add"
 			border
 			searchInput={<DirectivaSearch />}
 		>

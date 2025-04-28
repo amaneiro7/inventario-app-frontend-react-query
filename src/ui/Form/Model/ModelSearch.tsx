@@ -28,7 +28,7 @@ export function ModelSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/model/edit/${value}`}
+			url={`/form/model/edit/${value}`}
 			name="modelSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

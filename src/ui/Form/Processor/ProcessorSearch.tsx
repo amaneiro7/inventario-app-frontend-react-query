@@ -28,7 +28,7 @@ export function ProcessorSearch() {
 			handleChange={value => {
 				setSearchValue(value.toUpperCase().trim())
 			}}
-			url={`/processors/edit/${value}`}
+			url={`/form/processors/edit/${value}`}
 			name="processorSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

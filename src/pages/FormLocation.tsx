@@ -20,7 +20,6 @@ export default function FormLocation() {
 	return (
 		<FormContainer
 			id={key}
-			title="ubicación"
 			description="Ingrese los datos de la ubicación el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -28,7 +27,7 @@ export default function FormLocation() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/location/add"
+			url="form/location/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<LocationSearch />}

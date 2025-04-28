@@ -29,7 +29,6 @@ export default function FormDevice() {
 		<>
 			<FormContainer
 				id={key}
-				title="Dispositivo"
 				description="Ingrese los datos del dispositivo el cual desea registar."
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
@@ -40,7 +39,7 @@ export default function FormDevice() {
 				reset={mode === 'edit' ? resetForm : undefined}
 				lastUpdated={formData.updatedAt}
 				updatedBy={formData.history}
-				url="/device/add"
+				url="form/device/add"
 			>
 				<Suspense fallback={<div className="min-h-[455px]" />}>
 					<DeviceInputs

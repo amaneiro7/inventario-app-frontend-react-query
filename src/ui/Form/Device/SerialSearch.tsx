@@ -30,7 +30,7 @@ export function SerialSearch() {
 			handleChange={value => {
 				setSearchValue(value.toUpperCase().trim())
 			}}
-			url={`/device/edit/${value}`}
+			url={`/form/device/edit/${value}`}
 			name="serialSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

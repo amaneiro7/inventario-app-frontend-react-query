@@ -29,7 +29,7 @@ export function Nav() {
 						to="/payment-schedules"
 						className="group/navli font-body hover:text-naranja flex items-center text-center text-base font-semibold tracking-wide transition-colors"
 					>
-						<Calendar className="group-hover/navli:fill-naranja mr-4 h-4 w-4 fill-white transition-colors" />
+						<Calendar className="group-hover/navli:text-naranja mr-4 h-4 w-4 stroke-3 text-white transition-colors" />
 						Calendarios de pagos
 					</Link>
 				</li>

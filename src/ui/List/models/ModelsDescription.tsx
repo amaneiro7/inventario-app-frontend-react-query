@@ -19,7 +19,7 @@ export const ModelDescription = memo(
 					open={open}
 					state={model}
 					stateId={model.id}
-					url={`/model/edit/${model.id}`}
+					url={`/form/model/edit/${model.id}`}
 					colspan={colSpan}
 				>
 					{!visibleColumns.includes('generic') && (
@@ -112,7 +112,7 @@ export const ModelDescription = memo(
 							model.updatedAt
 								? `${new Date(
 										model.updatedAt
-								  ).toLocaleDateString()} (${getRelativeTime(model.updatedAt)})`
+									).toLocaleDateString()} (${getRelativeTime(model.updatedAt)})`
 								: 'Sin Actualización'
 						}
 					/>

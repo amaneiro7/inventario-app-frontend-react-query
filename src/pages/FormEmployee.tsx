@@ -33,7 +33,6 @@ const FormEmployee = memo(() => {
 	return (
 		<FormContainer
 			id={key}
-			title="Usuarios"
 			description="Ingrese los datos del usuario el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -43,7 +42,7 @@ const FormEmployee = memo(() => {
 			searchInput={<EmployeeSearch />}
 			reset={mode === 'edit' ? resetForm : undefined}
 			lastUpdated={updatedAt}
-			url="/employee/add"
+			url="form/employee/add"
 		>
 			<Tabs defaultValue="form" className="space-y-4">
 				<TabsList>

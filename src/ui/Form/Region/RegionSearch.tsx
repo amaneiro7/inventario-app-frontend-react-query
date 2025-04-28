@@ -28,7 +28,7 @@ export function RegionSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/region/edit/${value}`}
+			url={`/form/region/edit/${value}`}
 			name="regionSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

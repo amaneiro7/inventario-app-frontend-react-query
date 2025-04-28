@@ -9,7 +9,6 @@ export default function FormBrand() {
 	return (
 		<FormContainer
 			id={key}
-			title="marca"
 			description="Ingrese los datos de la marca el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -17,7 +16,7 @@ export default function FormBrand() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/brand/add"
+			url="form/brand/add"
 			border
 			searchInput={<BrandSearch />}
 		>

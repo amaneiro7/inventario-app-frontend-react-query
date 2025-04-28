@@ -19,7 +19,7 @@ export const MonitorDescription = memo(({ open, device, visibleColumns, colSpan 
 				open={open}
 				state={device}
 				stateId={device.id}
-				url={`/device/edit/${device.id}`}
+				url={`/form/device/edit/${device.id}`}
 				colspan={colSpan}
 			>
 				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
@@ -135,7 +135,7 @@ export const MonitorDescription = memo(({ open, device, visibleColumns, colSpan 
 						device.updatedAt
 							? `${new Date(
 									device.updatedAt
-							  ).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
+								).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
 							: 'Sin Actualización'
 					}
 				/>

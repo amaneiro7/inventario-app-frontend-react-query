@@ -19,7 +19,6 @@ export default function FormCentroTrabajo() {
 	return (
 		<FormContainer
 			id={key}
-			title="Centro de Trabajo"
 			description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -27,7 +26,7 @@ export default function FormCentroTrabajo() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/centrotrabajo/add"
+			url="form/centrotrabajo/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<CentroTrabajoSearch />}

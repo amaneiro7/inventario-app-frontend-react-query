@@ -10,7 +10,6 @@ export default function FormProcessor() {
 	return (
 		<FormContainer
 			id={key}
-			title="procesador"
 			description="Ingrese los datos del procesador el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -18,7 +17,7 @@ export default function FormProcessor() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/Processor/add"
+			url="form/Processor/add"
 			border
 			searchInput={<ProcessorSearch />}
 		>

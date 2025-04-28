@@ -29,7 +29,7 @@ export function SiteSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/site/edit/${value}`}
+			url={`/form/site/edit/${value}`}
 			name="siteSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

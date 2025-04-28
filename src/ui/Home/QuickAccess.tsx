@@ -21,11 +21,11 @@ export const QuickActions = memo(() => {
 				<CardDescription>Operaciones comunes para gestionar inventario</CardDescription>
 			</CardHeader>
 			<CardContent className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-				<CardLink url="device/add">
+				<CardLink url="form/device/add">
 					<PlusCircle className="mb-1 h-5 w-5" />
 					<span className="text-xs">Nuevo equipo</span>
 				</CardLink>
-				<CardLink url="employee/add">
+				<CardLink url="form/employee/add">
 					<UserPlus className="mb-1 h-5 w-5" />
 					<span className="text-xs">Nuevo usuario</span>
 				</CardLink>

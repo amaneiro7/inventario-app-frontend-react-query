@@ -17,7 +17,7 @@ export const HistoryDescription = memo(({ open, history, colSpan }: HistoryDescr
 				open={open}
 				state={history}
 				stateId={history.id}
-				url={`/device/edit/${history.deviceId}`}
+				url={`/form/device/edit/${history.deviceId}`}
 				colspan={colSpan}
 			>
 				<TableCellDescInfo

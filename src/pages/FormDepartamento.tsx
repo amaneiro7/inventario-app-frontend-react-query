@@ -19,7 +19,6 @@ export default function FormDepartamento() {
 	return (
 		<FormContainer
 			id={key}
-			title="departamento"
 			description="Ingrese los datos del departamento el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -27,7 +26,7 @@ export default function FormDepartamento() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/departamento/add"
+			url="form/departamento/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<DepartamentoSearch />}

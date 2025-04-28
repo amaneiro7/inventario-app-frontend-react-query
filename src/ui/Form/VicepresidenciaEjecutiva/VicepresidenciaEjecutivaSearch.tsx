@@ -31,7 +31,7 @@ export function VicepresidenciaEjecutivaSearch() {
 			handleChange={value => {
 				setSearchValue(value)
 			}}
-			url={`/vicepresidenciaEjecutiva/edit/${value}`}
+			url={`/form/vicepresidenciaEjecutiva/edit/${value}`}
 			name="vicepresidenciaEjecutivaSearch"
 			onChangeValue={handleValue}
 			loading={isLoading}

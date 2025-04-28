@@ -30,7 +30,7 @@ export const AsignDevices = ({ devices }: { devices: DefaultEmployee['devices'] 
 			<div className="flex flex-row flex-wrap gap-8">
 				{devices.map(({ id, category, brand, serial, model, location, computer }) => (
 					<InfoBox key={id}>
-						<InfoBoxTitle title={category.name} url={`/device/edit/${id}`} />
+						<InfoBoxTitle title={category.name} url={`/form/device/edit/${id}`} />
 						<InfoBoxText desc="Marca" text={brand.name} />
 						<InfoBoxText desc="Model" text={model.name} />
 						<InfoBoxText desc="Serial" text={serial ?? 'Sin serial'} />

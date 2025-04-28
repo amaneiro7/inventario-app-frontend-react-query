@@ -18,7 +18,7 @@ export function FinantialPrinterDescription({ open, device, colSpan, visibleColu
 				open={open}
 				state={device}
 				stateId={device.id}
-				url={`/device/edit/${device.id}`}
+				url={`/form/device/edit/${device.id}`}
 				colspan={colSpan}
 			>
 				<TableCellDescInfo title="Estatus" text={device.status?.name ?? ''} />
@@ -113,7 +113,7 @@ export function FinantialPrinterDescription({ open, device, colSpan, visibleColu
 						device.updatedAt
 							? `${new Date(
 									device.updatedAt
-							  ).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
+								).toLocaleDateString()} (${getRelativeTime(device.updatedAt)})`
 							: 'Sin Actualización'
 					}
 				/>

@@ -10,7 +10,6 @@ export default function FormSite() {
 	return (
 		<FormContainer
 			id={key}
-			title="sitio"
 			description="Ingrese los datos del sitio el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -18,7 +17,7 @@ export default function FormSite() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/site/add"
+			url="form/site/add"
 			border
 			searchInput={<SiteSearch />}
 		>

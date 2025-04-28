@@ -22,7 +22,7 @@ export function CargoSearch() {
 		<SearchInput
 			search={searchValue}
 			handleChange={setSearchValue}
-			url={`/cargo/edit/${value}`}
+			url={`/form/cargo/edit/${value}`}
 			name="cargoSearch"
 			onChangeValue={setValue}
 			loading={isLoading}

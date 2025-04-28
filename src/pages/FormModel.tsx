@@ -19,7 +19,6 @@ export default function FormModel() {
 	return (
 		<FormContainer
 			id={key}
-			title="modelos"
 			description="Ingrese los datos del modelo el cual desea registar."
 			isAddForm={mode === 'add'}
 			handleSubmit={handleSubmit}
@@ -27,7 +26,7 @@ export default function FormModel() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="/model/add"
+			url="form/model/add"
 			lastUpdated={formData.updatedAt}
 			searchInput={<ModelSearch />}
 		>
