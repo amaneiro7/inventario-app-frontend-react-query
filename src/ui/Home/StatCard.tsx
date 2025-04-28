@@ -1,14 +1,22 @@
-import { LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { memo } from 'react'
 import Typography from '@/components/Typography'
 
 interface StatCardProps {
-	title: string
-	value: string | number
+	title?: string
+	value?: string | number
 	description?: string
-	icon: LucideIcon
-	color?: 'blue' | 'green' | 'amber' | 'orange' | 'yellow' | 'red' | 'rose' | 'violet'
+	icon: React.ElementType
+	color?:
+		| 'blue'
+		| 'green'
+		| 'amber'
+		| 'orange'
+		| 'yellow'
+		| 'red'
+		| 'rose'
+		| 'violet'
+		| 'darkGreen'
 	trend?: 'up' | 'down' | 'neutral'
 	trendValue?: string
 	className?: string
@@ -28,6 +36,8 @@ export const StatCard = memo(
 		const colorVariants = {
 			blue: 'from-azul-700 to-azul-700/65 text-dark dark:from-azul-500/30 dark:to-azul-500/10 dark:text-azul-400',
 			green: 'from-verde-700 to-verde-700/65 text-dark dark:from-verde-500/30 dark:to-verde-500/10 dark:text-verde-400',
+			darkGreen:
+				'from-verde-800 to-verde-700 text-white dark:from-verde-500/30 dark:to-verde-500/10 dark:text-verde-400',
 			amber: 'from-amber-700 to-amber-700/65 text-dark dark:from-amber-500/30 dark:to-amber-500/10 dark:text-amber-400',
 			orange: 'from-naranja-700 to-naranja-700/65 text-dark dark:from-naranja-500/30 dark:to-naranja-500/10 dark:text-naranja-400',
 			yellow: 'from-amarillo-700 to-amarillo-700/65 text-dark dark:from-amarillo-500/30 dark:to-amarillo-500/10 dark:text-amarillo-400',
@@ -39,6 +49,7 @@ export const StatCard = memo(
 		const iconColorVariants = {
 			blue: 'text-azul-700',
 			green: 'text-verde-700',
+			darkGreen: 'text-verde-800',
 			amber: 'text-amber-700',
 			orange: 'text-naranja-700',
 			yellow: 'text-amarillo-700',

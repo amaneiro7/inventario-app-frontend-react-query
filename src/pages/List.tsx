@@ -2,68 +2,70 @@ import { LinkCard } from '@/components/LinkCard'
 import {
 	Building,
 	Computer,
+	Cpu,
 	FolderClock,
-	Keyboard,
 	Monitor,
 	Printer,
 	RectangleEllipsis,
 	ScrollText,
-	User2
+	Users
 } from 'lucide-react'
 
 const List = () => {
 	const list = [
 		{
 			title: 'Computadoras',
-			description: '',
+			description: 'Explora y gestiona el inventario de equipos de computación.',
 			icon: Computer,
 			to: 'computer'
 		},
 		{
 			title: 'Monitores',
-			description: '',
+			description: 'Visualiza y administra la lista de monitores disponibles.',
 			icon: Monitor,
 			to: 'monitor'
 		},
 		{
 			title: 'Impresoras Financieras',
-			description: '',
+			description:
+				'Gestiona el registro de impresoras utilizadas para operaciones financieras.',
 			icon: RectangleEllipsis,
 			to: 'finantialprinter'
 		},
 		{
 			title: 'Impresoras',
-			description: '',
+			description: 'Administra el inventario general de impresoras.',
 			icon: Printer,
 			to: 'printer'
 		},
 		{
 			title: 'Partes y piezas',
-			description: '',
-			icon: Keyboard,
+			description: 'Consulta y gestiona el stock de componentes y repuestos.',
+			icon: Cpu, // Icono modificado
 			to: 'parts'
 		},
 		{
 			title: 'Usuarios',
-			description: '',
-			icon: User2,
+			description: 'Administra la información y los roles de los empleados del sistema.',
+			icon: Users, // Icono modificado
 			to: 'usuarios'
 		},
 		{
 			title: 'Modelos',
-			description: '',
+			description: 'Consulta y gestiona los diferentes modelos de equipos y dispositivos.',
 			icon: ScrollText,
 			to: 'model'
 		},
 		{
 			title: 'Ubicaciones',
-			description: '',
+			description:
+				'Administra los diferentes sitios y edificios donde se encuentran los activos.',
 			icon: Building,
 			to: 'location'
 		},
 		{
 			title: 'Historial de modificaciones',
-			description: '',
+			description: 'Revisa el registro de todos los cambios realizados en el sistema.',
 			icon: FolderClock,
 			to: 'history'
 		}

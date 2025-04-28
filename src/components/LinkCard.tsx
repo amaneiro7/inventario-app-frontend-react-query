@@ -1,5 +1,6 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
+import { StatCard } from '@/ui/Home/StatCard'
 
 export const LinkCard = memo(
 	({
@@ -14,15 +15,13 @@ export const LinkCard = memo(
 		to: string
 	}) => (
 		<Link to={to} className="block">
-			<div className="rounded-lg border border-slate-200 bg-white p-6 shadow-md transition-shadow hover:shadow-lg">
-				<div className="mb-4 flex items-center gap-4">
-					<div className="bg-primary/10 rounded-lg p-3">
-						<Icon className="text-primary h-6 w-6" />
-					</div>
-					<h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-				</div>
-				<p className="text-slate-600">{description}</p>
-			</div>
+			<StatCard
+				icon={Icon}
+				value={title}
+				description={description}
+				color="darkGreen"
+				className="text-white"
+			/>
 		</Link>
 	)
 )
