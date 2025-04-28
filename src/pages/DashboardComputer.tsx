@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
 import { Loading } from '@/components/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
 import { useGetComputerDashboard } from '@/core/devices/dashboard/infra/hooks/useGetComputerDashboard'
+import { Seo } from '@/components/Seo'
 
 const InventoryOverview = lazy(() =>
 	import('@/ui/dashboard/InventoryBrandOverview').then(m => ({ default: m.InventoryOverview }))
@@ -44,12 +45,17 @@ export default function DashboardComputer() {
 		return <Loading />
 	}
 
+	const title = 'Dashboard de Computadoras | Resumen y Análisis'
+	const description =
+		'Visualización del estado general de las computadoras, incluyendo inventario por marca, distribución geográfica, análisis de disco duro, sistemas operativos, memoria RAM y más.'
+
 	return (
 		<>
-			<div className="grid gap-4 md:grid-cols-4 mb-6">
+			<Seo title={title} description={description} />
+			<div className="mb-6 grid gap-4 md:grid-cols-4">
 				<Card>
 					<CardHeader className="pb-2">
-						<CardTitle className="text-base font-semibold text-muted-foreground">
+						<CardTitle className="text-muted-foreground text-base font-semibold">
 							Total de equipos
 						</CardTitle>
 						<CardContent>
@@ -59,7 +65,7 @@ export default function DashboardComputer() {
 				</Card>
 				<Card>
 					<CardHeader className="pb-2">
-						<CardTitle className="text-base font-semibold text-muted-foreground">
+						<CardTitle className="text-muted-foreground text-base font-semibold">
 							Total de empleados activos
 						</CardTitle>
 						<CardContent>
@@ -71,7 +77,7 @@ export default function DashboardComputer() {
 				</Card>
 				<Card>
 					<CardHeader className="pb-2">
-						<CardTitle className="text-base font-semibold text-muted-foreground">
+						<CardTitle className="text-muted-foreground text-base font-semibold">
 							Total de agencias
 						</CardTitle>
 						<CardContent>
