@@ -733,7 +733,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'serial': {
-			const serial = action.payload.value
+			const serial = action.payload.value.trim().toUpperCase()
 
 			return {
 				...state,
@@ -753,7 +753,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'activo': {
-			const activo = action.payload.value
+			const activo = action.payload.value.trim().toUpperCase()
 
 			return {
 				...state,
@@ -819,7 +819,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'computerName': {
-			const computerName = action.payload.value
+			const computerName = action.payload.value.trim().toUpperCase()
 			return {
 				...state,
 				formData: {
