@@ -37,6 +37,7 @@ const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
 const PaymentSchedules = lazy(() => import('@/pages/PaymentSchedules'))
 const ListWrapper = lazy(() => import('@/ui/ListWrapper'))
+const Dashboards = lazy(() => import('@/pages/Dashboard'))
 
 export function AppRoutes() {
 	return (
@@ -85,6 +86,7 @@ export function AppRoutes() {
 							</Suspense>
 						}
 					>
+						<Route path="" element={<Dashboards />} />
 						<Route path="computer" element={<DashboardComputer />} />
 					</Route>
 					<Route
