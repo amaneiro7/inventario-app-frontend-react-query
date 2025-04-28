@@ -55,8 +55,8 @@ export const TableHead = memo(
 			return orderType === OrderTypes.ASC
 				? 'ascending'
 				: orderType === OrderTypes.DESC
-				? 'descending'
-				: undefined
+					? 'descending'
+					: undefined
 		}, [orderType])
 		const iconDirection = useMemo(() => {
 			if (orderBy === orderByField) {
@@ -68,6 +68,7 @@ export const TableHead = memo(
 			<th
 				data-sortable={handleSort ? 'true' : 'false'}
 				role="columnheader"
+				scope="col"
 				tabIndex={-1}
 				data-key={name}
 				aria-sort={ariaSort}
@@ -83,7 +84,7 @@ export const TableHead = memo(
 						role="presentation"
 						data-visible={orderBy === orderByField}
 						data-direction={iconDirection}
-						className="w-3 stroke-2 aspect-square ms-2 mb-px opacity-0 text-inherit inline-block transition-transform duration-300 data-[visible=true]:opacity-100 group-hover/th:text-azul-500 group-hover/th:opacity-100 data-[direction=down]:rotate-180"
+						className="group-hover/th:text-azul-500 ms-2 mb-px inline-block aspect-square w-3 stroke-2 text-inherit opacity-0 transition-transform duration-300 group-hover/th:opacity-100 data-[direction=down]:rotate-180 data-[visible=true]:opacity-100"
 					/>
 				)}
 			</th>

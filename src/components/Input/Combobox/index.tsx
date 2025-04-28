@@ -171,6 +171,7 @@ export const Combobox = memo(function <
 						}
 					}}
 					tabIndex={disabled ? -1 : 0}
+					aria-label="Mostrar opciones del combobox"
 					{...props}
 				/>
 
@@ -205,7 +206,7 @@ export const Combobox = memo(function <
 
 				<ButtonOpen
 					tabIndex={-1}
-					id={id}
+					id={`button-open-${id}`}
 					disabled={disabled}
 					data-combobox-toggle="true"
 					onClick={togglePopover}

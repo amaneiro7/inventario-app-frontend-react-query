@@ -7,26 +7,33 @@ export const typography: Record<
 	}
 > = {
 	h1: {
-		classes: 'text-4xl font-semibold leading-tight',
+		classes: 'text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-semibold leading-tight',
+
 		options: {
-			landing: 'text-6xl font-semibold'
+			landing: 'text-5xl lg:text-6xl xl:text-7xl font-semibold'
 		}
 	},
+
 	h2: {
-		classes: 'text-3xl font-semibold leading-tight'
+		classes: 'text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold leading-tight'
 	},
+
 	h3: {
-		classes: 'text-2xl font-semibold'
+		classes: 'text-base lg:text-lg xl:text-xl 2xl:text-2xl font-semibold'
 	},
+
 	h4: {
-		classes: 'text-xl font-semibold'
+		classes: 'text-sm lg:text-base xl:text-lg 2xl:text-xl font-semibold'
 	},
+
 	h5: {
-		classes: 'text-lg font-semibold'
+		classes: 'text-sx lg:text-sm xl:text-base 2xl:text-lg font-semibold'
 	},
+
 	h6: {
-		classes: 'text-base font-semibold'
+		classes: 'text-[0.5rem] lg:text-sx xl:text-sm 2xl:text-base font-semibold'
 	},
+
 	p: {
 		classes: 'text-xs md:text-sm lg:text-base',
 		options: {

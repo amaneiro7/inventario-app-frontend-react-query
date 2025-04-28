@@ -52,7 +52,7 @@ export const TableWrapper = memo(
 									.filter(header => header.visible)
 									.map((header, index) => (
 										<TableHead
-											aria-colindex={index}
+											aria-colindex={index + 1}
 											key={header.key}
 											isTab={header.isTab}
 											handleSort={

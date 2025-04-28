@@ -59,7 +59,7 @@ export function TableCell<T>({
 	)
 	return (
 		<td
-			role="row"
+			role="cell"
 			tabIndex={-1}
 			data-key={value}
 			className={classes}

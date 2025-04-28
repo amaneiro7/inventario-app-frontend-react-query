@@ -1,6 +1,7 @@
 import { twMerge } from 'tailwind-merge'
 import { type TableCell } from './TableCell'
 import { type TableHead } from './TableHead'
+import { cn } from '@/lib/utils'
 
 interface Props<T extends typeof TableHead | typeof TableCell>
 	extends React.DetailedHTMLProps<
@@ -17,7 +18,7 @@ export function TableRow<T extends typeof TableHead | typeof TableCell>({
 	className,
 	...props
 }: Props<T>) {
-	const classes = twMerge('[&>td]:bg-slate-100 hover:[&>td]:bg-slate-200 text-xs', className)
+	const classes = twMerge(cn('[&>td]:bg-slate-100 hover:[&>td]:bg-slate-200 text-xs', className))
 	return (
 		<tr className={classes} role="row" {...props}>
 			{children}
