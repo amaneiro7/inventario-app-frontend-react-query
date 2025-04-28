@@ -34,7 +34,7 @@ export default function ListSite() {
 				<ButtonSection
 					handleClear={cleanFilters}
 					handleAdd={() => {
-						navigate('/location/add')
+						navigate('/form/location/add')
 					}}
 				/>
 			</DetailsBoxWrapper>

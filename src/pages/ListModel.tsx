@@ -39,7 +39,7 @@ export default function ListModel() {
 					loading={isDownloading}
 					handleClear={cleanFilters}
 					handleAdd={() => {
-						navigate('/model/add')
+						navigate('/form/model/add')
 					}}
 				/>
 			</DetailsBoxWrapper>

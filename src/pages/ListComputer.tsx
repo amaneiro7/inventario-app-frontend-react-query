@@ -103,7 +103,7 @@ export default function ListComputer() {
 					filterButton
 					handleClear={cleanFilters}
 					handleAdd={() => {
-						navigate('/device/add')
+						navigate('/form/device/add')
 					}}
 					handleFilter={filterAsideRef.current?.handleOpen}
 				>

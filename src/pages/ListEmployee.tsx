@@ -60,7 +60,7 @@ export default function ListEmployee() {
 				<ButtonSection
 					handleClear={cleanFilters}
 					handleAdd={() => {
-						navigate('/employee/add')
+						navigate('/form/employee/add')
 					}}
 					filterButton
 					handleFilter={filterAsideRef.current?.handleOpen}

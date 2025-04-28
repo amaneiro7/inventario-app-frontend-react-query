@@ -42,7 +42,7 @@ export default function ListHstory() {
 				<ButtonSection
 					handleClear={cleanFilters}
 					handleAdd={() => {
-						navigate('/device/add')
+						navigate('/form/device/add')
 					}}
 				/>
 			</DetailsBoxWrapper>

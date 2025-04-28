@@ -73,7 +73,7 @@ export default function ListParts() {
 					loading={isDownloading}
 					handleClear={cleanFilters}
 					handleAdd={() => {
-						navigate('/device/add')
+						navigate('/form/device/add')
 					}}
 					filterButton
 					handleFilter={filterAsideRef.current?.handleOpen}
