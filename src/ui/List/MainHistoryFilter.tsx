@@ -1,7 +1,9 @@
-import { lazy, memo, Suspense, useState } from 'react'
+import { lazy, memo, Suspense, use, useState } from 'react'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { Input } from '@/components/Input/Input'
 import { InputFallback } from '@/components/Loading/InputFallback'
+import { AuthContext } from '@/context/Auth/AuthContext'
+import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
 
 const EmployeeCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
@@ -41,6 +43,9 @@ export const MainHistoryFilter = memo(function ({
 }) {
 	const [localStartDate, setLocalStartDate] = useState(startDate ?? '')
 	const [localEndDate, setLocalEndDate] = useState(endDate ?? '')
+	const {
+		auth: { user }
+	} = use(AuthContext)
 
 	useEffectAfterMount(() => {
 		if ((localEndDate && localStartDate) || (!localStartDate && !localEndDate)) {
@@ -62,9 +67,11 @@ export const MainHistoryFilter = memo(function ({
 	}, [endDate])
 	return (
 		<>
-			<Suspense fallback={<InputFallback />}>
-				<UserCombobox name="userId" handleChange={handleChange} value={userId} />
-			</Suspense>
+			{(user?.roleId === RoleOptions.COORDINADOR || user?.roleId === RoleOptions.ADMIN) && (
+				<Suspense fallback={<InputFallback />}>
+					<UserCombobox name="userId" handleChange={handleChange} value={userId} />
+				</Suspense>
+			)}
 			<Suspense fallback={<InputFallback />}>
 				<EmployeeCombobox
 					name="employeeId"
