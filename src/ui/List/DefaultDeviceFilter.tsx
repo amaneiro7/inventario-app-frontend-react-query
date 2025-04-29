@@ -91,6 +91,7 @@ export function DefaultDeviceFilter({
 	return (
 		<>
 			<Input
+				id="activo-search"
 				value={localActivo}
 				label="Activo"
 				name="activo"

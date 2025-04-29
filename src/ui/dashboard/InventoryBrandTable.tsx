@@ -59,6 +59,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 				<div className="mt-2 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
 					<div className="relative w-full sm:max-w-[300px]">
 						<Input
+							id="brand-model-search-name"
 							placeholder="Buscar por marca o modelo..."
 							transform
 							value={searchTerm}

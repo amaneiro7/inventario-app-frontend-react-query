@@ -64,7 +64,7 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 	return (
 		<Card className="col-span-12">
 			<CardHeader>
-				<div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 					<div>
 						<CardTitle>Distribución geográfica</CardTitle>
 						<CardDescription>
@@ -86,10 +86,11 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 				</div>
 			</CardHeader>
 			<CardContent>
-				<div className="flex flex-wrap gap-3 mb-4">
-					<div className="flex-1 flex flex-col sm:flex-row gap-3">
+				<div className="mb-4 flex flex-wrap gap-3">
+					<div className="flex flex-1 flex-col gap-3 sm:flex-row">
 						<div className="relative w-full sm:max-w-[200px]">
 							<Input
+								id="geo-search"
 								transform
 								label="Search"
 								name="search"
@@ -97,7 +98,7 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 								value={searchFilter}
 								onChange={e => setSearchFilter(e.target.value)}
 								className="pl-8"
-								leftIcon={<MapPin className="h-4 w-4 text-muted-foreground" />}
+								leftIcon={<MapPin className="text-muted-foreground h-4 w-4" />}
 							/>
 						</div>
 
@@ -226,7 +227,7 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 										if (active && payload && payload.length) {
 											const data = payload[0].payload
 											return (
-												<div className="rounded-lg border bg-background p-2 shadow-md text-wrap">
+												<div className="bg-background rounded-lg border p-2 text-wrap shadow-md">
 													<div className="flex items-center gap-2">
 														<MapPin className="h-4 w-4" />
 														<span className="font-medium">
@@ -264,9 +265,9 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 							</BarChart>
 						</ResponsiveContainer>
 					) : (
-						<div className="h-full flex items-center justify-center">
-							<div className="text-center text-muted-foreground">
-								<Filter className="mx-auto h-12 w-12 mb-2 opacity-20" />
+						<div className="flex h-full items-center justify-center">
+							<div className="text-muted-foreground text-center">
+								<Filter className="mx-auto mb-2 h-12 w-12 opacity-20" />
 								<p>No hay datos para mostrar</p>
 								<Button
 									text="Limpiar filtros"

@@ -78,6 +78,7 @@ export const InputBase = memo(
 							tabIndex={-1}
 						>
 							{rightIcon}
+							<span className="sr-only">Hola Mundo</span>
 						</button>
 					) : null}
 					<Fieldset

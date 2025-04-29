@@ -50,6 +50,8 @@ export const PaginationList = memo(
 				activeClassName="active"
 				previousClassName="page"
 				nextClassName="page"
+				ariaLabelBuilder={pageNumber => `Go to page ${pageNumber}`}
+				breakLabel="..."
 			/>
 		)
 	}
