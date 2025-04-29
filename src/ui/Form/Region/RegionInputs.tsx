@@ -34,6 +34,7 @@ export const RegionInputs = memo(function ({
 				disabled={disabled.administrativeRegionId}
 			/>
 			<Input
+				id="region-name"
 				value={formData.name}
 				name="name"
 				label="Nombre de la region"

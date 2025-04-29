@@ -1,12 +1,19 @@
+import { cn } from '@/lib/utils'
 import { memo } from 'react'
 
 export const FilterSection = memo(
-	({ children, ...props }: React.PropsWithChildren<React.JSX.IntrinsicElements['search']>) => {
-		const { className } = props
+	({
+		children,
+		className,
+		...props
+	}: React.PropsWithChildren<React.JSX.IntrinsicElements['search']>) => {
 		return (
 			<search {...props}>
 				<form
-					className={`relative h-10 min-h-min w-full grid grid-cols-[repeat(auto-fit,250px)] gap-4 ${className}`}
+					className={cn(
+						'relative grid h-10 min-h-min w-full grid-cols-[repeat(auto-fit,250px)] gap-4',
+						className
+					)}
 				>
 					{children}
 				</form>

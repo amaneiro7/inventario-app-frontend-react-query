@@ -96,6 +96,7 @@ export const MainEmployeeInfo = memo(
 					Información principal del usuario
 				</Typography>
 				<Input
+					id="employee-userName"
 					value={userName ?? ''}
 					name="userName"
 					label="Usuario"
@@ -131,6 +132,7 @@ export const MainEmployeeInfo = memo(
 				</Typography>
 				<div className="gap-4 md:flex md:flex-row">
 					<Input
+						id="employee-name"
 						value={name ?? ''}
 						name="name"
 						label="Nombres"
@@ -143,6 +145,7 @@ export const MainEmployeeInfo = memo(
 						disabled={nameDisabled}
 					/>
 					<Input
+						id="employee-lastName"
 						value={lastName ?? ''}
 						name="lastName"
 						label="Apellidos"
@@ -156,6 +159,7 @@ export const MainEmployeeInfo = memo(
 					/>
 				</div>
 				<Input
+					id="employee-email"
 					value={email ?? ''}
 					name="email"
 					label="Correo electrónico"
@@ -169,6 +173,7 @@ export const MainEmployeeInfo = memo(
 				/>
 				<div className="gap-4 md:grid md:grid-cols-2">
 					<Input
+						id="employeeCode"
 						value={employeeCode ?? ''}
 						name="employeeCode"
 						label="Código de empleado"
@@ -185,6 +190,7 @@ export const MainEmployeeInfo = memo(
 					/>
 
 					<Input
+						id="cedula"
 						value={cedula ?? ''}
 						name="cedula"
 						label="Cédula de Identidad"

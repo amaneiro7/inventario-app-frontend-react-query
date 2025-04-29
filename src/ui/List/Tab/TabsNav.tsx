@@ -1,7 +1,9 @@
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
 import Typography from '@/components/Typography'
+import { useTabNav } from './useTabNav'
+import { cn } from '@/lib/utils'
 import { type TabNav } from './TabNav'
-interface Props<T>
+interface TabsNavProps<T>
 	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	children?: React.ReactElement<T> | React.ReactElement<T>[]
 	pageSize?: number
@@ -9,6 +11,8 @@ interface Props<T>
 	defaultPageSize?: number
 	isLoading?: boolean
 	total?: number
+	className?: string
+	tabsClassName?: string
 }
 export const TabsNav = memo(function <T extends typeof TabNav>({
 	children,
@@ -17,27 +21,30 @@ export const TabsNav = memo(function <T extends typeof TabNav>({
 	total,
 	isLoading,
 	defaultPageSize,
+	className,
+	tabsClassName,
 	...props
-}: Props<T>) {
-	const getPaginationRange = useMemo(() => {
-		const start = pageSize && pageNumber ? pageSize * (pageNumber - 1) + 1 : 1
-		const calculatedEnd = pageSize && pageNumber ? pageSize * pageNumber : defaultPageSize ?? 25
-		const end = total !== undefined ? Math.min(total, calculatedEnd) : calculatedEnd
-
-		return { start, end }
-	}, [pageSize, pageNumber, defaultPageSize, total])
+}: TabsNavProps<T>) {
+	const { getPaginationRange } = useTabNav({ defaultPageSize, pageNumber, pageSize, total })
 
 	return (
-		<div className="min-h-7 flex items-center justify-between" {...props}>
-			<div className="flex items-center">{children}</div>
+		<div className={cn('flex min-h-7 items-center justify-between', className)} {...props}>
+			<div className={cn('flex items-center', tabsClassName)} role="tablist">
+				{children}
+			</div>
 			{isLoading && (
-				<div className="w-52 h-3 mr-2 animate-pulse-medium rounded-xl bg-gray-300"></div>
+				<div
+					className="animate-pulse-medium mr-2 h-3 w-52 rounded-xl bg-gray-300"
+					aria-label="Cargando resultados..."
+				/>
 			)}
 			{total !== undefined && (
-				<Typography variant="p" option="small" color="gris" className="mr-2">
+				<Typography variant="span" color="azul" className="mr-2 text-shadow-xs">
 					{`Mostrando ${getPaginationRange.start}-${getPaginationRange.end} de ${total} resultados`}
 				</Typography>
 			)}
 		</div>
 	)
 })
+
+TabsNav.displayName = 'TabsNav'

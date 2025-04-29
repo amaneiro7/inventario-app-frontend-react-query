@@ -90,6 +90,7 @@ export const LocationInputs = memo(function ({
 			<div className="flex gap-4">
 				{mode === 'add' && formData.typeOfSiteId === TypeOfSiteOptions.AGENCY ? (
 					<Input
+						id="codeAgency"
 						value={formData.codeAgency ?? 1}
 						name="codeAgency"
 						label="Código de agencia"
@@ -106,6 +107,7 @@ export const LocationInputs = memo(function ({
 				) : null}
 
 				<Input
+					id="location-name"
 					value={formData.name}
 					name="name"
 					label="Nombre de la ubicación"
@@ -119,6 +121,7 @@ export const LocationInputs = memo(function ({
 				/>
 			</div>
 			<Input
+				id="location-subnet"
 				value={formData.subnet ?? ''}
 				name="subnet"
 				label="Subnet"

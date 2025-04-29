@@ -50,6 +50,7 @@ export const AddModelComputerFeatures = memo(function ({
 					/>
 				</Suspense>
 				<Input
+					id="memoryRamSlotQuantity"
 					value={formData.memoryRamSlotQuantity}
 					name="memoryRamSlotQuantity"
 					type="number"
@@ -113,6 +114,7 @@ export const AddModelComputerFeatures = memo(function ({
 			</div>
 			{formData.categoryId === CategoryOptions.LAPTOP ? (
 				<Input
+					id="batteryModel"
 					value={formData.batteryModel}
 					name="batteryModel"
 					label="Número de modelo de bateria"

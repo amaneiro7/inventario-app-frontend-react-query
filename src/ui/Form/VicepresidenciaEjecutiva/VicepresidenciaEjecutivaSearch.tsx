@@ -27,6 +27,7 @@ export function VicepresidenciaEjecutivaSearch() {
 	}
 	return (
 		<SearchInput
+			id="vicepresidencia-ejecutiva-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

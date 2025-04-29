@@ -24,6 +24,7 @@ export function Label<T extends string | number | readonly string[]>({
 	className,
 	disabled,
 	transform,
+	id,
 	...props
 }: Props<T>) {
 	const labelClasses = twMerge(
@@ -37,7 +38,7 @@ export function Label<T extends string | number | readonly string[]>({
 		className
 	)
 	return (
-		<label className={labelClasses} {...props}>
+		<label className={labelClasses} htmlFor={id} {...props}>
 			{`${label} ${required ? '*' : ''}`}
 		</label>
 	)

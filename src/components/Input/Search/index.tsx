@@ -9,6 +9,7 @@ import { ListBox } from '../Combobox/ListBox'
 import { type Highlight } from '../Combobox/RenderOption/RenderComboboxOption'
 
 interface Props<O extends { id: string }, T extends string | number | readonly string[]> {
+	id: string
 	title: string
 	url: string
 	search: string
@@ -36,6 +37,7 @@ export function SearchInput<
 	O extends { id: string },
 	T extends string | number | readonly string[]
 >({
+	id,
 	title,
 	url,
 	name,
@@ -59,7 +61,7 @@ export function SearchInput<
 	const completeSearchValueOnClick = useCallback(
 		(option: O) => {
 			return typeof displayAccessor === 'string'
-				? (option as Record<string, unknown>)[displayAccessor]?.toString() ?? ''
+				? ((option as Record<string, unknown>)[displayAccessor]?.toString() ?? '')
 				: displayAccessor(option)
 		},
 		[displayAccessor]
@@ -81,11 +83,12 @@ export function SearchInput<
 	)
 
 	return (
-		<div className="relative h-16 md:max-w-sm lg:max-w-md w-full flex items-end">
-			<Typography className="pr-2 mt-3 self-start" variant="p" color="gris">
+		<div className="relative flex h-16 w-full items-end md:max-w-sm lg:max-w-md">
+			<Typography className="mt-3 self-start pr-2" variant="p" color="gris">
 				Buscar:
 			</Typography>
 			<InputBase
+				id={id}
 				ref={divRef}
 				label={title}
 				value={search}
@@ -96,6 +99,7 @@ export function SearchInput<
 			>
 				<>
 					<input
+						id={id}
 						type="search"
 						className="button-popover text-left"
 						value={search}

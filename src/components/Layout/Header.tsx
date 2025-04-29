@@ -50,7 +50,6 @@ export const Header = memo(() => {
 
 					<Button
 						aria-label="Botón para cerrar sesión del usuario"
-						role="log"
 						color="orange"
 						size="content"
 						text="Salir"

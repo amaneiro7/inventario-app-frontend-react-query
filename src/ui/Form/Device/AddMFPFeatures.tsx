@@ -18,6 +18,7 @@ interface Props {
 export const AddMFPFeatures = memo(function ({ ipAddress, error, handleChange }: Props) {
 	return (
 		<Input
+			id="mfp-ipaddress"
 			value={ipAddress ?? ''}
 			name="ipAddress"
 			label="Dirección IP"

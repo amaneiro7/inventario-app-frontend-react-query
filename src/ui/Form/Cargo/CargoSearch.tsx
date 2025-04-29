@@ -20,6 +20,7 @@ export function CargoSearch() {
 	const options = useMemo(() => cargos?.data ?? [], [cargos])
 	return (
 		<SearchInput
+			id="cargo-search-name"
 			search={searchValue}
 			handleChange={setSearchValue}
 			url={`/form/cargo/edit/${value}`}

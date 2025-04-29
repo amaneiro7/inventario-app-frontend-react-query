@@ -30,6 +30,7 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 	return (
 		<>
 			<Input
+				id="productCollection"
 				value={formData.productCollection}
 				name="productCollection"
 				label="Collección de Productos"
@@ -47,8 +48,9 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 				))}
 			</datalist>
 			<Input
+				id="numberModel"
 				value={formData.numberModel}
-				name="productCollection"
+				name="numberModel"
 				label="Número de modelo del procesador"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('numberModel', e.target.value)
@@ -59,6 +61,7 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 			/>
 			<div className="flex gap-4">
 				<Input
+					id="processor-cores"
 					value={formData.cores}
 					name="cores"
 					type="number"
@@ -73,6 +76,7 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 					max={ProcessorCores.MAX}
 				/>
 				<Input
+					id="processor-frequency"
 					value={formData.frequency}
 					name="frequency"
 					type="number"

@@ -96,6 +96,7 @@ export const InfoMainDeviceInputs = memo(function ({
 	return (
 		<>
 			<Input
+				id="device-serial"
 				value={serial ?? ''}
 				name="serial"
 				label="Serial"
@@ -109,6 +110,7 @@ export const InfoMainDeviceInputs = memo(function ({
 				disabled={disabledSerial}
 			/>
 			<Input
+				id="device-activo"
 				value={activo ?? ''}
 				name="activo"
 				label="Activo"
@@ -144,6 +146,7 @@ export const InfoMainDeviceInputs = memo(function ({
 			</Suspense>
 			{typeOfSiteId === TypeOfSiteOptions.ALMACEN ? (
 				<Input
+					id="device-stocknumber"
 					value={stockNumber ?? ''}
 					name="stockNumber"
 					label="N° de Stock"
@@ -157,6 +160,7 @@ export const InfoMainDeviceInputs = memo(function ({
 				/>
 			) : null}
 			<Input
+				id="device-observation"
 				value={observation ?? ''}
 				name="observation"
 				label="Observación"

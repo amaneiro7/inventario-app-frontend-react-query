@@ -32,6 +32,7 @@ export function CentroTrabajoSearch() {
 	}
 	return (
 		<SearchInput
+			id="centroTrabajo-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

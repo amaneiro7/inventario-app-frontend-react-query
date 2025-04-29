@@ -98,6 +98,7 @@ export const MainComputerFilter = memo(function ({
 			</Suspense>
 
 			<Input
+				id="serial-search"
 				value={localSerial}
 				label="Serial"
 				name="serial"

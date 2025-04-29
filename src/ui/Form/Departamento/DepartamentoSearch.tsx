@@ -24,6 +24,7 @@ export function DepartamentoSearch() {
 	}
 	return (
 		<SearchInput
+			id="departamento-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

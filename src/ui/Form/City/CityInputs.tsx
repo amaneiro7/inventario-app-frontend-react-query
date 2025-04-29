@@ -41,6 +41,7 @@ export const CityInputs = memo(function ({ errors, required, formData, handleCha
 				required={required.stateId}
 			/>
 			<Input
+				id="city-name"
 				value={formData.name}
 				name="name"
 				label="Nombre de la ciudad"

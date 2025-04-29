@@ -25,6 +25,7 @@ export function SiteSearch() {
 	}
 	return (
 		<SearchInput
+			id="site-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

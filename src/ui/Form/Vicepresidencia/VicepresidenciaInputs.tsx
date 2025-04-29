@@ -49,6 +49,7 @@ export const VicepresidenciasInputs = memo(function ({
 				directivaId={formData.directivaId}
 			/>
 			<Input
+				id="vicepresidencia-name"
 				value={formData.name}
 				name="name"
 				label="Nombre de la vicepresidencia "

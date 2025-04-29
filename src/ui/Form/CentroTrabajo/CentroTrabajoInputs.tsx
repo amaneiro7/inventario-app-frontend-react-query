@@ -28,7 +28,7 @@ export const CentroTrabajoInputs = memo(function ({
 	handleChange
 }: Props) {
 	return (
-		<div className=" w-full flex flex-col justify-self-center gap-4 content-center max-w-2xl">
+		<div className="flex w-full max-w-2xl flex-col content-center gap-4 justify-self-center">
 			<CentroCostoCombobox
 				value={formData.centroCostoId}
 				handleChange={(_name, value) => handleChange('centroCostoId', value)}
@@ -39,6 +39,7 @@ export const CentroTrabajoInputs = memo(function ({
 			/>
 			<div className="flex gap-4">
 				<Input
+					id="centro-trabajo-cod"
 					value={formData.id}
 					name="id"
 					label="Código del Centro de Trabajo"
@@ -52,6 +53,7 @@ export const CentroTrabajoInputs = memo(function ({
 					readOnly={mode === 'edit'}
 				/>
 				<Input
+					id="centro-trabajo-name"
 					value={formData.name}
 					name="name"
 					label="Nombre del Centro del Trabajo"

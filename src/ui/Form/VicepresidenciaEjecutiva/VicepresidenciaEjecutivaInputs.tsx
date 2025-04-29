@@ -32,6 +32,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 				required={required.directivaId}
 			/>
 			<Input
+				id="vicepresidencia-ejecutiva-search-name"
 				value={formData.name}
 				name="name"
 				label="Nombre de la vicepresidencia ejecutiva"

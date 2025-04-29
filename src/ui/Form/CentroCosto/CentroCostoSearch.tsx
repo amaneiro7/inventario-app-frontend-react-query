@@ -32,6 +32,7 @@ export function CentroCostoSearch() {
 	}
 	return (
 		<SearchInput
+			id="centroCosto-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

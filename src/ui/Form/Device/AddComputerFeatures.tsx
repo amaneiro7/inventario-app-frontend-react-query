@@ -88,6 +88,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 	return (
 		<>
 			<Input
+				id="device-computerName"
 				value={props.computerName ?? ''}
 				name="computerName"
 				label="Nombre de equipo"
@@ -101,6 +102,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 			/>
 			<div className="flex gap-2">
 				<Input
+					id="device-ipaddress"
 					value={props.ipAddress ?? ''}
 					name="ipAddress"
 					label="Dirección IP"
@@ -113,6 +115,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 					disabled={props.disabledIpAddress}
 				/>
 				<Input
+					id="device-macaddress"
 					value={props.macAddress ?? ''}
 					name="macAddress"
 					label="Dirección MAC"
@@ -152,6 +155,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 				</div>
 				<div className="flex gap-4">
 					<Input
+						id="computer-memoryRamCapacity"
 						value={props.memoryRamCapacity ?? ''}
 						name="memoryRamCapacity"
 						label="Total Memoria Ram"
@@ -170,6 +174,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 					/>
 
 					<Input
+						id="computer-memoryRamType"
 						name="memoryRamType"
 						label="Tipo de Memoria"
 						value={props.memoryRamType}

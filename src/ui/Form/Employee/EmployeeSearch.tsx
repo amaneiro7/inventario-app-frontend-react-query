@@ -25,6 +25,7 @@ export const EmployeeSearch = memo(() => {
 
 	return (
 		<SearchInput
+			id="employee-search-username"
 			search={searchValue}
 			handleChange={setSearchValue}
 			url={`/form/employee/edit/${value}`}

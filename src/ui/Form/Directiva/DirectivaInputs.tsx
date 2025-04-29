@@ -19,6 +19,7 @@ export const DirectivaInputs = memo(function ({ errors, required, formData, hand
 	return (
 		<>
 			<Input
+				id="directiva-name"
 				value={formData.name}
 				name="name"
 				label="Nombre de la directiva"

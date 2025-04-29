@@ -84,6 +84,7 @@ export const ModelInputs = memo(function ({
 						Información del modelo
 					</Typography>
 					<Input
+						id="model-name"
 						value={formData.name}
 						name="name"
 						label="Nombre del modelo"

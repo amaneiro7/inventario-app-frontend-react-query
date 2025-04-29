@@ -1,13 +1,11 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { TypeOfSiteGetAllService } from '@/core/locations/typeOfSites/infra/service/typeOfSiteGetAll.service'
 import { TypeOfSiteGetByCriteria } from '@/core/locations/typeOfSites/application/TypeOfSiteGetByCriteria'
 import { type TypeOfSiteFilters } from '../../application/createTypeOfSiteQueryParams'
 
+const repository = new TypeOfSiteGetAllService()
+const getAll = new TypeOfSiteGetByCriteria(repository)
 export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
-	const repository = useMemo(() => new TypeOfSiteGetAllService(), [])
-	const getAll = useMemo(() => new TypeOfSiteGetByCriteria(repository), [repository])
-
 	const {
 		isLoading,
 		refetch,

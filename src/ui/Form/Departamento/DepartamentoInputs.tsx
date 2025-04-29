@@ -63,6 +63,7 @@ export const DepartamentoInputs = memo(function ({
 				/>
 			</div>
 			<Input
+				id="departamento-name"
 				value={formData.name}
 				name="name"
 				label="name"

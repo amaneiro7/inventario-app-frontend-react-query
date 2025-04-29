@@ -24,6 +24,7 @@ export function LocationSearch() {
 	}
 	return (
 		<SearchInput
+			id="location-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

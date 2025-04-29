@@ -24,6 +24,7 @@ export function VicepresidenciaSearch() {
 	}
 	return (
 		<SearchInput
+			id="vicepresidencia-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

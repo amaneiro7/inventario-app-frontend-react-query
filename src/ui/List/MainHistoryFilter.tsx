@@ -79,6 +79,7 @@ export const MainHistoryFilter = memo(function ({
 				<DeviceCombobox name="deviceId" handleChange={handleChange} value={deviceId} />
 			</Suspense>
 			<Input
+				id="startDate"
 				label="Fecha de inicio"
 				name="startDate"
 				value={localStartDate}
@@ -87,6 +88,7 @@ export const MainHistoryFilter = memo(function ({
 				onChange={e => setLocalStartDate(e.target.value)}
 			/>
 			<Input
+				id="endDate"
 				label="Fecha de fin"
 				name="endDate"
 				value={localEndDate}

@@ -134,6 +134,7 @@ export const OtherComputerFilter = memo(
 			<>
 				<Divider />
 				<Input
+					id="computerName-search"
 					value={localComputerName}
 					label="Nombre del computador"
 					name="computerName"
@@ -158,6 +159,7 @@ export const OtherComputerFilter = memo(
 				<Divider />
 				<div className="grid grid-cols-[7rem_1fr] items-center gap-x-2">
 					<Input
+						id="memoryRamCapacity-filter"
 						name="memoryRamCapacity"
 						label="Memoria Ram"
 						value={localMemoryRamCapacity}
@@ -182,6 +184,7 @@ export const OtherComputerFilter = memo(
 				<Divider />
 				<div className="grid grid-cols-[7rem_1fr] items-center gap-x-2">
 					<Input
+						id="hardDriveCapacity-filter"
 						name="hardDriveCapacity"
 						label="Disco Duro"
 						value={localHardDriveCapacity}
@@ -206,6 +209,7 @@ export const OtherComputerFilter = memo(
 				</Suspense>
 				<Divider />
 				<Input
+					id="processor-search"
 					value={localProcessor}
 					label="Procesador"
 					name="processor"
@@ -214,6 +218,7 @@ export const OtherComputerFilter = memo(
 				/>
 
 				<Input
+					id="ipAddress-search"
 					value={localIPAddress}
 					label="Direccón IP"
 					name="ipAddress"

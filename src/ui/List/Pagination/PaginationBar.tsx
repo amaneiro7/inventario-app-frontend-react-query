@@ -19,18 +19,20 @@ export function PaginationBar({
 	handlePageSize: (pageSize: number) => void
 }) {
 	return (
-		<nav aria-label="pagination-bar" className="flex items-center justify-between">
+		<div className="flex items-center justify-between">
 			<RecordPerPage
 				pageSize={pageSize}
 				total={total}
 				registerOptions={registerOptions}
 				handlePageSize={handlePageSize}
 			/>
-			<PaginationList
-				totalPages={totalPages}
-				currentPage={currentPage ?? 1}
-				handlePageClick={handlePageClick}
-			/>
-		</nav>
+			<nav aria-label="Paginación">
+				<PaginationList
+					totalPages={totalPages}
+					currentPage={currentPage ?? 1}
+					handlePageClick={handlePageClick}
+				/>
+			</nav>
+		</div>
 	)
 }
