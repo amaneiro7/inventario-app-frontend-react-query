@@ -17,7 +17,7 @@ export default function FormSite() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/site/add"
+			url="/form/site/add"
 			border
 			searchInput={<SiteSearch />}
 		>

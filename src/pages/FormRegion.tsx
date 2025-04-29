@@ -26,7 +26,7 @@ export default function FormRegion() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/region/"
+			url="/form/region/"
 			border
 			standBy={mode !== 'edit'}
 			searchInput={<RegionSearch />}

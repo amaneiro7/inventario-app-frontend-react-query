@@ -26,7 +26,7 @@ export default function FormCentroCosto() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/centrocosto/add"
+			url="/form/centrocosto/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<CentroCostoSearch />}

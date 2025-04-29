@@ -26,7 +26,7 @@ export default function FormModel() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/model/add"
+			url="/form/model/add"
 			lastUpdated={formData.updatedAt}
 			searchInput={<ModelSearch />}
 		>

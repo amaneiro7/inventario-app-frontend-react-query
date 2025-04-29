@@ -17,7 +17,7 @@ export default function FormCity() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/city/add"
+			url="/form/city/add"
 			border
 			searchInput={<CitySearch />}
 		>

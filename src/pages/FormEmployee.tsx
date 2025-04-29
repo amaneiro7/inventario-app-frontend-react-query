@@ -42,7 +42,7 @@ const FormEmployee = memo(() => {
 			searchInput={<EmployeeSearch />}
 			reset={mode === 'edit' ? resetForm : undefined}
 			lastUpdated={updatedAt}
-			url="form/employee/add"
+			url="/form/employee/add"
 		>
 			<Tabs defaultValue="form" className="space-y-4">
 				<TabsList>

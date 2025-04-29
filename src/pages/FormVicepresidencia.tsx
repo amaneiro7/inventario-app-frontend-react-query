@@ -26,7 +26,7 @@ export default function FormVicepresidencia() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/vicepresidencia/add"
+			url="/form/vicepresidencia/add"
 			border
 			searchInput={<VicepresidenciaSearch />}
 		>

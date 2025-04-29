@@ -27,7 +27,7 @@ export default function FormLocation() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/location/add"
+			url="/form/location/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<LocationSearch />}

@@ -16,7 +16,7 @@ export default function FormBrand() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/brand/add"
+			url="/form/brand/add"
 			border
 			searchInput={<BrandSearch />}
 		>

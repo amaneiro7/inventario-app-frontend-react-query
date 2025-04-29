@@ -26,7 +26,7 @@ export default function FormCargo() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/cargo/add"
+			url="/form/cargo/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<CargoSearch />}

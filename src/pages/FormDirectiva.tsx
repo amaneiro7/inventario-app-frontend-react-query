@@ -17,7 +17,7 @@ export default function FormDirectiva() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/directiva/add"
+			url="/form/directiva/add"
 			border
 			searchInput={<DirectivaSearch />}
 		>

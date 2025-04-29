@@ -26,7 +26,7 @@ export default function FormCentroTrabajo() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/centrotrabajo/add"
+			url="/form/centrotrabajo/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<CentroTrabajoSearch />}

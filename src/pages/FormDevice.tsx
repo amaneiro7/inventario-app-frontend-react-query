@@ -39,7 +39,7 @@ export default function FormDevice() {
 				reset={mode === 'edit' ? resetForm : undefined}
 				lastUpdated={formData.updatedAt}
 				updatedBy={formData.history}
-				url="form/device/add"
+				url="/form/device/add"
 			>
 				<Suspense fallback={<div className="min-h-[455px]" />}>
 					<DeviceInputs

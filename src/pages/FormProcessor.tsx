@@ -17,7 +17,7 @@ export default function FormProcessor() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/Processor/add"
+			url="/form/Processor/add"
 			border
 			searchInput={<ProcessorSearch />}
 		>

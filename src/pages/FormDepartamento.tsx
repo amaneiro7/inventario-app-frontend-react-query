@@ -26,7 +26,7 @@ export default function FormDepartamento() {
 				window.history.back()
 			}}
 			reset={mode === 'edit' ? resetForm : undefined}
-			url="form/departamento/add"
+			url="/form/departamento/add"
 			border
 			lastUpdated={formData.updatedAt}
 			searchInput={<DepartamentoSearch />}
