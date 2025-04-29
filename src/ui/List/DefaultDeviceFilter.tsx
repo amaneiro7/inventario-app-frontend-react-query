@@ -37,7 +37,7 @@ const VicepresidenciaEjecutivaCombobox = lazy(() =>
 	}))
 )
 const VicepresidenciaCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/VicepresidenciaComboBox').then(m => ({
+	import('@/components/ComboBox/Asincrono/VicepresidenciaComboBox').then(m => ({
 		default: m.VicepresidenciaCombobox
 	}))
 )
@@ -159,6 +159,7 @@ export function DefaultDeviceFilter({
 					name="vicepresidenciaId"
 					handleChange={handleChange}
 					value={vicepresidenciaId}
+					directivaId={directivaId}
 					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
 				/>
 			</Suspense>

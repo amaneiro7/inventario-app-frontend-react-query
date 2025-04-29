@@ -1,12 +1,14 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useGetAllVicepresidencias } from '@/core/employee/vicepresidencia/infra/hook/useGetAllVicepresidencia'
 import { type VicepresidenciaFilters } from '@/core/employee/vicepresidencia/application/createVicepresidenciaQueryParams'
 import { Combobox } from '@/components/Input/Combobox'
+import { useDebounce } from '@/hooks/utils/useDebounce'
 
 export const VicepresidenciaCombobox = memo(function ({
 	value = '',
 	name,
 	vicepresidenciaEjecutivaId,
+	directivaId,
 	error = '',
 	required = false,
 	disabled = false,
@@ -14,6 +16,7 @@ export const VicepresidenciaCombobox = memo(function ({
 	handleChange
 }: {
 	value?: string
+	directivaId?: string
 	vicepresidenciaEjecutivaId?: string
 	name: string
 	error?: string
@@ -22,12 +25,16 @@ export const VicepresidenciaCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
+	const [inputValue, setInputValue] = useState('')
+	const [debouncedSearch] = useDebounce(inputValue)
 	const query: VicepresidenciaFilters = useMemo(
 		() => ({
 			...(value ? { id: value } : {}),
-			vicepresidenciaEjecutivaId
+			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+			vicepresidenciaEjecutivaId,
+			directivaId
 		}),
-		[value, vicepresidenciaEjecutivaId]
+		[debouncedSearch, value, vicepresidenciaEjecutivaId, directivaId]
 	)
 
 	const { vicepresidencias, isLoading } = useGetAllVicepresidencias(query)
@@ -41,15 +48,16 @@ export const VicepresidenciaCombobox = memo(function ({
 				label="Vicepresidencia "
 				value={value}
 				name={name}
-				loading={isLoading}
-				options={options}
 				required={required}
 				disabled={disabled}
+				loading={isLoading}
 				error={!!error}
 				errorMessage={error}
-				searchField={false}
-				readOnly={readonly}
+				options={options}
+				inputValue={inputValue}
+				onInputChange={setInputValue}
 				onChangeValue={handleChange}
+				readOnly={readonly}
 			/>
 		</>
 	)

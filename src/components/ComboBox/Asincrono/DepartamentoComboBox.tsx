@@ -6,6 +6,8 @@ import { type DepartamentoFilters } from '@/core/employee/departamento/applicati
 interface DepartamentoComboboxProps {
 	value?: string
 	vicepresidenciaId?: string
+	vicepresidenciaEjecutivaId?: string
+	directivaId?: string
 	name: string
 	error?: string
 	required?: boolean
@@ -17,6 +19,8 @@ interface DepartamentoComboboxProps {
 export const DepartamentoCombobox = memo(function ({
 	value = '',
 	vicepresidenciaId,
+	directivaId,
+	vicepresidenciaEjecutivaId,
 	name,
 	error = '',
 	required = false,
@@ -31,9 +35,11 @@ export const DepartamentoCombobox = memo(function ({
 		return {
 			...(value ? { id: value } : { id: undefined }),
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-			vicepresidenciaId
+			vicepresidenciaId,
+			directivaId,
+			vicepresidenciaEjecutivaId
 		}
-	}, [debouncedSearch, value, name, vicepresidenciaId])
+	}, [debouncedSearch, value, name, vicepresidenciaId, directivaId, vicepresidenciaEjecutivaId])
 
 	const { departamentos, isLoading } = useGetAllDepartamento(query)
 	const options = useMemo(() => departamentos?.data ?? [], [departamentos])

@@ -49,6 +49,9 @@ export default function ListFinantialPrinter() {
 						mainCategoryId={mainCategoryId}
 						administrativeRegionId={query.administrativeRegionId}
 						typeOfSiteId={query.typeOfSiteId}
+						directivaId={query.directivaId}
+						vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+						vicepresidenciaId={query.vicepresidenciaId}
 						departamentoId={query.departamentoId}
 						handleChange={handleChange}
 					/>

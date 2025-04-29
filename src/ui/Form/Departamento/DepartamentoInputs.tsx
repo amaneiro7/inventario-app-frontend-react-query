@@ -11,7 +11,7 @@ import { type FormMode } from '@/hooks/useGetFormMode'
 import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
 import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
 import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
-import { VicepresidenciaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaComboBox'
+import { VicepresidenciaCombobox } from '@/components/ComboBox/Asincrono/VicepresidenciaComboBox'
 
 interface Props {
 	formData: DefaultDepartamento

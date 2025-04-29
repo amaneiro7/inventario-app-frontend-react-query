@@ -1,7 +1,8 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useGetAllVicepresidenciaEjecutivas } from '@/core/employee/vicepresidenciaEjecutiva/infra/hook/useGetAllVicepresidenciaEjecutiva'
-import { type VicepresidenciaEjecutivaFilters } from '@/core/employee/vicepresidenciaEjecutiva/application/createVicepresidenciaEjecutivaQueryParams'
+import { useFilterOptions } from '@/hooks/useFilterOptions'
 import { Combobox } from '@/components/Input/Combobox'
+import { type VicepresidenciaEjecutivaFilters } from '@/core/employee/vicepresidenciaEjecutiva/application/createVicepresidenciaEjecutivaQueryParams'
 
 export const VicepresidenciaEjecutivaCombobox = memo(function ({
 	value = '',
@@ -22,6 +23,7 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
+	const [inputValue, setInputValue] = useState('')
 	const query: VicepresidenciaEjecutivaFilters = useMemo(
 		() => ({
 			...(value ? { id: value } : {}),
@@ -37,6 +39,8 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 		[vicepresidenciaEjecutivas]
 	)
 
+	const filteredOptions = useFilterOptions({ options, inputValue })
+
 	return (
 		<>
 			<Combobox
@@ -45,14 +49,15 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 				value={value}
 				name={name}
 				loading={isLoading}
-				options={options}
+				options={filteredOptions}
 				required={required}
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				searchField={false}
-				readOnly={readonly}
+				inputValue={inputValue}
+				onInputChange={setInputValue}
 				onChangeValue={handleChange}
+				readOnly={readonly}
 			/>
 		</>
 	)

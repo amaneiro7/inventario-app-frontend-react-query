@@ -26,7 +26,7 @@ const CityCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
 )
 const VicepresidenciaCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/VicepresidenciaComboBox').then(m => ({
+	import('@/components/ComboBox/Asincrono/VicepresidenciaComboBox').then(m => ({
 		default: m.VicepresidenciaCombobox
 	}))
 )
