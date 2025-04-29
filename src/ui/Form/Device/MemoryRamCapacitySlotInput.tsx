@@ -27,6 +27,7 @@ export function MemoryRamCapacitySlotInput({ value, index, onChange }: Props) {
 
 	return (
 		<Input
+			id={`MemoriaRamSlot-${index}`}
 			name="memoryRam"
 			label={`Memoria Ram Slot ${index}`}
 			type="number"

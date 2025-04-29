@@ -3,6 +3,7 @@ import { InputBase } from '../InputBase'
 
 interface InputProps<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+	id: string
 	label: string
 	value: T
 	error?: boolean
@@ -18,6 +19,7 @@ interface InputProps<T extends string | number | readonly string[]>
 }
 export const Input = memo(
 	<T extends string | number | readonly string[]>({
+		id,
 		value,
 		error,
 		valid,
@@ -38,6 +40,7 @@ export const Input = memo(
 	}: InputProps<T>) => {
 		return (
 			<InputBase
+				id={id}
 				label={label}
 				type={type}
 				value={value}
@@ -54,6 +57,7 @@ export const Input = memo(
 				onRightIconClick={onRightIconClick}
 			>
 				<input
+					id={id}
 					type={type}
 					name={name}
 					value={value}

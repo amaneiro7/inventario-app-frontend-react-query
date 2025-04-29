@@ -32,6 +32,7 @@ export const FormLogin = () => {
 					<form id="login" action="submit" onSubmit={handleSubmit}>
 						<div className="mb-20 space-y-6 md:space-y-8">
 							<Input
+								id="login-email"
 								leftIcon={<MailIcon className="aspect-square w-4 fill-black/60" />}
 								label="Correo electrónico"
 								name="email"
@@ -44,6 +45,7 @@ export const FormLogin = () => {
 								required
 							/>
 							<Input
+								id="login-password"
 								leftIcon={<LockIcon className="aspect-square w-4 fill-black/60" />}
 								label="Contraseña"
 								name="password"

@@ -27,8 +27,9 @@ export const CentroCostoInputs = memo(function ({
 	handleChange
 }: Props) {
 	return (
-		<div className="w-full flex justify-self-center gap-4 content-center max-w-2xl">
+		<div className="flex w-full max-w-2xl content-center gap-4 justify-self-center">
 			<Input
+				id="centro-costo-code"
 				value={formData.id}
 				name="id"
 				type="number"
@@ -45,6 +46,7 @@ export const CentroCostoInputs = memo(function ({
 				readOnly={mode === 'edit'}
 			/>
 			<Input
+				id="centro-costo-name"
 				value={formData.name}
 				name="name"
 				label="Nombre del Centro del Costo"

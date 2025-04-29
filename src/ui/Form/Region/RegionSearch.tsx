@@ -24,6 +24,7 @@ export function RegionSearch() {
 	}
 	return (
 		<SearchInput
+			id="region-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

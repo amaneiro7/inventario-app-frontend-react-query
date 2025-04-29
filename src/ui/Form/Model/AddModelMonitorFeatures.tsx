@@ -31,6 +31,7 @@ export const AddModelMonitorFeatures = memo(function ({
 		<>
 			<div className="flex gap-4">
 				<Input
+					id="screenSize"
 					value={formData.screenSize}
 					name="screenSize"
 					type="number"

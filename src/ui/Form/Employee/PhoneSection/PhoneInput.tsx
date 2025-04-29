@@ -30,6 +30,7 @@ export const PhoneInput = memo(
 
 		return (
 			<Input
+				id={`Teléfono-${index + 1}`}
 				value={numero}
 				label={`Teléfono #${index + 1}`}
 				name={`phone-#${index + 1}`}

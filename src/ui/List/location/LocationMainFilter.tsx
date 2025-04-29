@@ -78,6 +78,7 @@ export const LocationMainFilter = memo(
 		return (
 			<>
 				<Input
+					id="siteName-search"
 					value={localName}
 					name="name"
 					label="Nombre del sitio"
@@ -114,6 +115,7 @@ export const LocationMainFilter = memo(
 				</Suspense>
 
 				<Input
+					id="site-subnet-search"
 					value={localSubnet}
 					name="subnet"
 					label="Subnet del sitio"

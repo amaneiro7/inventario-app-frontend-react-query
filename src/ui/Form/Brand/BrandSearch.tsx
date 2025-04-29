@@ -24,6 +24,7 @@ export function BrandSearch() {
 	}
 	return (
 		<SearchInput
+			id="brand-search-form"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

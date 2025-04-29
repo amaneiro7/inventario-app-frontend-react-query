@@ -24,6 +24,7 @@ export function DirectivaSearch() {
 	}
 	return (
 		<SearchInput
+			id="directiva-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

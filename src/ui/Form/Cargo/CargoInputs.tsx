@@ -26,6 +26,7 @@ export const CargoInputs = memo(function ({
 	return (
 		<>
 			<Input
+				id="cargo-name"
 				value={formData.name}
 				name="name"
 				label="Nombre del cargo"

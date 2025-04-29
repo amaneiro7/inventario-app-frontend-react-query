@@ -12,6 +12,7 @@ interface Props {
 export const BrandInputs = memo(function ({ errors, formData, handleChange }: Props) {
 	return (
 		<Input
+			id="brand-name"
 			value={formData.name}
 			name="name"
 			label="Nombre de la marca"

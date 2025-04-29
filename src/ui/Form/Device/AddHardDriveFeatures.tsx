@@ -37,6 +37,7 @@ export const AddHardDriveFeatures = memo(function ({
 	return (
 		<div className="flex gap-4">
 			<Input
+				id="hdd-health"
 				value={health}
 				name="health"
 				type="number"

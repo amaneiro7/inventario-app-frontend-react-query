@@ -24,6 +24,7 @@ export function ProcessorSearch() {
 	}
 	return (
 		<SearchInput
+			id="processor-search-numberModel"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value.toUpperCase().trim())

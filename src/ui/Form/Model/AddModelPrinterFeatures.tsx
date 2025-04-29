@@ -30,6 +30,7 @@ export const AddModelPrinterFeatures = memo(function ({
 		<>
 			<div className="flex gap-4">
 				<Input
+					id="cartridgeModel"
 					value={formData.cartridgeModel}
 					name="cartridgeModel"
 					label="Número de modelo del cartucho"

@@ -61,6 +61,7 @@ export function ChangePassowrdForm({
 				</div>
 
 				<Input
+					id="profile-current-password"
 					label="Clave Actual"
 					type={toggleInputs.password ? 'text' : 'password'}
 					name="password"
@@ -81,6 +82,7 @@ export function ChangePassowrdForm({
 				/>
 
 				<Input
+					id="profile-newPassword"
 					label="Nueva Clave"
 					type={toggleInputs.newPassword ? 'text' : 'password'}
 					name="newPassword"
@@ -101,6 +103,7 @@ export function ChangePassowrdForm({
 				/>
 
 				<Input
+					id="profile-reTypePassword"
 					label="Confirmación de Clave"
 					type={toggleInputs.reTypePassword ? 'text' : 'password'}
 					name="reTypePassword"

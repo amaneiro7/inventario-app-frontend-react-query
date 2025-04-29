@@ -141,6 +141,7 @@ export const EmployeeOtherFilter = memo(
 		return (
 			<>
 				<Input
+					id="employeeCode-search"
 					value={localEmployeeCode}
 					name="employeeCode"
 					label="Código de empleado"
@@ -149,6 +150,7 @@ export const EmployeeOtherFilter = memo(
 					onChange={handleEmployeeCode}
 				/>
 				<Input
+					id="name-search"
 					value={localName}
 					name="name"
 					label="Nombre"
@@ -156,6 +158,7 @@ export const EmployeeOtherFilter = memo(
 					onChange={handleName}
 				/>
 				<Input
+					id="lastName-search"
 					value={localLastName}
 					name="lastName"
 					label="Apellido"
@@ -163,6 +166,7 @@ export const EmployeeOtherFilter = memo(
 					onChange={handleLastName}
 				/>
 				<Input
+					id="email-search"
 					value={localEmail}
 					name="email"
 					label="Correo electronico"
@@ -170,6 +174,7 @@ export const EmployeeOtherFilter = memo(
 					onChange={handleEmail}
 				/>
 				<Input
+					id="cedula-search"
 					value={localCedula}
 					name="cedula"
 					label="Cedula"

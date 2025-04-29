@@ -53,6 +53,7 @@ export const SiteInputs = memo(function ({
 				readonly={mode === 'edit'}
 			/>
 			<Input
+				id="site-address"
 				value={formData.address}
 				name="address"
 				label="Dirección del sitio"
@@ -64,6 +65,7 @@ export const SiteInputs = memo(function ({
 				required={required.address}
 			/>
 			<Input
+				id="site-name"
 				value={formData.name}
 				name="name"
 				label="Nombre de la sitio"

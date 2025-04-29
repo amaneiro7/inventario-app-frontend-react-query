@@ -24,6 +24,7 @@ export function CitySearch() {
 	}
 	return (
 		<SearchInput
+			id="city-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

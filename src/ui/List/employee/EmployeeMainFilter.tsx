@@ -79,6 +79,7 @@ export const EmployeeMainFilter = memo(
 		return (
 			<>
 				<Input
+					id="userName-search"
 					value={localUserName}
 					name="userName"
 					label="Nombre de Usuario"

@@ -24,6 +24,7 @@ export function ModelSearch() {
 	}
 	return (
 		<SearchInput
+			id="model-search-name"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value)

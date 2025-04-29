@@ -37,8 +37,6 @@ export const HamburgerMenu = memo(() => {
 				id="button-toggle"
 				className="hamburger hamburger--spin"
 				htmlFor="nav-toggle"
-				aria-haspopup
-				aria-expanded={false}
 				aria-label="Menú de navegación"
 				aria-controls="nav-toggle"
 			>

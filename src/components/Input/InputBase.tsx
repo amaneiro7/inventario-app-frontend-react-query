@@ -25,6 +25,7 @@ interface Props<T extends string | number | readonly string[]>
 }
 export const InputBase = memo(
 	<T extends string | number | readonly string[]>({
+		id,
 		error,
 		ref,
 		valid,
@@ -52,6 +53,7 @@ export const InputBase = memo(
 				{...props}
 			>
 				<Label
+					id={id}
 					label={label}
 					value={value}
 					error={error}
@@ -76,6 +78,7 @@ export const InputBase = memo(
 							tabIndex={-1}
 						>
 							{rightIcon}
+							<span className="sr-only">Hola Mundo</span>
 						</button>
 					) : null}
 					<Fieldset
