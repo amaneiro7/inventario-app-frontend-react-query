@@ -288,7 +288,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					...action.payload.formData
 				},
 				errors: {
-					...state.errors
+					...initialDeviceState.errors
 				},
 				required: {
 					...state.required,
@@ -368,52 +368,59 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 		}
 		case 'statusId': {
 			const statusId = action.payload.value
+			const employeeId =
+				statusId === StatusOptions.INALMACEN ||
+				statusId === StatusOptions.PORDESINCORPORAR ||
+				statusId === StatusOptions.DESINCORPORADO ||
+				statusId === StatusOptions.JORNADA ||
+				statusId === StatusOptions.DISPONIBLE
+					? ''
+					: state.formData.employeeId
+			const locationId =
+				statusId === StatusOptions.INALMACEN ||
+				statusId === StatusOptions.PORDESINCORPORAR ||
+				statusId === StatusOptions.DESINCORPORADO
+					? ''
+					: state.formData.locationId
+			const computerName =
+				statusId === StatusOptions.INALMACEN ||
+				statusId === StatusOptions.PORDESINCORPORAR ||
+				statusId === StatusOptions.DESINCORPORADO
+					? ''
+					: state.formData.computerName
+			const operatingSystemId =
+				statusId === StatusOptions.INALMACEN ||
+				statusId === StatusOptions.PORDESINCORPORAR ||
+				statusId === StatusOptions.DESINCORPORADO
+					? ''
+					: state.formData.operatingSystemId
+			const operatingSystemArqId =
+				statusId === StatusOptions.INALMACEN ||
+				statusId === StatusOptions.PORDESINCORPORAR ||
+				statusId === StatusOptions.DESINCORPORADO
+					? ''
+					: state.formData.operatingSystemArqId
+			const ipAddress =
+				statusId === StatusOptions.INALMACEN ||
+				statusId === StatusOptions.PORDESINCORPORAR ||
+				statusId === StatusOptions.JORNADA ||
+				statusId === StatusOptions.DESINCORPORADO
+					? ''
+					: state.formData.ipAddress
+			const stockNumber = ''
 
 			return {
 				...state,
 				formData: {
 					...state.formData,
 					statusId,
-					employeeId:
-						statusId === StatusOptions.INALMACEN ||
-						statusId === StatusOptions.PORDESINCORPORAR ||
-						statusId === StatusOptions.DESINCORPORADO ||
-						statusId === StatusOptions.JORNADA ||
-						statusId === StatusOptions.DISPONIBLE
-							? ''
-							: state.formData.employeeId,
-					locationId:
-						statusId === StatusOptions.INALMACEN ||
-						statusId === StatusOptions.PORDESINCORPORAR ||
-						statusId === StatusOptions.DESINCORPORADO
-							? ''
-							: state.formData.locationId,
-					computerName:
-						statusId === StatusOptions.INALMACEN ||
-						statusId === StatusOptions.PORDESINCORPORAR ||
-						statusId === StatusOptions.DESINCORPORADO
-							? ''
-							: state.formData.computerName,
-					operatingSystemId:
-						statusId === StatusOptions.INALMACEN ||
-						statusId === StatusOptions.PORDESINCORPORAR ||
-						statusId === StatusOptions.DESINCORPORADO
-							? ''
-							: state.formData.operatingSystemId,
-					operatingSystemArqId:
-						statusId === StatusOptions.INALMACEN ||
-						statusId === StatusOptions.PORDESINCORPORAR ||
-						statusId === StatusOptions.DESINCORPORADO
-							? ''
-							: state.formData.operatingSystemArqId,
-					ipAddress:
-						statusId === StatusOptions.INALMACEN ||
-						statusId === StatusOptions.PORDESINCORPORAR ||
-						statusId === StatusOptions.JORNADA ||
-						statusId === StatusOptions.DESINCORPORADO
-							? ''
-							: state.formData.ipAddress,
-					stockNumber: ''
+					employeeId,
+					locationId,
+					computerName,
+					operatingSystemId,
+					operatingSystemArqId,
+					ipAddress,
+					stockNumber
 				},
 				disabled: {
 					...state.disabled,
@@ -445,7 +452,8 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 						statusId === StatusOptions.INALMACEN ||
 						statusId === StatusOptions.PORDESINCORPORAR ||
 						statusId === StatusOptions.DESINCORPORADO ||
-						!state.formData.hardDriveCapacityId
+						!state.formData.hardDriveCapacityId,
+					operatingSystemArqId: !operatingSystemId
 				},
 				required: {
 					...state.required,
@@ -484,7 +492,72 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 						statusId === StatusOptions.PRESTAMO ||
 						statusId === StatusOptions.JORNADA ||
 						statusId === StatusOptions.CONTINGENCIA ||
-						statusId === StatusOptions.GUARDIA
+						statusId === StatusOptions.GUARDIA,
+					operatingSystemArqId: Boolean(operatingSystemId)
+				},
+				errors: {
+					...state.errors,
+					locationId: DeviceLocation.isValid({
+						typeOfSite: state.formData.typeOfSiteId,
+						status: statusId
+					})
+						? ''
+						: DeviceLocation.invalidMessage(),
+					employeeId: DeviceEmployee.isValid({
+						value: employeeId,
+						status: statusId
+					})
+						? ''
+						: DeviceEmployee.invalidMessage(),
+					stockNumber: DeviceStockNumber.isValid({
+						value: stockNumber,
+						status: statusId
+					})
+						? ''
+						: DeviceStockNumber.invalidMessage(),
+					computerName: ComputerName.isValid({
+						value: computerName,
+						status: statusId
+					})
+						? ''
+						: ComputerName.invalidMessage(),
+					ipAddress: IPAddress.isValid({
+						value: ipAddress,
+						status: statusId
+					})
+						? ''
+						: IPAddress.invalidMessage(),
+					memoryRamCapacity: MemoryRam.isValid({
+						value: state.formData.memoryRam,
+						status: statusId
+					})
+						? ''
+						: MemoryRam.invalidMessage(),
+					processorId: ComputerProcessor.isValid({
+						value: state.formData.processorId,
+						status: statusId
+					})
+						? ''
+						: ComputerProcessor.invalidMessage(),
+					hardDriveCapacityId: ComputerHDDCapacity.isValid({
+						value: state.formData.hardDriveCapacityId,
+						status: statusId
+					})
+						? ''
+						: ComputerHDDCapacity.invalidMessage(),
+					operatingSystemId: ComputerOs.isValid({
+						value: operatingSystemId,
+						status: statusId,
+						hardDriveCapacity: state.formData.hardDriveCapacityId
+					})
+						? ''
+						: ComputerOs.invalidMessage(),
+					operatingSystemArqId: ComputerOsArq.isValid({
+						value: operatingSystemArqId,
+						operatingSystem: operatingSystemId
+					})
+						? ''
+						: ComputerOsArq.invalidMessage()
 				}
 			}
 		}
@@ -583,6 +656,10 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					memoryRamType: memoryRamType ?? '',
 					memoryRam,
 					genericModel: generic
+				},
+				required: {
+					...state.required,
+					serial: !generic
 				}
 			}
 		}
@@ -611,10 +688,12 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 		}
 		case 'locationId': {
 			const { value: locationId, typeOfSiteId, ipAddress } = action.payload
-			const newIpAddress = ipAddress
-				? ipAddress.split('.').slice(0, -1).join('.') + '.'
-				: state.formData.ipAddress
-
+			const newIpAddress = ipAddress ? ipAddress.split('.').slice(0, -1).join('.') + '.' : ''
+			const oldIpAddress = state.formData.ipAddress
+				? state.formData.ipAddress.split('.').slice(0, -1).join('.') + '.'
+				: ''
+			const ipAddressValue =
+				newIpAddress === oldIpAddress ? state.formData.ipAddress : newIpAddress
 			return {
 				...state,
 				formData: {
@@ -622,7 +701,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					locationId,
 					typeOfSiteId: typeOfSiteId ?? '',
 					stockNumber: '',
-					ipAddress: newIpAddress
+					ipAddress: ipAddressValue
 				},
 				errors: {
 					...state.errors,
@@ -633,7 +712,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 						? ''
 						: DeviceLocation.invalidMessage(),
 					ipAddress: IPAddress.isValid({
-						value: newIpAddress,
+						value: ipAddressValue,
 						status: state.formData.statusId
 					})
 						? ''
@@ -656,12 +735,20 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				},
 				required: {
 					...state.required,
-					hardDriveTypeId: Boolean(hardDriveCapacityId)
+					hardDriveTypeId:
+						state.formData.statusId === StatusOptions.INALMACEN ||
+						state.formData.statusId === StatusOptions.PORDESINCORPORAR ||
+						state.formData.statusId === StatusOptions.DESINCORPORADO ||
+						Boolean(hardDriveCapacityId)
 				},
 				disabled: {
 					...state.disabled,
 					hardDriveTypeId: !hardDriveCapacityId,
-					operatingSystemId: !hardDriveCapacityId
+					operatingSystemId:
+						state.formData.statusId === StatusOptions.INALMACEN ||
+						state.formData.statusId === StatusOptions.PORDESINCORPORAR ||
+						state.formData.statusId === StatusOptions.DESINCORPORADO ||
+						!hardDriveCapacityId
 				},
 				errors: {
 					...state.errors,

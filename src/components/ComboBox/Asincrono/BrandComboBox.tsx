@@ -26,8 +26,8 @@ export function BrandCombobox({
 
 	const query: BrandFilters = useMemo(() => {
 		return {
-			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 }),
-			...(value ? { id: value } : {})
+			...(value ? { id: value } : {}),
+			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 })
 		}
 	}, [debouncedSearch, value])
 
