@@ -30,7 +30,10 @@ export interface FilterAsideRef {
  * It uses a React portal to render the aside directly within the document body, outside of the normal DOM hierarchy.
  * It handles the open/close state and uses a custom hook for closing on outside click or escape key.
  */
-const Component = ({ children, ...props }: Props, ref: React.Ref<FilterAsideRef>) => {
+const Component = (
+	{ children, ...props }: Props,
+	ref: React.Ref<FilterAsideRef>
+): React.ReactPortal => {
 	const filterAsideRef = useRef<HTMLElement>(null)
 	const [open, setOpen] = useState(false)
 	/**

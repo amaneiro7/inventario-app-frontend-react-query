@@ -9,7 +9,7 @@ import { FilterSection } from '@/ui/List/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
 import { TableWrapper } from '@/ui/List/computer/TableWrapper'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
-import { Loading } from '@/components/Loading'
+
 const DefaultDeviceFilter = lazy(() =>
 	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
 )
@@ -48,56 +48,60 @@ export default function ListComputer() {
 	}
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<MainComputerFilter
-						categoryId={query.categoryId}
-						employeeId={query.employeeId}
-						serial={query.serial}
-						locationId={query.locationId}
-						regionId={query.regionId}
-						administrativeRegionId={query.administrativeRegionId}
-						mainCategoryId={mainCategoryId}
-						typeOfSiteId={query.typeOfSiteId}
-						directivaId={query.directivaId}
-						vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-						vicepresidenciaId={query.vicepresidenciaId}
-						departamentoId={query.departamentoId}
-						handleChange={handleChange}
-					/>
-
-					<FilterAside ref={filterAsideRef}>
-						<DefaultDeviceFilter
-							activo={query.activo}
-							statusId={query.statusId}
-							brandId={query.brandId}
-							modelId={query.modelId}
+					<Suspense>
+						<MainComputerFilter
 							categoryId={query.categoryId}
-							stateId={query.stateId}
+							employeeId={query.employeeId}
+							serial={query.serial}
+							locationId={query.locationId}
 							regionId={query.regionId}
 							administrativeRegionId={query.administrativeRegionId}
-							cityId={query.cityId}
+							mainCategoryId={mainCategoryId}
+							typeOfSiteId={query.typeOfSiteId}
 							directivaId={query.directivaId}
 							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
 							vicepresidenciaId={query.vicepresidenciaId}
+							departamentoId={query.departamentoId}
 							handleChange={handleChange}
 						/>
+					</Suspense>
 
-						<OtherComputerFilter
-							handleChange={handleChange}
-							ipAddress={query.ipAddress}
-							memoryRamCapacity={query.memoryRamCapacity}
-							memoryRamCapacityOperator={query.memoryRamCapacityOperator}
-							hardDriveCapacity={query.hardDriveCapacity}
-							hardDriveCapacityOperator={query.hardDriveCapacityOperator}
-							computerName={query.computerName}
-							memoryRamTypeId={query.memoryRamTypeId}
-							operatingSystemId={query.operatingSystemId}
-							operatingSystemArqId={query.operatingSystemArqId}
-							hardDriveTypeId={query.hardDriveTypeId}
-							processor={query.processor}
-						/>
+					<FilterAside ref={filterAsideRef}>
+						<Suspense>
+							<DefaultDeviceFilter
+								activo={query.activo}
+								statusId={query.statusId}
+								brandId={query.brandId}
+								modelId={query.modelId}
+								categoryId={query.categoryId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								administrativeRegionId={query.administrativeRegionId}
+								cityId={query.cityId}
+								directivaId={query.directivaId}
+								vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+								vicepresidenciaId={query.vicepresidenciaId}
+								handleChange={handleChange}
+							/>
+
+							<OtherComputerFilter
+								handleChange={handleChange}
+								ipAddress={query.ipAddress}
+								memoryRamCapacity={query.memoryRamCapacity}
+								memoryRamCapacityOperator={query.memoryRamCapacityOperator}
+								hardDriveCapacity={query.hardDriveCapacity}
+								hardDriveCapacityOperator={query.hardDriveCapacityOperator}
+								computerName={query.computerName}
+								memoryRamTypeId={query.memoryRamTypeId}
+								operatingSystemId={query.operatingSystemId}
+								operatingSystemArqId={query.operatingSystemArqId}
+								hardDriveTypeId={query.hardDriveTypeId}
+								processor={query.processor}
+							/>
+						</Suspense>
 					</FilterAside>
 				</FilterSection>
 				<ButtonSection
@@ -127,6 +131,6 @@ export default function ListComputer() {
 				handleSort={handleSort}
 				query={query}
 			/>
-		</Suspense>
+		</>
 	)
 }
