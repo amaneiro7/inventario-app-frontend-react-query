@@ -1,8 +1,9 @@
+import { memo } from 'react'
+import { formatearTelefono } from '@/utils/formatearTelefono'
+import { getRelativeTime } from '@/utils/getRelativeTime'
 import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { TableCellDescription } from '@/components/Table/TableCellDescription'
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
-import { getRelativeTime } from '@/utils/getRelativeTime'
-import { memo } from 'react'
 
 interface EmployeeDescriptionProps {
 	open: boolean
@@ -97,6 +98,20 @@ export const EmployeeDescription = memo(
 						<TableCellDescInfo
 							title="Ubicación"
 							text={`${employee?.location?.name ?? ''}`}
+						/>
+					)}
+					{employee?.extension && (
+						<TableCellDescInfo
+							title="Extensiones"
+							text={employee?.extension
+								?.map(ext => formatearTelefono(ext))
+								.join('  ')}
+						/>
+					)}
+					{employee?.phone && (
+						<TableCellDescInfo
+							title="Teléfono"
+							text={employee?.phone?.map(tel => formatearTelefono(tel)).join('  ')}
 						/>
 					)}
 

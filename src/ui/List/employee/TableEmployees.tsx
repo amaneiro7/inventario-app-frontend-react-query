@@ -7,6 +7,7 @@ import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
 import { EmployeeDescription } from './EmployeesDescription'
 import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
+import { formatearTelefono } from '@/utils/formatearTelefono'
 
 interface TableEmployeesProps {
 	employees?: EmployeeDto[]
@@ -34,7 +35,7 @@ export const TableEmployees = memo(
 							<TableRow
 								className={`[&>td]:cursor-pointer ${
 									expandedRows.includes(employee.id) &&
-									'[&>td]:bg-slate-200 [&>td]:border-b-slate-200'
+									'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
 								}`}
 								onClick={() => handleRowClick(employee.id)}
 							>
@@ -65,13 +66,13 @@ export const TableEmployees = memo(
 								{visibleColumns.includes('phone') ? (
 									<TableCell
 										size="small"
-										value={employee?.phone?.map(tel => tel).join(', ')}
+										value={formatearTelefono(employee?.phone[0])}
 									/>
 								) : null}
 								{visibleColumns.includes('extension') ? (
 									<TableCell
 										size="small"
-										value={employee?.extension?.map(ext => ext).join(', ')}
+										value={formatearTelefono(employee?.extension[0])}
 									/>
 								) : null}
 								<TableCellOpenIcon open={expandedRows.includes(employee.id)} />

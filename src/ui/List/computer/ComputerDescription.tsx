@@ -4,6 +4,7 @@ import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
 import { getRelativeTime } from '@/utils/getRelativeTime'
 import { convertNumberMiles } from '@/utils/convertNumberMiles'
 import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { formatearTelefono } from '@/utils/formatearTelefono'
 
 interface Props {
 	open: boolean
@@ -64,6 +65,20 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 							text={device?.employee?.cargo?.name ?? ''}
 						/>
 					</>
+				)}
+				{device.employee?.extension && device.employee?.extension.length > 0 && (
+					<TableCellDescInfo
+						title="Extensiones"
+						text={device.employee?.extension
+							?.map(ext => formatearTelefono(ext))
+							.join('  ')}
+					/>
+				)}
+				{device.employee?.phone && device.employee?.phone.length > 0 && (
+					<TableCellDescInfo
+						title="Teléfono"
+						text={device.employee?.phone?.map(tel => formatearTelefono(tel)).join('  ')}
+					/>
 				)}
 
 				{device?.location?.site?.city?.state?.region?.name && (
