@@ -36,7 +36,7 @@ const Form = () => {
 			title: 'Procesador',
 			description: 'Registrar un nuevo tipo de procesador.',
 			icon: Cpu, // Icono sugerido
-			to: 'processor/add'
+			to: 'processors/add'
 		},
 		{
 			title: 'Empleado',
@@ -48,7 +48,7 @@ const Form = () => {
 			title: 'Directiva',
 			description: 'Crear una nueva directiva o vía de comunicación.',
 			icon: Scale, // Icono sugerido
-			to: 'directvia/add'
+			to: 'directiva/add'
 		},
 		{
 			title: 'Vicepresidencia Ejecutiva',
@@ -96,7 +96,7 @@ const Form = () => {
 			title: 'Región',
 			description: 'Crear una nueva región geográfica.',
 			icon: MapPin, // Icono sugerido
-			to: 'region/add'
+			to: 'region'
 		}
 	]
 
