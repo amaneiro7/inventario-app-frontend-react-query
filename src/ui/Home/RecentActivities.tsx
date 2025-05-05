@@ -25,6 +25,7 @@ import {
 	Speaker
 } from 'lucide-react'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
+import Typography from '@/components/Typography'
 
 const getActivityColor = (action: string) => {
 	switch (action) {
@@ -79,9 +80,9 @@ export const RecentActivities = memo(() => {
 											{`${action} por ${history.user?.name} ${history.user?.lastName}`}
 										</p>
 									</div>
-									<div className="text-xs text-slate-400">
+									<Typography variant="span" option="tiny" color="gris">
 										{getRelativeTime(history.updatedAt)}
-									</div>
+									</Typography>
 								</div>
 							</li>
 						)

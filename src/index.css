@@ -76,7 +76,7 @@
 	--color-error: #d32f2f;
 	--color-success: #2e7d32;
 	--color-focus: #1976d2;
-	--color-gris: hsl(210, 10%, 51%);
+	--color-gris: color-mix(in oklab, var(--color-black) 55%, transparent);
 	--color-cancel: #77838f;
 	--color-background: hsl(var(--background));
 	--color-foreground: hsl(var(--foreground));
@@ -133,6 +133,14 @@
 	::file-selector-button {
 		border-color: var(--color-gray-200, currentcolor);
 	}
+}
+
+@font-face {
+	font-family: 'Montserrat';
+	src: url('./assets/font/Montserrat-VariableFont_wght.woff2') format('woff2');
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
 }
 
 @layer utilities {
