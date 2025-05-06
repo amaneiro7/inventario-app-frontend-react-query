@@ -74,8 +74,9 @@ export class DeviceComputer extends Device {
 		if (!DeviceComputer.isComputerCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
+		console.log(params)
 		return new DeviceComputer(
-			new DeviceSerial(params.serial),
+			new DeviceSerial(params.serial, params.genericModel),
 			new DeviceActivo(params.activo),
 			new StatusId(params.statusId),
 			new CategoryId(params.categoryId),

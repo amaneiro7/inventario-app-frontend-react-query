@@ -55,7 +55,7 @@ export class DeviceMFP extends Device {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
 		return new DeviceMFP(
-			new DeviceSerial(params.serial),
+			new DeviceSerial(params.serial, params.genericModel),
 			new DeviceActivo(params.activo),
 			new StatusId(params.statusId),
 			new ModelId(params.modelId),
