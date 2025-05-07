@@ -16,7 +16,8 @@ export const useGetAllScreenDevices = (query: DeviceScreenFilters) => {
 		queryKey: ['devices', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
-		refetchOnMount: true
+		refetchOnMount: true,
+		refetchInterval: 5 * 1000
 	})
 
 	return {

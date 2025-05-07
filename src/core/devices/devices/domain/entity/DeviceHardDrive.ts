@@ -62,7 +62,7 @@ export class DeviceHardDrive extends Device {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
 		return new DeviceHardDrive(
-			new DeviceSerial(params.serial),
+			new DeviceSerial(params.serial, params.genericModel),
 			new DeviceActivo(params.activo),
 			new StatusId(params.statusId),
 			new ModelId(params.modelId),
