@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
 import { Loading } from '@/components/Loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
 import { useGetComputerDashboard } from '@/core/devices/dashboard/infra/hooks/useGetComputerDashboard'
 import { Seo } from '@/components/Seo'
+import { InventorySummary } from '@/ui/Home/InventorySummary'
 
 const InventoryOverview = lazy(() =>
 	import('@/ui/dashboard/InventoryBrandOverview').then(m => ({ default: m.InventoryOverview }))
@@ -52,42 +52,9 @@ export default function DashboardComputer() {
 	return (
 		<>
 			<Seo title={title} description={description} />
-			<div className="mb-6 grid gap-4 md:grid-cols-4">
-				<Card>
-					<CardHeader className="pb-2">
-						<CardTitle className="text-muted-foreground text-base font-semibold">
-							Total de equipos
-						</CardTitle>
-						<CardContent>
-							<div className="text-3xl font-bold">{computerDashboard?.total}</div>
-						</CardContent>
-					</CardHeader>
-				</Card>
-				<Card>
-					<CardHeader className="pb-2">
-						<CardTitle className="text-muted-foreground text-base font-semibold">
-							Total de empleados activos
-						</CardTitle>
-						<CardContent>
-							<div className="text-3xl font-bold">
-								{computerDashboard?.activeEmployees}
-							</div>
-						</CardContent>
-					</CardHeader>
-				</Card>
-				<Card>
-					<CardHeader className="pb-2">
-						<CardTitle className="text-muted-foreground text-base font-semibold">
-							Total de agencias
-						</CardTitle>
-						<CardContent>
-							<div className="text-3xl font-bold">
-								{computerDashboard?.totalAgencies}
-							</div>
-						</CardContent>
-					</CardHeader>
-				</Card>
-			</div>
+			<section className="fade-in mb-6">
+				<InventorySummary />
+			</section>
 			<Tabs defaultValue="overview" className="space-y-4">
 				<TabsList>
 					<TabsTrigger value="overview">Overview</TabsTrigger>

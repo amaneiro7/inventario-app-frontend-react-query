@@ -18,9 +18,9 @@ import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/C
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 const SITE_TYPE_COLORS = {
-	Agencia: '#0088FE',
-	Almacén: '#00C49F',
-	'Sede Administrativa': '#FFBB28'
+	Agencia: 'hsl(213, 100%, 19%)',
+	Almacén: 'hsl(19, 99%, 50%)',
+	'Sede Administrativa': 'hsl(148, 85%, 24%)'
 }
 
 export const InventoryOverview = ({
@@ -43,7 +43,7 @@ export const InventoryOverview = ({
 		return statusData.reduce((sum, cat) => sum + cat.count, 0)
 	}, [statusData])
 	return (
-		<div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(450px,1fr))]">
+		<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
 			<Card>
 				<CardHeader>
 					<div className="flex flex-col md:flex-row md:items-center md:justify-between">
@@ -52,7 +52,7 @@ export const InventoryOverview = ({
 							<CardDescription>Total: {getTotalCount} Equipos</CardDescription>
 						</div>
 						<Select value={selectedCategory} onValueChange={setSelectedCategory}>
-							<SelectTrigger className="w-[180px] mt-2 md:mt-0">
+							<SelectTrigger className="mt-2 w-[180px] md:mt-0">
 								<SelectValue placeholder="Seleccionar Categoría" />
 							</SelectTrigger>
 							<SelectContent>
@@ -77,7 +77,12 @@ export const InventoryOverview = ({
 							<YAxis />
 							<Tooltip formatter={value => [`${value} equipos`, 'Cantidad']} />
 							<Legend />
-							<Bar dataKey="count" name="Cantidad" fill="#8b5cf6" barSize={barHeight}>
+							<Bar
+								dataKey="count"
+								name="Cantidad"
+								fill="hsl(213, 100%, 19%)"
+								barSize={barHeight}
+							>
 								<LabelList
 									dataKey="count"
 									position="top"

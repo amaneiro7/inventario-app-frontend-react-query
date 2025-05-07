@@ -735,11 +735,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				},
 				required: {
 					...state.required,
-					hardDriveTypeId:
-						state.formData.statusId === StatusOptions.INALMACEN ||
-						state.formData.statusId === StatusOptions.PORDESINCORPORAR ||
-						state.formData.statusId === StatusOptions.DESINCORPORADO ||
-						Boolean(hardDriveCapacityId)
+					hardDriveTypeId: Boolean(hardDriveCapacityId)
 				},
 				disabled: {
 					...state.disabled,
