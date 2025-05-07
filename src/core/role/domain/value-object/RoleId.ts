@@ -1,3 +1,3 @@
-import { NumberValueObject } from '@/core/shared/domain/value-objects/NumberValueObject'
+import { StringValueObject } from '@/core/shared/domain/value-objects/StringValueObjects'
 
-export class RoleId extends NumberValueObject {}
+export class RoleId extends StringValueObject {}

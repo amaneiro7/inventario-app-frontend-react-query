@@ -6,6 +6,8 @@ import { Tag } from '@/components/Tag'
 import Typography from '@/components/Typography'
 import { AddIcon } from '@/icon/AddIcon'
 import { PageTitle } from '@/ui/PageTitle'
+import { SearchSection } from '@/components/FormContainer/SearchSection'
+import { UserServiceSearch } from '@/ui/UserManagement/UserServiceSearch'
 export default function UserManagement() {
 	const location = useLocation()
 	const pageInfo = useMemo(() => {
@@ -34,7 +36,7 @@ export default function UserManagement() {
 					<Typography variant="h4" color="azul" transform="uppercase">
 						{`Gestión de usuarios ${pageInfo.subtitle}`}
 					</Typography>
-					<Typography variant="p" className="inline-flex gap-1 items-center text-center">
+					<Typography variant="p" className="inline-flex items-center gap-1 text-center">
 						<Typography
 							variant="span"
 							color="gris"
@@ -54,6 +56,11 @@ export default function UserManagement() {
 							)}
 						</Typography>
 					</Typography>
+					<SearchSection
+						url="/user-management/register"
+						searchInput={<UserServiceSearch />}
+						isEdit={pageInfo.page !== 'register'}
+					/>
 				</DetailsBoxWrapper>
 				<Outlet />
 			</DetailsWrapper>

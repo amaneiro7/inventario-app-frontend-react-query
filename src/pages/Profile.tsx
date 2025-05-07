@@ -1,4 +1,4 @@
-import { lazy, useContext } from 'react'
+import { lazy, Suspense, use } from 'react'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { useChangePassword } from '@/core/user/infra/hooks/useChangePassword'
 import { PageTitle } from '@/ui/PageTitle'
@@ -9,6 +9,8 @@ import { ChangePassowrdForm } from '@/ui/Profile/ChangePasswordForm'
 import { DescriptionDesc } from '@/components/DetailsWrapper/DescriptionDesc'
 import { StepsToFollow } from '@/components/StepsToFollow/StepsToFollow'
 import { ChangePasswordStepsToFollow } from '@/components/StepsToFollow/ChangePasswordStepsToFollow'
+import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
+import { Seo } from '@/components/Seo'
 
 const Modal = lazy(async () =>
 	import('@/components/Modal/Modal').then(m => ({ default: m.Dialog }))
@@ -22,7 +24,7 @@ const ConfirmationModal = lazy(async () =>
 export default function ProfilePage() {
 	const {
 		auth: { user }
-	} = useContext(AuthContext)
+	} = use(AuthContext)
 
 	const {
 		dialogRef,
@@ -42,6 +44,11 @@ export default function ProfilePage() {
 
 	return (
 		<>
+			<Seo
+				title="Perfil de Usuario | Gestión del Sistema"
+				description="Visualiza y gestiona la información de tu perfil de usuario, incluyendo datos de contacto y la opción para cambiar tu contraseña de acceso al sistema."
+			/>
+			<DynamicBreadcrumb segments={['Perfil de usuario']} />
 			<PageTitle title="Perfil de usuario" />
 
 			<DetailsWrapper title="A continuación le indicamos los datos de contacto">
@@ -80,13 +87,15 @@ export default function ProfilePage() {
 				<ChangePasswordStepsToFollow />
 			</StepsToFollow>
 
-			<Modal key="profilePageModal" ref={dialogRef}>
-				<ConfirmationModal
-					handleClose={handleCloseModal}
-					formId={formId}
-					text="¿Seguro que desea cambiar la contraseña?"
-				/>
-			</Modal>
+			<Suspense>
+				<Modal key="profilePageModal" ref={dialogRef}>
+					<ConfirmationModal
+						handleClose={handleCloseModal}
+						formId={formId}
+						text="¿Seguro que desea cambiar la contraseña?"
+					/>
+				</Modal>
+			</Suspense>
 		</>
 	)
 }

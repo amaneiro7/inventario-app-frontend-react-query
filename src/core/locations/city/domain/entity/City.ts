@@ -22,8 +22,8 @@ export class City {
 
 	toPrimitives(): CityPrimitives {
 		return {
-			name: this.name.value,
-			stateId: this.stateId.value
+			name: this.nameValue,
+			stateId: this.stateValue
 		}
 	}
 }
