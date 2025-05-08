@@ -3,7 +3,7 @@ import { StringValueObject } from '@/core/shared/domain/value-objects/StringValu
 export class LocationName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 3
 	static readonly NAME_MAX_LENGTH = 100
-	static readonly regex = /^[a-zA-Z0-9()\-,\s]*$/
+	static readonly regex = /^[a-zA-ZÀ-ÿ0-9()\-.,\s]*$/
 
 	private static error = ''
 
@@ -19,7 +19,7 @@ export class LocationName extends StringValueObject {
 		const validFormat = LocationName.regex.test(value)
 		if (!validFormat) {
 			errors.push(
-				'La cadena de texto solo puede contener letras mayúsculas, minúsculas, números y los caracteres especiales ()-,.'
+				'El nombree solo puede contener letras mayúsculas, minúsculas, números y los caracteres especiales ()-,.'
 			)
 		}
 		const validLength =
