@@ -23,7 +23,7 @@ export const WelcomeTitle = memo(({ user }: Props) => {
 		>
 			<span>Bienvenido, </span>
 			<span>{`${user?.name} ${user?.lastName}`}</span>
-			<span>{`${user?.role.name}`}</span>
+			<span>{`${user?.role?.name}`}</span>
 		</Typography>
 	)
 })

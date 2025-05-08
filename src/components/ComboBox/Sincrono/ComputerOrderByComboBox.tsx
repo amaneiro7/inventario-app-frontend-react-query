@@ -34,7 +34,6 @@ export function ComputerOrderByCombobox({
 		return options.map(option => {
 			if (option.id === orderBy) {
 				const indicator = orderType === OrderTypes.DESC ? ' ▼' : ' ▲'
-				console.log(indicator)
 				return { ...option, name: `${'✓ '}${option.name}${indicator}` }
 			}
 			return option
