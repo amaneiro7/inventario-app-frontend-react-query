@@ -24,8 +24,10 @@ export class User {
 	}
 
 	static isSuperAdmin({ roleId }: { roleId: Primitives<RoleId> }): boolean {
-		const acceptedAdminRoles = [RoleOptions.ADMIN, RoleOptions.COORDINADOR]
-		return acceptedAdminRoles.includes(roleId)
+		if (roleId === RoleOptions.ADMIN || roleId === RoleOptions.COORDINADOR) {
+			return true
+		}
+		return false
 	}
 
 	get nameValue(): Primitives<UserName> {
