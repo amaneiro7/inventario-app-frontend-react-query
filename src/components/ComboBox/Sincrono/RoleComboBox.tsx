@@ -21,7 +21,7 @@ export function RoleCombobox({
 }) {
 	const { roles, isLoading } = useGetAllRoles({})
 
-	const options = useMemo(() => roles ?? [], [roles])
+	const options = useMemo(() => roles?.data ?? [], [roles])
 
 	return (
 		<>

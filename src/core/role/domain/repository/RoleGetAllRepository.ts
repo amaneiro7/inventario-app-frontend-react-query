@@ -1,5 +1,4 @@
-import { RoleDto } from '../dto/Role.dto'
+import { GetAllRepository } from '@/core/shared/domain/repository/GetAllRepository.abstract'
+import { type RoleDto } from '../dto/Role.dto'
 
-export abstract class RoleGetAllRepository {
-	abstract getAll(queryParams?: string): Promise<RoleDto>
-}
+export abstract class RoleGetAllRepository extends GetAllRepository<RoleDto> {}

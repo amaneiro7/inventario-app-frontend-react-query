@@ -1,10 +1,11 @@
 import { fetching } from '@/api/api'
+import { roleUrl } from '../../domain/entity/baseUrl'
 import { type RoleDto } from '../../domain/dto/Role.dto'
 import { type RoleGetAllRepository } from '../../domain/repository/RoleGetAllRepository'
-import { roleUrl } from '../../domain/entity/baseUrl'
+import { type Response } from '@/core/shared/domain/methods/Response'
 
 export class RoleGetAllService implements RoleGetAllRepository {
-	async getAll(queryParams: string): Promise<RoleDto> {
+	async getAll(queryParams: string): Promise<Response<RoleDto>> {
 		return await fetching({
 			url: `${roleUrl}?${queryParams}`,
 			method: 'GET'
