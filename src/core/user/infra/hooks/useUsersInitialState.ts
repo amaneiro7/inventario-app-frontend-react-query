@@ -17,20 +17,24 @@ const get = new UserGetter(repository)
  */ export function useUserInitialState(defaultState: DefaultUsers): {
 	initialState: DefaultUsers
 	resetState: () => void
-	mode: 'edit' | 'register'
+	mode: 'profile' | 'register'
 } {
 	const { id } = useParams() // Obtiene el ID del usuario de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
 	const navigate = useNavigate() // Función para navegar a otras rutas.
 
-	const mode = location.pathname.includes('edit') ? 'edit' : 'register' // Obtiene el modo del formulario (editar o agregar).
+	const mode = location.pathname.includes('profile') ? 'profile' : 'register' // Obtiene el modo del formulario (editar o agregar).
 	const [state, setState] = useState<DefaultUsers>(defaultState) // Estado local del usuario.
+
+	console.log('id', !!id)
+	console.log('mode', mode === 'profile')
+	console.log('state', !location?.state?.user)
 
 	// Consulta para obtener los datos del usuario si el modo es editar y no hay datos en el estado de la ubicación.
 	const { data: userData, refetch } = useQuery({
 		queryKey: ['users', id], // Clave de la consulta para la caché.
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos del usuario.
-		enabled: !!id && mode === 'edit' && !location?.state?.user, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
+		enabled: !!id && mode === 'profile' && !location?.state?.user, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
 		retry: false // Deshabilita los reintentos automáticos en caso de error.
 	})
 
@@ -44,7 +48,8 @@ const get = new UserGetter(repository)
 			email: user.email,
 			lastName: user.lastName,
 			name: user.name,
-			roleId: user.roleId
+			roleId: user.roleId,
+			role: user.role
 		})
 	}, [])
 

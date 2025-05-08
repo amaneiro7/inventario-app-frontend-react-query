@@ -1,47 +1,18 @@
 import { lazy, Suspense, useMemo, useState } from 'react'
-import { useRegisterPage } from '../useRegisterPage'
-import { type SelectChangeEvent } from '@mui/material'
+import { DescriptionDesc } from '@/components/DetailsWrapper/DescriptionDesc'
+import { DescriptionListElement } from '@/components/DetailsWrapper/DescriptionListElement'
+import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsInfo } from '@/components/DetailsWrapper/DetailsInfo'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
+import { useCreateUser } from '@/core/user/infra/hooks/useCreateModels'
+import { EditHandle } from '@/ui/UserManagement/EditHandle'
+import { ResetHandle } from '@/ui/UserManagement/ResetHandle'
+import { DeleteHandle } from '@/ui/UserManagement/DeleteHandle'
 
-const UserManagementAction = lazy(async () =>
-	import('@/sections/components/Select/UserManagementActions').then(m => ({
-		default: m.UserManagementAction
-	}))
-)
-const DescriptionDesc = lazy(async () =>
-	import('@/sections/components/DetailsWrapper/DescriptionDesc').then(m => ({
-		default: m.DescriptionDesc
-	}))
-)
-const DetailsBoxWrapper = lazy(
-	async () => import('@/sections/components/DetailsWrapper/DetailsBoxWrapper')
-)
-const DescriptionListElement = lazy(async () =>
-	import('@/sections/components/DetailsWrapper/DescriptionListElement').then(m => ({
-		default: m.DescriptionListElement
-	}))
-)
-const DetailsInfo = lazy(async () =>
-	import('@/sections/components/DetailsWrapper/DetailsInfo').then(m => ({
-		default: m.DetailsInfo
-	}))
-)
-const EditHandle = lazy(async () => import('./EditHandle').then(m => ({ default: m.EditHandle })))
-const ResetHandle = lazy(async () =>
-	import('./Resethandle').then(m => ({ default: m.ResetHandle }))
-)
-const DeleteHandle = lazy(async () =>
-	import('./Deletehandle').then(m => ({ default: m.DeleteHandle }))
-)
-
-type ACTION = 'reset' | 'delete' | 'editar'
-
+type Actions = 'editar' | 'reset' | 'delete'
 export default function ManagementProfile() {
-	const { formData } = useRegisterPage()
-	const [action, setAction] = useState<ACTION>('editar')
-	const handleClick = (e: SelectChangeEvent) => {
-		const value = e.target.value as unknown as ACTION
-		setAction(value)
-	}
+	const { formData } = useCreateUser()
+	const [action, setAction] = useState<Actions>('editar')
 
 	const title = useMemo(() => {
 		if (action === 'editar') return 'Editar'
@@ -64,9 +35,20 @@ export default function ManagementProfile() {
 						<DescriptionDesc desc={formData.email} />
 					</DescriptionListElement>
 					<DescriptionListElement title="Role">
-						<DescriptionDesc desc={formData.role?.name} />
+						<DescriptionDesc desc={formData?.role?.name} />
 					</DescriptionListElement>
-					<UserManagementAction onChange={handleClick} value={action} />
+					<div className="grid h-max grid-cols-3 items-center gap-4 overflow-hidden px-4 py-2">
+						<Select value={action} onValueChange={value => setAction(value as Actions)}>
+							<SelectTrigger className="w-[180px]">
+								<SelectValue placeholder="Acciones" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="editar">Editar</SelectItem>
+								<SelectItem value="reset">Restablecer contraseña</SelectItem>
+								<SelectItem value="delete">Eliminar Usuario</SelectItem>
+							</SelectContent>
+						</Select>
+					</div>
 					<DescriptionListElement title={title}>
 						{action === 'editar' ? (
 							<EditHandle id={formData.id} />

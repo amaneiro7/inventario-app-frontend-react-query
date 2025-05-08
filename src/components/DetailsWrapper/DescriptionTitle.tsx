@@ -1,11 +1,12 @@
-import { memo } from "react"
+import { memo } from 'react'
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> {
-    title: string
+	title: string
 }
-export const DesciptionTitle = memo(({ title, ...props }: Props) => {
-    return (
-        <dt className='text-sm font-semibold leading-6 text-gray-900' {...props}>{title}:</dt>
-    )
-}
-)
+export const DescriptionTitle = memo(({ title, ...props }: Props) => {
+	return (
+		<dt className="text-sm leading-6 font-semibold text-gray-900" {...props}>
+			{title}:
+		</dt>
+	)
+})

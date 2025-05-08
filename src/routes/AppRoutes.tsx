@@ -14,6 +14,7 @@ const ListHistory = lazy(() => import('@/pages/ListHistory'))
 const DashboardWrapper = lazy(() => import('@/ui/Wrappers/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
+const ManagementProfile = lazy(() => import('@/pages/UserManagementProfile'))
 const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
 const NotFound = lazy(() => import('@/pages/404'))
 const Home = lazy(() => import('@/pages/Home'))
@@ -103,14 +104,14 @@ export function AppRoutes() {
 								</Suspense>
 							}
 						/>
-						{/* <Route
+						<Route
 							path="profile/:id"
 							element={
 								<Suspense>
 									<ManagementProfile />
 								</Suspense>
 							}
-						/> */}
+						/>
 					</Route>
 					<Route path="/payment-schedules" element={<PaymentSchedules />} />
 					<Route

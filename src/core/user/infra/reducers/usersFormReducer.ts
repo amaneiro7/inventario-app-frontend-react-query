@@ -1,3 +1,4 @@
+import { LoginUserDto } from '../../domain/dto/LoginUser.dto'
 import { UserEmail } from '../../domain/value-objects/UserEmail'
 import { UserLastName } from '../../domain/value-objects/UserLastName'
 import { UserName } from '../../domain/value-objects/UserName'
@@ -8,6 +9,7 @@ export interface DefaultUsers {
 	lastName: string
 	email: string
 	roleId: string
+	role?: LoginUserDto['role']
 }
 
 export interface UserErrors {
