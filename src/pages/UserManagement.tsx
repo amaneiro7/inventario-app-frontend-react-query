@@ -8,6 +8,11 @@ import { AddIcon } from '@/icon/AddIcon'
 import { PageTitle } from '@/ui/PageTitle'
 import { SearchSection } from '@/components/FormContainer/SearchSection'
 import { UserServiceSearch } from '@/ui/UserManagement/UserServiceSearch'
+import { Seo } from '@/components/Seo'
+import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
+import { StepsToFollow } from '@/components/StepsToFollow/StepsToFollow'
+import { ProfileStepsToFollow } from '@/components/StepsToFollow/ProfileStepsToFollow'
+import { RegisterEditStepsToFollow } from '@/components/StepsToFollow/RegisterEditStepsToFollow'
 export default function UserManagement() {
 	const location = useLocation()
 	const pageInfo = useMemo(() => {
@@ -30,12 +35,11 @@ export default function UserManagement() {
 	}, [location.pathname])
 	return (
 		<>
-			<PageTitle title="Gestión de usuarios" />
+			<Seo title="" description="" />
+			<DynamicBreadcrumb segments={['Gestión de usuarios']} />
+			<PageTitle title={`Gestión de usuarios ${pageInfo.subtitle}`} />
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
-					<Typography variant="h4" color="azul" transform="uppercase">
-						{`Gestión de usuarios ${pageInfo.subtitle}`}
-					</Typography>
 					<Typography variant="p" className="inline-flex items-center gap-1 text-center">
 						<Typography
 							variant="span"
@@ -64,6 +68,14 @@ export default function UserManagement() {
 				</DetailsBoxWrapper>
 				<Outlet />
 			</DetailsWrapper>
+			{pageInfo.page ? (
+				<StepsToFollow>
+					{pageInfo.page === 'register' || pageInfo.page === 'edit' ? (
+						<RegisterEditStepsToFollow />
+					) : null}
+					{pageInfo.page === 'profile' ? <ProfileStepsToFollow /> : null}
+				</StepsToFollow>
+			) : null}
 		</>
 	)
 }

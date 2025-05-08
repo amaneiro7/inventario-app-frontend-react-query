@@ -10,6 +10,7 @@ export interface DefaultUsers {
 	email: string
 	roleId: string
 	role?: LoginUserDto['role']
+	updatedAt?: string
 }
 
 export interface UserErrors {

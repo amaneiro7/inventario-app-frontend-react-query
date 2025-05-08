@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useState } from 'react'
+import { Suspense, useState } from 'react'
 import { DescriptionDesc } from '@/components/DetailsWrapper/DescriptionDesc'
 import { DescriptionListElement } from '@/components/DetailsWrapper/DescriptionListElement'
 import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
@@ -10,16 +10,69 @@ import { ResetHandle } from '@/ui/UserManagement/ResetHandle'
 import { DeleteHandle } from '@/ui/UserManagement/DeleteHandle'
 
 type Actions = 'editar' | 'reset' | 'delete'
+
+const ActionHandle = ({ action, id }: { action: Actions; id: string }) => {
+	switch (action) {
+		case 'editar':
+			return <EditHandle id={id} />
+		case 'reset':
+			return <ResetHandle id={id} />
+		case 'delete':
+			return <DeleteHandle id={id} />
+		default:
+			return null
+	}
+}
+
 export default function ManagementProfile() {
 	const { formData } = useCreateUser()
 	const [action, setAction] = useState<Actions>('editar')
 
-	const title = useMemo(() => {
-		if (action === 'editar') return 'Editar'
-		if (action === 'reset') return 'Restablecer contraseña'
-		if (action === 'delete') return 'Eliminar Usuario'
-		return 'Seleccione'
-	}, [action])
+	const title = `${
+		action === 'editar'
+			? 'Editar'
+			: action === 'reset'
+				? 'Restablecer contraseña'
+				: action === 'delete'
+					? 'Eliminar Usuario'
+					: 'Seleccione'
+	}`
+
+	if (!formData?.id) {
+		return (
+			<DetailsBoxWrapper position="center">
+				<div className="rounded-md bg-red-50 p-4">
+					<div className="flex">
+						<div className="flex-shrink-0">
+							<svg
+								className="h-5 w-5 text-red-400"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									fillRule="evenodd"
+									d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94l-1.72-1.72z"
+									clipRule="evenodd"
+								/>
+							</svg>
+						</div>
+						<div className="ml-3">
+							<h3 className="text-sm font-medium text-red-800">
+								Usuario no encontrado
+							</h3>
+							<div className="mt-2 text-sm text-red-700">
+								<p>
+									No se pudieron cargar los detalles del usuario. Por favor,
+									verifica la información o intenta nuevamente.
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</DetailsBoxWrapper>
+		)
+	}
 
 	return (
 		<Suspense>
@@ -35,9 +88,9 @@ export default function ManagementProfile() {
 						<DescriptionDesc desc={formData.email} />
 					</DescriptionListElement>
 					<DescriptionListElement title="Role">
-						<DescriptionDesc desc={formData?.role?.name} />
+						<DescriptionDesc desc={formData?.role?.name ?? ''} />
 					</DescriptionListElement>
-					<div className="grid h-max grid-cols-3 items-center gap-4 overflow-hidden px-4 py-2">
+					<DescriptionListElement title="Acciones">
 						<Select value={action} onValueChange={value => setAction(value as Actions)}>
 							<SelectTrigger className="w-[180px]">
 								<SelectValue placeholder="Acciones" />
@@ -48,15 +101,9 @@ export default function ManagementProfile() {
 								<SelectItem value="delete">Eliminar Usuario</SelectItem>
 							</SelectContent>
 						</Select>
-					</div>
+					</DescriptionListElement>
 					<DescriptionListElement title={title}>
-						{action === 'editar' ? (
-							<EditHandle id={formData.id} />
-						) : action === 'reset' ? (
-							<ResetHandle id={formData.id} />
-						) : action === 'delete' ? (
-							<DeleteHandle id={formData.id} />
-						) : null}
+						<ActionHandle action={action} id={formData.id} />
 					</DescriptionListElement>
 				</DetailsInfo>
 			</DetailsBoxWrapper>

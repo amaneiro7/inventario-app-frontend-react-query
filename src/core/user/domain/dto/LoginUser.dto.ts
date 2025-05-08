@@ -20,4 +20,5 @@ export type UserParams = UserPrimitives & {
 }
 export type LoginUserDto = User & {
 	role: RoleDto
+	updatedAt: string
 }

@@ -23,12 +23,8 @@ const get = new UserGetter(repository)
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
 	const navigate = useNavigate() // Función para navegar a otras rutas.
 
-	const mode = location.pathname.includes('edit') ? 'edit' : 'register' // Obtiene el modo del formulario (editar o agregar).
+	const mode = location.pathname.includes('register') ? 'register' : 'edit' // Obtiene el modo del formulario (editar o agregar).
 	const [state, setState] = useState<DefaultUsers>(defaultState) // Estado local del usuario.
-
-	console.log('id', !!id)
-	console.log('mode', mode === 'edit')
-	console.log('state', !location?.state?.user)
 
 	// Consulta para obtener los datos del usuario si el modo es editar y no hay datos en el estado de la ubicación.
 	const { data: userData, refetch } = useQuery({
@@ -49,13 +45,14 @@ const get = new UserGetter(repository)
 			lastName: user.lastName,
 			name: user.name,
 			roleId: user.roleId,
-			role: user.role
+			role: user.role,
+			updatedAt: user.updatedAt
 		})
 	}, [])
 
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
-		if (mode === 'register' || !location.pathname.includes('user-management')) {
+		if (mode === 'register') {
 			setState({
 				id: undefined,
 				...defaultState
