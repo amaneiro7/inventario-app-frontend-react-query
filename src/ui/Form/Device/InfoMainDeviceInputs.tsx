@@ -10,6 +10,7 @@ import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/Ty
 import { Input } from '@/components/Input/Input'
 import { type FormMode } from '@/hooks/useGetFormMode'
 import { InputFallback } from '@/components/Loading/InputFallback'
+// import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip'
 
 const EmployeeCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
@@ -95,20 +96,34 @@ export const InfoMainDeviceInputs = memo(function ({
 }: Props) {
 	return (
 		<>
-			<Input
-				id="device-serial"
-				value={serial ?? ''}
-				name="serial"
-				label="Serial"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('serial', e.target.value)
-				}
-				readOnly={mode === 'edit'}
-				error={!!errorSerial}
-				errorMessage={errorSerial}
-				required={requiredSerial}
-				disabled={disabledSerial}
-			/>
+			<div className="flex items-center justify-center gap-2">
+				<Input
+					id="device-serial"
+					value={serial ?? ''}
+					name="serial"
+					label="Serial"
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('serial', e.target.value)
+					}
+					readOnly={mode === 'edit'}
+					error={!!errorSerial}
+					errorMessage={errorSerial}
+					required={requiredSerial}
+					disabled={disabledSerial}
+				/>
+				{/* <Tooltip>
+					<TooltipTrigger>
+						<div className="relative h-16 w-[30px]">
+							<span className="bg-azul border-azul-900 absolute top-0.5 left-0 mb-10 rounded-full border px-2.5 py-1.5 text-white">
+								?
+							</span>
+						</div>
+					</TooltipTrigger>
+					<TooltipContent side="right" align="center" sideOffset={10}>
+						<p>This tooltip appears on the right</p>
+					</TooltipContent>
+				</Tooltip> */}
+			</div>
 			<Input
 				id="device-activo"
 				value={activo ?? ''}
