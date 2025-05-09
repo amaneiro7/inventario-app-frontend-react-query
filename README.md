@@ -1,250 +1,128 @@
-Answer
-Based on the provided context, I'll create a comprehensive README.md file for the Inventory Management System project.
+# Inventory Management System
 
-Inventory Management System
-A comprehensive web application designed to track and manage a complete inventory of technical devices and their assignments to employees within an organization.
+A comprehensive web application designed to track and manage an organization's complete inventory of technical devices and their assignments to employees.
 
-Overview
-This application provides a feature-rich interface for managing various device types (computers, monitors, printers, peripherals), employee information, location data, and includes dashboards for visualizing inventory statistics.
+## Overview
 
-Features
-Device Management
-Track various device types with specialized forms and fields:
-Computers (desktops, laptops, servers)
-Monitors
-Printers (standard and financial)
-Peripheral devices and parts
-Mobile devices
-Each device has common properties (serial, asset number) and category-specific attributes
-Employee Management
-Track employee information including:
-Personal details (name, email)
-Department and position
-Contact information (phone numbers, extensions)
-Device assignments
-Location Tracking
-Hierarchical location management:
-Region/Zones
-Cities
-Sites
-Specific locations
-Special handling for warehouse inventory
-Dashboards and Analytics
-Home dashboard with inventory summary and recent activities
-Device-specific dashboards with detailed metrics
-Distribution charts for visualizing inventory data
-History and Audit Tracking
-Detailed history of all device changes
-User attribution for each change
-Timestamp information
-Change details
-Tech Stack
-Category Technologies
-Frontend Framework React 19.1.0 with React Compiler
-Data Fetching TanStack React Query 5.74.3
-Routing React Router 6.30.0
-Styling Tailwind CSS 4.1.4, CSS Variables
-UI Components Radix UI (Select, Tabs, Dropdown, Tooltip)
-State Management Context API, React Reducers, Zustand
-Form Validation Zod 3.24.2
-Charts Recharts 2.15.2
-Notifications Sonner 2.0.3
-Build Tools Vite 6.2.6, TypeScript 5.8.3
-Application Architecture
-The application follows a domain-driven design approach with clearly separated concerns:
+This application provides a feature-rich and intuitive interface for managing various device types (computers, monitors, printers, peripherals, mobile devices), employee information, location data, and offers insightful dashboards for visualizing inventory statistics.
 
-Client-Side Application
+## Features
 
-State Management
+**Device Management:**
 
-UI Layer
+- Track a wide range of device categories with specialized forms and fields for each:
+    - **Computers:** Desktops, Laptops, Servers, including details like processor, RAM, storage type, OS, IP/MAC addresses.
+    - **Monitors:**
+    - **Printers:** Standard and Financial models.
+    - **Peripherals & Parts:** Keyboards, mice, cables, etc.
+    - **Mobile Devices:** Smartphones, tablets.
+- Each device record includes common properties: serial number, asset number, status, assignment, location, and observations.
+- Category-specific attributes ensure detailed tracking for each device type.
 
-Data Management
+**Employee Management:**
 
-Core Pages
+- Maintain comprehensive employee profiles:
+    - Personal details (name, email).
+    - Department and job title.
+    - Contact information (phone numbers, extensions).
+    - History of assigned devices.
+    - Employment status (active/inactive).
 
-Authentication Context
+**Location Tracking:**
 
-App.tsx
+- Hierarchical and detailed location management:
+    - **Regions/Zones**
+    - **Cities**
+    - **Sites**
+    - **Specific Locations** within sites.
+- Dedicated handling for warehouse inventory and other specialized storage.
 
-AppRoutes.tsx
+**Dashboards and Analytics:**
 
-AuthContextProvider
+- **Home Dashboard:** Provides an at-a-glance summary of the inventory, recent activities, and key metrics.
+- **Device-Specific Dashboards:** Offer detailed insights and performance metrics for individual device categories.
+- **Distribution Charts:** Visualize inventory data across different locations, departments, and device types.
 
-Layout Component
+**History and Audit Tracking:**
 
-Pages (Home, List, Form, Dashboard)
+- Maintain a detailed history of all changes made to device records.
+- Track the user responsible for each modification.
+- Record timestamps for every change.
+- Display specific details of what was changed.
 
-Page Wrappers (ListWrapper, FormWrapper, etc.)
+## Tech Stack
 
-React Query
+**Frontend:**
 
-Custom Hooks
+- **Framework:** React 19.1.0 with React Compiler
+- **Data Fetching:** TanStack React Query 5.74.3
+- **Routing:** React Router 6.30.0
+- **Styling:** Tailwind CSS 4.1.4, CSS Variables
+- **UI Components:** Radix UI (Select, Tabs, Dropdown, Tooltip)
+- **State Management:** Context API, React Reducers, Zustand
+- **Form Validation:** Zod 3.24.2
+- **Charts:** Recharts 2.15.2
+- **Notifications:** Sonner 2.0.3
+- **Build Tools:** Vite 6.2.6, TypeScript 5.8.3
 
-API Services
+## Application Architecture
 
-UI Components
+The application employs a domain-driven design (DDD) to ensure a clear separation of concerns and maintainability. Key architectural layers include:
 
-Form Components
+- **Core Domain:** Contains the business logic and entities (Devices, Employees, Locations).
+    - Organized by domain entities (devices, employees, locations).
+    - Includes domain models and potentially repositories and services (though not explicitly shown in the overview).
+- **Client-Side Application:** The React frontend responsible for the user interface and interaction.
+    - **State Management:** Handles application-wide state using Context API, Reducers, and Zustand.
+    - **UI Layer:** Composed of reusable and page-specific components built with React and styled with Tailwind CSS and Radix UI.
+    - **Data Management:** Utilizes TanStack React Query for efficient data fetching, caching, and state management of server data.
+    - **Routing:** Manages navigation within the application using React Router.
+- **UI Components:** Reusable building blocks for the user interface (e.g., buttons, inputs, modals).
+- **Form Components:** Specialized components for handling user input and form submissions, leveraging Zod for validation.
+- **Table Components:** Display data in a structured and organized manner.
+- **Filter/Search System:** Enables users to efficiently find specific inventory items.
+- **Dashboard Components:** Visualize key inventory data and metrics.
+- **Custom Hooks:** Encapsulate reusable logic and interact with state management and data fetching.
+- **API Services:** Handle communication with the backend API (implementation details not shown).
 
-Table Components
+## Getting Started
 
-Filter/Search System
+### Prerequisites
 
-Dashboard Components
+- Node.js (latest LTS version recommended)
+- bun or npm package manager
 
-User State
+### Installation
 
-Form Reducers
+1.  Clone the repository:
 
-Validation Rules
+    ```bash
+    git clone [https://github.com/amaneiro7/inventario-app-frontend-react-query.git](https://github.com/amaneiro7/inventario-app-frontend-react-query.git)
+    cd inventario-app-frontend-react-query
+    ```
 
-Form State
+2.  Install dependencies:
 
-Core Domain Model
-The system revolves around devices, employees, locations, and their relationships:
+    ```bash
+    bun install  # or
+    npm install
+    ```
 
-assigned to
+3.  Start the development server:
+    ```bash
+    bun dev  # or
+    npm run dev
+    ```
 
-placed at
+### Available Scripts
 
-has
+The following scripts are available in the `package.json`:
 
-1
-1
-1
-0..1
-1
+- `dev`: Starts the development server.
+- `build`: Builds the application for production.
+- `deploy`: Deploys the built application to the nginx server (specific to the project's deployment setup).
+- `lint`: Runs ESLint to check for code issues.
+- `format`: Formats code using Prettier.
+- `preview`: Previews the production build locally.
 
-- Device
-
-id: string
-
-serial: string
-
-activo: string
-
-categoryId: string
-
-brandId: string
-
-modelId: string
-
-statusId: string
-
-employeeId: string
-
-locationId: string
-
-observation: string
-
-stockNumber: string
-
-DeviceComputer
-
-computerName: string
-
-processorId: string
-
-memoryRamCapacity: number
-
-memoryRam: Array
-
-hardDriveTypeId: string
-
-operatingSystemId: string
-
-ipAddress: string
-
-macAddress: string
-
-Employee
-
-id: string
-
-name: string
-
-lastName: string
-
-email: string
-
-departmentId: string
-
-cargoId: string
-
-phones: Phone[]
-
-extensions: Extension[]
-
-isStillWorking: boolean
-
-Location
-
-id: string
-
-name: string
-
-siteId: string
-
-typeOfSiteId: string
-
-Phone
-
-Getting Started
-Prerequisites
-Node.js (latest LTS version recommended)
-Bun or npm package manager
-Installation
-Clone the repository
-git clone https://github.com/amaneiro7/inventario-app-frontend-react-query.git  
-cd inventario-app-frontend-react-query
-Install dependencies
-bun install
-
-# or
-
-npm install
-Start the development server
-bun dev
-
-# or
-
-npm run dev
-Available Scripts
-dev: Start the development server
-build: Build the application for production
-deploy: Deploy the built application to the nginx server
-lint: Run ESLint to check for code issues
-format: Format code using Prettier
-preview: Preview the production build locally package.json:6-13
-Project Structure
-The project follows a domain-driven design approach with a clear separation of concerns:
-
-/src/core: Core domain logic and business rules
-Organized by domain entities (devices, employees, locations)
-Contains domain models, repositories, and services
-/src/components: Reusable UI components
-/src/ui: Page-specific UI components and wrappers
-/src/routes: Application routing configuration
-/src/assets: Static assets (images, fonts, etc.)
-Contributing
-Fork the repository
-Create your feature branch (git checkout -b feature/amazing-feature)
-Commit your changes (git commit -m 'Add some amazing feature')
-Push to the branch (git push origin feature/amazing-feature)
-Open a Pull Request
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Acknowledgments
-React
-Vite
-TanStack Query
-Tailwind CSS
-Radix UI
-Notes
-This README was created based on the project overview and available code snippets. The project appears to be an inventory management system built with React, TypeScript, and modern frontend technologies. The README includes information about features, tech stack, architecture, and getting started instructions derived from the package.json and wiki overview. Some sections like licensing and contributing are standard templates that should be customized based on the project's specific requirements.
-
-Wiki pages you might want to explore:
-
-Overview (amaneiro7/inventario-app-frontend-react-query)
+## Project Structure
