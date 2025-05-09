@@ -14,6 +14,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { useModelBreakdown } from './hooks/useModelBreakdown'
+import { BASIC_COLORS } from '@/utils/colores'
 
 interface ModelBreakdownProps {
 	data: ComputerDashboardDto['brand']
@@ -72,7 +73,7 @@ export const ModelBreakdown = memo(({ data }: ModelBreakdownProps) => {
 							<Bar
 								dataKey="quantity"
 								name="Cantidad"
-								fill="#0ea5e9"
+								fill={BASIC_COLORS.azulElectrico}
 								barSize={barHeight}
 							>
 								<LabelList

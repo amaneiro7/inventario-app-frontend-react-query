@@ -16,11 +16,11 @@ import { PieCard } from './PieCard'
 import { type MemoryViewSelect, useMemoryRamAnalysis } from './hooks/useMemoryRamAnalysis'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { useMemoryRamTypeAnalysys } from './hooks/useMemoryRamTypeAnalysis'
+import { BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface MemoryRamAnalysisProps {
 	data: ComputerDashboardDto
 }
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 	const { memoryData, setViewBy, total, viewBy } = useMemoryRamAnalysis({
 		data: data.memoryRamCapacity
@@ -78,7 +78,7 @@ export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 										key={type.name}
 										dataKey={type.name}
 										name={type.name}
-										fill={COLORS[index + 1]}
+										fill={BASIC_COLORS_MAP[index + 1]}
 										barSize={barHeight}
 									>
 										<LabelList

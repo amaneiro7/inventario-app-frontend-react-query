@@ -15,12 +15,11 @@ import { MapPin } from 'lucide-react'
 import { PieCard } from './PieCard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface OSAnalysisProps {
 	data: ComputerDashboardDto['operatingSystem']
 }
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 
 export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 	const { arqData, barHeight, prepareGroupedBarData, totalArq, totalOperatingSystem } =
@@ -35,8 +34,8 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 					title="Analisis de Sistemas Operativos"
 					desc="Distribución de Sistemas Operativos"
 					dataKey="count"
-					colors={COLORS}
-					icon={<MapPin className="mx-auto h-12 w-12 mb-2 opacity-20" />}
+					colors={BASIC_COLORS_MAP}
+					icon={<MapPin className="mx-auto mb-2 h-12 w-12 opacity-20" />}
 				/>
 				<PieCard
 					data={arqData}
@@ -44,8 +43,8 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 					title="Analisis de Arquitecturas de sistemas operativos"
 					desc="Distribución de Arquitecturas de sistemas operativos"
 					dataKey="count"
-					colors={COLORS}
-					icon={<MapPin className="mx-auto h-12 w-12 mb-2 opacity-20" />}
+					colors={BASIC_COLORS_MAP}
+					icon={<MapPin className="mx-auto mb-2 h-12 w-12 opacity-20" />}
 				/>
 				<Card className="col-span-2">
 					<CardHeader>
@@ -68,7 +67,7 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 											key={type.name}
 											dataKey={type.name}
 											name={type.name}
-											fill={COLORS[index + 1]}
+											fill={BASIC_COLORS_MAP[index + 1]}
 											barSize={barHeight}
 										>
 											<LabelList

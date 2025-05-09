@@ -14,13 +14,12 @@ import { HardDrive } from 'lucide-react'
 import { useHardDriveAnalysys } from './hooks/useHardDriveAnalysys'
 import { PieCard } from './PieCard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
+import { BASIC_COLORS_MAP } from '@/utils/colores'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface HardDriveAnalysisProps {
 	data: ComputerDashboardDto['hardDrive']
 }
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']
 
 export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data }) => {
 	const { typeData, barHeight, prepareGroupedBarData, totalDrivesByCapacity, totalDrivesByType } =
@@ -34,8 +33,8 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 				title="Analisis Tipos de Disco Duros"
 				desc="Distribución de Discos por tipo"
 				dataKey="count"
-				colors={COLORS}
-				icon={<HardDrive className="mx-auto h-12 w-12 mb-2 opacity-20" />}
+				colors={BASIC_COLORS_MAP}
+				icon={<HardDrive className="mx-auto mb-2 h-12 w-12 opacity-20" />}
 			/>
 			<PieCard
 				data={data}
@@ -43,8 +42,8 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 				title="Analisis de Discos Duros"
 				desc="Distribución de Discos por capacidad"
 				dataKey="count"
-				colors={COLORS}
-				icon={<HardDrive className="mx-auto h-12 w-12 mb-2 opacity-20" />}
+				colors={BASIC_COLORS_MAP}
+				icon={<HardDrive className="mx-auto mb-2 h-12 w-12 opacity-20" />}
 			/>
 			<Card className="col-span-2">
 				<CardHeader>
@@ -67,7 +66,7 @@ export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data 
 										key={type.name}
 										dataKey={type.name}
 										name={type.name}
-										fill={COLORS[index + 1]}
+										fill={BASIC_COLORS_MAP[index + 1]}
 										barSize={barHeight}
 									>
 										<LabelList

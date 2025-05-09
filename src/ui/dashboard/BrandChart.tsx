@@ -1,6 +1,9 @@
+import { memo } from 'react'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
-export function BrandChart({ data }: { data: ComputerDashboardDto['brand'] }) {
+import { BASIC_COLORS } from '@/utils/colores'
+
+export const BrandChart = memo(({ data }: { data: ComputerDashboardDto['brand'] }) => {
 	return (
 		<ResponsiveContainer width="100%" height={400}>
 			<BarChart data={data}>
@@ -8,8 +11,10 @@ export function BrandChart({ data }: { data: ComputerDashboardDto['brand'] }) {
 				<XAxis dataKey="count" />
 				<YAxis dataKey="name" type="category" />
 				<Tooltip />
-				<Bar dataKey="count" fill="#8884d8" />
+				<Bar dataKey="count" fill={BASIC_COLORS.duraznoBrillante} />
 			</BarChart>
 		</ResponsiveContainer>
 	)
-}
+})
+
+BrandChart.displayName = 'BrandChart'

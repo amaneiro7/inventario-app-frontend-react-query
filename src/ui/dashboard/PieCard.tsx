@@ -1,6 +1,7 @@
 import { Cell, Pie, PieChart, PieProps, ResponsiveContainer, Tooltip } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import Typography from '@/components/Typography'
+import { BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface PieCardProps {
 	data: PieProps['data']
@@ -13,24 +14,13 @@ interface PieCardProps {
 	selectSection?: React.ReactNode
 }
 
-const COLORS = [
-	'#4CAF50', // Verde
-	'#2196F3', // Azul
-	'#FFC107', // yellow
-	'#F44336', // Rojo
-	'#9C27B0', // Morado
-	'#795548', // Marrón
-	'#00BCD4', // Cian
-	'#FF9800' // Naranja
-]
-
 export const PieCard = ({
 	data,
 	title,
 	desc,
 	total,
 	icon,
-	colors = COLORS,
+	colors = BASIC_COLORS_MAP,
 	dataKey = 'value',
 	selectSection
 }: PieCardProps) => {

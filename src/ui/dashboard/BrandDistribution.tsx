@@ -14,11 +14,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { PieCard } from './PieCard'
 import { useBrandDistribution } from './hooks/useBrandDistribution'
+import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface BrandDistributionProps {
 	brandData: ComputerDashboardDto['brand']
 }
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#82ca9d', '#8dd1e1']
 export const BrandDistribution = memo(({ brandData: data }: BrandDistributionProps) => {
 	const { brandData, total } = useBrandDistribution({ data })
 	return (
@@ -27,7 +27,7 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 				<CardHeader>
 					<CardTitle>Cantidad de equipos por marca</CardTitle>
 					<CardDescription>Total de equipos por marca</CardDescription>
-					<CardContent className="h-80">
+					<CardContent className="mb-6 h-80">
 						<ResponsiveContainer width="100%" height="100%">
 							<BarChart
 								data={brandData}
@@ -43,7 +43,12 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 								<YAxis />
 								<Tooltip />
 								<Legend />
-								<Bar dataKey="count" fill="#0ea5e9" name="Cantidad" barSize={30}>
+								<Bar
+									dataKey="count"
+									fill={BASIC_COLORS.naranja}
+									name="Cantidad"
+									barSize={30}
+								>
 									<LabelList
 										dataKey="count"
 										position="top"
@@ -60,7 +65,7 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 				desc="Distribución de equipos por marca"
 				title="Marca"
 				dataKey="count"
-				colors={COLORS}
+				colors={BASIC_COLORS_MAP}
 				total={total}
 			/>
 
@@ -80,7 +85,12 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 							<YAxis />
 							<Tooltip />
 							<Legend />
-							<Bar dataKey="models" fill="#8b5cf6" name="Model Count" barSize={45}>
+							<Bar
+								dataKey="models"
+								fill={BASIC_COLORS.verde}
+								name="Model Count"
+								barSize={45}
+							>
 								<LabelList
 									dataKey="models"
 									position="top"

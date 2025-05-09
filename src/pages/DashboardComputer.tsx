@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
-import { Loading } from '@/components/Loading'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
 import { useGetComputerDashboard } from '@/core/devices/dashboard/infra/hooks/useGetComputerDashboard'
 import { Seo } from '@/components/Seo'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
 import { InventorySummary } from '@/ui/Home/InventorySummary'
+import { Loading } from '@/components/Loading'
 
 const InventoryOverview = lazy(() =>
 	import('@/ui/dashboard/InventoryBrandOverview').then(m => ({ default: m.InventoryOverview }))
@@ -11,6 +11,9 @@ const InventoryOverview = lazy(() =>
 
 const BrandDistribution = lazy(() =>
 	import('@/ui/dashboard/BrandDistribution').then(m => ({ default: m.BrandDistribution }))
+)
+const ModelBreakdown = lazy(() =>
+	import('@/ui/dashboard/ModelBreakdown').then(m => ({ default: m.ModelBreakdown }))
 )
 const GeographicalDistribution = lazy(() =>
 	import('@/ui/dashboard/GeographicalDistribution').then(m => ({
@@ -22,9 +25,6 @@ const HardDriveAnalysis = lazy(() =>
 )
 const InventoryBrandTable = lazy(() =>
 	import('@/ui/dashboard/InventoryBrandTable').then(m => ({ default: m.InventoryBrandTable }))
-)
-const ModelBreakdown = lazy(() =>
-	import('@/ui/dashboard/ModelBreakdown').then(m => ({ default: m.ModelBreakdown }))
 )
 const OSAnalysis = lazy(() =>
 	import('@/ui/dashboard/OSAnalysis').then(m => ({ default: m.OSAnalysis }))

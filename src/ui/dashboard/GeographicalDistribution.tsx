@@ -18,23 +18,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Button from '@/components/Button'
 import { Input } from '@/components/Input/Input'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface GeographicalDistributionProps {
 	data: ComputerDashboardDto['region']
 }
-
-const COLORS = [
-	'#0088FE',
-	'#00C49F',
-	'#FFBB28',
-	'#FF8042',
-	'#8884d8',
-	'#82ca9d',
-	'#ffc658',
-	'#8dd1e1',
-	'#a4de6c',
-	'#d0ed57'
-]
 
 export const GeographicalDistribution = ({ data }: GeographicalDistributionProps) => {
 	const {
@@ -253,7 +241,7 @@ export const GeographicalDistribution = ({ data }: GeographicalDistributionProps
 									{distributionData.map((_entry, index) => (
 										<Cell
 											key={`cell-${index}`}
-											fill={COLORS[index % COLORS.length]}
+											fill={BASIC_COLORS_MAP[index % BASIC_COLORS_MAP.length]}
 										/>
 									))}
 									<LabelList

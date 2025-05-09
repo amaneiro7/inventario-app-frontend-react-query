@@ -15,8 +15,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { PieCard } from './PieCard'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8']
 const SITE_TYPE_COLORS = {
 	Agencia: 'hsl(213, 100%, 19%)',
 	Almacén: 'hsl(19, 99%, 50%)',
@@ -80,7 +80,7 @@ export const InventoryOverview = ({
 							<Bar
 								dataKey="count"
 								name="Cantidad"
-								fill="hsl(213, 100%, 19%)"
+								fill={BASIC_COLORS.verde}
 								barSize={barHeight}
 							>
 								<LabelList
@@ -97,7 +97,7 @@ export const InventoryOverview = ({
 				data={statusData}
 				title="Distribución por estatus"
 				desc="Distribuicion de equipos por estatus"
-				colors={COLORS}
+				colors={BASIC_COLORS_MAP}
 				dataKey="count"
 				total={getTotalStatus}
 			/>
@@ -117,7 +117,7 @@ export const InventoryOverview = ({
 							<YAxis />
 							<Tooltip />
 							<Legend />
-							<Bar dataKey={'count'} name="Cantidad" fill="#0EA5E9">
+							<Bar dataKey={'count'} name="Cantidad" fill={BASIC_COLORS.azul}>
 								<LabelList
 									dataKey="count"
 									position="top"
