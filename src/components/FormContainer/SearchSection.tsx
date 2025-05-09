@@ -1,7 +1,6 @@
-import { memo, Suspense } from 'react'
+import { memo } from 'react'
 import { LinkAsButton } from '../Button/LinkAsButton'
 import { AddIcon } from '@/icon/AddIcon'
-import { InputFallback } from '../Loading/InputFallback'
 
 interface Props {
 	searchInput?: React.ReactElement
@@ -12,7 +11,7 @@ interface Props {
 export const SearchSection = memo(function ({ isEdit, searchInput, url }: Props) {
 	return (
 		<div className="flex w-full flex-col items-center justify-start gap-3 md:flex-row md:justify-between">
-			<Suspense fallback={<InputFallback />}>{searchInput}</Suspense>
+			{searchInput}
 			{isEdit && (
 				<LinkAsButton
 					color="orange"

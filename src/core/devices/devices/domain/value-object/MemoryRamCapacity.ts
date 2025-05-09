@@ -4,7 +4,7 @@ import { type StatusId } from '@/core/status/status/domain/value-object/StatusId
 import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 
 export class MemoryRamCapacity extends NumberValueObject {
-	static readonly minStep = 0.5
+	static readonly minStep = 0.25
 	static readonly min = 0
 	static readonly max = 32 * this.minStep
 	private static errors = ''
