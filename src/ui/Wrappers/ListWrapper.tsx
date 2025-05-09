@@ -1,5 +1,4 @@
 import { memo, Suspense, useMemo } from 'react'
-import { preload } from 'react-dom'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from '../PageTitle'
 import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
@@ -10,11 +9,6 @@ const ListWrapper = memo(() => {
 	const location = useLocation()
 	const isListIndex = location.pathname === '/list'
 	const outletTitle = useOutletContext<string>()
-
-	preload('../List/FilterAside/filterContainerStyle.css', {
-		as: 'style',
-		fetchPriority: 'low'
-	})
 
 	const routeMetadata = useMemo(
 		(): Record<string, { title: string; description: string }> => ({
