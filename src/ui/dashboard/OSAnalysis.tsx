@@ -1,25 +1,17 @@
-import { memo } from 'react'
-import {
-	Bar,
-	BarChart,
-	CartesianGrid,
-	Legend,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis,
-	LabelList
-} from 'recharts'
-import { useOperatingSystemAnalysys } from './hooks/useOperatingSystemAnalysis'
+import { lazy, memo, Suspense } from 'react'
 import { MapPin } from 'lucide-react'
+import { useOperatingSystemAnalysys } from './hooks/useOperatingSystemAnalysis'
 import { PieCard } from './PieCard'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
-import { BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface OSAnalysisProps {
 	data: ComputerDashboardDto['operatingSystem']
 }
+
+const OSAnalysisChart = lazy(() =>
+	import('./OSAnalysis/OSAnalysisChart').then(m => ({ default: m.OSAnalysisChart }))
+)
 
 export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 	const { arqData, barHeight, prepareGroupedBarData, totalArq, totalOperatingSystem } =
@@ -31,54 +23,38 @@ export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 				<PieCard
 					data={data}
 					total={totalOperatingSystem}
-					title="Analisis de Sistemas Operativos"
-					desc="Distribución de Sistemas Operativos"
+					title="Distribución de Sistemas Operativos"
+					desc="Proporción de equipos por sistema operativo instalado"
 					dataKey="count"
-					colors={BASIC_COLORS_MAP}
 					icon={<MapPin className="mx-auto mb-2 h-12 w-12 opacity-20" />}
 				/>
 				<PieCard
 					data={arqData}
 					total={totalArq}
-					title="Analisis de Arquitecturas de sistemas operativos"
-					desc="Distribución de Arquitecturas de sistemas operativos"
+					title="Distribución por Arquitectura de Sistemas Operativos"
+					desc="Proporción de sistemas operativos según su arquitectura"
 					dataKey="count"
-					colors={BASIC_COLORS_MAP}
 					icon={<MapPin className="mx-auto mb-2 h-12 w-12 opacity-20" />}
 				/>
 				<Card className="col-span-2">
 					<CardHeader>
-						<CardTitle>Distribución de Sistemas Operativos por Arquitecturas</CardTitle>
+						<CardTitle>Relación entre Sistema Operativo y Arquitectura</CardTitle>
+						<CardDescription>
+							Cantidad de sistemas operativos por tipo de arquitectura.
+						</CardDescription>
 					</CardHeader>
 					<CardContent className="h-80">
-						<ResponsiveContainer width="100%" height="100%">
-							<BarChart
-								data={prepareGroupedBarData}
-								margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-							>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip formatter={(value, name) => [`${value} equipos`, name]} />
-								<Legend />
-								{arqData.length > 0 &&
-									arqData.map((type, index) => (
-										<Bar
-											key={type.name}
-											dataKey={type.name}
-											name={type.name}
-											fill={BASIC_COLORS_MAP[index + 1]}
-											barSize={barHeight}
-										>
-											<LabelList
-												dataKey={type.name}
-												position="top"
-												style={{ fontSize: '0.65rem' }}
-											/>
-										</Bar>
-									))}
-							</BarChart>
-						</ResponsiveContainer>
+						<Suspense
+							fallback={
+								<div className="h-80 min-h-80 w-full animate-pulse bg-gray-200" />
+							}
+						>
+							<OSAnalysisChart
+								barHeight={barHeight}
+								prepareGroupedBarData={prepareGroupedBarData}
+								arqData={arqData}
+							/>
+						</Suspense>
 					</CardContent>
 				</Card>
 			</div>

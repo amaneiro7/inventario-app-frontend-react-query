@@ -8,7 +8,7 @@ interface FilterProps {
 	filterCategory: string
 	searchTerm: string
 }
-interface ModelData {
+export interface ModelData {
 	name: string
 	category: string
 	brand: string
@@ -23,7 +23,7 @@ export const useInventoryBrandTable = ({
 	filterCategory,
 	searchTerm
 }: FilterProps) => {
-	const uniqueBrands = ['All', ...Array.from(new Set(data.map(item => item.name)))]
+	const uniqueBrands = [...Array.from(new Set(data.map(item => item.name)))]
 
 	// Obtener categorías únicas de todos los modelos
 	const uniqueCategories = useMemo(() => {
@@ -33,7 +33,7 @@ export const useInventoryBrandTable = ({
 				categories.add(model.category)
 			})
 		})
-		return ['All', ...Array.from(categories)].sort()
+		return [...Array.from(categories)].sort()
 	}, [data])
 
 	const dataMapped = useMemo(() => {

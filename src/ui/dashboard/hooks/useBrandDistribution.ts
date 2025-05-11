@@ -4,8 +4,14 @@ import { useMemo } from 'react'
 interface UseBrandDistributionProps {
 	data: ComputerDashboardDto['brand']
 }
+
+export interface BrandData {
+	name: string
+	count: number
+	models: number
+}
 export function useBrandDistribution({ data }: UseBrandDistributionProps) {
-	const brandData = useMemo(
+	const brandData: BrandData[] = useMemo(
 		() =>
 			data.map(brand => ({
 				name: brand.name.replace('-', ' '), // Reemplaza el guion con un espacio

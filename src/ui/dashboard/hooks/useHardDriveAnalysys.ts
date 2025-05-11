@@ -4,9 +4,16 @@ import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/C
 interface UseHardDriveAnalysisProps {
 	data: ComputerDashboardDto['hardDrive']
 }
+
+export interface HDDTypeData {
+	name: string
+	count: number
+}
+
+export type HDDPrepareGroupedBarData = Record<string, unknown>[]
 export function useHardDriveAnalysys({ data }: UseHardDriveAnalysisProps) {
 	// Process data by drive type
-	const typeData = useMemo(() => {
+	const typeData: HDDTypeData[] = useMemo(() => {
 		const resultMap = new Map<string, number>()
 
 		data.forEach(hddCapacity => {
@@ -34,7 +41,7 @@ export function useHardDriveAnalysys({ data }: UseHardDriveAnalysisProps) {
 	)
 
 	const barHeight = useMemo(() => 30, [])
-	const prepareGroupedBarData = useMemo(() => {
+	const prepareGroupedBarData: HDDPrepareGroupedBarData = useMemo(() => {
 		// Get unique hdd types
 		const hddTypes = new Set<string>()
 		data.forEach(hddCapacity => {

@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { useGetHistoryDashboard } from '@/core/history/infra/hook/useGetGeneralDashboard'
+import { BASIC_COLORS } from '@/utils/colores'
 
 export const InventoryChart = memo(() => {
 	const { historyDashboard, isLoading } = useGetHistoryDashboard()
@@ -43,9 +44,21 @@ export const InventoryChart = memo(() => {
 								}}
 							/>
 							<Legend />
-							<Bar dataKey="Computadoras" fill="#3B82F6" radius={[4, 4, 0, 0]} />
-							<Bar dataKey="Laptops" fill="#10B981" radius={[4, 4, 0, 0]} />
-							<Bar dataKey="All in One" fill="#F59E0B" radius={[4, 4, 0, 0]} />
+							<Bar
+								dataKey="Computadoras"
+								fill={BASIC_COLORS.azul}
+								radius={[4, 4, 0, 0]}
+							/>
+							<Bar
+								dataKey="Laptops"
+								fill={BASIC_COLORS.verde}
+								radius={[4, 4, 0, 0]}
+							/>
+							<Bar
+								dataKey="All in One"
+								fill={BASIC_COLORS.naranja}
+								radius={[4, 4, 0, 0]}
+							/>
 						</BarChart>
 					</ResponsiveContainer>
 				</div>

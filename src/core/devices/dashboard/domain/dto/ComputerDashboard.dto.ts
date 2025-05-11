@@ -40,32 +40,41 @@ export interface Category {
 	typeOfSite: TypeOfSite[]
 }
 
+export interface TypeOfSiteCount {
+	Agencia?: number
+	'Sede Administrativa'?: number
+}
 export interface Regions {
 	name: string
 	count: number
+	typeOfSiteCount: TypeOfSiteCount
 	regions: Region[]
 }
 export interface Region {
 	name: string
 	count: number
+	typeOfSiteCount: TypeOfSiteCount
 	states: State[]
 }
 
 export interface State {
 	name: string
 	count: number
+	typeOfSiteCount: TypeOfSiteCount
 	cities: City[]
 }
 
 export interface City {
 	name: string
 	count: number
+	typeOfSiteCount: TypeOfSiteCount
 	sites: Site[]
 }
 
 export interface Site {
 	name: string
 	count: number
+	typeOfSiteCount: TypeOfSiteCount
 	locations: Location[]
 }
 export interface Location {

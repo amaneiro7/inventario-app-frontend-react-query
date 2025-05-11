@@ -13,7 +13,9 @@ const BrandDistribution = lazy(() =>
 	import('@/ui/dashboard/BrandDistribution').then(m => ({ default: m.BrandDistribution }))
 )
 const ModelBreakdown = lazy(() =>
-	import('@/ui/dashboard/ModelBreakdown').then(m => ({ default: m.ModelBreakdown }))
+	import('@/ui/dashboard/ModelBreakdown/ModelBreakdown').then(m => ({
+		default: m.ModelBreakdown
+	}))
 )
 const GeographicalDistribution = lazy(() =>
 	import('@/ui/dashboard/GeographicalDistribution').then(m => ({
@@ -35,7 +37,9 @@ const OSDIstributionByRegion = lazy(() =>
 	}))
 )
 const MemoryRamAnalysis = lazy(() =>
-	import('@/ui/dashboard/MemoryRamAnalysis').then(m => ({ default: m.MemoryRamAnalysis }))
+	import('@/ui/dashboard/MemoryRamAnalysis/MemoryRamAnalysis').then(m => ({
+		default: m.MemoryRamAnalysis
+	}))
 )
 
 export default function DashboardComputer() {
@@ -71,7 +75,9 @@ export default function DashboardComputer() {
 				</TabsList>
 
 				<TabsContent value="overview" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<InventoryOverview
 							categoryData={computerDashboard.category}
 							statusData={computerDashboard.status}
@@ -80,44 +86,60 @@ export default function DashboardComputer() {
 				</TabsContent>
 
 				<TabsContent value="brands" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<BrandDistribution brandData={computerDashboard.brand} />
 					</Suspense>
 				</TabsContent>
 
 				<TabsContent value="models" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<ModelBreakdown data={computerDashboard.brand} />
 					</Suspense>
 				</TabsContent>
 
 				<TabsContent value="geographical" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<GeographicalDistribution data={computerDashboard.region} />
 					</Suspense>
 				</TabsContent>
 				<TabsContent value="harddrive" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<HardDriveAnalysis data={computerDashboard.hardDrive} />
 					</Suspense>
 				</TabsContent>
 				<TabsContent value="operatingSystem" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<OSAnalysis data={computerDashboard.operatingSystem} />
 					</Suspense>
 				</TabsContent>
 				<TabsContent value="operatingSystemByRegion" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<OSDIstributionByRegion data={computerDashboard.operatingSystemByRegion} />
 					</Suspense>
 				</TabsContent>
 				<TabsContent value="memoryRam" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<MemoryRamAnalysis data={computerDashboard} />
 					</Suspense>
 				</TabsContent>
 				<TabsContent value="inventory" className="space-y-4">
-					<Suspense>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
 						<InventoryBrandTable data={computerDashboard.brand} />
 					</Suspense>
 				</TabsContent>

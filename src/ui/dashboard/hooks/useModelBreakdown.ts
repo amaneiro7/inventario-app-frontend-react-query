@@ -5,33 +5,42 @@ interface UseModelBreakdownProps {
 	data: ComputerDashboardDto['brand']
 }
 
+export interface ModelChartData {
+	name: string
+	quantity: number
+	brand: string
+}
+
 export function useModelBreakdown({ data }: UseModelBreakdownProps) {
-	const [selectedBrand, setSelectedBrand] = useState<string>('Todas las marcas')
+	const [selectedBrand, setSelectedBrand] = useState<string>('All')
 
 	// Get unique brands for the filter
-	const brands = useMemo(() => {
-		return ['Todas las marcas', ...Array.from(new Set(data.map(item => item.name)))].sort()
+	const brands: string[] = useMemo(() => {
+		return [...Array.from(new Set(data.map(item => item.name)))].sort()
 	}, [data])
 	// Prepare model data based on selected brand
-	const modelData = useMemo(() => {
+	const modelData: Record<string, ModelChartData> = useMemo(() => {
 		let filteredData = data
-		if (selectedBrand !== 'Todas las marcas') {
+		if (selectedBrand !== 'All') {
 			filteredData = data.filter(item => item.name === selectedBrand)
 		}
 		const result: Record<string, { name: string; quantity: number; brand: string }> = {}
-		filteredData.forEach(brand => {
-			brand.model.forEach(model => {
-				result[model.name] = {
-					name: model.name,
-					quantity: model.count,
-					brand: brand.name
-				}
-			})
-		}, {} as Record<string, { name: string; quantity: number; brand: string }>)
+		filteredData.forEach(
+			brand => {
+				brand.model.forEach(model => {
+					result[model.name] = {
+						name: model.name,
+						quantity: model.count,
+						brand: brand.name
+					}
+				})
+			},
+			{} as Record<string, { name: string; quantity: number; brand: string }>
+		)
 		return result
 	}, [data, selectedBrand])
 
-	const modelChartData = useMemo(() => {
+	const modelChartData: ModelChartData[] = useMemo(() => {
 		return Object.values(modelData).sort((a, b) => b.quantity - a.quantity)
 	}, [modelData])
 

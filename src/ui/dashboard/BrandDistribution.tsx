@@ -1,24 +1,18 @@
-import { memo } from 'react'
-import {
-	BarChart,
-	Bar,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
-	ResponsiveContainer,
-	LabelList
-} from 'recharts'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
-import { PieCard } from './PieCard'
+import { lazy, memo, Suspense } from 'react'
 import { useBrandDistribution } from './hooks/useBrandDistribution'
-import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+import { PieCard } from './PieCard'
+import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 interface BrandDistributionProps {
 	brandData: ComputerDashboardDto['brand']
 }
+
+const DeviceByBrand = lazy(() =>
+	import('./Brands/DeviceByBrand').then(m => ({ default: m.DeviceByBrand }))
+)
+const ModelQuantityByModels = lazy(() =>
+	import('./Brands/ModelQuantityByModels').then(m => ({ default: m.ModelQuantityByModels }))
+)
 export const BrandDistribution = memo(({ brandData: data }: BrandDistributionProps) => {
 	const { brandData, total } = useBrandDistribution({ data })
 	return (
@@ -28,35 +22,13 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 					<CardTitle>Cantidad de equipos por marca</CardTitle>
 					<CardDescription>Total de equipos por marca</CardDescription>
 					<CardContent className="mb-6 h-80">
-						<ResponsiveContainer width="100%" height="100%">
-							<BarChart
-								data={brandData}
-								margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-							>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis
-									dataKey="name"
-									tick={{
-										fontSize: '0.75rem' // Reduce el tamaño de la fuente de las etiquetas del eje X
-									}}
-								/>
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar
-									dataKey="count"
-									fill={BASIC_COLORS.naranja}
-									name="Cantidad"
-									barSize={30}
-								>
-									<LabelList
-										dataKey="count"
-										position="top"
-										style={{ fontSize: '0.65rem' }}
-									/>
-								</Bar>
-							</BarChart>
-						</ResponsiveContainer>
+						<Suspense
+							fallback={
+								<div className="h-96 min-h-96 w-full animate-pulse bg-gray-200" />
+							}
+						>
+							<DeviceByBrand brandData={brandData} />
+						</Suspense>
 					</CardContent>
 				</CardHeader>
 			</Card>
@@ -65,7 +37,6 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 				desc="Distribución de equipos por marca"
 				title="Marca"
 				dataKey="count"
-				colors={BASIC_COLORS_MAP}
 				total={total}
 			/>
 
@@ -74,31 +45,14 @@ export const BrandDistribution = memo(({ brandData: data }: BrandDistributionPro
 					<CardTitle>Distribución por cantidad de modelos</CardTitle>
 					<CardDescription>Número de modelos por marca</CardDescription>
 				</CardHeader>
-				<CardContent className="h-80">
-					<ResponsiveContainer width="100%" height="100%">
-						<BarChart
-							data={brandData}
-							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-						>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Bar
-								dataKey="models"
-								fill={BASIC_COLORS.verde}
-								name="Model Count"
-								barSize={45}
-							>
-								<LabelList
-									dataKey="models"
-									position="top"
-									style={{ fontSize: '0.65rem' }}
-								/>
-							</Bar>
-						</BarChart>
-					</ResponsiveContainer>
+				<CardContent className="mb-6 h-80">
+					<Suspense
+						fallback={
+							<div className="h-96 min-h-96 w-full animate-pulse bg-gray-200" />
+						}
+					>
+						<ModelQuantityByModels brandData={brandData} />
+					</Suspense>
 				</CardContent>
 			</Card>
 		</div>

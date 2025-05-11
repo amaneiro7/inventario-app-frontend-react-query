@@ -17,12 +17,6 @@ import { PieCard } from './PieCard'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
 
-const SITE_TYPE_COLORS = {
-	Agencia: 'hsl(213, 100%, 19%)',
-	Almacén: 'hsl(19, 99%, 50%)',
-	'Sede Administrativa': 'hsl(148, 85%, 24%)'
-}
-
 export const InventoryOverview = ({
 	categoryData,
 	statusData
@@ -148,7 +142,7 @@ export const InventoryOverview = ({
 							<Bar
 								dataKey="Agencia"
 								name="Agencia"
-								fill={SITE_TYPE_COLORS['Agencia']}
+								fill={BASIC_COLORS.azul}
 								barSize={barHeight}
 							>
 								<LabelList
@@ -160,7 +154,7 @@ export const InventoryOverview = ({
 							<Bar
 								dataKey="Almacén"
 								name="Almacén"
-								fill={SITE_TYPE_COLORS['Almacén']}
+								fill={BASIC_COLORS.naranja}
 								barSize={barHeight}
 							>
 								<LabelList
@@ -172,7 +166,7 @@ export const InventoryOverview = ({
 							<Bar
 								dataKey="Sede Administrativa"
 								name="Sede Administrativa"
-								fill={SITE_TYPE_COLORS['Sede Administrativa']}
+								fill={BASIC_COLORS.verde}
 								barSize={barHeight}
 							>
 								<LabelList

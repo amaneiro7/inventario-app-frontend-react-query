@@ -1,6 +1,5 @@
-import { memo, useState } from 'react'
+import { lazy, memo, Suspense, useState } from 'react'
 import { useInventoryBrandTable } from './hooks/useInventoryBrandTable'
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { Input } from '@/components/Input/Input'
@@ -10,7 +9,12 @@ import { TableRow } from '@/components/Table/TableRow'
 import { TableHead } from '@/components/Table/TableHead'
 import { TableBody } from '@/components/Table/TableBody'
 import { TableCell } from '@/components/Table/TableCell'
+import { LoadingTable } from '@/components/Table/LoadingTable'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+
+const InventoryBrandRow = lazy(() =>
+	import('./InventoryBrandTable/InventoryBrandRow').then(m => ({ default: m.InventoryBrandRow }))
+)
 interface InventoryTableProps {
 	data: ComputerDashboardDto['brand']
 }
@@ -26,36 +30,15 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 		searchTerm
 	})
 
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case 'In Stock':
-				return 'white'
-			case 'Low Stock':
-				return 'black'
-			case 'Out of Stock':
-				return 'white'
-			default:
-				return 'black'
-		}
-	}
-	const getStatusBackGroundColor = (status: string) => {
-		switch (status) {
-			case 'In Stock':
-				return 'verde'
-			case 'Low Stock':
-				return 'amarillo'
-			case 'Out of Stock':
-				return 'rojo'
-			default:
-				return 'gris'
-		}
-	}
-
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>Detale de inventario</CardTitle>
-				<CardDescription className="pb-2">Lista completa de equipos</CardDescription>
+				<CardTitle>Inventario de Equipos por Marca y Categoría</CardTitle>
+				<CardDescription className="pb-2">
+					Tabla detallada con filtros para explorar el inventario por marca y categoría
+				</CardDescription>
+			</CardHeader>
+			<CardContent className="flex flex-col justify-center">
 				<div className="mt-2 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
 					<div className="relative w-full sm:max-w-[300px]">
 						<Input
@@ -65,7 +48,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 							value={searchTerm}
 							onChange={e => setSearchTerm(e.target.value)}
 							className="md:w-1/3"
-							label="Search"
+							label="Búsqueda"
 							name="name"
 						/>
 					</div>
@@ -74,6 +57,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 							<SelectValue placeholder="Filtro por marca" />
 						</SelectTrigger>
 						<SelectContent>
+							<SelectItem value={'All'}>Todas las marcas</SelectItem>
 							{uniqueBrands.map(brand => (
 								<SelectItem key={brand} value={brand}>
 									{brand}
@@ -86,6 +70,7 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 							<SelectValue placeholder="Filtro por categoria" />
 						</SelectTrigger>
 						<SelectContent>
+							<SelectItem value={'All'}>Todas las categorias</SelectItem>
 							{uniqueCategories.map(category => (
 								<SelectItem key={category} value={category}>
 									{category}
@@ -94,8 +79,6 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 						</SelectContent>
 					</Select>
 				</div>
-			</CardHeader>
-			<CardContent className="flex justify-center">
 				<Table className="table-fixed">
 					<TableHeader>
 						<TableRow>
@@ -109,38 +92,27 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						{filteredData.length > 0 ? (
-							filteredData.map((item, index) => (
-								<TableRow key={index}>
-									<TableCell value={item.name} size="xxLarge" />
-									<TableCell value={item.brand} size="xLarge" />
-									<TableCell value={item.category} size="medium" />
-									<TableCell value={item.count} size="small" align="center" />
-									<TableCell value={item.inUse} size="small" align="center" />
-									<TableCell value={item.inAlmacen} size="small" align="center" />
-
+						<Suspense fallback={<LoadingTable colspan={7} />}>
+							{filteredData.length > 0 ? (
+								filteredData.map((item, index) => (
+									<InventoryBrandRow item={item} index={index} />
+								))
+							) : (
+								<TableRow>
 									<TableCell
+										colSpan={7}
+										className="py-4 text-center"
 										size="medium"
-										tag
-										backgroundColor={getStatusBackGroundColor(item.status)}
-										color={getStatusColor(item.status)}
-										value={item.status}
+										value="No se encontraron resultados"
 									/>
 								</TableRow>
-							))
-						) : (
-							<TableRow>
-								<TableCell
-									colSpan={7}
-									className="py-4 text-center"
-									size="medium"
-									value={'No se encontraron resultados'}
-								/>
-							</TableRow>
-						)}
+							)}
+						</Suspense>
 					</TableBody>
 				</Table>
 			</CardContent>
 		</Card>
 	)
 })
+
+InventoryBrandTable.displayName = 'InventoryBrandTable'

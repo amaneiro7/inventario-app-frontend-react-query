@@ -8,7 +8,7 @@ export function LoadingTable({
 	registerPerPage?: number
 	colspan: number
 }) {
-	const rows = Array.from({ length: registerPerPage ?? 0 })
+	const rows = Array.from({ length: registerPerPage ?? 25 })
 	const animationClasses = ['animate-pulse-fast', 'animate-pulse-medium', 'animate-pulse-slow']
 	return rows.map((_, index) => (
 		<tr

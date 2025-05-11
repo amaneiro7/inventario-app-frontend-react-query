@@ -4,9 +4,17 @@ import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/C
 interface UseOperatingSystemAnalysisProps {
 	data: ComputerDashboardDto['operatingSystem']
 }
+
+export interface ArqData {
+	name: string
+	count: number
+}
+
+export type OSPrepareGroupedBarData = Record<string, unknown>
+
 export function useOperatingSystemAnalysys({ data }: UseOperatingSystemAnalysisProps) {
-	// Process data by drive type
-	const arqData = useMemo(() => {
+	// Process data by os arquitecture
+	const arqData: ArqData[] = useMemo(() => {
 		const resultMap = new Map<string, number>()
 
 		data.forEach(operatingSystem => {
