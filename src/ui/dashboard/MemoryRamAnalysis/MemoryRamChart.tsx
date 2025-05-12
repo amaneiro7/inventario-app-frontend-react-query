@@ -14,15 +14,12 @@ import {
 
 interface MemoryRamChartProps {
 	prepareGroupedBarData: Record<string, unknown>[]
-	memModuleType: {
-		name: string
-		count: number
-	}[]
+	availableMemValues: string[]
 	barHeight: number
 }
 
 export const MemoryRamChart = memo(
-	({ prepareGroupedBarData, memModuleType, barHeight }: MemoryRamChartProps) => {
+	({ prepareGroupedBarData, availableMemValues, barHeight }: MemoryRamChartProps) => {
 		return (
 			<ResponsiveContainer width="100%" height="100%">
 				<BarChart
@@ -35,22 +32,22 @@ export const MemoryRamChart = memo(
 					<XAxis type="number" />
 					<Tooltip formatter={(value, name) => [`${value} Memorias`, name]} />
 					<Legend />
-					{memModuleType.length > 0 &&
-						memModuleType.map((type, index) => (
+					{availableMemValues.length > 0 &&
+						availableMemValues.map((type, index) => (
 							<Bar
-								key={type.name}
-								dataKey={type.name}
-								name={type.name}
+								key={type}
+								dataKey={type}
+								name={type}
 								fill={BASIC_COLORS_MAP[index + 1]}
 								barSize={barHeight}
 							>
 								<LabelList
-									dataKey={type.name}
+									dataKey={type}
 									position="right"
 									orientation={45}
 									style={{ fontSize: '0.65rem' }}
 									content={({ value, x, y, width, height }) => {
-										const labelText = `${type.name}: ${value}`
+										const labelText = `${type}: ${value} memorias`
 										if (!value || !x || !y) return null
 										return (
 											<text
@@ -60,9 +57,6 @@ export const MemoryRamChart = memo(
 												fontSize={10}
 												textAnchor="start"
 												dominantBaseline="middle"
-												// transform={`rotate(-75, ${
-												// 	Number(x) + Number(width) / 2
-												// }, ${Number(y) - 10})`}
 											>
 												{labelText}
 											</text>

@@ -5,79 +5,72 @@ interface UseMemoryRamTypeAnalysisProps {
 	data: ComputerDashboardDto['modulosMemoryRam']
 }
 
-export interface MemModuleType {
-	name: string
-	count: number
-}
-
 export type RamPrepareGroupedBarData = Record<string, unknown>
 export function useMemoryRamTypeAnalysys({ data }: UseMemoryRamTypeAnalysisProps) {
 	const [selectedRamType, setSelectedRamType] = useState<string>('All')
+	const [selectedTypeOfSite, setSelectedTypeOfSite] = useState<string>('All')
 
-	const memModuleType: MemModuleType[] = useMemo(() => {
-		const resultMap = new Map<string, number>()
+	const filteredData = useMemo(() => {
+		return data.filter(
+			typeOfSite => selectedTypeOfSite === 'All' || typeOfSite.name === selectedTypeOfSite
+		)
+	}, [data, selectedTypeOfSite])
 
-		data.forEach(ram => {
-			ram.memoryRamType.forEach(memType => {
-				if (selectedRamType === 'All' || memType.name === selectedRamType) {
-					memType.memoryRamValues.forEach(memModule => {
-						if (memModule.count > 0) {
-							const key = memModule.name
-							if (key) {
-								const currentCount = resultMap.get(key) || 0
-								resultMap.set(key, currentCount + memModule.count)
-							}
-						}
-					})
-				}
+	// Nombres unicos para los tipos de sitio
+	const availableTypeOfSite: string[] = useMemo(() => {
+		const typeOfSites = new Set<string>()
+		data.forEach(typeOfSite => {
+			typeOfSites.add(typeOfSite.name)
+		})
+		return Array.from(typeOfSites).sort((a, b) => a.localeCompare(b))
+	}, [data])
+
+	// Nombres unicos para los tipos de memoria
+	const availableRamTypes: string[] = useMemo(() => {
+		const ramTypes = new Set<string>()
+		filteredData.forEach(typeOfSite => {
+			typeOfSite.memoryRamType.forEach(memtype => {
+				ramTypes.add(memtype.name)
 			})
 		})
+		return Array.from(ramTypes).sort((a, b) => a.localeCompare(b))
+	}, [data, filteredData])
 
-		return Array.from(resultMap)
-			.map(([name, count]) => ({ name, count }))
-			.sort((a, b) => b.count - a.count)
-	}, [data, selectedRamType])
+	// Nombres unicos para las capacidades de memoria
+	const availableMemValues: string[] = useMemo(() => {
+		return [
+			...new Set(
+				filteredData.flatMap(typeOfSite =>
+					typeOfSite.memoryRamType
+						.filter(
+							ramType => selectedRamType === 'All' || ramType.name === selectedRamType
+						)
+						.flatMap(ramType => ramType.memoryRamValues.map(ramValue => ramValue.name))
+				)
+			)
+		]
+	}, [filteredData, selectedRamType])
 
 	const prepareGroupedBarData: RamPrepareGroupedBarData[] = useMemo(() => {
-		// Get unique mem types
-		const memValues = new Set<string>()
-		data.forEach(ram => {
-			ram.memoryRamType.forEach(memtype => {
-				if (selectedRamType === 'All' || memtype.name === selectedRamType) {
-					memtype.memoryRamValues.forEach(modulos => {
-						if (modulos.count > 0) {
-							memValues.add(modulos.name)
-						}
+		const groupedData: Record<string, Record<string, any>> = {}
+
+		filteredData.forEach(typeOfSite => {
+			typeOfSite.memoryRamType.forEach(ramType => {
+				if (selectedRamType === 'All' || ramType.name === selectedRamType) {
+					const ramTypeName = ramType.name
+					if (!groupedData[ramTypeName]) {
+						groupedData[ramTypeName] = { name: ramTypeName }
+					}
+					ramType.memoryRamValues.forEach(ramValue => {
+						groupedData[ramTypeName][ramValue.name] =
+							(groupedData[ramTypeName][ramValue.name] || 0) + ramValue.count
 					})
 				}
 			})
 		})
 
-		// Create a mapping for each ramType and ramCapacity
-		return data.flatMap(ran => {
-			return ran.memoryRamType
-				.filter(memType => selectedRamType === 'All' || memType.name === selectedRamType)
-				.map(memType => {
-					const result: Record<string, unknown> = {
-						name: memType.name
-					}
-					let hasMemory = false
-					// Add counts for each memory module type
-					Array.from(memValues).forEach(memModule => {
-						const type = memType.memoryRamValues.find(
-							module => module.name === memModule
-						)
-						if (type && type.count > 0) {
-							result[memModule] = type.count
-							hasMemory = true
-						}
-					})
-
-					return hasMemory ? result : null
-				})
-				.filter(Boolean) as Record<string, unknown>[]
-		})
-	}, [data, selectedRamType])
+		return Object.values(groupedData)
+	}, [filteredData, selectedRamType])
 
 	const barHeight = useMemo(() => 30, [])
 	const barSpacing = useMemo(() => 100, []) // Spacing between bars and other elements
@@ -87,28 +80,18 @@ export function useMemoryRamTypeAnalysys({ data }: UseMemoryRamTypeAnalysisProps
 		[barHeight, barSpacing]
 	)
 
-	const availableRamTypes: string[] = useMemo(() => {
-		const ramTypes = new Set<string>()
-		data.forEach(typeOfSite => {
-			typeOfSite.memoryRamType.forEach(memtype => {
-				ramTypes.add(memtype.name)
-			})
-		})
-		return Array.from(ramTypes).sort((a, b) => a.localeCompare(b))
-	}, [data])
-
-	console.log('data', data)
-	console.log('memModuleType', memModuleType)
-	console.log('prepareGroupedBarData', prepareGroupedBarData)
-	console.log('availableRamTypes', availableRamTypes)
-
 	return {
 		barHeight,
-		memModuleType,
+		availableMemValues,
 		prepareGroupedBarData,
 		dynamicHeight,
+		// select ram
 		selectedRamType,
 		setSelectedRamType,
-		availableRamTypes
+		availableRamTypes,
+		// select typeOfSIte
+		availableTypeOfSite,
+		selectedTypeOfSite,
+		setSelectedTypeOfSite
 	}
 }

@@ -3,9 +3,10 @@ import { useMemoryRamTypeAnalysys } from '../hooks/useMemoryRamTypeAnalysis'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { PieCard } from '../PieCard'
+import { RamTypeSelect } from './RamTypeSelect'
 import { type MemoryViewSelect, useMemoryRamAnalysis } from '../hooks/useMemoryRamAnalysis'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
-import { RamTypeSelect } from './RamTypeSelect'
+import { TypeOfSiteSelect } from './TypeOfSiteSelect'
 
 interface MemoryRamAnalysisProps {
 	data: ComputerDashboardDto
@@ -21,11 +22,14 @@ export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 	const {
 		barHeight,
 		prepareGroupedBarData,
-		memModuleType,
+		availableMemValues,
 		dynamicHeight,
 		availableRamTypes,
 		selectedRamType,
-		setSelectedRamType
+		setSelectedRamType,
+		availableTypeOfSite,
+		selectedTypeOfSite,
+		setSelectedTypeOfSite
 	} = useMemoryRamTypeAnalysys({
 		data: data.modulosMemoryRam
 	})
@@ -59,18 +63,25 @@ export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 				}
 			/>
 			<Card className="col-span-2">
-				<CardHeader className="flex flex-row items-center justify-between">
-					<div>
+				<CardHeader className="flex flex-row flex-wrap items-center justify-between">
+					<div className="flex-1/2">
 						<CardTitle>Distribución de Módulos de Memoria RAM por Tipo</CardTitle>
 						<CardDescription>
 							Cantidad de módulos de memoria RAM según su tipo.
 						</CardDescription>
 					</div>
-					<RamTypeSelect
-						availableRamTypes={availableRamTypes}
-						selectedRamType={selectedRamType}
-						setSelectedRamType={setSelectedRamType}
-					/>
+					<div className="flex-rwap flex justify-end gap-4">
+						<TypeOfSiteSelect
+							availableTypeOfSite={availableTypeOfSite}
+							selectedTypeOfSite={selectedTypeOfSite}
+							setSelectedTypeOfSite={setSelectedTypeOfSite}
+						/>
+						<RamTypeSelect
+							availableRamTypes={availableRamTypes}
+							selectedRamType={selectedRamType}
+							setSelectedRamType={setSelectedRamType}
+						/>
+					</div>
 				</CardHeader>
 				<CardContent style={{ height: dynamicHeight ?? '20rem', minHeight: '20rem' }}>
 					<Suspense
@@ -81,7 +92,7 @@ export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 						<MemoryRamChart
 							barHeight={barHeight}
 							prepareGroupedBarData={prepareGroupedBarData}
-							memModuleType={memModuleType}
+							availableMemValues={availableMemValues}
 						/>
 					</Suspense>
 				</CardContent>
