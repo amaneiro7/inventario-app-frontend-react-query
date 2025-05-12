@@ -15,6 +15,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	const [viewBy, setViewBy] = useState<
 		'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'
 	>('admRegion')
+	const [typeOfSiteFilter, setTypeOfSiteFilter] = useState<string>('')
 	const [admRegionFilter, setAdmRegionFilter] = useState<string>('')
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
@@ -39,6 +40,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 
 	// Determine if filters are active
 	const hasActiveFilters =
+		admRegionFilter !== '' ||
 		regionFilter !== '' ||
 		stateFilter !== '' ||
 		cityFilter !== '' ||
@@ -384,6 +386,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		setRegionFilter('')
 		setStateFilter('')
 		setCityFilter('')
+		setSiteFilter('')
 		setSearchFilter('')
 	}
 

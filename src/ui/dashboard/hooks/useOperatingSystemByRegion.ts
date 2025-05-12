@@ -5,9 +5,13 @@ interface UseOperatingSystemByRegionProps {
 	data: ComputerDashboardDto['operatingSystemByRegion']
 }
 export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionProps) {
-	const [viewBy, setViewBy] = useState<'region' | 'state' | 'city' | 'location'>('region')
+	const [viewBy, setViewBy] = useState<'admRegion' | 'region' | 'state' | 'city' | 'location'>(
+		'admRegion'
+	)
+	const [admRegionFilter, setAdmRegionFilter] = useState<string>('')
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
+	const [siteFilter, setSiteFilter] = useState<string>('')
 	const [cityFilter, setCityFilter] = useState<string>('')
 	const [typeOfSiteFilter, setTypeOfSiteFilter] = useState<string>('')
 	const [searchFilter, setSearchFilter] = useState<string>('')
@@ -15,6 +19,7 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 
 	const barName = useMemo(() => {
 		const names = {
+			admRegion: 'Zonas Administrativas',
 			region: 'Regiones',
 			state: 'Estdos',
 			city: 'Ciudades',
@@ -22,40 +27,74 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		}
 		const name = names[viewBy] || 'Regiones'
 
-		return `Distribución de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
+		return `Distribución total de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
 	// Determine if filters are active
-	const hasActiveFilters = regionFilter !== '' || stateFilter !== '' || cityFilter !== ''
+	const hasActiveFilters =
+		admRegionFilter !== '' ||
+		regionFilter !== '' ||
+		stateFilter !== '' ||
+		cityFilter !== '' ||
+		siteFilter !== '' ||
+		searchFilter !== ''
 	const MAX_ITEMS_WITHOUT_FILTER = 15
 
 	const allNames = useMemo(() => {
 		const operatingSystem = [...new Set(data.map(item => item.name))].sort()
-		const regions = [
-			...new Set(data.flatMap(os => os.region.map(region => region.name)))
+		const typeOfSites = [...new Set(data.map(os => Object.keys(os.typeOfSiteCount)))]
+		const administrativeRegions = [
+			...new Set(data.flatMap(os => os.administrativeRegion.map(adm => adm.name)))
 		].sort()
-		const states = data
-			.flatMap(os => os.region.flatMap(region => region.states.map(state => state.name)))
-			.sort()
-		const cities = data
-			.flatMap(os =>
-				os.region.flatMap(region =>
-					region.states.flatMap(state => state.cities.map(city => city.name))
+
+		const regions = [
+			...new Set(
+				data.flatMap(os =>
+					os.administrativeRegion.flatMap(adm => adm.regions.map(region => region.name))
 				)
 			)
-			.sort()
-		const sites = data
-			.flatMap(os =>
-				os.region.flatMap(region =>
-					region.states.flatMap(state =>
-						state.cities.flatMap(city => city.sites.map(site => site.name))
+		].sort()
+
+		const states = [
+			...new Set(
+				data.flatMap(os =>
+					os.administrativeRegion.flatMap(adm =>
+						adm.regions.flatMap(region => region.states.map(state => state.name))
 					)
 				)
 			)
-			.sort()
+		].sort()
+
+		const cities = [
+			...new Set(
+				data.flatMap(os =>
+					os.administrativeRegion.flatMap(adm =>
+						adm.regions.flatMap(region =>
+							region.states.flatMap(region => region.cities.map(city => city.name))
+						)
+					)
+				)
+			)
+		].sort()
+
+		const sites = [
+			...new Set(
+				data.flatMap(os =>
+					os.administrativeRegion.flatMap(adm =>
+						adm.regions.flatMap(region =>
+							region.states.flatMap(state =>
+								state.cities.flatMap(city => city.sites.map(site => site.name))
+							)
+						)
+					)
+				)
+			)
+		].sort()
 
 		return {
 			operatingSystem,
+			typeOfSites,
+			administrativeRegions,
 			regions,
 			states,
 			cities,
@@ -70,106 +109,148 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		)
 	}, [allNames.operatingSystem, searchFilter])
 
-	const uniqueRegions = useMemo(() => {
-		return allNames.regions.filter(
+	const uniqueAdmRegions = useMemo(() => {
+		return allNames.administrativeRegions.filter(
 			os => !searchFilter || os.toLowerCase().includes(searchFilter.toLowerCase())
 		)
-	}, [allNames.regions, searchFilter])
+	}, [allNames.administrativeRegions, searchFilter])
+
+	const uniqueRegions = useMemo(() => {
+		let regions = allNames.regions
+		if (admRegionFilter) {
+			regions = data.flatMap(os =>
+				os.administrativeRegion
+					.filter(adm => adm.name === admRegionFilter)
+					.flatMap(adm => adm.regions.map(region => region.name))
+			)
+		}
+	}, [allNames.regions, data, admRegionFilter, searchFilter])
 
 	const uniqueStates = useMemo(() => {
 		let states = allNames.states
 		if (regionFilter) {
 			states = data.flatMap(os =>
-				os.region
-					.filter(region => region.name === regionFilter)
-					.flatMap(region => region.states.map(state => state.name))
+				os.administrativeRegion.flatMap(adm =>
+					adm.regions
+						.filter(region => region.name === regionFilter)
+						.flatMap(region => region.states.map(state => state.name))
+				)
+			)
+		} else if (admRegionFilter) {
+			states = data.flatMap(os =>
+				os.administrativeRegion
+					.filter(adm => adm.name === admRegionFilter)
+					.flatMap(adm =>
+						adm.regions.flatMap(region => region.states.map(state => state.name))
+					)
 			)
 		}
 		return [...new Set(states)].sort()
-	}, [data, regionFilter, allNames.states, searchFilter])
-
-	const allCities = useMemo(() => {
-		return data.flatMap(os =>
-			os.region.flatMap(region =>
-				region.states.flatMap(state => state.cities.flatMap(city => city.name))
-			)
-		)
-	}, [data])
+	}, [data, admRegionFilter, regionFilter, allNames.states, searchFilter])
 
 	const uniqueCities = useMemo(() => {
-		let cities = allCities
+		let cities = allNames.cities
 
-		if (regionFilter) {
+		if (stateFilter) {
 			cities = data.flatMap(os =>
-				os.region
-					.filter(region => region.name === regionFilter)
-					.flatMap(region =>
-						region.states.flatMap(state => state.cities.map(city => city.name))
+				os.administrativeRegion.flatMap(adm =>
+					adm.regions.flatMap(region =>
+						region.states
+							.filter(state => state.name === stateFilter)
+							.flatMap(state => state.cities.map(city => city.name))
+					)
+				)
+			)
+		} else if (regionFilter) {
+			cities = data.flatMap(os =>
+				os.administrativeRegion.flatMap(adm =>
+					adm.regions
+						.filter(region => region.name === regionFilter)
+						.flatMap(region =>
+							region.states.flatMap(state => state.cities.map(city => city.name))
+						)
+				)
+			)
+		} else if (admRegionFilter) {
+			cities = data.flatMap(os =>
+				os.administrativeRegion
+					.filter(adm => adm.name === admRegionFilter)
+					.flatMap(adm =>
+						adm.regions.flatMap(region =>
+							region.states.flatMap(state => state.cities.map(city => city.name))
+						)
 					)
 			)
 		}
 
-		if (stateFilter) {
-			cities = data.flatMap(os =>
-				os.region.flatMap(region =>
-					region.states
-						.filter(state => state.name === stateFilter)
-						.flatMap(state => state.cities.map(city => city.name))
-				)
-			)
-		}
-
 		return [...new Set(cities)].sort()
-	}, [data, regionFilter, stateFilter, allNames.cities, searchFilter])
+	}, [data, admRegionFilter, regionFilter, stateFilter, allNames.cities, searchFilter])
 
 	const filteredData = useMemo(() => {
 		// 1. Copia superficial de 'data' y filtrado directo
 		let filteredData = structuredClone(data)
 
-		// 2. Aplicar los filtros de región
-		if (regionFilter) {
-			filteredData = filteredData
-				.map(operatingSystem => ({
-					...operatingSystem,
-					region: operatingSystem.region.filter(region => region.name === regionFilter)
-				}))
-				.filter(operatingSystem => operatingSystem.region.length > 0)
-		}
-
-		// 3. Filtrado por estado
-		if (stateFilter) {
-			filteredData = filteredData
-				.map(operatingSystem => ({
-					...operatingSystem,
-					region: operatingSystem.region
-						.map(region => ({
-							...region,
-							states: region.states.filter(state => state.name === stateFilter)
-						}))
-						.filter(region => region.states.length > 0)
-				}))
-				.filter(operatingSystem => operatingSystem.region.length > 0)
-		}
-
-		// 4. Filtrado por ciudad
+		// 2. Filtrado por ciudad
 		if (cityFilter) {
 			filteredData = filteredData
 				.map(operatingSystem => ({
 					...operatingSystem,
-					region: operatingSystem.region
-						.map(region => ({
-							...region,
-							states: region.states
-								.map(state => ({
-									...state,
-									cities: state.cities.filter(city => city.name === cityFilter)
+					region: operatingSystem.administrativeRegion
+						.map(adm => ({
+							...adm,
+							regions: adm.regions
+								.map(region => ({
+									...region,
+									states: region.states
+										.map(state =>
+											state.cities.filter(city => city.name === cityFilter)
+										)
+										.filter(state => state.length > 0)
 								}))
-								.filter(state => state.cities.length > 0)
+								.filter(region => region.states.length > 0)
 						}))
-						.filter(region => region.states.length > 0)
+						.filter(adm => adm.regions.length > 0)
 				}))
-				.filter(operatingSystem => operatingSystem.region.length > 0)
+				.filter(operatingSystem => operatingSystem.administrativeRegion.length > 0)
 		}
+
+		// 3. Filtrado por estado
+		else if (stateFilter) {
+			filteredData = filteredData
+				.map(operatingSystem => ({
+					...operatingSystem,
+					region: operatingSystem.administrativeRegion
+						.map(adm => ({
+							...adm,
+							regions: adm.regions
+								.map(region => ({
+									...region,
+									states: region.states.filter(
+										state => state.name === stateFilter
+									)
+								}))
+								.filter(region => region.states.length > 0)
+						}))
+						.filter(adm => adm.regions.length > 0)
+				}))
+				.filter(operatingSystem => operatingSystem.administrativeRegion.length > 0)
+		}
+
+		// 4. Aplicar los filtros de región
+		else if (regionFilter) {
+			filteredData = filteredData
+				.map(operatingSystem => ({
+					...operatingSystem,
+					region: operatingSystem.administrativeRegion
+						.map(adm => ({
+							...adm,
+							regions: adm.regions.filter(region => region.name === regionFilter)
+						}))
+						.filter(adm => adm.regions.length > 0)
+				}))
+				.filter(operatingSystem => operatingSystem.administrativeRegion.length > 0)
+		}
+
 		return filteredData
 	}, [data, regionFilter, stateFilter, cityFilter])
 
@@ -234,9 +315,12 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 
 	// Clear filters
 	const clearFilters = () => {
+		setAdmRegionFilter('')
 		setRegionFilter('')
 		setStateFilter('')
 		setCityFilter('')
+		setSiteFilter('')
+		setSearchFilter('')
 	}
 
 	// Calculate dynamic height based on the number of bars and barSize

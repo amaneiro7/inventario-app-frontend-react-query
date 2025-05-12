@@ -1,5 +1,5 @@
 import { lazy, memo, Suspense, useState } from 'react'
-import { useInventoryBrandTable } from './hooks/useInventoryBrandTable'
+import { useInventoryBrandTable } from '../hooks/useInventoryBrandTable'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { Input } from '@/components/Input/Input'
@@ -13,7 +13,7 @@ import { LoadingTable } from '@/components/Table/LoadingTable'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 const InventoryBrandRow = lazy(() =>
-	import('./InventoryBrandTable/InventoryBrandRow').then(m => ({ default: m.InventoryBrandRow }))
+	import('./InventoryBrandRow').then(m => ({ default: m.InventoryBrandRow }))
 )
 interface InventoryTableProps {
 	data: ComputerDashboardDto['brand']

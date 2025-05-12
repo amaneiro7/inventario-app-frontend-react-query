@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense } from 'react'
 import { MapPin } from 'lucide-react'
-import { useOperatingSystemAnalysys } from './hooks/useOperatingSystemAnalysis'
-import { PieCard } from './PieCard'
+import { useOperatingSystemAnalysys } from '../hooks/useOperatingSystemAnalysis'
+import { PieCard } from '../PieCard'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
@@ -10,7 +10,7 @@ interface OSAnalysisProps {
 }
 
 const OSAnalysisChart = lazy(() =>
-	import('./OSAnalysis/OSAnalysisChart').then(m => ({ default: m.OSAnalysisChart }))
+	import('./OSAnalysisChart').then(m => ({ default: m.OSAnalysisChart }))
 )
 
 export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {

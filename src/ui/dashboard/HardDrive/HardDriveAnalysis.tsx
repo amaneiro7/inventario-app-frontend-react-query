@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense } from 'react'
 import { HardDrive } from 'lucide-react'
-import { useHardDriveAnalysys } from './hooks/useHardDriveAnalysys'
-import { PieCard } from './PieCard'
+import { useHardDriveAnalysys } from '../hooks/useHardDriveAnalysys'
+import { PieCard } from '../PieCard'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
@@ -10,7 +10,7 @@ interface HardDriveAnalysisProps {
 }
 
 const HardDriveByType = lazy(() =>
-	import('./HardDrive/HardDriveByType').then(m => ({ default: m.HardDriveByType }))
+	import('./HardDriveByType').then(m => ({ default: m.HardDriveByType }))
 )
 
 export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data }) => {

@@ -106,7 +106,8 @@ export interface HardDriveType {
 export interface OperatingSystemSystemByRegion {
 	name: string
 	count: number
-	region: Region[]
+	typeOfSiteCount: TypeOfSiteCount
+	administrativeRegion: Regions[]
 }
 
 export interface MemoryRamCapacity {

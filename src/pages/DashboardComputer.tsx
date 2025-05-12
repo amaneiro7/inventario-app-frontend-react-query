@@ -10,7 +10,7 @@ const InventoryOverview = lazy(() =>
 )
 
 const BrandDistribution = lazy(() =>
-	import('@/ui/dashboard/BrandDistribution').then(m => ({ default: m.BrandDistribution }))
+	import('@/ui/dashboard/Brands/BrandDistribution').then(m => ({ default: m.BrandDistribution }))
 )
 const ModelBreakdown = lazy(() =>
 	import('@/ui/dashboard/ModelBreakdown/ModelBreakdown').then(m => ({
@@ -18,18 +18,22 @@ const ModelBreakdown = lazy(() =>
 	}))
 )
 const GeographicalDistribution = lazy(() =>
-	import('@/ui/dashboard/GeographicalDistribution').then(m => ({
+	import('@/ui/dashboard/GeographicalDistribution/GeographicalDistribution').then(m => ({
 		default: m.GeographicalDistribution
 	}))
 )
 const HardDriveAnalysis = lazy(() =>
-	import('@/ui/dashboard/HardDriveAnalysis').then(m => ({ default: m.HardDriveAnalysis }))
+	import('@/ui/dashboard/HardDrive/HardDriveAnalysis').then(m => ({
+		default: m.HardDriveAnalysis
+	}))
 )
 const InventoryBrandTable = lazy(() =>
-	import('@/ui/dashboard/InventoryBrandTable').then(m => ({ default: m.InventoryBrandTable }))
+	import('@/ui/dashboard/InventoryBrandTable/InventoryBrandTable').then(m => ({
+		default: m.InventoryBrandTable
+	}))
 )
 const OSAnalysis = lazy(() =>
-	import('@/ui/dashboard/OSAnalysis').then(m => ({ default: m.OSAnalysis }))
+	import('@/ui/dashboard/OSAnalysis/OSAnalysis').then(m => ({ default: m.OSAnalysis }))
 )
 const OSDIstributionByRegion = lazy(() =>
 	import('@/ui/dashboard/OSDistributionByRegion').then(m => ({

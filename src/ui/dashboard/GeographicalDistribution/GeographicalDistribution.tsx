@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, memo, Suspense } from 'react'
-import { useGeographicalDistribution } from './hooks/useGeographicalDistribution'
+import { useGeographicalDistribution } from '../hooks/useGeographicalDistribution'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import { FilterSection } from './GeographicalDistribution/FilterSection'
+import { FilterSection } from './FilterSection'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface GeographicalDistributionProps {
 	data: ComputerDashboardDto['region']
 }
 
-const GeoCharts = lazy(() =>
-	import('./GeographicalDistribution/GeoCharts').then(m => ({ default: m.GeoCharts }))
-)
+const GeoCharts = lazy(() => import('./GeoCharts').then(m => ({ default: m.GeoCharts })))
 
 export const GeographicalDistribution = memo(({ data }: GeographicalDistributionProps) => {
 	const {
