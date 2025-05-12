@@ -88,13 +88,15 @@ export const OSDIstributionByRegion = ({ data }: OSDIstributionByRegionProps) =>
 							onValueChange={value => setViewBy(value as any)}
 							aria-label="Ver distribución por"
 						>
-							<SelectTrigger className="w-[180px]">
+							<SelectTrigger className="w-fit min-w-[180px]">
 								<SelectValue placeholder="Ver por..." />
 							</SelectTrigger>
 							<SelectContent>
+								<SelectItem value="admRegion">Por zona administrativa</SelectItem>
 								<SelectItem value="region">Por región</SelectItem>
 								<SelectItem value="state">Por estado</SelectItem>
 								<SelectItem value="city">Por ciudad</SelectItem>
+								<SelectItem value="site">Por sitio</SelectItem>
 								<SelectItem value="location">Por ubicación</SelectItem>
 							</SelectContent>
 						</Select>
@@ -253,17 +255,17 @@ export const OSDIstributionByRegion = ({ data }: OSDIstributionByRegionProps) =>
 									}}
 								/>
 								<Legend />
-								{uniqueOperatingSystem.length > 0 &&
-									uniqueOperatingSystem.map((item, index) => (
+								{distributionData.length > 0 &&
+									distributionData.map((item, index) => (
 										<Bar
-											key={item}
-											dataKey={item}
-											name={item}
+											key={item.name}
+											dataKey={item.name}
+											name={item.name}
 											fill={BASIC_COLORS_MAP[index % BASIC_COLORS_MAP.length]}
 											barSize={barHeight}
 										>
 											<LabelList
-												dataKey={item}
+												dataKey={item.name}
 												position="right"
 												style={{ fontSize: '0.65rem' }}
 												content={({ value, x, y, width, height }) => {
