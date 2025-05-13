@@ -10,7 +10,7 @@ export interface ComputerDashboardDto {
 	operatingSystem: OperatingSystem[]
 	memoryRamCapacity: MemoryRamCapacity[]
 	modulosMemoryRam: ModulosMemoryRam[]
-	operatingSystemByRegion: OperatingSystemSystemByRegion[]
+	operatingSystemByRegion: OperatingSystemByRegion[]
 }
 
 export interface Brand {
@@ -103,7 +103,7 @@ export interface HardDriveType {
 	count: number
 }
 
-export interface OperatingSystemSystemByRegion {
+export interface OperatingSystemByRegion {
 	name: string
 	count: number
 	typeOfSiteCount: TypeOfSiteCount

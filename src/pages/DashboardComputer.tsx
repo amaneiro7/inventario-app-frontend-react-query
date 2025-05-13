@@ -36,7 +36,7 @@ const OSAnalysis = lazy(() =>
 	import('@/ui/dashboard/OSAnalysis/OSAnalysis').then(m => ({ default: m.OSAnalysis }))
 )
 const OSDIstributionByRegion = lazy(() =>
-	import('@/ui/dashboard/OSDistributionByRegion').then(m => ({
+	import('@/ui/dashboard/OSDistributionByRegion/OSDistributionByRegion').then(m => ({
 		default: m.OSDIstributionByRegion
 	}))
 )
