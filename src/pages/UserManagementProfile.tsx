@@ -8,6 +8,7 @@ import { useCreateUser } from '@/core/user/infra/hooks/useCreateModels'
 import { EditHandle } from '@/ui/UserManagement/EditHandle'
 import { ResetHandle } from '@/ui/UserManagement/ResetHandle'
 import { DeleteHandle } from '@/ui/UserManagement/DeleteHandle'
+import { ManagementProfileLoading } from '@/ui/UserManagement/ProfileLoading'
 
 type Actions = 'editar' | 'reset' | 'delete'
 
@@ -25,7 +26,7 @@ const ActionHandle = ({ action, id }: { action: Actions; id: string }) => {
 }
 
 export default function ManagementProfile() {
-	const { formData } = useCreateUser()
+	const { formData, loading } = useCreateUser()
 	const [action, setAction] = useState<Actions>('editar')
 
 	const title = `${
@@ -37,6 +38,9 @@ export default function ManagementProfile() {
 					? 'Eliminar Usuario'
 					: 'Seleccione'
 	}`
+	if (loading) {
+		return <ManagementProfileLoading />
+	}
 
 	if (!formData?.id) {
 		return (

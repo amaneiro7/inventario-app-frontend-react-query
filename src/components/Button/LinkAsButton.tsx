@@ -2,12 +2,11 @@ import { Link, LinkProps } from 'react-router-dom'
 import cn from 'classnames'
 import { twMerge } from 'tailwind-merge'
 
-interface Props {
+interface Props extends LinkProps {
 	text: string
 	className?: string
 	state?: LinkProps['state']
 	color: keyof typeof Color
-	url: string
 	icon?: React.ReactElement
 	size?: keyof typeof Size
 	buttonSize: keyof typeof ButtonSize
@@ -42,10 +41,11 @@ export function LinkAsButton({
 	hoverTranslate,
 	className,
 	icon,
-	url,
+	to,
 	color,
 	size = 'content',
-	buttonSize
+	buttonSize,
+	...props
 }: Props) {
 	const classes = twMerge(
 		'flex justify-center text-b items-center gap-2 font-medium rounded-md cursor-pointer border border-solid transition-all duration-200 ease-in disabled:opacity-70 disabled:cursor-not-allowed',
@@ -63,8 +63,9 @@ export function LinkAsButton({
 			aria-label={`${text}`}
 			title={`${text}`}
 			state={{ state }}
-			to={url}
+			to={to}
 			replace
+			{...props}
 		>
 			{icon}
 			{text}

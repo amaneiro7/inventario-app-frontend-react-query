@@ -6,18 +6,14 @@ import { UserGetter } from '../../application/UserGetter'
 import { type DefaultUsers } from '../reducers/usersFormReducer'
 import { type LoginUserDto } from '../../domain/dto/LoginUser.dto'
 
-// Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new UserGetService()
 const get = new UserGetter(repository)
 
-/**
- * Hook personalizado para manejar el estado inicial de un usuario.
- * @param defaultState Estado inicial por defecto del usuario.
- * @returns Un objeto con el estado inicial, la función para resetear el estado y el modo del formulario.
- */ export function useUserInitialState(defaultState: DefaultUsers): {
+export function useUserInitialState(defaultState: DefaultUsers): {
 	initialState: DefaultUsers
 	resetState: () => void
 	mode: 'edit' | 'register'
+	loading: boolean
 } {
 	const { id } = useParams() // Obtiene el ID del usuario de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
@@ -27,7 +23,12 @@ const get = new UserGetter(repository)
 	const [state, setState] = useState<DefaultUsers>(defaultState) // Estado local del usuario.
 
 	// Consulta para obtener los datos del usuario si el modo es editar y no hay datos en el estado de la ubicación.
-	const { data: userData, refetch } = useQuery({
+	const {
+		data: userData,
+		refetch,
+		isFetching,
+		isLoading
+	} = useQuery({
 		queryKey: ['users', id], // Clave de la consulta para la caché.
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos del usuario.
 		enabled: !!id && !location?.state?.user, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
@@ -88,6 +89,7 @@ const get = new UserGetter(repository)
 	return {
 		mode,
 		initialState: state,
-		resetState
+		resetState,
+		loading: isLoading || isFetching
 	}
 }

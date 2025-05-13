@@ -8,7 +8,7 @@ interface Props {
 	isEdit?: boolean
 }
 
-export const SearchSection = memo(function ({ isEdit, searchInput, url }: Props) {
+export const SearchSection = memo(({ isEdit, searchInput, url }: Props) => {
 	return (
 		<div className="flex w-full flex-col items-center justify-start gap-3 md:flex-row md:justify-between">
 			{searchInput}
@@ -17,7 +17,7 @@ export const SearchSection = memo(function ({ isEdit, searchInput, url }: Props)
 					color="orange"
 					className="justify-self-end"
 					text="Agregar nuevo"
-					url={url}
+					to={url}
 					hoverTranslate
 					size="content"
 					buttonSize="medium"

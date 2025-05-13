@@ -21,7 +21,7 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useUserInitialState(
+	const { initialState, mode, resetState, loading } = useUserInitialState(
 		defaultState ?? initialUserState.formData
 	)
 	const prevState = usePrevious(initialState)
@@ -68,6 +68,7 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		errors,
 		required,
 		disabled,
+		loading,
 		resetForm,
 		handleSubmit,
 		handleChange
