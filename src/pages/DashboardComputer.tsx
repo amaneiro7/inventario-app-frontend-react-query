@@ -6,7 +6,7 @@ import { InventorySummary } from '@/ui/Home/InventorySummary'
 import { Loading } from '@/components/Loading'
 
 const InventoryOverview = lazy(() =>
-	import('@/ui/dashboard/InventoryBrandOverview').then(m => ({ default: m.InventoryOverview }))
+	import('@/ui/dashboard/Overview').then(m => ({ default: m.InventoryOverview }))
 )
 
 const BrandDistribution = lazy(() =>

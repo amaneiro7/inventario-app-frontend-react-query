@@ -14,16 +14,15 @@ import { useInventoryOverview } from './hooks/useInventoryOverview'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { PieCard } from './PieCard'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
+import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
-export const InventoryOverview = ({
-	categoryData,
-	statusData
-}: {
+interface InventoryOverviewProps {
 	categoryData: ComputerDashboardDto['category']
 	statusData: ComputerDashboardDto['status']
-}) => {
+}
+
+export const InventoryOverview = ({ categoryData, statusData }: InventoryOverviewProps) => {
 	const {
 		barHeight,
 		selectedCategory,
@@ -33,7 +32,7 @@ export const InventoryOverview = ({
 		setSelectedCategory
 	} = useInventoryOverview({ categoryData })
 
-	const getTotalStatus = useMemo(() => {
+	const totalStatus = useMemo(() => {
 		return statusData.reduce((sum, cat) => sum + cat.count, 0)
 	}, [statusData])
 	return (
@@ -45,12 +44,16 @@ export const InventoryOverview = ({
 							<CardTitle>Equipos por Tipo de Sitio</CardTitle>
 							<CardDescription>Total: {getTotalCount} Equipos</CardDescription>
 						</div>
-						<Select value={selectedCategory} onValueChange={setSelectedCategory}>
+						<Select
+							value={selectedCategory}
+							onValueChange={setSelectedCategory}
+							aria-label="Filtrar la gráfica de equipos por tipo de sitio por categoría" // Accesibilidad
+						>
 							<SelectTrigger className="mt-2 w-[180px] md:mt-0">
 								<SelectValue placeholder="Seleccionar Categoría" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="all">Todos</SelectItem>
+								<SelectItem value="all">Todas las categorías</SelectItem>
 								{categoryData.map(category => (
 									<SelectItem key={category.name} value={category.name}>
 										{category.name}
@@ -61,19 +64,26 @@ export const InventoryOverview = ({
 					</div>
 				</CardHeader>
 				<CardContent className="h-96">
-					<ResponsiveContainer width="100%" height="100%">
+					<ResponsiveContainer
+						width="100%"
+						height="100%"
+						aria-label="Gráfica de barras de equipos por tipo de sitio"
+					>
 						<BarChart
 							data={getSelectedCategoryData}
 							margin={{ top: 15, right: 30, left: 20, bottom: 5 }}
 						>
 							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" />
-							<YAxis />
-							<Tooltip formatter={value => [`${value} equipos`, 'Cantidad']} />
-							<Legend />
+							<XAxis dataKey="name" aria-label="Tipo de sitio" />
+							<YAxis aria-label="Cantidad de equipos" />
+							<Tooltip
+								formatter={value => [`${value} equipos`, 'Cantidad']}
+								labelFormatter={label => `Tipo de sitio: ${label}`} // Mejora la información del tooltip
+							/>
+							<Legend aria-label="Leyenda de la gráfica" />
 							<Bar
 								dataKey="count"
-								name="Cantidad"
+								name="Cantidad de equipos"
 								fill={BASIC_COLORS.verde}
 								barSize={barHeight}
 							>
@@ -89,16 +99,16 @@ export const InventoryOverview = ({
 			</Card>
 			<PieCard
 				data={statusData}
-				title="Distribución por estatus"
-				desc="Distribuicion de equipos por estatus"
+				title="Distribución por estatus de equipos"
+				desc="Porcentaje de equipos según su estatus"
 				colors={BASIC_COLORS_MAP}
 				dataKey="count"
-				total={getTotalStatus}
+				total={totalStatus}
 			/>
 			<Card>
 				<CardHeader>
-					<CardTitle>Distribución por categoria</CardTitle>
-					<CardDescription>Cantidad de equipos por categoria</CardDescription>
+					<CardTitle>Distribución por categoría de equipos</CardTitle>
+					<CardDescription>Cantidad de equipos por categoría</CardDescription>
 				</CardHeader>
 				<CardContent className="h-80">
 					<ResponsiveContainer width="100%" height="100%">
@@ -107,11 +117,19 @@ export const InventoryOverview = ({
 							margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
 						>
 							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" />
-							<YAxis />
-							<Tooltip />
-							<Legend />
-							<Bar dataKey={'count'} name="Cantidad" fill={BASIC_COLORS.azul}>
+							<XAxis dataKey="name" aria-label="Categoría de equipo" />{' '}
+							{/* Accesibilidad */}
+							<YAxis aria-label="Cantidad de equipos" /> {/* Accesibilidad */}
+							<Tooltip
+								formatter={value => [`${value} equipos`, 'Cantidad']}
+								labelFormatter={label => `Categoría: ${label}`}
+							/>
+							<Legend aria-label="Leyenda de la gráfica" /> {/* Accesibilidad */}
+							<Bar
+								dataKey={'count'}
+								name="Cantidad de equipos"
+								fill={BASIC_COLORS.azul}
+							>
 								<LabelList
 									dataKey="count"
 									position="top"
@@ -126,7 +144,10 @@ export const InventoryOverview = ({
 			{/* New Triple Bar Chart showing all equipment by category and site type */}
 			<Card>
 				<CardHeader>
-					<CardTitle>Distribución de Equipos por tipo de sitio</CardTitle>
+					<CardTitle>Distribución Detallada por Tipo de Sitio</CardTitle>{' '}
+					<CardDescription>
+						Cantidad de equipos por tipo de sitio, discriminados por ubicación.
+					</CardDescription>{' '}
 				</CardHeader>
 				<CardContent className="h-80">
 					<ResponsiveContainer width="100%" height="100%">
@@ -135,10 +156,11 @@ export const InventoryOverview = ({
 							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
 						>
 							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" />
-							<YAxis />
+							<XAxis dataKey="name" aria-label="Tipo de sitio" />{' '}
+							{/* Accesibilidad */}
+							<YAxis aria-label="Cantidad de equipos" /> {/* Accesibilidad */}
 							<Tooltip formatter={(value, name) => [`${value} equipos`, name]} />
-							<Legend />
+							<Legend aria-label="Leyenda de la gráfica" /> {/* Accesibilidad */}
 							<Bar
 								dataKey="Agencia"
 								name="Agencia"
