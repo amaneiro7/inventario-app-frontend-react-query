@@ -19,13 +19,13 @@ export const WelcomeHero = memo(() => {
 					<div className="flex flex-wrap gap-3">
 						<LinkAsButton
 							text="Ver Dashboard"
-							url="dashboard/computer"
+							to="dashboard/computer"
 							buttonSize="medium"
 							color="orange"
 						/>
 						<LinkAsButton
 							text="Explorar Inventario de computadoras"
-							url="list/computer"
+							to="list/computer"
 							buttonSize="medium"
 							color="orange"
 						/>

@@ -6,7 +6,7 @@ export function EditHandle({ id }: { id: string }) {
 		<LinkAsButton
 			color="blue"
 			text="Editar"
-			url={`/user-management/edit/${id}`}
+			to={`/user-management/edit/${id}`}
 			buttonSize="medium"
 			icon={<EditIcon width={16} className="aspect-square" />}
 		/>

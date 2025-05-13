@@ -15,7 +15,6 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	const [viewBy, setViewBy] = useState<
 		'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'
 	>('admRegion')
-	const [typeOfSiteFilter, setTypeOfSiteFilter] = useState<string>('')
 	const [admRegionFilter, setAdmRegionFilter] = useState<string>('')
 	const [regionFilter, setRegionFilter] = useState<string>('')
 	const [stateFilter, setStateFilter] = useState<string>('')
