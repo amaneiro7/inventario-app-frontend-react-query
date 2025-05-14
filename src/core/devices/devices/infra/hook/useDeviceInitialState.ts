@@ -50,7 +50,7 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 			}
 
 			if (currentRamCount < memoryRamSlotQuantity) {
-				return [...memoryRam, ...Array(memoryRamSlotQuantity - currentRamCount)]
+				return [...memoryRam, ...Array(memoryRamSlotQuantity - currentRamCount).fill(0)]
 			}
 
 			// Caso donde currentRamCount > memoryRamSlotQuantity
@@ -65,8 +65,13 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 	const mappedDeviceState = useCallback(
 		(device: DeviceDto): void => {
 			const { computer, model, hardDrive, mfp } = device
-			const memoryRamSlotQuantity = model?.modelComputer?.memoryRamSlotQuantity
-			const memoryRamType = model?.modelComputer?.memoryRamType?.name ?? ''
+			const memoryRamSlotQuantity =
+				model?.modelComputer?.memoryRamSlotQuantity ||
+				model?.modelLaptop?.memoryRamSlotQuantity
+			const memoryRamType =
+				model?.modelComputer?.memoryRamType?.name ??
+				model?.modelLaptop?.memoryRamType?.name ??
+				''
 			const memoryRam = setMemoryRamValues(computer, memoryRamSlotQuantity)
 
 			// Si la capacidad de la RAM está definida y el número de slots no coincide, actualiza el primer slot.

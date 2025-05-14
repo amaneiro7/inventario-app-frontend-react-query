@@ -75,8 +75,13 @@ export const ModelCombobox = memo(function ({
 				const data = getModelsData(value)
 				props.handleFormChange({
 					value: `${value}`,
-					memoryRamSlotQuantity: data?.modelComputer?.memoryRamSlotQuantity,
-					memoryRamType: data?.modelComputer?.memoryRamType.name ?? '',
+					memoryRamSlotQuantity:
+						data?.modelComputer?.memoryRamSlotQuantity ??
+						data?.modelLaptop?.memoryRamSlotQuantity,
+					memoryRamType:
+						data?.modelComputer?.memoryRamType.name ??
+						data?.modelLaptop?.memoryRamType.name ??
+						'',
 					generic: data?.generic ?? undefined
 				})
 			} else if (method === 'search' && 'handleChange' in props) {
