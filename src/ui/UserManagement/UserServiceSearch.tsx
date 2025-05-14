@@ -11,7 +11,9 @@ export function UserServiceSearch() {
 
 	const query: UserFilters = useMemo(() => {
 		return {
-			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 })
+			...(debouncedSearch
+				? { email: debouncedSearch, name: debouncedSearch, lastName: debouncedSearch }
+				: { pageSize: 10 })
 		}
 	}, [debouncedSearch])
 
