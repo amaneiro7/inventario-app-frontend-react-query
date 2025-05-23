@@ -53,7 +53,7 @@ export function useMemoryRamAnalysis({ data }: UseMemoryRamAnalysisProps) {
 					break
 			}
 		})
-		return Array.from(memoryMap.values()).sort((a, b) => b.name.localeCompare(a.name))
+		return Array.from(memoryMap.values()).sort((a, b) => b?.name.localeCompare(a?.name))
 	}, [data, viewBy])
 
 	const total = useMemo(() => memoryData.reduce((sum, item) => sum + item.count, 0), [memoryData])
