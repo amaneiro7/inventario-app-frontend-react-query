@@ -11,6 +11,7 @@ const ListModels = lazy(() => import('@/pages/ListModel'))
 const ListEmployee = lazy(() => import('@/pages/ListEmployee'))
 const ListSite = lazy(() => import('@/pages/ListSite'))
 const ListHistory = lazy(() => import('@/pages/ListHistory'))
+const ListMonitoringDevice = lazy(() => import('@/pages/ListMonitoringDevice'))
 const DashboardWrapper = lazy(() => import('@/ui/Wrappers/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
@@ -132,6 +133,7 @@ export function AppRoutes() {
 						<Route path="model" element={<ListModels />} />
 						<Route path="location" element={<ListSite />} />
 						<Route path="history" element={<ListHistory />} />
+						<Route path="monitoring/device" element={<ListMonitoringDevice />} />
 					</Route>
 					<Route
 						path="/dashboard"
