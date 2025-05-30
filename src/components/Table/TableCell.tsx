@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { ReactNode, Suspense, lazy } from 'react'
 import { twMerge } from 'tailwind-merge'
 import cn from 'classnames'
 import { type BackgroundType, type ColorType } from '../Typography/types'
@@ -17,6 +17,7 @@ interface Props<T>
 		HTMLTableCellElement
 	> {
 	value: string | number
+	icon?: ReactNode
 	url?: string
 	state?: T
 	tag?: boolean
@@ -40,6 +41,7 @@ type AlignType = 'left' | 'center' | 'right'
 
 export function TableCell<T>({
 	value,
+	icon,
 	url,
 	state,
 	size,
@@ -81,6 +83,8 @@ export function TableCell<T>({
 						iconText={value ?? ''}
 					/>
 				</Suspense>
+			) : icon ? (
+				icon
 			) : (
 				<Suspense>
 					<TableCellText align={align} value={value} />

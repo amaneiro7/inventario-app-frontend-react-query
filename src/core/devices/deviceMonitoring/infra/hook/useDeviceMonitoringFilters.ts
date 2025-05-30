@@ -1,11 +1,14 @@
 import { useGenericFilter } from '../../../../../hooks/useHookFilter'
-import { DeviceMonitoringFilters } from '../../application/createDeviceMonitoringQueryParams'
 import { DeviceMonitoringGetByCriteria } from '../../application/DeviceMonitoringGetByCriteria'
+import { type DeviceMonitoringFilters } from '../../application/createDeviceMonitoringQueryParams'
 
 export function useDeviceMonitoringFilter() {
 	const filters = useGenericFilter<DeviceMonitoringFilters>({
 		defaultPageSize: DeviceMonitoringGetByCriteria.defaultPageSize,
 		filterKeys: [
+			'ipAddress',
+			'computerName',
+			'status',
 			'locationId',
 			'typeOfSiteId',
 			'cityId',
