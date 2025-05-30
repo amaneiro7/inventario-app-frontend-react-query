@@ -136,6 +136,17 @@ export function AppRoutes() {
 						<Route path="monitoring/device" element={<ListMonitoringDevice />} />
 					</Route>
 					<Route
+						path="/monitoring"
+						element={
+							<Suspense fallback={<Loading />}>
+								<ListWrapper />
+							</Suspense>
+						}
+					>
+						<Route path="" element={<List />} />
+						<Route path="device" element={<ListMonitoringDevice />} />
+					</Route>
+					<Route
 						path="/dashboard"
 						element={
 							<Suspense>
