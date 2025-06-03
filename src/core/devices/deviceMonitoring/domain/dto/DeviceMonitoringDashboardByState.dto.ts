@@ -7,7 +7,7 @@ export interface DeviceMonitoringDashboardByStateDto {
 	byState: {
 		stateName: string
 		total: number
-		[DeviceMonitoringStatuses.ONLINE]: number
-		[DeviceMonitoringStatuses.OFFLINE]: number
+		onlineCount: number
+		offlineCount: number
 	}[]
 }

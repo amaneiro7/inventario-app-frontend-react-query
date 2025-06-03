@@ -5,7 +5,6 @@ import {
 	Cpu,
 	FolderClock,
 	Monitor,
-	MonitorCheck,
 	Printer,
 	RectangleEllipsis,
 	ScrollText,

@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { memo, useMemo } from 'react'
 import { useGetDeviceMonitoringDashboardByState } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
 import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
 import { PieCard } from '@/ui/dashboard/PieCard'
@@ -20,10 +20,19 @@ export const DeviceMonitoringChart = memo(() => {
 			</div>
 		)
 	}
-	const pieChartData = [
-		{ name: DeviceMonitoringStatuses.ONLINE, count: deviceMonitoringDashboardByState.online },
-		{ name: DeviceMonitoringStatuses.OFFLINE, count: deviceMonitoringDashboardByState.offline }
-	]
+	const pieChartData = useMemo(
+		() => [
+			{
+				name: DeviceMonitoringStatuses.ONLINE,
+				count: deviceMonitoringDashboardByState.online
+			},
+			{
+				name: DeviceMonitoringStatuses.OFFLINE,
+				count: deviceMonitoringDashboardByState.offline
+			}
+		],
+		[deviceMonitoringDashboardByState.offline, deviceMonitoringDashboardByState.online]
+	)
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
 			<PieCard
@@ -48,7 +57,7 @@ export const DeviceMonitoringChart = memo(() => {
 							<StatusProgress
 								label={device.stateName}
 								total={device.total}
-								value={device.online}
+								value={device.onlineCount}
 								indicatorColor="bg-verde"
 								backgroundColor="bg-rojo"
 							/>
