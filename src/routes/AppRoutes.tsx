@@ -11,7 +11,7 @@ const ListModels = lazy(() => import('@/pages/ListModel'))
 const ListEmployee = lazy(() => import('@/pages/ListEmployee'))
 const ListSite = lazy(() => import('@/pages/ListSite'))
 const ListHistory = lazy(() => import('@/pages/ListHistory'))
-const ListMonitoringDevice = lazy(() => import('@/pages/ListMonitoringDevice'))
+const MonitoringDevice = lazy(() => import('@/pages/MonitoringDevice'))
 const DashboardWrapper = lazy(() => import('@/ui/Wrappers/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
@@ -41,9 +41,11 @@ const FormDevice = lazy(() => import('@/pages/FormDevice'))
 const PaymentSchedules = lazy(() => import('@/pages/PaymentSchedules'))
 const ListWrapper = lazy(() => import('@/ui/Wrappers/ListWrapper'))
 const FormWrapper = lazy(() => import('@/ui/Wrappers/FormWrapper'))
+const MonitoringWrapper = lazy(() => import('@/ui/Wrappers/MonitoringWrapper'))
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const List = lazy(() => import('@/pages/List'))
 const Form = lazy(() => import('@/pages/Form'))
+const Monitoring = lazy(() => import('@/pages/Monitoring'))
 
 export function AppRoutes() {
 	return (
@@ -133,18 +135,17 @@ export function AppRoutes() {
 						<Route path="model" element={<ListModels />} />
 						<Route path="location" element={<ListSite />} />
 						<Route path="history" element={<ListHistory />} />
-						<Route path="monitoring/device" element={<ListMonitoringDevice />} />
 					</Route>
 					<Route
 						path="/monitoring"
 						element={
 							<Suspense fallback={<Loading />}>
-								<ListWrapper />
+								<MonitoringWrapper />
 							</Suspense>
 						}
 					>
-						<Route path="" element={<List />} />
-						<Route path="device" element={<ListMonitoringDevice />} />
+						<Route path="" element={<Monitoring />} />
+						<Route path="device" element={<MonitoringDevice />} />
 					</Route>
 					<Route
 						path="/dashboard"

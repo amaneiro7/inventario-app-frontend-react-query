@@ -69,12 +69,6 @@ const List = () => {
 			description: 'Revisa el registro de todos los cambios realizados en el sistema.',
 			icon: FolderClock,
 			to: 'history'
-		},
-		{
-			title: 'Monitoreo de dispositivos',
-			description: '',
-			icon: MonitorCheck,
-			to: 'monitoring/device'
 		}
 	]
 

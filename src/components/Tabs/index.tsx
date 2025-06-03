@@ -3,6 +3,22 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 
 import { cn } from '@/lib/utils'
 
+type TabBgColor = keyof typeof Color
+
+const Color = {
+	orange: 'data-[state=active]:bg-naranja',
+	green: 'data-[state=active]:bg-verde',
+	red: 'data-[state=active]:bg-rojo',
+	blue: 'data-[state=active]:bg-azul-700',
+	darkBlue: 'data-[state=active]:bg-azul',
+	blanco: `data-[state=active]:bg-white`
+} as const
+
+// Extend the props for TabsPrimitive.Trigger to include your custom bgColor prop
+interface TabsTriggerProps extends React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger> {
+	bgColor?: TabBgColor // Use the defined type for bgColor
+}
+
 const Tabs = TabsPrimitive.Root
 
 const TabsList = React.forwardRef<
@@ -22,12 +38,13 @@ TabsList.displayName = TabsPrimitive.List.displayName
 
 const TabsTrigger = React.forwardRef<
 	React.ComponentRef<typeof TabsPrimitive.Trigger>,
-	React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+	TabsTriggerProps
+>(({ className, bgColor = 'blue', ...props }, ref) => (
 	<TabsPrimitive.Trigger
 		ref={ref}
 		className={cn(
 			'ring-offset-background focus-visible:ring-ring hover:bg-gris/30 data-[state=active]:bg-azul-700 inline-flex cursor-pointer items-center justify-center rounded-sm px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:font-semibold data-[state=active]:text-white data-[state=active]:shadow-xs',
+			Color[bgColor],
 			className
 		)}
 		{...props}

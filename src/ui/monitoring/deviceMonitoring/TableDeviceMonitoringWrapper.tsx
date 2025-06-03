@@ -1,5 +1,6 @@
 import { lazy, memo, Suspense } from 'react'
 import { eventManager } from '@/utils/eventManager'
+import { useTableDeviceMonitoringWrapper } from './useTableDeviceMonitoringWrapper'
 import { DeviceComputerFilter } from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
 import { Table } from '@/components/Table/Table'
 import { TableBody } from '@/components/Table/TableBody'
@@ -7,13 +8,13 @@ import { TableHead } from '@/components/Table/TableHead'
 import { TableHeader } from '@/components/Table/TableHeader'
 import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
 import { TableRow } from '@/components/Table/TableRow'
-import { TabsNav } from '../Tab/TabsNav'
-import { TypeOfSiteTabNav } from '../Tab/TypeOfSiteTabNav'
+import { TabsNav } from '../../List/Tab/TabsNav'
+import { TypeOfSiteTabNav } from '../../List/Tab/TypeOfSiteTabNav'
 import { LoadingTable } from '@/components/Table/LoadingTable'
-import { PaginationBar } from '../Pagination/PaginationBar'
-import { useTableDeviceMonitoringWrapper } from './useTableDeviceMonitoringWrapper'
-import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
+import { PaginationBar } from '../../List/Pagination/PaginationBar'
 import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { type Response } from '@/core/shared/domain/methods/Response'
+import { type DeviceMonitoring } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 
 interface TableDeviceMonitoringWrapperProps {
 	query: DeviceMonitoringFilters
@@ -21,10 +22,13 @@ interface TableDeviceMonitoringWrapperProps {
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
 	handleChange: (name: string, value: string | number) => void
+	deviceMonitorings: Response<DeviceMonitoring> | undefined
+	isError: boolean
+	isLoading: boolean
 }
 
 const TableDeviceMonitoring = lazy(() =>
-	import('@/ui/List/deviceMonitoring/TableDeviceMonitoring').then(m => ({
+	import('@/ui/monitoring/deviceMonitoring/TableDeviceMonitoring').then(m => ({
 		default: m.TableDeviceMonitoring
 	}))
 )
@@ -32,12 +36,14 @@ const TableDeviceMonitoring = lazy(() =>
 export const TableDeviceMonitoringWrapper = memo(
 	({
 		query,
+		deviceMonitorings,
+		isError,
+		isLoading,
 		handleSort,
 		handleChange,
 		handlePageSize,
 		handlePageClick
 	}: TableDeviceMonitoringWrapperProps) => {
-		const { deviceMonitorings, isError, isLoading } = useGetAllDeviceMonitorings(query)
 		const { colSpan, headers, visibleColumns } = useTableDeviceMonitoringWrapper()
 		return (
 			<>
@@ -49,7 +55,11 @@ export const TableDeviceMonitoringWrapper = memo(
 						pageNumber={query.pageNumber}
 						defaultPageSize={DeviceComputerFilter.defaultPageSize}
 					>
-						<TypeOfSiteTabNav handleChange={handleChange} value={query.typeOfSiteId} />
+						<TypeOfSiteTabNav
+							handleChange={handleChange}
+							value={query.typeOfSiteId}
+							omit={['ALMACEN']}
+						/>
 					</TabsNav>
 					<Table>
 						<TableHeader>

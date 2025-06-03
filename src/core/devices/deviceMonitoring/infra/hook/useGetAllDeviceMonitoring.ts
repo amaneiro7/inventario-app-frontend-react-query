@@ -6,20 +6,26 @@ import { type DeviceMonitoringFilters } from '../../application/createDeviceMoni
 const repository = new DeviceMonitoringGetAllService()
 const getAll = new DeviceMonitoringGetByCriteria(repository)
 export const useGetAllDeviceMonitorings = (query: DeviceMonitoringFilters) => {
+	const ONE_MINUTE_IN_MS = 60 * 1000
 	const {
 		isLoading,
+		isFetching,
 		refetch,
 		isError,
 		data: deviceMonitorings
 	} = useQuery({
 		queryKey: ['deviceMonitorings', query],
 		queryFn: () => getAll.search(query),
-		staleTime: 5 * 60 * 1000 // 5 minutos
+		staleTime: ONE_MINUTE_IN_MS,
+		refetchInterval: ONE_MINUTE_IN_MS,
+		refetchOnReconnect: true,
+		refetchOnWindowFocus: true
 	})
 
 	return {
 		isLoading,
 		refetch,
+		isFetching,
 		isError,
 		deviceMonitorings
 	}

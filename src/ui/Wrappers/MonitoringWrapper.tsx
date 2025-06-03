@@ -1,40 +1,46 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from '../PageTitle'
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
 import { Seo } from '@/components/Seo'
 import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
+import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
 
 const MonitoringWrapper = memo(() => {
 	const location = useLocation()
-	const isListIndex = location.pathname === '/list'
+	const isMonitoringBaseIndex = location.pathname === '/monitoring'
 	const outletTitle = useOutletContext<string>()
 
 	const routeMetadata = useMemo(
 		(): Record<string, { title: string; description: string }> => ({
 			'/monitoring': {
-				title: '',
-				description: ''
+				title: 'Panel de Monitoreo de Red',
+				description:
+					'Visualiza el estado general de la red y la conectividad de tus dispositivos.'
 			},
 			'/monitoring/device': {
-				title: '',
-				description: ''
+				title: 'Monitoreo de Dispositivos Individuales',
+				description:
+					'Consulta el estado en tiempo real, histórico de pings y detalles de cada dispositivo.'
 			}
 		}),
 		[]
 	)
 
 	const currentMetadata = routeMetadata[location.pathname] || {
-		title: '',
-		description: ''
+		// Fallback for paths not explicitly defined in routeMetadata
+		title: 'Monitoreo del Sistema',
+		description: 'Explora el estado y la información de monitoreo de los activos del sistema.'
 	}
+	// Prioritize outletTitle if available, otherwise use metadata title
 	const title = outletTitle || currentMetadata.title
+	// If outletTitle exists, generate a dynamic description.
+	// Otherwise, use the description from currentMetadata.
 	const description = outletTitle
-		? `Página con la ${outletTitle}. Explora, filtra y gestiona la información de ${outletTitle.toLowerCase()}.`
+		? `Información detallada y monitoreo en tiempo real de ${outletTitle.toLowerCase()}.`
 		: currentMetadata.description
 
 	const breadcrumbSegments = useMemo(() => {
-		if (isListIndex) {
+		if (isMonitoringBaseIndex) {
 			return ['Monitoreo']
 		}
 		const segments: (string | { label: string; href?: string })[] = [
@@ -42,14 +48,17 @@ const MonitoringWrapper = memo(() => {
 			currentMetadata.title.split(' | ')[0] || currentMetadata.title // Toma la parte antes del '|' si existe, o el título completo
 		]
 		return segments
-	}, [isListIndex, currentMetadata.title])
+	}, [isMonitoringBaseIndex, currentMetadata.title])
 
 	return (
 		<>
+			{/* SEO component updated with dynamic title and description */}
 			<Seo title={title} description={description} />
 			{/* Breadcrumb Navigation */}
 			<DynamicBreadcrumb segments={breadcrumbSegments} />
+			{/* Page Title */}
 			<PageTitle title={title} />
+			{/* Outlet for nested routes, with title passed as context */}
 			<DetailsWrapper>
 				<Suspense>
 					<Outlet context={title} />

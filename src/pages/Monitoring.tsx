@@ -4,8 +4,9 @@ import { MonitorCheck } from 'lucide-react'
 const Monitoring = () => {
 	const list = [
 		{
-			title: 'Monitoreo de dispositivos',
-			description: '',
+			title: 'Monitoreo de Dispositivos',
+			description:
+				'Accede al panel para ver el estado de conectividad en tiempo real de tus equipos.',
 			icon: MonitorCheck,
 			to: 'device'
 		}

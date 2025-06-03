@@ -1,4 +1,4 @@
-export function formattedDate(date: string | Date): string {
+export function formattedDate(date: string | Date | number): string {
 	try {
 		const dateObj = new Date(date)
 		if (isNaN(dateObj.getTime())) {
@@ -9,10 +9,12 @@ export function formattedDate(date: string | Date): string {
 			month: '2-digit',
 			day: 'numeric',
 			hour: 'numeric',
-			minute: 'numeric'
+			minute: 'numeric',
+			hour12: true
 		}
 		const userLocal = navigator.language || 'es-VE'
-		return dateObj.toLocaleString(userLocal, options)
+		// return dateObj.toLocaleString(userLocal, options)
+		return new Intl.DateTimeFormat(userLocal, options).format(dateObj)
 	} catch {
 		return 'Fecha inválida'
 	}

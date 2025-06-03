@@ -13,20 +13,8 @@ export class DeviceMonitoringGetByCriteria {
 		this.getAll = new DeviceMonitoringGetAll(this.repository)
 	}
 
-	async search({
-		pageNumber,
-		pageSize,
-		orderBy,
-		orderType,
-		...options
-	}: DeviceMonitoringFilters) {
-		const queryParams = await createDeviceMonitoringParams({
-			...options,
-			pageNumber,
-			pageSize,
-			orderBy,
-			orderType
-		})
+	async search(query: DeviceMonitoringFilters) {
+		const queryParams = await createDeviceMonitoringParams(query)
 
 		return await this.getAll.execute(queryParams)
 	}

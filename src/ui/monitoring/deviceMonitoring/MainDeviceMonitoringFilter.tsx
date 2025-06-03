@@ -3,6 +3,7 @@ import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { InputFallback } from '@/components/Loading/InputFallback'
 import { Input } from '@/components/Input/Input'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
 
 const StateCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
@@ -103,7 +104,6 @@ export const MainDeviceMonitoringFilter = memo(
 					placeholder="Buscar por nombre de equipo"
 					onChange={handleComputerName}
 				/>
-
 				<Suspense fallback={<InputFallback />}>
 					<LocationCombobox
 						name="locationId"
@@ -111,6 +111,11 @@ export const MainDeviceMonitoringFilter = memo(
 						value={locationId}
 						method="search"
 						typeOfSiteId={typeOfSiteId}
+						cityId={cityId}
+						stateId={stateId}
+						regionId={regionId}
+						administrativeRegionId={administrativeRegionId}
+						statusId={StatusOptions.INUSE}
 					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>

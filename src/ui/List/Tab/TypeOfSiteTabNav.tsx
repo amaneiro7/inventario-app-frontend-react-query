@@ -1,17 +1,27 @@
 import { memo, useCallback, useMemo, useState } from 'react'
 import { useGetAllTypeOfSite } from '@/core/locations/typeOfSites/infra/hook/useGetAllTypeOfSite'
 import { TabNav } from './TabNav'
-
+import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 interface Props {
 	handleChange: (name: string, value: string) => void
 	value?: string
+	omit?: Array<keyof typeof TypeOfSiteOptions>
 }
-export const TypeOfSiteTabNav = memo(({ handleChange, value }: Props) => {
+export const TypeOfSiteTabNav = memo(({ handleChange, value, omit = [] }: Props) => {
 	const [inputValue, setInputValue] = useState(() => (value ? value : '0'))
 	const { typeOfSites, isLoading } = useGetAllTypeOfSite({})
 
 	const typeOfSiteTab = useMemo(() => {
-		return [{ id: '0', name: 'Todos' }].concat(typeOfSites?.data ?? [])
+		// Create a set of IDs to omit for efficient lookup
+		const idsToOmit = new Set(omit.map(key => TypeOfSiteOptions[key]))
+
+		const filteredTypes = (typeOfSites?.data ?? []).filter(
+			type =>
+				!idsToOmit.has(
+					type.id as (typeof TypeOfSiteOptions)[keyof typeof TypeOfSiteOptions]
+				)
+		)
+		return [{ id: '0', name: 'Todos' }].concat(filteredTypes)
 	}, [typeOfSites?.data])
 
 	const handleClick = useCallback(

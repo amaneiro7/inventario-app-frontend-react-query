@@ -53,7 +53,7 @@ export const StatusList: React.FC<StatusListProps> = ({
 						key={key}
 						label={label}
 						value={statusData[key]}
-						color={color}
+						indicatorColor={color}
 						total={total}
 					/>
 				) : (
