@@ -135,5 +135,8 @@ export const TableDeviceMonitoringWrapper = memo(
 		prevProps.handleSort === nextProps.handleSort &&
 		prevProps.handleChange === nextProps.handleChange &&
 		prevProps.handlePageSize === nextProps.handlePageSize &&
-		prevProps.handlePageClick === nextProps.handlePageClick
+		prevProps.handlePageClick === nextProps.handlePageClick &&
+		prevProps.isLoading === nextProps.isLoading &&
+		prevProps.isError === nextProps.isError &&
+		prevProps.deviceMonitorings === nextProps.deviceMonitorings
 )

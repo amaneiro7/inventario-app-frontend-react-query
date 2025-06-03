@@ -1,11 +1,19 @@
-import { memo, Suspense } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
 import { TabsContent } from '@/components/Tabs'
 import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
-import { TableDeviceMonitoringWrapper } from './TableDeviceMonitoringWrapper'
-import { DeviceMonitoringMap } from './DeviceMonitoringMap'
-import { DeviceMonitoringChart } from './DeviceMonitoringChart'
+const TableDeviceMonitoringWrapper = lazy(() =>
+	import('./TableDeviceMonitoringWrapper').then(m => ({
+		default: m.TableDeviceMonitoringWrapper
+	}))
+)
+const DeviceMonitoringMap = lazy(() =>
+	import('./DeviceMonitoringMap').then(m => ({ default: m.DeviceMonitoringMap }))
+)
+const DeviceMonitoringChart = lazy(() =>
+	import('./DeviceMonitoringChart').then(m => ({ default: m.DeviceMonitoringChart }))
+)
 
 interface DeviceMonitoringTabsContentProps {
 	query: DeviceMonitoringFilters
