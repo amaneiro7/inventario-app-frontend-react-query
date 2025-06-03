@@ -3,10 +3,12 @@ import { TableCellOpenIcon } from './TableCellOpenIcon'
 
 export function LoadingTable({
 	registerPerPage,
-	colspan
+	colspan,
+	openIcon = true
 }: {
 	registerPerPage?: number
 	colspan: number
+	openIcon?: boolean
 }) {
 	const rows = Array.from({ length: registerPerPage ?? 25 })
 	const animationClasses = ['animate-pulse-fast', 'animate-pulse-medium', 'animate-pulse-slow']
@@ -18,7 +20,7 @@ export function LoadingTable({
 			}`}
 		>
 			<TableCell colSpan={colspan - 1} value="" size={'xxSmall'} />
-			<TableCellOpenIcon open={false} />
+			{openIcon && <TableCellOpenIcon open={false} />}
 		</tr>
 	))
 }

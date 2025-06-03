@@ -4,6 +4,7 @@ import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { InputFallback } from '@/components/Loading/InputFallback'
 import { Input } from '@/components/Input/Input'
 import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
+import { DeviceMonitoringStatusCombobox } from '@/components/ComboBox/Sincrono/DeviceMonitoringStatusComboBox'
 
 const StateCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
@@ -34,6 +35,7 @@ export const MainDeviceMonitoringFilter = memo(
 		cityId,
 		stateId,
 		ipAddress,
+		status,
 		computerName,
 		locationId,
 		regionId,
@@ -42,6 +44,7 @@ export const MainDeviceMonitoringFilter = memo(
 	}: {
 		ipAddress?: string | null
 		computerName?: string
+		status?: string
 		cityId?: string
 		stateId?: string
 		regionId?: string
@@ -103,6 +106,11 @@ export const MainDeviceMonitoringFilter = memo(
 					transform
 					placeholder="Buscar por nombre de equipo"
 					onChange={handleComputerName}
+				/>
+				<DeviceMonitoringStatusCombobox
+					name="status"
+					handleChange={handleChange}
+					value={status}
 				/>
 				<Suspense fallback={<InputFallback />}>
 					<LocationCombobox

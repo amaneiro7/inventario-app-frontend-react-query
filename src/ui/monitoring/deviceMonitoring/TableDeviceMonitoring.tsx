@@ -49,7 +49,7 @@ export const TableDeviceMonitoring = memo(
 							{visibleColumns.includes('ipAddress') ? (
 								<TableCell size="small" value={device?.ipAddress ?? ''} />
 							) : null}
-							{visibleColumns.includes('location') ? (
+							{visibleColumns.includes('locationId') ? (
 								<TableCell size="xLarge" value={device.location.name ?? ''} />
 							) : null}
 							{visibleColumns.includes('lastSuccess') ? (

@@ -24,6 +24,7 @@ export default function MonitoringDevice() {
 				<FilterSection>
 					<MainDeviceMonitoringFilter
 						ipAddress={query.ipAddress}
+						status={query.status}
 						computerName={query.computerName}
 						locationId={query.locationId}
 						cityId={query.cityId}

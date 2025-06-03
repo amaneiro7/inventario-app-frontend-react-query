@@ -37,9 +37,9 @@ export function useTableDeviceMonitoringWrapper() {
 				visible: true
 			},
 			{
-				key: 'location',
+				key: 'locationId',
 				label: 'Ubicación',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'xLarge',
 				isTab: true,
 				visible: true

@@ -93,6 +93,7 @@ export const TableDeviceMonitoringWrapper = memo(
 									<LoadingTable
 										registerPerPage={query?.pageSize}
 										colspan={colSpan}
+										openIcon={false}
 									/>
 								)}
 								{deviceMonitorings !== undefined && (
@@ -101,6 +102,7 @@ export const TableDeviceMonitoringWrapper = memo(
 											<LoadingTable
 												registerPerPage={query?.pageSize}
 												colspan={colSpan}
+												openIcon={false}
 											/>
 										}
 									>
