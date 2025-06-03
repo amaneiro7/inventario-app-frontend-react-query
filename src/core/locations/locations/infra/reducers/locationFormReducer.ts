@@ -19,6 +19,7 @@ export interface LocationErrors {
 }
 export interface LocationRequired {
 	typeOfSiteId: boolean
+	locationStatusId: boolean
 	regionId: boolean
 	stateId: boolean
 	cityId: boolean
@@ -31,6 +32,7 @@ export interface LocationRequired {
 
 export interface LocationDisabled {
 	typeOfSiteId: boolean
+	locationStatusId: boolean
 	regionId: boolean
 	stateId: boolean
 	cityId: boolean
@@ -52,6 +54,7 @@ export const initialLocationState: State = {
 	formData: {
 		id: undefined,
 		typeOfSiteId: '',
+		locationStatusId: '',
 		regionId: '',
 		stateId: '',
 		cityId: '',
@@ -69,6 +72,7 @@ export const initialLocationState: State = {
 	},
 	required: {
 		typeOfSiteId: true,
+		locationStatusId: true,
 		regionId: false,
 		stateId: false,
 		cityId: false,
@@ -80,6 +84,7 @@ export const initialLocationState: State = {
 	},
 	disabled: {
 		typeOfSiteId: false,
+		locationStatusId: false,
 		regionId: false,
 		stateId: true,
 		cityId: true,
@@ -95,6 +100,7 @@ export type Action =
 	| { type: 'init'; payload: { formData: DefaultLocation } }
 	| { type: 'reset'; payload: { formData: DefaultLocation } }
 	| { type: 'typeOfSiteId'; payload: { value: DefaultLocation['typeOfSiteId'] } }
+	| { type: 'locationStatusId'; payload: { value: DefaultLocation['locationStatusId'] } }
 	| { type: 'regionId'; payload: { value: DefaultLocation['regionId'] } }
 	| { type: 'stateId'; payload: { value: DefaultLocation['stateId'] } }
 	| { type: 'cityId'; payload: { value: DefaultLocation['cityId'] } }
@@ -269,6 +275,13 @@ export const locationFormReducer = (state: State, action: Action): State => {
 					...state.errors,
 					subnet: LocationSubnet.isValid(subnet) ? '' : LocationSubnet.invalidMessage()
 				}
+			}
+		}
+		case 'locationStatusId': {
+			const locationStatusId = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, locationStatusId }
 			}
 		}
 		default:

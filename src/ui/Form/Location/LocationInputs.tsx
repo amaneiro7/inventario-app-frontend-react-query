@@ -1,5 +1,4 @@
-import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { lazy, memo } from 'react'
 import {
 	type Action,
 	type LocationErrors,
@@ -7,13 +6,34 @@ import {
 	type LocationRequired,
 	type LocationDisabled
 } from '@/core/locations/locations/infra/reducers/locationFormReducer'
-import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
-import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
-import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
-import { FormMode } from '@/hooks/useGetFormMode'
-import { SiteCombobox } from '@/components/ComboBox/Asincrono/SiteCombobox'
-import { TypeOfSiteCombobox } from '@/components/ComboBox/Sincrono/TypeOfSiteComboBox'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { Input } from '@/components/Input/Input'
+import { type FormMode } from '@/hooks/useGetFormMode'
+
+const RegionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+		default: m.RegionCombobox
+	}))
+)
+const StateCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+)
+const CityCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+)
+const SiteCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/SiteCombobox').then(m => ({ default: m.SiteCombobox }))
+)
+const TypeOfSiteCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/TypeOfSiteComboBox').then(m => ({
+		default: m.TypeOfSiteCombobox
+	}))
+)
+const LocationStatusCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/LocationStatusComboBox').then(m => ({
+		default: m.LocationStatusCombobox
+	}))
+)
 
 interface Props {
 	formData: DefaultLocation
@@ -36,14 +56,23 @@ export const LocationInputs = memo(function ({
 }: Props) {
 	return (
 		<>
-			<TypeOfSiteCombobox
-				value={formData.typeOfSiteId}
-				handleChange={(_name, value) => handleChange('typeOfSiteId', value)}
-				name="typeOfSiteId"
-				required={required.typeOfSiteId}
-				disabled={disabled.typeOfSiteId}
-				readonly={mode === 'edit'}
-			/>
+			<div className="flex gap-4">
+				<TypeOfSiteCombobox
+					value={formData.typeOfSiteId}
+					handleChange={(_name, value) => handleChange('typeOfSiteId', value)}
+					name="typeOfSiteId"
+					required={required.typeOfSiteId}
+					disabled={disabled.typeOfSiteId}
+					readonly={mode === 'edit'}
+				/>
+				<LocationStatusCombobox
+					value={formData.locationStatusId}
+					handleChange={(_name, value) => handleChange('locationStatusId', value)}
+					name="locationStatusId"
+					required={required.locationStatusId}
+					disabled={disabled.locationStatusId}
+				/>
+			</div>
 			<div className="flex gap-4">
 				<RegionCombobox
 					value={formData.regionId}

@@ -40,6 +40,7 @@ export function useLocationInitialState(defaultState: DefaultLocation): {
 			siteName: location.site?.name,
 			name: location.name,
 			subnet: location.subnet,
+			locationStatusId: location.locationStatusId,
 			updatedAt: location?.updatedAt
 		})
 	}, [])
