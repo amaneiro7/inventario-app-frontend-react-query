@@ -1,6 +1,20 @@
-export function InfoBox({ children }: React.PropsWithChildren) {
+import { cn } from '@/lib/utils'
+
+export function InfoBox({
+	children,
+	className,
+	...props
+}: React.PropsWithChildren<
+	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+>) {
 	return (
-		<div className="w-fit max-w-lg bg-white rounded-lg shadow-lg p-4 border-t-2 border-t-azul">
+		<div
+			className={cn(
+				'border-t-azul w-fit max-w-lg rounded-lg border-t-2 bg-white p-4 shadow-lg',
+				className
+			)}
+			{...props}
+		>
 			<div className="flex flex-col">{children}</div>
 			<div />
 		</div>

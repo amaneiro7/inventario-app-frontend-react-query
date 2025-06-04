@@ -15,7 +15,9 @@ export function useLocationFilter() {
 			'orderBy',
 			'orderType',
 			'name',
-			'typeOfSiteId'
+			'typeOfSiteId',
+			'locationStatusId',
+			'administrativeRegionId'
 		]
 	})
 }

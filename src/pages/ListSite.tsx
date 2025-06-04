@@ -22,6 +22,8 @@ export default function ListSite() {
 			<DetailsBoxWrapper>
 				<FilterSection>
 					<LocationMainFilter
+						administrativeRegionId={query.administrativeRegionId}
+						locationStatusId={query.locationStatusId}
 						name={query.name}
 						regionId={query.regionId}
 						stateId={query.stateId}

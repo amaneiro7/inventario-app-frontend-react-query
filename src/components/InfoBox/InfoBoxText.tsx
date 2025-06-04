@@ -1,13 +1,15 @@
-import { memo } from 'react'
+import React, { memo } from 'react'
 import Typography from '../Typography'
+import { cn } from '@/lib/utils'
 
 interface InfoBoxTextProps {
-	text: string
-	desc?: string
+	text: string | React.ReactNode
+	desc?: string | React.ReactNode
 	className?: string
 }
 
 export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) => {
+	const isDescString = typeof desc === 'string'
 	return (
 		<Typography
 			variant="p"
@@ -15,10 +17,12 @@ export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) =>
 			align="left"
 			weight="normal"
 			option="small"
-			className={className}
+			className={cn(className)}
 		>
-			<b>{`${desc}: `}</b>
+			{desc && <b>{isDescString ? `${desc}: ` : desc}</b>}
 			{text}
 		</Typography>
 	)
 })
+
+InfoBoxText.displayName = 'InfoBoxText'

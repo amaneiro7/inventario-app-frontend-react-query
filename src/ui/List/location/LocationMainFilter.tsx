@@ -9,6 +9,16 @@ const RegionCombobox = lazy(() =>
 		default: m.RegionCombobox
 	}))
 )
+const AdministrativeRegionCombobox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/AdministrativeRegionComboBox').then(m => ({
+		default: m.AdministrativeRegionCombobox
+	}))
+)
+const LocationStatusComboBox = lazy(() =>
+	import('@/components/ComboBox/Sincrono/LocationStatusComboBox').then(m => ({
+		default: m.LocationStatusCombobox
+	}))
+)
 const StateCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
 )
@@ -22,11 +32,13 @@ const TypeOfSiteCombobox = lazy(() =>
 )
 interface LocationMainFilterProps {
 	name?: string
+	locationStatusId?: string
 	subnet?: string
 	typeOfSiteId?: string | string[]
 	cityId?: string
 	stateId?: string
 	regionId?: string
+	administrativeRegionId?: string
 	handleChange: (name: string, value: string | number) => void
 }
 
@@ -36,8 +48,10 @@ export const LocationMainFilter = memo(
 		subnet,
 		typeOfSiteId,
 		cityId,
+		locationStatusId,
 		stateId,
 		regionId,
+		administrativeRegionId,
 		handleChange
 	}: LocationMainFilterProps) => {
 		const [localName, setLocalName] = useState(name ?? '')
@@ -86,7 +100,26 @@ export const LocationMainFilter = memo(
 					onChange={handleName}
 				/>
 				<Suspense fallback={<InputFallback />}>
-					<RegionCombobox handleChange={handleChange} name="regionId" value={regionId} />
+					<LocationStatusComboBox
+						handleChange={handleChange}
+						name="locationStatusId"
+						value={locationStatusId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<AdministrativeRegionCombobox
+						handleChange={handleChange}
+						name="administrativeRegionId"
+						value={administrativeRegionId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<RegionCombobox
+						handleChange={handleChange}
+						name="regionId"
+						value={regionId}
+						administrativeRegionId={administrativeRegionId}
+					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>
 					<StateCombobox
@@ -94,6 +127,7 @@ export const LocationMainFilter = memo(
 						name="stateId"
 						value={stateId}
 						regionId={regionId}
+						administrativeRegionId={administrativeRegionId}
 					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>
@@ -103,6 +137,7 @@ export const LocationMainFilter = memo(
 						value={cityId}
 						regionId={regionId}
 						stateId={stateId}
+						administrativeRegionId={administrativeRegionId}
 					/>
 				</Suspense>
 

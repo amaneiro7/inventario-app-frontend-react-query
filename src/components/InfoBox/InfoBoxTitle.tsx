@@ -4,25 +4,31 @@ import { ThinRightIcon } from '@/icon/ThinRightIcon'
 import Typography from '../Typography'
 
 interface InfoBoxTitleProps {
-	title: string
+	title: string | React.ReactNode
 	url?: string
 	state?: object
 }
 
 export const InfoBoxTitle = memo(({ title, url, state }: InfoBoxTitleProps) => {
+	const isTitleString = typeof title === 'string'
 	return (
 		<Typography
 			variant="h6"
 			weight="bold"
 			color="azul"
 			align="left"
-			className="inline-flex justify-between items-center mb-2"
+			className="mb-2 inline-flex grow items-center justify-between"
 		>
-			<span>{title}</span>
-			{url && (
-				<span className="relative w-8 h-8 group">
-					<Link className="absolute w-8 h-8 z-8" state={state} to={url} />
-					<ThinRightIcon className="w-8 fill-azul group-hover:translate-x-2 transition-transform duration-300" />
+			{isTitleString ? <span>{title}</span> : title}
+			{url && isTitleString && (
+				<span className="group relative ml-4 h-8 w-8 flex-shrink-0">
+					<Link
+						className="absolute inset-0 z-10 h-8 w-8"
+						state={state}
+						to={url ?? '#'}
+						aria-label={`Ir a ${title}`}
+					/>
+					<ThinRightIcon className="fill-azul w-8 transition-transform duration-300 group-hover:translate-x-2" />
 				</span>
 			)}
 		</Typography>
