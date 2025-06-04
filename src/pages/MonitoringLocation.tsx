@@ -24,7 +24,8 @@ export default function MonitoringLocation() {
 					<MainLocationMonitoringFilter
 						subnet={query.subnet}
 						status={query.status}
-						name={query.name}
+						locationId={query.locationId}
+						typeOfSiteId={query.typeOfSiteId}
 						cityId={query.cityId}
 						stateId={query.stateId}
 						regionId={query.regionId}

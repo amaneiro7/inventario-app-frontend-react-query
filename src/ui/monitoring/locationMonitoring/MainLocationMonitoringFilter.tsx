@@ -4,6 +4,13 @@ import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
 import { InputFallback } from '@/components/Loading/InputFallback'
 import { Input } from '@/components/Input/Input'
 import { DeviceMonitoringStatusCombobox } from '@/components/ComboBox/Sincrono/DeviceMonitoringStatusComboBox'
+import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
+
+const LocationCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+		default: m.LocationCombobox
+	}))
+)
 
 const StateCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
@@ -30,12 +37,14 @@ export const MainLocationMonitoringFilter = memo(
 		stateId,
 		subnet,
 		status,
-		name,
+		locationId,
+		typeOfSiteId,
 		regionId,
 		administrativeRegionId
 	}: {
 		subnet?: string | null
-		name?: string
+		locationId?: string
+		typeOfSiteId?: string
 		status?: string
 		cityId?: string
 		stateId?: string
@@ -44,32 +53,18 @@ export const MainLocationMonitoringFilter = memo(
 		handleChange: (name: string, value: string | number) => void
 	}) => {
 		const [localSubnet, setLocalSubnet] = useState(subnet ?? '')
-		const [localName, setLocalName] = useState(name ?? '')
+
 		const [debounceSubnet] = useDebounce(localSubnet)
-		const [debounceName] = useDebounce(localName)
 
 		useEffectAfterMount(() => {
 			handleChange('subnet', debounceSubnet)
 		}, [debounceSubnet])
-		useEffectAfterMount(() => {
-			handleChange('name', debounceName)
-		}, [debounceName])
 
 		useEffectAfterMount(() => {
 			if (!subnet) {
 				setLocalSubnet('')
 			}
 		}, [subnet])
-		useEffectAfterMount(() => {
-			if (!name) {
-				setLocalName('')
-			}
-		}, [name])
-
-		const handleName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalName(value)
-		}, [])
 		const handleSubnet = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalSubnet(value)
@@ -87,16 +82,20 @@ export const MainLocationMonitoringFilter = memo(
 					placeholder="Buscar por Subnet"
 					onChange={handleSubnet}
 				/>
-				<Input
-					id="Name-search"
-					value={localName}
-					label="Nombre del sitio"
-					name="Name"
-					type="search"
-					transform
-					placeholder="Buscar por nombre del sitio"
-					onChange={handleName}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<LocationCombobox
+						name="locationId"
+						handleChange={handleChange}
+						value={locationId}
+						method="search"
+						typeOfSiteId={typeOfSiteId}
+						cityId={cityId}
+						stateId={stateId}
+						regionId={regionId}
+						administrativeRegionId={administrativeRegionId}
+						statusId={StatusOptions.INUSE}
+					/>
+				</Suspense>
 				<DeviceMonitoringStatusCombobox
 					name="status"
 					handleChange={handleChange}
