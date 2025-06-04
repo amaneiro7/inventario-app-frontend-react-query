@@ -1,8 +1,15 @@
 import { LinkCard } from '@/components/LinkCard'
-import { MonitorCheck } from 'lucide-react'
+import { MonitorCheck, MapPinCheck } from 'lucide-react'
 
 const Monitoring = () => {
 	const list = [
+		{
+			title: 'Monitoreo de Ubicaciones',
+			description:
+				'Accede al panel para ver el estado de conectividad en tiempo real de tus equipos.',
+			icon: MapPinCheck,
+			to: 'location'
+		},
 		{
 			title: 'Monitoreo de Dispositivos',
 			description:

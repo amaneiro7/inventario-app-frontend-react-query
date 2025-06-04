@@ -1,0 +1,26 @@
+import { useGenericFilter } from '../../../../../hooks/useHookFilter'
+import { LocationMonitoringGetByCriteria } from '../../application/LocationMonitoringGetByCriteria'
+import { type LocationMonitoringFilters } from '../../application/createLocationMonitoringQueryParams'
+
+export function useLocationMonitoringFilter() {
+	const filters = useGenericFilter<LocationMonitoringFilters>({
+		defaultPageSize: LocationMonitoringGetByCriteria.defaultPageSize,
+		filterKeys: [
+			'subnet',
+			'name',
+			'status',
+			'locationId',
+			'typeOfSiteId',
+			'cityId',
+			'stateId',
+			'administrativeRegionId',
+			'regionId',
+			'orderBy',
+			'orderType'
+		]
+	})
+
+	return {
+		...filters
+	}
+}

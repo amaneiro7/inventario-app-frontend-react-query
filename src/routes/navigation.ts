@@ -79,9 +79,14 @@ export const navigation: Navigation[] = [
 		label: 'Monitoreo',
 		navs: [
 			{
+				title: 'Monitoreo de Ubicaciones',
+				path: '/monitoring/location',
+				desc: 'Visualiza el estado en tiempo real de todos las ubicaciones, incluyendo su conectividad y disponibilidad.'
+			},
+			{
 				title: 'Monitoreo de Dispositivos',
 				path: '/monitoring/device',
-				desc: 'Visualiza el estado en tiempo real de todos los dispositivos, incluyendo su conectividad y disponibilidad.' // Descripción mejorada
+				desc: 'Visualiza el estado en tiempo real de todos los dispositivos, incluyendo su conectividad y disponibilidad.'
 			}
 		]
 	},

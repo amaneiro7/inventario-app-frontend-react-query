@@ -17,6 +17,11 @@ const MonitoringWrapper = memo(() => {
 				description:
 					'Visualiza el estado general de la red y la conectividad de tus dispositivos.'
 			},
+			'/monitoring/location': {
+				title: 'Monitoreo de Ubicaciones Individuales',
+				description:
+					'Consulta el estado en tiempo real, histórico de pings y detalles de cada ubicación.'
+			},
 			'/monitoring/device': {
 				title: 'Monitoreo de Dispositivos Individuales',
 				description:

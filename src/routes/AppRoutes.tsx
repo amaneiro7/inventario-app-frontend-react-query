@@ -12,6 +12,7 @@ const ListEmployee = lazy(() => import('@/pages/ListEmployee'))
 const ListSite = lazy(() => import('@/pages/ListSite'))
 const ListHistory = lazy(() => import('@/pages/ListHistory'))
 const MonitoringDevice = lazy(() => import('@/pages/MonitoringDevice'))
+const MonitoringLocation = lazy(() => import('@/pages/MonitoringLocation'))
 const DashboardWrapper = lazy(() => import('@/ui/Wrappers/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
@@ -146,6 +147,7 @@ export function AppRoutes() {
 					>
 						<Route path="" element={<Monitoring />} />
 						<Route path="device" element={<MonitoringDevice />} />
+						<Route path="location" element={<MonitoringLocation />} />
 					</Route>
 					<Route
 						path="/dashboard"

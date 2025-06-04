@@ -1,36 +1,36 @@
 import { memo } from 'react'
 import { Wifi, WifiOff } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
-import { DeviceMonitoringGetByCriteria } from '@/core/devices/deviceMonitoring/application/DeviceMonitoringGetByCriteria'
-import { PaginationBar } from '@/ui/List/Pagination/PaginationBar'
+import { LocationMonitoringGetByCriteria } from '@/core/locations/locationMonitoring/application/LocationMonitoringGetByCriteria'
+import { LocationMonitoringStatuses } from '@/core/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
 import Typography from '@/components/Typography'
-import { type DeviceMonitoring } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
+import { PaginationBar } from '@/ui/List/Pagination/PaginationBar'
+import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { type LocationMonitoring } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
 import { type Response } from '@/core/shared/domain/methods/Response'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
-interface DeviceMonitoringMapProps {
-	pageSize: DeviceMonitoringFilters['pageSize']
+interface LocationMonitoringMapProps {
+	pageSize: LocationMonitoringFilters['pageSize']
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
-	deviceMonitorings: Response<DeviceMonitoring> | undefined
+	locationMonitorings: Response<LocationMonitoring> | undefined
 	isError: boolean
 	isLoading: boolean
 	isFetching: boolean // Add isFetching to props if it's available from useQuery
 }
 
-export const DeviceMonitoringMap = memo(
+export const LocationMonitoringMap = memo(
 	({
-		deviceMonitorings,
+		locationMonitorings,
 		isError,
 		isLoading,
 		isFetching,
 		pageSize,
 		handlePageSize,
 		handlePageClick
-	}: DeviceMonitoringMapProps) => {
-		const showSkeletons = isLoading || !deviceMonitorings?.data
-		const displayDevices = deviceMonitorings?.data ?? []
+	}: LocationMonitoringMapProps) => {
+		const showSkeletons = isLoading || !locationMonitorings?.data
+		const displaylocations = locationMonitorings?.data ?? []
 		const skeletonCount = pageSize || 16 // Show enough skeletons to fill typical page, or default
 
 		if (isError) {
@@ -40,7 +40,7 @@ export const DeviceMonitoringMap = memo(
 					role="alert"
 					aria-live="assertive"
 				>
-					<div className="text-center font-medium text-red-600">
+					<div className="text-rojo-600 text-center font-medium">
 						<p>No se pudo cargar la información de monitoreo.</p>
 						<p>Por favor, intenta de nuevo más tarde.</p>
 						{/* Optional: Add a button to retry if you have a refetch function */}
@@ -51,16 +51,16 @@ export const DeviceMonitoringMap = memo(
 
 		return (
 			<section className="bg-muted/20 relative flex min-h-[400px] flex-col justify-between rounded-lg border p-4">
-				{/* Simplified visual representation of devices in a location */}
+				{/* Simplified visual representation of locations in a location */}
 				<div className="grid grid-cols-3 gap-4 overflow-y-auto pr-2 pb-16 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8">
 					{/* Added overflow for scrollable content */}
 					{showSkeletons ? (
 						// Render Skeletons while loading initially
 						Array.from({ length: skeletonCount }).map((_, index) => (
-							<DeviceCardSkeleton key={`skeletons-${index}`} />
+							<LocationCardSkeleton key={`skeletons-${index}`} />
 						))
-					) : displayDevices.length === 0 ? (
-						// Message when no devices are found after loading
+					) : displaylocations.length === 0 ? (
+						// Message when no locations are found after loading
 						<div className="col-span-full py-8 text-center text-gray-500" role="status">
 							<p>No se encontraron equipos para los filtros aplicados.</p>
 							<p>
@@ -69,22 +69,22 @@ export const DeviceMonitoringMap = memo(
 							</p>
 						</div>
 					) : (
-						// Render actual device cards
-						deviceMonitorings?.data.map(device => (
+						// Render actual location cards
+						locationMonitorings?.data.map(location => (
 							<div
-								key={device.id}
+								key={location.id}
 								className={cn(
 									`relative flex min-h-[96px] flex-col items-center justify-center rounded-md border p-2`, // Ensure consistent min-height for cards
 									{
 										'border-green-300 bg-green-50':
-											device.status === DeviceMonitoringStatuses.ONLINE,
+											location.status === LocationMonitoringStatuses.ONLINE,
 										'border-red-300 bg-red-50':
-											device.status === DeviceMonitoringStatuses.OFFLINE // Use OFFLINE for clarity
+											location.status === LocationMonitoringStatuses.OFFLINE // Use OFFLINE for clarity
 									}
 								)}
-								aria-label={`Estado del equipo ${device.computerName}: ${device.status === DeviceMonitoringStatuses.ONLINE ? 'Activo' : 'Inactivo'}`}
+								aria-label={`Estado del equipo ${location.name}: ${location.status === LocationMonitoringStatuses.ONLINE ? 'Activo' : 'Inactivo'}`}
 							>
-								{device.status === DeviceMonitoringStatuses.ONLINE ? (
+								{location.status === LocationMonitoringStatuses.ONLINE ? (
 									<Wifi
 										className="text-verde-500 mb-1 h-6 w-6"
 										aria-hidden="true"
@@ -102,7 +102,7 @@ export const DeviceMonitoringMap = memo(
 									option="tiny"
 									className="w-full truncate"
 								>
-									{device.computerName}
+									{location.name}
 								</Typography>
 								<Typography
 									variant="span"
@@ -111,13 +111,13 @@ export const DeviceMonitoringMap = memo(
 									option="tiny"
 									className="text-muted-foreground w-full truncate text-[10px]"
 								>
-									{device.ipAddress}
+									{location.subnet}
 								</Typography>
 							</div>
 						))
 					)}
 
-					{deviceMonitorings?.data?.length === 0 ? (
+					{locationMonitorings?.data?.length === 0 ? (
 						<div className="text-muted-foreground col-span-full py-8 text-center">
 							No hay equipos en esta ubicación
 						</div>
@@ -148,14 +148,14 @@ export const DeviceMonitoringMap = memo(
 				</div>
 
 				{/* Pagination Bar */}
-				{deviceMonitorings && !isLoading && !isError && (
+				{locationMonitorings && !isLoading && !isError && (
 					<div className="mt-4 flex w-full justify-center">
 						{/* Centered pagination */}
 						<PaginationBar
-							registerOptions={DeviceMonitoringGetByCriteria.pegaSizeOptions}
-							totalPages={deviceMonitorings?.info?.totalPage}
-							total={deviceMonitorings?.info?.total}
-							currentPage={deviceMonitorings?.info?.page}
+							registerOptions={LocationMonitoringGetByCriteria.pegaSizeOptions}
+							totalPages={locationMonitorings?.info?.totalPage}
+							total={locationMonitorings?.info?.total}
+							currentPage={locationMonitorings?.info?.page}
 							pageSize={pageSize}
 							handlePageClick={handlePageClick}
 							handlePageSize={handlePageSize}
@@ -167,8 +167,8 @@ export const DeviceMonitoringMap = memo(
 	}
 )
 
-// Skeleton component for a single device card
-const DeviceCardSkeleton = () => (
+// Skeleton component for a single location card
+const LocationCardSkeleton = () => (
 	<div
 		className="relative flex h-24 animate-pulse flex-col items-center justify-center rounded-md border border-gray-200 bg-gray-50 p-2" // Fixed height for skeleton uniformity
 		aria-hidden="true" // Hide from screen readers during loading
