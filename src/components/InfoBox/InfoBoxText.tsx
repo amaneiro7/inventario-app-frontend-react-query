@@ -10,6 +10,14 @@ interface InfoBoxTextProps {
 
 export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) => {
 	const isDescString = typeof desc === 'string'
+	if (!isDescString) {
+		return (
+			<div className="flex flex-row gap-2">
+				{desc}
+				{text}
+			</div>
+		)
+	}
 	return (
 		<Typography
 			variant="p"
@@ -19,7 +27,7 @@ export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) =>
 			option="small"
 			className={cn(className)}
 		>
-			{desc && <b>{isDescString ? `${desc}: ` : desc}</b>}
+			<b>{`${desc}: `}</b>
 			{text}
 		</Typography>
 	)

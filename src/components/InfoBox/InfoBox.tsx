@@ -15,8 +15,7 @@ export function InfoBox({
 			)}
 			{...props}
 		>
-			<div className="flex flex-col">{children}</div>
-			<div />
+			<div className="flex flex-col gap-1">{children}</div>
 		</div>
 	)
 }
