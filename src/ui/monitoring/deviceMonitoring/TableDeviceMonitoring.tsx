@@ -1,13 +1,14 @@
 import React, { memo } from 'react'
+import { Wifi, WifiOff } from 'lucide-react'
 import { getRelativeTime } from '@/utils/getRelativeTime'
-// import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
-// import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
+import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
+import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
 import { TableRow } from '@/components/Table/TableRow'
 import { TableCell } from '@/components/Table/TableCell'
 import { TableCellError } from '@/components/Table/TableCellError'
 import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { type DeviceMonitoringDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
-import { Wifi, WifiOff } from 'lucide-react'
+import { DeviceMonitoringDescription } from './DeviceMonitoringDescription'
 
 interface TableDeviceMonitoringProps {
 	devices?: DeviceMonitoringDto[]
@@ -18,6 +19,7 @@ interface TableDeviceMonitoringProps {
 
 export const TableDeviceMonitoring = memo(
 	({ devices, isError, colSpan, visibleColumns }: TableDeviceMonitoringProps) => {
+		const { expandedRows, handleRowClick } = useExpendedRows()
 		if (isError) {
 			return <TableCellError colSpan={colSpan} />
 		}
@@ -29,7 +31,13 @@ export const TableDeviceMonitoring = memo(
 			<>
 				{devices?.map(device => (
 					<React.Fragment key={device.id}>
-						<TableRow>
+						<TableRow
+							className={`[&>td]:cursor-pointer ${
+								expandedRows.includes(device.id) &&
+								'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
+							}`}
+							onClick={() => handleRowClick(device.id)}
+						>
 							{visibleColumns.includes('status') ? (
 								<TableCell
 									size="small"
@@ -82,8 +90,14 @@ export const TableDeviceMonitoring = memo(
 									}
 								/>
 							) : null}
-							{/* <TableCellOpenIcon open={expandedRows.includes(device.id)} /> */}
+							<TableCellOpenIcon open={expandedRows.includes(device.id)} />
 						</TableRow>
+						<DeviceMonitoringDescription
+							open={expandedRows.includes(device.id)}
+							device={device}
+							colSpan={colSpan}
+							visibleColumns={visibleColumns}
+						/>
 					</React.Fragment>
 				))}
 			</>

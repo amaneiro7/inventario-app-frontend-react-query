@@ -8,6 +8,7 @@ import { type LocationDto } from '@/core/locations/locations/domain/dto/Location
 import { type DeviceMonitoringLastScan } from '../value-object/DeviceMonitoringLastScan'
 import { type DeviceMonitoringLastSuccess } from '../value-object/DeviceMonitoringLastSuccess'
 import { type DeviceMonitoringLastFailed } from '../value-object/DeviceMonitoringLastFailed'
+import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
 
 export interface DeviceMonitoring {
 	id: Primitives<DeviceMonitoringId>
@@ -16,6 +17,7 @@ export interface DeviceMonitoring {
 	computerName: Primitives<DeviceMonitoringComputerName>
 	ipAddress: Primitives<DeviceMonitoringIpAddress>
 	location: LocationDto
+	employee: EmployeeDto | null
 	lastScan: Primitives<DeviceMonitoringLastScan>
 	lastSuccess: Primitives<DeviceMonitoringLastSuccess>
 	lastFailed: Primitives<DeviceMonitoringLastFailed>

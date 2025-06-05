@@ -47,7 +47,7 @@ export function useTableDeviceMonitoringWrapper() {
 			{
 				key: 'lastSuccess',
 				label: 'Última Conexión',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'small',
 				isTab: true,
 				visible: true
@@ -55,7 +55,7 @@ export function useTableDeviceMonitoringWrapper() {
 			{
 				key: 'lastFailed',
 				label: 'Última Desconexión',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'small',
 				isTab: true,
 				visible: true
@@ -63,9 +63,17 @@ export function useTableDeviceMonitoringWrapper() {
 			{
 				key: 'lastScan',
 				label: 'Último escaneo',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'small',
 				isTab: true,
+				visible: true
+			},
+			{
+				key: 'actions',
+				label: '',
+				hasOrder: false,
+				size: 'xxSmall',
+				isTab: false,
 				visible: true
 			}
 		],
@@ -79,18 +87,18 @@ export function useTableDeviceMonitoringWrapper() {
 		]
 	)
 	const colSpan = isBreakpointUltraTinySmall
-		? 5
+		? 6
 		: isBreakpointUltraSmall
-			? 6
+			? 7
 			: isBreakpointExtraSmall
-				? 7
+				? 8
 				: isBreakpointSmall
-					? 8
+					? 9
 					: isBreakpointMedium
-						? 9
+						? 10
 						: isBreakpointLarg
-							? 10
-							: 10 // Ajusta el colSpan dinámicamente
+							? 11
+							: 11 // Ajusta el colSpan dinámicamente
 
 	const visibleColumns = useMemo(() => {
 		return headers.filter(header => header.visible).map(h => h.key)
