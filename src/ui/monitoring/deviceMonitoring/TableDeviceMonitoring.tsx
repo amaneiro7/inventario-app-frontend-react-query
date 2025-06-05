@@ -52,13 +52,13 @@ export const TableDeviceMonitoring = memo(
 								/>
 							) : null}
 							{visibleColumns.includes('computerName') ? (
-								<TableCell size="large" value={device?.computerName ?? ''} />
+								<TableCell size="xLarge" value={device?.computerName ?? ''} />
 							) : null}
 							{visibleColumns.includes('ipAddress') ? (
 								<TableCell size="small" value={device?.ipAddress ?? ''} />
 							) : null}
 							{visibleColumns.includes('locationId') ? (
-								<TableCell size="xLarge" value={device.location.name ?? ''} />
+								<TableCell size="xxLarge" value={device.location.name ?? ''} />
 							) : null}
 							{visibleColumns.includes('lastSuccess') ? (
 								<TableCell

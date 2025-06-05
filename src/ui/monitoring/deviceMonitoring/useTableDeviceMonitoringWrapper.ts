@@ -24,7 +24,7 @@ export function useTableDeviceMonitoringWrapper() {
 				key: 'computerName',
 				label: 'Nombre de Equipo',
 				hasOrder: true,
-				size: 'large',
+				size: 'xLarge',
 				isTab: true,
 				visible: true
 			},
@@ -40,7 +40,7 @@ export function useTableDeviceMonitoringWrapper() {
 				key: 'locationId',
 				label: 'Ubicación',
 				hasOrder: true,
-				size: 'xLarge',
+				size: 'xxLarge',
 				isTab: true,
 				visible: true
 			},

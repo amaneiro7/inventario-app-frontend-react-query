@@ -44,14 +44,14 @@ export const TableLocationMonitoring = memo(
 								/>
 							) : null}
 							{visibleColumns.includes('name') ? (
-								<TableCell size="large" value={location?.name ?? ''} />
+								<TableCell size="xxLarge" value={location?.name ?? ''} />
 							) : null}
 							{visibleColumns.includes('subnet') ? (
-								<TableCell size="small" value={location?.subnet ?? ''} />
+								<TableCell size="medium" value={location?.subnet ?? ''} />
 							) : null}
 							{visibleColumns.includes('stateId') ? (
 								<TableCell
-									size="xLarge"
+									size="medium"
 									value={location?.site?.city?.state?.name ?? ''}
 								/>
 							) : null}

@@ -24,7 +24,7 @@ export function useTableLocationMonitoringWrapper() {
 				key: 'name',
 				label: 'Nombre del sitio',
 				hasOrder: true,
-				size: 'large',
+				size: 'xxLarge',
 				isTab: true,
 				visible: true
 			},
@@ -32,7 +32,7 @@ export function useTableLocationMonitoringWrapper() {
 				key: 'subnet',
 				label: 'Dirección IP',
 				hasOrder: true,
-				size: 'small',
+				size: 'medium',
 				isTab: true,
 				visible: true
 			},
@@ -40,7 +40,7 @@ export function useTableLocationMonitoringWrapper() {
 				key: 'stateId',
 				label: 'Estado',
 				hasOrder: true,
-				size: 'xLarge',
+				size: 'medium',
 				isTab: true,
 				visible: true
 			},
