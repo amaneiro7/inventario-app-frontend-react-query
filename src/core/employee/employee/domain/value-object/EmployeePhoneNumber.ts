@@ -2,16 +2,17 @@ import { InvalidArgumentError } from '@/core/shared/domain/value-objects/Invalid
 import { StringValueObject } from '@/core/shared/domain/value-objects/StringValueObjects'
 import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
 
-enum AreaCode {
+export enum PhoneNumberAreaCode {
 	MOVISTAR1 = '0414',
 	MOVISTAR2 = '0424',
-	DIGITEL = '0412',
+	DIGITEL1 = '0412',
+	DIGITEL2 = '0422',
 	MOVILNET1 = '0416',
 	MOVILNET2 = '0426'
 }
 
 export class EmployeePhoneNumber extends StringValueObject {
-	private static readonly areaCodes = Object.values(AreaCode)
+	private static readonly areaCodes = Object.values(PhoneNumberAreaCode)
 	private static readonly numberLength = 7
 	private static readonly totalLength = 11 // 4 dígitos de área + 7 dígitos del número
 	private static readonly phoneRegex = new RegExp(

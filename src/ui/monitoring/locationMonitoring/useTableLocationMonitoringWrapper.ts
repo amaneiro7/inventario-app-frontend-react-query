@@ -47,7 +47,7 @@ export function useTableLocationMonitoringWrapper() {
 			{
 				key: 'lastSuccess',
 				label: 'Última Conexión',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'small',
 				isTab: true,
 				visible: true
@@ -55,7 +55,7 @@ export function useTableLocationMonitoringWrapper() {
 			{
 				key: 'lastFailed',
 				label: 'Última Desconexión',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'small',
 				isTab: true,
 				visible: true
@@ -63,7 +63,7 @@ export function useTableLocationMonitoringWrapper() {
 			{
 				key: 'lastScan',
 				label: 'Último escaneo',
-				hasOrder: false,
+				hasOrder: true,
 				size: 'small',
 				isTab: true,
 				visible: true

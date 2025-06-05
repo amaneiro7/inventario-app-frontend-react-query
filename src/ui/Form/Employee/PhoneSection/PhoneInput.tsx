@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { usePhone } from './usePhone'
 import { Input } from '@/components/Input/Input'
+import { PhoneNumberAreaCode } from '@/core/employee/employee/domain/value-object/EmployeePhoneNumber'
 
 interface PhoneInputProps {
 	operadora: string
@@ -17,7 +18,7 @@ interface PhoneInputProps {
 	}) => void
 }
 
-const operadoras = [{ id: '0412' }, { id: '0414' }, { id: '0424' }, { id: '0416' }, { id: '0436' }]
+const operadoras = Object.values(PhoneNumberAreaCode).map(phone => ({ id: phone }))
 
 export const PhoneInput = memo(
 	({ operadora, numero, index, handlePhoneChange }: PhoneInputProps) => {
