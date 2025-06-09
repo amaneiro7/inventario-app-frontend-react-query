@@ -37,7 +37,7 @@ export default function MonitoringLocation() {
 
 			<Tabs defaultValue="table">
 				{/* <DetailsBoxWrapper> */}
-				<TabsList className="grid grid-cols-3">
+				<TabsList className="grid grid-cols-4">
 					<TabsTrigger bgColor="darkBlue" value="table">
 						Tabla
 					</TabsTrigger>
@@ -46,6 +46,9 @@ export default function MonitoringLocation() {
 					</TabsTrigger>
 					<TabsTrigger bgColor="darkBlue" value="chart">
 						Gráficos
+					</TabsTrigger>
+					<TabsTrigger bgColor="darkBlue" value="mapChart">
+						Mapa interactivo
 					</TabsTrigger>
 				</TabsList>
 				{/* </DetailsBoxWrapper> */}

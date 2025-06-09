@@ -2,6 +2,7 @@ import { lazy, memo, Suspense } from 'react'
 import { useGetAllLocationMonitorings } from '@/core/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
 import { TabsContent } from '@/components/Tabs'
 import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { MapChart } from './MapChart'
 
 const TableLocationMonitoringWrapper = lazy(() =>
 	import('./TableLocationMonitoringWrapper').then(m => ({
@@ -65,6 +66,11 @@ export const LocationMonitoringTabsContent = memo(
 				<TabsContent value="chart" className="mt-4">
 					<Suspense>
 						<LocationMonitoringChart />
+					</Suspense>
+				</TabsContent>
+				<TabsContent value="mapChart" className="mt-4">
+					<Suspense>
+						<MapChart />
 					</Suspense>
 				</TabsContent>
 			</>
