@@ -5,6 +5,7 @@ import { GetLocationMonitoringDashboardByState } from '../../application/GetLoca
 const repository = new LocationMonitoringDashboardByStateService()
 const get = new GetLocationMonitoringDashboardByState(repository)
 export const useGetLocationMonitoringDashboardByState = () => {
+	const ONE_MINUTE_IN_MS = 60 * 1000
 	const {
 		isLoading,
 		refetch,
@@ -15,7 +16,11 @@ export const useGetLocationMonitoringDashboardByState = () => {
 		data: locationMonitoringDashboardByState
 	} = useQuery({
 		queryKey: ['locationMonitoringDashboardByState'],
-		queryFn: () => get.execute()
+		queryFn: () => get.execute(),
+		staleTime: ONE_MINUTE_IN_MS,
+		refetchInterval: ONE_MINUTE_IN_MS,
+		refetchOnReconnect: true,
+		refetchOnWindowFocus: true
 	})
 
 	return {

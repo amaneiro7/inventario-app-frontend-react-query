@@ -16,6 +16,7 @@ export interface LocationMonitoringFilters {
 	siteId?: string
 	cityId?: string
 	stateId?: string
+	stateName?: string
 	regionId?: string
 	administrativeRegionId?: string
 	pageNumber?: number
