@@ -1,8 +1,10 @@
-import { memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps'
+import { useMapChart } from './useMapChart'
 import venezuelaTopoJson from './venezuelaState.json' with { type: 'json' }
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+
 import { LoadingSpinner } from '../LocationMonitoringChart'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import {
 	Tooltip,
 	TooltipContent,
@@ -10,9 +12,11 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from '@/components/Tooltip'
-import { MapLegend } from './MapLegend'
-import { StateDetailsPanel } from './StateDetailsPanel'
-import { useMapChart } from './useMapChart'
+
+const MapLegend = lazy(() => import('./MapLegend').then(m => ({ default: m.MapLegend })))
+const StateDetailsPanel = lazy(() =>
+	import('./StateDetailsPanel').then(m => ({ default: m.StateDetailsPanel }))
+)
 
 export const MapChart = memo(() => {
 	const {
@@ -133,15 +137,19 @@ export const MapChart = memo(() => {
 								</Geographies>
 							</ComposableMap>
 							{/* Legend */}
-							<MapLegend />
+							<Suspense>
+								<MapLegend />
+							</Suspense>
 						</div>
 					</div>
 					{/* Pandel de Información */}
-					<StateDetailsPanel
-						getColor={getColor}
-						selectedState={selectedState}
-						stateStats={processedStateData}
-					/>
+					<Suspense>
+						<StateDetailsPanel
+							getColor={getColor}
+							selectedState={selectedState}
+							stateStats={processedStateData}
+						/>
+					</Suspense>
 				</div>
 			</CardContent>
 		</Card>

@@ -2,7 +2,6 @@ import { lazy, memo, Suspense } from 'react'
 import { useGetAllLocationMonitorings } from '@/core/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
 import { TabsContent } from '@/components/Tabs'
 import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
-import { MapChart } from './MapChart/MapChart'
 
 const TableLocationMonitoringWrapper = lazy(() =>
 	import('./TableLocationMonitoringWrapper').then(m => ({
@@ -15,6 +14,7 @@ const LocationMonitoringMap = lazy(() =>
 const LocationMonitoringChart = lazy(() =>
 	import('./LocationMonitoringChart').then(m => ({ default: m.LocationMonitoringChart }))
 )
+const MapChart = lazy(() => import('./MapChart/MapChart').then(m => ({ default: m.MapChart })))
 
 interface LocationMonitoringTabsContentProps {
 	query: LocationMonitoringFilters

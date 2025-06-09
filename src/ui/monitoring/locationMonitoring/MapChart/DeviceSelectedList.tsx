@@ -1,10 +1,10 @@
 import { memo, useMemo } from 'react'
 import { useGetAllLocationMonitorings } from '@/core/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
-import { Badge } from '@/components/Badge'
-import { LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 import { LocationMonitoringStatuses } from '@/core/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
+import { Badge } from '@/components/Badge'
 import Typography from '@/components/Typography'
 import { DeviceListSkeleton } from './Skeleton'
+import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 
 export const DeviceSelectedList = memo(({ selectedState }: { selectedState: string | null }) => {
 	const query: LocationMonitoringFilters = useMemo(() => {
