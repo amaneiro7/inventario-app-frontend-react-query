@@ -34,8 +34,9 @@ export const LocationMonitoringChart = memo(() => {
 		[locationMonitoringDashboardByState.offline, locationMonitoringDashboardByState.online]
 	)
 	return (
-		<div className="grid gap-4 md:grid-cols-2">
+		<div className="grid h-full max-h-screen grid-cols-1 gap-6 lg:grid-cols-3">
 			<PieCard
+				className="lg:col-span-2"
 				data={pieChartData}
 				dataKey="count"
 				total={locationMonitoringDashboardByState.total}
@@ -60,7 +61,6 @@ export const LocationMonitoringChart = memo(() => {
 								total={location.total}
 								value={location.onlineCount}
 								indicatorColor="bg-verde"
-								backgroundColor="bg-rojo"
 							/>
 						))
 					) : (

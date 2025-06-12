@@ -6,13 +6,21 @@ import { BASIC_COLORS_MAP } from '@/utils/colores'
 interface PieContentProps {
 	data: PieProps['data']
 	dataKey?: PieProps['dataKey']
+	outerRadius?: PieProps['outerRadius']
 	total: number
 	icon?: React.ReactNode
 	colors?: string[]
 }
 
 export const PieContent = memo(
-	({ data, total, icon, colors = BASIC_COLORS_MAP, dataKey = 'value' }: PieContentProps) => {
+	({
+		data,
+		total,
+		icon,
+		colors = BASIC_COLORS_MAP,
+		dataKey = 'value',
+		outerRadius
+	}: PieContentProps) => {
 		return (
 			<div>
 				<div className="h-80">
@@ -29,7 +37,7 @@ export const PieContent = memo(
 										if (percent > minVisiblePercent)
 											return `${name}: ${(percent * 100).toFixed(0)}%`
 									}}
-									outerRadius={80}
+									outerRadius={outerRadius}
 									fill="#8884d8"
 									dataKey={dataKey}
 								>

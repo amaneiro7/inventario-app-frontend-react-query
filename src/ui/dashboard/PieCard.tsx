@@ -13,6 +13,7 @@ interface PieCardProps {
 	icon?: React.ReactNode
 	colors?: string[]
 	selectSection?: React.ReactNode
+	className?: string
 }
 
 const PieContent = lazy(() => import('./PieContent').then(m => ({ default: m.PieContent })))
@@ -25,10 +26,11 @@ export const PieCard = ({
 	icon,
 	colors = BASIC_COLORS_MAP,
 	dataKey = 'value',
-	selectSection
+	selectSection,
+	className
 }: PieCardProps) => {
 	return (
-		<Card>
+		<Card className={className}>
 			<CardHeader>
 				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 					<div>
