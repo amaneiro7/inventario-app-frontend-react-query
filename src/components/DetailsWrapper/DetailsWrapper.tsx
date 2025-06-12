@@ -18,7 +18,7 @@ const Color = {
 
 export const DetailsWrapper = memo(({ borderColor = 'blue', children, ...props }: Props) => {
 	const classes = twMerge(
-		'w-full mx-auto overflow-visible flex flex-col gap-4 p-4 mb-5 border-t-2 rounded bg-gray-200',
+		'w-full h-full mx-auto flex flex-col gap-4 p-4 mb-5 border-t-2 rounded bg-gray-200',
 		cn({
 			[`border-${Color[borderColor]}`]: borderColor
 		}),

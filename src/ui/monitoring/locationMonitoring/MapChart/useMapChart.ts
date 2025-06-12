@@ -26,17 +26,18 @@ export function useMapChart() {
 		}
 
 		const data: Record<string, StateData> = {}
-		locationMonitoringDashboardByState.byState.forEach(state => {
-			// Handle division by zero for total = 0
-			const percentage = state.total > 0 ? (state.onlineCount * 100) / state.total : -1 // Use -1 for no equipment
-			data[state.stateName] = {
-				name: state.stateName,
-				onlineCount: state.onlineCount,
-				offlineCount: state.offlineCount,
-				total: state.total,
-				percentage
-			}
-		})
+		locationMonitoringDashboardByState.byState
+			.sort((a, b) => b.onlineCount - a.onlineCount)
+			.forEach(state => {
+				const percentage = state.total > 0 ? (state.onlineCount * 100) / state.total : -1 // Use -1 for no equipment
+				data[state.stateName] = {
+					name: state.stateName,
+					onlineCount: state.onlineCount,
+					offlineCount: state.offlineCount,
+					total: state.total,
+					percentage
+				}
+			})
 		return data
 	}, [locationMonitoringDashboardByState]) // Recalculate only when locationMonitoringDashboardByState changes
 

@@ -35,7 +35,7 @@ export default function MonitoringLocation() {
 				</FilterSection>
 			</DetailsBoxWrapper>
 
-			<Tabs defaultValue="table">
+			<Tabs defaultValue="mapChart">
 				{/* <DetailsBoxWrapper> */}
 				<TabsList className="grid grid-cols-4">
 					<TabsTrigger bgColor="darkBlue" value="table">
