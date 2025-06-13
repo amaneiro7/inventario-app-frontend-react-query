@@ -4,48 +4,61 @@ import { StateData } from './useMapChart'
 import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
 import { DeviceSelectedList } from './DeviceSelectedList'
 
-export const StateDetailsPanel = ({
-	selectedState,
-	stateStats
-}: {
+interface StateDetailsPanelProps {
 	selectedState: string | null
 	stateStats: Record<string, StateData>
-	getColor: (stateName: string) => string
-}) => {
+}
+export const StateDetailsPanel = ({ selectedState, stateStats }: StateDetailsPanelProps) => {
 	return (
-		<Card className="flex flex-col">
+		<Card className="flex h-full flex-col">
 			<CardHeader>
 				<CardTitle>
 					{selectedState ? `Detalles de ${selectedState}` : 'Selecciona un estado'}
 				</CardTitle>
 				<CardDescription>
-					El porcentaje representa los equipos online sobre el total en cada estado.
+					{selectedState
+						? 'Aquí puedes ver un resumen del estado de los equipos.'
+						: 'Haz clic en cualquier estado del mapa para ver los detalles.'}
 				</CardDescription>
 			</CardHeader>
-			<CardContent className="max-h-withoutHeader pb-4">
+			<CardContent className="flex-grow overflow-y-auto pb-4">
 				{selectedState && stateStats[selectedState] ? (
-					<div className="space-y-3">
-						<div className="rounded-lg border p-4">
+					<div className="space-y-4">
+						<div className="rounded-lg border p-4 shadow-sm">
 							<Typography variant="p" option="large" weight="bold" color="azul">
 								{stateStats[selectedState].percentage.toFixed(1)}%
 							</Typography>
 							<Typography variant="p" option="small" color="gris">
-								Sitios Activos
+								Porcentaje de Equipos Online
 							</Typography>
 						</div>
-
-						<div className="grid grid-cols-2 gap-2">
-							<div className="rounded-lg border p-3 text-center">
-								<div className="text-verde text-lg font-semibold">
+						{/* Counts Grid */}
+						<div className="grid grid-cols-2 gap-3">
+							<div className="rounded-lg border p-3 text-center shadow-sm">
+								<Typography
+									variant="p"
+									weight="semibold"
+									color="verde"
+									option="large"
+								>
 									{stateStats[selectedState].onlineCount}
-								</div>
-								<div className="text-muted-foreground text-xs">Activos</div>
+								</Typography>
+								<Typography className="text-muted-foreground text-xs">
+									Activos
+								</Typography>
 							</div>
 							<div className="rounded-lg border p-3 text-center">
-								<div className="text-rojo text-lg font-semibold">
+								<Typography
+									variant="p"
+									weight="semibold"
+									color="rojo"
+									option="large"
+								>
 									{stateStats[selectedState].offlineCount}
-								</div>
-								<div className="text-muted-foreground text-xs">Inactivos</div>
+								</Typography>
+								<Typography className="text-muted-foreground text-xs">
+									Inactivos
+								</Typography>
 							</div>
 						</div>
 

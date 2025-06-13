@@ -21,7 +21,7 @@ interface MapDisplayProps {
 export const MapDisplay = memo(
 	({ venezuelaGeo, processedStateData, getColor, handleStateClick }: MapDisplayProps) => {
 		return (
-			<div className="relative h-full w-full rounded-lg border bg-slate-50">
+			<div className="relative w-full rounded-lg border bg-gray-200">
 				{/* IMPORTANT: The style here should ensure the SVG scales within its parent.
                   The parent div MUST have a defined height and width for h-full/w-full to work.
                   react-simple-maps by default will try to take 100% of its container.
@@ -34,13 +34,6 @@ export const MapDisplay = memo(
 						scale: 2800, // Adjust scale to fit Venezuela well
 						center: [-66.59, 6.5] // Adjust center of Venezuela
 					}}
-					// Ensure the SVG itself scales to fill its container
-					// The default behavior of react-simple-maps is to fill its parent,
-					// but sometimes explicit sizing helps, especially if the parent doesn't have intrinsic dimensions.
-					// If you have a specific aspect ratio, you might use viewBox or manage width/height differently.
-					// For h-full w-full, you often don't need these explicit styles, but it depends on parent setup.
-					// Consider setting a specific height for the parent div if 'h-full' isn't sufficient.
-					className="h-full w-full" // Ensure SVG takes full height/width of its container
 				>
 					<Geographies geography={venezuelaGeo}>
 						{({ geographies }) =>
