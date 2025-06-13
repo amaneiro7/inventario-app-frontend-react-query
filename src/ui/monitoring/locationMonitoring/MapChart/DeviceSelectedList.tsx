@@ -29,37 +29,39 @@ export const DeviceSelectedList = memo(({ selectedState }: { selectedState: stri
 	}
 
 	return (
-		<div className="space-y-2">
-			<Typography variant="p" weight="medium" option="small">
-				Equipos en {selectedState}:
-			</Typography>
-			<div className="min-h-full space-y-1 overflow-y-auto pr-2">
-				{locationMonitorings.data
-					.sort((a, b) => a.status.localeCompare(b.status))
-					.map(device => (
-						<div
-							key={device.id}
-							className="flex items-center justify-between rounded border p-2 text-xs"
-						>
-							<span className="truncate">{device.name}</span>
-							<Badge
-								variant={
-									device.status === LocationMonitoringStatuses.ONLINE
-										? 'verde'
-										: device.status === LocationMonitoringStatuses.OFFLINE
-											? 'rojo'
-											: 'outline'
-								}
-								className="text-xs"
+		<div className="min-h-min overflow-hidden">
+			<div className="flex h-full flex-col space-y-2">
+				<Typography variant="p" weight="medium" option="small">
+					Equipos en {selectedState}:
+				</Typography>
+				<div className="flex-grow space-y-1 overflow-y-auto pr-2">
+					{locationMonitorings.data
+						.sort((a, b) => a.status.localeCompare(b.status))
+						.map(device => (
+							<div
+								key={device.id}
+								className="flex items-center justify-between rounded border p-2 text-xs"
 							>
-								{device.status === LocationMonitoringStatuses.ONLINE
-									? 'Activo'
-									: device.status === LocationMonitoringStatuses.OFFLINE
-										? 'Inactivo'
-										: 'N/A'}
-							</Badge>
-						</div>
-					))}
+								<span className="truncate">{device.name}</span>
+								<Badge
+									variant={
+										device.status === LocationMonitoringStatuses.ONLINE
+											? 'verde'
+											: device.status === LocationMonitoringStatuses.OFFLINE
+												? 'rojo'
+												: 'outline'
+									}
+									className="text-xs"
+								>
+									{device.status === LocationMonitoringStatuses.ONLINE
+										? 'Activo'
+										: device.status === LocationMonitoringStatuses.OFFLINE
+											? 'Inactivo'
+											: 'N/A'}
+								</Badge>
+							</div>
+						))}
+				</div>
 			</div>
 		</div>
 	)

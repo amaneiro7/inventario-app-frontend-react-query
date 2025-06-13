@@ -21,7 +21,7 @@ interface MapDisplayProps {
 export const MapDisplay = memo(
 	({ venezuelaGeo, processedStateData, getColor, handleStateClick }: MapDisplayProps) => {
 		return (
-			<div className="relative w-full rounded-lg border bg-gray-200">
+			<div className="relative w-full overflow-hidden rounded-lg border bg-slate-50">
 				{/* IMPORTANT: The style here should ensure the SVG scales within its parent.
                   The parent div MUST have a defined height and width for h-full/w-full to work.
                   react-simple-maps by default will try to take 100% of its container.

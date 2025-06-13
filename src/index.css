@@ -117,7 +117,7 @@
 	--radius-md: calc(var(--radius) - 2px);
 	--radius-sm: calc(var(--radius) - 4px);
 
-	--height-withoutHeader: calc(100vh - 6rem);
+	--height-withoutHeader: calc(100vh - 3rem);
 }
 
 /*
