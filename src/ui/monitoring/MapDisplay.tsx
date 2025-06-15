@@ -20,19 +20,20 @@ interface MapDisplayProps {
 
 export const MapDisplay = memo(
 	({ venezuelaGeo, processedStateData, getColor, handleStateClick }: MapDisplayProps) => {
+		// Hardcoded values based on visual optimization for Venezuela:
+		// Center: Approx. the geographic center of Venezuela
+		const MAP_CENTER: [number, number] = [-66.59, 5.8]
+		// Scale: Adjusted to fit Venezuela comfortably within the container
+		const MAP_SCALE = 2500
 		return (
-			<div className="relative w-full overflow-hidden rounded-lg border bg-slate-50">
-				{/* IMPORTANT: The style here should ensure the SVG scales within its parent.
-                  The parent div MUST have a defined height and width for h-full/w-full to work.
-                  react-simple-maps by default will try to take 100% of its container.
-                  If the map still overflows, check the parent chain's heights (CardContent, Card, and the grid div).
-                  You might need a fixed height for the map container or ensure flex/grid items stretch correctly.
-                */}
+			<div className="relative h-full w-full overflow-hidden rounded-lg border bg-slate-50">
 				<ComposableMap
 					projection="geoMercator"
+					role="img"
+					aria-label="Mapa interactivo de Venezuela mostrando el estado de equipos por estado"
 					projectionConfig={{
-						scale: 2800, // Adjust scale to fit Venezuela well
-						center: [-66.59, 6.5] // Adjust center of Venezuela
+						scale: MAP_SCALE,
+						center: MAP_CENTER
 					}}
 				>
 					<Geographies geography={venezuelaGeo}>

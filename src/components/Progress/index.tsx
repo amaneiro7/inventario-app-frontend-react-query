@@ -24,6 +24,8 @@ const Progress = forwardRef<React.ComponentRef<typeof ProgressPrimitive.Root>, P
 					'h-full w-full flex-1 transition-all',
 					indicatorColor ?? 'bg-azul-900'
 				)}
+				data-max={100}
+				data-state="indeterminate"
 				style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
 			/>
 		</ProgressPrimitive.Root>

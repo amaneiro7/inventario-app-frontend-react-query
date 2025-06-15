@@ -13,7 +13,7 @@ import {
 import { useInventoryOverview } from './hooks/useInventoryOverview'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import { PieCard } from './PieCard'
+import { PieCard } from '../../components/PieChart/PieCard'
 import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 

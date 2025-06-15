@@ -13,6 +13,7 @@ import { typography } from './styles'
 
 type Props = VariantType & {
 	align?: AlignType
+	id?: string
 	as?: ElementType
 	children: React.ReactNode
 	className?: string
@@ -35,6 +36,7 @@ const Typography = forwardRef<HTMLElement, Props>(
 			transform,
 			variant = 'p',
 			weight,
+			id,
 			...rest
 		},
 		ref

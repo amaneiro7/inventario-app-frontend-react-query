@@ -29,38 +29,38 @@ export const MapChart = memo(() => {
 		locationMonitoringDashboardByState.byState.length === 0
 
 	return (
-		<Card className="lg:col-span-2">
+		<Card>
 			<CardHeader>
 				<CardTitle>Mapa de Venezuela - Estado de Equipos por Estado</CardTitle>
 				<CardDescription>
 					El porcentaje representa los equipos online sobre el total en cada estado.
 				</CardDescription>
 			</CardHeader>
-			<CardContent>
-				<div className="max-h-withoutHeader grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-3">
-					<div className="lg:col-span-2">
-						<MapChartStates
-							isLoading={isLoading}
-							isError={isError}
-							error={error}
-							hasNoData={hasNoData}
-						>
+			<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_400px]">
+				<section className="h-withoutHeader" aria-labelledby="map-title">
+					<MapChartStates
+						isLoading={isLoading}
+						isError={isError}
+						error={error}
+						hasNoData={hasNoData}
+					>
+						<Suspense>
 							<MapDisplay
 								getColor={getColor}
 								handleStateClick={handleStateClick}
 								venezuelaGeo={venezuelaTopoJson}
 								processedStateData={processedStateData}
 							/>
-						</MapChartStates>
-					</div>
-					{/* Pandel de Información */}
-					<Suspense>
-						<StateDetailsPanel
-							selectedState={selectedState}
-							stateStats={processedStateData}
-						/>
-					</Suspense>
-				</div>
+						</Suspense>
+					</MapChartStates>
+				</section>
+				{/* Pandel de Información */}
+				<Suspense>
+					<StateDetailsPanel
+						selectedState={selectedState}
+						stateStats={processedStateData}
+					/>
+				</Suspense>
 			</CardContent>
 		</Card>
 	)

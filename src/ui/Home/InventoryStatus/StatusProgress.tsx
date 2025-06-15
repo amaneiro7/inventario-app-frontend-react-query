@@ -1,7 +1,8 @@
 import { Progress } from '@/components/Progress'
 import Typography from '@/components/Typography'
 
-interface StatusProgressProps {
+interface StatusProgressProps
+	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	value?: number
 	label: string
 	backgroundColor?: string
@@ -14,13 +15,15 @@ export const StatusProgress: React.FC<StatusProgressProps> = ({
 	label,
 	backgroundColor,
 	indicatorColor,
-	total
+	total,
+	id,
+	...props
 }) => {
 	const percentageValue = total > 0 ? Number(((value * 100) / total).toFixed(2)) : 0
 	return (
-		<div className="mb-3 space-y-1.5">
+		<div {...props} className="mb-3 w-full space-y-1.5">
 			<div className="flex justify-between">
-				<Typography variant="span" weight="bold">
+				<Typography id={id} variant="span" weight="bold">
 					{label}
 				</Typography>
 				<Typography
@@ -33,6 +36,12 @@ export const StatusProgress: React.FC<StatusProgressProps> = ({
 				value={percentageValue}
 				backgroundColor={backgroundColor}
 				indicatorColor={indicatorColor}
+				aria-valuemax={100}
+				aria-valuemin={0}
+				aria-valuenow={percentageValue}
+				role="progressbar"
+				data-state="indeterminate"
+				data-max="100"
 			/>
 		</div>
 	)

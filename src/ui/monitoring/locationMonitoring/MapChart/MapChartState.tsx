@@ -1,5 +1,6 @@
-import React from 'react'
-import { Card } from '@/components/Card'
+import React, { memo } from 'react'
+import { LoadingSpinner } from '../LocationMonitoringChart'
+import Typography from '@/components/Typography'
 
 interface MapChartStatesProps {
 	isLoading: boolean
@@ -9,44 +10,62 @@ interface MapChartStatesProps {
 	children: React.ReactNode
 }
 
-// Assuming you have a LoadingSpinner component
-import { LoadingSpinner } from '../LocationMonitoringChart'
+export const MapChartStates = memo(
+	({ isLoading, isError, error, hasNoData, children }: MapChartStatesProps) => {
+		if (isLoading) {
+			return <LoadingSpinner />
+		}
 
-export const MapChartStates = ({
-	isLoading,
-	isError,
-	error,
-	hasNoData,
-	children
-}: MapChartStatesProps) => {
-	if (isLoading) {
-		return <LoadingSpinner />
-	}
+		if (isError) {
+			return (
+				<MapChartStatesCard role="alert" aria-live="assertive">
+					<Typography variant="p" color="rojo">
+						¡Ups! Hubo un error al cargar la información del mapa.
+					</Typography>
+					<Typography variant="p" color="rojo">
+						Detalles: {error?.message || 'Error desconocido'}
+					</Typography>
+					<Typography variant="p" color="rojo">
+						Por favor, intenta de nuevo más tarde.
+					</Typography>
+				</MapChartStatesCard>
+			)
+		}
 
-	if (isError) {
-		return (
-			<Card className="flex h-full items-center justify-center md:min-h-[560px]">
-				<div className="text-rojo-600 p-8 text-center" role="alert" aria-live="assertive">
-					<p>¡Ups! Hubo un error al cargar la información del mapa.</p>
-					<p>Detalles: {error?.message || 'Error desconocido'}</p>
-					<p>Por favor, intenta de nuevo más tarde.</p>
-				</div>
-			</Card>
-		)
-	}
-
-	if (hasNoData) {
-		return (
-			<Card className="flex h-full items-center justify-center md:min-h-[560px]">
-				<div className="p-8 text-center text-gray-500">
-					<p className="mb-2 text-lg font-semibold">
+		if (hasNoData) {
+			return (
+				<MapChartStatesCard>
+					<Typography variant="p" weight="semibold" className="mb-2" color="black">
 						No hay datos de monitoreo de ubicaciones disponibles.
-					</p>
-					<p>Verifica si hay equipos configurados para monitoreo.</p>
-				</div>
-			</Card>
+					</Typography>
+					<Typography variant="p" color="gris">
+						Verifica si hay equipos configurados para monitoreo.
+					</Typography>
+				</MapChartStatesCard>
+			)
+		}
+
+		return <>{children}</>
+	}
+)
+
+MapChartStates.displayName = 'MapChartStates'
+
+const MapChartStatesCard = memo(
+	({
+		children,
+		...props
+	}: React.PropsWithChildren<
+		React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+	>) => {
+		return (
+			<div
+				className="min-h-withoutHeader flex h-full flex-col items-center justify-center rounded-lg border bg-slate-50 p-8 text-center shadow-2xs"
+				{...props}
+			>
+				{children}
+			</div>
 		)
 	}
-
-	return <>{children}</>
-}
+)
+MapChartStatesCard.displayName = 'MapChartStatesCard'

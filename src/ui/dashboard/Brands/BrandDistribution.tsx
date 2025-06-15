@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense } from 'react'
 import { useBrandDistribution } from '../hooks/useBrandDistribution'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { PieCard } from '../PieCard'
+import { PieCard } from '../../../components/PieChart/PieCard'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 interface BrandDistributionProps {
 	brandData: ComputerDashboardDto['brand']

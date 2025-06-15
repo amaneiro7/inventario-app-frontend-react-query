@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Cell, Pie, PieChart, type PieProps, ResponsiveContainer, Tooltip } from 'recharts'
-import Typography from '@/components/Typography'
+import { PieChartLegend } from './PieChartLegend'
 import { BASIC_COLORS_MAP } from '@/utils/colores'
 
 interface PieContentProps {
@@ -10,6 +10,9 @@ interface PieContentProps {
 	total: number
 	icon?: React.ReactNode
 	colors?: string[]
+	chartTitleId?: string
+	chartDescriptionId?: string
+	height?: number
 }
 
 export const PieContent = memo(
@@ -17,34 +20,61 @@ export const PieContent = memo(
 		data,
 		total,
 		icon,
+		height = 320,
 		colors = BASIC_COLORS_MAP,
 		dataKey = 'value',
-		outerRadius
+		outerRadius = 100,
+		chartTitleId = 'pie-chart-title',
+		chartDescriptionId = 'pie-chart-description'
 	}: PieContentProps) => {
+		const chartAccessibilityDescription = data
+			?.map(
+				(entry: any) =>
+					`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`
+			)
+			.join(', ')
 		return (
-			<div>
-				<div className="h-80">
+			<div className="flex h-full flex-col">
+				<div
+					className="flex min-h-0 flex-grow items-center justify-center"
+					style={{
+						height
+					}}
+				>
 					{data && data?.length > 0 ? (
 						<ResponsiveContainer width="100%" height="100%">
-							<PieChart>
+							<PieChart
+								aria-labelledby={chartTitleId}
+								aria-describedby={chartDescriptionId}
+							>
+								{/* Hidden title and description for screen readers */}
+								<title id={chartTitleId} className="sr-only">
+									Distribución de elementos por categoría
+								</title>
+								<desc id={chartDescriptionId} className="sr-only">
+									Gráfico de pastel que muestra la distribución de datos.{' '}
+									{chartAccessibilityDescription}. Total de elementos: {total}.
+								</desc>
 								<Pie
 									data={data}
 									cx="50%"
 									cy="50%"
 									labelLine={false}
 									label={({ name, percent }) => {
-										const minVisiblePercent = 0.05
+										const minVisiblePercent = 0.05 // Only show label if slice is large enough
 										if (percent > minVisiblePercent)
 											return `${name}: ${(percent * 100).toFixed(0)}%`
 									}}
 									outerRadius={outerRadius}
 									fill="#8884d8"
 									dataKey={dataKey}
+									tabIndex={0}
 								>
-									{data?.map((_entry, index) => (
+									{data?.map((entry, index) => (
 										<Cell
 											key={`cell-${index}`}
 											fill={colors[index % colors.length]}
+											aria-label={`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`}
 										/>
 									))}
 								</Pie>
@@ -67,34 +97,7 @@ export const PieContent = memo(
 						</div>
 					)}
 				</div>
-				<div>
-					<div className="flex flex-wrap items-center justify-center gap-4">
-						{data?.map((entry, index) => (
-							<div key={entry.name} className="flex items-center gap-4">
-								<div className="flex items-center gap-2">
-									<span
-										className="h-3 w-3 rounded-full"
-										style={{
-											backgroundColor: colors[index % colors.length]
-										}}
-									/>
-									<Typography variant="span" weight="medium">
-										{entry.name}:
-									</Typography>
-								</div>
-								<div className="flex items-center gap-2">
-									<Typography variant="span" weight="bold">
-										{entry.count}
-									</Typography>
-									<Typography variant="span" className="text-muted-foreground">
-										({Math.round((entry.count / total) * 100)}
-										%)
-									</Typography>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
+				<PieChartLegend data={data} colors={colors} total={total} dataKey={dataKey} />
 			</div>
 		)
 	}

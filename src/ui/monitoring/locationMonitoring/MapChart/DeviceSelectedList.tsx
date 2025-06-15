@@ -29,41 +29,49 @@ export const DeviceSelectedList = memo(({ selectedState }: { selectedState: stri
 	}
 
 	return (
-		<div className="min-h-min overflow-hidden">
-			<div className="flex h-full flex-col space-y-2">
-				<Typography variant="p" weight="medium" option="small">
-					Equipos en {selectedState}:
-				</Typography>
-				<div className="flex-grow space-y-1 overflow-y-auto pr-2">
-					{locationMonitorings.data
-						.sort((a, b) => a.status.localeCompare(b.status))
-						.map(device => (
-							<div
+		<>
+			<Typography variant="p" weight="medium" option="small">
+				Equipos en {selectedState}:
+			</Typography>
+			<ul className="h-full min-h-0 flex-1 space-y-1 overflow-auto overflow-y-auto pr-2">
+				{locationMonitorings.data
+					.sort((a, b) => a.status.localeCompare(b.status))
+					.map(device => {
+						const statusValue =
+							device.status === LocationMonitoringStatuses.ONLINE
+								? 'Activo'
+								: device.status === LocationMonitoringStatuses.OFFLINE
+									? 'Inactivo'
+									: 'N/A'
+
+						const statusColor =
+							device.status === LocationMonitoringStatuses.ONLINE
+								? 'verde'
+								: device.status === LocationMonitoringStatuses.OFFLINE
+									? 'rojo'
+									: 'outline'
+
+						return (
+							<li
 								key={device.id}
-								className="flex items-center justify-between rounded border p-2 text-xs"
+								className="flex items-center justify-between rounded border p-2"
 							>
-								<span className="truncate">{device.name}</span>
+								<Typography variant="span" option="tiny" className="truncate">
+									{device.name}
+								</Typography>
 								<Badge
-									variant={
-										device.status === LocationMonitoringStatuses.ONLINE
-											? 'verde'
-											: device.status === LocationMonitoringStatuses.OFFLINE
-												? 'rojo'
-												: 'outline'
-									}
+									variant={statusColor}
 									className="text-xs"
+									role="status"
+									aria-label={`Estado: ${statusValue}`}
 								>
-									{device.status === LocationMonitoringStatuses.ONLINE
-										? 'Activo'
-										: device.status === LocationMonitoringStatuses.OFFLINE
-											? 'Inactivo'
-											: 'N/A'}
+									{statusValue}
 								</Badge>
-							</div>
-						))}
-				</div>
-			</div>
-		</div>
+							</li>
+						)
+					})}
+			</ul>
+		</>
 	)
 })
 

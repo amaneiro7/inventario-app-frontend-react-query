@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react'
 import { useGetDeviceMonitoringDashboardByState } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
 import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
-import { PieCard } from '@/ui/dashboard/PieCard'
+import { PieCard } from '@/components/PieChart/PieCard'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
 import Typography from '@/components/Typography'
