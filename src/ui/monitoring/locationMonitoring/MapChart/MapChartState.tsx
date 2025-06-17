@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
-import { LoadingSpinner } from '../LocationMonitoringChart'
 import Typography from '@/components/Typography'
+import { LoadingSpinner } from '../../LoadingSpinner'
 
 interface MapChartStatesProps {
 	isLoading: boolean

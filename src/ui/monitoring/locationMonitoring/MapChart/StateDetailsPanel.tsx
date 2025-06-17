@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import Typography from '@/components/Typography'
 import { StateData } from './useMapChart'
 import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
-import { DeviceSelectedList } from './DeviceSelectedList'
+import { NetworkLinkMonitoring } from './NetworkLinkMonitoring'
 import { type ColorType } from '@/components/Typography/types'
 
 interface StateDetailsPanelProps {
@@ -10,65 +10,81 @@ interface StateDetailsPanelProps {
 	stateStats: Record<string, StateData>
 }
 export const StateDetailsPanel = ({ selectedState, stateStats }: StateDetailsPanelProps) => {
+	// Determine if data for the selected state exists
+	const hasSelectedStateData = selectedState && stateStats[selectedState]
+	const currentStateData = hasSelectedStateData ? stateStats[selectedState] : null
+
+	// Unique IDs for ARIA attributes
+	const panelTitleId = 'state-details-title'
+	const panelDescriptionId = 'state-details-description'
 	return (
 		<section
-			className="h-withoutHeader flex flex-col gap-1.5"
-			aria-labelledby="state-details-title"
+			className="h-withoutHeader flex flex-col space-y-1.5 overflow-y-auto"
+			aria-labelledby={panelTitleId}
+			aria-describedby={panelDescriptionId}
+			role="region"
 		>
-			<Typography variant="h4" color="azul" id="state-details-title">
+			<Typography variant="h4" color="azul" id={panelTitleId}>
 				{selectedState ? `Detalles de ${selectedState}` : 'Selecciona un estado'}
 			</Typography>
+			<p id={panelDescriptionId} className="sr-only">
+				{selectedState
+					? `Mostrando detalles de conectividad para el estado de ${selectedState}.`
+					: 'Panel lateral para mostrar información detallada al seleccionar un estado en el mapa.'}
+			</p>
 
-			{selectedState && stateStats[selectedState] ? (
+			{hasSelectedStateData && currentStateData ? (
 				<>
 					<StateDetailsPanelCard
+						id="active-percentage-card-title"
+						title="Porcentaje de Enlaces Activos"
 						role="status"
-						id="status-title"
 						color="azul"
-						desc="Porcentaje de Equipos Online"
 						value={`${stateStats[selectedState].percentage.toFixed(1)}%`}
+						aria-live="polite"
 					/>
 					{/* Counts Grid */}
-					<div className="grid grid-cols-2 gap-3">
+					<div className="grid grid-cols-2 gap-2">
 						<StateDetailsPanelCard
 							id="active-count-title"
-							role="group"
+							title="Activos"
 							color="verde"
-							desc="Activos"
 							className="text-center"
 							value={`${stateStats[selectedState].onlineCount}`}
+							aria-live="polite"
 						/>
 						<StateDetailsPanelCard
 							id="inactive-count-title"
-							role="group"
 							color="rojo"
-							desc="Inactivos"
+							title="Inactivos"
 							className="text-center"
 							value={`${stateStats[selectedState].offlineCount}`}
+							aria-live="polite"
 						/>
 					</div>
 					<StateDetailsPanelCard
 						id="total-count-title"
-						role="group"
 						color="black"
-						desc="Total Sitios"
+						title="Total de sitios"
 						className="text-center"
 						value={`${stateStats[selectedState].total}`}
+						aria-live="polite"
 					/>
 
 					{/* Progress bar */}
 					<StatusProgress
-						role="group"
 						id="network-status-label"
 						aria-labelledby="network-status-label"
 						label="Estado de la Red"
+						role="group"
+						aria-label="Progreso de estado de la red"
 						total={stateStats[selectedState].total}
 						value={stateStats[selectedState].onlineCount}
 						indicatorColor="bg-verde"
 					/>
 
 					{/* Device list for selected state */}
-					<DeviceSelectedList selectedState={selectedState} />
+					<NetworkLinkMonitoring selectedState={selectedState} />
 				</>
 			) : (
 				<div className="text-muted-foreground p-8 text-center">
@@ -81,36 +97,38 @@ export const StateDetailsPanel = ({ selectedState, stateStats }: StateDetailsPan
 		</section>
 	)
 }
-
+interface StateDetailsPanelCardProps
+	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	value: string
+	color: ColorType
+}
 const StateDetailsPanelCard = ({
 	value,
-	desc,
 	color,
 	className,
-	role,
-	id
-}: {
-	id: string
-	value: string
-	desc: string
-	color: ColorType
-	className?: string
-	role: React.AriaRole
-}) => {
+	id,
+	title,
+	...props
+}: StateDetailsPanelCardProps) => {
 	return (
 		<div
-			role={role}
+			role="status"
 			aria-labelledby={id}
-			className={cn('rounded-lg border bg-slate-100 p-4 shadow-sm', className)}
+			aria-atomic="true"
+			className={cn(
+				'flex min-h-min flex-col rounded-lg border bg-white p-3 shadow-sm',
+				className
+			)}
+			{...props}
 		>
-			<Typography id={id} variant="p" className="sr-only">
-				{desc}
-			</Typography>
-			<Typography variant="p" option="large" weight="bold" color={color}>
+			<p id={id} className="sr-only">
+				{title}
+			</p>
+			<Typography variant="p" option="medium" weight="bold" color={color}>
 				{value}
 			</Typography>
-			<Typography variant="p" option="tiny" color="gris">
-				{desc}
+			<Typography variant="p" option="tiny" color="gray-600">
+				{title}
 			</Typography>
 		</div>
 	)

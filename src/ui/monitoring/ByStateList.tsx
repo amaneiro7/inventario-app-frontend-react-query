@@ -1,16 +1,22 @@
-// src/ui/Home/LocationMonitoring/LocationsByStateList.tsx
+// src/ui/Home/LocationMonitoring/ByStateList.tsx
 import { memo } from 'react'
 import Typography from '@/components/Typography'
 import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
 import { type LocationMonitoringDashboardByStateDto } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
+import { type DeviceMonitoringDashboardByStateDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
 
-interface LocationsByStateListProps {
-	statesData: LocationMonitoringDashboardByStateDto['byState']
+interface ByStateListProps {
+	statesData:
+		| LocationMonitoringDashboardByStateDto['byState']
+		| DeviceMonitoringDashboardByStateDto['byState']
 }
 
-export const LocationsByStateList = memo(({ statesData }: LocationsByStateListProps) => {
+export const ByStateList = memo(({ statesData }: ByStateListProps) => {
 	return (
-		<section className="h-[400px] space-y-1.5" aria-labelledby="state-details-title">
+		<section
+			className="flex h-[400px] flex-col gap-1.5 rounded-lg border bg-slate-100 p-6 pb-0.5 shadow-lg"
+			aria-labelledby="state-details-title"
+		>
 			<Typography variant="h4" color="azul" id="state-details-title">
 				Estado de ubicaciones por Estado
 			</Typography>
@@ -39,4 +45,4 @@ export const LocationsByStateList = memo(({ statesData }: LocationsByStateListPr
 	)
 })
 
-LocationsByStateList.displayName = 'LocationsByStateList'
+ByStateList.displayName = 'ByStateList'

@@ -1,9 +1,8 @@
 import { lazy, memo, Suspense } from 'react'
 import { useMapChart } from './useMapChart'
-import venezuelaTopoJson from './venezuelaState.json' with { type: 'json' }
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
 import { MapChartStates } from './MapChartState'
+import venezuelaTopoJson from './venezuelaState.json' with { type: 'json' }
 
 const MapDisplay = lazy(() =>
 	import('@/ui/monitoring/MapDisplay').then(m => ({ default: m.MapDisplay }))
@@ -36,7 +35,7 @@ export const MapChart = memo(() => {
 					El porcentaje representa los equipos online sobre el total en cada estado.
 				</CardDescription>
 			</CardHeader>
-			<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_400px]">
+			<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_410px]">
 				<section className="h-withoutHeader" aria-labelledby="map-title">
 					<MapChartStates
 						isLoading={isLoading}

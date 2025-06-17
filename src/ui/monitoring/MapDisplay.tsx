@@ -9,6 +9,7 @@ import {
 } from '@/components/Tooltip' // Adjust path if needed
 import { StateData } from './locationMonitoring/MapChart/useMapChart'
 import { MapLegend } from './locationMonitoring/MapChart/MapLegend'
+import { MapLegendTotal } from './locationMonitoring/MapChart/MapLegendTotal'
 
 // Define props interface for claritys
 interface MapDisplayProps {
@@ -20,13 +21,11 @@ interface MapDisplayProps {
 
 export const MapDisplay = memo(
 	({ venezuelaGeo, processedStateData, getColor, handleStateClick }: MapDisplayProps) => {
-		// Hardcoded values based on visual optimization for Venezuela:
-		// Center: Approx. the geographic center of Venezuela
 		const MAP_CENTER: [number, number] = [-66.59, 5.8]
-		// Scale: Adjusted to fit Venezuela comfortably within the container
 		const MAP_SCALE = 2500
+
 		return (
-			<div className="relative h-full w-full overflow-hidden rounded-lg border bg-slate-50">
+			<div className="relative h-full w-full overflow-hidden rounded-lg border bg-slate-100 shadow-xl">
 				<ComposableMap
 					projection="geoMercator"
 					role="img"
@@ -104,6 +103,7 @@ export const MapDisplay = memo(
 					</Geographies>
 				</ComposableMap>
 
+				<MapLegendTotal />
 				<MapLegend />
 			</div>
 		)

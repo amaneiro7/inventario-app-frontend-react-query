@@ -1,4 +1,4 @@
-export const DeviceListSkeleton = () => {
+export const NetworkLinkListSkeleton = () => {
 	return (
 		<div className="animate-pulse space-y-2">
 			<div className="mb-4 h-4 w-3/4 rounded bg-gray-200"></div>

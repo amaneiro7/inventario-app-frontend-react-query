@@ -15,7 +15,7 @@ export const MapLegend = memo(() => {
 				option="tiny"
 				className="mb-2"
 			>
-				Estado de Sitios (Online %)
+				Estado de agencias (Online %)
 			</Typography>
 			<ul className="space-y-1 text-xs" role="list">
 				{COLOR_THRESHOLDS.map((item, index) => (
@@ -30,10 +30,10 @@ export const MapLegend = memo(() => {
 MapLegend.displayName = 'MapLegend'
 
 const MapLegendList = memo(({ color, label }: { color: string; label: string }) => (
-	<div className="flex items-center gap-2">
+	<li className="flex items-center gap-2">
 		<div className="h-4 w-4 rounded" style={{ backgroundColor: color }} role="presentation" />
 		<Typography variant="span">{label}</Typography>
-	</div>
+	</li>
 ))
 
 MapLegendList.displayName = 'MapLegendList'
