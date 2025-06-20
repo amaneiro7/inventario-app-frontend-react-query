@@ -6,9 +6,9 @@ import { locationMonitoringDashboardByStateUrl } from '../../domain/entity/baseU
 export class LocationMonitoringDashboardByStateService
 	implements LocationMonitoringDashboardByStateRepository
 {
-	async get(): Promise<LocationMonitoringDashboardByStateDto> {
+	async get(queryParams?: string): Promise<LocationMonitoringDashboardByStateDto> {
 		return await fetching({
-			url: locationMonitoringDashboardByStateUrl,
+			url: `${locationMonitoringDashboardByStateUrl}?${queryParams}`,
 			method: 'GET'
 		})
 	}

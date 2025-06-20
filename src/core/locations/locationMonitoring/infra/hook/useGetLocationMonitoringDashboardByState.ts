@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { LocationMonitoringDashboardByStateService } from '../service/locationMonitoringGetDashboardByState.service'
 import { GetLocationMonitoringDashboardByState } from '../../application/GetLocationMonitoringDashboardByState'
+import { type LocationMonitoringFilters } from '../../application/createLocationMonitoringQueryParams'
 
 const repository = new LocationMonitoringDashboardByStateService()
 const get = new GetLocationMonitoringDashboardByState(repository)
-export const useGetLocationMonitoringDashboardByState = () => {
+export const useGetLocationMonitoringDashboardByState = (query: LocationMonitoringFilters) => {
 	const ONE_MINUTE_IN_MS = 60 * 1000
 	const {
 		isLoading,
@@ -16,7 +17,7 @@ export const useGetLocationMonitoringDashboardByState = () => {
 		data: locationMonitoringDashboardByState
 	} = useQuery({
 		queryKey: ['locationMonitoringDashboardByState'],
-		queryFn: () => get.execute(),
+		queryFn: () => get.execute(query),
 		staleTime: ONE_MINUTE_IN_MS,
 		refetchInterval: ONE_MINUTE_IN_MS,
 		refetchOnReconnect: true,

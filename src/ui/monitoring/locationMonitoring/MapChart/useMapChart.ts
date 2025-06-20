@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { COLOR_THRESHOLDS, NO_DATA_COLOR, NO_EQUIPMENT_COLOR } from './MapColors'
 import { useGetLocationMonitoringDashboardByState } from '@/core/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboardByState'
+import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 
 export type StateData = {
 	name: string
@@ -11,8 +13,14 @@ export type StateData = {
 }
 
 export function useMapChart() {
+	const query: LocationMonitoringFilters = useMemo(
+		() => ({
+			typeOfSiteId: TypeOfSiteOptions.AGENCY
+		}),
+		[]
+	)
 	const { locationMonitoringDashboardByState, isError, isLoading, error } =
-		useGetLocationMonitoringDashboardByState()
+		useGetLocationMonitoringDashboardByState(query)
 	const [selectedState, setSelectedState] = useState<string | null>(null)
 
 	const handleStateClick = (stateName: string) => {
