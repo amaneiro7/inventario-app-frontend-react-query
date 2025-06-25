@@ -12,6 +12,10 @@ const LocationCombobox = lazy(() =>
 	}))
 )
 
+const SiteCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/SiteCombobox').then(m => ({ default: m.SiteCombobox }))
+)
+
 const StateCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
 )
@@ -40,6 +44,7 @@ export const MainLocationMonitoringFilter = memo(
 		locationId,
 		typeOfSiteId,
 		regionId,
+		siteId,
 		administrativeRegionId
 	}: {
 		subnet?: string | null
@@ -49,6 +54,7 @@ export const MainLocationMonitoringFilter = memo(
 		cityId?: string
 		stateId?: string
 		regionId?: string
+		siteId?: string
 		administrativeRegionId?: string
 		handleChange: (name: string, value: string | number) => void
 	}) => {
@@ -133,6 +139,18 @@ export const MainLocationMonitoringFilter = memo(
 						regionId={regionId}
 						administrativeRegionId={administrativeRegionId}
 						value={cityId}
+						handleChange={handleChange}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<SiteCombobox
+						name="siteId"
+						method="search"
+						cityId={cityId}
+						stateId={stateId}
+						regionId={regionId}
+						administrativeRegionId={administrativeRegionId}
+						value={siteId}
 						handleChange={handleChange}
 					/>
 				</Suspense>

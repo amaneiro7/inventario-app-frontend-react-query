@@ -29,26 +29,24 @@ export default function MonitoringLocation() {
 						cityId={query.cityId}
 						stateId={query.stateId}
 						regionId={query.regionId}
+						siteId={query.siteId}
 						administrativeRegionId={query.administrativeRegionId}
 						handleChange={handleChange}
 					/>
 				</FilterSection>
 			</DetailsBoxWrapper>
 
-			<Tabs defaultValue="mapChart">
+			<Tabs defaultValue="chart">
 				{/* <DetailsBoxWrapper> */}
 				<TabsList className="grid grid-cols-4">
+					<TabsTrigger bgColor="darkBlue" value="chart">
+						Gráficos
+					</TabsTrigger>
 					<TabsTrigger bgColor="darkBlue" value="table">
 						Tabla
 					</TabsTrigger>
 					<TabsTrigger bgColor="darkBlue" value="map">
 						Mapa
-					</TabsTrigger>
-					<TabsTrigger bgColor="darkBlue" value="chart">
-						Gráficos
-					</TabsTrigger>
-					<TabsTrigger bgColor="darkBlue" value="mapChart">
-						Mapa interactivo
 					</TabsTrigger>
 				</TabsList>
 				{/* </DetailsBoxWrapper> */}

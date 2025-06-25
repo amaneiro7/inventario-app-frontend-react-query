@@ -30,6 +30,7 @@ export default function MonitoringDevice() {
 						cityId={query.cityId}
 						stateId={query.stateId}
 						regionId={query.regionId}
+						siteId={query.siteId}
 						administrativeRegionId={query.administrativeRegionId}
 						handleChange={handleChange}
 					/>

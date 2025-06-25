@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { COLOR_THRESHOLDS, NO_DATA_COLOR } from './MapColors'
+import { COLOR_THRESHOLDS, NO_DATA_COLOR } from '../MapColors'
 import Typography from '@/components/Typography'
 
 export const MapLegend = memo(() => {

@@ -13,6 +13,7 @@ export function useLocationMonitoringFilter() {
 			'typeOfSiteId',
 			'cityId',
 			'stateId',
+			'siteId',
 			'administrativeRegionId',
 			'regionId',
 			'orderBy',

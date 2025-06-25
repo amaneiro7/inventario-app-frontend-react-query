@@ -16,7 +16,7 @@ export const useGetLocationMonitoringDashboardByState = (query: LocationMonitori
 		isFetching,
 		data: locationMonitoringDashboardByState
 	} = useQuery({
-		queryKey: ['locationMonitoringDashboardByState'],
+		queryKey: ['locationMonitoringDashboardByState', query],
 		queryFn: () => get.execute(query),
 		staleTime: ONE_MINUTE_IN_MS,
 		refetchInterval: ONE_MINUTE_IN_MS,

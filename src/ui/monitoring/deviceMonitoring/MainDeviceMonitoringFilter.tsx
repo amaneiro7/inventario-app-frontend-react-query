@@ -9,6 +9,9 @@ import { DeviceMonitoringStatusCombobox } from '@/components/ComboBox/Sincrono/D
 const StateCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
 )
+const SiteCombobox = lazy(() =>
+	import('@/components/ComboBox/Asincrono/SiteCombobox').then(m => ({ default: m.SiteCombobox }))
+)
 const CityCombobox = lazy(() =>
 	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
 )
@@ -34,6 +37,7 @@ export const MainDeviceMonitoringFilter = memo(
 		handleChange,
 		cityId,
 		stateId,
+		siteId,
 		ipAddress,
 		status,
 		computerName,
@@ -46,6 +50,7 @@ export const MainDeviceMonitoringFilter = memo(
 		computerName?: string
 		status?: string
 		cityId?: string
+		siteId?: string
 		stateId?: string
 		regionId?: string
 		administrativeRegionId?: string
@@ -158,6 +163,18 @@ export const MainDeviceMonitoringFilter = memo(
 						regionId={regionId}
 						administrativeRegionId={administrativeRegionId}
 						value={cityId}
+						handleChange={handleChange}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<SiteCombobox
+						name="siteId"
+						method="search"
+						cityId={cityId}
+						stateId={stateId}
+						regionId={regionId}
+						administrativeRegionId={administrativeRegionId}
+						value={siteId}
 						handleChange={handleChange}
 					/>
 				</Suspense>

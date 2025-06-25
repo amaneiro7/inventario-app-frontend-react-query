@@ -10,6 +10,7 @@ interface BaseProps {
 	cityId?: string
 	stateId?: string
 	regionId?: string
+	administrativeRegionId?: string
 	error?: string
 	required?: boolean
 	disabled?: boolean
@@ -37,6 +38,7 @@ export const SiteCombobox = memo(function ({
 	cityId,
 	stateId,
 	regionId,
+	administrativeRegionId,
 	method = 'search',
 	...props
 }: Props) {
@@ -49,7 +51,8 @@ export const SiteCombobox = memo(function ({
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
 			cityId,
 			stateId,
-			regionId
+			regionId,
+			administrativeRegionId
 		}
 	}, [debouncedSearch, value, cityId, stateId, regionId])
 

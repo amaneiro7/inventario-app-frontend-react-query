@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
-import { COLOR_THRESHOLDS, NO_DATA_COLOR, NO_EQUIPMENT_COLOR } from './MapColors'
-import { useGetLocationMonitoringDashboardByState } from '@/core/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboardByState'
+import { COLOR_THRESHOLDS, NO_DATA_COLOR, NO_EQUIPMENT_COLOR } from '../MapColors'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { AdministrativeRegionOptions } from '@/core/locations/administrativeRegion/domain/entity/AdministrativeRegionOptions'
+import { useGetDeviceMonitoringDashboardByState } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
+import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 export type StateData = {
 	name: string
@@ -12,15 +13,16 @@ export type StateData = {
 	percentage: number
 }
 
-export function useMapChart() {
-	const query: LocationMonitoringFilters = useMemo(
+export function useOccSiteMapChart() {
+	const query: DeviceMonitoringFilters = useMemo(
 		() => ({
-			typeOfSiteId: TypeOfSiteOptions.AGENCY
+			typeOfSiteId: TypeOfSiteOptions.ADMINISTRATIVE,
+			administrativeRegionId: AdministrativeRegionOptions.OCCIDENTE
 		}),
 		[]
 	)
-	const { locationMonitoringDashboardByState, isError, isLoading, error } =
-		useGetLocationMonitoringDashboardByState(query)
+	const { deviceMonitoringDashboardByState, isError, isLoading, error } =
+		useGetDeviceMonitoringDashboardByState(query)
 	const [selectedState, setSelectedState] = useState<string | null>(null)
 
 	const handleStateClick = (stateName: string) => {
@@ -29,12 +31,12 @@ export function useMapChart() {
 
 	// Memoize the data processing to avoid re-calculating on every render
 	const processedStateData = useMemo(() => {
-		if (!locationMonitoringDashboardByState?.byState) {
+		if (!deviceMonitoringDashboardByState?.byState) {
 			return {}
 		}
 
 		const data: Record<string, StateData> = {}
-		locationMonitoringDashboardByState.byState
+		deviceMonitoringDashboardByState.byState
 			.sort((a, b) => b.onlineCount - a.onlineCount)
 			.forEach(state => {
 				const percentage = state.total > 0 ? (state.onlineCount * 100) / state.total : -1 // Use -1 for no equipment
@@ -47,7 +49,7 @@ export function useMapChart() {
 				}
 			})
 		return data
-	}, [locationMonitoringDashboardByState]) // Recalculate only when locationMonitoringDashboardByState changes
+	}, [deviceMonitoringDashboardByState]) // Recalculate only when deviceMonitoringDashboardByState changes
 
 	// Memoize the getColor function to prevent re-creation on every render
 	const getColor = useMemo(() => {
@@ -72,7 +74,7 @@ export function useMapChart() {
 	}, [processedStateData]) // Recalculate only when processedStateData changes
 
 	return {
-		locationMonitoringDashboardByState,
+		deviceMonitoringDashboardByState,
 		isError,
 		isLoading,
 		error,

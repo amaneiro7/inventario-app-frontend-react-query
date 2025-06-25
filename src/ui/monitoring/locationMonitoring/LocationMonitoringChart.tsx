@@ -1,10 +1,15 @@
 import { memo } from 'react'
 import { useGetLocationMonitoringDashboardByState } from '@/core/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboardByState'
 import { MonitoringChart } from '../MonitoringChart'
+import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 
-export const LocationMonitoringChart = memo(() => {
+interface LocationMonitoringChartProps {
+	query: LocationMonitoringFilters
+}
+
+export const LocationMonitoringChart = memo(({ query }: LocationMonitoringChartProps) => {
 	const { locationMonitoringDashboardByState, isError, isLoading, error } =
-		useGetLocationMonitoringDashboardByState()
+		useGetLocationMonitoringDashboardByState(query)
 
 	return (
 		<MonitoringChart

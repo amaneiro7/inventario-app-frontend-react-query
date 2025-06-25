@@ -13,6 +13,7 @@ export function useDeviceMonitoringFilter() {
 			'typeOfSiteId',
 			'cityId',
 			'stateId',
+			'siteId',
 			'administrativeRegionId',
 			'regionId',
 			'orderBy',

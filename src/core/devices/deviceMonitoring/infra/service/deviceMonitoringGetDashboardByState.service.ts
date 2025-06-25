@@ -6,9 +6,9 @@ import { deviceMonitoringDashboardByStateUrl } from '../../domain/entity/baseUrl
 export class DeviceMonitoringDashboardByStateService
 	implements DeviceMonitoringDashboardByStateRepository
 {
-	async get(): Promise<DeviceMonitoringDashboardByStateDto> {
+	async get(queryParams?: string): Promise<DeviceMonitoringDashboardByStateDto> {
 		return await fetching({
-			url: deviceMonitoringDashboardByStateUrl,
+			url: `${deviceMonitoringDashboardByStateUrl}?${queryParams}`,
 			method: 'GET'
 		})
 	}

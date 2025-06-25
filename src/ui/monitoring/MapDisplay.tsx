@@ -7,9 +7,9 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from '@/components/Tooltip' // Adjust path if needed
-import { StateData } from './locationMonitoring/MapChart/useMapChart'
-import { MapLegend } from './locationMonitoring/MapChart/MapLegend'
-import { MapLegendTotal } from './locationMonitoring/MapChart/MapLegendTotal'
+import { StateData } from './MapChart/useMapChart'
+import { MapLegend } from './MapChart/MapLegend'
+import { MapLegendTotal } from './MapChart/MapLegendTotal'
 
 // Define props interface for claritys
 interface MapDisplayProps {

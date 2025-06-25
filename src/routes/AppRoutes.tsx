@@ -43,6 +43,9 @@ const PaymentSchedules = lazy(() => import('@/pages/PaymentSchedules'))
 const ListWrapper = lazy(() => import('@/ui/Wrappers/ListWrapper'))
 const FormWrapper = lazy(() => import('@/ui/Wrappers/FormWrapper'))
 const MonitoringWrapper = lazy(() => import('@/ui/Wrappers/MonitoringWrapper'))
+const MonitoringAgencyMapChart = lazy(() => import('@/pages/MonitoringAgencyMapChart'))
+const MonitoringOccSiteMapChart = lazy(() => import('@/pages/MonitoringOccSiteMapChart'))
+
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const List = lazy(() => import('@/pages/List'))
 const Form = lazy(() => import('@/pages/Form'))
@@ -148,6 +151,8 @@ export function AppRoutes() {
 						<Route path="" element={<Monitoring />} />
 						<Route path="device" element={<MonitoringDevice />} />
 						<Route path="location" element={<MonitoringLocation />} />
+						<Route path="agencymap" element={<MonitoringAgencyMapChart />} />
+						<Route path="occsitemap" element={<MonitoringOccSiteMapChart />} />
 					</Route>
 					<Route
 						path="/dashboard"

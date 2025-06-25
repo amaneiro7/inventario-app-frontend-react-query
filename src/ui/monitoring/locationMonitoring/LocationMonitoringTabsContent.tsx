@@ -14,7 +14,6 @@ const LocationMonitoringMap = lazy(() =>
 const LocationMonitoringChart = lazy(() =>
 	import('./LocationMonitoringChart').then(m => ({ default: m.LocationMonitoringChart }))
 )
-const MapChart = lazy(() => import('./MapChart/MapChart').then(m => ({ default: m.MapChart })))
 
 interface LocationMonitoringTabsContentProps {
 	query: LocationMonitoringFilters
@@ -65,12 +64,7 @@ export const LocationMonitoringTabsContent = memo(
 				</TabsContent>
 				<TabsContent value="chart" className="mt-4">
 					<Suspense>
-						<LocationMonitoringChart />
-					</Suspense>
-				</TabsContent>
-				<TabsContent value="mapChart" className="mt-4">
-					<Suspense>
-						<MapChart />
+						<LocationMonitoringChart query={query} />
 					</Suspense>
 				</TabsContent>
 			</>

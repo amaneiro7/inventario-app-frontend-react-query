@@ -30,13 +30,22 @@ interface MonitoringChartProps {
 
 export const MonitoringChart = memo(
 	({ error, isError, isLoading, monitoringDashboardByState }: MonitoringChartProps) => {
+		const cardTitleId = 'network-status-chart-title'
+		const cardDescriptionId = 'network-status-chart-description'
+
 		if (isLoading || !monitoringDashboardByState) {
 			return <LoadingSpinner />
 		}
 
 		if (isError) {
 			return (
-				<Suspense>
+				<Suspense
+					fallback={
+						<div className="flex min-h-96 items-center justify-center">
+							Cargando mensaje de error...
+						</div>
+					}
+				>
 					<ChartErrorMessage error={error} />
 				</Suspense>
 			)
@@ -45,25 +54,31 @@ export const MonitoringChart = memo(
 		const { online, offline, total, byState } = monitoringDashboardByState
 
 		return (
-			<Suspense fallback={<div className="min-h-96" />}>
-				<Card>
-					<CardHeader>
-						<CardTitle>Estado General de ubicaciones</CardTitle>
-						<CardDescription>
-							Visión general de ubicaciones activos e inactivos en la red.
-						</CardDescription>
-					</CardHeader>
-					<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_400px]">
+			<Card
+				className="flex h-full w-full flex-col"
+				role="region"
+				aria-labelledby={cardTitleId}
+				aria-describedby={cardDescriptionId}
+			>
+				<CardHeader>
+					<CardTitle id={cardTitleId}> Estado General de Conexiones de Red</CardTitle>
+					<CardDescription id={cardDescriptionId}>
+						Visión general de las conexiones activas e inactivas en toda la red,
+						categorizadas por estado.
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_400px]">
+					<Suspense fallback={<div className="min-h-96" />}>
 						<SummaryPieChart
 							onlineCount={online}
 							offlineCount={offline}
 							totalCount={total}
 						/>
+					</Suspense>
 
-						<ByStateList statesData={byState} />
-					</CardContent>
-				</Card>
-			</Suspense>
+					<ByStateList statesData={byState} />
+				</CardContent>
+			</Card>
 		)
 	}
 )
