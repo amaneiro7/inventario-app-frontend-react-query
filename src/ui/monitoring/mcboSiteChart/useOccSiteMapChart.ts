@@ -2,8 +2,10 @@ import { useMemo, useState } from 'react'
 import { COLOR_THRESHOLDS, NO_DATA_COLOR, NO_EQUIPMENT_COLOR } from '../MapColors'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { AdministrativeRegionOptions } from '@/core/locations/administrativeRegion/domain/entity/AdministrativeRegionOptions'
-import { useGetDeviceMonitoringDashboardByState } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
 import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+
+import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
+import { groupBy } from '@/utils/groupBy'
 
 export type StateData = {
 	name: string
@@ -21,8 +23,7 @@ export function useOccSiteMapChart() {
 		}),
 		[]
 	)
-	const { deviceMonitoringDashboardByState, isError, isLoading, error } =
-		useGetDeviceMonitoringDashboardByState(query)
+	const { deviceMonitorings, isError, isLoading, error } = useGetAllDeviceMonitorings(query)
 	const [selectedState, setSelectedState] = useState<string | null>(null)
 
 	const handleStateClick = (stateName: string) => {
@@ -31,56 +32,45 @@ export function useOccSiteMapChart() {
 
 	// Memoize the data processing to avoid re-calculating on every render
 	const processedStateData = useMemo(() => {
-		if (!deviceMonitoringDashboardByState?.byState) {
+		if (!deviceMonitorings) {
 			return {}
 		}
 
-		const data: Record<string, StateData> = {}
-		deviceMonitoringDashboardByState.byState
-			.sort((a, b) => b.onlineCount - a.onlineCount)
-			.forEach(state => {
-				const percentage = state.total > 0 ? (state.onlineCount * 100) / state.total : -1 // Use -1 for no equipment
-				data[state.stateName] = {
-					name: state.stateName,
-					onlineCount: state.onlineCount,
-					offlineCount: state.offlineCount,
-					total: state.total,
-					percentage
-				}
-			})
-		return data
-	}, [deviceMonitoringDashboardByState]) // Recalculate only when deviceMonitoringDashboardByState changes
+		return groupBy(deviceMonitorings.data, device => device.location.name)
+
+		// return deviceMonitorings.data
+	}, [deviceMonitorings]) // Recalculate only when deviceMonitorings changes
 
 	// Memoize the getColor function to prevent re-creation on every render
-	const getColor = useMemo(() => {
-		return (stateName: string) => {
-			const percentage = processedStateData[stateName]?.percentage
+	// const getColor = useMemo(() => {
+	// 	return (stateName: string) => {
+	// 		const percentage = processedStateData[stateName]?.percentage
 
-			if (percentage === undefined) {
-				return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
-			}
-			if (percentage === -1) {
-				return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
-			}
+	// 		if (percentage === undefined) {
+	// 			return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
+	// 		}
+	// 		if (percentage === -1) {
+	// 			return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
+	// 		}
 
-			// Find the first threshold that the percentage meets
-			for (const thresholdItem of COLOR_THRESHOLDS) {
-				if (percentage >= thresholdItem.threshold) {
-					return thresholdItem.color
-				}
-			}
-			return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
-		}
-	}, [processedStateData]) // Recalculate only when processedStateData changes
+	// 		// Find the first threshold that the percentage meets
+	// 		for (const thresholdItem of COLOR_THRESHOLDS) {
+	// 			if (percentage >= thresholdItem.threshold) {
+	// 				return thresholdItem.color
+	// 			}
+	// 		}
+	// 		return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
+	// 	}
+	// }, [processedStateData]) // Recalculate only when processedStateData changes
 
 	return {
-		deviceMonitoringDashboardByState,
+		deviceMonitorings,
 		isError,
 		isLoading,
 		error,
 		selectedState,
 		processedStateData,
-		handleStateClick,
-		getColor
+		handleStateClick
+		// getColor
 	}
 }

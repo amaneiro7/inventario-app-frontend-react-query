@@ -12,6 +12,7 @@ export const useGetAllDeviceMonitorings = (query: DeviceMonitoringFilters) => {
 		isFetching,
 		refetch,
 		isError,
+		error,
 		data: deviceMonitorings
 	} = useQuery({
 		queryKey: ['deviceMonitorings', query],
@@ -25,6 +26,7 @@ export const useGetAllDeviceMonitorings = (query: DeviceMonitoringFilters) => {
 	return {
 		isLoading,
 		refetch,
+		error,
 		isFetching,
 		isError,
 		deviceMonitorings

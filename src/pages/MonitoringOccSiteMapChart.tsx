@@ -14,20 +14,19 @@ const StateDetailsPanel = lazy(() =>
 
 export default function MonitoringOccSiteMapChart() {
 	const {
-		deviceMonitoringDashboardByState,
+		deviceMonitorings,
 		isError,
 		isLoading,
 		error,
-		getColor,
+		// getColor,
 		handleStateClick,
 		selectedState,
 		processedStateData
 	} = useOccSiteMapChart()
 
-	const hasNoData =
-		!deviceMonitoringDashboardByState || deviceMonitoringDashboardByState.byState.length === 0
+	const hasNoData = !deviceMonitorings || deviceMonitorings.data.length === 0
 
-	console.log(deviceMonitoringDashboardByState)
+	console.log(processedStateData)
 
 	return (
 		<Card>
