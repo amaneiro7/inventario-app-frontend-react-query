@@ -36,32 +36,33 @@ export function useOccSiteMapChart() {
 			return {}
 		}
 
-		return groupBy(deviceMonitorings.data, device => device.location.name)
+		const data: Record<string, StateData> = {}
+		const groupByLocation = groupBy(deviceMonitorings.data, device => device.location.name)
+		return Array.from(groupByLocation.entries())
 
 		// return deviceMonitorings.data
 	}, [deviceMonitorings]) // Recalculate only when deviceMonitorings changes
 
-	// Memoize the getColor function to prevent re-creation on every render
-	// const getColor = useMemo(() => {
-	// 	return (stateName: string) => {
-	// 		const percentage = processedStateData[stateName]?.percentage
+	const getColor = useMemo(() => {
+		return (stateName: string) => {
+			const percentage = processedStateData[stateName]?.percentage
 
-	// 		if (percentage === undefined) {
-	// 			return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
-	// 		}
-	// 		if (percentage === -1) {
-	// 			return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
-	// 		}
+			if (percentage === undefined) {
+				return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
+			}
+			if (percentage === -1) {
+				return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
+			}
 
-	// 		// Find the first threshold that the percentage meets
-	// 		for (const thresholdItem of COLOR_THRESHOLDS) {
-	// 			if (percentage >= thresholdItem.threshold) {
-	// 				return thresholdItem.color
-	// 			}
-	// 		}
-	// 		return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
-	// 	}
-	// }, [processedStateData]) // Recalculate only when processedStateData changes
+			// Find the first threshold that the percentage meets
+			for (const thresholdItem of COLOR_THRESHOLDS) {
+				if (percentage >= thresholdItem.threshold) {
+					return thresholdItem.color
+				}
+			}
+			return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
+		}
+	}, [processedStateData]) // Recalculate only when processedStateData changes
 
 	return {
 		deviceMonitorings,

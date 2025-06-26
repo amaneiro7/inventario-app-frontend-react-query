@@ -26,7 +26,7 @@ export default function MonitoringOccSiteMapChart() {
 
 	const hasNoData = !deviceMonitorings || deviceMonitorings.data.length === 0
 
-	console.log(processedStateData)
+	console.log(typeof processedStateData)
 
 	return (
 		<Card>
