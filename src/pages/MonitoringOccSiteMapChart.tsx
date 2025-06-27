@@ -14,19 +14,20 @@ const StateDetailsPanel = lazy(() =>
 
 export default function MonitoringOccSiteMapChart() {
 	const {
-		deviceMonitorings,
+		deviceMonitoringDashboardByLocation,
 		isError,
 		isLoading,
 		error,
 		// getColor,
 		handleStateClick,
-		selectedState,
-		processedStateData
+		selectedLocation,
+		processedLocationDataForMap
 	} = useOccSiteMapChart()
 
-	const hasNoData = !deviceMonitorings || deviceMonitorings.data.length === 0
+	const hasNoData =
+		!deviceMonitoringDashboardByLocation || deviceMonitoringDashboardByLocation.length === 0
 
-	console.log(typeof processedStateData)
+	console.log(processedLocationDataForMap)
 
 	return (
 		<Card>
@@ -49,10 +50,10 @@ export default function MonitoringOccSiteMapChart() {
 				</section>
 				{/* Pandel de Información */}
 				<Suspense>
-					<StateDetailsPanel
-						selectedState={selectedState}
-						stateStats={processedStateData}
-					/>
+					{/* <StateDetailsPanel
+						selectedState={}={selectedLocation}
+						stateStats={processedLocationDataForMap}
+					/> */}
 				</Suspense>
 			</CardContent>
 		</Card>
