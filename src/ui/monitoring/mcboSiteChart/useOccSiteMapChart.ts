@@ -3,9 +3,7 @@ import { COLOR_THRESHOLDS, NO_DATA_COLOR, NO_EQUIPMENT_COLOR } from '../MapColor
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { AdministrativeRegionOptions } from '@/core/locations/administrativeRegion/domain/entity/AdministrativeRegionOptions'
 import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
-
-import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
-import { groupBy } from '@/utils/groupBy'
+import { useGetDeviceMonitoringDashboardByLocation } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByLocation'
 
 export type StateData = {
 	name: string
@@ -23,54 +21,75 @@ export function useOccSiteMapChart() {
 		}),
 		[]
 	)
-	const { deviceMonitorings, isError, isLoading, error } = useGetAllDeviceMonitorings(query)
-	const [selectedState, setSelectedState] = useState<string | null>(null)
+	const { deviceMonitoringDashboardByLocation, isError, isLoading, error } =
+		useGetDeviceMonitoringDashboardByLocation(query)
+	const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
 
-	const handleStateClick = (stateName: string) => {
-		setSelectedState(stateName)
+	const handleStateClick = (location: string) => {
+		setSelectedLocation(location)
 	}
 
 	// Memoize the data processing to avoid re-calculating on every render
-	const processedStateData = useMemo(() => {
-		if (!deviceMonitorings) {
-			return {}
+	const processedLocationDataForMap = useMemo(() => {
+		if (
+			!deviceMonitoringDashboardByLocation ||
+			deviceMonitoringDashboardByLocation.length === 0
+		) {
+			return []
 		}
 
-		const data: Record<string, StateData> = {}
-		const groupByLocation = groupBy(deviceMonitorings.data, device => device.location.name)
-		return Array.from(groupByLocation.entries())
+		return deviceMonitoringDashboardByLocation.flatMap(admRegion => {
+			return admRegion.sites.map(site => {
+				const data: Record<string, StateData> = {}
+				site.locations.forEach(location => {
+					const percentage = Number(
+						(location.total > 0
+							? (location.onlineCount * 100) / location.total
+							: -1
+						).toFixed(2)
+					)
 
-		// return deviceMonitorings.data
-	}, [deviceMonitorings]) // Recalculate only when deviceMonitorings changes
+					data[location.name] = {
+						name: location.name,
+						onlineCount: location.onlineCount,
+						offlineCount: location.offlineCount,
+						total: location.total,
+						percentage
+					}
+				})
+				return data
+			})
+		})
+	}, [deviceMonitoringDashboardByLocation])
 
 	const getColor = useMemo(() => {
-		return (stateName: string) => {
-			const percentage = processedStateData[stateName]?.percentage
+		return (location: string) => {
+			const percentage = processedLocationDataForMap.flatMap(data => data)
 
-			if (percentage === undefined) {
-				return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
-			}
-			if (percentage === -1) {
-				return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
-			}
+			// if (percentage === undefined) {
+			// 	return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
+			// }
+			// if (percentage === -1) {
+			// 	return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
+			// }
 
-			// Find the first threshold that the percentage meets
-			for (const thresholdItem of COLOR_THRESHOLDS) {
-				if (percentage >= thresholdItem.threshold) {
-					return thresholdItem.color
-				}
-			}
-			return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
+			// // Find the first threshold that the percentage meets
+			// for (const thresholdItem of COLOR_THRESHOLDS) {
+			// 	if (percentage >= thresholdItem.threshold) {
+			// 		return thresholdItem.color
+			// 	}
+			// }
+			// return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
 		}
-	}, [processedStateData]) // Recalculate only when processedStateData changes
+	}, [processedLocationDataForMap]) // Recalculate only when processedLocationDataForMap changes
 
 	return {
-		deviceMonitorings,
+		deviceMonitoringDashboardByLocation,
 		isError,
 		isLoading,
 		error,
-		selectedState,
-		processedStateData,
+		selectedLocation,
+		processedLocationDataForMap,
 		handleStateClick
 		// getColor
 	}
