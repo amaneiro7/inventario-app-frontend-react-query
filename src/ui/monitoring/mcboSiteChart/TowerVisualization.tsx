@@ -1,146 +1,115 @@
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip'
+import { COLOR_THRESHOLDS } from '../MapColors'
+import { type Locations } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
+import { cn } from '@/lib/utils'
+import Typography from '@/components/Typography'
 
-interface FloorStats {
-	locationName: string
-	onlineCount: number
-	offlineCount: number
-	total: number
-	percentage: number
-	// departments: Set<string>
+const getLocationStatus = (location: Locations) => {
+	const onlinePercentage = location.total > 0 ? (location.onlineCount / location.total) * 100 : 0
+	return {
+		...COLOR_THRESHOLDS.find(level => onlinePercentage >= level.threshold)!,
+		onlinePercentage
+	}
 }
 
-interface TowerVisualizationProps {
-	floorStats: FloorStats[]
-	selectedFloor: string | null
-	onFloorClick: (locationName: string) => void
+interface SiteBuildingViewProps {
+	locations: Locations[]
+	selectedLocationName: string | null
+	onLocationClick: (name: string) => void
 }
 
 export const TowerVisualization = ({
-	floorStats,
-	selectedFloor,
-	onFloorClick
-}: TowerVisualizationProps) => {
-	const getFloorColor = (floor: FloorStats) => {
-		const onlinePercentage = (floor.onlineCount / floor.total) * 100
-
-		if (onlinePercentage >= 90) return '#10b981' // Verde intenso
-		if (onlinePercentage >= 75) return '#34d399' // Verde claro
-		if (onlinePercentage >= 50) return '#fbbf24' // Amarillo
-		if (onlinePercentage >= 25) return '#fb923c' // Naranja
-		return '#ef4444' // Rojo
-	}
-
-	const getFloorOpacity = (floor: FloorStats) => {
-		return selectedFloor === null || selectedFloor === floor.locationName ? 1 : 0.5
-	}
-
+	locations,
+	selectedLocationName,
+	onLocationClick
+}: SiteBuildingViewProps) => {
 	return (
 		<TooltipProvider>
-			<div className="flex flex-col items-center space-y-2 p-4">
-				{/* Torre */}
-				<div className="relative">
-					{/* Techo de la torre */}
-					<div className="mx-auto mb-1 h-4 w-32 rounded-t-lg bg-gray-600"></div>
+			<figure className="flex flex-col items-center gap-y-4 p-2">
+				<div className="w-fit">
+					<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
 
-					{/* Pisos de la torre */}
-					<div className="overflow-hidden rounded-b-lg border-2 border-gray-400 bg-gray-100">
-						{floorStats.map(floor => {
-							const onlinePercentage = (floor.onlineCount / floor.total) * 100
+					<div className="overflow-hidden rounded-b-md border-2 border-slate-500 bg-slate-200">
+						{locations
+							.sort((a, b) => {
+								const regex = /Piso (\d+)$/
+								const matchA = a.name.match(regex)
+								const numA = matchA ? parseInt(matchA[1], 10) : NaN
 
-							return (
-								<Tooltip key={floor.locationName}>
-									<TooltipTrigger asChild>
-										<div
-											className="flex h-12 w-32 cursor-pointer items-center justify-between border-b border-gray-300 px-3 transition-all duration-200 hover:shadow-md"
-											style={{
-												backgroundColor: getFloorColor(floor),
-												opacity: getFloorOpacity(floor),
-												transform:
-													selectedFloor === floor.locationName
-														? 'scale(1.05)'
-														: 'scale(1)',
-												border:
-													selectedFloor === floor.locationName
-														? '2px solid #3b82f6'
-														: '1px solid #d1d5db'
-											}}
-											onClick={() => onFloorClick(floor.locationName)}
-										>
-											<span className="text-sm font-bold text-white">
-												{floor.locationName}
-											</span>
-											<span className="text-xs text-white">
-												{onlinePercentage.toFixed(0)}%
-											</span>
-										</div>
-									</TooltipTrigger>
-									<TooltipContent side="right">
-										<div className="p-2">
-											<p className="font-semibold">{floor.locationName}</p>
-											<p className="text-sm">Total: {floor.total} equipos</p>
-											<p className="text-sm text-green-600">
-												Online: {floor.onlineCount}
-											</p>
-											<p className="text-sm text-red-600">
-												Offline: {floor.offlineCount}
-											</p>
-											{/* <p className="text-sm">
-												Departamentos:{' '}
-												{Array.from(floor.departments).join(', ')}
-											</p> */}
-										</div>
-									</TooltipContent>
-								</Tooltip>
-							)
-						})}
+								const matchB = b.name.match(regex)
+								const numB = matchB ? parseInt(matchB[1], 10) : NaN
+
+								if (!isNaN(numA) && !isNaN(numB)) {
+									return numB - numA
+								}
+
+								return b.name.localeCompare(a.name)
+							})
+							.map(location => {
+								const { color, onlinePercentage } = getLocationStatus(location)
+								const isSelected = selectedLocationName === location.name
+
+								return (
+									<Tooltip key={location.name}>
+										<TooltipTrigger asChild>
+											<button
+												type="button"
+												onClick={() => onLocationClick(location.name)}
+												aria-label={`Seleccionar ubicación: ${location.name}. Estado: ${onlinePercentage.toFixed(0)}% de equipos online.`}
+												style={{
+													backgroundColor: color
+												}}
+												className={cn(
+													'flex h-10 w-full cursor-pointer items-center justify-between gap-4 px-3 text-white transition-all duration-300 ease-in-out',
+													{
+														'opacity-50 hover:opacity-100':
+															selectedLocationName !== null &&
+															!isSelected,
+														'scale-105 ring-2 ring-blue-500 ring-offset-2':
+															isSelected,
+														'hover:scale-105 hover:shadow-lg':
+															!isSelected
+													}
+												)}
+											>
+												<Typography
+													variant="span"
+													weight="bold"
+													option="tiny"
+												>
+													{location.name}
+												</Typography>
+												<Typography
+													variant="span"
+													weight="semibold"
+													option="tiny"
+												>
+													{onlinePercentage.toFixed(0)}%
+												</Typography>
+											</button>
+										</TooltipTrigger>
+										<TooltipContent side="right">
+											<div className="p-2">
+												<p className="font-semibold">{location.name}</p>
+												<p className="text-sm">
+													Total: {location.total} equipos
+												</p>
+												<p className="text-sm text-green-600">
+													Online: {location.onlineCount}
+												</p>
+												<p className="text-sm text-red-600">
+													Offline: {location.offlineCount}
+												</p>
+											</div>
+										</TooltipContent>
+									</Tooltip>
+								)
+							})}
 					</div>
 
-					{/* Base de la torre */}
-					<div className="mx-auto mt-1 h-6 w-36 rounded-b-xl bg-gray-700"></div>
+					<div className="mt-1 h-4 rounded-b-lg bg-slate-700 shadow-md" />
 				</div>
-
-				{/* Leyenda de colores */}
-				<div className="mt-6 rounded-lg border bg-white p-4">
-					<h4 className="mb-3 text-sm font-semibold">Porcentaje de Equipos Online</h4>
-					<div className="flex flex-wrap gap-2 text-xs">
-						<div className="flex items-center gap-1">
-							<div
-								className="h-4 w-4 rounded"
-								style={{ backgroundColor: '#10b981' }}
-							></div>
-							<span>90-100%</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<div
-								className="h-4 w-4 rounded"
-								style={{ backgroundColor: '#34d399' }}
-							></div>
-							<span>75-89%</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<div
-								className="h-4 w-4 rounded"
-								style={{ backgroundColor: '#fbbf24' }}
-							></div>
-							<span>50-74%</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<div
-								className="h-4 w-4 rounded"
-								style={{ backgroundColor: '#fb923c' }}
-							></div>
-							<span>25-49%</span>
-						</div>
-						<div className="flex items-center gap-1">
-							<div
-								className="h-4 w-4 rounded"
-								style={{ backgroundColor: '#ef4444' }}
-							></div>
-							<span>0-24%</span>
-						</div>
-					</div>
-				</div>
-			</div>
+			</figure>
 		</TooltipProvider>
 	)
 }

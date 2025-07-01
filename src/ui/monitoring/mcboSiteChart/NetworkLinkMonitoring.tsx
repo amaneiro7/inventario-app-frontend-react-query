@@ -1,28 +1,28 @@
 import { memo, useMemo } from 'react'
-import { MapPin } from 'lucide-react'
-import { useGetAllLocationMonitorings } from '@/core/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
-import { LocationMonitoringStatuses } from '@/core/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
+import { Server } from 'lucide-react'
+import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
+import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { Badge } from '@/components/Badge'
 import Typography from '@/components/Typography'
 import { NetworkLinkListSkeleton } from '../NetworkLinkListSkeleton'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
-import { type LocationMonitoringDto } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
+import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { type DeviceMonitoringDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 
 interface NetworkLinkSelectedListProps {
-	selectedState: string | null
+	selectedFloor: string | null
 }
 
-export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelectedListProps) => {
-	const query: LocationMonitoringFilters = useMemo(
+export const NetworkLinkMonitoring = memo(({ selectedFloor }: NetworkLinkSelectedListProps) => {
+	const query: DeviceMonitoringFilters = useMemo(
 		() => ({
-			...(selectedState ? { stateName: selectedState } : {}),
-			typeOfSiteId: TypeOfSiteOptions.AGENCY
+			...(selectedFloor ? { locationName: selectedFloor } : {}),
+			typeOfSiteId: TypeOfSiteOptions.ADMINISTRATIVE
 		}),
-		[selectedState]
+		[selectedFloor]
 	)
 
-	const { locationMonitorings, isLoading } = useGetAllLocationMonitorings(query)
+	const { deviceMonitorings, isLoading } = useGetAllDeviceMonitorings(query)
 
 	if (isLoading) {
 		return (
@@ -32,7 +32,7 @@ export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelecte
 		)
 	}
 
-	const networkLinks: LocationMonitoringDto[] = locationMonitorings?.data || []
+	const networkLinks: DeviceMonitoringDto[] = deviceMonitorings?.data ?? []
 
 	if (networkLinks.length === 0) {
 		return (
@@ -51,7 +51,7 @@ export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelecte
 				>
 					No se encontraron enlaces de red en {''}
 					<span className="font-semibold">
-						{selectedState || 'el estado seleccionado'}
+						{selectedFloor ?? 'el estado seleccionado'}
 					</span>
 					.
 				</Typography>
@@ -65,27 +65,27 @@ export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelecte
 	return (
 		<>
 			<Typography variant="p" weight="medium" option="small" className="mb-2">
-				Enlaces de red en <span className="font-semibold">{selectedState}</span>:
+				Enlaces de red en <span className="font-semibold">{selectedFloor}</span>:
 			</Typography>
 			<ul
 				className="h-full min-h-0 flex-1 space-y-1 overflow-auto overflow-y-auto pr-2"
 				role="list"
-				aria-label={`Lista de enlaces de red en ${selectedState || 'el estado seleccionado'}`}
+				aria-label={`Lista de enlaces de red en ${selectedFloor || 'el estado seleccionado'}`}
 			>
 				{networkLinks
 					.sort((a, b) => a.status.localeCompare(b.status))
 					.map(link => {
 						const statusValue =
-							link.status === LocationMonitoringStatuses.ONLINE
+							link.status === DeviceMonitoringStatuses.ONLINE
 								? 'Activo'
-								: link.status === LocationMonitoringStatuses.OFFLINE
+								: link.status === DeviceMonitoringStatuses.OFFLINE
 									? 'Inactivo'
 									: 'N/A'
 
 						const statusColor =
-							link.status === LocationMonitoringStatuses.ONLINE
+							link.status === DeviceMonitoringStatuses.ONLINE
 								? 'verde'
-								: link.status === LocationMonitoringStatuses.OFFLINE
+								: link.status === DeviceMonitoringStatuses.OFFLINE
 									? 'rojo'
 									: 'outline'
 
@@ -94,11 +94,11 @@ export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelecte
 								key={link.id}
 								className="flex items-center justify-between gap-3 rounded border bg-white p-2 shadow-sm"
 								role="listitem"
-								aria-label={`${link.name}, estado: ${statusValue}`}
+								aria-label={`${link.computerName}, estado: ${statusValue}`}
 							>
 								<div className="flex min-w-0 flex-1 items-center gap-1 truncate">
-									<MapPin
-										className="h-6 w-6 flex-shrink-0 text-gray-500"
+									<Server
+										className="h-5 w-5 flex-shrink-0 text-gray-500"
 										aria-hidden="true"
 									/>
 									<Typography
@@ -109,10 +109,10 @@ export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelecte
 										weight="medium"
 									>
 										<span className="leading-tight font-bold text-gray-900">
-											{link.name}
+											{link.computerName}
 										</span>
 										<span className="mt-0.5 text-xs leading-none text-gray-500">
-											{link.subnet}
+											{link.ipAddress}
 										</span>
 									</Typography>
 								</div>

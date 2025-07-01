@@ -3,6 +3,38 @@
 @plugin 'tailwindcss-animate';
 @custom-variant dark (&:is(class *));
 
+@view-transition {
+	navigation: auto;
+}
+
+::view-transition-group(*) {
+	animation-duration: 0.5s;
+}
+
+::view-transition-old(root) {
+	animation: slide-out-to-left 0.5s forwards;
+}
+::view-transition-new(root) {
+	animation: slide-out-to-right 0.5s forwards;
+}
+
+@keyframes slide-out-to-left {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-100%);
+	}
+}
+@keyframes slide-out-to-roght {
+	from {
+		transform: translateX(100%);
+	}
+	to {
+		transform: translateX(0);
+	}
+}
+
 @theme {
 	--animate-*: initial;
 	--animate-pulse-fast: pulse 2s ease-in-out 0s infinite;

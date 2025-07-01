@@ -4,7 +4,7 @@ import Typography from '@/components/Typography'
 
 export const MapLegend = memo(() => {
 	return (
-		<aside
+		<figcaption
 			className="absolute bottom-4 left-4 rounded-lg border bg-white p-3 shadow-md"
 			aria-labelledby="legend-title"
 		>
@@ -23,13 +23,13 @@ export const MapLegend = memo(() => {
 				))}
 				<MapLegendList color={NO_DATA_COLOR} label="Sin datos" />
 			</ul>
-		</aside>
+		</figcaption>
 	)
 })
 
 MapLegend.displayName = 'MapLegend'
 
-const MapLegendList = memo(({ color, label }: { color: string; label: string }) => (
+export const MapLegendList = memo(({ color, label }: { color: string; label: string }) => (
 	<li className="flex items-center gap-2">
 		<div className="h-4 w-4 rounded" style={{ backgroundColor: color }} role="presentation" />
 		<Typography variant="span">{label}</Typography>

@@ -1,96 +1,44 @@
 import { useMemo, useState } from 'react'
-import { COLOR_THRESHOLDS, NO_DATA_COLOR, NO_EQUIPMENT_COLOR } from '../MapColors'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { AdministrativeRegionOptions } from '@/core/locations/administrativeRegion/domain/entity/AdministrativeRegionOptions'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 import { useGetDeviceMonitoringDashboardByLocation } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByLocation'
-
-export type StateData = {
-	name: string
-	onlineCount: number
-	offlineCount: number
-	total: number
-	percentage: number
-}
+import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 export function useOccSiteMapChart() {
+	const [selectedFloor, setSelectedFloor] = useState<string | null>(null)
+	const [selectedAdmRegion, setSelectedAdmRegion] = useState<string | null>(null)
 	const query: DeviceMonitoringFilters = useMemo(
 		() => ({
-			typeOfSiteId: TypeOfSiteOptions.ADMINISTRATIVE,
-			administrativeRegionId: AdministrativeRegionOptions.OCCIDENTE
+			typeOfSiteId: TypeOfSiteOptions.ADMINISTRATIVE
 		}),
 		[]
 	)
 	const { deviceMonitoringDashboardByLocation, isError, isLoading, error } =
 		useGetDeviceMonitoringDashboardByLocation(query)
-	const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
 
-	const handleStateClick = (location: string) => {
-		setSelectedLocation(location)
+	// Establecer la región seleccionada por defecto a la primera de la lista
+	if (deviceMonitoringDashboardByLocation && !selectedAdmRegion) {
+		setSelectedAdmRegion(deviceMonitoringDashboardByLocation[0]?.name)
 	}
 
-	// Memoize the data processing to avoid re-calculating on every render
-	const processedLocationDataForMap = useMemo(() => {
-		if (
-			!deviceMonitoringDashboardByLocation ||
-			deviceMonitoringDashboardByLocation.length === 0
-		) {
-			return []
-		}
+	const handleFloorClick = (floorNumber: string) => {
+		setSelectedFloor(floorNumber)
+	}
 
-		return deviceMonitoringDashboardByLocation.flatMap(admRegion => {
-			return admRegion.sites.map(site => {
-				const data: Record<string, StateData> = {}
-				site.locations.forEach(location => {
-					const percentage = Number(
-						(location.total > 0
-							? (location.onlineCount * 100) / location.total
-							: -1
-						).toFixed(2)
-					)
-
-					data[location.name] = {
-						name: location.name,
-						onlineCount: location.onlineCount,
-						offlineCount: location.offlineCount,
-						total: location.total,
-						percentage
-					}
-				})
-				return data
-			})
-		})
-	}, [deviceMonitoringDashboardByLocation])
-
-	const getColor = useMemo(() => {
-		return (location: string) => {
-			const percentage = processedLocationDataForMap.flatMap(data => data)
-
-			// if (percentage === undefined) {
-			// 	return NO_DATA_COLOR // Gray for states not in data (e.g., no monitoring info for that state)
-			// }
-			// if (percentage === -1) {
-			// 	return NO_EQUIPMENT_COLOR // Specific color for states with 0 total equipment
-			// }
-
-			// // Find the first threshold that the percentage meets
-			// for (const thresholdItem of COLOR_THRESHOLDS) {
-			// 	if (percentage >= thresholdItem.threshold) {
-			// 		return thresholdItem.color
-			// 	}
-			// }
-			// return NO_DATA_COLOR // Fallback, though typically covered by the 0% threshold
-		}
-	}, [processedLocationDataForMap]) // Recalculate only when processedLocationDataForMap changes
-
+	// Memoizar la región seleccionada para evitar recálculos innecesarios
+	const selectedRegionData = useMemo(() => {
+		return deviceMonitoringDashboardByLocation?.find(
+			admRegion => admRegion.name === selectedAdmRegion
+		)
+	}, [deviceMonitoringDashboardByLocation, selectedAdmRegion])
 	return {
 		deviceMonitoringDashboardByLocation,
 		isError,
 		isLoading,
 		error,
-		selectedLocation,
-		processedLocationDataForMap,
-		handleStateClick
-		// getColor
+		selectedAdmRegion,
+		selectedRegionData,
+		selectedFloor,
+		handleFloorClick,
+		setSelectedAdmRegion
 	}
 }
