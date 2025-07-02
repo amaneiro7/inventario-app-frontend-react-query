@@ -152,7 +152,10 @@ export function AppRoutes() {
 						<Route path="device" element={<MonitoringDevice />} />
 						<Route path="location" element={<MonitoringLocation />} />
 						<Route path="agencymap" element={<MonitoringAgencyMapChart />} />
-						<Route path="occsitemap" element={<MonitoringOccSiteMapChart />} />
+						<Route
+							path="administrativesitemap"
+							element={<MonitoringOccSiteMapChart />}
+						/>
 					</Route>
 					<Route
 						path="/dashboard"

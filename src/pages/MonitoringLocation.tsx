@@ -38,7 +38,7 @@ export default function MonitoringLocation() {
 
 			<Tabs defaultValue="chart">
 				{/* <DetailsBoxWrapper> */}
-				<TabsList className="grid grid-cols-4">
+				<TabsList className="grid max-w-fit grid-cols-3">
 					<TabsTrigger bgColor="darkBlue" value="chart">
 						Gráficos
 					</TabsTrigger>

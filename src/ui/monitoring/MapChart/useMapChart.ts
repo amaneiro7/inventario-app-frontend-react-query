@@ -23,7 +23,7 @@ export function useMapChart() {
 		useGetLocationMonitoringDashboardByState(query)
 	const [selectedState, setSelectedState] = useState<string | null>(null)
 
-	const handleStateClick = (stateName: string) => {
+	const handleStateClick = (stateName: string | null) => {
 		setSelectedState(stateName)
 	}
 

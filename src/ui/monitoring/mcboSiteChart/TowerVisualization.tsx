@@ -1,8 +1,11 @@
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip'
-import { COLOR_THRESHOLDS } from '../MapColors'
-import { type Locations } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
 import { cn } from '@/lib/utils'
+import { COLOR_THRESHOLDS } from '../MapColors'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip'
 import Typography from '@/components/Typography'
+import { type Locations } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
+import { ArrowLeft } from 'lucide-react'
+import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
+import { useRef } from 'react'
 
 const getLocationStatus = (location: Locations) => {
 	const onlinePercentage = location.total > 0 ? (location.onlineCount / location.total) * 100 : 0
@@ -15,7 +18,7 @@ const getLocationStatus = (location: Locations) => {
 interface SiteBuildingViewProps {
 	locations: Locations[]
 	selectedLocationName: string | null
-	onLocationClick: (name: string) => void
+	onLocationClick: (name: string | null) => void
 }
 
 export const TowerVisualization = ({
@@ -23,13 +26,22 @@ export const TowerVisualization = ({
 	selectedLocationName,
 	onLocationClick
 }: SiteBuildingViewProps) => {
+	const containerRef = useRef(null)
+	useCloseClickOrEscape({
+		onClose() {
+			onLocationClick(null)
+		},
+		open: selectedLocationName ? true : false,
+		ref: containerRef
+	})
+
 	return (
 		<TooltipProvider>
-			<figure className="flex flex-col items-center gap-y-4 p-2">
+			<figure ref={containerRef} className="flex flex-col items-center gap-y-4 p-2">
 				<div className="w-fit">
 					<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
 
-					<div className="overflow-hidden rounded-b-md border-2 border-slate-500 bg-slate-200">
+					<div className="rounded-b-md border-2 border-slate-500 bg-slate-200">
 						{locations
 							.sort((a, b) => {
 								const regex = /Piso (\d+)$/
@@ -60,12 +72,9 @@ export const TowerVisualization = ({
 													backgroundColor: color
 												}}
 												className={cn(
-													'flex h-10 w-full cursor-pointer items-center justify-between gap-4 px-3 text-white transition-all duration-300 ease-in-out',
+													'relative flex h-10 w-full cursor-pointer items-center justify-between gap-4 px-3 text-white transition-all duration-300 ease-in-out',
 													{
-														'opacity-50 hover:opacity-100':
-															selectedLocationName !== null &&
-															!isSelected,
-														'scale-105 ring-2 ring-blue-500 ring-offset-2':
+														'scale-110 rounded border border-black shadow-lg':
 															isSelected,
 														'hover:scale-105 hover:shadow-lg':
 															!isSelected
@@ -76,6 +85,7 @@ export const TowerVisualization = ({
 													variant="span"
 													weight="bold"
 													option="tiny"
+													className="text-shadow"
 												>
 													{location.name}
 												</Typography>
@@ -83,23 +93,33 @@ export const TowerVisualization = ({
 													variant="span"
 													weight="semibold"
 													option="tiny"
+													className="text-shadow"
 												>
 													{onlinePercentage.toFixed(0)}%
 												</Typography>
+												{isSelected && (
+													<ArrowLeft className="text-naranja absolute -right-6 h-4 w-5" />
+												)}
 											</button>
 										</TooltipTrigger>
 										<TooltipContent side="right">
 											<div className="p-2">
-												<p className="font-semibold">{location.name}</p>
-												<p className="text-sm">
+												<Typography
+													variant="p"
+													option="small"
+													weight="semibold"
+												>
+													{location.name}
+												</Typography>
+												<Typography variant="p" option="tiny">
 													Total: {location.total} equipos
-												</p>
-												<p className="text-sm text-green-600">
-													Online: {location.onlineCount}
-												</p>
-												<p className="text-sm text-red-600">
-													Offline: {location.offlineCount}
-												</p>
+												</Typography>
+												<Typography variant="p" option="tiny" color="verde">
+													En línea: {location.onlineCount}
+												</Typography>
+												<Typography variant="p" option="tiny" color="rojo">
+													Fuera de línea: {location.offlineCount}
+												</Typography>
 											</div>
 										</TooltipContent>
 									</Tooltip>

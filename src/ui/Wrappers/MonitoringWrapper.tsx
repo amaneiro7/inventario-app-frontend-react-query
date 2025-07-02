@@ -26,6 +26,16 @@ const MonitoringWrapper = memo(() => {
 				title: 'Monitoreo de Dispositivos Individuales',
 				description:
 					'Consulta el estado en tiempo real, histórico de pings y detalles de cada dispositivo.'
+			},
+			'/monitoring/agencymap': {
+				title: 'Mapa de Conectividad de Agencias',
+				description:
+					'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.'
+			},
+			'/monitoring/administrativesitemap': {
+				title: 'Mapa de Conectividad de Torres Administrativas',
+				description:
+					'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.'
 			}
 		}),
 		[]

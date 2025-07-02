@@ -16,7 +16,7 @@ const MonitoringOccSiteMapChart = () => {
 		setSelectedAdmRegion(deviceMonitoringDashboardByLocation[0]?.name)
 	}
 
-	const handleFloorClick = (floorNumber: string) => {
+	const handleFloorClick = (floorNumber: string | null) => {
 		setSelectedFloor(floorNumber)
 	}
 

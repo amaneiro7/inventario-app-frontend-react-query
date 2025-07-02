@@ -91,12 +91,12 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Mapa de Conectividad de Agencias',
 				path: '/monitoring/agencymap',
-				desc: 'Explora el estado de conectividad en tiempo real de las agencias a través de un mapa interactivo de Venezuela.'
+				desc: 'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.'
 			},
 			{
-				title: 'Mapa de Conectividad de Torre Maracaibo',
-				path: '/monitoring/occsitemap',
-				desc: ''
+				title: 'Mapa de Conectividad de Torres',
+				path: '/monitoring/administrativesitemap',
+				desc: 'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.'
 			}
 		]
 	},

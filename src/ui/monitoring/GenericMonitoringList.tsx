@@ -7,7 +7,7 @@ export interface GenericMonitorableItem {
 	id: string // Unique identifier for the list key
 	name: string // Main name to display (e.g., computerName, locationName)
 	status: string // The raw status string (e.g., "ONLINE", "OFFLINE")
-	subDetail?: string // Optional: for IP Address or any other secondary detail
+	subDetail: string | null // Optional: for IP Address or any other secondary detail
 	// Add any other properties your `renderItem` function might need
 }
 

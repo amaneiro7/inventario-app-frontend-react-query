@@ -13,6 +13,7 @@ export const LocationMonitoringChart = memo(({ query }: LocationMonitoringChartP
 
 	return (
 		<MonitoringChart
+			chartType="locations"
 			error={error}
 			isError={isError}
 			isLoading={isLoading}

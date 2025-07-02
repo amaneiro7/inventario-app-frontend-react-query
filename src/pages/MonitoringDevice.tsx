@@ -37,17 +37,17 @@ export default function MonitoringDevice() {
 				</FilterSection>
 			</DetailsBoxWrapper>
 
-			<Tabs defaultValue="table">
+			<Tabs defaultValue="chart">
 				{/* <DetailsBoxWrapper> */}
-				<TabsList className="grid grid-cols-3">
+				<TabsList className="grid max-w-fit grid-cols-3">
+					<TabsTrigger bgColor="darkBlue" value="chart">
+						Gráficos
+					</TabsTrigger>
 					<TabsTrigger bgColor="darkBlue" value="table">
 						Tabla
 					</TabsTrigger>
 					<TabsTrigger bgColor="darkBlue" value="map">
 						Mapa
-					</TabsTrigger>
-					<TabsTrigger bgColor="darkBlue" value="chart">
-						Gráficos
 					</TabsTrigger>
 				</TabsList>
 				{/* </DetailsBoxWrapper> */}

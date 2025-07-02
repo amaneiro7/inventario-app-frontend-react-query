@@ -64,7 +64,7 @@ export const DeviceMonitoringTabsContent = memo(
 				</TabsContent>
 				<TabsContent value="chart" className="mt-4">
 					<Suspense>
-						<DeviceMonitoringChart />
+						<DeviceMonitoringChart query={query} />
 					</Suspense>
 				</TabsContent>
 			</>

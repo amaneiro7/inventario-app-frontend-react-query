@@ -1,14 +1,19 @@
 import { memo } from 'react'
 import { useGetDeviceMonitoringDashboardByState } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
-
 import { MonitoringChart } from '../MonitoringChart'
+import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
-export const DeviceMonitoringChart = memo(() => {
+interface DeviceMonitoringChartProps {
+	query: DeviceMonitoringFilters
+}
+
+export const DeviceMonitoringChart = memo(({ query }: DeviceMonitoringChartProps) => {
 	const { deviceMonitoringDashboardByState, isError, isLoading, error } =
-		useGetDeviceMonitoringDashboardByState()
+		useGetDeviceMonitoringDashboardByState(query)
 
 	return (
 		<MonitoringChart
+			chartType="devices"
 			error={error}
 			isError={isError}
 			isLoading={isLoading}
