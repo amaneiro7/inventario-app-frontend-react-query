@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useGetDeviceMonitoringDashboardByLocation } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByLocation'
 import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { AdministrativeRegionOptionsName } from '@/core/locations/administrativeRegion/domain/entity/AdministrativeRegionOptionsNames'
 import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 export function useOccSiteMapChart() {
@@ -20,11 +21,19 @@ export function useOccSiteMapChart() {
 		setSelectedAdmRegion(deviceMonitoringDashboardByLocation[0]?.name)
 	}
 
-	const handleFloorClick = (floorNumber: string) => {
+	const handleFloorClick = (floorNumber: string | null) => {
 		setSelectedFloor(floorNumber)
 	}
 
-	// Memoizar la región seleccionada para evitar recálculos innecesarios
+	if (deviceMonitoringDashboardByLocation && !selectedAdmRegion) {
+		const defaultAdmRegion = AdministrativeRegionOptionsName.OCCIDENTE
+		const defaultOptions =
+			deviceMonitoringDashboardByLocation.find(adm => adm.name === defaultAdmRegion)?.name ??
+			deviceMonitoringDashboardByLocation[0].name
+
+		setSelectedAdmRegion(defaultOptions)
+	}
+
 	const selectedRegionData = useMemo(() => {
 		return deviceMonitoringDashboardByLocation?.find(
 			admRegion => admRegion.name === selectedAdmRegion
