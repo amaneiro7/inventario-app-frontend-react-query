@@ -1,30 +1,32 @@
-import { Suspense, useState, useMemo } from 'react'
+import { lazy, Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { TowerVisualization } from '@/ui/monitoring/mcboSiteChart/TowerVisualization'
 import { useOccSiteMapChart } from '@/ui/monitoring/mcboSiteChart/useOccSiteMapChart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { Skeleton } from '@/components/Skeleton'
 import { StatusLegend } from '@/ui/monitoring/mcboSiteChart/StatusLegend'
-import { LocationDetailsPanel } from '@/ui/monitoring/mcboSiteChart/LocationDetailsPanel'
+import Typography from '@/components/Typography'
+
+const TowerVisualization = lazy(() =>
+	import('@/ui/monitoring/mcboSiteChart/TowerVisualization').then(m => ({
+		default: m.TowerVisualization
+	}))
+)
+const LocationDetailsPanel = lazy(() =>
+	import('@/ui/monitoring/mcboSiteChart/LocationDetailsPanel').then(m => ({
+		default: m.LocationDetailsPanel
+	}))
+)
 
 const MonitoringOccSiteMapChart = () => {
-	const { deviceMonitoringDashboardByLocation, isLoading } = useOccSiteMapChart()
-	const [selectedFloor, setSelectedFloor] = useState<string | null>(null)
-	const [selectedAdmRegion, setSelectedAdmRegion] = useState<string | null>(null)
-
-	if (deviceMonitoringDashboardByLocation && !selectedAdmRegion) {
-		setSelectedAdmRegion(deviceMonitoringDashboardByLocation[0]?.name)
-	}
-
-	const handleFloorClick = (floorNumber: string | null) => {
-		setSelectedFloor(floorNumber)
-	}
-
-	const selectedRegionData = useMemo(() => {
-		return deviceMonitoringDashboardByLocation?.find(
-			admRegion => admRegion.name === selectedAdmRegion
-		)
-	}, [deviceMonitoringDashboardByLocation, selectedAdmRegion])
+	const {
+		deviceMonitoringDashboardByLocation,
+		isLoading,
+		selectedAdmRegion,
+		setSelectedAdmRegion,
+		selectedRegionData,
+		selectedFloor,
+		handleFloorClick
+	} = useOccSiteMapChart()
 
 	if (isLoading) {
 		return (
@@ -84,17 +86,31 @@ const MonitoringOccSiteMapChart = () => {
 						</h2>
 						{selectedRegionData?.sites.map(site => (
 							<article key={site.name} aria-labelledby={`site-title-${site.name}`}>
-								<h3
+								<Typography
 									id={`site-title-${site.name}`}
-									className="mb-2 text-center font-semibold"
+									variant="h3"
+									align="center"
+									weight="semibold"
+									color="azul"
+									className="mb-2"
 								>
 									{site.name}
-								</h3>
-								<TowerVisualization
-									locations={site.locations}
-									onLocationClick={handleFloorClick}
-									selectedLocationName={selectedFloor}
-								/>
+								</Typography>
+								<Suspense
+									fallback={
+										<>
+											<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
+											<div className="animate-pulse-fast h-28 min-w-64 bg-slate-400" />
+											<div className="mt-1 h-4 rounded-b-lg bg-slate-700 shadow-md" />
+										</>
+									}
+								>
+									<TowerVisualization
+										locations={site.locations}
+										onLocationClick={handleFloorClick}
+										selectedLocationName={selectedFloor}
+									/>
+								</Suspense>
 							</article>
 						))}
 					</section>

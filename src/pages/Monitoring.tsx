@@ -16,6 +16,21 @@ const Monitoring = () => {
 				'Accede al panel para ver el estado de conectividad en tiempo real de tus equipos.',
 			icon: MonitorCheck,
 			to: 'device'
+		},
+		{
+			title: 'Mapa de Conectividad de Agencias',
+			description:
+				'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.',
+			icon: MonitorCheck,
+			to: 'agencymap'
+		},
+		{
+			title: 'Mapa de Conectividad de Torres Administrativas',
+			description:
+				'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.',
+
+			icon: MonitorCheck,
+			to: 'administrativesitemap'
 		}
 	]
 

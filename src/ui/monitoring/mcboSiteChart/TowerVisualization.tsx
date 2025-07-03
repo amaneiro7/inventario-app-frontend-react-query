@@ -1,11 +1,9 @@
+import { ArrowLeft } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { COLOR_THRESHOLDS } from '../MapColors'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip'
 import Typography from '@/components/Typography'
 import { type Locations } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
-import { ArrowLeft } from 'lucide-react'
-import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
-import { useRef } from 'react'
 
 const getLocationStatus = (location: Locations) => {
 	const onlinePercentage = location.total > 0 ? (location.onlineCount / location.total) * 100 : 0
@@ -26,18 +24,9 @@ export const TowerVisualization = ({
 	selectedLocationName,
 	onLocationClick
 }: SiteBuildingViewProps) => {
-	const containerRef = useRef(null)
-	useCloseClickOrEscape({
-		onClose() {
-			onLocationClick(null)
-		},
-		open: selectedLocationName ? true : false,
-		ref: containerRef
-	})
-
 	return (
 		<TooltipProvider>
-			<figure ref={containerRef} className="flex flex-col items-center gap-y-4 p-2">
+			<figure className="flex flex-col items-center gap-y-4 p-2">
 				<div className="w-fit">
 					<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
 
