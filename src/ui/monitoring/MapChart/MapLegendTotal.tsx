@@ -10,7 +10,7 @@ export const MapLegendTotal = memo(() => {
 	if (!locationMonitoringDashboard) {
 		return
 	}
-	const { total, online } = locationMonitoringDashboard
+	const { total, online, offline } = locationMonitoringDashboard
 	return (
 		<aside
 			className="absolute right-4 bottom-4 rounded-lg border bg-white p-3 shadow-md"
@@ -32,8 +32,13 @@ export const MapLegendTotal = memo(() => {
 					</Typography>
 				</li>
 				<li>
-					<Typography variant="span" option="tiny">
-						{online} Agencias con enlace {(online * 100) / total}%
+					<Typography variant="span" option="tiny" color="verde">
+						{online} Agencias con enlace {((online * 100) / total).toFixed(1)}%
+					</Typography>
+				</li>
+				<li>
+					<Typography variant="span" option="tiny" color="rojo">
+						{offline} Agencias sin enlace {((offline * 100) / total).toFixed(1)}%
 					</Typography>
 				</li>
 			</ul>
