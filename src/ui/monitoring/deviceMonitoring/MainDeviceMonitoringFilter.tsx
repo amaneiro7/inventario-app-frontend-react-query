@@ -114,6 +114,7 @@ export const MainDeviceMonitoringFilter = memo(
 				/>
 				<DeviceMonitoringStatusCombobox
 					name="status"
+					type="device"
 					handleChange={handleChange}
 					value={status}
 				/>

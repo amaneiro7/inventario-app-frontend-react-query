@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Wifi, WifiOff } from 'lucide-react'
+import { CircleSlash, HelpCircle, TriangleAlert, Wifi, WifiOff } from 'lucide-react'
 import { getRelativeTime } from '@/utils/getRelativeTime'
 import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
 import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
@@ -9,6 +9,7 @@ import { TableCellError } from '@/components/Table/TableCellError'
 import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
 import { type DeviceMonitoringDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 import { DeviceMonitoringDescription } from './DeviceMonitoringDescription'
+import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
 
 interface TableDeviceMonitoringProps {
 	devices?: DeviceMonitoringDto[]
@@ -43,10 +44,18 @@ export const TableDeviceMonitoring = memo(
 									size="small"
 									value={device.status}
 									icon={
-										device.status === 'online' ? (
+										device.status === DeviceMonitoringStatuses.ONLINE ? (
 											<Wifi className="ml-4 h-4 w-4 text-center text-green-500" />
-										) : (
+										) : device.status === DeviceMonitoringStatuses.OFFLINE ? (
 											<WifiOff className="ml-4 h-4 w-4 text-red-500" />
+										) : device.status ===
+										  DeviceMonitoringStatuses.HOSTNAME_MISMATCH ? (
+											<TriangleAlert className="ml-4 h-4 w-4 text-orange-500" />
+										) : device.status ===
+										  DeviceMonitoringStatuses.NOTAVAILABLE ? (
+											<CircleSlash className="ml-4 h-4 w-4 text-gray-500" />
+										) : (
+											<HelpCircle className="ml-4 h-4 w-4 text-gray-400" />
 										)
 									}
 								/>

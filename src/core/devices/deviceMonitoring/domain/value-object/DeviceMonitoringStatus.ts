@@ -4,7 +4,8 @@ import { InvalidArgumentError } from '@/core/shared/domain/value-objects/Invalid
 export enum DeviceMonitoringStatuses {
 	ONLINE = 'online',
 	OFFLINE = 'offline',
-	NOTAVAILABLE = 'not available'
+	NOTAVAILABLE = 'not available',
+	HOSTNAME_MISMATCH = 'hostname mismatch'
 }
 
 export class DeviceMonitoringStatus extends EnumValueObject<DeviceMonitoringStatuses> {

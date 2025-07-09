@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
 import { Combobox } from '@/components/Input/Combobox'
+import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
 
 export function DeviceMonitoringStatusCombobox({
 	value,
 	name,
 	error = '',
+	type,
 	required = false,
 	disabled = false,
 	readonly = false,
@@ -13,18 +15,28 @@ export function DeviceMonitoringStatusCombobox({
 	value?: string | null
 	name: string
 	error?: string
+	type?: 'location' | 'device'
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const options = useMemo(() => {
-		return [
+	const options: { id: string; name: string }[] = useMemo(() => {
+		const optionalStatus = {
+			id: DeviceMonitoringStatuses.HOSTNAME_MISMATCH,
+			name: 'Nombre de host inconsistente'
+		}
+		const defaultOptions = [
 			{ id: 'all', name: 'Todos' },
-			{ id: 'online', name: 'En línea' },
-			{ id: 'offline', name: 'Fuera de línea' }
+			{ id: DeviceMonitoringStatuses.ONLINE, name: 'En línea' },
+			{ id: DeviceMonitoringStatuses.OFFLINE, name: 'Fuera de línea' }
 		]
-	}, [])
+		if (type === 'device') {
+			return [...defaultOptions, optionalStatus]
+		} else {
+			return defaultOptions
+		}
+	}, [type])
 	return (
 		<>
 			<Combobox
