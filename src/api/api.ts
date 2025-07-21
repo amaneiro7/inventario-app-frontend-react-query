@@ -28,13 +28,13 @@ export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolea
 			const { status, data } = error.response
 			switch (status) {
 				case 403:
-					throw new Error('Acceso denegado.')
+					throw new Error(data?.message ?? 'Acceso denegado.')
 				case 404:
 					throw new Error('Recurso no encontrado.')
 				case 500:
 					throw new Error('Error interno del servidor.')
 				default:
-					throw new Error(data || `Error HTTP ${status}: Error desconocido`)
+					throw new Error(data?.message ?? `Error HTTP ${status}: Error desconocido`)
 			}
 		}
 		throw new Error(
