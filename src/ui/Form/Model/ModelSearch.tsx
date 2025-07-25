@@ -15,7 +15,7 @@ export function ModelSearch() {
 		}
 	}, [debouncedSearch])
 
-	const { models, isLoading } = useGetAllModel(query)
+	const { models, isLoading } = useGetAllModel({ query })
 
 	const options = useMemo(() => models?.data ?? [], [models])
 

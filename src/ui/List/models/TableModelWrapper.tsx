@@ -25,7 +25,11 @@ interface Props {
 const TableModels = lazy(() => import('./TableModels').then(m => ({ default: m.TableModels })))
 
 export function TableModelWrapper({ query, handlePageSize, handlePageClick, handleSort }: Props) {
-	const { models, isError, isLoading } = useGetAllModel(query)
+	const REFETCH_INTERVAL_IN_MS = 60000 // 1 min
+	const { models, isError, isLoading } = useGetAllModel({
+		query,
+		refetchInterval: REFETCH_INTERVAL_IN_MS
+	})
 	const { colSpan, headers, visibleColumns } = useTableModelWrapper()
 	return (
 		<>

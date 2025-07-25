@@ -31,7 +31,7 @@ const TableDevice = lazy(() =>
 
 export const TableWrapper = memo(
 	({ query, handleSort, handleChange, handlePageSize, handlePageClick }: TableWrapperProps) => {
-		const { devices, isError, isLoading } = useGetAllComputerDevices(query)
+		const { devices, isError, isLoading } = useGetAllComputerDevices({ query })
 		const { colSpan, headers, visibleColumns } = useTableDeviceWrapper()
 		return (
 			<>

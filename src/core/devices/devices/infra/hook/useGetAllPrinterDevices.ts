@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/core/devices/devices/infra/service/deviceGetAll.service'
 import { DevicePrinterFilter } from '../../application/printer/DevicePrinterFilter'
+import { REFETCH_INTERVAL_IN_MS } from '../../domain/entity/refetchIntervalInMs'
 import { type DevicePrinterFilters } from '../../application/printer/CreateDevicePrinterParams'
 
 const repository = new DeviceGetAllService()
@@ -17,7 +18,7 @@ export const useGetAllPrinterDevices = (query: DevicePrinterFilters) => {
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
 		refetchOnMount: true,
-		refetchInterval: 5 * 1000
+		refetchInterval: REFETCH_INTERVAL_IN_MS
 	})
 
 	return {

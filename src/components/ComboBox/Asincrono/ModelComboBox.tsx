@@ -1,8 +1,8 @@
 import { memo, useCallback, useMemo, useState } from 'react'
 import { useDebounce } from '@/hooks/utils/useDebounce'
 import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
-import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 import { Combobox } from '@/components/Input/Combobox'
+import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
 interface BaseProps {
 	value?: string
 	name: string
@@ -59,7 +59,7 @@ export const ModelCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, name, categoryId, brandId])
 
-	const { models, isLoading } = useGetAllModel(query)
+	const { models, isLoading } = useGetAllModel({ query })
 	const options = useMemo(() => models?.data ?? [], [models])
 
 	const getModelsData = useCallback(

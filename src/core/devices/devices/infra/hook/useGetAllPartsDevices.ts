@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/core/devices/devices/infra/service/deviceGetAll.service'
 import { DevicePartsFilter } from '../../application/parts/DevicePartsFilter'
+import { REFETCH_INTERVAL_IN_MS } from '../../domain/entity/refetchIntervalInMs'
 import { type DevicePartsFilters } from '../../application/parts/CreateDevicePartsParams'
 
 export const useGetAllPartsDevices = (query: DevicePartsFilters) => {
@@ -18,7 +19,7 @@ export const useGetAllPartsDevices = (query: DevicePartsFilters) => {
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
 		refetchOnMount: true,
-		refetchInterval: 5 * 1000
+		refetchInterval: REFETCH_INTERVAL_IN_MS
 	})
 
 	return {
