@@ -49,7 +49,14 @@ export async function createHistoryParams({
 			} else {
 				query.filters.push({
 					field: key,
-					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
+					operator:
+						key === 'name'
+							? Operator.CONTAINS
+							: key === 'startDate'
+								? Operator.GREATER_THAN_OR_EQUAL
+								: key === 'endDate'
+									? Operator.LOWER_THAN_OR_EQUAL
+									: Operator.EQUAL,
 					value
 				})
 			}
