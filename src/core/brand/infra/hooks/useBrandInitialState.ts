@@ -4,7 +4,8 @@ import { useQuery } from '@tanstack/react-query'
 import { BrandGetter } from '@/core/brand/application/BrandGetter'
 import { BrandGetService } from '@/core/brand/infra/service/brandGet.service'
 import { useGetFormMode } from '@/hooks/useGetFormMode'
-import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
+import { type DefaultBrand } from '../reducers/brandFormReducer'
+import { BrandDto } from '../../domain/dto/Brand.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new BrandGetService()
@@ -15,15 +16,15 @@ const get = new BrandGetter(repository)
  * @param defaultState Estado inicial por defecto de la marca.
  * @returns Un objeto con el estado inicial, la función para resetear el estado y el modo del formulario.
  */
-export function useBrandInitialState(defaultState: BrandParams): {
-	initialState: BrandParams
+export function useBrandInitialState(defaultState: DefaultBrand): {
+	initialState: DefaultBrand
 	resetState: () => void
 	mode: 'edit' | 'add'
 } {
 	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
 	const navigate = useNavigate() // Función para navegar a otras rutas.
-	const [state, setState] = useState<BrandParams>(defaultState) // Estado local de la marca.
+	const [state, setState] = useState<DefaultBrand>(defaultState) // Estado local de la marca.
 
 	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
 
@@ -34,6 +35,15 @@ export function useBrandInitialState(defaultState: BrandParams): {
 		enabled: !!id && mode === 'edit' && !location?.state?.brand, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
 		retry: false // Deshabilita los reintentos automáticos en caso de error.
 	})
+
+	const mapBrandToState = useCallback((brand: BrandDto): void => {
+		setState({
+			id: brand.id,
+			name: brand.name,
+			categories: brand?.categories.map(category => category.id) ?? [],
+			updatedAt: brand?.updatedAt
+		})
+	}, [])
 
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
@@ -49,7 +59,7 @@ export function useBrandInitialState(defaultState: BrandParams): {
 			setState(location.state.brand)
 		} else if (brandData) {
 			// Si hay datos de la API, actualiza el estado con esos datos.
-			setState(brandData)
+			mapBrandToState(brandData)
 		}
 	}, [mode, brandData, location.state, defaultState, navigate, id])
 
@@ -66,7 +76,7 @@ export function useBrandInitialState(defaultState: BrandParams): {
 			// Si el modo es editar, vuelve a obtener los datos de la marca de la API y actualiza el estado.
 			const { data } = await refetch()
 			if (data) {
-				setState(data)
+				mapBrandToState(data)
 			}
 		}
 	}, [defaultState, location.pathname, mode, refetch, id])

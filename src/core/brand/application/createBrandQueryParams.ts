@@ -9,6 +9,7 @@ import { type BrandDto } from '../domain/dto/Brand.dto'
 export interface BrandFilters {
 	id?: BrandDto['id']
 	name?: BrandDto['name']
+	categoryId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>

@@ -11,6 +11,7 @@ export function BrandCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	categoryId = '',
 	handleChange
 }: {
 	value?: string
@@ -19,6 +20,7 @@ export function BrandCombobox({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	categoryId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -27,9 +29,10 @@ export function BrandCombobox({
 	const query: BrandFilters = useMemo(() => {
 		return {
 			...(value ? { id: value } : {}),
-			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 })
+			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+			...(value || debouncedSearch ? { categoryId: undefined } : { categoryId })
 		}
-	}, [debouncedSearch, value])
+	}, [debouncedSearch, value, categoryId])
 
 	const { brands, isLoading } = useGetAllBrands(query)
 

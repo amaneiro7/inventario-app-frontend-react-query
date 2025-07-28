@@ -16,7 +16,7 @@ const AddtionalFeatures = lazy(async () =>
 	import('./AddtionalFeatures').then(m => ({ default: m.AddtionalFeatures }))
 )
 
-interface Props {
+interface DeviceInputsProps {
 	formData: DefaultDevice
 	errors: DevicesErrors
 	required: DeviceRequired
@@ -56,7 +56,7 @@ export function DeviceInputs({
 	handleLocation,
 	handleMemory,
 	handleModel
-}: Props) {
+}: DeviceInputsProps) {
 	return (
 		<div className="flex flex-col gap-4">
 			{/* Informacion Principal */}

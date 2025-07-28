@@ -139,6 +139,7 @@ export const ClasifyMainDeviceInputs = memo(function ({
 					error={errorBrandId}
 					required={requiredBrandId}
 					disabled={disabledBrandId}
+					categoryId={categoryId}
 					readonly={mode === 'edit'}
 				/>
 			</Suspense>

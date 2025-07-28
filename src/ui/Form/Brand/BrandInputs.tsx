@@ -1,27 +1,41 @@
 import { memo } from 'react'
 import { Input } from '@/components/Input/Input'
-import { type BrandErrors, type Action } from '@/core/brand/infra/reducers/brandFormReducer'
-import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
+import { CategoryTransferList } from '@/components/TranferList/CategoryTransferList'
+import {
+	type BrandErrors,
+	type Action,
+	type DefaultBrand
+} from '@/core/brand/infra/reducers/brandFormReducer'
 
-interface Props {
+interface BrandInputsProps {
+	formData: DefaultBrand
 	errors?: BrandErrors
-	formData: BrandParams
 	handleChange: (name: Action['type'], value: string) => void
 }
 
-export const BrandInputs = memo(function ({ errors, formData, handleChange }: Props) {
+export const BrandInputs = memo(({ errors, formData, handleChange }: BrandInputsProps) => {
 	return (
-		<Input
-			id="brand-name"
-			value={formData.name}
-			name="name"
-			label="Nombre de la marca"
-			onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-				handleChange('name', e.target.value)
-			}
-			error={!!errors?.name}
-			errorMessage={errors?.name}
-			required
-		/>
+		<>
+			<Input
+				id="brand-name"
+				value={formData.name}
+				name="name"
+				label="Nombre de la marca"
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+					handleChange('name', e.target.value)
+				}
+				error={!!errors?.name}
+				errorMessage={errors?.name}
+				required
+			/>
+			<CategoryTransferList
+				value={formData.categories}
+				name="categories"
+				onAddCategory={handleChange}
+				onRemoveCategory={handleChange}
+			/>
+		</>
 	)
 })
+
+BrandInputs.displayName = 'BrandInputs'

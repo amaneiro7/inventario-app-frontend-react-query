@@ -1,4 +1,4 @@
-import { useLayoutEffect, useReducer } from 'react'
+import { useCallback, useLayoutEffect, useReducer } from 'react'
 import { BrandCreator } from '@/core/brand/application/BrandCreator'
 import { BrandSaveService } from '@/core/brand/infra/service/brandSave.service'
 import {
@@ -12,7 +12,7 @@ import { type BrandParams } from '@/core/brand/domain/dto/Brand.dto'
 import { useAuthStore } from '@/store/useAuthStore'
 
 export function useCreateBrand(defaultState?: BrandParams) {
-	const key = `processor${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
+	const key = `brand${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
 	const { events } = useAuthStore.getState()
 
 	const create = async (formData: BrandParams) => {
@@ -32,15 +32,16 @@ export function useCreateBrand(defaultState?: BrandParams) {
 		})
 	}, [initialState])
 
-	const resetForm = () => {
+	const resetForm = useCallback(() => {
 		dispatch({
 			type: 'reset',
 			payload: { formData: structuredClone(prevState ?? initialState) }
 		})
-	}
+	}, [prevState, initialBrandState])
 
 	const handleChange = (name: Action['type'], value: string) => {
-		if (name === 'name') dispatch({ type: name, payload: { value } })
+		if (name === 'init' || name === 'reset') return
+		dispatch({ type: name, payload: { value } })
 	}
 
 	const handleSubmit = async (event: React.FormEvent) => {
