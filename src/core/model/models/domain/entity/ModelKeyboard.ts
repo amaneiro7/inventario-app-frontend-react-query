@@ -10,6 +10,7 @@ import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { isPartsCategory } from '../../../../mainCategory/domain/use-case/IsPartsCategory'
 import { HasFingerPrintReader } from '../value-object/HasFingerPrintReader'
 import { InputTypeId } from '@/core/model/inputType/domain/value-object/InputTypeId'
+import { ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
 
 export class ModelKeyboard extends Model {
 	constructor(
@@ -17,10 +18,11 @@ export class ModelKeyboard extends Model {
 		categoryId: CategoryId,
 		brandId: BrandId,
 		generic: GenericModel,
+		processors: ProcessorId[],
 		private readonly inputTypeId: InputTypeId,
 		private readonly hasFingerPrintReader: HasFingerPrintReader
 	) {
-		super(name, categoryId, brandId, generic)
+		super(name, categoryId, brandId, generic, processors)
 	}
 
 	public static create(params: ModelKeyboardParams): ModelKeyboard {
@@ -40,6 +42,7 @@ export class ModelKeyboard extends Model {
 			new CategoryId(params.categoryId),
 			new BrandId(params.brandId),
 			new GenericModel(params.generic),
+			params.processors.map(processorId => new ProcessorId(processorId)),
 			new InputTypeId(params.inputTypeId),
 			new HasFingerPrintReader(params.hasFingerPrintReader)
 		)
@@ -58,6 +61,7 @@ export class ModelKeyboard extends Model {
 			categoryId: this.categoryValue,
 			brandId: this.brandValue,
 			generic: this.genericValue,
+			processors: this.processorsValue,
 			inputTypeId: this.inputTypeValue,
 			hasFingerPrintReader: this.hasFingerPrintReaderValue
 		}

@@ -11,11 +11,13 @@ export const ProcessorCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	modelId = '',
 	handleChange
 }: {
 	value?: string
 	name: string
 	error?: string
+	modelId?: string
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
@@ -27,9 +29,10 @@ export const ProcessorCombobox = memo(function ({
 	const query: ProcessorFilters = useMemo(() => {
 		return {
 			...(value ? { id: value } : {}),
-			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 })
+			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+			...(value || debouncedSearch ? { modelId: undefined } : { modelId })
 		}
-	}, [debouncedSearch, value])
+	}, [debouncedSearch, value, modelId])
 
 	const { processor, isLoading } = useGetAllProcessor(query)
 

@@ -11,6 +11,7 @@ export interface ProcessorFilters {
 	name?: ProcessorDto['name']
 	numberModel?: ProcessorDto['numberModel']
 	productCollection?: ProcessorDto['productCollection']
+	modelId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>

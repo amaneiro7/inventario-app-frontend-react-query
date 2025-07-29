@@ -31,6 +31,12 @@ export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolea
 					throw new Error(data?.message ?? 'Acceso denegado.')
 				case 404:
 					throw new Error('Recurso no encontrado.')
+				case 422:
+					throw new Error(data?.message ?? 'Error de validación.')
+				case 429:
+					throw new Error(
+						data?.message ?? 'Demasiadas solicitudes, por favor, reintente mas tarde.'
+					)
 				case 500:
 					throw new Error('Error interno del servidor.')
 				default:

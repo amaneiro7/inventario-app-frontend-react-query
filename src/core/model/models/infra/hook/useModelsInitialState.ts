@@ -49,6 +49,7 @@ const get = new ModelGetter(repository)
 			brandId: model.brandId,
 			name: model.name,
 			generic: model.generic,
+			processors: model.processors.map(processor => processor.id),
 			updatedAt: model.updatedAt,
 			hasBluetooth: modelComputer?.hasBluetooth || modelLaptop?.hasBluetooth || false,
 			hasWifiAdapter: modelComputer?.hasWifiAdapter || modelLaptop?.hasWifiAdapter || false,

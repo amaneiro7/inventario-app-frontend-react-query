@@ -41,6 +41,7 @@ const MemoryRamCapacitySlotInput = lazy(() =>
 interface Props {
 	computerName: DefaultDevice['computerName']
 	processorId: DefaultDevice['processorId']
+	modelId: DefaultDevice['modelId']
 	memoryRam: DefaultDevice['memoryRam']
 	memoryRamCapacity: DefaultDevice['memoryRamCapacity']
 	memoryRamType: DefaultDevice['memoryRamType']
@@ -84,7 +85,7 @@ interface Props {
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
-export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, ...props }: Props) {
+export const AddComputerFeatures = memo(({ handleChange, handleMemory, ...props }: Props) => {
 	return (
 		<>
 			<Input
@@ -134,6 +135,7 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 					value={props.processorId ?? ''}
 					handleChange={(_name, value) => handleChange('processorId', value)}
 					name="processorId"
+					modelId={props.modelId}
 					error={props.errorsProcessorId}
 					required={props.requiredProcessorId}
 					disabled={props.disabledProcessorId}
@@ -245,3 +247,5 @@ export const AddComputerFeatures = memo(function ({ handleChange, handleMemory, 
 		</>
 	)
 })
+
+AddComputerFeatures.displayName = 'AddComputerFeatures'

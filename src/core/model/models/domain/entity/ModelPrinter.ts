@@ -9,6 +9,7 @@ import { InvalidArgumentError } from '@/core/shared/domain/value-objects/Invalid
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { CartridgeModel } from '../value-object/CartridgeModel'
 import { isPrinterCategory } from '../../../../mainCategory/domain/use-case/isPrinterCategory'
+import { ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
 
 export class ModelPrinter extends Model {
 	constructor(
@@ -16,9 +17,10 @@ export class ModelPrinter extends Model {
 		categoryId: CategoryId,
 		brandId: BrandId,
 		generic: GenericModel,
+		processors: ProcessorId[],
 		private readonly cartridgeModel: CartridgeModel
 	) {
-		super(name, categoryId, brandId, generic)
+		super(name, categoryId, brandId, generic, processors)
 	}
 
 	public static create(params: ModelPrinterParams): ModelPrinter {
@@ -38,6 +40,7 @@ export class ModelPrinter extends Model {
 			new CategoryId(params.categoryId),
 			new BrandId(params.brandId),
 			new GenericModel(params.generic),
+			params.processors.map(processorId => new ProcessorId(processorId)),
 			new CartridgeModel(params.cartridgeModel)
 		)
 	}
@@ -52,6 +55,7 @@ export class ModelPrinter extends Model {
 			categoryId: this.categoryValue,
 			brandId: this.brandValue,
 			generic: this.genericValue,
+			processors: this.processorsValue,
 			cartridgeModel: this.cartridgeModelValue
 		}
 	}

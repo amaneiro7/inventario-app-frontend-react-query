@@ -13,6 +13,7 @@ import { Input } from '@/components/Input/Input'
 import { Checkbox } from '@/components/Checkbox/Checbox'
 import { MemoryRamSlotQuantity } from '@/core/model/models/domain/value-object/MemoryRamSlotQuantity'
 import { InputFallback } from '@/components/Loading/InputFallback'
+import { ProcessorTransferList } from '@/components/TranferList/ProcessorTransferList'
 
 const MemoryRamTypeCombobox = lazy(() =>
 	import('@/components/ComboBox/Sincrono/MemoryRamTypeComboBox').then(m => ({
@@ -127,6 +128,12 @@ export const AddModelComputerFeatures = memo(function ({
 					disabled={disabled.batteryModel}
 				/>
 			) : null}
+			<ProcessorTransferList
+				value={formData.processors}
+				name="processors"
+				onAddProcessor={handleChange}
+				onRemoveProcessor={handleChange}
+			/>
 		</>
 	)
 })

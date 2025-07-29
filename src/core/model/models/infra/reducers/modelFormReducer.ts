@@ -70,6 +70,7 @@ export const initialModelState: State = {
 		categoryId: '',
 		brandId: '',
 		name: '',
+		processors: [],
 		generic: false,
 		hasBluetooth: false,
 		hasDVI: false,
@@ -143,6 +144,8 @@ export type Action =
 	| { type: 'screenSize'; payload: { value: DefaultModel['screenSize'] } }
 	| { type: 'cartridgeModel'; payload: { value: DefaultModel['cartridgeModel'] } }
 	| { type: 'inputTypeId'; payload: { value: DefaultModel['inputTypeId'] } }
+	| { type: 'addProcessor'; payload: { value: string } }
+	| { type: 'removeProcessor'; payload: { value: string } }
 
 export const modelFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
@@ -332,6 +335,26 @@ export const modelFormReducer = (state: State, action: Action): State => {
 			return {
 				...state,
 				formData: { ...state.formData, inputTypeId }
+			}
+		}
+		case 'addProcessor': {
+			const processors = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					processors: [...state.formData.processors, processors]
+				}
+			}
+		}
+		case 'removeProcessor': {
+			const processors = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					processors: state.formData.processors.filter(c => c !== processors)
+				}
 			}
 		}
 		default:

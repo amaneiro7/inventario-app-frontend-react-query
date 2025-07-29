@@ -12,6 +12,8 @@ import { type ModelLaptopDto, type ModelLaptopParams } from './ModelLaptop.dto'
 import { type ModelMonitorDto, type ModelMonitorParams } from './ModelMonitor.dto'
 import { type ModelPrinterDto, type ModelPrinterParams } from './ModelPrinter.dto'
 import { type ModelKeyboardDto, type ModelKeyboardParams } from './ModelKeyboard.dto'
+import { type ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
+import { type ProcessorDto } from '@/core/devices/features/processor/domain/dto/Processor.dto'
 
 export interface Model {
 	id: Primitives<ModelId>
@@ -21,12 +23,18 @@ export interface Model {
 	generic: Primitives<GenericModel>
 }
 
-export type ModelPrimitives = Omit<Model, 'id'>
+export type ModelPrimitives = Omit<
+	Model & {
+		processors: Primitives<ProcessorId>[]
+	},
+	'id'
+>
 
 export type ModelParams = ModelPrimitives & {
 	id?: Primitives<ModelId>
 	mainCategoryId: Primitives<MainCategoryId>
 	categoryId: Primitives<CategoryId>
+	processors: Primitives<ProcessorId>[]
 }
 
 export type Params =
@@ -41,6 +49,7 @@ export type ModelDto = Model & {
 	createdAt: string
 	updatedAt: string
 	category: CategoryDto
+	processors: ProcessorDto[]
 	brand: BrandDto
 	modelComputer: ModelComputerDto | null
 	modelLaptop: ModelLaptopDto | null

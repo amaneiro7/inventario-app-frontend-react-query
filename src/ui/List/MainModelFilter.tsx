@@ -55,7 +55,12 @@ export const MainModelFilter = memo(function ({
 			</Suspense>
 
 			<Suspense fallback={<InputFallback />}>
-				<BrandCombobox name="brandId" value={brandId} handleChange={handleChange} />
+				<BrandCombobox
+					name="brandId"
+					value={brandId}
+					categoryId={categoryId}
+					handleChange={handleChange}
+				/>
 			</Suspense>
 
 			<Suspense fallback={<InputFallback />}>
@@ -64,6 +69,7 @@ export const MainModelFilter = memo(function ({
 					value={id}
 					brandId={brandId}
 					categoryId={categoryId}
+					mainCategoryId={mainCategoryId}
 					handleChange={handleChange}
 				/>
 			</Suspense>

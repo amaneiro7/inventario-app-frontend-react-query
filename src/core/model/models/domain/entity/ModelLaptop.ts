@@ -16,6 +16,7 @@ import { HasVGA } from '../value-object/HasVGA'
 import { InvalidArgumentError } from '@/core/shared/domain/value-objects/InvalidArgumentError'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { isComputerCategory } from '../../../../mainCategory/domain/use-case/isComputerCategory'
+import { ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
 
 export class ModelLaptop extends Model {
 	constructor(
@@ -23,6 +24,7 @@ export class ModelLaptop extends Model {
 		categoryId: CategoryId,
 		brandId: BrandId,
 		generic: GenericModel,
+		processors: ProcessorId[],
 		private readonly memoryRamTypeId: MemoryRamTypeId,
 		private readonly memoryRamSlotQuantity: MemoryRamSlotQuantity,
 		private readonly hasBluetooth: HasBluetooth,
@@ -32,7 +34,7 @@ export class ModelLaptop extends Model {
 		private readonly hasVGA: HasVGA,
 		private readonly batteryModel: BatteryModel
 	) {
-		super(name, categoryId, brandId, generic)
+		super(name, categoryId, brandId, generic, processors)
 	}
 
 	public static create(params: ModelLaptopParams): ModelLaptop {
@@ -52,6 +54,7 @@ export class ModelLaptop extends Model {
 			new CategoryId(params.categoryId),
 			new BrandId(params.brandId),
 			new GenericModel(params.generic),
+			params.processors.map(processorId => new ProcessorId(processorId)),
 			new MemoryRamTypeId(params.memoryRamTypeId),
 			new MemoryRamSlotQuantity(params.memoryRamSlotQuantity),
 			new HasBluetooth(params.hasBluetooth),
@@ -95,6 +98,7 @@ export class ModelLaptop extends Model {
 			categoryId: this.categoryValue,
 			brandId: this.brandValue,
 			generic: this.genericValue,
+			processors: this.processorsValue,
 			memoryRamTypeId: this.memoryRamTypeValue,
 			memoryRamSlotQuantity: this.memoryRamSlotQuantityValue,
 			hasBluetooth: this.hasBluetoothValue,

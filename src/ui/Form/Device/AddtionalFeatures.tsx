@@ -50,6 +50,7 @@ export function AddtionalFeatures({
 						<AddComputerFeatures
 							computerName={formData.computerName}
 							processorId={formData.processorId}
+							modelId={formData.modelId}
 							memoryRam={formData.memoryRam}
 							memoryRamCapacity={formData.memoryRamCapacity}
 							memoryRamType={formData.memoryRamType}

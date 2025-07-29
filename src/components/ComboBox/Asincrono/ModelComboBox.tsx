@@ -7,6 +7,7 @@ interface BaseProps {
 	value?: string
 	name: string
 	categoryId?: string
+	mainCategoryId?: string
 	brandId?: string
 	error?: string
 	required?: boolean
@@ -43,6 +44,7 @@ export const ModelCombobox = memo(function ({
 	disabled = false,
 	readonly = false,
 	categoryId,
+	mainCategoryId,
 	brandId,
 	method = 'search',
 	...props
@@ -54,10 +56,11 @@ export const ModelCombobox = memo(function ({
 		return {
 			...(value ? { id: value } : { id: undefined }),
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+			mainCategoryId,
 			categoryId,
 			brandId
 		}
-	}, [debouncedSearch, value, name, categoryId, brandId])
+	}, [debouncedSearch, value, name, mainCategoryId, categoryId, brandId])
 
 	const { models, isLoading } = useGetAllModel({ query })
 	const options = useMemo(() => models?.data ?? [], [models])

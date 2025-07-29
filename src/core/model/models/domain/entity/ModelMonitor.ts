@@ -12,6 +12,7 @@ import { InvalidArgumentError } from '@/core/shared/domain/value-objects/Invalid
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 import { isScreenCategory } from '../../../../mainCategory/domain/use-case/isScreenCategory'
 import { ScreenSize } from '../value-object/ScreenSize'
+import { ProcessorId } from '@/core/devices/features/processor/domain/value-object/ProcessorId'
 
 export class ModelMonitor extends Model {
 	constructor(
@@ -19,12 +20,13 @@ export class ModelMonitor extends Model {
 		categoryId: CategoryId,
 		brandId: BrandId,
 		generic: GenericModel,
+		processors: ProcessorId[],
 		private readonly screenSize: ScreenSize,
 		private readonly hasDVI: HasDVI,
 		private readonly hasHDMI: HasHDMI,
 		private readonly hasVGA: HasVGA
 	) {
-		super(name, categoryId, brandId, generic)
+		super(name, categoryId, brandId, generic, processors)
 	}
 
 	public static create(params: ModelMonitorParams): ModelMonitor {
@@ -44,6 +46,7 @@ export class ModelMonitor extends Model {
 			new CategoryId(params.categoryId),
 			new BrandId(params.brandId),
 			new GenericModel(params.generic),
+			params.processors.map(processorId => new ProcessorId(processorId)),
 			new ScreenSize(params.screenSize),
 			new HasDVI(params.hasDVI),
 			new HasHDMI(params.hasHDMI),
@@ -70,6 +73,7 @@ export class ModelMonitor extends Model {
 			categoryId: this.categoryValue,
 			brandId: this.brandValue,
 			generic: this.genericValue,
+			processors: this.processorsValue,
 			screenSize: this.screenSizeValue,
 			hasDVI: this.hasDVIValue,
 			hasHDMI: this.hasHDMIValue,
