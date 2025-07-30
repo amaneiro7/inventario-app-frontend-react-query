@@ -1,3 +1,8 @@
+/**
+ * @interface ComputerDashboardDto
+ * @description Data Transfer Object for the computer-specific dashboard.
+ * Contains aggregated data about computer devices.
+ */
 export interface ComputerDashboardDto {
 	total: number
 	totalAgencies: number

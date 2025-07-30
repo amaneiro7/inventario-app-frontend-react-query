@@ -8,12 +8,27 @@ import { DeviceHardDrive } from '../domain/entity/DeviceHardDrive'
 import { DeviceMFP } from '../domain/entity/DeviceComputerMFP'
 import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
 
+/**
+ * @class DeviceCreator
+ * @description Application service responsible for creating or updating device records.
+ * It uses a factory pattern to handle different types of devices (Computer, HardDrive, etc.).
+ */
 export class DeviceCreator {
+	/**
+	 * @param {DeviceSaveRepository} repository - The repository for saving/updating device data.
+	 * @param {EventManager} events - The event manager to notify about process status (loading, success, error).
+	 */
 	constructor(
 		private readonly repository: DeviceSaveRepository,
 		private readonly events: EventManager
 	) {}
 
+	/**
+	 * @description Creates or updates a device based on the provided parameters.
+	 * @param {Params} params - The device data.
+	 * @returns {Promise<{ message: string }>} A promise that resolves with a success message.
+	 * @throws {Error} Throws an error if the creation/update process fails.
+	 */
 	async create(params: Params) {
 		this.events.notify({ type: 'loading' })
 		try {

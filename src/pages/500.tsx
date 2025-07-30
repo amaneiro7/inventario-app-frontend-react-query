@@ -1,6 +1,10 @@
 import { Seo } from '@/components/Seo' // Asumo que tienes un componente Seo
 
-export default function ErrorPage() {
+interface ErrorPageProps {
+	onReset: () => void
+}
+
+const ErrorPage: React.FC<ErrorPageProps> = ({ onReset }) => {
 	const title = '¡Oops! Algo salió mal'
 	const description =
 		'Página de error. Lo sentimos, ha ocurrido un problema inesperado en la aplicación.'
@@ -17,6 +21,13 @@ export default function ErrorPage() {
 					Lo sentimos, no pudimos encontrar la página que estabas buscando.
 				</p>
 				<div className="mt-10 flex items-center justify-center gap-x-6">
+					<button
+						onClick={onReset}
+						className="bg-rojo-600 hover:bg-rojo-500 focus-visible:outline-rojo-600 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
+						type="button"
+					>
+						Vuelva a intentar
+					</button>
 					<a
 						href="/"
 						className="bg-rojo-600 hover:bg-rojo-500 focus-visible:outline-rojo-600 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
@@ -32,3 +43,5 @@ export default function ErrorPage() {
 		</main>
 	)
 }
+
+export default ErrorPage

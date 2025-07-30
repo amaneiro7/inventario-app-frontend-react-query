@@ -1,46 +1,58 @@
-import { lazy, Suspense, use } from 'react'
+import { Suspense, lazy, use } from 'react'
 import { AuthContext } from '@/context/Auth/AuthContext'
-import { useChangePassword } from '@/core/user/infra/hooks/useChangePassword'
 import { PageTitle } from '@/ui/PageTitle'
 import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
 import { DetailsInfo } from '@/components/DetailsWrapper/DetailsInfo'
 import { DescriptionListElement } from '@/components/DetailsWrapper/DescriptionListElement'
-import { ChangePassowrdForm } from '@/ui/Profile/ChangePasswordForm'
 import { DescriptionDesc } from '@/components/DetailsWrapper/DescriptionDesc'
 import { StepsToFollow } from '@/components/StepsToFollow/StepsToFollow'
 import { ChangePasswordStepsToFollow } from '@/components/StepsToFollow/ChangePasswordStepsToFollow'
 import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
 import { Seo } from '@/components/Seo'
 
-const Modal = lazy(async () =>
-	import('@/components/Modal/Modal').then(m => ({ default: m.Dialog }))
+const LoadingSpinner = lazy(() =>
+	import('@/ui/monitoring/LoadingSpinner').then(m => ({ default: m.LoadingSpinner }))
 )
-const ConfirmationModal = lazy(async () =>
-	import('@/components/Modal/ConfirmationModal').then(m => ({
-		default: m.ConfirmationModal
-	}))
+const LinkAsButton = lazy(() =>
+	import('@/components/Button/LinkAsButton').then(m => ({ default: m.LinkAsButton }))
 )
 
+const EmptyState = lazy(() =>
+	import('@/ui/Profile/EmptyState').then(m => ({ default: m.EmptyState }))
+)
+const ChangePassowrdForm = lazy(() =>
+	import('@/ui/Profile/ChangePasswordForm').then(m => ({ default: m.ChangePassowrdForm }))
+)
 export default function ProfilePage() {
 	const {
-		auth: { user }
+		auth: { user, isLoginLoading }
 	} = use(AuthContext)
 
-	const {
-		dialogRef,
-		errors,
-		formData,
-		formId,
-		handleChange,
-		handleClose,
-		handleCloseModal,
-		handleOpenModal,
-		handleSubmit,
-		handleToggleInputs,
-		isDisabled,
-		loading,
-		toggleInputs
-	} = useChangePassword()
+	if (isLoginLoading) {
+		return (
+			<div className="flex h-screen items-center justify-center">
+				<LoadingSpinner />
+			</div>
+		)
+	}
+
+	if (!user) {
+		return (
+			<div className="flex h-screen flex-col items-center justify-center space-y-4">
+				<EmptyState
+					title="Perfil no disponible"
+					description="Parece que no se pudo cargar la información de tu perfil o tu sesión ha expirado. Por favor, intenta iniciar sesión nuevamente."
+				/>
+				{/* Optionally, add a button to redirect to login */}
+				<LinkAsButton
+					buttonSize="medium"
+					color="blue"
+					text="Ir a Iniciar Sesión"
+					to="/login"
+				/>
+			</div>
+		)
+	}
 
 	return (
 		<>
@@ -66,36 +78,14 @@ export default function ProfilePage() {
 						<DescriptionDesc desc={user?.role?.name ?? ''} />
 					</DescriptionListElement>
 				</DetailsInfo>
-
-				<ChangePassowrdForm
-					formId={formId}
-					userEmail={user?.email ?? ''}
-					toggleInputs={toggleInputs}
-					errors={errors}
-					formData={formData}
-					handleChange={handleChange}
-					handleSubmit={handleSubmit}
-					handleClose={handleClose}
-					handleToggleInputs={handleToggleInputs}
-					handleOpenModal={handleOpenModal}
-					isDisabled={isDisabled}
-					loading={loading}
-				/>
+				<Suspense>
+					<ChangePassowrdForm userEmail={user?.email ?? ''} />
+				</Suspense>
 			</DetailsWrapper>
 
 			<StepsToFollow>
 				<ChangePasswordStepsToFollow />
 			</StepsToFollow>
-
-			<Suspense>
-				<Modal key="profilePageModal" ref={dialogRef}>
-					<ConfirmationModal
-						handleClose={handleCloseModal}
-						formId={formId}
-						text="¿Seguro que desea cambiar la contraseña?"
-					/>
-				</Modal>
-			</Suspense>
 		</>
 	)
 }

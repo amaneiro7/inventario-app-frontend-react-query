@@ -23,6 +23,10 @@ import { type DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
 import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
 import { TypeOfSiteId } from '@/core/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 
+/**
+ * @interface Device
+ * @description Represents the core primitive structure of a device entity.
+ */
 export interface Device {
 	id: Primitives<DeviceId>
 	serial: Primitives<DeviceSerial>
