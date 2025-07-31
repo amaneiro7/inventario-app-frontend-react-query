@@ -111,7 +111,7 @@ export default function ListComputer() {
 					handleAdd={() => {
 						navigate('/form/device/add')
 					}}
-					handleFilter={filterAsideRef.current?.handleOpen}
+					handleFilter={() => filterAsideRef.current?.handleOpen()}
 				>
 					<Suspense fallback={<InputFallback />}>
 						<ComputerOrderByCombobox
