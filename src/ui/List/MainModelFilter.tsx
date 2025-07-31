@@ -59,6 +59,7 @@ export const MainModelFilter = memo(function ({
 					name="brandId"
 					value={brandId}
 					categoryId={categoryId}
+					mainCategoryId={mainCategoryId}
 					handleChange={handleChange}
 				/>
 			</Suspense>
