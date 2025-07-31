@@ -80,7 +80,7 @@ export default function ListParts() {
 						navigate('/form/device/add')
 					}}
 					filterButton
-					handleFilter={filterAsideRef.current?.handleOpen}
+					handleFilter={() => filterAsideRef.current?.handleOpen()}
 				/>
 			</DetailsBoxWrapper>
 			<TablePartsWrapper

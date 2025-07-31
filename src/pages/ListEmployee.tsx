@@ -63,7 +63,7 @@ export default function ListEmployee() {
 						navigate('/form/employee/add')
 					}}
 					filterButton
-					handleFilter={filterAsideRef.current?.handleOpen}
+					handleFilter={() => filterAsideRef.current?.handleOpen()}
 				/>
 			</DetailsBoxWrapper>
 
