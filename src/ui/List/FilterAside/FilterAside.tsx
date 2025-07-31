@@ -1,4 +1,11 @@
-import React, { useImperativeHandle, forwardRef, useRef, useState, useCallback } from 'react'
+import React, {
+	useImperativeHandle,
+	forwardRef,
+	useRef,
+	useState,
+	useCallback,
+	useEffect
+} from 'react'
 import { createPortal } from 'react-dom'
 import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 import { CloseIcon } from '@/icon/CloseIcon'
@@ -8,54 +15,67 @@ type Props = React.PropsWithChildren<
 >
 
 export interface FilterAsideRef {
-	handleOpen: (event: React.MouseEvent) => void
+	handleOpen: () => void
 }
 
 const Component = (
 	{ children, ...props }: Props,
 	ref: React.Ref<FilterAsideRef>
-): React.ReactPortal => {
-	const filterAsideRef = useRef<HTMLElement>(null)
+): React.ReactPortal | null => {
+	const asideRef = useRef<HTMLElement>(null)
+	const triggerRef = useRef<HTMLElement | null>(null)
 	const [open, setOpen] = useState(false)
 
-	const handleOpen = useCallback((event: React.MouseEvent) => {
-		event.stopPropagation()
-		event.preventDefault()
+	const handleOpen = useCallback(() => {
+		triggerRef.current = document.activeElement as HTMLElement
 		setOpen(true)
 	}, [])
 
 	const handleClose = useCallback(() => {
 		setOpen(false)
+		triggerRef.current?.focus()
 	}, [])
 
-	useImperativeHandle(ref, () => ({
-		handleOpen
-	}))
+	useImperativeHandle(
+		ref,
+		() => ({
+			handleOpen
+		}),
+		[handleOpen]
+	)
 
-	useCloseClickOrEscape({ open, onClose: handleClose, ref: filterAsideRef })
+	useEffect(() => {
+		if (open) {
+			asideRef.current?.focus()
+		}
+	}, [open])
+
+	useCloseClickOrEscape({ open, onClose: handleClose, ref: asideRef })
 
 	return createPortal(
 		<aside
 			id="aside-filters"
-			ref={filterAsideRef}
+			ref={asideRef}
 			data-open={open}
-			className={`filterAsideTransition absolute top-20 right-0 z-20 mb-2 hidden w-96 max-w-sm min-w-fit flex-col gap-4 rounded-lg border bg-white p-4 pl-8 shadow-lg drop-shadow-md will-change-transform ${open ? 'open' : 'close'}`}
+			className={`filterAsideTransition fixed top-20 right-0 z-50 mb-2 flex w-96 max-w-sm min-w-fit flex-col gap-4 rounded-lg border bg-white p-4 pl-6 shadow-xl transition-transform duration-300 ease-in-out will-change-transform ${open ? 'open' : 'close'}`}
 			aria-modal
 			aria-labelledby="filter-heading"
 			role="dialog"
+			tabIndex={-1}
 			{...props}
 		>
-			<button
-				className="top-0 left-0 z-30 block self-start p-1"
-				onClick={handleClose}
-				title="Cerrar panel de filtros"
-				tabIndex={1}
-				aria-label="Cerrar Filtros"
-			>
-				<CloseIcon className="h-8 w-8 rounded-full p-1 text-gray-800/55 transition-colors hover:bg-gray-200" />
-			</button>
+			<header className="flex items-center justify-between">
+				<button
+					onClick={handleClose}
+					title="Cerrar panel de filtros"
+					aria-label="Cerrar Filtros"
+					className="top-0 left-0 z-30 block cursor-pointer self-start p-1"
+				>
+					<CloseIcon className="h-8 w-8 rounded-full p-1 text-gray-800/55 transition-colors hover:bg-gray-200" />
+				</button>
+			</header>
 			<div
-				className="flex h-full w-full flex-col gap-4 overflow-auto overscroll-auto p-1 pr-6"
+				className="flex h-full w-full flex-col gap-4 overflow-auto overscroll-auto p-1 pr-4"
 				id="filter-content"
 			>
 				{children}

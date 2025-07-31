@@ -51,23 +51,21 @@ export default function ListComputer() {
 		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<Suspense>
-						<MainComputerFilter
-							categoryId={query.categoryId}
-							employeeId={query.employeeId}
-							serial={query.serial}
-							locationId={query.locationId}
-							regionId={query.regionId}
-							administrativeRegionId={query.administrativeRegionId}
-							mainCategoryId={mainCategoryId}
-							typeOfSiteId={query.typeOfSiteId}
-							directivaId={query.directivaId}
-							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-							vicepresidenciaId={query.vicepresidenciaId}
-							departamentoId={query.departamentoId}
-							handleChange={handleChange}
-						/>
-					</Suspense>
+					<MainComputerFilter
+						categoryId={query.categoryId}
+						employeeId={query.employeeId}
+						serial={query.serial}
+						locationId={query.locationId}
+						regionId={query.regionId}
+						administrativeRegionId={query.administrativeRegionId}
+						mainCategoryId={mainCategoryId}
+						typeOfSiteId={query.typeOfSiteId}
+						directivaId={query.directivaId}
+						vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+						vicepresidenciaId={query.vicepresidenciaId}
+						departamentoId={query.departamentoId}
+						handleChange={handleChange}
+					/>
 
 					<FilterAside ref={filterAsideRef}>
 						<Suspense>

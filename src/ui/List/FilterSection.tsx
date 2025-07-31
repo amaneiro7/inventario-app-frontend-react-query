@@ -1,5 +1,5 @@
-import { cn } from '@/lib/utils'
 import { memo } from 'react'
+import { cn } from '@/lib/utils'
 
 export const FilterSection = memo(
 	({
@@ -21,3 +21,5 @@ export const FilterSection = memo(
 		)
 	}
 )
+
+FilterSection.displayName = 'FilterSection'
