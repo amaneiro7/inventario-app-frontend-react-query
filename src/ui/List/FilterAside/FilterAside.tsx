@@ -2,7 +2,6 @@ import React, { useImperativeHandle, forwardRef, useRef, useState, useCallback }
 import { createPortal } from 'react-dom'
 import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
 import { CloseIcon } from '@/icon/CloseIcon'
-import './filterContainerStyle.css'
 
 type Props = React.PropsWithChildren<
 	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
@@ -40,7 +39,7 @@ const Component = (
 			id="aside-filters"
 			ref={filterAsideRef}
 			data-open={open}
-			className={`filterAside shadow-lg drop-shadow-md ${open ? 'open' : 'close'}`}
+			className={`filterAsideTransition absolute top-20 right-0 z-20 mb-2 hidden w-96 max-w-sm min-w-fit flex-col gap-4 rounded-lg border bg-white p-4 pl-8 shadow-lg drop-shadow-md will-change-transform ${open ? 'open' : 'close'}`}
 			aria-modal
 			aria-labelledby="filter-heading"
 			role="dialog"

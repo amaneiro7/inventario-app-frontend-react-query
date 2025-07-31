@@ -15,16 +15,35 @@ import { BASIC_COLORS_MAP } from '@/utils/colores'
 import { CustomLabelList } from '../CustomLabelList'
 import { MapPin } from 'lucide-react'
 
+/**
+ * Props for the OSDistributionByRegionChart component.
+ */
 interface OSDistributionByRegionChartProps {
+	/** The data to be displayed in the bar chart. */
 	distributionData: { name: string }[]
+	/** An array of unique operating system names to generate bars for. */
 	uniqueOperatingSystem: string[]
+	/** The height of each bar in the chart. */
 	barHeight: number
 }
 
+/**
+ * Interface for a single data item in the distribution data.
+ * It includes a `name` property and can have dynamic keys for operating system counts.
+ */
 interface DistributionDataItem {
 	name: string
 	[key: string]: number | string | undefined // Para los SO dinámicos
 }
+
+/**
+ * OSDistributionByRegionChart Component
+ *
+ * A memoized React component that renders a horizontal bar chart
+ * showing the distribution of operating systems by region.
+ * It uses Recharts library for charting and provides a custom tooltip
+ * and label list for better data visualization.
+ */
 export const OSDistributionByRegionChart = memo(
 	({ distributionData, uniqueOperatingSystem, barHeight }: OSDistributionByRegionChartProps) => {
 		return (
@@ -52,13 +71,16 @@ export const OSDistributionByRegionChart = memo(
 									<div className="bg-background rounded-lg border p-2 text-wrap shadow-md">
 										<div className="flex items-center gap-2">
 											<MapPin className="h-4 w-4" />
-											<span className="font-medium">{dataItem.name}</span>
+											<span className="font-medium">
+												Ubicación: {dataItem.name}
+											</span>
 										</div>
 										<div className="mt-1 text-sm">
 											{Object.keys(dataItem)
 												.filter(key => key !== 'name')
 												.map((key, index) => (
 													<p key={key} className="flex gap-2">
+														{/* Use BASIC_COLORS_MAP for consistent coloring with the bars */}
 														<span
 															className="font-semibold"
 															style={{
@@ -82,6 +104,7 @@ export const OSDistributionByRegionChart = memo(
 						}}
 					/>
 					<Legend />
+					{/* Render a Bar for each unique operating system */}
 					{uniqueOperatingSystem.length > 0 &&
 						uniqueOperatingSystem.map((item, index) => (
 							<Bar

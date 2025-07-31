@@ -7,14 +7,29 @@ import { MainOsFilter } from './MainOsFilter'
 import { SecondaryFIlter } from './SecondaryFIlter'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
+/**
+ * Props for the OSDIstributionByRegion component.
+ */
 interface OSDIstributionByRegionProps {
+	/** Initial data for operating system distribution by region. */
 	data: ComputerDashboardDto['operatingSystemByRegion']
 }
 
+/**
+ * Lazily loaded component for displaying the OS distribution chart.
+ */
 const OSDistributionByRegionChart = lazy(() =>
 	import('./OSDistributionByRegionChart').then(m => ({ default: m.OSDistributionByRegionChart }))
 )
 
+/**
+ * OSDIstributionByRegion Component
+ *
+ * This component displays the geographical distribution of operating systems
+ * based on various regional filters (administrative region, region, state, city, site).
+ * It utilizes the `useOperatingSystemByRegion` hook to manage state and filtering logic,
+ * and lazy-loads the chart component for performance optimization.
+ */
 export const OSDIstributionByRegion = ({ data }: OSDIstributionByRegionProps) => {
 	const {
 		distributionData,
@@ -90,8 +105,9 @@ export const OSDIstributionByRegion = ({ data }: OSDIstributionByRegionProps) =>
 				/>
 
 				<div style={{ height: dynamicHeight ?? '20rem', minHeight: '20rem' }}>
+					{/* Conditionally render the chart or a no-data message */}
 					{distributionData.length > 0 ? (
-						<Suspense>
+						<Suspense fallback={<div>Cargando gráfico de distribución...</div>}>
 							<OSDistributionByRegionChart
 								distributionData={distributionData}
 								uniqueOperatingSystem={uniqueOperatingSystem}

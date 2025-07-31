@@ -1,16 +1,67 @@
 import { useMemo, useState } from 'react'
 import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
+/**
+ * Props for the useGeographicalDistribution hook.
+ */
 interface UseGeographicalDistributionProps {
+	/** The raw geographical distribution data from the computer dashboard DTO. */
 	data: ComputerDashboardDto['region']
 }
 
+/**
+ * Represents a single item in the geographical distribution data.
+ */
 export interface DistributionItem {
+	/** The name of the geographical entity (e.g., region, state, city). */
 	name: string
+	/** The total count of devices in this entity. */
 	value: number
+	/** Optional: Count of devices in 'Agencia' type sites within this entity. */
 	Agencia?: number
+	/** Optional: Count of devices in 'Sede Administrativa' type sites within this entity. */
 	'Sede Administrativa'?: number
 }
+
+/**
+ * `useGeographicalDistribution` Hook
+ *
+ * A custom React hook that manages and processes geographical distribution data
+ * for computer dashboards. It provides filtering capabilities by administrative region,
+ * region, state, city, and site, along with sorting and dynamic data aggregation.
+ * The hook memoizes processed data and filter options for performance optimization.
+ *
+ * @param {UseGeographicalDistributionProps} { data } - The initial geographical data.
+ * @returns {object} An object containing the processed distribution data, filter states,
+ *   and functions to update them.
+ * @property {DistributionItem[]} distributionData - The aggregated and filtered data ready for display.
+ * @property {number} barHeight - The calculated height for each bar in the chart. (Currently fixed at 16px)
+ * @property {string} barName - A descriptive name for the current view (e.g., "Distribución total de equipos por Regiones").
+ * @property {string} dynamicHeight - The calculated dynamic height for the chart container.
+ * @property {boolean} hasActiveFilters - Indicates if any filters are currently active.
+ * @property {string[]} uniqueAdmRegions - List of unique administrative regions based on current filters.
+ * @property {string[]} uniqueRegions - List of unique regions based on current filters.
+ * @property {string[]} uniqueStates - List of unique states based on current filters.
+ * @property {string[]} uniqueCities - List of unique cities based on current filters.
+ * @property {string[]} uniqueSites - List of unique sites based on current filters.
+ * @property {'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'} viewBy - The current level of geographical aggregation.
+ * @property {'name' | 'count'} sortOrder - The current sorting order for the distribution data.
+ * @property {string} admRegionFilter - The currently selected administrative region filter.
+ * @property {string} regionFilter - The currently selected region filter.
+ * @property {string} stateFilter - The currently selected state filter.
+ * @property {string} cityFilter - The currently selected city filter.
+ * @property {string} siteFilter - The currently selected site filter.
+ * @property {string} searchFilter - The current search filter string.
+ * @property {() => void} clearFilters - Function to reset all filters.
+ * @property {React.Dispatch<React.SetStateAction<'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'>>} setViewBy - Setter for `viewBy`.
+ * @property {React.Dispatch<React.SetStateAction<string>>} setRegionFilter - Setter for `regionFilter`.
+ * @property {React.Dispatch<React.SetStateAction<string>>} setStateFilter - Setter for `stateFilter`.
+ * @property {React.Dispatch<React.SetStateAction<string>>} setCityFilter - Setter for `cityFilter`.
+ * @property {React.Dispatch<React.SetStateAction<string>>} setSiteFilter - Setter for `siteFilter`.
+ * @property {React.Dispatch<React.SetStateAction<string>>} setSearchFilter - Setter for `searchFilter`.
+ * @property {React.Dispatch<React.SetStateAction<string>>} setAdmRegionFilter - Setter for `admRegionFilter`.
+ * @property {React.Dispatch<React.SetStateAction<'name' | 'count'>>} setSortOrder - Setter for `sortOrder`.
+ */
 export function useGeographicalDistribution({ data }: UseGeographicalDistributionProps) {
 	const [viewBy, setViewBy] = useState<
 		'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'
@@ -27,7 +78,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		const names = {
 			admRegion: 'Zonas Administrativas',
 			region: 'Regiones',
-			state: 'Estdos',
+			state: 'Estados', // Corrected typo
 			city: 'Ciudades',
 			sites: 'Sitios',
 			location: 'Ubicaciones'
@@ -47,283 +98,170 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		searchFilter !== ''
 	const MAX_ITEMS_WITHOUT_FILTER = 15
 
-	const allNames = useMemo(() => {
-		const administrativeRegions = [...new Set(data.map(item => item.name))].sort()
-		const regions = data.flatMap(admRegion => admRegion.regions.map(region => region.name))
+	/**
+	 * Memoized filtered hierarchy based on active filters.
+	 * This memo applies filters in a cascading manner to optimize data processing.
+	 */
+	const filteredHierarchy = useMemo(() => {
+		let currentData = data
 
-		const states = data.flatMap(admRegion =>
-			admRegion.regions.flatMap(region => region.states.map(state => state.name))
-		)
-		const cities = data
-			.flatMap(admRegion =>
-				admRegion.regions.flatMap(region =>
-					region.states.flatMap(state => state.cities.map(city => city.name))
-				)
-			)
-			.sort()
-		const sites = data
-			.flatMap(admRegion =>
-				admRegion.regions.flatMap(region =>
-					region.states.flatMap(state =>
-						state.cities.flatMap(city => city.sites.map(site => site.name))
-					)
-				)
-			)
-			.sort()
-
-		return {
-			administrativeRegions,
-			regions,
-			states,
-			sites,
-			cities
-		}
-	}, [data])
-	// Get unique regions, states, and cities from data
-	const uniqueAdmRegions = useMemo(() => {
-		return allNames.administrativeRegions.filter(
-			admRegion =>
-				!searchFilter || admRegion.toLowerCase().includes(searchFilter.toLowerCase())
-		)
-	}, [allNames.administrativeRegions, searchFilter])
-
-	const uniqueRegions = useMemo(() => {
-		let regions = allNames.regions
 		if (admRegionFilter) {
-			regions = data
-				.filter(admRegion => admRegion.name === admRegionFilter)
-				.flatMap(admRegion => admRegion.regions.map(region => region.name))
+			currentData = currentData.filter(admRegion => admRegion.name === admRegionFilter)
 		}
-		return [...new Set(regions)]
-			.sort()
-			.filter(
-				region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
-			)
-	}, [allNames.regions, admRegionFilter, searchFilter])
 
-	const uniqueStates = useMemo(() => {
-		let states = allNames.states
 		if (regionFilter) {
-			states = data.flatMap(admRegion =>
-				admRegion.regions
-					.filter(region => region.name === regionFilter)
-					.flatMap(region => region.states.map(state => state.name))
-			)
-		} else if (admRegionFilter) {
-			states = data
-				.filter(admRegion => admRegion.name === admRegionFilter)
-				.flatMap(admRegion =>
-					admRegion.regions.flatMap(region => region.states.map(state => state.name))
-				)
+			currentData = currentData.map(admRegion => ({
+				...admRegion,
+				regions: admRegion.regions.filter(region => region.name === regionFilter)
+			}))
+			.filter(admRegion => admRegion.regions.length > 0)
 		}
-
-		return [...new Set(states)]
-			.sort()
-			.filter(
-				state => !searchFilter || state.toLowerCase().includes(searchFilter.toLowerCase())
-			)
-	}, [data, regionFilter, admRegionFilter, allNames.states, searchFilter])
-
-	const uniqueCities = useMemo(() => {
-		let cities = allNames.cities
 
 		if (stateFilter) {
-			cities = data.flatMap(admRegion =>
-				admRegion.regions.flatMap(region =>
-					region.states
-						.filter(state => state.name === stateFilter)
-						.flatMap(state => state.cities.map(city => city.name))
-				)
-			)
-		} else if (regionFilter) {
-			cities = data.flatMap(admRegion =>
-				admRegion.regions
-					.filter(region => region.name === regionFilter)
-					.flatMap(region =>
-						region.states.flatMap(state => state.cities.map(city => city.name))
-					)
-			)
-		} else if (admRegionFilter) {
-			cities = data
-				.filter(admRegion => admRegion.name === admRegionFilter)
-				.flatMap(admRegion =>
-					admRegion.regions.flatMap(region =>
-						region.states.flatMap(state => state.cities.map(city => city.name))
-					)
-				)
+			currentData = currentData.map(admRegion => ({
+				...admRegion,
+				regions: admRegion.regions.map(region => ({
+					...region,
+					states: region.states.filter(state => state.name === stateFilter)
+				}))
+				.filter(region => region.states.length > 0)
+			}))
+			.filter(admRegion => admRegion.regions.length > 0)
 		}
-
-		return [...new Set(cities)]
-			.sort()
-			.filter(
-				city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
-			)
-	}, [data, regionFilter, stateFilter, admRegionFilter, allNames.cities, searchFilter])
-
-	const uniqueSites = useMemo(() => {
-		let sites = allNames.sites
 
 		if (cityFilter) {
-			sites = data.flatMap(admRegion =>
-				admRegion.regions.flatMap(region =>
-					region.states.flatMap(state =>
-						state.cities
-							.filter(city => city.name === cityFilter)
-							.flatMap(city => city.sites.map(site => site.name))
-					)
-				)
-			)
-		} else if (stateFilter) {
-			sites = data.flatMap(admRegion =>
-				admRegion.regions.flatMap(region =>
-					region.states
-						.filter(state => state.name === stateFilter)
-						.flatMap(state =>
-							state.cities.flatMap(city => city.sites.map(site => site.name))
-						)
-				)
-			)
-		} else if (regionFilter) {
-			sites = data.flatMap(admRegion =>
-				admRegion.regions
-					.filter(region => region.name === regionFilter)
-					.flatMap(region =>
-						region.states.flatMap(state =>
-							state.cities.flatMap(city => city.sites.map(site => site.name))
-						)
-					)
-			)
-		} else if (admRegionFilter) {
-			sites = data
-				.filter(admRegion => admRegion.name === admRegionFilter)
-				.flatMap(admRegion =>
-					admRegion.regions.flatMap(region =>
-						region.states.flatMap(state =>
-							state.cities.flatMap(city => city.sites.map(site => site.name))
-						)
-					)
-				)
+			currentData = currentData.map(admRegion => ({
+				...admRegion,
+				regions: admRegion.regions.map(region => ({
+					...region,
+					states: region.states.map(state => ({
+						...state,
+						cities: state.cities.filter(city => city.name === cityFilter)
+					}))
+					.filter(state => state.cities.length > 0)
+				}))
+				.filter(region => region.states.length > 0)
+			}))
+			.filter(admRegion => admRegion.regions.length > 0)
 		}
 
-		return [...new Set(sites)]
-			.sort()
-			.filter(
-				city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
-			)
-	}, [data, regionFilter, stateFilter, admRegionFilter, cityFilter, allNames.sites, searchFilter])
-
-	const filteredData = useMemo(() => {
-		// 1. Copia superficial de 'data' y filtrado directo
-		// let filteredData = structuredClone(data)
-		let filteredData = data
-
-		// 2. Filtrado por sitio
 		if (siteFilter) {
-			filteredData = filteredData
-				.map(amdRegion => ({
-					...amdRegion,
-					regions: amdRegion.regions
-						.map(region => ({
-							...region,
-							states: region.states
-								.map(state => ({
-									...state,
-									cities: state.cities
-										.map(city => ({
-											...city,
-											sites: city.sites.filter(
-												site => site.name === siteFilter
-											)
-										}))
-										.filter(city => city.sites.length > 0)
-								}))
-								.filter(state => state.cities.length > 0)
+			currentData = currentData.map(admRegion => ({
+				...admRegion,
+				regions: admRegion.regions.map(region => ({
+					...region,
+					states: region.states.map(state => ({
+						...state,
+						cities: state.cities.map(city => ({
+							...city,
+							sites: city.sites.filter(site => site.name === siteFilter)
 						}))
-						.filter(region => region.states.length > 0)
+						.filter(city => city.sites.length > 0)
+					}))
+					.filter(state => state.cities.length > 0)
 				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-		// 3. Filtrado por ciudad
-		else if (cityFilter) {
-			filteredData = filteredData
-				.map(amdRegion => ({
-					...amdRegion,
-					regions: amdRegion.regions
-						.map(region => ({
-							...region,
-							states: region.states
-								.map(state => ({
-									...state,
-									cities: state.cities.filter(city => city.name === cityFilter)
-								}))
-								.filter(state => state.cities.length > 0)
-						}))
-						.filter(region => region.states.length > 0)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-		// 4. Filtrado por estado
-		else if (stateFilter) {
-			filteredData = filteredData
-				.map(admRegion => ({
-					...admRegion,
-					regions: admRegion.regions
-						.map(region => ({
-							...region,
-							states: region.states.filter(state => state.name === stateFilter)
-						}))
-						.filter(region => region.states.length > 0)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-		// 5. Filtrado por región
-		else if (regionFilter) {
-			filteredData = filteredData
-				.map(admRegion => ({
-					...admRegion,
-					regions: admRegion.regions.filter(region => region.name === regionFilter)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-		// 6. Aplicar los filtros de región administrativa
-		else if (admRegionFilter) {
-			filteredData = filteredData.filter(admRegion => admRegion.name === admRegionFilter)
+				.filter(region => region.states.length > 0)
+			}))
+			.filter(admRegion => admRegion.regions.length > 0)
 		}
 
-		return filteredData
+		return currentData
 	}, [data, admRegionFilter, regionFilter, stateFilter, cityFilter, siteFilter])
 
+	/**
+	 * Derives unique administrative regions from the filtered hierarchy.
+	 */
+	const uniqueAdmRegions = useMemo(() => {
+		const names = filteredHierarchy.map(item => item.name)
+		return [...new Set(names)].sort().filter(
+			admRegion => !searchFilter || admRegion.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [filteredHierarchy, searchFilter])
+
+	/**
+	 * Derives unique regions from the filtered hierarchy.
+	 */
+	const uniqueRegions = useMemo(() => {
+		const names = filteredHierarchy.flatMap(admRegion => admRegion.regions.map(region => region.name))
+		return [...new Set(names)].sort().filter(
+			region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [filteredHierarchy, searchFilter])
+
+	/**
+	 * Derives unique states from the filtered hierarchy.
+	 */
+	const uniqueStates = useMemo(() => {
+		const names = filteredHierarchy.flatMap(admRegion =>
+			admRegion.regions.flatMap(region => region.states.map(state => state.name))
+		)
+		return [...new Set(names)].sort().filter(
+			state => !searchFilter || state.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [filteredHierarchy, searchFilter])
+
+	/**
+	 * Derives unique cities from the filtered hierarchy.
+	 */
+	const uniqueCities = useMemo(() => {
+		const names = filteredHierarchy.flatMap(admRegion =>
+			admRegion.regions.flatMap(region =>
+				region.states.flatMap(state => state.cities.map(city => city.name))
+			)
+		)
+		return [...new Set(names)].sort().filter(
+			city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [filteredHierarchy, searchFilter])
+
+	/**
+	 * Derives unique sites from the filtered hierarchy.
+	 */
+	const uniqueSites = useMemo(() => {
+		const names = filteredHierarchy.flatMap(admRegion =>
+			admRegion.regions.flatMap(region =>
+				region.states.flatMap(state =>
+					state.cities.flatMap(city => city.sites.map(site => site.name))
+				)
+			)
+		)
+		return [...new Set(names)].sort().filter(
+			site => !searchFilter || site.toLowerCase().includes(searchFilter.toLowerCase())
+		)
+	}, [filteredHierarchy, searchFilter])
+
+	/**
+	 * Aggregates and sorts the distribution data based on the current view and filters.
+	 */
 	const distributionData = useMemo(() => {
 		const locationMap = new Map<string, DistributionItem>()
 
-		// 6. Conversión a array y ordenamiento
-		filteredData.forEach(admRegion => {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			let dataToUse: any[] = []
+		filteredHierarchy.forEach(admRegion => {
+			let dataToAggregate: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
 
 			if (viewBy === 'admRegion') {
-				dataToUse = [admRegion]
+				dataToAggregate = [admRegion]
 			} else if (viewBy === 'region') {
-				dataToUse = admRegion.regions
+				dataToAggregate = admRegion.regions
 			} else if (viewBy === 'state') {
-				dataToUse = admRegion.regions.flatMap(region => region.states)
+				dataToAggregate = admRegion.regions.flatMap(region => region.states)
 			} else if (viewBy === 'city') {
-				dataToUse = admRegion.regions
+				dataToAggregate = admRegion.regions
 					.flatMap(region => region.states)
 					.flatMap(state => state.cities)
 			} else if (viewBy === 'sites') {
-				dataToUse = admRegion.regions
+				dataToAggregate = admRegion.regions
 					.flatMap(region => region.states)
 					.flatMap(state => state.cities.flatMap(city => city.sites))
 			} else if (viewBy === 'location') {
-				dataToUse = admRegion.regions
+				dataToAggregate = admRegion.regions
 					.flatMap(region => region.states)
 					.flatMap(state =>
 						state.cities.flatMap(city => city.sites.flatMap(site => site.locations))
 					)
 			}
 
-			dataToUse.forEach(item => {
+			dataToAggregate.forEach(item => {
 				const name = item.name
 				const count = item.count
 				const agenciaCount = (item.typeOfSiteCount as { Agencia?: number })?.Agencia
@@ -348,14 +286,13 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 						'Sede Administrativa': sedeCount
 					})
 				}
-
-				// locationMap.set(item.name, (locationMap.get(item.name) || 0) + item.count)
 			})
 		})
+
 		let resultArray = Array.from(locationMap.values()).filter(
 			item => !searchFilter || item.name.toLowerCase().includes(searchFilter.toLowerCase())
 		)
-		// Aplicar el ordenamiento
+		// Apply sorting
 		if (sortOrder === 'name') {
 			resultArray.sort((a, b) => a.name.localeCompare(b.name))
 		} else if (sortOrder === 'count') {
@@ -366,8 +303,11 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 			resultArray = resultArray.slice(0, MAX_ITEMS_WITHOUT_FILTER)
 		}
 		return resultArray
-	}, [filteredData, viewBy, searchFilter, sortOrder])
-	// Clear filters
+	}, [filteredHierarchy, viewBy, searchFilter, sortOrder, hasActiveFilters])
+
+	/**
+	 * Resets all filters to their initial empty state.
+	 */
 	const clearFilters = () => {
 		setAdmRegionFilter('')
 		setRegionFilter('')

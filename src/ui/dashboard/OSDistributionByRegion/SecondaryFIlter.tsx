@@ -3,20 +3,39 @@ import { MapPin } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
 import { Input } from '@/components/Input/Input'
 
+/**
+ * Props for the SecondaryFIlter component.
+ */
 interface SecondaryFIlterProps {
+	/** The current sort order for the data (e.g., 'name' or 'count'). */
 	sortOrder: 'name' | 'count'
+	/** Function to set the view mode for the distribution (e.g., by 'region', 'state'). */
 	setViewBy: React.Dispatch<
 		React.SetStateAction<'region' | 'admRegion' | 'state' | 'city' | 'site' | 'location'>
 	>
+	/** The current view mode for the distribution. */
 	viewBy: 'region' | 'admRegion' | 'state' | 'city' | 'site' | 'location'
+	/** Function to set the sort order. */
 	setSortOrder: React.Dispatch<React.SetStateAction<'name' | 'count'>>
+	/** Function to set the type of site filter. */
 	setTypeOfSiteFilter: React.Dispatch<React.SetStateAction<string>>
+	/** The currently selected type of site filter. */
 	typeOfSiteFilter: string
+	/** List of unique site types available for filtering. */
 	uniqueTypeOfSite: string[]
+	/** The current search filter string. */
 	searchFilter: string
+	/** Function to set the search filter. */
 	setSearchFilter: React.Dispatch<React.SetStateAction<string>>
 }
 
+/**
+ * SecondaryFIlter Component
+ *
+ * A memoized React component that provides secondary filtering and sorting options
+ * for the OS distribution data. It includes a search input, type of site filter,
+ * sort order selection, and view mode selection.
+ */
 export const SecondaryFIlter = memo(
 	({
 		sortOrder,
@@ -31,6 +50,7 @@ export const SecondaryFIlter = memo(
 	}: SecondaryFIlterProps) => {
 		return (
 			<div className="flex flex-wrap gap-4">
+				{/* Search input for location */}
 				<div className="relative w-full sm:max-w-[200px]">
 					<Input
 						id="location-search"
@@ -42,13 +62,14 @@ export const SecondaryFIlter = memo(
 						onChange={e => setSearchFilter(e.target.value)}
 						className="pl-8"
 						leftIcon={<MapPin className="text-muted-foreground h-4 w-4" />}
-						aria-label="Buscar por ubicación" // Mejora la accesibilidad del input
+						aria-label="Buscar por ubicación"
 					/>
 				</div>
+				{/* Filter by type of site */}
 				<Select
 					value={typeOfSiteFilter}
 					onValueChange={value => setTypeOfSiteFilter(value)}
-					aria-label="Filtrar por tipo de sitio" // Texto más claro para la accesibilidad
+					aria-label="Filtrar por tipo de sitio"
 				>
 					<SelectTrigger className="w-fit min-w-[180px]">
 						<SelectValue placeholder="FIltrar por tipo de sitio" />
@@ -62,10 +83,11 @@ export const SecondaryFIlter = memo(
 						))}
 					</SelectContent>
 				</Select>
+				{/* Sort order selection */}
 				<Select
 					value={sortOrder}
 					onValueChange={value => setSortOrder(value as any)}
-					aria-label="Ordenar los resultados por" // Mejora la accesibilidad
+					aria-label="Ordenar los resultados por"
 				>
 					<SelectTrigger className="w-fit min-w-[180px]">
 						<SelectValue
@@ -79,6 +101,7 @@ export const SecondaryFIlter = memo(
 						<SelectItem value="count">Por cantidad</SelectItem>
 					</SelectContent>
 				</Select>
+				{/* View by selection */}
 				<Select
 					value={viewBy}
 					onValueChange={value =>
@@ -86,7 +109,7 @@ export const SecondaryFIlter = memo(
 							value as 'region' | 'admRegion' | 'state' | 'city' | 'site' | 'location'
 						)
 					}
-					aria-label="Ver la distribución por" // Mejora la accesibilidad
+					aria-label="Ver la distribución por"
 				>
 					<SelectTrigger className="w-fit min-w-[180px]">
 						<SelectValue placeholder="Ver distribución por..." />

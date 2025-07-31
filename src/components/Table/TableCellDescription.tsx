@@ -1,7 +1,5 @@
 import { lazy } from 'react'
 import { type LinkProps } from 'react-router-dom'
-// import { type TableCellDescInfo } from './TableCellDescInfo'
-import './TableCellDescription.css'
 
 const TableCellDescEdit = lazy(async () =>
 	import('./TableCellDescEdit').then(m => ({ default: m.TableCellDescEdit }))
@@ -29,11 +27,11 @@ export function TableCellDescription({
 }: React.PropsWithChildren<Props>) {
 	return (
 		<tr className={`tableCellDesc ${open ? 'open' : ''}`}>
-			<td className="bg-slate-200 border-b-gray-300" colSpan={colspan} {...props}>
+			<td className="border-b-gray-300 bg-slate-200" colSpan={colspan} {...props}>
 				<div className="tableCellDescContainer">
 					<div
 						aria-description="Informacion"
-						className="w-full flex flex-wrap gap-y-6 gap-x-6"
+						className="flex w-full flex-wrap gap-x-6 gap-y-6"
 					>
 						{children}
 					</div>
