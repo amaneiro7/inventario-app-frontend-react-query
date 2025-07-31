@@ -12,6 +12,7 @@ export function BrandCombobox({
 	disabled = false,
 	readonly = false,
 	categoryId = '',
+	mainCategoryId = '',
 	handleChange
 }: {
 	value?: string
@@ -21,6 +22,7 @@ export function BrandCombobox({
 	disabled?: boolean
 	readonly?: boolean
 	categoryId?: string
+	mainCategoryId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -30,9 +32,11 @@ export function BrandCombobox({
 		return {
 			...(value ? { id: value } : {}),
 			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-			...(value || debouncedSearch ? { categoryId: undefined } : { categoryId })
+			...(value || debouncedSearch
+				? { categoryId: undefined, mainCategoryId: undefined }
+				: { categoryId, mainCategoryId })
 		}
-	}, [debouncedSearch, value, categoryId])
+	}, [debouncedSearch, value, mainCategoryId, categoryId])
 
 	const { brands, isLoading } = useGetAllBrands(query)
 

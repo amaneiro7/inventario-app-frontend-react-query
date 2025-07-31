@@ -63,6 +63,7 @@ export default function ListFinantialPrinter() {
 								brandId={query.brandId}
 								modelId={query.modelId}
 								categoryId={query.categoryId}
+								mainCategoryId={mainCategoryId}
 								stateId={query.stateId}
 								regionId={query.regionId}
 								administrativeRegionId={query.administrativeRegionId}

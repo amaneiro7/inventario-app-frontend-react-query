@@ -50,6 +50,7 @@ export function DefaultDeviceFilter({
 	stateId,
 	cityId,
 	categoryId,
+	mainCategoryId,
 	regionId,
 	administrativeRegionId,
 	directivaId,
@@ -62,6 +63,7 @@ export function DefaultDeviceFilter({
 	brandId?: string
 	modelId?: string
 	categoryId?: string
+	mainCategoryId?: string
 	directivaId?: string
 	vicepresidenciaEjecutivaId?: string
 	vicepresidenciaId?: string
@@ -104,7 +106,12 @@ export function DefaultDeviceFilter({
 			</Suspense>
 
 			<Suspense fallback={<InputFallback />}>
-				<BrandCombobox handleChange={handleChange} name="brandId" value={brandId} />
+				<BrandCombobox
+					handleChange={handleChange}
+					name="brandId"
+					value={brandId}
+					mainCategoryId={mainCategoryId}
+				/>
 			</Suspense>
 
 			<Suspense fallback={<InputFallback />}>
@@ -112,6 +119,7 @@ export function DefaultDeviceFilter({
 					handleChange={handleChange}
 					brandId={brandId}
 					categoryId={categoryId}
+					mainCategoryId={mainCategoryId}
 					name="modelId"
 					value={modelId}
 				/>

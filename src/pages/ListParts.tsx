@@ -61,6 +61,7 @@ export default function ListParts() {
 								statusId={query.statusId}
 								brandId={query.brandId}
 								modelId={query.modelId}
+								mainCategoryId={mainCategoryId}
 								categoryId={query.categoryId}
 								stateId={query.stateId}
 								regionId={query.regionId}
