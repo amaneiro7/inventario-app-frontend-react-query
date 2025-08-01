@@ -6,9 +6,9 @@ import {
 	type ModelDisabled,
 	type ModelErrors,
 	type ModelRequired
-} from '@/core/model/models/infra/reducers/modelFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { Input } from '@/components/Input/Input'
+} from '@/entities/model/models/infra/reducers/modelFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { Input } from '@/shared/ui/Input/Input'
 
 interface Props {
 	formData: DefaultModel

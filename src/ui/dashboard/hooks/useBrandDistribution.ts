@@ -1,4 +1,4 @@
-import { ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { useMemo } from 'react'
 
 /**

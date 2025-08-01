@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 /**
  * Props for the useGeographicalDistribution hook.
@@ -110,59 +110,71 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		}
 
 		if (regionFilter) {
-			currentData = currentData.map(admRegion => ({
-				...admRegion,
-				regions: admRegion.regions.filter(region => region.name === regionFilter)
-			}))
-			.filter(admRegion => admRegion.regions.length > 0)
+			currentData = currentData
+				.map(admRegion => ({
+					...admRegion,
+					regions: admRegion.regions.filter(region => region.name === regionFilter)
+				}))
+				.filter(admRegion => admRegion.regions.length > 0)
 		}
 
 		if (stateFilter) {
-			currentData = currentData.map(admRegion => ({
-				...admRegion,
-				regions: admRegion.regions.map(region => ({
-					...region,
-					states: region.states.filter(state => state.name === stateFilter)
+			currentData = currentData
+				.map(admRegion => ({
+					...admRegion,
+					regions: admRegion.regions
+						.map(region => ({
+							...region,
+							states: region.states.filter(state => state.name === stateFilter)
+						}))
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
-			}))
-			.filter(admRegion => admRegion.regions.length > 0)
+				.filter(admRegion => admRegion.regions.length > 0)
 		}
 
 		if (cityFilter) {
-			currentData = currentData.map(admRegion => ({
-				...admRegion,
-				regions: admRegion.regions.map(region => ({
-					...region,
-					states: region.states.map(state => ({
-						...state,
-						cities: state.cities.filter(city => city.name === cityFilter)
-					}))
-					.filter(state => state.cities.length > 0)
+			currentData = currentData
+				.map(admRegion => ({
+					...admRegion,
+					regions: admRegion.regions
+						.map(region => ({
+							...region,
+							states: region.states
+								.map(state => ({
+									...state,
+									cities: state.cities.filter(city => city.name === cityFilter)
+								}))
+								.filter(state => state.cities.length > 0)
+						}))
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
-			}))
-			.filter(admRegion => admRegion.regions.length > 0)
+				.filter(admRegion => admRegion.regions.length > 0)
 		}
 
 		if (siteFilter) {
-			currentData = currentData.map(admRegion => ({
-				...admRegion,
-				regions: admRegion.regions.map(region => ({
-					...region,
-					states: region.states.map(state => ({
-						...state,
-						cities: state.cities.map(city => ({
-							...city,
-							sites: city.sites.filter(site => site.name === siteFilter)
+			currentData = currentData
+				.map(admRegion => ({
+					...admRegion,
+					regions: admRegion.regions
+						.map(region => ({
+							...region,
+							states: region.states
+								.map(state => ({
+									...state,
+									cities: state.cities
+										.map(city => ({
+											...city,
+											sites: city.sites.filter(
+												site => site.name === siteFilter
+											)
+										}))
+										.filter(city => city.sites.length > 0)
+								}))
+								.filter(state => state.cities.length > 0)
 						}))
-						.filter(city => city.sites.length > 0)
-					}))
-					.filter(state => state.cities.length > 0)
+						.filter(region => region.states.length > 0)
 				}))
-				.filter(region => region.states.length > 0)
-			}))
-			.filter(admRegion => admRegion.regions.length > 0)
+				.filter(admRegion => admRegion.regions.length > 0)
 		}
 
 		return currentData
@@ -173,19 +185,26 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	 */
 	const uniqueAdmRegions = useMemo(() => {
 		const names = filteredHierarchy.map(item => item.name)
-		return [...new Set(names)].sort().filter(
-			admRegion => !searchFilter || admRegion.toLowerCase().includes(searchFilter.toLowerCase())
-		)
+		return [...new Set(names)]
+			.sort()
+			.filter(
+				admRegion =>
+					!searchFilter || admRegion.toLowerCase().includes(searchFilter.toLowerCase())
+			)
 	}, [filteredHierarchy, searchFilter])
 
 	/**
 	 * Derives unique regions from the filtered hierarchy.
 	 */
 	const uniqueRegions = useMemo(() => {
-		const names = filteredHierarchy.flatMap(admRegion => admRegion.regions.map(region => region.name))
-		return [...new Set(names)].sort().filter(
-			region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
+		const names = filteredHierarchy.flatMap(admRegion =>
+			admRegion.regions.map(region => region.name)
 		)
+		return [...new Set(names)]
+			.sort()
+			.filter(
+				region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
+			)
 	}, [filteredHierarchy, searchFilter])
 
 	/**
@@ -195,9 +214,11 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		const names = filteredHierarchy.flatMap(admRegion =>
 			admRegion.regions.flatMap(region => region.states.map(state => state.name))
 		)
-		return [...new Set(names)].sort().filter(
-			state => !searchFilter || state.toLowerCase().includes(searchFilter.toLowerCase())
-		)
+		return [...new Set(names)]
+			.sort()
+			.filter(
+				state => !searchFilter || state.toLowerCase().includes(searchFilter.toLowerCase())
+			)
 	}, [filteredHierarchy, searchFilter])
 
 	/**
@@ -209,9 +230,11 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 				region.states.flatMap(state => state.cities.map(city => city.name))
 			)
 		)
-		return [...new Set(names)].sort().filter(
-			city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
-		)
+		return [...new Set(names)]
+			.sort()
+			.filter(
+				city => !searchFilter || city.toLowerCase().includes(searchFilter.toLowerCase())
+			)
 	}, [filteredHierarchy, searchFilter])
 
 	/**
@@ -225,9 +248,11 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 				)
 			)
 		)
-		return [...new Set(names)].sort().filter(
-			site => !searchFilter || site.toLowerCase().includes(searchFilter.toLowerCase())
-		)
+		return [...new Set(names)]
+			.sort()
+			.filter(
+				site => !searchFilter || site.toLowerCase().includes(searchFilter.toLowerCase())
+			)
 	}, [filteredHierarchy, searchFilter])
 
 	/**

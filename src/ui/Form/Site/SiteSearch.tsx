@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllSites } from '@/core/locations/site/infra/hook/useGetAllSite'
-import { SiteRenderOption } from '@/components/Input/Combobox/RenderOption/SiteRenderOption'
-import { type SiteFilters } from '@/core/locations/site/application/createSiteQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllSites } from '@/entities/locations/site/infra/hook/useGetAllSite'
+import { SiteRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/SiteRenderOption'
+import { type SiteFilters } from '@/entities/locations/site/application/createSiteQueryParams'
 
 export function SiteSearch() {
 	const [searchValue, setSearchValue] = useState('')

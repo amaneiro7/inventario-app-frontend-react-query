@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useMapChart } from '@/ui/monitoring/MapChart/useMapChart'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { MapChartStates } from '@/ui/monitoring/MapChart/MapChartState'
 import venezuelaTopoJson from '@/ui/monitoring/MapChart/venezuelaState.json' with { type: 'json' }
 
@@ -53,9 +53,12 @@ export default function MonitoringAgencyMapChart() {
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle id="map-title">Mapa de Venezuela - Estado de Equipos por Estado</CardTitle>
+				<CardTitle id="map-title">
+					Mapa de Venezuela - Estado de Equipos por Estado
+				</CardTitle>
 				<CardDescription>
-					El porcentaje representa los equipos online sobre el total de equipos registrados en cada estado.
+					El porcentaje representa los equipos online sobre el total de equipos
+					registrados en cada estado.
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_410px]">

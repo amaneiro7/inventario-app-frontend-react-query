@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, Suspense } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { ClasifyMainDeviceInputs } from './ClasifyMainDeviceInputs'
 import { InfoMainDeviceInputs } from './InfoMainDeviceInputs'
 import {
@@ -9,8 +9,8 @@ import {
 	type DeviceRequired,
 	type DevicesDisabled,
 	type DevicesErrors
-} from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
+} from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 const AddtionalFeatures = lazy(async () =>
 	import('./AddtionalFeatures').then(m => ({ default: m.AddtionalFeatures }))

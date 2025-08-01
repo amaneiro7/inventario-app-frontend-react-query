@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateModel } from '@/core/model/models/infra/hook/useCreateModels'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateModel } from '@/entities/model/models/infra/hook/useCreateModels'
 import { ModelInputs } from '@/ui/Form/Model/ModelInputs'
 import { ModelSearch } from '@/ui/Form/Model/ModelSearch'
 

@@ -1,7 +1,7 @@
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
-import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
-import { LazyPaymentSchedulesImage } from '@/components/Images/LazyPaymentSchedulesImage'
-import { Seo } from '@/components/Seo'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { LazyPaymentSchedulesImage } from '@/shared/ui/Images/LazyPaymentSchedulesImage'
+import { Seo } from '@/shared/ui/Seo'
 import { PageTitle } from '@/ui/PageTitle'
 
 export default function PaymentSchedules() {

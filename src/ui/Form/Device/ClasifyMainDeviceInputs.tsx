@@ -5,32 +5,32 @@ import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
-} from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { InputFallback } from '@/components/Loading/InputFallback'
+} from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const StatusCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/StatusComboBox').then(m => ({
+	import('@/entities/status/status/infra/ui/StatusComboBox').then(m => ({
 		default: m.StatusCombobox
 	}))
 )
 const MainCategoryCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/MainCategoryComboBox').then(m => ({
+	import('@/entities/mainCategory/infra/ui/MainCategoryComboBox').then(m => ({
 		default: m.MainCategoryCombobox
 	}))
 )
 const CategoryCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
+	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
 		default: m.CategoryCombobox
 	}))
 )
 const BrandCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
+	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({
 		default: m.BrandCombobox
 	}))
 )
 const ModelCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
+	import('@/entities/model/models/infra/ui/ModelComboBox').then(m => ({
 		default: m.ModelCombobox
 	}))
 )

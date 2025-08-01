@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useGetDeviceMonitoringDashboardByLocation } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByLocation'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { AdministrativeRegionOptionsName } from '@/core/locations/administrativeRegion/domain/entity/AdministrativeRegionOptionsNames'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { useGetDeviceMonitoringDashboardByLocation } from '@/entities/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByLocation'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { AdministrativeRegionOptionsName } from '@/entities/locations/administrativeRegion/domain/entity/AdministrativeRegionOptionsNames'
+import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 export function useOccSiteMapChart() {
 	const [selectedFloor, setSelectedFloor] = useState<string | null>(null)

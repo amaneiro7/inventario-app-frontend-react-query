@@ -1,11 +1,11 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from '../PageTitle'
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
-import { Seo } from '@/components/Seo'
-import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
-import { useGetFormMode } from '@/hooks/useGetFormMode'
-import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { Seo } from '@/shared/ui/Seo'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { capitalizeFirstLetter } from '@/shared/lib/utils/capitalizeFirstLetter'
 
 const FormWrapper = memo(() => {
 	const location = useLocation()

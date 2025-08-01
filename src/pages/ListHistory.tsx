@@ -1,14 +1,14 @@
 import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useHistoryFilter } from '@/core/history/infra/hook/useHistoryFilters'
+import { useHistoryFilter } from '@/entities/history/infra/hook/useHistoryFilters'
 // import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableHistoryWrapper } from '@/ui/List/history/TableHistoryWrapper'
-import { Loading } from '@/components/Loading'
+import { Loading } from '@/shared/ui/Loading'
 
 const MainHistoryFilter = lazy(() =>
 	import('@/ui/List/MainHistoryFilter').then(m => ({ default: m.MainHistoryFilter }))

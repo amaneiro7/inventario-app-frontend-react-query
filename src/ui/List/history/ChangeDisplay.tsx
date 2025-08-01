@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Typography from '@/components/Typography'
-import { History } from '@/core/history/domain/dto/History.dto'
+import Typography from '@/shared/ui/Typography'
+import { History } from '@/entities/history/domain/dto/History.dto'
 import { memo } from 'react'
 
 interface ChangeDisplayProps {

@@ -1,9 +1,9 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from '../PageTitle'
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
-import { Seo } from '@/components/Seo'
-import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { Seo } from '@/shared/ui/Seo'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 
 const ListWrapper = memo(() => {
 	const location = useLocation()

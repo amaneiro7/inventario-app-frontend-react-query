@@ -1,15 +1,15 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type SiteErrors,
 	type DefaultSite,
 	type SiteRequired
-} from '@/core/locations/site/infra/reducers/siteFormReducer'
-import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
-import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
-import { CityCombobox } from '@/components/ComboBox/Asincrono/CityComboBox'
-import { FormMode } from '@/hooks/useGetFormMode'
+} from '@/entities/locations/site/infra/reducers/siteFormReducer'
+import { RegionCombobox } from '@/entities/locations/region/infra/ui/RegionComboBox'
+import { StateCombobox } from '@/entities/locations/state/infra/ui/StateComboBox'
+import { CityCombobox } from '@/entities/locations/city/infra/ui/CityComboBox'
+import { FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface Props {
 	formData: DefaultSite

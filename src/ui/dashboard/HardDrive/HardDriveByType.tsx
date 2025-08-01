@@ -10,7 +10,7 @@ import {
 	LabelList,
 	Tooltip
 } from 'recharts'
-import { BASIC_COLORS_MAP } from '@/utils/colores'
+import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { HDDPrepareGroupedBarData, HDDTypeData } from '../hooks/useHardDriveAnalysys'
 
 interface HardDriveByTypeProps {

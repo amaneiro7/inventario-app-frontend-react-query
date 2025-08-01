@@ -1,12 +1,12 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type DirectivaErrors,
 	type DefaultDirectiva,
 	type DirectivaRequired
-} from '@/core/employee/directiva/infra/reducers/directivaFormReducer'
-import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
+} from '@/entities/employee/directiva/infra/reducers/directivaFormReducer'
+import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
 
 interface Props {
 	formData: DefaultDirectiva

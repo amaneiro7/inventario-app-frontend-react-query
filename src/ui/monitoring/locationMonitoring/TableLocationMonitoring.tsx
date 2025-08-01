@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
-import { getRelativeTime } from '@/utils/getRelativeTime'
+import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 import { Wifi, WifiOff } from 'lucide-react'
 // import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
 // import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
-import { TableRow } from '@/components/Table/TableRow'
-import { TableCell } from '@/components/Table/TableCell'
-import { TableCellError } from '@/components/Table/TableCellError'
-import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
-import { type LocationMonitoringDto } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
+import { TableRow } from '@/shared/ui/Table/TableRow'
+import { TableCell } from '@/shared/ui/Table/TableCell'
+import { TableCellError } from '@/shared/ui/Table/TableCellError'
+import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
+import { type LocationMonitoringDto } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
 
 interface TableLocationMonitoringProps {
 	locations?: LocationMonitoringDto[]

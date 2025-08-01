@@ -1,9 +1,9 @@
 import { lazy } from 'react'
-import { useGetAllPartsDevices } from '@/core/devices/devices/infra/hook/useGetAllPartsDevices'
+import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/useGetAllPartsDevices'
 import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 import { TableDefaultDevice } from '../TableDefaultDevice'
-import { DevicePartsFilter } from '@/core/devices/devices/application/parts/DevicePartsFilter'
-import { type DevicePartsFilters } from '@/core/devices/devices/application/parts/CreateDevicePartsParams'
+import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
+import { type DevicePartsFilters } from '@/entities/devices/devices/application/parts/CreateDevicePartsParams'
 
 interface TablePartsWrapperProps {
 	query: DevicePartsFilters

@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { useGetGeneralDashboard } from '@/core/devices/dashboard/infra/hooks/useGetGeneralDashboard'
-import { PieCard } from '../../components/PieChart/PieCard'
+import { useGetGeneralDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetGeneralDashboard'
+import { PieCard } from '@/shared/ui/PieChart/PieCard'
 
 export const InventoryDistribution = memo(() => {
 	const { generalDashboard, isLoading } = useGetGeneralDashboard()

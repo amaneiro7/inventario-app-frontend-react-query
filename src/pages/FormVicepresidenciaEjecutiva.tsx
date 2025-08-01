@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateVicepresidenciaEjecutiva } from '@/core/employee/vicepresidenciaEjecutiva/infra/hook/useCreateVicepresidenciaEjecutiva'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateVicepresidenciaEjecutiva } from '@/entities/employee/vicepresidenciaEjecutiva/infra/hook/useCreateVicepresidenciaEjecutiva'
 import { VicepresidenciaEjecutivasInputs } from '@/ui/Form/VicepresidenciaEjecutiva/VicepresidenciaEjecutivaInputs'
 import { VicepresidenciaEjecutivaSearch } from '@/ui/Form/VicepresidenciaEjecutiva/VicepresidenciaEjecutivaSearch'
 

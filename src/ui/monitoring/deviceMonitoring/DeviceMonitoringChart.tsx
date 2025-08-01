@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { useGetDeviceMonitoringDashboardByState } from '@/core/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
+import { useGetDeviceMonitoringDashboardByState } from '@/entities/devices/deviceMonitoring/infra/hook/useGetDeviceMonitoringDashboardByState'
 import { MonitoringChart } from '../MonitoringChart'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 interface DeviceMonitoringChartProps {
 	query: DeviceMonitoringFilters

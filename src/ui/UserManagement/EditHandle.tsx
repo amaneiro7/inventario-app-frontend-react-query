@@ -1,5 +1,5 @@
-import { LinkAsButton } from '@/components/Button/LinkAsButton'
-import { EditIcon } from '@/icon/EditIcon'
+import { LinkAsButton } from '@/shared/ui/Button/LinkAsButton'
+import { EditIcon } from '@/shared/ui/icon/EditIcon'
 
 export function EditHandle({ id }: { id: string }) {
 	return (

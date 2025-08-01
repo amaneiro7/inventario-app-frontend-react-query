@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateCargo } from '@/core/employee/cargo/infra/hook/useCreateCargo'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateCargo } from '@/entities/employee/cargo/infra/hook/useCreateCargo'
 import { CargoSearch } from '@/ui/Form/Cargo/CargoSearch'
 import { CargoInputs } from '@/ui/Form/Cargo/CargoInputs'
 

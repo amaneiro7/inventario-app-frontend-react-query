@@ -1,36 +1,38 @@
 import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { InputFallback } from '@/components/Loading/InputFallback'
-import { Input } from '@/components/Input/Input'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { Input } from '@/shared/ui/Input/Input'
 
 const CategoryCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
+	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
 		default: m.CategoryCombobox
 	}))
 )
 const EmployeeCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
+	import('@/entities/employee/employee/infra/ui/EmployeeComboBox').then(m => ({
 		default: m.EmployeeCombobox
 	}))
 )
 const LocationCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+	import('@/entities/locations/locations/infra/ui/LocationComboBox').then(m => ({
 		default: m.LocationCombobox
 	}))
 )
 const RegionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
 		default: m.RegionCombobox
 	}))
 )
 const AdministrativeRegionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/AdministrativeRegionComboBox').then(m => ({
-		default: m.AdministrativeRegionCombobox
-	}))
+	import('@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox').then(
+		m => ({
+			default: m.AdministrativeRegionCombobox
+		})
+	)
 )
 const DepartamentoCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/DepartamentoComboBox').then(m => ({
+	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
 		default: m.DepartamentoCombobox
 	}))
 )

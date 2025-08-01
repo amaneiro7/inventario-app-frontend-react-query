@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { WelcomeHero } from '@/ui/Home/WelcomeHero'
 import { InventorySummary } from '@/ui/Home/InventorySummary'
 import { QuickActions } from '@/ui/Home/QuickAccess'

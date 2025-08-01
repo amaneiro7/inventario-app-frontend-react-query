@@ -1,13 +1,13 @@
 import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
-import { useScreenFilter } from '@/core/devices/devices/infra/hook/useScreenFilters'
+import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
+import { useScreenFilter } from '@/entities/devices/devices/infra/hook/useScreenFilters'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableScreenWrapper } from '@/ui/List/screen/TableScreenWrapper'
-import { Loading } from '@/components/Loading'
+import { Loading } from '@/shared/ui/Loading'
 
 const MainComputerFilter = lazy(() =>
 	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))

@@ -1,13 +1,13 @@
 import { memo } from 'react'
 import { Wifi, WifiOff } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { LocationMonitoringGetByCriteria } from '@/core/locations/locationMonitoring/application/LocationMonitoringGetByCriteria'
-import { LocationMonitoringStatuses } from '@/core/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
-import Typography from '@/components/Typography'
+import { cn } from '@/shared/lib/utils'
+import { LocationMonitoringGetByCriteria } from '@/entities/locations/locationMonitoring/application/LocationMonitoringGetByCriteria'
+import { LocationMonitoringStatuses } from '@/entities/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
+import Typography from '@/shared/ui/Typography'
 import { PaginationBar } from '@/ui/List/Pagination/PaginationBar'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
-import { type LocationMonitoring } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
-import { type Response } from '@/core/shared/domain/methods/Response'
+import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { type LocationMonitoring } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
+import { type Response } from '@/entities/shared/domain/methods/Response'
 
 interface LocationMonitoringMapProps {
 	pageSize: LocationMonitoringFilters['pageSize']

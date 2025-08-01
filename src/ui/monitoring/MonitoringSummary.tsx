@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import { Activity, Server, Wifi, WifiOff } from 'lucide-react'
-import { formattedDate } from '@/utils/formatDate'
-import { BasicStatCard } from '@/components/BasicStatCard'
-import Typography from '@/components/Typography'
+import { formattedDate } from '@/shared/lib/utils/formatDate'
+import { BasicStatCard } from '@/shared/ui/BasicStatCard'
+import Typography from '@/shared/ui/Typography'
 
 interface MonitoringData {
 	total: number

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllCity } from '@/core/locations/city/infra/hook/useGetAllCity'
-import { type CityFilters } from '@/core/locations/city/application/createCityQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllCity } from '@/entities/locations/city/infra/hook/useGetAllCity'
+import { type CityFilters } from '@/entities/locations/city/application/createCityQueryParams'
 
 export function CitySearch() {
 	const [searchValue, setSearchValue] = useState('')

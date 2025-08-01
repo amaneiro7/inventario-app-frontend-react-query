@@ -6,8 +6,8 @@ import {
 	type DefaultEmployee,
 	type EmployeeRequired,
 	type EmployeeDisabled
-} from '@/core/employee/employee/infra/reducers/employeeFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
+} from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 import { MainEmployeeInfo } from './MainEmployeeInfo'
 import { AdditionalEmployeeInfo } from './AdditionalEmployeeInfo'

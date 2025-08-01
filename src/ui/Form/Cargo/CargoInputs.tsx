@@ -1,12 +1,12 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type CargoErrors,
 	type DefaultCargo,
 	type CargoRequired,
 	type CargoDisabled
-} from '@/core/employee/cargo/infra/reducers/cargoFormReducer'
+} from '@/entities/employee/cargo/infra/reducers/cargoFormReducer'
 
 interface Props {
 	formData: DefaultCargo

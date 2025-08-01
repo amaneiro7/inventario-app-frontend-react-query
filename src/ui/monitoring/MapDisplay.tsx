@@ -6,7 +6,7 @@ import {
 	TooltipPortal,
 	TooltipProvider,
 	TooltipTrigger
-} from '@/components/Tooltip' // Adjust path if needed
+} from '@/shared/ui/Tooltip' // Adjust path if needed
 import { StateData } from './MapChart/useMapChart'
 import { MapLegend } from './MapChart/MapLegend'
 import { MapLegendTotal } from './MapChart/MapLegendTotal'

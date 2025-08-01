@@ -1,11 +1,11 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import { CategoryTransferList } from '@/components/TranferList/CategoryTransferList'
 import {
 	type BrandErrors,
 	type Action,
 	type DefaultBrand
-} from '@/core/brand/infra/reducers/brandFormReducer'
+} from '@/entities/brand/infra/reducers/brandFormReducer'
 
 interface BrandInputsProps {
 	formData: DefaultBrand

@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
-import { useGetComputerDashboard } from '@/core/devices/dashboard/infra/hooks/useGetComputerDashboard'
-import { Seo } from '@/components/Seo'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
+import { useGetComputerDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetComputerDashboard'
+import { Seo } from '@/shared/ui/Seo'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 import { InventorySummary } from '@/ui/Home/InventorySummary'
-import { Loading } from '@/components/Loading'
+import { Loading } from '@/shared/ui/Loading'
 
 const InventoryOverview = lazy(() =>
 	import('@/ui/dashboard/Overview').then(m => ({ default: m.InventoryOverview }))

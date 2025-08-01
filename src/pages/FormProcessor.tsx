@@ -1,5 +1,5 @@
-import { useCreateProcessor } from '@/core/devices/features/processor/infra/hooks/useCreateProcessor'
-import { FormContainer } from '@/components/FormContainer/formContainer'
+import { useCreateProcessor } from '@/entities/devices/features/processor/infra/hooks/useCreateProcessor'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { ProcessorInputs } from '@/ui/Form/Processor/ProcessorInputs'
 import { ProcessorSearch } from '@/ui/Form/Processor/ProcessorSearch'
 

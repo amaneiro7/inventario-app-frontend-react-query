@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { useTabNav } from './useTabNav'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/utils'
 import { type TabNav } from './TabNav'
 interface TabsNavProps<T>
 	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

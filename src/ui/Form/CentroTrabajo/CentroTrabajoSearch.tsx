@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllCentroTrabajo } from '@/core/employee/centroTrabajo/infra/hook/useGetAllCentroTrabajo'
-import { type CentroTrabajoFilters } from '@/core/employee/centroTrabajo/application/createCentroTrabajoQueryParams'
-import { type CentroTrabajoDto } from '@/core/employee/centroTrabajo/domain/dto/CentroTrabajo.dto'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useGetAllCentroTrabajo'
+import { type CentroTrabajoFilters } from '@/entities/employee/centroTrabajo/application/createCentroTrabajoQueryParams'
+import { type CentroTrabajoDto } from '@/entities/employee/centroTrabajo/domain/dto/CentroTrabajo.dto'
 
 export function CentroTrabajoSearch() {
 	const [searchValue, setSearchValue] = useState('')

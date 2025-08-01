@@ -1,4 +1,4 @@
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { NetworkLinkListSkeleton } from './NetworkLinkListSkeleton'
 
 // A generic interface for any item that can be displayed in this list.

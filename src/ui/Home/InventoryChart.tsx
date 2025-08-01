@@ -9,9 +9,9 @@ import {
 	ResponsiveContainer,
 	Legend
 } from 'recharts'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { useGetHistoryDashboard } from '@/core/history/infra/hook/useGetGeneralDashboard'
-import { BASIC_COLORS } from '@/utils/colores'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { useGetHistoryDashboard } from '@/entities/history/infra/hook/useGetGeneralDashboard'
+import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 
 export const InventoryChart = memo(() => {
 	const { historyDashboard, isLoading } = useGetHistoryDashboard()

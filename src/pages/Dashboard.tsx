@@ -1,5 +1,5 @@
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
-import { LinkCard } from '@/components/LinkCard'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { LinkCard } from '@/shared/ui/LinkCard'
 import { Computer } from 'lucide-react'
 
 const Dashboards = () => {

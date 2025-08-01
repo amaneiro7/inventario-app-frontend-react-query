@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { type Headers } from '@/components/Table/TableHeader'
-import { useMediaQuery } from '@/icon/useMediaQuery'
+import { type Headers } from '@/shared/ui/Table/TableHeader'
+import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
 
 export function useDefaulDeviceHeader() {
 	const isBreakpointSmall = useMediaQuery('(max-width: 1120px)')
@@ -10,12 +10,12 @@ export function useDefaulDeviceHeader() {
 	const colSpan = isBreakpointUltraTinySmall
 		? 4
 		: isBreakpointUltraSmall
-		? 5
-		: isBreakpointExtraSmall
-		? 6
-		: isBreakpointSmall
-		? 7
-		: 8
+			? 5
+			: isBreakpointExtraSmall
+				? 6
+				: isBreakpointSmall
+					? 7
+					: 8
 	const headers: Headers[] = useMemo(
 		() => [
 			{

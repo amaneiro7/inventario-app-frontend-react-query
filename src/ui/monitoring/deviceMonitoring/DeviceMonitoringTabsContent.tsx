@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense } from 'react'
-import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
-import { TabsContent } from '@/components/Tabs'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { useGetAllDeviceMonitorings } from '@/entities/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
+import { TabsContent } from '@/shared/ui/Tabs'
+import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 const TableDeviceMonitoringWrapper = lazy(() =>
 	import('./TableDeviceMonitoringWrapper').then(m => ({

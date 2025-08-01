@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useLocationFilter } from '@/core/locations/locations/infra/hook/useLocationFilters'
+import { useLocationFilter } from '@/entities/locations/locations/infra/hook/useLocationFilters'
 //components
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { LocationDataWrapper } from '@/ui/List/location/LocationDataWrapper'
-import { Loading } from '@/components/Loading'
+import { Loading } from '@/shared/ui/Loading'
 
 const LocationMainFilter = lazy(() =>
 	import('@/ui/List/location/LocationMainFilter').then(m => ({ default: m.LocationMainFilter }))

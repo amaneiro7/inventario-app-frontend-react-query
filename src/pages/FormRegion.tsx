@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateRegion } from '@/core/locations/region/infra/hook/useCreateRegion'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateRegion } from '@/entities/locations/region/infra/hook/useCreateRegion'
 import { RegionInputs } from '@/ui/Form/Region/RegionInputs'
 import { RegionSearch } from '@/ui/Form/Region/RegionSearch'
 

@@ -1,9 +1,9 @@
 import { memo, useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllEmployees } from '@/core/employee/employee/infra/hook/useGetAllEmployee'
-import { EmployeeRenderOption } from '@/components/Input/Combobox/RenderOption/EmployeeRenderOption'
-import { type EmployeeFilters } from '@/core/employee/employee/application/createEmployeeQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllEmployees } from '@/entities/employee/employee/infra/hook/useGetAllEmployee'
+import { EmployeeRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/EmployeeRenderOption'
+import { type EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
 
 export const EmployeeSearch = memo(() => {
 	const [searchValue, setSearchValue] = useState('')

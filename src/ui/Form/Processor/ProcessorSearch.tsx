@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllProcessor } from '@/core/devices/features/processor/infra/hooks/useGetAllProcessors'
-import { type ProcessorFilters } from '@/core/devices/features/processor/application/createProcessorQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
+import { type ProcessorFilters } from '@/entities/devices/features/processor/application/createProcessorQueryParams'
 
 export function ProcessorSearch() {
 	const [searchValue, setSearchValue] = useState('')

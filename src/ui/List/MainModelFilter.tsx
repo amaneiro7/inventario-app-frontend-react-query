@@ -1,23 +1,23 @@
 import { lazy, memo, Suspense } from 'react'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const BrandCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
+	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({
 		default: m.BrandCombobox
 	}))
 )
 const ModelCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
+	import('@/entities/model/models/infra/ui/ModelComboBox').then(m => ({
 		default: m.ModelCombobox
 	}))
 )
 const CategoryCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/CategoryComboBox').then(m => ({
+	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
 		default: m.CategoryCombobox
 	}))
 )
 const MainCategoryCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/MainCategoryComboBox').then(m => ({
+	import('@/entities/mainCategory/infra/ui/MainCategoryComboBox').then(m => ({
 		default: m.MainCategoryCombobox
 	}))
 )

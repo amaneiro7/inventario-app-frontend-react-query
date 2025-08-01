@@ -1,11 +1,11 @@
 import { memo } from 'react'
-import { CargoCombobox } from '@/components/ComboBox/Asincrono/CargoComboBox'
-import { DepartamentoCombobox } from '@/components/ComboBox/Asincrono/DepartamentoComboBox'
-import { LocationCombobox } from '@/components/ComboBox/Asincrono/LocationComboBox'
-import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
-import { VicepresidenciaCombobox } from '@/components/ComboBox/Asincrono/VicepresidenciaComboBox'
-import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
-import Typography from '@/components/Typography'
+import { CargoCombobox } from '@/entities/employee/cargo/infra/ui/CargoComboBox'
+import { DepartamentoCombobox } from '@/entities/employee/departamento/infra/ui/DepartamentoComboBox'
+import { LocationCombobox } from '@/entities/locations/locations/infra/ui/LocationComboBox'
+import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
+import { VicepresidenciaCombobox } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox'
+import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+import Typography from '@/shared/ui/Typography'
 import { PhoneSection } from './PhoneSection'
 import { ExtensionSection } from './ExtensionSection'
 import {
@@ -13,8 +13,8 @@ import {
 	type EmployeeRequired,
 	type Action,
 	EmployeeDisabled
-} from '@/core/employee/employee/infra/reducers/employeeFormReducer'
-import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
+} from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
+import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 
 interface AdditionalEmployeeInfoProps {
 	locationId: DefaultEmployee['locationId']

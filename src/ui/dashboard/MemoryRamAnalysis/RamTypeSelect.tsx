@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 
 interface RamTypeSelectProps {
 	selectedRamType: string

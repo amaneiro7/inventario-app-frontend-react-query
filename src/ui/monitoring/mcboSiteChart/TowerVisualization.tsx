@@ -1,9 +1,9 @@
 import { ArrowLeft } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/utils'
 import { COLOR_THRESHOLDS } from '../MapColors'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/Tooltip'
-import Typography from '@/components/Typography'
-import { type Locations } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shared/ui/Tooltip'
+import Typography from '@/shared/ui/Typography'
+import { type Locations } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
 
 const getLocationStatus = (location: Locations) => {
 	const onlinePercentage = location.total > 0 ? (location.onlineCount / location.total) * 100 : 0

@@ -1,12 +1,12 @@
 import { useRef } from 'react'
-import { useAuthStore } from '@/store/useAuthStore'
-import { DeleteUser } from '@/core/user/application/DeleteUser'
-import { DeleteUserService } from '@/core/user/infra/service/deleteUser.service'
+import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { DeleteUser } from '@/entities/user/application/DeleteUser'
+import { DeleteUserService } from '@/entities/user/infra/service/deleteUser.service'
 
-import { Dialog, type ModalRef } from '@/components/Modal/Modal'
-import { ConfirmationModal } from '@/components/Modal/ConfirmationModal'
-import { ThrashIcon } from '@/icon/ThrashIcon'
-import Button from '@/components/Button'
+import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
+import { ConfirmationModal } from '@/shared/ui/Modal/ConfirmationModal'
+import { ThrashIcon } from '@/shared/ui/icon/ThrashIcon'
+import Button from '@/shared/ui/Button'
 
 export function DeleteHandle({ id }: { id: string }) {
 	const dialogDeleteRef = useRef<ModalRef>(null)

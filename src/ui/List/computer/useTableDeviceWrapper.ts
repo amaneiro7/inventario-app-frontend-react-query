@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { useMediaQuery } from '@/icon/useMediaQuery'
-import { type Headers } from '@/components/Table/TableHeader'
+import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
+import { type Headers } from '@/shared/ui/Table/TableHeader'
 
 export function useTableDeviceWrapper() {
 	const isBreakpointLarg = useMediaQuery('(max-width: 1380px)')
@@ -105,16 +105,16 @@ export function useTableDeviceWrapper() {
 	const colSpan = isBreakpointUltraTinySmall
 		? 4
 		: isBreakpointUltraSmall
-		? 5
-		: isBreakpointExtraSmall
-		? 6
-		: isBreakpointSmall
-		? 7
-		: isBreakpointMedium
-		? 8
-		: isBreakpointLarg
-		? 9
-		: 10 // Ajusta el colSpan dinámicamente
+			? 5
+			: isBreakpointExtraSmall
+				? 6
+				: isBreakpointSmall
+					? 7
+					: isBreakpointMedium
+						? 8
+						: isBreakpointLarg
+							? 9
+							: 10 // Ajusta el colSpan dinámicamente
 
 	const visibleColumns = useMemo(() => {
 		return headers.filter(header => header.visible).map(h => h.key)

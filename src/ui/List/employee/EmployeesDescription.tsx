@@ -1,9 +1,9 @@
 import { memo } from 'react'
-import { formatearTelefono } from '@/utils/formatearTelefono'
-import { getRelativeTime } from '@/utils/getRelativeTime'
-import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
-import { TableCellDescription } from '@/components/Table/TableCellDescription'
-import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
+import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
+import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
+import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
+import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 interface EmployeeDescriptionProps {
 	open: boolean

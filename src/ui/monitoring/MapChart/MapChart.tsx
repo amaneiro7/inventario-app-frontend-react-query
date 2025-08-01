@@ -1,6 +1,6 @@
 import { lazy, memo, Suspense } from 'react'
 import { useMapChart } from './useMapChart'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { MapChartStates } from './MapChartState'
 import venezuelaTopoJson from './venezuelaState.json' with { type: 'json' }
 

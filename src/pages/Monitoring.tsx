@@ -1,4 +1,4 @@
-import { LinkCard } from '@/components/LinkCard'
+import { LinkCard } from '@/shared/ui/LinkCard'
 import { MonitorCheck, MapPinCheck } from 'lucide-react'
 
 const Monitoring = () => {

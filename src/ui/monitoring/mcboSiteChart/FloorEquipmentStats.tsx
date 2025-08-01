@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/Card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { Building, Users, Power, PowerOff } from 'lucide-react'
 
 interface FloorStats {

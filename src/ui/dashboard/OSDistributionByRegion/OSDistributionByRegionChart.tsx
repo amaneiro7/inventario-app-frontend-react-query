@@ -10,7 +10,7 @@ import {
 	ResponsiveContainer,
 	LabelList
 } from 'recharts'
-import { BASIC_COLORS_MAP } from '@/utils/colores'
+import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 
 import { CustomLabelList } from '../CustomLabelList'
 import { MapPin } from 'lucide-react'

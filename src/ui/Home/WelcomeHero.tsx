@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { LinkAsButton } from '@/components/Button/LinkAsButton'
-import Typography from '@/components/Typography'
+import { LinkAsButton } from '@/shared/ui/Button/LinkAsButton'
+import Typography from '@/shared/ui/Typography'
 
 export const WelcomeHero = memo(() => {
 	return (

@@ -1,6 +1,6 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/utils'
 import { memo } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 
 interface StatCardProps {
 	title?: string

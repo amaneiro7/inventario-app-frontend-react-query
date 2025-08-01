@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Monitor, Laptop, User, Building, HomeIcon } from 'lucide-react'
 import { StatCard } from './StatCard'
-import { useGetGeneralDashboard } from '@/core/devices/dashboard/infra/hooks/useGetGeneralDashboard'
+import { useGetGeneralDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetGeneralDashboard'
 
 export const InventorySummary = memo(() => {
 	const { generalDashboard } = useGetGeneralDashboard()

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { MemoryRamValues } from '@/core/devices/devices/domain/value-object/MemoryRamValues'
-import { Input } from '@/components/Input/Input'
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
+import { MemoryRamValues } from '@/entities/devices/devices/domain/value-object/MemoryRamValues'
+import { Input } from '@/shared/ui/Input/Input'
+import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
 interface Props {
 	value: Primitives<MemoryRamValues>

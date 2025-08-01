@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense } from 'react'
-import { useGetAllLocationMonitorings } from '@/core/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
-import { TabsContent } from '@/components/Tabs'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { useGetAllLocationMonitorings } from '@/entities/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
+import { TabsContent } from '@/shared/ui/Tabs'
+import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 
 const TableLocationMonitoringWrapper = lazy(() =>
 	import('./TableLocationMonitoringWrapper').then(m => ({

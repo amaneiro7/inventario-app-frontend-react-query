@@ -6,10 +6,10 @@ import {
 	type ModelDisabled,
 	type ModelErrors,
 	type ModelRequired
-} from '@/core/model/models/infra/reducers/modelFormReducer'
-import Typography from '@/components/Typography'
-import { MainCategoryOptions } from '@/core/mainCategory/domain/entity/MainCategoryOptions'
-import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
+} from '@/entities/model/models/infra/reducers/modelFormReducer'
+import Typography from '@/shared/ui/Typography'
+import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 
 const AddModelComputerFeatures = lazy(async () =>
 	import('./AddModelComputerFeatures').then(m => ({ default: m.AddModelComputerFeatures }))
@@ -91,7 +91,7 @@ export function AddtionalModelFeatures({
 	return (
 		<>
 			{additionalFeatures !== null && (
-				<div className="flex flex-col gap-4  border border-gray-400 rounded-lg p-8 pt-4">
+				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
 						Información Adicional
 					</Typography>

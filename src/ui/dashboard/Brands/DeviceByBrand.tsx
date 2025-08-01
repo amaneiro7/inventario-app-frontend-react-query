@@ -10,7 +10,7 @@ import {
 	XAxis,
 	YAxis
 } from 'recharts'
-import { BASIC_COLORS } from '@/utils/colores'
+import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type BrandData } from '../hooks/useBrandDistribution'
 
 interface DeviceByBrandProps {

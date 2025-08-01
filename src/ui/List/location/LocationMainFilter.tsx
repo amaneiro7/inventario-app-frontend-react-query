@@ -1,32 +1,38 @@
 import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Input } from '@/components/Input/Input'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { Input } from '@/shared/ui/Input/Input'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const RegionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
 		default: m.RegionCombobox
 	}))
 )
 const AdministrativeRegionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/AdministrativeRegionComboBox').then(m => ({
-		default: m.AdministrativeRegionCombobox
-	}))
+	import('@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox').then(
+		m => ({
+			default: m.AdministrativeRegionCombobox
+		})
+	)
 )
 const LocationStatusComboBox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/LocationStatusComboBox').then(m => ({
+	import('@/entities/locations/locationStatus/infra/ui/LocationStatusComboBox').then(m => ({
 		default: m.LocationStatusCombobox
 	}))
 )
 const StateCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
+		default: m.StateCombobox
+	}))
 )
 const CityCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+	import('@/entities/locations/city/infra/ui/CityComboBox').then(m => ({
+		default: m.CityCombobox
+	}))
 )
 const TypeOfSiteCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/TypeOfSiteComboBox').then(m => ({
+	import('@/entities/locations/typeOfSites/infra/ui/TypeOfSiteComboBox').then(m => ({
 		default: m.TypeOfSiteCombobox
 	}))
 )

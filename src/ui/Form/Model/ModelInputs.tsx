@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, memo, Suspense } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type DefaultModel,
 	type ModelDisabled,
 	type ModelErrors,
 	type ModelRequired
-} from '@/core/model/models/infra/reducers/modelFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import Typography from '@/components/Typography'
-import { MainCategoryCombobox } from '@/components/ComboBox/Sincrono/MainCategoryComboBox'
-import { CategoryCombobox } from '@/components/ComboBox/Sincrono/CategoryComboBox'
-import { BrandCombobox } from '@/components/ComboBox/Asincrono/BrandComboBox'
-import { Checkbox } from '@/components/Checkbox/Checbox'
-import { InputFallback } from '@/components/Loading/InputFallback'
+} from '@/entities/model/models/infra/reducers/modelFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import Typography from '@/shared/ui/Typography'
+import { MainCategoryCombobox } from '@/entities/mainCategory/infra/ui/MainCategoryComboBox'
+import { CategoryCombobox } from '@/entities/category/infra/ui/CategoryComboBox'
+import { BrandCombobox } from '@/entities/brand/infra/ui/BrandComboBox'
+import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const AddtionalModelFeatures = lazy(async () =>
 	import('./AdditionalModelFeatures').then(m => ({ default: m.AddtionalModelFeatures }))

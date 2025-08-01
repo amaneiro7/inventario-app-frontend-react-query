@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import Button from '@/components/Button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import Button from '@/shared/ui/Button'
 
 /**
  * Props for the MainOsFilter component.

@@ -1,8 +1,8 @@
 import { lazy, Suspense } from 'react'
-import { useGetAllPrinterDevices } from '@/core/devices/devices/infra/hook/useGetAllPrinterDevices'
+import { useGetAllPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllPrinterDevices'
 import { TableDefaultDevice } from '../TableDefaultDevice'
-import { DevicePrinterFilter } from '@/core/devices/devices/application/printer/DevicePrinterFilter'
-import { type DevicePrinterFilters } from '@/core/devices/devices/application/printer/CreateDevicePrinterParams'
+import { DevicePrinterFilter } from '@/entities/devices/devices/application/printer/DevicePrinterFilter'
+import { type DevicePrinterFilters } from '@/entities/devices/devices/application/printer/CreateDevicePrinterParams'
 import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 
 interface TablePrinterWrapperProps {

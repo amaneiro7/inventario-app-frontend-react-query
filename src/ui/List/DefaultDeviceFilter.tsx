@@ -1,43 +1,49 @@
 import { lazy, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Input } from '@/components/Input/Input'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { Input } from '@/shared/ui/Input/Input'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { Divider } from './Divider'
 
 const CityCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+	import('@/entities/locations/city/infra/ui/CityComboBox').then(m => ({
+		default: m.CityCombobox
+	}))
 )
 const StateCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
+		default: m.StateCombobox
+	}))
 )
 const ModelCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/ModelComboBox').then(m => ({
+	import('@/entities/model/models/infra/ui/ModelComboBox').then(m => ({
 		default: m.ModelCombobox
 	}))
 )
 const BrandCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/BrandComboBox').then(m => ({
+	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({
 		default: m.BrandCombobox
 	}))
 )
 const StatusCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/StatusComboBox').then(m => ({
+	import('@/entities/status/status/infra/ui/StatusComboBox').then(m => ({
 		default: m.StatusCombobox
 	}))
 )
 const DirectivaCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/DirectivaComboBox').then(m => ({
+	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
 		default: m.DirectivaCombobox
 	}))
 )
 const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox').then(m => ({
+	import(
+		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+	).then(m => ({
 		default: m.VicepresidenciaEjecutivaCombobox
 	}))
 )
 const VicepresidenciaCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/VicepresidenciaComboBox').then(m => ({
+	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
 		default: m.VicepresidenciaCombobox
 	}))
 )

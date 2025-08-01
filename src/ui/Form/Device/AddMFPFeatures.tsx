@@ -3,10 +3,10 @@ import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
-} from '@/core/devices/devices/infra/reducers/devicesFormReducer'
+} from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 
 const Input = lazy(
-	async () => await import('@/components/Input/Input').then(m => ({ default: m.Input }))
+	async () => await import('@/shared/ui/Input/Input').then(m => ({ default: m.Input }))
 )
 
 interface Props {

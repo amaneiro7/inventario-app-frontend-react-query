@@ -1,21 +1,21 @@
 import { lazy, memo, Suspense } from 'react'
-import { useGetAllComputerDevices } from '@/core/devices/devices/infra/hook/useGetAllComputerDevices'
+import { useGetAllComputerDevices } from '@/entities/devices/devices/infra/hook/useGetAllComputerDevices'
 import { useTableDeviceWrapper } from './useTableDeviceWrapper'
-import { eventManager } from '@/utils/eventManager'
+import { eventManager } from '@/shared/lib/utils/eventManager'
 
-import { DeviceComputerFilter } from '@/core/devices/devices/application/computerFilter/DeviceComputerFilter'
-import { Table } from '@/components/Table/Table'
-import { TableBody } from '@/components/Table/TableBody'
-import { TableHead } from '@/components/Table/TableHead'
-import { TableHeader } from '@/components/Table/TableHeader'
-import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
-import { TableRow } from '@/components/Table/TableRow'
+import { DeviceComputerFilter } from '@/entities/devices/devices/application/computerFilter/DeviceComputerFilter'
+import { Table } from '@/shared/ui/Table/Table'
+import { TableBody } from '@/shared/ui/Table/TableBody'
+import { TableHead } from '@/shared/ui/Table/TableHead'
+import { TableHeader } from '@/shared/ui/Table/TableHeader'
+import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
+import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from '../Tab/TabsNav'
 import { TypeOfSiteTabNav } from '../Tab/TypeOfSiteTabNav'
-import { LoadingTable } from '@/components/Table/LoadingTable'
+import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { PaginationBar } from '../Pagination/PaginationBar'
 
-import { type DeviceComputerFilters } from '@/core/devices/devices/application/computerFilter/CreateDeviceComputerParams'
+import { type DeviceComputerFilters } from '@/entities/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 
 interface TableWrapperProps {
 	query: DeviceComputerFilters

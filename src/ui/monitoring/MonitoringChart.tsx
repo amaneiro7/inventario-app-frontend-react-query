@@ -1,15 +1,15 @@
 import { lazy, memo, Suspense, useMemo } from 'react'
 import { LoadingSpinner } from './LoadingSpinner'
-import { type LocationMonitoringDashboardByStateDto } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
-import { type DeviceMonitoringDashboardByStateDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
+import { type LocationMonitoringDashboardByStateDto } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
+import { type DeviceMonitoringDashboardByStateDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
 
-const Card = lazy(() => import('@/components/Card').then(m => ({ default: m.Card })))
-const CardContent = lazy(() => import('@/components/Card').then(m => ({ default: m.CardContent })))
+const Card = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.Card })))
+const CardContent = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.CardContent })))
 const CardDescription = lazy(() =>
-	import('@/components/Card').then(m => ({ default: m.CardDescription }))
+	import('@/shared/ui/Card').then(m => ({ default: m.CardDescription }))
 )
-const CardHeader = lazy(() => import('@/components/Card').then(m => ({ default: m.CardHeader })))
-const CardTitle = lazy(() => import('@/components/Card').then(m => ({ default: m.CardTitle })))
+const CardHeader = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.CardHeader })))
+const CardTitle = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.CardTitle })))
 const ByStateList = lazy(() => import('./ByStateList').then(m => ({ default: m.ByStateList })))
 const SummaryPieChart = lazy(() =>
 	import('./SummaryPieChart').then(m => ({ default: m.SummaryPieChart }))

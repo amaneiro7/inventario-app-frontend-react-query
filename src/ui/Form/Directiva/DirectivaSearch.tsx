@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllDirectiva } from '@/core/employee/directiva/infra/hook/useGetAllDirectiva'
-import { type DirectivaFilters } from '@/core/employee/directiva/application/createDirectivaQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllDirectiva } from '@/entities/employee/directiva/infra/hook/useGetAllDirectiva'
+import { type DirectivaFilters } from '@/entities/employee/directiva/application/createDirectivaQueryParams'
 
 export function DirectivaSearch() {
 	const [searchValue, setSearchValue] = useState('')

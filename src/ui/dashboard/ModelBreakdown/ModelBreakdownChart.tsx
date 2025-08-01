@@ -10,7 +10,7 @@ import {
 	ResponsiveContainer,
 	LabelList
 } from 'recharts'
-import { BASIC_COLORS } from '@/utils/colores'
+import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type ModelChartData } from '../hooks/useModelBreakdown'
 
 interface ModelBreakdownChartProps {

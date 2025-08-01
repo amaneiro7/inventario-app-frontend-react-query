@@ -1,8 +1,8 @@
 import { lazy, memo, Suspense } from 'react'
 import { useModelBreakdown } from '../hooks/useModelBreakdown'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { ModelBreakdownSelect } from './MoldeBreakdownSelect'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface ModelBreakdownProps {
 	data: ComputerDashboardDto['brand']

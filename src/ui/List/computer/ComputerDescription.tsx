@@ -1,10 +1,10 @@
 import { memo } from 'react'
-import { TableCellDescription } from '@/components/Table/TableCellDescription'
-import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
-import { getRelativeTime } from '@/utils/getRelativeTime'
-import { convertNumberMiles } from '@/utils/convertNumberMiles'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
-import { formatearTelefono } from '@/utils/formatearTelefono'
+import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
+import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
+import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
+import { convertNumberMiles } from '@/shared/lib/utils/convertNumberMiles'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
+import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
 
 interface Props {
 	open: boolean
@@ -138,7 +138,7 @@ export const ComputerDescription = memo(({ open, device, colSpan, visibleColumns
 
 					<TableCellDescInfo
 						title="Nucleos"
-						text={device.computer ? `${device?.computer?.processor?.cores}` : ''}
+						text={device.computer ? `${device?.computer?.processor?.entitiess}` : ''}
 					/>
 					<TableCellDescInfo
 						title="Frecuencia"

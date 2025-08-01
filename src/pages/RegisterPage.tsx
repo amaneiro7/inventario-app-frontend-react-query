@@ -1,9 +1,9 @@
 import { Suspense } from 'react'
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
-import { FormComponent } from '@/components/FormContainer/FormComponent'
-import { Input } from '@/components/Input/Input'
-import { useCreateUser } from '@/core/user/infra/hooks/useCreateModels'
-import { RoleCombobox } from '@/components/ComboBox/Sincrono/RoleComboBox'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { FormComponent } from '@/widgets/FormContainer/FormComponent'
+import { Input } from '@/shared/ui/Input/Input'
+import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
+import { RoleCombobox } from '@/entities/role/infra/ui/RoleComboBox'
 
 export default function RegisterPage() {
 	const { formData, key, errors, required, handleChange, handleSubmit } = useCreateUser()

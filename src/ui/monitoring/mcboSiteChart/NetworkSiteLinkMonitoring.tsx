@@ -1,12 +1,12 @@
 import { memo, useMemo } from 'react'
 import { Server } from 'lucide-react'
-import { useGetAllDeviceMonitorings } from '@/core/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
-import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { Badge } from '@/components/Badge'
-import Typography from '@/components/Typography'
+import { useGetAllDeviceMonitorings } from '@/entities/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
+import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { Badge } from '@/shared/ui/Badge'
+import Typography from '@/shared/ui/Typography'
 import { type GenericMonitorableItem, GenericMonitoringList } from '../GenericMonitoringList'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 interface NetworkLinkSelectedListProps {
 	selectedFloor: string | null

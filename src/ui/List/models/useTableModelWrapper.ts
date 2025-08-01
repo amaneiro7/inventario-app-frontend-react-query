@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { useMediaQuery } from '@/icon/useMediaQuery'
-import { type Headers } from '@/components/Table/TableHeader'
+import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
+import { type Headers } from '@/shared/ui/Table/TableHeader'
 
 export function useTableModelWrapper() {
 	const isBreakpointUltraSmall = useMediaQuery('(max-width: 770px)')

@@ -1,25 +1,31 @@
 import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { Input } from '@/components/Input/Input'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { Input } from '@/shared/ui/Input/Input'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { Divider } from '../Divider'
-import { MemoryRamTypeCombobox } from '@/components/ComboBox/Sincrono/MemoryRamTypeComboBox'
-import { SelectOperatorCombobox } from '@/components/ComboBox/Sincrono/SelectOperator'
-import { Operator } from '@/core/shared/domain/criteria/FilterOperators'
+import { MemoryRamTypeCombobox } from '@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox'
+import { SelectOperatorCombobox } from '@/entities/devices/devices/infra/ui/SelectOperator'
+import { Operator } from '@/entities/shared/domain/criteria/FilterOperators'
 
 const OperatingSystemCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/OperatingSystemComboBox').then(m => ({
+	import(
+		'@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
+	).then(m => ({
 		default: m.OperatingSystemCombobox
 	}))
 )
 const OperatingSystemArqCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/OperatingSystemArqComboBox').then(m => ({
+	import(
+		'@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
+	).then(m => ({
 		default: m.OperatingSystemArqCombobox
 	}))
 )
 const HardDriveTypeCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/HardDriveTypeComboBox').then(m => ({
+	import(
+		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
+	).then(m => ({
 		default: m.HardDriveTypeCombobox
 	}))
 )

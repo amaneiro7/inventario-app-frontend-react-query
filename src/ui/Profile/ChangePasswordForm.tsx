@@ -1,21 +1,19 @@
 import { lazy, Suspense } from 'react'
-import { UserPassword } from '@/core/user/domain/value-objects/UserPassword'
-import { type Primitives } from '@/core/shared/domain/value-objects/Primitives'
-import { type UserEmail } from '@/core/user/domain/value-objects/UserEmail'
-import { Input } from '@/components/Input/Input'
-import { UnlockIcon } from '@/icon/UnlockIcon'
-import { LockIcon } from '@/icon/LockIcon'
-import Typography from '@/components/Typography'
-import Button from '@/components/Button'
-import { RightArrowIcon } from '@/icon/RightArrowIcon'
-import { CancelIcon } from '@/icon/CancelIcon'
-import { useChangePassword } from '@/core/user/infra/hooks/useChangePassword'
+import { UserPassword } from '@/entities/user/domain/value-objects/UserPassword'
+import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
+import { type UserEmail } from '@/entities/user/domain/value-objects/UserEmail'
+import { Input } from '@/shared/ui/Input/Input'
+import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
+import { LockIcon } from '@/shared/ui/icon/LockIcon'
+import Typography from '@/shared/ui/Typography'
+import Button from '@/shared/ui/Button'
+import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
+import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
+import { useChangePassword } from '@/entities/user/infra/hooks/useChangePassword'
 
-const Modal = lazy(async () =>
-	import('@/components/Modal/Modal').then(m => ({ default: m.Dialog }))
-)
+const Modal = lazy(async () => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
 const ConfirmationModal = lazy(async () =>
-	import('@/components/Modal/ConfirmationModal').then(m => ({
+	import('@/shared/ui/Modal/ConfirmationModal').then(m => ({
 		default: m.ConfirmationModal
 	}))
 )

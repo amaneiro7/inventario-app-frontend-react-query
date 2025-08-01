@@ -1,4 +1,4 @@
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { BanIcon } from 'lucide-react'
 
 interface EmptyStateProps {

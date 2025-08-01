@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateDepartamento } from '@/core/employee/departamento/infra/hook/useCreateDepartamento'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateDepartamento } from '@/entities/employee/departamento/infra/hook/useCreateDepartamento'
 import { DepartamentoInputs } from '@/ui/Form/Departamento/DepartamentoInputs'
 import { DepartamentoSearch } from '@/ui/Form/Departamento/DepartamentoSearch'
 

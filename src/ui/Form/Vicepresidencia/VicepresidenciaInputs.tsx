@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 
 import {
 	type VicepresidenciaDisabled,
@@ -7,11 +7,11 @@ import {
 	type DefaultVicepresidencia,
 	type VicepresidenciaErrors,
 	type VicepresidenciaRequired
-} from '@/core/employee/vicepresidencia/infra/reducers/vicepresidenciaFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
-import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
-import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
+} from '@/entities/employee/vicepresidencia/infra/reducers/vicepresidenciaFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
+import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
 
 interface Props {
 	formData: DefaultVicepresidencia

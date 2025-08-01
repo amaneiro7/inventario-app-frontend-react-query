@@ -1,10 +1,10 @@
 import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useComputerFilter } from '@/core/devices/devices/infra/hook/useComputerFilters'
-import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
+import { useComputerFilter } from '@/entities/devices/devices/infra/hook/useComputerFilters'
+import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 //components
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
 import { TableWrapper } from '@/ui/List/computer/TableWrapper'
@@ -19,7 +19,7 @@ const OtherComputerFilter = lazy(() =>
 	}))
 )
 const ComputerOrderByCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/ComputerOrderByComboBox').then(m => ({
+	import('@/entities/devices/devices/infra/ui/ComputerOrderByComboBox').then(m => ({
 		default: m.ComputerOrderByCombobox
 	}))
 )

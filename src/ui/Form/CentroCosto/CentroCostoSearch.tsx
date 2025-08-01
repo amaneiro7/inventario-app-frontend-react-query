@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllCentroCosto } from '@/core/employee/centroCosto/infra/hook/useGetAllCentroCosto'
-import { type CentroCostoFilters } from '@/core/employee/centroCosto/application/createCentroCostoQueryParams'
-import { type CentroCostoDto } from '@/core/employee/centroCosto/domain/dto/CentroCosto.dto'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useGetAllCentroCosto'
+import { type CentroCostoFilters } from '@/entities/employee/centroCosto/application/createCentroCostoQueryParams'
+import { type CentroCostoDto } from '@/entities/employee/centroCosto/domain/dto/CentroCosto.dto'
 
 export function CentroCostoSearch() {
 	const [searchValue, setSearchValue] = useState('')

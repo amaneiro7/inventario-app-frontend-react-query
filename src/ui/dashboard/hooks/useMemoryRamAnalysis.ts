@@ -1,7 +1,7 @@
 import {
 	ComputerDashboardDto,
 	MemoryRamTotal
-} from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+} from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { useMemo, useState } from 'react'
 
 interface UseMemoryRamAnalysisProps {

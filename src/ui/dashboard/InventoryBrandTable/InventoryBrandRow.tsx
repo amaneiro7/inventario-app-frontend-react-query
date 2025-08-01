@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { TableCell } from '@/components/Table/TableCell'
-import { TableRow } from '@/components/Table/TableRow'
+import { TableCell } from '@/shared/ui/Table/TableCell'
+import { TableRow } from '@/shared/ui/Table/TableRow'
 import { type ModelData } from '../hooks/useInventoryBrandTable'
 
 interface InventoryBrandRowProps {

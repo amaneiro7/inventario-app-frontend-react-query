@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
-import { useGetAllFinantialPrinterDevices } from '@/core/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
+import { useGetAllFinantialPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
 import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
-import { DeviceFinantialPrinterFilter } from '@/core/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
+import { DeviceFinantialPrinterFilter } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
 import { TableDefaultDevice } from '../TableDefaultDevice'
-import { type DeviceFinantialPrinterFilters } from '@/core/devices/devices/application/finantialPrinter/CreateDeviceFinantialPrinterParams'
+import { type DeviceFinantialPrinterFilters } from '@/entities/devices/devices/application/finantialPrinter/CreateDeviceFinantialPrinterParams'
 
 interface TableFinantialWrapperProps {
 	query: DeviceFinantialPrinterFilters

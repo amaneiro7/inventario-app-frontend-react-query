@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { MapPin } from 'lucide-react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import { Input } from '@/components/Input/Input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import { Input } from '@/shared/ui/Input/Input'
 
 /**
  * Props for the SecondaryFIlter component.

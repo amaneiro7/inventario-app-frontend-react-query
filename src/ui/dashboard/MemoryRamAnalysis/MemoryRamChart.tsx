@@ -1,4 +1,4 @@
-import { BASIC_COLORS_MAP } from '@/utils/colores'
+import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { memo } from 'react'
 import {
 	Bar,

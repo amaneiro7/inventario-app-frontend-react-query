@@ -1,8 +1,8 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from '../PageTitle'
-import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
-import { Seo } from '@/components/Seo'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { Seo } from '@/shared/ui/Seo'
 
 const DashboardWrapper = memo(() => {
 	const location = useLocation()

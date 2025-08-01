@@ -1,13 +1,13 @@
 import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
-import { useFinantialPrinterFilter } from '@/core/devices/devices/infra/hook/useFinantialPrinterFilters'
+import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
+import { useFinantialPrinterFilter } from '@/entities/devices/devices/infra/hook/useFinantialPrinterFilters'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableFinantialWrapper } from '@/ui/List/finantialPrinter/TableFinantialWrapper'
-import { Loading } from '@/components/Loading'
+import { Loading } from '@/shared/ui/Loading'
 
 const DefaultDeviceFilter = lazy(() =>
 	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))

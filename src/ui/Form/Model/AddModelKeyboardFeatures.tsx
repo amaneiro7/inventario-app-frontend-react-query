@@ -6,12 +6,12 @@ import {
 	type ModelDisabled,
 	type ModelErrors,
 	type ModelRequired
-} from '@/core/model/models/infra/reducers/modelFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { Checkbox } from '@/components/Checkbox/Checbox'
-import { InputFallback } from '@/components/Loading/InputFallback'
+} from '@/entities/model/models/infra/reducers/modelFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 const InputTypeCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/InputTypeComboBox').then(m => ({
+	import('@/entities/model/inputType/infra/ui/InputTypeComboBox').then(m => ({
 		default: m.InputTypeCombobox
 	}))
 )

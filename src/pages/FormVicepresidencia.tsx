@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateVicepresidencia } from '@/core/employee/vicepresidencia/infra/hook/useCreateVicepresidencia'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateVicepresidencia } from '@/entities/employee/vicepresidencia/infra/hook/useCreateVicepresidencia'
 import { VicepresidenciasInputs } from '@/ui/Form/Vicepresidencia/VicepresidenciaInputs'
 import { VicepresidenciaSearch } from '@/ui/Form/Vicepresidencia/VicepresidenciaSearch'
 

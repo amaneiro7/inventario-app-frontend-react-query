@@ -1,31 +1,31 @@
 import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Input } from '@/components/Input/Input'
-import { StatusOptions } from '@/core/status/status/domain/entity/StatusOptions'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { Input } from '@/shared/ui/Input/Input'
+import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 const IsStillWorkingCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/IsStillWorkinfComboBox').then(m => ({
+	import('@/entities/employee/employee/infra/ui/IsStillWorkinfComboBox').then(m => ({
 		default: m.IsStillWorkingCombobox
 	}))
 )
 const DepartamentoCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/DepartamentoComboBox').then(m => ({
+	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
 		default: m.DepartamentoCombobox
 	}))
 )
 const EmployeeTypeCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/EmployeeTypeComboBox').then(m => ({
+	import('@/entities/employee/employee/infra/ui/EmployeeTypeComboBox').then(m => ({
 		default: m.EmployeeTypeCombobox
 	}))
 )
 const CargoCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/CargoComboBox').then(m => ({
+	import('@/entities/employee/cargo/infra/ui/CargoComboBox').then(m => ({
 		default: m.CargoCombobox
 	}))
 )
 const LocationCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+	import('@/entities/locations/locations/infra/ui/LocationComboBox').then(m => ({
 		default: m.LocationCombobox
 	}))
 )

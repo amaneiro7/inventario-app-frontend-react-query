@@ -1,14 +1,14 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type CityErrors,
 	type DefaultCity,
 	type CityRequired
-} from '@/core/locations/city/infra/reducers/cityFormReducer'
-import { RegionCombobox } from '@/components/ComboBox/Sincrono/RegionComboBox'
-import { StateCombobox } from '@/components/ComboBox/Sincrono/StateComboBox'
-import { AdministrativeRegionCombobox } from '@/components/ComboBox/Sincrono/AdministrativeRegionComboBox'
+} from '@/entities/locations/city/infra/reducers/cityFormReducer'
+import { RegionCombobox } from '@/entities/locations/region/infra/ui/RegionComboBox'
+import { StateCombobox } from '@/entities/locations/state/infra/ui/StateComboBox'
+import { AdministrativeRegionCombobox } from '@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox'
 
 interface Props {
 	formData: DefaultCity

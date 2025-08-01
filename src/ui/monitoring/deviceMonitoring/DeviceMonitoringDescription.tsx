@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { TableCellDescription } from '@/components/Table/TableCellDescription'
-import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
-import { type DeviceMonitoringDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
+import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
+import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
+import { type DeviceMonitoringDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 
 interface Props {
 	open: boolean

@@ -1,27 +1,27 @@
 import { lazy, memo, Suspense, use, useState } from 'react'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Input } from '@/components/Input/Input'
-import { InputFallback } from '@/components/Loading/InputFallback'
-import { AuthContext } from '@/context/Auth/AuthContext'
-import { RoleOptions } from '@/core/role/domain/entity/RoleOptions'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { Input } from '@/shared/ui/Input/Input'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { AuthContext } from '@/app/providers/AuthContext'
+import { RoleOptions } from '@/entities/role/domain/entity/RoleOptions'
 
 const EmployeeCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
+	import('@/entities/employee/employee/infra/ui/EmployeeComboBox').then(m => ({
 		default: m.EmployeeCombobox
 	}))
 )
 const HistoryActionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/HistoryAction').then(m => ({
+	import('@/entities/history/infra/ui/HistoryAction').then(m => ({
 		default: m.HistoryActionCombobox
 	}))
 )
 const DeviceCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/DeviceComboBox').then(m => ({
+	import('@/entities/devices/devices/infra/ui/DeviceComboBox').then(m => ({
 		default: m.DeviceCombobox
 	}))
 )
 const UserCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/UserComboBox').then(m => ({ default: m.UserCombobox }))
+	import('@/entities/user/infra/ui/UserComboBox').then(m => ({ default: m.UserCombobox }))
 )
 
 export const MainHistoryFilter = memo(function ({

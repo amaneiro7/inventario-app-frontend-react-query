@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllDepartamento } from '@/core/employee/departamento/infra/hook/useGetAllDepartamento'
-import { type DepartamentoFilters } from '@/core/employee/departamento/application/createDepartamentoQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllDepartamento } from '@/entities/employee/departamento/infra/hook/useGetAllDepartamento'
+import { type DepartamentoFilters } from '@/entities/employee/departamento/application/createDepartamentoQueryParams'
 
 export function DepartamentoSearch() {
 	const [searchValue, setSearchValue] = useState('')

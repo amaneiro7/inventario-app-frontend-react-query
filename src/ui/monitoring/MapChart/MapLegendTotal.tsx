@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import Typography from '@/components/Typography'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { useGetLocationMonitoringDashboard } from '@/core/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboard'
+import Typography from '@/shared/ui/Typography'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { useGetLocationMonitoringDashboard } from '@/entities/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboard'
 
 export const MapLegendTotal = memo(() => {
 	const { locationMonitoringDashboard } = useGetLocationMonitoringDashboard({

@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useGetAllDevicesInputSearch } from '@/core/devices/devices/infra/hook/useGetAllDevicesInputSearch'
-import { SearchInput } from '@/components/Input/Search'
-import { DeviceRenderOption } from '@/components/Input/Combobox/RenderOption/DeviceRenderOption'
-import { type DeviceFilters } from '@/core/devices/devices/application/inputSearch/createDeviceQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useGetAllDevicesInputSearch } from '@/entities/devices/devices/infra/hook/useGetAllDevicesInputSearch'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { DeviceRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/DeviceRenderOption'
+import { type DeviceFilters } from '@/entities/devices/devices/application/inputSearch/createDeviceQueryParams'
 
 export function SerialSearch() {
 	const [searchValue, setSearchValue] = useState('')

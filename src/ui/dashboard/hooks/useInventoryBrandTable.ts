@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
-import { TypeOfSiteOptionsByName } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptionsByName'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { TypeOfSiteOptionsByName } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptionsByName'
 
 interface FilterProps {
 	data: ComputerDashboardDto['brand']

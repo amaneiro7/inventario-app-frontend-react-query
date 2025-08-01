@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import ReactPaginate from 'react-paginate'
-import { ArrowRightBadgeIcon } from '@/icon/ArrowRightBadge'
+import { ArrowRightBadgeIcon } from '@/shared/ui/icon/ArrowRightBadge'
 import './PaginationList.css'
 
 /**

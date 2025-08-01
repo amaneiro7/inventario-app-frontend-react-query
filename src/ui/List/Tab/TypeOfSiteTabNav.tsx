@@ -1,7 +1,7 @@
 import { memo, useCallback, useMemo, useState } from 'react'
-import { useGetAllTypeOfSite } from '@/core/locations/typeOfSites/infra/hook/useGetAllTypeOfSite'
+import { useGetAllTypeOfSite } from '@/entities/locations/typeOfSites/infra/hook/useGetAllTypeOfSite'
 import { TabNav } from './TabNav'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 interface Props {
 	handleChange: (name: string, value: string) => void
 	value?: string

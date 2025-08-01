@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { BASIC_COLORS } from '@/utils/colores'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { BASIC_COLORS } from '@/shared/lib/utils/colores'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 export const BrandChart = memo(({ data }: { data: ComputerDashboardDto['brand'] }) => {
 	return (

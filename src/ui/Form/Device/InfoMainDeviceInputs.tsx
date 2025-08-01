@@ -5,20 +5,20 @@ import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
-} from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { Input } from '@/components/Input/Input'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { InputFallback } from '@/components/Loading/InputFallback'
+} from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { Input } from '@/shared/ui/Input/Input'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 // import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip'
 
 const EmployeeCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/EmployeeComboBox').then(m => ({
+	import('@/entities/employee/employee/infra/ui/EmployeeComboBox').then(m => ({
 		default: m.EmployeeCombobox
 	}))
 )
 const LocationCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/LocationComboBox').then(m => ({
+	import('@/entities/locations/locations/infra/ui/LocationComboBox').then(m => ({
 		default: m.LocationCombobox
 	}))
 )

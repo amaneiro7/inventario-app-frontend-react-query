@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllUser } from '@/core/user/infra/hooks/useGetAlUser'
-import { type UserFilters } from '@/core/user/application/createUserQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllUser } from '@/entities/user/infra/hooks/useGetAlUser'
+import { type UserFilters } from '@/entities/user/application/createUserQueryParams'
 
 export function UserServiceSearch() {
 	const [searchValue, setSearchValue] = useState('')

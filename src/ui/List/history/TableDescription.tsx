@@ -1,8 +1,8 @@
 import { memo } from 'react'
-import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
-import { TableCellDescription } from '@/components/Table/TableCellDescription'
+import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
+import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
 import { ChangeDisplay } from './ChangeDisplay'
-import { type HistoryDto } from '@/core/history/domain/dto/History.dto'
+import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
 interface HistoryDescriptionProps {
 	open: boolean

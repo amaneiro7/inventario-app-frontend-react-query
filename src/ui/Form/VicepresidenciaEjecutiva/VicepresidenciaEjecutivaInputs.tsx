@@ -1,14 +1,14 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 
-import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
+import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
 import {
 	type Action,
 	type DefaultVicepresidenciaEjecutiva,
 	type VicepresidenciaEjecutivaErrors,
 	type VicepresidenciaEjecutivaRequired
-} from '@/core/employee/vicepresidenciaEjecutiva/infra/reducers/vicepresidenciaEjecutivaFormReducer'
-import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
+} from '@/entities/employee/vicepresidenciaEjecutiva/infra/reducers/vicepresidenciaEjecutivaFormReducer'
+import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
 
 interface Props {
 	formData: DefaultVicepresidenciaEjecutiva

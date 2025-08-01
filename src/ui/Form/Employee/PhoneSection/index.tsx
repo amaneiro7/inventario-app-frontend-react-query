@@ -1,9 +1,9 @@
 import { PhoneInput } from './PhoneInput'
-import Typography from '@/components/Typography'
-import Button from '@/components/Button'
-import { CloseIcon } from '@/icon/CloseIcon'
-import { BrushIcon } from '@/icon/BrushIcon'
-import { type DefaultEmployee } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
+import Typography from '@/shared/ui/Typography'
+import Button from '@/shared/ui/Button'
+import { CloseIcon } from '@/shared/ui/icon/CloseIcon'
+import { BrushIcon } from '@/shared/ui/icon/BrushIcon'
+import { type DefaultEmployee } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 
 interface PhoneSectionProps {
 	phones: DefaultEmployee['phone']

@@ -1,13 +1,13 @@
 import { memo } from 'react'
 import { Wifi, WifiOff } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { DeviceMonitoringStatuses } from '@/core/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
-import { DeviceMonitoringGetByCriteria } from '@/core/devices/deviceMonitoring/application/DeviceMonitoringGetByCriteria'
+import { cn } from '@/shared/lib/utils'
+import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { DeviceMonitoringGetByCriteria } from '@/entities/devices/deviceMonitoring/application/DeviceMonitoringGetByCriteria'
 import { PaginationBar } from '@/ui/List/Pagination/PaginationBar'
-import Typography from '@/components/Typography'
-import { type DeviceMonitoring } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
-import { type Response } from '@/core/shared/domain/methods/Response'
-import { type DeviceMonitoringFilters } from '@/core/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import Typography from '@/shared/ui/Typography'
+import { type DeviceMonitoring } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
+import { type Response } from '@/entities/shared/domain/methods/Response'
+import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 interface DeviceMonitoringMapProps {
 	pageSize: DeviceMonitoringFilters['pageSize']

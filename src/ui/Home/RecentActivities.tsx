@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { useGetAllHistorys } from '@/core/history/infra/hook/useGetAllHistory'
-import { getRelativeTime } from '@/utils/getRelativeTime'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { useGetAllHistorys } from '@/entities/history/infra/hook/useGetAllHistory'
+import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 import {
 	Laptop,
 	Monitor,
@@ -24,8 +24,8 @@ import {
 	Dock,
 	Speaker
 } from 'lucide-react'
-import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
-import Typography from '@/components/Typography'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
+import Typography from '@/shared/ui/Typography'
 
 const getActivityColor = (action: string) => {
 	switch (action) {

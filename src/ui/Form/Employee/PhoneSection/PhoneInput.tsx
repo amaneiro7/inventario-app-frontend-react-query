@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { usePhone } from './usePhone'
-import { Input } from '@/components/Input/Input'
-import { PhoneNumberAreaCode } from '@/core/employee/employee/domain/value-object/EmployeePhoneNumber'
+import { Input } from '@/shared/ui/Input/Input'
+import { PhoneNumberAreaCode } from '@/entities/employee/employee/domain/value-object/EmployeePhoneNumber'
 
 interface PhoneInputProps {
 	operadora: string

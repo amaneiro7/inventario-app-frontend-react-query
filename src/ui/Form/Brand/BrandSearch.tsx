@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllBrands } from '@/core/brand/infra/hooks/useGetAllBrand'
-import { type BrandFilters } from '@/core/brand/application/createBrandQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllBrands } from '@/entities/brand/infra/hooks/useGetAllBrand'
+import { type BrandFilters } from '@/entities/brand/application/createBrandQueryParams'
 
 export function BrandSearch() {
 	const [searchValue, setSearchValue] = useState('')

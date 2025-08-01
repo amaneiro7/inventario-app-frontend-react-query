@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllVicepresidencias } from '@/core/employee/vicepresidencia/infra/hook/useGetAllVicepresidencia'
-import { type VicepresidenciaFilters } from '@/core/employee/vicepresidencia/application/createVicepresidenciaQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllVicepresidencias } from '@/entities/employee/vicepresidencia/infra/hook/useGetAllVicepresidencia'
+import { type VicepresidenciaFilters } from '@/entities/employee/vicepresidencia/application/createVicepresidenciaQueryParams'
 
 export function VicepresidenciaSearch() {
 	const [searchValue, setSearchValue] = useState('')

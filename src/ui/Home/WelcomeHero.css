@@ -1,7 +1,7 @@
 .welcomeHero {
 	width: 100%;
 	height: 100%;
-	background-image: url('@/assets/BGLogo.jpg');
+	background-image: url('@/shared/assets/BGLogo.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 }

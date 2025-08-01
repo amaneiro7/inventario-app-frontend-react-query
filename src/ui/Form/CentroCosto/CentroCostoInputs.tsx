@@ -1,13 +1,13 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type CentroCostoErrors,
 	type DefaultCentroCosto,
 	type Action,
 	type CentroCostoDisabled,
 	type CentroCostoRequired
-} from '@/core/employee/centroCosto/infra/reducers/centroCostoFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
+} from '@/entities/employee/centroCosto/infra/reducers/centroCostoFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface Props {
 	formData: DefaultCentroCosto

@@ -6,11 +6,11 @@ import {
 	type ModelDisabled,
 	type ModelErrors,
 	type ModelRequired
-} from '@/core/model/models/infra/reducers/modelFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { Input } from '@/components/Input/Input'
-import { Checkbox } from '@/components/Checkbox/Checbox'
-import { ScreenSize } from '@/core/model/models/domain/value-object/ScreenSize'
+} from '@/entities/model/models/infra/reducers/modelFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { Input } from '@/shared/ui/Input/Input'
+import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { ScreenSize } from '@/entities/model/models/domain/value-object/ScreenSize'
 
 interface Props {
 	formData: DefaultModel

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllModel } from '@/core/model/models/infra/hook/useGetAllModel'
-import { type ModelFilters } from '@/core/model/models/application/CreateModelsQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllModel } from '@/entities/model/models/infra/hook/useGetAllModel'
+import { type ModelFilters } from '@/entities/model/models/application/CreateModelsQueryParams'
 
 export function ModelSearch() {
 	const [searchValue, setSearchValue] = useState('')

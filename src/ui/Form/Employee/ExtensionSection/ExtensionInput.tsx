@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { useExtension } from './useExtension'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 
 interface ExtensionInputProps {
 	operadora: string

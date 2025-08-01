@@ -3,18 +3,22 @@ import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
-} from '@/core/devices/devices/infra/reducers/devicesFormReducer'
-import { HardDriveHealth } from '@/core/devices/devices/domain/value-object/HardDriveHealth'
-import { InputFallback } from '@/components/Loading/InputFallback'
-import { Input } from '@/components/Input/Input'
+} from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
+import { HardDriveHealth } from '@/entities/devices/devices/domain/value-object/HardDriveHealth'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { Input } from '@/shared/ui/Input/Input'
 
 const HardDriveTypeCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/HardDriveTypeComboBox').then(m => ({
+	import(
+		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
+	).then(m => ({
 		default: m.HardDriveTypeCombobox
 	}))
 )
 const HardDriveCapacityCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/HardDriveCapacityComboBox').then(m => ({
+	import(
+		'@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
+	).then(m => ({
 		default: m.HardDriveCapacityCombobox
 	}))
 )

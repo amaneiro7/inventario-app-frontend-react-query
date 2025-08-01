@@ -1,8 +1,8 @@
-import { InfoBox } from '@/components/InfoBox/InfoBox'
-import { InfoBoxText } from '@/components/InfoBox/InfoBoxText'
-import { InfoBoxTitle } from '@/components/InfoBox/InfoBoxTitle'
-import Typography from '@/components/Typography'
-import { type DefaultEmployee } from '@/core/employee/employee/infra/reducers/employeeFormReducer'
+import { InfoBox } from '@/shared/ui/InfoBox/InfoBox'
+import { InfoBoxText } from '@/shared/ui/InfoBox/InfoBoxText'
+import { InfoBoxTitle } from '@/shared/ui/InfoBox/InfoBoxTitle'
+import Typography from '@/shared/ui/Typography'
+import { type DefaultEmployee } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 
 export const AsignDevices = ({ devices }: { devices: DefaultEmployee['devices'] }) => {
 	if (!devices || devices.length === 0) {

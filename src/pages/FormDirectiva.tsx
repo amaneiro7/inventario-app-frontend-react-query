@@ -1,5 +1,5 @@
-import { FormContainer } from '@/components/FormContainer/formContainer'
-import { useCreateDirectiva } from '@/core/employee/directiva/infra/hook/useCreateDirectiva'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { useCreateDirectiva } from '@/entities/employee/directiva/infra/hook/useCreateDirectiva'
 import { DirectivaInputs } from '@/ui/Form/Directiva/DirectivaInputs'
 import { DirectivaSearch } from '@/ui/Form/Directiva/DirectivaSearch'
 

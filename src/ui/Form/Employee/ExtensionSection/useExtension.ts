@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { codigosAreaVenezuela } from '@/core/employee/employee/domain/value-object/codigosAreaVenezuela'
-import { EmployeeExtension } from '@/core/employee/employee/domain/value-object/EmployeeExtension'
-import { groupBy } from '@/utils/groupBy'
+import { codigosAreaVenezuela } from '@/entities/employee/employee/domain/value-object/codigosAreaVenezuela'
+import { EmployeeExtension } from '@/entities/employee/employee/domain/value-object/EmployeeExtension'
+import { groupBy } from '@/shared/lib/utils/groupBy'
 
 interface ExtensionInputProps {
 	operadora: string

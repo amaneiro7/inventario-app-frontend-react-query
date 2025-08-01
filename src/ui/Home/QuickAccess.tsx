@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { PlusCircle, Download, BarChart2, UserPlus, History } from 'lucide-react'
-import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
+import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 
 export const QuickActions = memo(() => {
 	const { download, isDownloading } = useDownloadExcelService()

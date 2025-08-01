@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface UseMemoryRamTypeAnalysisProps {
 	data: ComputerDashboardDto['modulosMemoryRam']

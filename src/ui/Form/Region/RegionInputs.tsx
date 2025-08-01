@@ -1,13 +1,13 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type RegionErrors,
 	type DefaultRegion,
 	type RegionRequired,
 	type RegionDisabled
-} from '@/core/locations/region/infra/reducers/regionFormReducer'
-import { AdministrativeRegionCombobox } from '@/components/ComboBox/Sincrono/AdministrativeRegionComboBox'
+} from '@/entities/locations/region/infra/reducers/regionFormReducer'
+import { AdministrativeRegionCombobox } from '@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox'
 
 interface Props {
 	formData: DefaultRegion

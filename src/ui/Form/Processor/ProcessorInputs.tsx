@@ -2,13 +2,13 @@ import { memo, useMemo } from 'react'
 import {
 	type ProcessorsErrors,
 	type Action
-} from '@/core/devices/features/processor/infra/reducers/processorFormReducer'
-import { type ProcessorParams } from '@/core/devices/features/processor/domain/dto/Processor.dto'
-import { ProcessorCores } from '@/core/devices/features/processor/domain/value-object/ProcessorCores'
-import { ProcessorFrequency } from '@/core/devices/features/processor/domain/value-object/ProcessorFrequency'
-import { useGetAllProcessor } from '@/core/devices/features/processor/infra/hooks/useGetAllProcessors'
-import { Input } from '@/components/Input/Input'
-import { Checkbox } from '@/components/Checkbox/Checbox'
+} from '@/entities/devices/features/processor/infra/reducers/processorFormReducer'
+import { type ProcessorParams } from '@/entities/devices/features/processor/domain/dto/Processor.dto'
+import { Processorentitiess } from '@/entities/devices/features/processor/domain/value-object/Processorentitiess'
+import { ProcessorFrequency } from '@/entities/devices/features/processor/domain/value-object/ProcessorFrequency'
+import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
+import { Input } from '@/shared/ui/Input/Input'
+import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
 
 interface Props {
 	errors?: ProcessorsErrors
@@ -61,19 +61,19 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 			/>
 			<div className="flex gap-4">
 				<Input
-					id="processor-cores"
-					value={formData.cores}
-					name="cores"
+					id="processor-entitiess"
+					value={formData.entitiess}
+					name="entitiess"
 					type="number"
-					label="Cores o núcleos"
+					label="entitiess o núcleos"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('cores', Number(e.target.value))
+						handleChange('entitiess', Number(e.target.value))
 					}
-					error={!!errors?.cores}
-					errorMessage={errors?.cores}
+					error={!!errors?.entitiess}
+					errorMessage={errors?.entitiess}
 					required
-					min={ProcessorCores.MIN}
-					max={ProcessorCores.MAX}
+					min={Processorentitiess.MIN}
+					max={Processorentitiess.MAX}
 				/>
 				<Input
 					id="processor-frequency"

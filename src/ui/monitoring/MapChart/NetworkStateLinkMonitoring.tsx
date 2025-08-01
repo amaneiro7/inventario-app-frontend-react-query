@@ -1,12 +1,12 @@
 import { memo, useMemo } from 'react'
 import { MapPin } from 'lucide-react'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { LocationMonitoringStatuses } from '@/core/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
-import { Badge } from '@/components/Badge'
-import Typography from '@/components/Typography'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { LocationMonitoringStatuses } from '@/entities/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
+import { Badge } from '@/shared/ui/Badge'
+import Typography from '@/shared/ui/Typography'
 import { type GenericMonitorableItem, GenericMonitoringList } from '../GenericMonitoringList'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
-import { useGetAllLocationMonitorings } from '@/core/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
+import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { useGetAllLocationMonitorings } from '@/entities/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
 
 interface NetworkLinkSelectedListProps {
 	selectedState: string | null

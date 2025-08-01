@@ -1,5 +1,5 @@
 import { COLOR_THRESHOLDS, NO_DATA_COLOR } from '../MapColors'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { MapLegendList } from '../MapChart/MapLegend'
 import { memo } from 'react'
 

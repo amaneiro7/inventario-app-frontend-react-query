@@ -1,12 +1,12 @@
 import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
-import { useEmployeeFilter } from '@/core/employee/employee/infra/hook/useEmployeeFilters'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { useEmployeeFilter } from '@/entities/employee/employee/infra/hook/useEmployeeFilters'
 import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
 import { TableEmployeeWrapper } from '@/ui/List/employee/TableEmployeeWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
-import { Loading } from '@/components/Loading'
+import { Loading } from '@/shared/ui/Loading'
 
 const EmployeeOtherFilter = lazy(() =>
 	import('@/ui/List/employee/OtherFilter').then(m => ({ default: m.EmployeeOtherFilter }))

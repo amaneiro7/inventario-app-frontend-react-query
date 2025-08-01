@@ -1,20 +1,20 @@
 import { Suspense, lazy, use } from 'react'
 import { AuthContext } from '@/context/Auth/AuthContext'
 import { PageTitle } from '@/ui/PageTitle'
-import { DetailsWrapper } from '@/components/DetailsWrapper/DetailsWrapper'
-import { DetailsInfo } from '@/components/DetailsWrapper/DetailsInfo'
-import { DescriptionListElement } from '@/components/DetailsWrapper/DescriptionListElement'
-import { DescriptionDesc } from '@/components/DetailsWrapper/DescriptionDesc'
-import { StepsToFollow } from '@/components/StepsToFollow/StepsToFollow'
-import { ChangePasswordStepsToFollow } from '@/components/StepsToFollow/ChangePasswordStepsToFollow'
-import { DynamicBreadcrumb } from '@/components/DynamicBreadcrumb'
-import { Seo } from '@/components/Seo'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
+import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
+import { DescriptionDesc } from '@/shared/ui/DetailsWrapper/DescriptionDesc'
+import { StepsToFollow } from '@/widgets/StepsToFollow/StepsToFollow'
+import { ChangePasswordStepsToFollow } from '@/widgets/StepsToFollow/ChangePasswordStepsToFollow'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { Seo } from '@/shared/ui/Seo'
 
 const LoadingSpinner = lazy(() =>
 	import('@/ui/monitoring/LoadingSpinner').then(m => ({ default: m.LoadingSpinner }))
 )
 const LinkAsButton = lazy(() =>
-	import('@/components/Button/LinkAsButton').then(m => ({ default: m.LinkAsButton }))
+	import('@/shared/ui/Button/LinkAsButton').then(m => ({ default: m.LinkAsButton }))
 )
 
 const EmptyState = lazy(() =>

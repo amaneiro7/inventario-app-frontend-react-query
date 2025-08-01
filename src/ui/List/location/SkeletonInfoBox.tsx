@@ -1,7 +1,7 @@
-import { InfoBox } from '@/components/InfoBox/InfoBox'
-import { InfoBoxText } from '@/components/InfoBox/InfoBoxText'
-import { InfoBoxTitle } from '@/components/InfoBox/InfoBoxTitle'
-import { cn } from '@/lib/utils'
+import { InfoBox } from '@/shared/ui/InfoBox/InfoBox'
+import { InfoBoxText } from '@/shared/ui/InfoBox/InfoBoxText'
+import { InfoBoxTitle } from '@/shared/ui/InfoBox/InfoBoxTitle'
+import { cn } from '@/shared/lib/utils'
 
 // Simple skeleton text component
 export const SkeletonText = ({

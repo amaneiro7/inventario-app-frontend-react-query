@@ -1,9 +1,9 @@
 import { lazy, memo, Suspense } from 'react'
 import { useTransformToPieChartData } from './useTransformToPieChartData'
-import { PieContentFallback } from '@/components/PieChart/PieContentFallback'
+import { PieContentFallback } from '@/shared/ui/PieChart/PieContentFallback'
 
 const PieContent = lazy(() =>
-	import('@/components/PieChart/PieContent').then(m => ({ default: m.PieContent }))
+	import('@/shared/ui/PieChart/PieContent').then(m => ({ default: m.PieContent }))
 )
 
 interface SummaryPieChartProps {

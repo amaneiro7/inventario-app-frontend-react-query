@@ -1,5 +1,5 @@
-import { Progress } from '@/components/Progress'
-import Typography from '@/components/Typography'
+import { Progress } from '@/shared/ui/Progress'
+import Typography from '@/shared/ui/Typography'
 
 interface StatusProgressProps
 	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Seo } from '@/components/Seo' // Asumo que tienes un componente Seo
+import { Seo } from '@/shared/ui/Seo' // Asumo que tienes un componente Seo
 
 interface ErrorPageProps {
 	onReset: () => void

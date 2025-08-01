@@ -1,7 +1,7 @@
 import { memo, useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/Tabs'
-import { useGetStatusDashboard } from '@/core/status/dashboard/infra/hooks/useGetStatusDashboard'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
+import { useGetStatusDashboard } from '@/entities/status/dashboard/infra/hooks/useGetStatusDashboard'
 import { StatusList } from './StatusList'
 
 export const InventoryStatus = memo(() => {

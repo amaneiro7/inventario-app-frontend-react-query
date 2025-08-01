@@ -1,13 +1,13 @@
 import { lazy, Suspense, useMemo } from 'react'
-import Typography from '@/components/Typography'
-import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
+import Typography from '@/shared/ui/Typography'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 import {
 	type Action,
 	type DefaultDevice,
 	type DeviceRequired,
 	type DevicesDisabled,
 	type DevicesErrors
-} from '@/core/devices/devices/infra/reducers/devicesFormReducer'
+} from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 
 const AddComputerFeatures = lazy(() =>
 	import('./AddComputerFeatures').then(m => ({ default: m.AddComputerFeatures }))

@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
 import { DetailsPanelCard } from './DetailsPanelCard'
 

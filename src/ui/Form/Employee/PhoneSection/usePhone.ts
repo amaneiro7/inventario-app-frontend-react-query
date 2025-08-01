@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { EmployeePhoneNumber } from '@/core/employee/employee/domain/value-object/EmployeePhoneNumber'
+import { EmployeePhoneNumber } from '@/entities/employee/employee/domain/value-object/EmployeePhoneNumber'
 
 interface PhoneInputProps {
 	operadora: string

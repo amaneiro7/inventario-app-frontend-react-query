@@ -10,7 +10,7 @@ import {
 	YAxis,
 	LabelList
 } from 'recharts'
-import { BASIC_COLORS_MAP } from '@/utils/colores'
+import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { type ArqData, type OSPrepareGroupedBarData } from '../hooks/useOperatingSystemAnalysis'
 
 interface OSAnalysisChartProps {

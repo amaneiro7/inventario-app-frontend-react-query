@@ -1,12 +1,12 @@
 import { useRef } from 'react'
 
-import Button from '@/components/Button'
-import { ConfirmationModal } from '@/components/Modal/ConfirmationModal'
-import { Dialog, type ModalRef } from '@/components/Modal/Modal'
-import { ResetIcon } from '@/icon/ResetIcon'
-import { ResetPasswordService } from '@/core/user/infra/service/ResetPassword.service'
-import { ResetPassword } from '@/core/user/application/ResetPassword'
-import { useAuthStore } from '@/store/useAuthStore'
+import Button from '@/shared/ui/Button'
+import { ConfirmationModal } from '@/shared/ui/Modal/ConfirmationModal'
+import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
+import { ResetIcon } from '@/shared/ui/icon/ResetIcon'
+import { ResetPasswordService } from '@/entities/user/infra/service/ResetPassword.service'
+import { ResetPassword } from '@/entities/user/application/ResetPassword'
+import { useAuthStore } from '@/features/auth/model/useAuthStore'
 
 export function ResetHandle({ id }: { id: string }) {
 	const dialogResetRef = useRef<ModalRef>(null)

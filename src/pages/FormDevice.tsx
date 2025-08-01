@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react'
-import { useCreateDevice } from '@/core/devices/devices/infra/hook/useCreateDevice'
-import { FormContainer } from '@/components/FormContainer/formContainer'
+import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreateDevice'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
 
 const DeviceInputs = lazy(() =>
 	import('@/ui/Form/Device/DeviceInputs').then(m => ({ default: m.DeviceInputs }))

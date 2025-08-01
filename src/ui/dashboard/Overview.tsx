@@ -11,11 +11,11 @@ import {
 	LabelList
 } from 'recharts'
 import { useInventoryOverview } from './hooks/useInventoryOverview'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import { PieCard } from '../../components/PieChart/PieCard'
-import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/utils/colores'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import { PieCard } from '../../shared/ui/PieChart/PieCard'
+import { BASIC_COLORS, BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface InventoryOverviewProps {
 	categoryData: ComputerDashboardDto['category']

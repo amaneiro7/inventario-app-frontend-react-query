@@ -1,9 +1,9 @@
 import React from 'react'
 import { LocationMonitoringSummary } from './LocationMonitoringSummary'
-import { DetailsBoxWrapper } from '@/components/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/ui/List/FilterSection'
 import { MainLocationMonitoringFilter } from './MainLocationMonitoringFilter'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 
 interface TableMapWrapperProps {
 	query: LocationMonitoringFilters

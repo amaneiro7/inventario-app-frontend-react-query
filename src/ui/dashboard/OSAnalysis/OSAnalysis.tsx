@@ -1,9 +1,9 @@
 import { lazy, memo, Suspense } from 'react'
 import { MapPin } from 'lucide-react'
 import { useOperatingSystemAnalysys } from '../hooks/useOperatingSystemAnalysis'
-import { PieCard } from '../../../components/PieChart/PieCard'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { PieCard } from '../../../shared/ui/PieChart/PieCard'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface OSAnalysisProps {
 	data: ComputerDashboardDto['operatingSystem']

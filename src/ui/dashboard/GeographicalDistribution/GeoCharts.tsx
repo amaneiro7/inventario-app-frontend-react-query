@@ -10,8 +10,8 @@ import {
 	LabelList
 } from 'recharts'
 import { Filter } from 'lucide-react'
-import Button from '@/components/Button'
-import { BASIC_COLORS } from '@/utils/colores'
+import Button from '@/shared/ui/Button'
+import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { CustomLabelList } from '../CustomLabelList'
 import { type DistributionItem } from '../hooks/useGeographicalDistribution'
 import { CustomTooltip } from '../CustomTooltip'

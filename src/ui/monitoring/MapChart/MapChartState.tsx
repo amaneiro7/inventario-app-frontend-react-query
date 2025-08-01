@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { LoadingSpinner } from '../LoadingSpinner'
 
 interface MapChartStatesProps {

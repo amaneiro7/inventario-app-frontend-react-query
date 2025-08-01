@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import Button from '@/components/Button'
-import { Input } from '@/components/Input/Input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import Button from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input/Input'
 import { MapPin } from 'lucide-react'
 
 interface FilterSectionProps {

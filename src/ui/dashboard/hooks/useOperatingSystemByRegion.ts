@@ -7,7 +7,7 @@ import {
 	type Site,
 	type Location,
 	type ComputerDashboardDto
-} from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+} from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface UseOperatingSystemByRegionProps {
 	data: ComputerDashboardDto['operatingSystemByRegion']

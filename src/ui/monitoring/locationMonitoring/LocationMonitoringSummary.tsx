@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { useGetLocationMonitoringDashboard } from '@/core/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboard'
+import { useGetLocationMonitoringDashboard } from '@/entities/locations/locationMonitoring/infra/hook/useGetLocationMonitoringDashboard'
 import { MonitoringSummary } from '../MonitoringSummary'
-import { type LocationMonitoringFilters } from '@/core/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
+import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 
 interface LocationMonitoringSummaryProps {
 	query: LocationMonitoringFilters

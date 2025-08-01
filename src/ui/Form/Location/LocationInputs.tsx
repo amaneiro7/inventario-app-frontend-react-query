@@ -5,32 +5,38 @@ import {
 	type DefaultLocation,
 	type LocationRequired,
 	type LocationDisabled
-} from '@/core/locations/locations/infra/reducers/locationFormReducer'
-import { TypeOfSiteOptions } from '@/core/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { Input } from '@/components/Input/Input'
-import { type FormMode } from '@/hooks/useGetFormMode'
+} from '@/entities/locations/locations/infra/reducers/locationFormReducer'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { Input } from '@/shared/ui/Input/Input'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 const RegionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
 		default: m.RegionCombobox
 	}))
 )
 const StateCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
+		default: m.StateCombobox
+	}))
 )
 const CityCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+	import('@/entities/locations/city/infra/ui/CityComboBox').then(m => ({
+		default: m.CityCombobox
+	}))
 )
 const SiteCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/SiteCombobox').then(m => ({ default: m.SiteCombobox }))
+	import('@/entities/locations/site/infra/ui/SiteCombobox').then(m => ({
+		default: m.SiteCombobox
+	}))
 )
 const TypeOfSiteCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/TypeOfSiteComboBox').then(m => ({
+	import('@/entities/locations/typeOfSites/infra/ui/TypeOfSiteComboBox').then(m => ({
 		default: m.TypeOfSiteCombobox
 	}))
 )
 const LocationStatusCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/LocationStatusComboBox').then(m => ({
+	import('@/entities/locations/locationStatus/infra/ui/LocationStatusComboBox').then(m => ({
 		default: m.LocationStatusCombobox
 	}))
 )

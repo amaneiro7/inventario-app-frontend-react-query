@@ -1,4 +1,4 @@
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { memo } from 'react'
 export const PageTitle = memo(
 	({ title, optionalText }: { title: string; optionalText?: string }) => {

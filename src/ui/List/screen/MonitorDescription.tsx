@@ -1,9 +1,9 @@
 import { memo } from 'react'
-import { TableCellDescription } from '@/components/Table/TableCellDescription'
-import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
-import { getRelativeTime } from '@/utils/getRelativeTime'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
-import { convertNumberMiles } from '@/utils/convertNumberMiles'
+import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
+import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
+import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
+import { convertNumberMiles } from '@/shared/lib/utils/convertNumberMiles'
 
 interface Props {
 	open: boolean

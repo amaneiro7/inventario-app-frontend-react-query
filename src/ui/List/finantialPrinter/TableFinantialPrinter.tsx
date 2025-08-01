@@ -1,12 +1,12 @@
 import React, { memo } from 'react'
-import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
-import { TableCellError } from '@/components/Table/TableCellError'
-import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
-import { TableRow } from '@/components/Table/TableRow'
-import { TableCell } from '@/components/Table/TableCell'
+import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { TableCellError } from '@/shared/ui/Table/TableCellError'
+import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
+import { TableRow } from '@/shared/ui/Table/TableRow'
+import { TableCell } from '@/shared/ui/Table/TableCell'
 import { FinantialPrinterDescription } from './FinantialPrinterDescription'
-import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
-import { type DeviceDto } from '@/core/devices/devices/domain/dto/Device.dto'
+import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 interface TableFinantialPrinterProps {
 	devices?: DeviceDto[]
@@ -32,7 +32,7 @@ export const TableFinantialPrinter = memo(
 						<TableRow
 							className={`[&>td]:cursor-pointer ${
 								expandedRows.includes(device.id) &&
-								'[&>td]:bg-slate-200 [&>td]:border-b-slate-200'
+								'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
 							}`}
 							onClick={() => handleRowClick(device.id)}
 						>

@@ -1,8 +1,8 @@
 import { memo } from 'react'
-import { TableCellDescInfo } from '@/components/Table/TableCellDescInfo'
-import { TableCellDescription } from '@/components/Table/TableCellDescription'
-import { type ModelDto } from '@/core/model/models/domain/dto/Model.dto'
-import { getRelativeTime } from '@/utils/getRelativeTime'
+import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
+import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
+import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
+import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 
 interface ModelDescriptionProps {
 	open: boolean

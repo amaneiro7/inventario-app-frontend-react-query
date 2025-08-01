@@ -6,17 +6,17 @@ import {
 	type ModelDisabled,
 	type ModelErrors,
 	type ModelRequired
-} from '@/core/model/models/infra/reducers/modelFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { CategoryOptions } from '@/core/category/domain/entity/CategoryOptions'
-import { Input } from '@/components/Input/Input'
-import { Checkbox } from '@/components/Checkbox/Checbox'
-import { MemoryRamSlotQuantity } from '@/core/model/models/domain/value-object/MemoryRamSlotQuantity'
-import { InputFallback } from '@/components/Loading/InputFallback'
-import { ProcessorTransferList } from '@/components/TranferList/ProcessorTransferList'
+} from '@/entities/model/models/infra/reducers/modelFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
+import { Input } from '@/shared/ui/Input/Input'
+import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { MemoryRamSlotQuantity } from '@/entities/model/models/domain/value-object/MemoryRamSlotQuantity'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { ProcessorTransferList } from '@/entities/devices/features/processor/infra/ui/ProcessorTransferList'
 
 const MemoryRamTypeCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/MemoryRamTypeComboBox').then(m => ({
+	import('@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox').then(m => ({
 		default: m.MemoryRamTypeCombobox
 	}))
 )

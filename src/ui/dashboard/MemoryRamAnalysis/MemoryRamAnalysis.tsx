@@ -1,11 +1,11 @@
 import { lazy, memo, Suspense, useCallback } from 'react'
 import { useMemoryRamTypeAnalysys } from '../hooks/useMemoryRamTypeAnalysis'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/Card'
-import { PieCard } from '../../../components/PieChart/PieCard'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { PieCard } from '../../../shared/ui/PieChart/PieCard'
 import { RamTypeSelect } from './RamTypeSelect'
 import { type MemoryViewSelect, useMemoryRamAnalysis } from '../hooks/useMemoryRamAnalysis'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { TypeOfSiteSelect } from './TypeOfSiteSelect'
 
 interface MemoryRamAnalysisProps {

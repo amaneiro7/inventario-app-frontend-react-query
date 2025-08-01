@@ -1,17 +1,17 @@
 import { Suspense } from 'react'
-import { eventManager } from '@/utils/eventManager'
+import { eventManager } from '@/shared/lib/utils/eventManager'
 
-import { Table } from '@/components/Table/Table'
-import { TableBody } from '@/components/Table/TableBody'
-import { TableHead } from '@/components/Table/TableHead'
-import { type Headers, TableHeader } from '@/components/Table/TableHeader'
-import { TablePageWrapper } from '@/components/Table/TablePageWrapper'
-import { TableRow } from '@/components/Table/TableRow'
+import { Table } from '@/shared/ui/Table/Table'
+import { TableBody } from '@/shared/ui/Table/TableBody'
+import { TableHead } from '@/shared/ui/Table/TableHead'
+import { type Headers, TableHeader } from '@/shared/ui/Table/TableHeader'
+import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
+import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from './Tab/TabsNav'
 import { PaginationBar } from './Pagination/PaginationBar'
 import { TypeOfSiteTabNav } from './Tab/TypeOfSiteTabNav'
-import { LoadingTable } from '@/components/Table/LoadingTable'
-import { OrderTypes } from '@/core/shared/domain/criteria/OrderType'
+import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
 
 interface TableDefaultDeviceProps<T> {
 	children?: React.ReactElement<T>

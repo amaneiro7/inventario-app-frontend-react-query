@@ -1,10 +1,10 @@
 import { memo, MouseEventHandler } from 'react'
-import Button from '@/components/Button'
-import { AddIcon } from '@/icon/AddIcon'
-import { CircleSpinningIcon } from '@/icon/CircleSpinning'
-import { DownloadIcon } from '@/icon/DownloadIcon'
-import { FilterIcon } from '@/icon/FilterIcon'
-import { eventManager } from '@/utils/eventManager'
+import Button from '@/shared/ui/Button'
+import { AddIcon } from '@/shared/ui/icon/AddIcon'
+import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
+import { DownloadIcon } from '@/shared/ui/icon/DownloadIcon'
+import { FilterIcon } from '@/shared/ui/icon/FilterIcon'
+import { eventManager } from '@/shared/lib/utils/eventManager'
 
 interface ButtonSectionProps {
 	handleClear?: () => void

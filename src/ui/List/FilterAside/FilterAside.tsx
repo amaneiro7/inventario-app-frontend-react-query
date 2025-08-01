@@ -7,8 +7,8 @@ import React, {
 	useEffect
 } from 'react'
 import { createPortal } from 'react-dom'
-import { useCloseClickOrEscape } from '@/hooks/utils/useCloseClickOrEscape'
-import { CloseIcon } from '@/icon/CloseIcon'
+import { useCloseClickOrEscape } from '@/shared/lib/hooks/useCloseClickOrEscape'
+import { CloseIcon } from '@/shared/ui/icon/CloseIcon'
 
 type Props = React.PropsWithChildren<
 	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>

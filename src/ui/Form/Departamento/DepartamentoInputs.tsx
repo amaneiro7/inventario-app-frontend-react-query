@@ -1,17 +1,17 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type DepartamentoErrors,
 	type DefaultDepartamento,
 	type DepartamentoRequired,
 	type DepartamentoDisabled
-} from '@/core/employee/departamento/infra/reducers/departamentoFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { DirectivaCombobox } from '@/components/ComboBox/Sincrono/DirectivaComboBox'
-import { VicepresidenciaEjecutivaCombobox } from '@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox'
-import { CargoTransferList } from '@/components/TranferList/CargoTransferList'
-import { VicepresidenciaCombobox } from '@/components/ComboBox/Asincrono/VicepresidenciaComboBox'
+} from '@/entities/employee/departamento/infra/reducers/departamentoFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
+import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
+import { VicepresidenciaCombobox } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox'
 
 interface DepartamentoInputsProps {
 	formData: DefaultDepartamento

@@ -1,32 +1,38 @@
 import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { useEffectAfterMount } from '@/hooks/utils/useEffectAfterMount'
-import { Input } from '@/components/Input/Input'
-import { InputFallback } from '@/components/Loading/InputFallback'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { Input } from '@/shared/ui/Input/Input'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const DirectivaCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/DirectivaComboBox').then(m => ({
+	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
 		default: m.DirectivaCombobox
 	}))
 )
 const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/VicepresidenciaEjecutivaComboBox').then(m => ({
+	import(
+		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+	).then(m => ({
 		default: m.VicepresidenciaEjecutivaCombobox
 	}))
 )
 const RegionCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/RegionComboBox').then(m => ({
+	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
 		default: m.RegionCombobox
 	}))
 )
 const StateCombobox = lazy(() =>
-	import('@/components/ComboBox/Sincrono/StateComboBox').then(m => ({ default: m.StateCombobox }))
+	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
+		default: m.StateCombobox
+	}))
 )
 const CityCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/CityComboBox').then(m => ({ default: m.CityCombobox }))
+	import('@/entities/locations/city/infra/ui/CityComboBox').then(m => ({
+		default: m.CityCombobox
+	}))
 )
 const VicepresidenciaCombobox = lazy(() =>
-	import('@/components/ComboBox/Asincrono/VicepresidenciaComboBox').then(m => ({
+	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
 		default: m.VicepresidenciaCombobox
 	}))
 )

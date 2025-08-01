@@ -1,14 +1,14 @@
 import { memo } from 'react'
-import { Input } from '@/components/Input/Input'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type CentroTrabajoErrors,
 	type DefaultCentroTrabajo,
 	type Action,
 	type CentroTrabajoDisabled,
 	type CentroTrabajoRequired
-} from '@/core/employee/centroTrabajo/infra/reducers/centroTrabajoFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { CentroCostoCombobox } from '@/components/ComboBox/Asincrono/CentroCostoComboBox'
+} from '@/entities/employee/centroTrabajo/infra/reducers/centroTrabajoFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { CentroCostoCombobox } from '@/entities/employee/centroCosto/infra/ui/CentroCostoComboBox'
 
 interface Props {
 	formData: DefaultCentroTrabajo

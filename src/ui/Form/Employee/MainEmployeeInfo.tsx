@@ -1,18 +1,18 @@
 import { memo, useMemo } from 'react'
-import { Checkbox } from '@/components/Checkbox/Checbox'
-import { EmployeeTypeCombobox } from '@/components/ComboBox/Sincrono/EmployeeTypeComboBox'
-import { Input } from '@/components/Input/Input'
-import Typography from '@/components/Typography'
-import { Nationalities } from '@/core/employee/employee/domain/value-object/EmployeeNationality'
+import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { EmployeeTypeCombobox } from '@/entities/employee/employee/infra/ui/EmployeeTypeComboBox'
+import { Input } from '@/shared/ui/Input/Input'
+import Typography from '@/shared/ui/Typography'
+import { Nationalities } from '@/entities/employee/employee/domain/value-object/EmployeeNationality'
 import {
 	type EmployeeDisabled,
 	type EmployeeErrors,
 	type EmployeeRequired,
 	type Action,
 	type DefaultEmployee
-} from '@/core/employee/employee/infra/reducers/employeeFormReducer'
-import { type FormMode } from '@/hooks/useGetFormMode'
-import { EmployeeCedula } from '@/core/employee/employee/domain/value-object/EmployeeCedula'
+} from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { EmployeeCedula } from '@/entities/employee/employee/domain/value-object/EmployeeCedula'
 
 interface MainEmployeeInfoProps {
 	userName: DefaultEmployee['userName']

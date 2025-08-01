@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { useDebounce } from '@/hooks/utils/useDebounce'
-import { SearchInput } from '@/components/Input/Search'
-import { useGetAllCargo } from '@/core/employee/cargo/infra/hook/useGetAllCargo'
-import { type CargoFilters } from '@/core/employee/cargo/application/createCargoQueryParams'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { SearchInput } from '@/shared/ui/Input/Search'
+import { useGetAllCargo } from '@/entities/employee/cargo/infra/hook/useGetAllCargo'
+import { type CargoFilters } from '@/entities/employee/cargo/application/createCargoQueryParams'
 
 export function CargoSearch() {
 	const [searchValue, setSearchValue] = useState('')

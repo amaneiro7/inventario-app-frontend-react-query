@@ -1,5 +1,5 @@
 import { CheckCircle, Clock, Construction, Hammer, XCircle } from 'lucide-react'
-import { LocationStatusByName } from '@/core/locations/locationStatus/domain/entity/LocationStatusOptionsByName'
+import { LocationStatusByName } from '@/entities/locations/locationStatus/domain/entity/LocationStatusOptionsByName'
 
 // Configuration for status visual mapping
 export const LOCATION_STATUS_CONFIG: Record<

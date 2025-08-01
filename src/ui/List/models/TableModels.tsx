@@ -1,12 +1,12 @@
 import React from 'react'
-import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
-import { TableRow } from '@/components/Table/TableRow'
-import { TableCell } from '@/components/Table/TableCell'
+import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { TableRow } from '@/shared/ui/Table/TableRow'
+import { TableCell } from '@/shared/ui/Table/TableCell'
 import { ModelDescription } from './ModelsDescription'
-import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
-import { TableCellError } from '@/components/Table/TableCellError'
-import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
-import { type ModelDto } from '@/core/model/models/domain/dto/Model.dto'
+import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
+import { TableCellError } from '@/shared/ui/Table/TableCellError'
+import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
+import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
 
 interface Props {
 	models?: ModelDto[]
@@ -30,7 +30,7 @@ export function TableModels({ models, colSpan, isError, visibleColumns }: Props)
 					<TableRow
 						className={`[&>td]:cursor-pointer ${
 							expandedRows.includes(model.id) &&
-							'[&>td]:bg-slate-200 [&>td]:border-b-slate-200'
+							'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
 						}`}
 						onClick={() => handleRowClick(model.id)}
 					>

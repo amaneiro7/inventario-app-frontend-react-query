@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, memo, Suspense } from 'react'
 import { useGeographicalDistribution } from '../hooks/useGeographicalDistribution'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/Card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/Select'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 import { FilterSection } from './FilterSection'
-import { type ComputerDashboardDto } from '@/core/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface GeographicalDistributionProps {
 	data: ComputerDashboardDto['region']

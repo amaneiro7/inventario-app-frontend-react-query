@@ -1,9 +1,9 @@
 // src/ui/Home/LocationMonitoring/ByStateList.tsx
 import { memo } from 'react'
-import Typography from '@/components/Typography'
+import Typography from '@/shared/ui/Typography'
 import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
-import { type LocationMonitoringDashboardByStateDto } from '@/core/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
-import { type DeviceMonitoringDashboardByStateDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
+import { type LocationMonitoringDashboardByStateDto } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
+import { type DeviceMonitoringDashboardByStateDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
 
 interface ByStateListProps {
 	statesData:

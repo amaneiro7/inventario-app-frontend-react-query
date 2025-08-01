@@ -1,12 +1,12 @@
-import Button from '@/components/Button'
-import { Input } from '@/components/Input/Input'
-import Logo from '@/components/Logo/Logo'
-import Typography from '@/components/Typography'
-import { useLogin } from '@/core/user/infra/hooks/useLogin'
-import { CircleSpinningIcon } from '@/icon/CircleSpinning'
-import { LockIcon } from '@/icon/LockIcon'
-import { MailIcon } from '@/icon/MailIcon'
-import { UnlockIcon } from '@/icon/UnlockIcon'
+import Button from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input/Input'
+import Logo from '@/shared/ui/Logo/Logo'
+import Typography from '@/shared/ui/Typography'
+import { useLogin } from '@/entities/user/infra/hooks/useLogin'
+import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
+import { LockIcon } from '@/shared/ui/icon/LockIcon'
+import { MailIcon } from '@/shared/ui/icon/MailIcon'
+import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
 
 export const FormLogin = () => {
 	const {

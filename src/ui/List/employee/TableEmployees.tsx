@@ -1,13 +1,13 @@
 import React, { memo } from 'react'
-import { useExpendedRows } from '@/hooks/utils/useExpendedRows'
-import { TableRow } from '@/components/Table/TableRow'
-import { TableCell } from '@/components/Table/TableCell'
-import { TableCellError } from '@/components/Table/TableCellError'
-import { TableCellEmpty } from '@/components/Table/TableCellEmpty'
-import { TableCellOpenIcon } from '@/components/Table/TableCellOpenIcon'
+import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { TableRow } from '@/shared/ui/Table/TableRow'
+import { TableCell } from '@/shared/ui/Table/TableCell'
+import { TableCellError } from '@/shared/ui/Table/TableCellError'
+import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
+import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
 import { EmployeeDescription } from './EmployeesDescription'
-import { type EmployeeDto } from '@/core/employee/employee/domain/dto/Employee.dto'
-import { formatearTelefono } from '@/utils/formatearTelefono'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
+import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
 
 interface TableEmployeesProps {
 	employees?: EmployeeDto[]

@@ -1,6 +1,6 @@
 import { DetailsPanel } from '../DetailsPanel'
 import { NetworkSiteLinkMonitoring } from './NetworkSiteLinkMonitoring'
-import { type DeviceMonitoringDashboardByLocationDto } from '@/core/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
+import { type DeviceMonitoringDashboardByLocationDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
 
 interface LocationDetailsPanelProps {
 	selectedFloor: string | null
