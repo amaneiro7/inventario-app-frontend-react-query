@@ -1,0 +1,81 @@
+1. Mover a src/features/{feature}/ui (Componentes de Funcionalidad)
+
+Estos componentes encapsulan una acción o caso de uso completo del usuario.
+
+- `src/ui/FormLogin.tsx` -> `src/features/auth/ui/FormLogin.tsx`
+    - Razón: Es el formulario completo para la funcionalidad de "autenticación".
+
+- `src/ui/Profile/ChangePasswordForm.tsx` -> `src/features/change-password/ui/ChangePasswordForm.tsx`
+    - Razón: Encapsula toda la lógica y la UI para la feature "cambiar contraseña".
+
+- `src/ui/UserManagement/DeleteHandle.tsx` -> `src/features/user-delete/ui/DeleteHandle.tsx`
+- `src/ui/UserManagement/EditHandle.tsx` -> `src/features/user-edit/ui/EditHandle.tsx`
+- `src/ui/UserManagement/ResetHandle.tsx` -> `src/features/user-reset-password/ui/ResetHandle.tsx`
+    - Razón: Cada uno de estos es un componente que maneja una acción atómica y específica sobre un usuario.
+
+- `src/ui/Form/{Entity}/...Search.tsx` (ej. BrandSearch.tsx) -> `src/features/{entity}-search/ui/...Search.tsx`
+    - Razón: Un componente de búsqueda con su debounce y lógica de API es una "feature" por sí mismo.
+    - Ejemplo: src/ui/Form/Brand/BrandSearch.tsx -> src/features/brand-search/ui/BrandSearch.tsx
+
+2. Mover a src/widgets/ (Secciones de Página)
+
+Estos son componentes grandes que componen una parte significativa de una página.
+
+- `src/ui/Home/** (ej. InventoryChart, WelcomeHero) -> **src/widgets/{Componente}/`\*\*
+    - Razón: Son secciones grandes y específicas de la página de inicio.
+    - Ejemplo: src/ui/Home/InventoryChart.tsx -> src/widgets/InventoryChart/InventoryChart.tsx
+
+- `src/ui/dashboard/** (ej. BrandDistribution, ModelBreakdown) -> **src/widgets/{Componente}/`\*\*
+    - Razón: Son los bloques que construyen tus dashboards. Son demasiado complejos y específicos para ser shared.
+    - Ejemplo: src/ui/dashboard/Brands/BrandDistribution.tsx -> src/widgets/BrandDistribution/BrandDistribution.tsx
+
+- `src/ui/List/FilterAside/` -> `src/widgets/FilterAside/`
+    - Razón: La barra lateral de filtros es un widget complejo y reutilizable en varias páginas de listado.
+
+- `src/ui/List/computer/TableWrapper.tsx` (y similares) -> `src/widgets/{Entidad}Table/`
+    - Razón: Estos "wrappers" de tabla contienen la lógica de obtención de datos, paginación y la propia tabla. Son un
+      widget completo.
+    - Ejemplo: src/ui/List/computer/TableWrapper.tsx -> src/widgets/ComputerTable/TableWrapper.tsx
+
+- `src/ui/Wrappers/** -> **src/app/layouts/`\*\*
+    - Razón: Como discutimos, estos son layouts de página principales que se conectan directamente al enrutador.
+    - Acción: Crear src/app/layouts y mover el contenido de src/ui/Wrappers allí.
+
+3. Mover a src/entities/{entidad}/ui (Componentes de Entidad)
+
+Componentes que muestran datos de una entidad o son parte de un formulario de esa entidad.
+
+- `src/ui/Form/{Entity}/{Entity}Inputs.tsx` (ej. BrandInputs.tsx) -> `src/entities/{entity}/ui/{Entity}Inputs.tsx`
+    - Razón: Estos son los campos de formulario específicos para una entidad.
+    - Ejemplo: src/ui/Form/Brand/BrandInputs.tsx -> src/entities/brand/ui/BrandInputs.tsx
+
+- `src/ui/List/{entity}/{Entity}Description.tsx` (ej. ComputerDescription.tsx) ->
+  `src/entities/{entity}/ui/{Entity}Description.tsx`
+    - Razón: Muestran la vista detallada de una entidad en una fila de tabla expandida.
+
+- `src/ui/List/history/ChangeDisplay.tsx` -> `src/entities/history/ui/ChangeDisplay.tsx`
+    - Razón: Es un componente específico para mostrar los cambios de un historial.
+
+4. Mover a src/shared/ui (Componentes Genéricos)
+
+El resto, que son componentes de UI puros y reutilizables.
+
+- src/ui/List/ButttonSection/ButtonSection.tsx -> src/shared/ui/ButtonSection.tsx
+- src/ui/List/Divider.tsx -> src/shared/ui/Divider.tsx
+- src/ui/List/FilterSection.tsx -> src/shared/ui/FilterSection.tsx
+- src/ui/List/Pagination/\*\* -> src/shared/ui/Pagination/
+- src/ui/List/Tab/\*\* -> src/shared/ui/Tab/
+- src/ui/monitoring/DetailsPanel.tsx -> src/shared/ui/DetailsPanel.tsx
+- src/ui/monitoring/DetailsPanelCard.tsx -> src/shared/ui/DetailsPanelCard.tsx
+- src/ui/monitoring/GenericMonitoringList.tsx -> src/shared/ui/GenericMonitoringList.tsx
+- src/ui/monitoring/LoadingSpinner.tsx -> src/shared/ui/LoadingSpinner.tsx
+- src/ui/PageTitle.tsx -> src/shared/ui/PageTitle.tsx
+- src/ui/Profile/EmptyState.tsx -> src/shared/ui/EmptyState.tsx
+- src/ui/Profile/LoadingProfileSpinner.tsx -> src/shared/ui/LoadingSpinner.tsx (o unificar si son iguales).
+
+---
+
+Este desglose es bastante detallado. Tómate tu tiempo para revisar y realizar los movimientos. Es un paso grande, pero
+dejará tu proyecto con una estructura excepcionalmente limpia y profesional.
+
+Cuando estés listo, avísame y comenzaremos a corregir todas las rutas de importación.
