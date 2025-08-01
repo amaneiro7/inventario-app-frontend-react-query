@@ -3,7 +3,9 @@ import { AuthContext } from '@/app/providers/AuthContext'
 import { Navigate } from 'react-router-dom'
 import { Loading } from '@/shared/ui/Loading'
 
-const FormLogin = lazy(async () => import('@/ui/FormLogin').then(m => ({ default: m.FormLogin })))
+const FormLogin = lazy(async () =>
+	import('@/features/auth/ui/FormLogin').then(m => ({ default: m.FormLogin }))
+)
 
 export default function Login() {
 	const {
