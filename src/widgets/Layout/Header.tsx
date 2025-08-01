@@ -1,6 +1,6 @@
 import { lazy, memo, Suspense, useContext, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { AuthContext } from '@/context/Auth/AuthContext'
+import { AuthContext } from '@/app/providers/AuthContext'
 import { RoleOptions } from '@/entities/role/domain/entity/RoleOptions'
 import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
 import Logo from '@/shared/ui/Logo/Logo'

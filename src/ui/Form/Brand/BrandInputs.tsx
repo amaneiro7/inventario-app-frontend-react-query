@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { CategoryTransferList } from '@/components/TranferList/CategoryTransferList'
+import { CategoryTransferList } from '@/entities/category/infra/ui/CategoryTransferList'
 import {
 	type BrandErrors,
 	type Action,

@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { queryClient } from '@/shared/lib/queryCliente'
-import { AuthContext } from '../context/Auth/AuthContext'
+import { AuthContext } from '@/app/providers/AuthContext'
 
 export function ProtectedRoute(Component: React.ComponentType) {
 	return () => {

@@ -3,7 +3,7 @@ import { useGetAllCategory } from '@/entities/category/infra/hook/useGetAllCateg
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import Typography from '@/shared/ui/Typography'
-import { TransferListItem } from './TransferListItem'
+import { TransferListItem } from '@/shared/ui/TransferList/TransferListItem'
 import { type CategoryDto } from '@/entities/category/domain/dto/Category.dto'
 
 interface CategoryTransferListProps {

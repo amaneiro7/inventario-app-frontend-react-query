@@ -4,7 +4,7 @@ import {
 	type Action
 } from '@/entities/devices/features/processor/infra/reducers/processorFormReducer'
 import { type ProcessorParams } from '@/entities/devices/features/processor/domain/dto/Processor.dto'
-import { Processorentitiess } from '@/entities/devices/features/processor/domain/value-object/Processorentitiess'
+import { ProcessorCores } from '@/entities/devices/features/processor/domain/value-object/ProcessorCores'
 import { ProcessorFrequency } from '@/entities/devices/features/processor/domain/value-object/ProcessorFrequency'
 import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
 import { Input } from '@/shared/ui/Input/Input'
@@ -61,19 +61,19 @@ export const ProcessorInputs = memo(function ({ errors, formData, handleChange }
 			/>
 			<div className="flex gap-4">
 				<Input
-					id="processor-entitiess"
-					value={formData.entitiess}
-					name="entitiess"
+					id="processor-cores"
+					value={formData.cores}
+					name="cores"
 					type="number"
-					label="entitiess o núcleos"
+					label="cores o núcleos"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('entitiess', Number(e.target.value))
+						handleChange('cores', Number(e.target.value))
 					}
-					error={!!errors?.entitiess}
-					errorMessage={errors?.entitiess}
+					error={!!errors?.cores}
+					errorMessage={errors?.cores}
 					required
-					min={Processorentitiess.MIN}
-					max={Processorentitiess.MAX}
+					min={ProcessorCores.MIN}
+					max={ProcessorCores.MAX}
 				/>
 				<Input
 					id="processor-frequency"

@@ -1,5 +1,5 @@
 import { Suspense, lazy, use } from 'react'
-import { AuthContext } from '@/context/Auth/AuthContext'
+import { AuthContext } from '@/app/providers/AuthContext'
 import { PageTitle } from '@/ui/PageTitle'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'

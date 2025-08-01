@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { ErrorBoundary } from './ErrorBoundary'
-import { AuthContextProvider } from './context/Auth/AuthContextProvider'
-import { Loading } from '../shared/ui/Loading'
-import { TooltipProvider } from '../shared/ui/Tooltip'
+import { ErrorBoundary } from './providers/ErrorBoundary'
+import { AuthContextProvider } from './providers/AuthContextProvider'
+import { Loading } from '@/shared/ui/Loading'
+import { TooltipProvider } from '@/shared/ui/Tooltip'
+
 const AppRoutes = lazy(async () =>
 	import('./providers/routes/AppRoutes').then(m => ({ default: m.AppRoutes }))
 )

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useContext } from 'react'
-import { AuthContext } from '@/context/Auth/AuthContext'
+import { AuthContext } from '@/app/providers/AuthContext'
 import { Navigate } from 'react-router-dom'
 import { Loading } from '@/shared/ui/Loading'
 
