@@ -151,7 +151,7 @@
 
 	--height-withoutHeader: calc(100vh - 10rem);
 
-	--transition-filterAside:        
+	--transition-filterAside:         
 ;
 }
 
@@ -175,7 +175,7 @@
 
 @font-face {
 	font-family: 'Montserrat';
-	src: url('./shared/assets/font/Montserrat-VariableFont_wght.woff2') format('woff2');
+	src: url('../../shared/assets/font/Montserrat-VariableFont_wght.woff2') format('woff2');
 	font-style: normal;
 	font-weight: 100 900;
 	font-display: swap;
