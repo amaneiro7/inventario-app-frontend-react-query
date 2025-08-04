@@ -5,7 +5,10 @@ import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/do
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { Badge } from '@/shared/ui/Badge'
 import Typography from '@/shared/ui/Typography'
-import { type GenericMonitorableItem, GenericMonitoringList } from '../GenericMonitoringList'
+import {
+	type GenericMonitorableItem,
+	GenericMonitoringList
+} from '../../../shared/ui/GenericMonitoringList'
 import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 
 interface NetworkLinkSelectedListProps {

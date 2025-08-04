@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useLocationFilter } from '@/entities/locations/locations/infra/hook/useLocationFilters'
 //components
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
-import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
+import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { LocationDataWrapper } from '@/ui/List/location/LocationDataWrapper'
 import { Loading } from '@/shared/ui/Loading'
 

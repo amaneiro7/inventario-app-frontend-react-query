@@ -4,7 +4,10 @@ import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entit
 import { LocationMonitoringStatuses } from '@/entities/locations/locationMonitoring/domain/value-object/LocationMonitoringStatus'
 import { Badge } from '@/shared/ui/Badge'
 import Typography from '@/shared/ui/Typography'
-import { type GenericMonitorableItem, GenericMonitoringList } from '../GenericMonitoringList'
+import {
+	type GenericMonitorableItem,
+	GenericMonitoringList
+} from '../../../shared/ui/GenericMonitoringList'
 import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
 import { useGetAllLocationMonitorings } from '@/entities/locations/locationMonitoring/infra/hook/useGetAllLocationMonitoring'
 

@@ -1,7 +1,7 @@
 // src/ui/Home/LocationMonitoring/ByStateList.tsx
 import { memo } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { StatusProgress } from '@/ui/Home/InventoryStatus/StatusProgress'
+import { StatusProgress } from '@/widgets/InventoryStatus/StatusProgress'
 import { type LocationMonitoringDashboardByStateDto } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
 import { type DeviceMonitoringDashboardByStateDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
 

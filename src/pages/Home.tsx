@@ -1,20 +1,20 @@
 import { lazy, Suspense } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { WelcomeHero } from '@/ui/Home/WelcomeHero'
-import { InventorySummary } from '@/ui/Home/InventorySummary'
-import { QuickActions } from '@/ui/Home/QuickAccess'
+import { WelcomeHero } from '@/widgets/WelcomeHero'
+import { InventorySummary } from '@/widgets/InventorySummary'
+import { QuickActions } from '@/widgets/QuickAccess'
 
 const InventoryChart = lazy(() =>
-	import('@/ui/Home/InventoryChart').then(m => ({ default: m.InventoryChart }))
+	import('@/widgets/InventoryChart').then(m => ({ default: m.InventoryChart }))
 )
 const InventoryDistribution = lazy(() =>
-	import('@/ui/Home/InventoryDistribution').then(m => ({ default: m.InventoryDistribution }))
+	import('@/widgets/InventoryDistribution').then(m => ({ default: m.InventoryDistribution }))
 )
 const InventoryStatus = lazy(() =>
-	import('@/ui/Home/InventoryStatus').then(m => ({ default: m.InventoryStatus }))
+	import('@/widgets/InventoryStatus').then(m => ({ default: m.InventoryStatus }))
 )
 const RecentActivities = lazy(() =>
-	import('@/ui/Home/RecentActivities').then(m => ({ default: m.RecentActivities }))
+	import('@/widgets/RecentActivities').then(m => ({ default: m.RecentActivities }))
 )
 
 export default function Home() {

@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateVicepresidencia } from '@/entities/employee/vicepresidencia/infra/hook/useCreateVicepresidencia'
-import { VicepresidenciasInputs } from '@/ui/Form/Vicepresidencia/VicepresidenciaInputs'
-import { VicepresidenciaSearch } from '@/ui/Form/Vicepresidencia/VicepresidenciaSearch'
+import { VicepresidenciasInputs } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaInputs'
+import { VicepresidenciaSearch } from '@/features/vicepresidencia-search/ui/VicepresidenciaSearch'
 
 export default function FormVicepresidencia() {
 	const {

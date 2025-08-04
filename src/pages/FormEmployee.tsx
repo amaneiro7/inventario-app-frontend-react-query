@@ -1,7 +1,7 @@
 import { lazy, memo, Suspense, useMemo } from 'react'
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
-import { EmployeeSearch } from '@/ui/Form/Employee/EmployeeSearch'
+import { EmployeeSearch } from '@/features/employee-search/ui/EmployeeSearch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 
 const AsignDevices = lazy(() =>

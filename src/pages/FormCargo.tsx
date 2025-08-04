@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateCargo } from '@/entities/employee/cargo/infra/hook/useCreateCargo'
-import { CargoSearch } from '@/ui/Form/Cargo/CargoSearch'
-import { CargoInputs } from '@/ui/Form/Cargo/CargoInputs'
+import { CargoSearch } from '@/features/cargo-search/ui/CargoSearch'
+import { CargoInputs } from '@/entities/employee/cargo/infra/ui/CargoInputs'
 
 export default function FormCargo() {
 	const {

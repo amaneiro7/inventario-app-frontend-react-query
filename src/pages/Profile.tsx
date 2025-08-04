@@ -1,6 +1,6 @@
 import { Suspense, lazy, use } from 'react'
 import { AuthContext } from '@/app/providers/AuthContext'
-import { PageTitle } from '@/ui/PageTitle'
+import { PageTitle } from '@/shared/ui/PageTitle'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
 import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
@@ -11,7 +11,7 @@ import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { Seo } from '@/shared/ui/Seo'
 
 const LoadingSpinner = lazy(() =>
-	import('@/ui/monitoring/LoadingSpinner').then(m => ({ default: m.LoadingSpinner }))
+	import('@/shared/ui/Loading/LoadingSpinner').then(m => ({ default: m.LoadingSpinner }))
 )
 const LinkAsButton = lazy(() =>
 	import('@/shared/ui/Button/LinkAsButton').then(m => ({ default: m.LinkAsButton }))

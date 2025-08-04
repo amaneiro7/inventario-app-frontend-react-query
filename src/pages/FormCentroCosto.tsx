@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useCreateCentroCosto'
-import { CentroCostoInputs } from '@/ui/Form/CentroCosto/CentroCostoInputs'
-import { CentroCostoSearch } from '@/ui/Form/CentroCosto/CentroCostoSearch'
+import { CentroCostoInputs } from '@/entities/employee/centroCosto/infra/ui/CentroCostoInputs'
+import { CentroCostoSearch } from '@/features/centro-costo-search/ui/CentroCostoSearch'
 
 export default function FormCentroCosto() {
 	const {

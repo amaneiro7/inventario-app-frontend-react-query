@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { StateData } from './useMapChart'
-import { DetailsPanel } from '../DetailsPanel'
+import { DetailsPanel } from '../../../shared/ui/DetailsPanel'
 import { NetworkStateLinkMonitoring } from './NetworkStateLinkMonitoring'
 
 interface StateDetailsPanelProps {

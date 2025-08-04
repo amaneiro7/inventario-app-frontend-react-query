@@ -11,7 +11,7 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from '../Tab/TabsNav'
 import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { ModelGetByCriteria } from '@/entities/model/models/application/ModelGetByCriteria'
-import { PaginationBar } from '../Pagination/PaginationBar'
+import { PaginationBar } from '../../../shared/ui/Pagination/PaginationBar'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { type ModelFilters } from '@/entities/model/models/application/CreateModelsQueryParams'
 

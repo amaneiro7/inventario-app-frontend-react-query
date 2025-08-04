@@ -4,7 +4,7 @@ import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 
 import { useDeviceMonitoringFilter } from '@/entities/devices/deviceMonitoring/infra/hook/useDeviceMonitoringFilters'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
 import { DeviceMonitoringSummary } from '@/ui/monitoring/deviceMonitoring/DeviceMonitoringSummary'
 import { DeviceMonitoringTabsContent } from '@/ui/monitoring/deviceMonitoring/DeviceMonitoringTabsContent'
 

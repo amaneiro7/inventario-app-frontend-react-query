@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Link } from 'react-router-dom'
-import { StatCard } from '@/ui/Home/StatCard'
+import { StatCard } from '@/widgets/StatCard'
 
 export const LinkCard = memo(
 	({

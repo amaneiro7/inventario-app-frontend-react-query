@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useCreateCentroTrabajo'
-import { CentroTrabajoInputs } from '@/ui/Form/CentroTrabajo/CentroTrabajoInputs'
-import { CentroTrabajoSearch } from '@/ui/Form/CentroTrabajo/CentroTrabajoSearch'
+import { CentroTrabajoInputs } from '@/entities/employee/centroTrabajo/infra/ui/CentroTrabajoInputs'
+import { CentroTrabajoSearch } from '@/features/centro-trabajo-search/ui/CentroTrabajoSearch'
 
 export default function FormCentroTrabajo() {
 	const {

@@ -1,5 +1,5 @@
 import { lazy, memo, Suspense, useMemo } from 'react'
-import { LoadingSpinner } from './LoadingSpinner'
+import { LoadingSpinner } from '../../shared/ui/Loading/LoadingSpinner'
 import { type LocationMonitoringDashboardByStateDto } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
 import { type DeviceMonitoringDashboardByStateDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
 

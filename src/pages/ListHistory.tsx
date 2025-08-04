@@ -4,14 +4,16 @@ import { useHistoryFilter } from '@/entities/history/infra/hook/useHistoryFilter
 // import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
 
-import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { TableHistoryWrapper } from '@/ui/List/history/TableHistoryWrapper'
 import { Loading } from '@/shared/ui/Loading'
 
 const MainHistoryFilter = lazy(() =>
-	import('@/ui/List/MainHistoryFilter').then(m => ({ default: m.MainHistoryFilter }))
+	import('@/features/history-filter/ui/MainHistoryFilter').then(m => ({
+		default: m.MainHistoryFilter
+	}))
 )
 
 export default function ListHstory() {

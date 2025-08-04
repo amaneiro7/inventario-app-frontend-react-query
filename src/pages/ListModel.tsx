@@ -4,11 +4,11 @@ import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelServ
 import { useModelsFilter } from '@/entities/model/models/infra/hook/useModelsFilters'
 import { TableModelWrapper } from '@/ui/List/models/TableModelWrapper'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
-import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
+import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { Loading } from '@/shared/ui/Loading'
 const MainModelFilter = lazy(() =>
-	import('@/ui/List/MainModelFilter').then(m => ({ default: m.MainModelFilter }))
+	import('@/features/model-filter/ui/MainModelFilter').then(m => ({ default: m.MainModelFilter }))
 )
 
 export default function ListModel() {

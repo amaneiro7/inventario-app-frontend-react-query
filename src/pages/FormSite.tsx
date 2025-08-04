@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateSite } from '@/entities/locations/site/infra/hook/useCreateCity'
-import { SiteInputs } from '@/ui/Form/Site/SiteInputs'
-import { SiteSearch } from '@/ui/Form/Site/SiteSearch'
+import { SiteInputs } from '@/entities/locations/site/infra/ui/SiteInputs'
+import { SiteSearch } from '@/features/site-search/ui/SiteSearch'
 
 export default function FormSite() {
 	const { formData, mode, key, errors, required, handleChange, handleSubmit, resetForm } =

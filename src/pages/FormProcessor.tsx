@@ -1,7 +1,7 @@
 import { useCreateProcessor } from '@/entities/devices/features/processor/infra/hooks/useCreateProcessor'
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
-import { ProcessorInputs } from '@/ui/Form/Processor/ProcessorInputs'
-import { ProcessorSearch } from '@/ui/Form/Processor/ProcessorSearch'
+import { ProcessorInputs } from '@/entities/devices/features/processor/infra/ui/ProcessorInputs'
+import { ProcessorSearch } from '@/features/processor-search/ui/ProcessorSearch'
 
 export default function FormProcessor() {
 	const { formData, key, mode, errors, handleChange, handleSubmit, resetForm } =

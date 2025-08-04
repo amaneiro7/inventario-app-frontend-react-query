@@ -3,7 +3,7 @@ import { Loading } from '@/shared/ui/Loading'
 import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 import { useLocationMonitoringFilter } from '@/entities/locations/locationMonitoring/infra/hook/useLocationMonitoringFilters'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
 import { LocationMonitoringSummary } from '@/ui/monitoring/locationMonitoring/LocationMonitoringSummary'
 import { LocationMonitoringTabsContent } from '@/ui/monitoring/locationMonitoring/LocationMonitoringTabsContent'
 

@@ -2,19 +2,23 @@ import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { useFinantialPrinterFilter } from '@/entities/devices/devices/infra/hook/useFinantialPrinterFilters'
-import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
+import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
-import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
+import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { TableFinantialWrapper } from '@/ui/List/finantialPrinter/TableFinantialWrapper'
 import { Loading } from '@/shared/ui/Loading'
 
 const DefaultDeviceFilter = lazy(() =>
-	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({
+		default: m.DefaultDeviceFilter
+	}))
 )
 
 const MainComputerFilter = lazy(() =>
-	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+	import('@/features/computer-filter/ui/MainComputerFilter').then(m => ({
+		default: m.MainComputerFilter
+	}))
 )
 
 export default function ListFinantialPrinter() {

@@ -13,7 +13,7 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from '../Tab/TabsNav'
 import { TypeOfSiteTabNav } from '../Tab/TypeOfSiteTabNav'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { PaginationBar } from '../Pagination/PaginationBar'
+import { PaginationBar } from '../../../shared/ui/Pagination/PaginationBar'
 
 import { type DeviceComputerFilters } from '@/entities/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 

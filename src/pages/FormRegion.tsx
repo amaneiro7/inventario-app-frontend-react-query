@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateRegion } from '@/entities/locations/region/infra/hook/useCreateRegion'
-import { RegionInputs } from '@/ui/Form/Region/RegionInputs'
-import { RegionSearch } from '@/ui/Form/Region/RegionSearch'
+import { RegionInputs } from '@/entities/locations/region/infra/ui/RegionInputs'
+import { RegionSearch } from '@/features/region-search/ui/RegionSearch'
 
 export default function FormRegion() {
 	const {

@@ -1,7 +1,7 @@
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
 import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
-import { Skeleton } from '@/shared/ui/Skeleton' // Assuming you have a Skeleton component
+import { Skeleton } from '@/shared/ui/Loading/Skeleton' // Assuming you have a Skeleton component
 
 export const ManagementProfileLoading = () => {
 	return (

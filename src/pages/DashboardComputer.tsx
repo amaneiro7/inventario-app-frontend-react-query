@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { useGetComputerDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetComputerDashboard'
 import { Seo } from '@/shared/ui/Seo'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
-import { InventorySummary } from '@/ui/Home/InventorySummary'
+import { InventorySummary } from '@/widgets/InventorySummary'
 import { Loading } from '@/shared/ui/Loading'
 
 const InventoryOverview = lazy(() =>

@@ -5,16 +5,18 @@ import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelServ
 //components
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { FilterSection } from '@/ui/List/FilterSection'
-import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
+import { FilterSection } from '@/shared/ui/FilterSection'
+import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { TableWrapper } from '@/ui/List/computer/TableWrapper'
-import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 
 const DefaultDeviceFilter = lazy(() =>
-	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({
+		default: m.DefaultDeviceFilter
+	}))
 )
 const OtherComputerFilter = lazy(() =>
-	import('@/ui/List/FilterAside/OtherComputerFilter').then(m => ({
+	import('@/features/device-filter/ui/OtherComputerFilter').then(m => ({
 		default: m.OtherComputerFilter
 	}))
 )
@@ -25,7 +27,9 @@ const ComputerOrderByCombobox = lazy(() =>
 )
 
 const MainComputerFilter = lazy(() =>
-	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+	import('@/features/computer-filter/ui/MainComputerFilter').then(m => ({
+		default: m.MainComputerFilter
+	}))
 )
 
 export default function ListComputer() {

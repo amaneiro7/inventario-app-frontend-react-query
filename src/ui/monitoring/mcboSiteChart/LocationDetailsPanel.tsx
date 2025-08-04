@@ -1,4 +1,4 @@
-import { DetailsPanel } from '../DetailsPanel'
+import { DetailsPanel } from '../../../shared/ui/DetailsPanel'
 import { NetworkSiteLinkMonitoring } from './NetworkSiteLinkMonitoring'
 import { type DeviceMonitoringDashboardByLocationDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
 

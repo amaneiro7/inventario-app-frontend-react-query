@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateCity } from '@/entities/locations/city/infra/hook/useCreateCity'
-import { CityInputs } from '@/ui/Form/City/CityInputs'
-import { CitySearch } from '@/ui/Form/City/CitySearch'
+import { CityInputs } from '@/entities/locations/city/infra/ui/CityInputs'
+import { CitySearch } from '@/features/city-search/ui/CitySearch'
 
 export default function FormCity() {
 	const { formData, mode, key, errors, required, handleChange, handleSubmit, resetForm } =

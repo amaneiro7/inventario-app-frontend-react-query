@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateDepartamento } from '@/entities/employee/departamento/infra/hook/useCreateDepartamento'
-import { DepartamentoInputs } from '@/ui/Form/Departamento/DepartamentoInputs'
-import { DepartamentoSearch } from '@/ui/Form/Departamento/DepartamentoSearch'
+import { DepartamentoInputs } from '@/entities/employee/departamento/infra/ui/DepartamentoInputs'
+import { DepartamentoSearch } from '@/features/departamento-search/ui/DepartamentoSearch'
 
 export default function FormDepartamento() {
 	const {

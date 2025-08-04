@@ -5,15 +5,19 @@ import { usePrinterFilter } from '@/entities/devices/devices/infra/hook/usePrint
 import { Loading } from '@/shared/ui/Loading'
 import { TablePrinterWrapper } from '@/ui/List/printer/TablePrinterWrapper'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/ui/List/FilterSection'
-import { FilterAside, type FilterAsideRef } from '@/ui/List/FilterAside/FilterAside'
-import { ButtonSection } from '@/ui/List/ButttonSection/ButtonSection'
+import { FilterSection } from '@/shared/ui/FilterSection'
+import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
+import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 
 const MainComputerFilter = lazy(() =>
-	import('@/ui/List/MainComputerFilter').then(m => ({ default: m.MainComputerFilter }))
+	import('@/features/computer-filter/ui/MainComputerFilter').then(m => ({
+		default: m.MainComputerFilter
+	}))
 )
 const DefaultDeviceFilter = lazy(() =>
-	import('@/ui/List/DefaultDeviceFilter').then(m => ({ default: m.DefaultDeviceFilter }))
+	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({
+		default: m.DefaultDeviceFilter
+	}))
 )
 
 export default function ListPrinter() {

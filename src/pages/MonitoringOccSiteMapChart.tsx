@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { useOccSiteMapChart } from '@/ui/monitoring/mcboSiteChart/useOccSiteMapChart'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
-import { Skeleton } from '@/shared/ui/Skeleton'
+import { Skeleton } from '@/shared/ui/Loading/Skeleton'
 import { StatusLegend } from '@/ui/monitoring/mcboSiteChart/StatusLegend'
 import Typography from '@/shared/ui/Typography'
 

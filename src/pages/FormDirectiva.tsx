@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateDirectiva } from '@/entities/employee/directiva/infra/hook/useCreateDirectiva'
-import { DirectivaInputs } from '@/ui/Form/Directiva/DirectivaInputs'
-import { DirectivaSearch } from '@/ui/Form/Directiva/DirectivaSearch'
+import { DirectivaInputs } from '@/entities/employee/directiva/infra/ui/DirectivaInputs'
+import { DirectivaSearch } from '@/features/directiva-search/ui/DirectivaSearch'
 
 export default function FormDirectiva() {
 	const { formData, mode, key, errors, required, handleChange, handleSubmit, resetForm } =

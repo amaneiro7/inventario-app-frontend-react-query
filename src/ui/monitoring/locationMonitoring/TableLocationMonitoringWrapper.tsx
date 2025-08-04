@@ -11,7 +11,7 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from '../../List/Tab/TabsNav'
 import { TypeOfSiteTabNav } from '../../List/Tab/TypeOfSiteTabNav'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { PaginationBar } from '../../List/Pagination/PaginationBar'
+import { PaginationBar } from '../../../shared/ui/Pagination/PaginationBar'
 
 import { LocationMonitoringGetByCriteria } from '@/entities/locations/locationMonitoring/application/LocationMonitoringGetByCriteria'
 import { type LocationMonitoring } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'

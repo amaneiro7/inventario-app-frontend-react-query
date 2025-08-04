@@ -8,7 +8,7 @@ import { LocationGetByCriteria } from '@/entities/locations/locations/applicatio
 import { InfoBox } from '@/shared/ui/InfoBox/InfoBox'
 import { InfoBoxTitle } from '@/shared/ui/InfoBox/InfoBoxTitle'
 import { InfoBoxText } from '@/shared/ui/InfoBox/InfoBoxText'
-import { PaginationBar } from '../Pagination/PaginationBar'
+import { PaginationBar } from '../../../shared/ui/Pagination/PaginationBar'
 import { TabsNav } from '../Tab/TabsNav'
 import { LocationInfoBoxSkeleton } from './SkeletonInfoBox'
 
