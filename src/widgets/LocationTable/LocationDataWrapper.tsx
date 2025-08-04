@@ -2,18 +2,19 @@ import { memo } from 'react'
 import { MapPin } from 'lucide-react'
 import { useGetAllLocations } from '@/entities/locations/locations/infra/hook/useGetAllLocation'
 import { cn } from '@/shared/lib/utils'
-import { LOCATION_STATUS_CONFIG } from './locationStatusConfig'
+
 import { LocationGetByCriteria } from '@/entities/locations/locations/application/LocationGetByCriteria'
 
 import { InfoBox } from '@/shared/ui/InfoBox/InfoBox'
 import { InfoBoxTitle } from '@/shared/ui/InfoBox/InfoBoxTitle'
 import { InfoBoxText } from '@/shared/ui/InfoBox/InfoBoxText'
-import { PaginationBar } from '../../../shared/ui/Pagination/PaginationBar'
-import { TabsNav } from '../Tab/TabsNav'
-import { LocationInfoBoxSkeleton } from './SkeletonInfoBox'
 
 import { type LocationStatusByName } from '@/entities/locations/locationStatus/domain/entity/LocationStatusOptionsByName'
 import { type LocationFilters } from '@/entities/locations/locations/application/CreateLocationQueryParams'
+import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
+import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
+import { LocationInfoBoxSkeleton } from '@/shared/ui/SkeletonInfoBox'
+import { LOCATION_STATUS_CONFIG } from './locationStatusConfig'
 
 interface LocationDataWrapperProps {
 	query: LocationFilters

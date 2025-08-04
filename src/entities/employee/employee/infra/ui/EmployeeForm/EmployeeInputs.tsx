@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { memo } from 'react'
+import { MainEmployeeInfo } from './Components/MainEmployeeInfo'
+import { AdditionalEmployeeInfo } from './Components/AdditionalEmployeeInfo'
 import {
 	type Action,
 	type EmployeeErrors,
@@ -8,9 +9,6 @@ import {
 	type EmployeeDisabled
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-
-import { MainEmployeeInfo } from './MainEmployeeInfo'
-import { AdditionalEmployeeInfo } from './AdditionalEmployeeInfo'
 
 interface Props {
 	formData: DefaultEmployee

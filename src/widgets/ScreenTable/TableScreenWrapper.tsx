@@ -1,10 +1,9 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllScreenDevices } from '@/entities/devices/devices/infra/hook/useGetAllScreenDevices'
-import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
-import { TableDefaultDevice } from '../../../entities/devices/devices/infra/ui/TableDefaultDevice'
+import { TableDefaultDevice } from '@/entities/devices/devices/infra/ui/DeviceTable/TableDefaultDevice'
+import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
 import { DeviceScreenFilter } from '@/entities/devices/devices/application/screenFilter/DeviceScreenFilter'
 import { type DeviceScreenFilters } from '@/entities/devices/devices/application/screenFilter/CreateDeviceScreenParams'
-
 interface TableScreenWrapperProps {
 	query: DeviceScreenFilters
 	handlePageSize: (pageSize: number) => void
@@ -14,7 +13,7 @@ interface TableScreenWrapperProps {
 }
 
 const TableScreen = lazy(() =>
-	import('../../../entities/devices/devices/infra/ui/TableScreen').then(m => ({
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableScreen').then(m => ({
 		default: m.TableScreen
 	}))
 )

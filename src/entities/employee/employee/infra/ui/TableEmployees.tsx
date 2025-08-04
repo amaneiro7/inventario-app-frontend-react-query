@@ -5,9 +5,9 @@ import { TableCell } from '@/shared/ui/Table/TableCell'
 import { TableCellError } from '@/shared/ui/Table/TableCellError'
 import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
 import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
-import { EmployeeDescription } from '../../../entities/employee/employee/infra/ui/EmployeesDescription'
-import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
+import { EmployeeDescription } from '@/entities/employee/employee/infra/ui/EmployeesDescription'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 interface TableEmployeesProps {
 	employees?: EmployeeDto[]

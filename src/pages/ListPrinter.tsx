@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { usePrinterFilter } from '@/entities/devices/devices/infra/hook/usePrinterFilters'
 import { Loading } from '@/shared/ui/Loading'
-import { TablePrinterWrapper } from '@/ui/List/printer/TablePrinterWrapper'
+
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
+import { TablePrinterWrapper } from '@/widgets/PrinterTable/TablePrinterWrapper'
 
 const MainComputerFilter = lazy(() =>
 	import('@/features/computer-filter/ui/MainComputerFilter').then(m => ({

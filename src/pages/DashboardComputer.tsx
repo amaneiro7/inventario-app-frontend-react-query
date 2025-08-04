@@ -6,42 +6,46 @@ import { InventorySummary } from '@/widgets/InventorySummary'
 import { Loading } from '@/shared/ui/Loading'
 
 const InventoryOverview = lazy(() =>
-	import('@/ui/dashboard/Overview').then(m => ({ default: m.InventoryOverview }))
+	import('@/widgets/dashboard/InventoryOverview/ui/InventoryOverview').then(m => ({
+		default: m.InventoryOverview
+	}))
 )
 
 const BrandDistribution = lazy(() =>
-	import('@/ui/dashboard/Brands/BrandDistribution').then(m => ({ default: m.BrandDistribution }))
+	import('@/widgets/dashboard/BrandDistribution/ui/BrandDistribution').then(m => ({
+		default: m.BrandDistribution
+	}))
 )
 const ModelBreakdown = lazy(() =>
-	import('@/ui/dashboard/ModelBreakdown/ModelBreakdown').then(m => ({
+	import('@/widgets/dashboard/ModelBreakdown/ui/ModelBreakdown').then(m => ({
 		default: m.ModelBreakdown
 	}))
 )
 const GeographicalDistribution = lazy(() =>
-	import('@/ui/dashboard/GeographicalDistribution/GeographicalDistribution').then(m => ({
+	import('@/widgets/dashboard/GeographicalDistribution/ui/GeographicalDistribution').then(m => ({
 		default: m.GeographicalDistribution
 	}))
 )
 const HardDriveAnalysis = lazy(() =>
-	import('@/ui/dashboard/HardDrive/HardDriveAnalysis').then(m => ({
+	import('@/widgets/dashboard/HardDriveAnalysis/ui/HardDriveAnalysis').then(m => ({
 		default: m.HardDriveAnalysis
 	}))
 )
 const InventoryBrandTable = lazy(() =>
-	import('@/ui/dashboard/InventoryBrandTable/InventoryBrandTable').then(m => ({
+	import('@/widgets/dashboard/InventoryBrandTable/ui/InventoryBrandTable').then(m => ({
 		default: m.InventoryBrandTable
 	}))
 )
 const OSAnalysis = lazy(() =>
-	import('@/ui/dashboard/OSAnalysis/OSAnalysis').then(m => ({ default: m.OSAnalysis }))
+	import('@/widgets/dashboard/OSAnalysis/ui/OSAnalysis').then(m => ({ default: m.OSAnalysis }))
 )
 const OSDIstributionByRegion = lazy(() =>
-	import('@/ui/dashboard/OSDistributionByRegion/OSDistributionByRegion').then(m => ({
+	import('@/widgets/dashboard/OSDistributionByRegion/ui/OSDistributionByRegion').then(m => ({
 		default: m.OSDIstributionByRegion
 	}))
 )
 const MemoryRamAnalysis = lazy(() =>
-	import('@/ui/dashboard/MemoryRamAnalysis/MemoryRamAnalysis').then(m => ({
+	import('@/widgets/dashboard/MemoryRamAnalysis/ui/MemoryRamAnalysis').then(m => ({
 		default: m.MemoryRamAnalysis
 	}))
 )

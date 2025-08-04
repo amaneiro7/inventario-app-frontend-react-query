@@ -1,9 +1,10 @@
 import { lazy } from 'react'
 import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/useGetAllPartsDevices'
-import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
-import { TableDefaultDevice } from '../../../entities/devices/devices/infra/ui/TableDefaultDevice'
+import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
+
 import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
 import { type DevicePartsFilters } from '@/entities/devices/devices/application/parts/CreateDevicePartsParams'
+import { TableDefaultDevice } from '@/entities/devices/devices/infra/ui/DeviceTable/TableDefaultDevice'
 
 interface TablePartsWrapperProps {
 	query: DevicePartsFilters
@@ -14,7 +15,7 @@ interface TablePartsWrapperProps {
 }
 
 const TableParts = lazy(() =>
-	import('../../../entities/devices/devices/infra/ui/TableParts').then(m => ({
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableParts').then(m => ({
 		default: m.TableParts
 	}))
 )

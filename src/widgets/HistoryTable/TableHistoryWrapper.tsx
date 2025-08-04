@@ -6,12 +6,14 @@ import { TableHead } from '@/shared/ui/Table/TableHead'
 import { TableHeader } from '@/shared/ui/Table/TableHeader'
 import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { TableRow } from '@/shared/ui/Table/TableRow'
-import { TabsNav } from '../Tab/TabsNav'
+
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { PaginationBar } from '../../../shared/ui/Pagination/PaginationBar'
+
 import { HistoryGetByCriteria } from '@/entities/history/application/HistoryGetByCriteria'
 import { useGetAllHistorys } from '@/entities/history/infra/hook/useGetAllHistory'
 import { type HistoryFilters } from '@/entities/history/application/createHistoryQueryParams'
+import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
+import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 
 interface TableHistoryWrapperProps {
 	query: HistoryFilters

@@ -6,8 +6,9 @@ import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { TableFinantialWrapper } from '@/ui/List/finantialPrinter/TableFinantialWrapper'
+
 import { Loading } from '@/shared/ui/Loading'
+import { TableFinantialWrapper } from '@/widgets/FinantialPrinterTable/TableFinantialWrapper'
 
 const DefaultDeviceFilter = lazy(() =>
 	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({

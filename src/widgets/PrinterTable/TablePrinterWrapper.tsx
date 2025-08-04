@@ -1,9 +1,9 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllPrinterDevices'
-import { TableDefaultDevice } from '../../../entities/devices/devices/infra/ui/TableDefaultDevice'
+import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
+import { TableDefaultDevice } from '@/entities/devices/devices/infra/ui/DeviceTable/TableDefaultDevice'
 import { DevicePrinterFilter } from '@/entities/devices/devices/application/printer/DevicePrinterFilter'
 import { type DevicePrinterFilters } from '@/entities/devices/devices/application/printer/CreateDevicePrinterParams'
-import { useDefaulDeviceHeader } from '../useDefaulDeviceHeader'
 
 interface TablePrinterWrapperProps {
 	query: DevicePrinterFilters
@@ -14,7 +14,7 @@ interface TablePrinterWrapperProps {
 }
 
 const TablePrinter = lazy(() =>
-	import('../../../entities/devices/devices/infra/ui/TablePrinter').then(m => ({
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TablePrinter').then(m => ({
 		default: m.TablePrinter
 	}))
 )

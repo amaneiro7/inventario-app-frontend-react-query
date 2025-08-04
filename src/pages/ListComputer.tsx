@@ -7,8 +7,8 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
-import { TableWrapper } from '@/ui/List/computer/TableWrapper'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
+import { TableWrapper } from '@/widgets/ComputerTable/TableWrapper'
 
 const DefaultDeviceFilter = lazy(() =>
 	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({
