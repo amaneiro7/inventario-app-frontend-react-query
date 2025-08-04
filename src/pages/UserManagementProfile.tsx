@@ -1,14 +1,24 @@
-import { Suspense, useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
+import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 import { DescriptionDesc } from '@/shared/ui/DetailsWrapper/DescriptionDesc'
 import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
-import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
-import { EditHandle } from '@/ui/UserManagement/EditHandle'
-import { ResetHandle } from '@/ui/UserManagement/ResetHandle'
-import { DeleteHandle } from '@/ui/UserManagement/DeleteHandle'
-import { ManagementProfileLoading } from '@/ui/UserManagement/ProfileLoading'
+import { Skeleton } from '@/shared/ui/Loading/Skeleton'
+
+const ManagementProfileLoading = lazy(() =>
+	import('@/shared/ui/ProfileLoading').then(m => ({ default: m.ManagementProfileLoading }))
+)
+const EditHandle = lazy(() =>
+	import('@/features/user-edit/ui/EditHandle').then(m => ({ default: m.EditHandle }))
+)
+const ResetHandle = lazy(() =>
+	import('@/features/user-reset-password/ui/ResetHandle').then(m => ({ default: m.ResetHandle }))
+)
+const DeleteHandle = lazy(() =>
+	import('@/features/user-delete/ui/DeleteHandle').then(m => ({ default: m.DeleteHandle }))
+)
 
 type Actions = 'editar' | 'reset' | 'delete'
 
@@ -39,7 +49,11 @@ export default function ManagementProfile() {
 					: 'Seleccione'
 	}`
 	if (loading) {
-		return <ManagementProfileLoading />
+		return (
+			<DetailsBoxWrapper position="center">
+				<ManagementProfileLoading />
+			</DetailsBoxWrapper>
+		)
 	}
 
 	if (!formData?.id) {
@@ -79,38 +93,38 @@ export default function ManagementProfile() {
 	}
 
 	return (
-		<Suspense>
-			<DetailsBoxWrapper position="center">
-				<DetailsInfo title="Información del usuario">
-					<DescriptionListElement title="Nombre">
-						<DescriptionDesc desc={formData.name} />
-					</DescriptionListElement>
-					<DescriptionListElement title="Apellido">
-						<DescriptionDesc desc={formData.lastName} />
-					</DescriptionListElement>
-					<DescriptionListElement title="Correo">
-						<DescriptionDesc desc={formData.email} />
-					</DescriptionListElement>
-					<DescriptionListElement title="Role">
-						<DescriptionDesc desc={formData?.role?.name ?? ''} />
-					</DescriptionListElement>
-					<DescriptionListElement title="Acciones">
-						<Select value={action} onValueChange={value => setAction(value as Actions)}>
-							<SelectTrigger className="w-[180px]">
-								<SelectValue placeholder="Acciones" />
-							</SelectTrigger>
-							<SelectContent>
-								<SelectItem value="editar">Editar</SelectItem>
-								<SelectItem value="reset">Restablecer contraseña</SelectItem>
-								<SelectItem value="delete">Eliminar Usuario</SelectItem>
-							</SelectContent>
-						</Select>
-					</DescriptionListElement>
-					<DescriptionListElement title={title}>
+		<DetailsBoxWrapper position="center">
+			<DetailsInfo title="Información del usuario">
+				<DescriptionListElement title="Nombre">
+					<DescriptionDesc desc={formData.name} />
+				</DescriptionListElement>
+				<DescriptionListElement title="Apellido">
+					<DescriptionDesc desc={formData.lastName} />
+				</DescriptionListElement>
+				<DescriptionListElement title="Correo">
+					<DescriptionDesc desc={formData.email} />
+				</DescriptionListElement>
+				<DescriptionListElement title="Role">
+					<DescriptionDesc desc={formData?.role?.name ?? ''} />
+				</DescriptionListElement>
+				<DescriptionListElement title="Acciones">
+					<Select value={action} onValueChange={value => setAction(value as Actions)}>
+						<SelectTrigger className="w-[180px]">
+							<SelectValue placeholder="Acciones" />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectItem value="editar">Editar</SelectItem>
+							<SelectItem value="reset">Restablecer contraseña</SelectItem>
+							<SelectItem value="delete">Eliminar Usuario</SelectItem>
+						</SelectContent>
+					</Select>
+				</DescriptionListElement>
+				<DescriptionListElement title={title}>
+					<Suspense fallback={<Skeleton width={180} height={32} />}>
 						<ActionHandle action={action} id={formData.id} />
-					</DescriptionListElement>
-				</DetailsInfo>
-			</DetailsBoxWrapper>
-		</Suspense>
+					</Suspense>
+				</DescriptionListElement>
+			</DetailsInfo>
+		</DetailsBoxWrapper>
 	)
 }

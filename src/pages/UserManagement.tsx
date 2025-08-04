@@ -15,7 +15,9 @@ import { RegisterEditStepsToFollow } from '@/widgets/StepsToFollow/RegisterEditS
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const UserServiceSearch = lazy(() =>
-	import('@/ui/UserManagement/UserServiceSearch').then(m => ({ default: m.UserServiceSearch }))
+	import('@/features/user-serach/ui/UserServiceSearch').then(m => ({
+		default: m.UserServiceSearch
+	}))
 )
 export default function UserManagement() {
 	const location = useLocation()

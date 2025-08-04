@@ -7,8 +7,9 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { TableHistoryWrapper } from '@/ui/List/history/TableHistoryWrapper'
+
 import { Loading } from '@/shared/ui/Loading'
+import { TableHistoryWrapper } from '@/widgets/HistoryTable/TableHistoryWrapper'
 
 const MainHistoryFilter = lazy(() =>
 	import('@/features/history-filter/ui/MainHistoryFilter').then(m => ({

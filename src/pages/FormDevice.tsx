@@ -3,10 +3,14 @@ import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreate
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 
 const DeviceInputs = lazy(() =>
-	import('@/ui/Form/Device/DeviceInputs').then(m => ({ default: m.DeviceInputs }))
+	import('@/entities/devices/devices/infra/ui/DeviceForm/DeviceInputs').then(m => ({
+		default: m.DeviceInputs
+	}))
 )
 const SerialSearch = lazy(() =>
-	import('@/ui/Form/Device/SerialSearch').then(m => ({ default: m.SerialSearch }))
+	import('@/features/device-by-serial-search/ui/SerialSearch').then(m => ({
+		default: m.SerialSearch
+	}))
 )
 
 export default function FormDevice() {

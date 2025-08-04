@@ -18,10 +18,12 @@ const LinkAsButton = lazy(() =>
 )
 
 const EmptyState = lazy(() =>
-	import('@/ui/Profile/EmptyState').then(m => ({ default: m.EmptyState }))
+	import('@/shared/ui/EmptyState').then(m => ({ default: m.EmptyState }))
 )
 const ChangePassowrdForm = lazy(() =>
-	import('@/ui/Profile/ChangePasswordForm').then(m => ({ default: m.ChangePassowrdForm }))
+	import('@/features/change-password/ui/ChangePasswordForm').then(m => ({
+		default: m.ChangePassowrdForm
+	}))
 )
 export default function ProfilePage() {
 	const {

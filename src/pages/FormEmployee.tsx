@@ -1,14 +1,20 @@
 import { lazy, memo, Suspense, useMemo } from 'react'
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
-import { EmployeeSearch } from '@/features/employee-search/ui/EmployeeSearch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 
-const AsignDevices = lazy(() =>
-	import('@/ui/Form/Employee/AsignDevices').then(m => ({ default: m.AsignDevices }))
+const EmployeeSearch = lazy(() =>
+	import('@/features/employee-search/ui/EmployeeSearch').then(m => ({
+		default: m.EmployeeSearch
+	}))
 )
 const EmployeeInputs = lazy(() =>
-	import('@/ui/Form/Employee/EmployeeInputs').then(m => ({ default: m.EmployeeInputs }))
+	import('@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeInputs').then(m => ({
+		default: m.EmployeeInputs
+	}))
+)
+const AsignDevices = lazy(() =>
+	import('@/widgets/AsignDevices/AsignDevices').then(m => ({ default: m.AsignDevices }))
 )
 
 const FormEmployee = memo(() => {

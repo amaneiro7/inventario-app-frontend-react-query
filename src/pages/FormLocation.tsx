@@ -1,7 +1,7 @@
 import { FormContainer } from '@/widgets/FormContainer/formContainer'
 import { useCreateLocation } from '@/entities/locations/locations/infra/hook/useCreateLocation'
-import { LocationInputs } from '@/ui/Form/Location/LocationInputs'
-import { LocationSearch } from '@/ui/Form/Location/LocationSearch'
+import { LocationInputs } from '@/entities/locations/locations/infra/ui/LocationInputs'
+import { LocationSearch } from '@/features/location-search/ui/LocationSearch'
 
 export default function FormLocation() {
 	const {

@@ -5,11 +5,14 @@ import { useLocationFilter } from '@/entities/locations/locations/infra/hook/use
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { LocationDataWrapper } from '@/ui/List/location/LocationDataWrapper'
+
 import { Loading } from '@/shared/ui/Loading'
+import { LocationDataWrapper } from '@/widgets/LocationTable/LocationDataWrapper'
 
 const LocationMainFilter = lazy(() =>
-	import('@/ui/List/location/LocationMainFilter').then(m => ({ default: m.LocationMainFilter }))
+	import('@/features/location-filter/ui/LocationMainFilter').then(m => ({
+		default: m.LocationMainFilter
+	}))
 )
 
 export default function ListSite() {

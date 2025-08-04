@@ -3,13 +3,15 @@ import { useNavigate } from 'react-router-dom'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { useEmployeeFilter } from '@/entities/employee/employee/infra/hook/useEmployeeFilters'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { TableEmployeeWrapper } from '@/ui/List/employee/TableEmployeeWrapper'
+import { TableEmployeeWrapper } from '@/widgets/EmployeeTable/TableEmployeeWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { Loading } from '@/shared/ui/Loading'
 
 const EmployeeOtherFilter = lazy(() =>
-	import('@/ui/List/employee/OtherFilter').then(m => ({ default: m.EmployeeOtherFilter }))
+	import('@/features/employee-filter/ui/EmployeeOtherFilter').then(m => ({
+		default: m.EmployeeOtherFilter
+	}))
 )
 const EmployeeMainFilter = lazy(() =>
 	import('@/features/employee-filter/ui/EmployeeMainFilter').then(m => ({

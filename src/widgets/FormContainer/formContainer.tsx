@@ -8,6 +8,7 @@ import { Tag } from '@/shared/ui/Tag'
 import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { SearchSection } from './SearchSection'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 interface Props {
 	id: string
@@ -59,7 +60,7 @@ export const FormContainer = memo(
 							></Tag>
 						) : null}
 					</Typography>
-					<Suspense>
+					<Suspense fallback={<InputFallback />}>
 						<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 					</Suspense>
 				</DetailsBoxWrapper>

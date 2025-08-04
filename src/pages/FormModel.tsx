@@ -1,7 +1,11 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { lazy } from 'react'
 import { useCreateModel } from '@/entities/model/models/infra/hook/useCreateModels'
-import { ModelInputs } from '@/ui/Form/Model/ModelInputs'
-import { ModelSearch } from '@/ui/Form/Model/ModelSearch'
+import { ModelInputs } from '@/entities/model/models/infra/ui/ModelForm/ModelInputs'
+import { FormContainer } from '@/widgets/FormContainer/formContainer'
+
+const ModelSearch = lazy(() =>
+	import('@/features/model-search/ui/ModelSearch').then(m => ({ default: m.ModelSearch }))
+)
 
 export default function FormModel() {
 	const {
