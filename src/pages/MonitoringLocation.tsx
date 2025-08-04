@@ -4,11 +4,11 @@ import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 import { useLocationMonitoringFilter } from '@/entities/locations/locationMonitoring/infra/hook/useLocationMonitoringFilters'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
-import { LocationMonitoringSummary } from '@/ui/monitoring/locationMonitoring/LocationMonitoringSummary'
-import { LocationMonitoringTabsContent } from '@/ui/monitoring/locationMonitoring/LocationMonitoringTabsContent'
+import { LocationMonitoringSummary } from '@/widgets/monitoring/MonitoringSummary/ui/LocationMonitoringSummary'
+import { LocationMonitoringTabsContent } from '@/widgets/monitoring/LocationMonitoring/ui/LocationMonitoringTabsContent'
 
 const MainLocationMonitoringFilter = lazy(() =>
-	import('@/ui/monitoring/locationMonitoring/MainLocationMonitoringFilter').then(m => ({
+	import('@/widgets/monitoring/LocationMonitoring/ui/MainLocationMonitoringFilter').then(m => ({
 		default: m.MainLocationMonitoringFilter
 	}))
 )

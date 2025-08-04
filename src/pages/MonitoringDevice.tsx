@@ -5,11 +5,11 @@ import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 import { useDeviceMonitoringFilter } from '@/entities/devices/deviceMonitoring/infra/hook/useDeviceMonitoringFilters'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
-import { DeviceMonitoringSummary } from '@/ui/monitoring/deviceMonitoring/DeviceMonitoringSummary'
-import { DeviceMonitoringTabsContent } from '@/ui/monitoring/deviceMonitoring/DeviceMonitoringTabsContent'
+import { DeviceMonitoringSummary } from '@/widgets/monitoring/MonitoringSummary/ui/DeviceMonitoringSummary'
+import { DeviceMonitoringTabsContent } from '@/widgets/monitoring/DeviceMonitoring/ui/DeviceMonitoringTabsContent'
 
 const MainDeviceMonitoringFilter = lazy(() =>
-	import('@/ui/monitoring/deviceMonitoring/MainDeviceMonitoringFilter').then(m => ({
+	import('@/widgets/monitoring/DeviceMonitoring/ui/MainDeviceMonitoringFilter').then(m => ({
 		default: m.MainDeviceMonitoringFilter
 	}))
 )

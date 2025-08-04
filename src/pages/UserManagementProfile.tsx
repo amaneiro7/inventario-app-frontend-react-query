@@ -5,7 +5,7 @@ import { DescriptionDesc } from '@/shared/ui/DetailsWrapper/DescriptionDesc'
 import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
-import { Skeleton } from '@/shared/ui/Loading/Skeleton'
+import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
 
 const ManagementProfileLoading = lazy(() =>
 	import('@/shared/ui/ProfileLoading').then(m => ({ default: m.ManagementProfileLoading }))

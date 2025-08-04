@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
 import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
-import { Skeleton } from '@/shared/ui/Loading/Skeleton'
+import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
 
 export const ManagementProfileLoading = memo(() => {
 	return (

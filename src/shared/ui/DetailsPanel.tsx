@@ -1,6 +1,6 @@
 import { memo, useMemo } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { StatusProgress } from '@/widgets/InventoryStatus/StatusProgress'
+import { StatusProgress } from '@/shared/ui/StatusProgress'
 import { DetailsPanelCard } from './DetailsPanelCard'
 
 interface DetailsPanelProps {

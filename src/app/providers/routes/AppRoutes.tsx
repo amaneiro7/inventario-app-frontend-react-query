@@ -44,7 +44,7 @@ const ListWrapper = lazy(() => import('@/app/layouts/ListWrapper'))
 const FormWrapper = lazy(() => import('@/app/layouts/FormWrapper'))
 const MonitoringWrapper = lazy(() => import('@/app/layouts/MonitoringWrapper'))
 const MonitoringAgencyMapChart = lazy(() => import('@/pages/MonitoringAgencyMapChart'))
-const MonitoringOccSiteMapChart = lazy(() => import('@/pages/MonitoringOccSiteMapChart'))
+const MonitoringSiteMapChart = lazy(() => import('@/pages/MonitoringSiteMapChart'))
 
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const List = lazy(() => import('@/pages/List'))
@@ -152,10 +152,7 @@ export function AppRoutes() {
 						<Route path="device" element={<MonitoringDevice />} />
 						<Route path="location" element={<MonitoringLocation />} />
 						<Route path="agencymap" element={<MonitoringAgencyMapChart />} />
-						<Route
-							path="administrativesitemap"
-							element={<MonitoringOccSiteMapChart />}
-						/>
+						<Route path="administrativesitemap" element={<MonitoringSiteMapChart />} />
 					</Route>
 					<Route
 						path="/dashboard"

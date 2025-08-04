@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { Filter } from 'lucide-react'
-import { useOperatingSystemByRegion } from '../hooks/useOperatingSystemByRegion'
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'
 import Button from '@/shared/ui/Button'
 import { MainOsFilter } from './MainOsFilter'
 import { SecondaryFIlter } from './SecondaryFIlter'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { useOperatingSystemByRegion } from '../model/useOperatingSystemByRegion'
 
 /**
  * Props for the OSDIstributionByRegion component.
