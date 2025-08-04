@@ -6,12 +6,7 @@ import { type HardDriveTypeFilters } from '../../application/createHardDriveType
 const repository = new HardDriveTypeGetAllService()
 const getAll = new HardDriveTypeGetByCriteria(repository)
 export const useGetAllHardDriveType = (query: HardDriveTypeFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: hardDriveTypes
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['hardDriveTypes', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllHardDriveType = (query: HardDriveTypeFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		hardDriveTypes
+		data
 	}
 }

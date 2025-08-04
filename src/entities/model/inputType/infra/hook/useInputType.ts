@@ -6,12 +6,7 @@ import { type InputTypeFilters } from '../../application/createInputTypeQueryPar
 const repository = new InputTypeGetAllService()
 const getAll = new InputTypeGetByCriteria(repository)
 export const useGetAllInputType = (query: InputTypeFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: inputTypes
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['inputTypes', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllInputType = (query: InputTypeFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		inputTypes
+		data
 	}
 }

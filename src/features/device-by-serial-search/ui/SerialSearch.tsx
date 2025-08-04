@@ -17,7 +17,7 @@ export function SerialSearch() {
 		}
 	}, [debouncedSearch])
 
-	const { devices, isLoading } = useGetAllDevicesInputSearch(query)
+	const { data: devices, isLoading } = useGetAllDevicesInputSearch(query)
 
 	const options = useMemo(() => devices?.data ?? [], [devices])
 

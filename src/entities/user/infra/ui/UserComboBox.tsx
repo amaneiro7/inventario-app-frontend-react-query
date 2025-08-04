@@ -14,9 +14,9 @@ export const UserCombobox = memo(function ({
 }) {
 	const [inputValue, setInputValue] = useState('')
 
-	const { users, isLoading } = useGetAllUser({})
+	const { data, isLoading } = useGetAllUser({})
 
-	const options = useMemo(() => users?.data ?? [], [users])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const filteredOptions = useFilterOptions({ options, inputValue, filterProperty: 'email' })
 

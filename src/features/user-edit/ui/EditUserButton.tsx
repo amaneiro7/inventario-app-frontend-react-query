@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { LinkAsButton } from '@/shared/ui/Button/LinkAsButton'
 import { EditIcon } from '@/shared/ui/icon/EditIcon'
 
-export function EditHandle({ id }: { id: string }) {
+export const EditUserButton = memo(({ id }: { id: string }) => {
 	return (
 		<LinkAsButton
 			color="blue"
@@ -11,4 +12,5 @@ export function EditHandle({ id }: { id: string }) {
 			icon={<EditIcon width={16} className="aspect-square" />}
 		/>
 	)
-}
+})
+EditUserButton.displayName = 'EditUserButton'

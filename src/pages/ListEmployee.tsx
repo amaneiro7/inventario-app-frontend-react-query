@@ -13,9 +13,9 @@ const EmployeeOtherFilter = lazy(() =>
 		default: m.EmployeeOtherFilter
 	}))
 )
-const EmployeeMainFilter = lazy(() =>
-	import('@/features/employee-filter/ui/EmployeeMainFilter').then(m => ({
-		default: m.EmployeeMainFilter
+const EmployeePrimaryFilter = lazy(() =>
+	import('@/features/employee-filter/ui/EmployeePrimaryFilter').then(m => ({
+		default: m.EmployeePrimaryFilter
 	}))
 )
 
@@ -29,7 +29,7 @@ export default function ListEmployee() {
 		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<EmployeeMainFilter
+					<EmployeePrimaryFilter
 						cargoId={query.cargoId}
 						isStillWorking={query.isStillWorking}
 						locationId={query.locationId}

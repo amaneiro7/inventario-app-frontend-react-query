@@ -62,7 +62,7 @@ export const ModelCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, name, mainCategoryId, categoryId, brandId])
 
-	const { models, isLoading } = useGetAllModel({ query })
+	const { data: models, isLoading } = useGetAllModel({ query })
 	const options = useMemo(() => models?.data ?? [], [models])
 
 	const getModelsData = useCallback(

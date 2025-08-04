@@ -9,7 +9,7 @@ import Typography from '@/shared/ui/Typography'
 import Button from '@/shared/ui/Button'
 import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
 import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
-import { useChangePassword } from '@/entities/user/infra/hooks/useChangePassword'
+import { useChangePassword } from '@/features/change-password/model/useChangePassword'
 
 const Modal = lazy(async () => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
 const ConfirmationModal = lazy(async () =>

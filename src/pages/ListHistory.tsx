@@ -11,9 +11,9 @@ import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { Loading } from '@/shared/ui/Loading'
 import { TableHistoryWrapper } from '@/widgets/HistoryTable/TableHistoryWrapper'
 
-const MainHistoryFilter = lazy(() =>
-	import('@/features/history-filter/ui/MainHistoryFilter').then(m => ({
-		default: m.MainHistoryFilter
+const HistoryPrimaryFilter = lazy(() =>
+	import('@/features/history-filter/ui/HistoryPrimaryFilter').then(m => ({
+		default: m.HistoryPrimaryFilter
 	}))
 )
 
@@ -32,7 +32,7 @@ export default function ListHstory() {
 		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<MainHistoryFilter
+					<HistoryPrimaryFilter
 						employeeId={query.employeeId}
 						deviceId={query.deviceId}
 						userId={query.userId}

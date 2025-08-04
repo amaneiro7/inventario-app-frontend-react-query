@@ -19,7 +19,7 @@ export const MainCategoryCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { mainCategories, isLoading } = useGetAllMainCategory({})
+	const { data: mainCategories, isLoading } = useGetAllMainCategory({})
 
 	const options = useMemo(() => mainCategories?.data ?? [], [mainCategories])
 

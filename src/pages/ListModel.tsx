@@ -7,8 +7,10 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { Loading } from '@/shared/ui/Loading'
-const MainModelFilter = lazy(() =>
-	import('@/features/model-filter/ui/MainModelFilter').then(m => ({ default: m.MainModelFilter }))
+const ModelPrimaryFilter = lazy(() =>
+	import('@/features/model-filter/ui/ModelPrimaryFilter').then(m => ({
+		default: m.ModelPrimaryFilter
+	}))
 )
 
 export default function ListModel() {
@@ -26,7 +28,7 @@ export default function ListModel() {
 		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<MainModelFilter
+					<ModelPrimaryFilter
 						handleChange={handleChange}
 						categoryId={query.categoryId}
 						mainCategoryId={query.mainCategoryId}

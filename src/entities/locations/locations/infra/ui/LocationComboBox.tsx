@@ -108,8 +108,8 @@ export const LocationCombobox = memo(function ({
 		administrativeRegionId
 	])
 
-	const { locations, isLoading } = useGetAllLocations(query)
-	const options = useMemo(() => locations?.data ?? [], [locations])
+	const { data, isLoading } = useGetAllLocations(query)
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const handleChangeValue = useCallback(
 		(name: string, value: string | number) => {

@@ -6,12 +6,7 @@ import { type EmployeeFilters } from '../../application/createEmployeeQueryParam
 const repository = new EmployeeGetAllService()
 const getAll = new EmployeeGetByCriteria(repository)
 export const useGetAllEmployees = (query: EmployeeFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: employees
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['employees', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 5 * 1000
@@ -21,6 +16,6 @@ export const useGetAllEmployees = (query: EmployeeFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		employees
+		data
 	}
 }

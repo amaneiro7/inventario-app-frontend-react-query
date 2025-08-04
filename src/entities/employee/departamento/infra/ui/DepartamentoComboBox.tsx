@@ -41,8 +41,8 @@ export const DepartamentoCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, name, vicepresidenciaId, directivaId, vicepresidenciaEjecutivaId])
 
-	const { departamentos, isLoading } = useGetAllDepartamento(query)
-	const options = useMemo(() => departamentos?.data ?? [], [departamentos])
+	const { data, isLoading } = useGetAllDepartamento(query)
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

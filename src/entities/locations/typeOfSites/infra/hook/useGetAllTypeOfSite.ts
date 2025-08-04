@@ -6,12 +6,7 @@ import { type TypeOfSiteFilters } from '../../application/createTypeOfSiteQueryP
 const repository = new TypeOfSiteGetAllService()
 const getAll = new TypeOfSiteGetByCriteria(repository)
 export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: typeOfSites
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['typeOfSites', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllTypeOfSite = (query: TypeOfSiteFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		typeOfSites
+		data
 	}
 }

@@ -28,7 +28,7 @@ export function ProcessorTransferList({
 	onRemoveProcessor
 }: ProcessorTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { processor: allProcessors, isLoading } = useGetAllProcessor({})
+	const { data: allProcessors, isLoading } = useGetAllProcessor({})
 
 	const availableOptions = useMemo(
 		() => allProcessors?.data?.filter(processor => !processors.includes(processor.id)) ?? [],

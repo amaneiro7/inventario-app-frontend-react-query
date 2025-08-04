@@ -2,19 +2,16 @@ import { memo } from 'react'
 import { MapPin } from 'lucide-react'
 import { useGetAllLocations } from '@/entities/locations/locations/infra/hook/useGetAllLocation'
 import { cn } from '@/shared/lib/utils'
-
 import { LocationGetByCriteria } from '@/entities/locations/locations/application/LocationGetByCriteria'
-
 import { InfoBox } from '@/shared/ui/InfoBox/InfoBox'
 import { InfoBoxTitle } from '@/shared/ui/InfoBox/InfoBoxTitle'
 import { InfoBoxText } from '@/shared/ui/InfoBox/InfoBoxText'
-
-import { type LocationStatusByName } from '@/entities/locations/locationStatus/domain/entity/LocationStatusOptionsByName'
-import { type LocationFilters } from '@/entities/locations/locations/application/CreateLocationQueryParams'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 import { LocationInfoBoxSkeleton } from '@/shared/ui/SkeletonInfoBox'
 import { LOCATION_STATUS_CONFIG } from './locationStatusConfig'
+import { type LocationStatusByName } from '@/entities/locations/locationStatus/domain/entity/LocationStatusOptionsByName'
+import { type LocationFilters } from '@/entities/locations/locations/application/CreateLocationQueryParams'
 
 interface LocationDataWrapperProps {
 	query: LocationFilters
@@ -26,7 +23,7 @@ interface LocationDataWrapperProps {
 
 export const LocationDataWrapper = memo(
 	({ query, handlePageClick, handlePageSize }: LocationDataWrapperProps) => {
-		const { locations, isError, isLoading } = useGetAllLocations(query)
+		const { data: locations, isError, isLoading } = useGetAllLocations(query)
 		const showSkeletons = isLoading && !locations?.data
 		const displayLocations = locations?.data ?? []
 		const skeletonCount = query.pageSize ?? 10 // Show skeletons equal to page size or a default

@@ -19,9 +19,9 @@ export function LocationStatusCombobox({
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { locationStatus, isLoading } = useGetAllLocationStatus({})
+	const { data, isLoading } = useGetAllLocationStatus({})
 
-	const options = useMemo(() => locationStatus?.data ?? [], [locationStatus])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

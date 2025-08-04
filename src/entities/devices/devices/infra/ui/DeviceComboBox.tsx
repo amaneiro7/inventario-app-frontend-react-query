@@ -33,7 +33,7 @@ export function DeviceCombobox({
 		}
 	}, [debouncedSearch, value])
 
-	const { devices, isLoading } = useGetAllDevicesInputSearch(query)
+	const { data: devices, isLoading } = useGetAllDevicesInputSearch(query)
 
 	const options = useMemo(() => devices?.data ?? [], [devices])
 

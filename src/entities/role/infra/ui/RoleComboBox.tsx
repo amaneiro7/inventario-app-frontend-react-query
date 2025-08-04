@@ -19,7 +19,7 @@ export function RoleCombobox({
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { roles, isLoading } = useGetAllRoles({})
+	const { data: roles, isLoading } = useGetAllRoles({})
 
 	const options = useMemo(() => roles?.data ?? [], [roles])
 

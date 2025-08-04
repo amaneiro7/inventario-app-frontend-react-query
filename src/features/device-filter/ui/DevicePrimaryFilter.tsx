@@ -48,7 +48,7 @@ const VicepresidenciaCombobox = lazy(() =>
 	}))
 )
 
-export function DefaultDeviceFilter({
+export function DevicePrimaryFilter({
 	activo,
 	statusId,
 	brandId,

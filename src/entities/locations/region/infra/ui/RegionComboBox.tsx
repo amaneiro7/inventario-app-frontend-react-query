@@ -29,9 +29,9 @@ export const RegionCombobox = memo(function ({
 			administrativeRegionId
 		}
 	}, [value, administrativeRegionId])
-	const { regions, isLoading } = useGetAllRegion(query)
+	const { data, isLoading } = useGetAllRegion(query)
 
-	const options = useMemo(() => regions?.data ?? [], [regions])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const filteredOptions = useFilterOptions({ options, inputValue })
 

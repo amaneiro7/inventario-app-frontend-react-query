@@ -8,12 +8,7 @@ export const useGetAllOperatingSystem = (query: OperatingSystemFilters) => {
 	const repository = useMemo(() => new OperatingSystemGetAllService(), [])
 	const getAll = useMemo(() => new OperatingSystemGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: operatingSystems
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['operatingSystems', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllOperatingSystem = (query: OperatingSystemFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		operatingSystems
+		data
 	}
 }

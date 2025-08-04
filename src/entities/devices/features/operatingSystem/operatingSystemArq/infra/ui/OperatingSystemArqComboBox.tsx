@@ -17,9 +17,9 @@ export const OperatingSystemArqCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { operatingSystemArqs, isLoading } = useGetAllOperatingSystemArq({})
+	const { data, isLoading } = useGetAllOperatingSystemArq({})
 
-	const options = useMemo(() => operatingSystemArqs?.data ?? [], [operatingSystemArqs])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

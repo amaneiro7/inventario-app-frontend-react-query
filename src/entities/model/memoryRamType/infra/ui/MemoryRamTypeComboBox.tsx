@@ -17,7 +17,7 @@ export const MemoryRamTypeCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { memoryRamTypes, isLoading } = useGetAllMemoryRamType({})
+	const { data: memoryRamTypes, isLoading } = useGetAllMemoryRamType({})
 
 	const options = useMemo(() => memoryRamTypes?.data ?? [], [memoryRamTypes])
 

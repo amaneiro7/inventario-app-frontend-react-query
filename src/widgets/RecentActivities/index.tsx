@@ -41,7 +41,7 @@ const getActivityColor = (action: string) => {
 }
 
 export const RecentActivities = memo(() => {
-	const { histories, isLoading } = useGetAllHistorys({ pageSize: 5 })
+	const { data: histories, isLoading } = useGetAllHistorys({ pageSize: 5 })
 	if (!histories || isLoading) {
 		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
 	}

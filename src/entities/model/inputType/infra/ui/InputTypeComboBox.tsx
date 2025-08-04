@@ -18,7 +18,7 @@ export const InputTypeCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { inputTypes, isLoading } = useGetAllInputType({})
+	const { data: inputTypes, isLoading } = useGetAllInputType({})
 
 	const options = useMemo(() => inputTypes?.data ?? [], [inputTypes])
 

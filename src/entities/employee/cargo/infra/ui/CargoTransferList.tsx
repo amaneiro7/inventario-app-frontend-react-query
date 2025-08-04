@@ -28,7 +28,7 @@ export function CargoTransferList({
 	onRemoveCargo
 }: CargoTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { cargos: allCargos, isLoading } = useGetAllCargo({})
+	const { data: allCargos, isLoading } = useGetAllCargo({})
 
 	const availableOptions = useMemo(
 		() => allCargos?.data?.filter(cargo => !cargos.includes(cargo.id)) ?? [],

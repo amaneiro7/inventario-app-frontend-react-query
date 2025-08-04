@@ -7,12 +7,7 @@ const repository = new VicepresidenciaEjecutivaGetAllService()
 const getAll = new VicepresidenciaEjecutivaGetByCriteria(repository)
 
 export const useGetAllVicepresidenciaEjecutivas = (query: VicepresidenciaEjecutivaFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: vicepresidenciaEjecutivas
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['vicepresidenciaEjecutivas', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -22,6 +17,6 @@ export const useGetAllVicepresidenciaEjecutivas = (query: VicepresidenciaEjecuti
 		isLoading,
 		refetch,
 		isError,
-		vicepresidenciaEjecutivas
+		data
 	}
 }

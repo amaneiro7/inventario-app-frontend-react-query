@@ -32,7 +32,7 @@ export function TableHistoryWrapper({
 	handlePageSize,
 	handlePageClick
 }: TableHistoryWrapperProps) {
-	const { histories, isError, isLoading } = useGetAllHistorys(query)
+	const { data: histories, isError, isLoading } = useGetAllHistorys(query)
 	const colSpan = 6
 	return (
 		<>

@@ -7,12 +7,7 @@ const repository = new CategoryGetAllService()
 const getAll = new CategoryGetByCriteria(repository)
 
 export const useGetAllCategory = (query: CategoryFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: categories
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['categories', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -22,6 +17,6 @@ export const useGetAllCategory = (query: CategoryFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		categories
+		data
 	}
 }

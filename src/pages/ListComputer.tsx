@@ -10,9 +10,9 @@ import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { TableWrapper } from '@/widgets/ComputerTable/TableWrapper'
 
-const DefaultDeviceFilter = lazy(() =>
-	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({
-		default: m.DefaultDeviceFilter
+const DevicePrimaryFilter = lazy(() =>
+	import('@/features/device-filter/ui/DevicePrimaryFilter').then(m => ({
+		default: m.DevicePrimaryFilter
 	}))
 )
 const OtherComputerFilter = lazy(() =>
@@ -26,9 +26,9 @@ const ComputerOrderByCombobox = lazy(() =>
 	}))
 )
 
-const MainComputerFilter = lazy(() =>
-	import('@/features/computer-filter/ui/MainComputerFilter').then(m => ({
-		default: m.MainComputerFilter
+const ComputerPrimaryFilter = lazy(() =>
+	import('@/features/computer-filter/ui/ComputerPrimaryFilter').then(m => ({
+		default: m.ComputerPrimaryFilter
 	}))
 )
 
@@ -55,7 +55,7 @@ export default function ListComputer() {
 		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<MainComputerFilter
+					<ComputerPrimaryFilter
 						categoryId={query.categoryId}
 						employeeId={query.employeeId}
 						serial={query.serial}
@@ -73,7 +73,7 @@ export default function ListComputer() {
 
 					<FilterAside ref={filterAsideRef}>
 						<Suspense>
-							<DefaultDeviceFilter
+							<DevicePrimaryFilter
 								activo={query.activo}
 								statusId={query.statusId}
 								brandId={query.brandId}

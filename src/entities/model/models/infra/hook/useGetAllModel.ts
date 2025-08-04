@@ -28,12 +28,7 @@ interface UseGetAllModelProps {
  * @returns El estado de la consulta de React Query.
  */
 export const useGetAllModel = ({ query, refetchInterval }: UseGetAllModelProps) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: models
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['models', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
@@ -48,6 +43,6 @@ export const useGetAllModel = ({ query, refetchInterval }: UseGetAllModelProps) 
 		isLoading,
 		refetch,
 		isError,
-		models
+		data
 	}
 }

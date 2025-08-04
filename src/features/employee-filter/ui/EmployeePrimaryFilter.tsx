@@ -30,7 +30,7 @@ const LocationCombobox = lazy(() =>
 	}))
 )
 
-interface EmployeeMainFilterProps {
+interface EmployeePrimaryFilterProps {
 	userName?: string
 	isStillWorking?: boolean
 	departamentoId?: string
@@ -44,7 +44,7 @@ interface EmployeeMainFilterProps {
 	handleChange: (name: string, value: string | number) => void
 }
 
-export const EmployeeMainFilter = memo(
+export const EmployeePrimaryFilter = memo(
 	({
 		userName,
 		departamentoId,
@@ -57,7 +57,7 @@ export const EmployeeMainFilter = memo(
 		stateId,
 		regionId,
 		handleChange
-	}: EmployeeMainFilterProps) => {
+	}: EmployeePrimaryFilterProps) => {
 		const [localUserName, setLocalUserName] = useState(userName ?? '')
 		const [debouncedUserName] = useDebounce(localUserName)
 
@@ -128,3 +128,5 @@ export const EmployeeMainFilter = memo(
 		)
 	}
 )
+
+EmployeePrimaryFilter.displayName = 'EmployeePrimaryFilter'

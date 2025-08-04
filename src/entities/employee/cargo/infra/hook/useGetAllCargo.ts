@@ -6,12 +6,7 @@ import { type CargoFilters } from '../../application/createCargoQueryParams'
 const repository = new CargoGetAllService()
 const getAll = new CargoGetByCriteria(repository)
 export const useGetAllCargo = (query: CargoFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: cargos
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['cargos', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllCargo = (query: CargoFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		cargos
+		data
 	}
 }

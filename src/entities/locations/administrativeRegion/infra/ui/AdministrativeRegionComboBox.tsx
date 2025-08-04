@@ -19,9 +19,9 @@ export const AdministrativeRegionCombobox = memo(function ({
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { administrativeRegions, isLoading } = useGetAllAdministrativeRegion({})
+	const { data, isLoading } = useGetAllAdministrativeRegion({})
 
-	const options = useMemo(() => administrativeRegions?.data ?? [], [administrativeRegions])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

@@ -19,9 +19,9 @@ export const DirectivaCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { directivas, isLoading } = useGetAllDirectiva({})
+	const { data, isLoading } = useGetAllDirectiva({})
 
-	const options = useMemo(() => directivas?.data ?? [], [directivas])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

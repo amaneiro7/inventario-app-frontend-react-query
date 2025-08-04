@@ -40,9 +40,9 @@ export function CityCombobox({
 		}
 	}, [debouncedSearch, value, stateId, regionId, administrativeRegionId])
 
-	const { cities, isLoading } = useGetAllCity(query)
+	const { data, isLoading } = useGetAllCity(query)
 
-	const options = useMemo(() => cities?.data ?? [], [cities])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

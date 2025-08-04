@@ -28,7 +28,7 @@ export function CategoryTransferList({
 	onRemoveCategory
 }: CategoryTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { categories: allCategories, isLoading } = useGetAllCategory({})
+	const { data: allCategories, isLoading } = useGetAllCategory({})
 
 	const availableOptions = useMemo(
 		() => allCategories?.data?.filter(category => !categories.includes(category.id)) ?? [],

@@ -8,12 +8,7 @@ export const useGetAllMainCategory = (query: MainCategoryFilters) => {
 	const repository = useMemo(() => new MainCategoryGetAllService(), [])
 	const getAll = useMemo(() => new MainCategoryGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: mainCategories
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['mainCategories', query],
 		queryFn: async () => await getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllMainCategory = (query: MainCategoryFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		mainCategories
+		data
 	}
 }

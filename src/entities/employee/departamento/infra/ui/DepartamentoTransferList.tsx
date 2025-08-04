@@ -28,7 +28,7 @@ export function DepartamentoTransferList({
 	onRemoveDepartamento
 }: DepartamentoTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { departamentos: allDepartamento, isLoading } = useGetAllDepartamento({})
+	const { data: allDepartamento, isLoading } = useGetAllDepartamento({})
 
 	const availableOptions = useMemo(
 		() =>

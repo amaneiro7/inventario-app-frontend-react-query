@@ -6,12 +6,7 @@ import { type MemoryRamTypeFilters } from '../../application/createMemoryRamType
 const repository = new MemoryRamTypeGetAllService()
 const getAll = new MemoryRamTypeGetByCriteria(repository)
 export const useGetAllMemoryRamType = (query: MemoryRamTypeFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: memoryRamTypes
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['memoryRamTypes', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllMemoryRamType = (query: MemoryRamTypeFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		memoryRamTypes
+		data
 	}
 }

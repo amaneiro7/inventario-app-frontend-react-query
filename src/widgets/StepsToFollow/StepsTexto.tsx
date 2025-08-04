@@ -1,13 +1,9 @@
-import { lazy } from 'react'
+import Typography from '@/shared/ui/Typography'
+import { CheckIcon } from '@/shared/ui/icon/CheckIcon'
+import { Tag } from '@/shared/ui/Tag'
 import { type BackgroundType } from '@/shared/ui/Typography/types'
 
-const Typography = lazy(async () => await import('@/shared/ui/Typography'))
-const Tag = lazy(async () => await import('@/shared/ui/Tag').then(m => ({ default: m.Tag })))
-const CheckIcon = lazy(
-	async () => await import('@/shared/ui/icon/CheckIcon').then(m => ({ default: m.CheckIcon }))
-)
-
-interface Props {
+interface StepsTextProps {
 	requisito: keyof typeof Requisito
 	text: string
 	icon?: React.ReactElement
@@ -20,7 +16,7 @@ const Requisito = {
 	opcional: 'bg-cancel'
 }
 
-export function StepsText({ requisito, text, iconText, icon, backgroundColor }: Props) {
+export function StepsText({ requisito, text, iconText, icon, backgroundColor }: StepsTextProps) {
 	return (
 		<div className="flex items-center gap-1">
 			<CheckIcon

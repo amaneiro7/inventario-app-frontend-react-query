@@ -36,7 +36,7 @@ const TypeOfSiteCombobox = lazy(() =>
 		default: m.TypeOfSiteCombobox
 	}))
 )
-interface LocationMainFilterProps {
+interface LocationPrimaryFilterProps {
 	name?: string
 	locationStatusId?: string
 	subnet?: string
@@ -48,7 +48,7 @@ interface LocationMainFilterProps {
 	handleChange: (name: string, value: string | number) => void
 }
 
-export const LocationMainFilter = memo(
+export const LocationPrimaryFilter = memo(
 	({
 		name,
 		subnet,
@@ -59,7 +59,7 @@ export const LocationMainFilter = memo(
 		regionId,
 		administrativeRegionId,
 		handleChange
-	}: LocationMainFilterProps) => {
+	}: LocationPrimaryFilterProps) => {
 		const [localName, setLocalName] = useState(name ?? '')
 		const [localSubnet, setLocalSubnet] = useState(subnet ?? '')
 		const [debouncedName] = useDebounce(localName)
@@ -167,3 +167,5 @@ export const LocationMainFilter = memo(
 		)
 	}
 )
+
+LocationPrimaryFilter.displayName = 'LocationPrimaryFilter'

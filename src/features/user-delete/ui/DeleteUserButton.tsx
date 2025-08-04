@@ -1,14 +1,13 @@
-import { useRef } from 'react'
+import { memo, useRef } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { DeleteUser } from '@/entities/user/application/DeleteUser'
 import { DeleteUserService } from '@/entities/user/infra/service/deleteUser.service'
-
 import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
 import { ConfirmationModal } from '@/shared/ui/Modal/ConfirmationModal'
 import { ThrashIcon } from '@/shared/ui/icon/ThrashIcon'
 import Button from '@/shared/ui/Button'
 
-export function DeleteHandle({ id }: { id: string }) {
+export const DeleteUserButton = memo(({ id }: { id: string }) => {
 	const dialogDeleteRef = useRef<ModalRef>(null)
 	const events = useAuthStore.getState().events
 	const deleteUserService = new DeleteUserService()
@@ -47,4 +46,5 @@ export function DeleteHandle({ id }: { id: string }) {
 			</Dialog>
 		</>
 	)
-}
+})
+DeleteUserButton.displayName = 'DeleteUserButton'

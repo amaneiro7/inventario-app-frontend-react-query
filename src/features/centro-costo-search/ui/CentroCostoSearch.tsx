@@ -1,50 +1,19 @@
-import { useMemo, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { SearchInput } from '@/shared/ui/Input/Search'
+import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useGetAllCentroCosto'
-import { type CentroCostoFilters } from '@/entities/employee/centroCosto/application/createCentroCostoQueryParams'
 import { type CentroCostoDto } from '@/entities/employee/centroCosto/domain/dto/CentroCosto.dto'
 
 export function CentroCostoSearch() {
-	const [searchValue, setSearchValue] = useState('')
-	const [debouncedSearch] = useDebounce(searchValue, 250)
-	const [value, setValue] = useState('')
-
-	const query: CentroCostoFilters = useMemo(() => {
-		return {
-			...(debouncedSearch
-				? { name: debouncedSearch, id: debouncedSearch }
-				: { pageSize: 10 }),
-			orderBy: 'id'
-		}
-	}, [debouncedSearch])
-
-	const { centroCostos, isLoading } = useGetAllCentroCosto(query)
-
-	const options = useMemo(() => centroCostos?.data ?? [], [centroCostos])
-
-	const handleValue = (value: string) => {
-		setValue(value)
-	}
-
-	const displayAccessorFunction = (option: CentroCostoDto) => {
+    const displayAccessorFunction = (option: CentroCostoDto) => {
 		return `${option.id} - ${option.name}`
 	}
-	return (
-		<SearchInput
-			id="centroCosto-search-name"
-			search={searchValue}
-			handleChange={value => {
-				setSearchValue(value)
-			}}
-			url={`/form/centrocosto/edit/${value}`}
-			name="centroCostoSearch"
-			onChangeValue={handleValue}
-			loading={isLoading}
-			options={options}
-			value={value}
-			displayAccessor={displayAccessorFunction}
-			title="Búsqueda nombre de Centro de costo"
-		/>
-	)
+    return (
+        <EntitySearch<CentroCostoDto>
+            entityName="centroCosto"
+            useGetAllEntities={useGetAllCentroCosto}
+            urlPrefix="/form/centrocosto/edit"
+            searchField="name"
+            title="Búsqueda nombre de Centro de costo"
+            displayAccessor={displayAccessorFunction}
+        />
+    )
 }

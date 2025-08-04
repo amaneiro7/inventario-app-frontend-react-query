@@ -8,12 +8,7 @@ export const useGetAllState = (query: StateFilters) => {
 	const repository = useMemo(() => new StateGetAllService(), [])
 	const getAll = useMemo(() => new StateGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: states
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['states', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllState = (query: StateFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		states
+		data
 	}
 }

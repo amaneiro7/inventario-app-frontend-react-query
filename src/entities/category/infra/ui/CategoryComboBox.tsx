@@ -31,9 +31,9 @@ export const CategoryCombobox = memo(function ({
 		[value, mainCategoryId]
 	)
 
-	const { categories, isLoading } = useGetAllCategory(query)
+	const { data, isLoading } = useGetAllCategory(query)
 
-	const options = useMemo(() => categories?.data ?? [], [categories])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const filteredOptions = useFilterOptions({ options, inputValue })
 

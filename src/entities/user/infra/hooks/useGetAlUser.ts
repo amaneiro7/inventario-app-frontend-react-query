@@ -7,12 +7,7 @@ const repository = new UserGetAllService()
 const getAll = new UserGetByCriteria(repository)
 
 export const useGetAllUser = (query: UserFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: users
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['user', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -22,6 +17,6 @@ export const useGetAllUser = (query: UserFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		users
+		data
 	}
 }

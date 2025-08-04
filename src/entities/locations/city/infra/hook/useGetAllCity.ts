@@ -8,12 +8,7 @@ export const useGetAllCity = (query: CityFilters) => {
 	const repository = useMemo(() => new CityGetAllService(), [])
 	const getAll = useMemo(() => new CityGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: cities
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['cities', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllCity = (query: CityFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		cities
+		data
 	}
 }

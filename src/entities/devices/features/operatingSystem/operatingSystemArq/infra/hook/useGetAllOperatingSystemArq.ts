@@ -8,12 +8,7 @@ export const useGetAllOperatingSystemArq = (query: OperatingSystemArqFilters) =>
 	const repository = useMemo(() => new OperatingSystemArqGetAllService(), [])
 	const getAll = useMemo(() => new OperatingSystemArqGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: operatingSystemArqs
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['operatingSystemArqs', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllOperatingSystemArq = (query: OperatingSystemArqFilters) =>
 		isLoading,
 		refetch,
 		isError,
-		operatingSystemArqs
+		data
 	}
 }

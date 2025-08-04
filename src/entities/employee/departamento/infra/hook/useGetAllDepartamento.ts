@@ -8,12 +8,7 @@ export const useGetAllDepartamento = (query: DepartamentoFilters) => {
 	const repository = useMemo(() => new DepartamentoGetAllService(), [])
 	const getAll = useMemo(() => new DepartamentoGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: departamentos
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['departamentos', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllDepartamento = (query: DepartamentoFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		departamentos
+		data
 	}
 }

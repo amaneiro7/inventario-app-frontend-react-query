@@ -6,12 +6,7 @@ const repository = new DirectivaGetAllService()
 const getAll = new DirectivaGetByCriteria(repository)
 
 export const useGetAllDirectiva = (query: DirectivaFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: directivas
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['directivas', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllDirectiva = (query: DirectivaFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		directivas
+		data
 	}
 }

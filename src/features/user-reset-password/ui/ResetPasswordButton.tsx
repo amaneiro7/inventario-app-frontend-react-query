@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { memo, useRef } from 'react'
 
 import Button from '@/shared/ui/Button'
 import { ConfirmationModal } from '@/shared/ui/Modal/ConfirmationModal'
@@ -8,7 +8,7 @@ import { ResetPasswordService } from '@/entities/user/infra/service/ResetPasswor
 import { ResetPassword } from '@/entities/user/application/ResetPassword'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 
-export function ResetHandle({ id }: { id: string }) {
+export const ResetPasswordButton = memo(({ id }: { id: string }) => {
 	const dialogResetRef = useRef<ModalRef>(null)
 	const events = useAuthStore.getState().events
 	const resetUserPasswordService = new ResetPasswordService()
@@ -45,4 +45,6 @@ export function ResetHandle({ id }: { id: string }) {
 			</Dialog>
 		</>
 	)
-}
+})
+
+ResetPasswordButton.displayName = 'ResetPasswordButton'

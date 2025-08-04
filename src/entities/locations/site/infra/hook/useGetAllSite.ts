@@ -8,12 +8,7 @@ export const useGetAllSites = (query: SiteFilters) => {
 	const repository = useMemo(() => new SiteGetAllService(), [])
 	const getAll = useMemo(() => new SiteGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: sites
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['sites', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllSites = (query: SiteFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		sites
+		data
 	}
 }

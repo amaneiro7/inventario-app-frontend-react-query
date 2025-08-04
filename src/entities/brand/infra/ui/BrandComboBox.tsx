@@ -38,9 +38,9 @@ export function BrandCombobox({
 		}
 	}, [debouncedSearch, value, mainCategoryId, categoryId])
 
-	const { brands, isLoading } = useGetAllBrands(query)
+	const { data, isLoading } = useGetAllBrands(query)
 
-	const options = useMemo(() => brands?.data ?? [], [brands])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

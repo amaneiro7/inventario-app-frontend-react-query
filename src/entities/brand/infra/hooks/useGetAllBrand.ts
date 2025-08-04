@@ -7,12 +7,7 @@ import { type BrandFilters } from '../../application/createBrandQueryParams'
 export const useGetAllBrands = (query: BrandFilters) => {
 	const repository = useMemo(() => new BrandGetAllService(), [])
 	const getAll = useMemo(() => new BrandGetByCriteria(repository), [repository])
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: brands
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['brands', query],
 		queryFn: () => getAll.search(query)
 	})
@@ -21,6 +16,6 @@ export const useGetAllBrands = (query: BrandFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		brands
+		data
 	}
 }

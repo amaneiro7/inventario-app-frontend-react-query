@@ -37,9 +37,9 @@ export const VicepresidenciaCombobox = memo(function ({
 		[debouncedSearch, value, vicepresidenciaEjecutivaId, directivaId]
 	)
 
-	const { vicepresidencias, isLoading } = useGetAllVicepresidencias(query)
+	const { data, isLoading } = useGetAllVicepresidencias(query)
 
-	const options = useMemo(() => vicepresidencias?.data ?? [], [vicepresidencias])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

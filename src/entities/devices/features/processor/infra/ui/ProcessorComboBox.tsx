@@ -34,9 +34,9 @@ export const ProcessorCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, modelId])
 
-	const { processor, isLoading } = useGetAllProcessor(query)
+	const { data, isLoading } = useGetAllProcessor(query)
 
-	const options = useMemo(() => processor?.data ?? [], [processor])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

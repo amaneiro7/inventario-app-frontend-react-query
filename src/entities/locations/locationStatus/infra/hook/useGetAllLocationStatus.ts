@@ -6,12 +6,7 @@ import { type LocationStatusFilters } from '../../application/createLocationStat
 const repository = new LocationStatusGetAllService()
 const getAll = new LocationStatusGetByCriteria(repository)
 export const useGetAllLocationStatus = (query: LocationStatusFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: locationStatus
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['locationStatus', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllLocationStatus = (query: LocationStatusFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		locationStatus
+		data
 	}
 }

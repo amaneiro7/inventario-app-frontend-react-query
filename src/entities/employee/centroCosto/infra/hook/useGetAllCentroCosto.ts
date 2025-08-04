@@ -6,12 +6,7 @@ import { type CentroCostoFilters } from '../../application/createCentroCostoQuer
 const repository = new CentroCostoGetAllService()
 const getAll = new CentroCostoGetByCriteria(repository)
 export const useGetAllCentroCosto = (query: CentroCostoFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: centroCostos
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['centroCostos', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -21,6 +16,6 @@ export const useGetAllCentroCosto = (query: CentroCostoFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		centroCostos
+		data
 	}
 }

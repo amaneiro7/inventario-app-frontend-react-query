@@ -17,9 +17,9 @@ export const OperatingSystemCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { operatingSystems, isLoading } = useGetAllOperatingSystem({})
+	const { data, isLoading } = useGetAllOperatingSystem({})
 
-	const options = useMemo(() => operatingSystems?.data ?? [], [operatingSystems])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

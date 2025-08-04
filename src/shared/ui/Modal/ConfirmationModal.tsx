@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from 'react'
-
-const Button = lazy(async () => import('@/shared/ui/Button/Button'))
-const Typography = lazy(async () => import('@/shared/ui/Typography'))
+import Typography from '../Typography'
+import Button from '../Button'
 const CheckIcon = lazy(async () =>
 	import('@/shared/ui/icon/CheckIcon').then(m => ({ default: m.CheckIcon }))
 )
@@ -9,7 +8,7 @@ const CancelIcon = lazy(async () =>
 	import('@/shared/ui/icon/CancelIcon').then(m => ({ default: m.CancelIcon }))
 )
 
-interface Props {
+interface ConfirmationModalProps {
 	text: React.ReactNode
 	strongText?: string
 	handle?: () => void
@@ -17,7 +16,13 @@ interface Props {
 	handleClose: () => void
 }
 
-export function ConfirmationModal({ text, strongText, handle, handleClose, formId }: Props) {
+export function ConfirmationModal({
+	text,
+	strongText,
+	handle,
+	handleClose,
+	formId
+}: ConfirmationModalProps) {
 	return (
 		<>
 			<div className="bg-azul rounded-t p-4 text-white">

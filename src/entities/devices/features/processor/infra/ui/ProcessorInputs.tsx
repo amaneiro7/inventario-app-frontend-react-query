@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const ProcessorInputs = memo(function ({ errors, formData, handleChange }: Props) {
-	const { processor } = useGetAllProcessor({})
+	const { data: processor } = useGetAllProcessor({})
 
 	const productOptions = useMemo(() => {
 		const productCollectionList = new Set<string>()

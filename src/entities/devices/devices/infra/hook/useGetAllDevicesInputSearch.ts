@@ -8,12 +8,7 @@ export const useGetAllDevicesInputSearch = (query: DeviceFilters) => {
 	const repository = useMemo(() => new DeviceGetAllService(), [])
 	const getAll = useMemo(() => new DeviceGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: devices
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['deviceSerialInputSearch', query],
 		queryFn: () => getAll.search(query)
 	})
@@ -22,6 +17,6 @@ export const useGetAllDevicesInputSearch = (query: DeviceFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		devices
+		data
 	}
 }

@@ -19,7 +19,7 @@ export const EmployeeSearch = memo(() => {
 		}
 	}, [debouncedSearch])
 
-	const { employees, isLoading } = useGetAllEmployees(query)
+	const { data: employees, isLoading } = useGetAllEmployees(query)
 
 	const options = useMemo(() => employees?.data ?? [], [employees])
 

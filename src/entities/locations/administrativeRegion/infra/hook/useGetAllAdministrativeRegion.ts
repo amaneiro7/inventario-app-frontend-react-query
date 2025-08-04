@@ -7,12 +7,7 @@ const repository = new AdministrativeRegionGetAllService()
 const getAll = new AdministrativeRegionGetByCriteria(repository)
 
 export const useGetAllAdministrativeRegion = (query: AdministrativeRegionFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: administrativeRegions
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['administrativeRegions', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -22,6 +17,6 @@ export const useGetAllAdministrativeRegion = (query: AdministrativeRegionFilters
 		isLoading,
 		refetch,
 		isError,
-		administrativeRegions
+		data
 	}
 }

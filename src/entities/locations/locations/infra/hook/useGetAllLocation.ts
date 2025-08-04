@@ -6,12 +6,7 @@ import { type LocationFilters } from '../../application/CreateLocationQueryParam
 const repository = new LocationGetAllService()
 const getAll = new LocationGetByCriteria(repository)
 export const useGetAllLocations = (query: LocationFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: locations
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['locations', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 5 * 1000
@@ -21,6 +16,6 @@ export const useGetAllLocations = (query: LocationFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		locations
+		data
 	}
 }

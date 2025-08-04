@@ -32,12 +32,9 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 		[value, directivaId]
 	)
 
-	const { vicepresidenciaEjecutivas, isLoading } = useGetAllVicepresidenciaEjecutivas(query)
+	const { data, isLoading } = useGetAllVicepresidenciaEjecutivas(query)
 
-	const options = useMemo(
-		() => vicepresidenciaEjecutivas?.data ?? [],
-		[vicepresidenciaEjecutivas]
-	)
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const filteredOptions = useFilterOptions({ options, inputValue })
 

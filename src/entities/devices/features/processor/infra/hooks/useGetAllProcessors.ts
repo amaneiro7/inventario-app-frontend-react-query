@@ -8,12 +8,7 @@ export const useGetAllProcessor = (query: ProcessorFilters) => {
 	const repository = useMemo(() => new ProcessorGetAllService(), [])
 	const getAll = useMemo(() => new ProcessorGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: processor
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['processors', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllProcessor = (query: ProcessorFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		processor
+		data
 	}
 }

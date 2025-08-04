@@ -36,9 +36,9 @@ export function CentroTrabajoCombobox({
 		}
 	}, [debouncedSearch, value, centroCostoId])
 
-	const { centroTrabajos, isLoading } = useGetAllCentroTrabajo(query)
+	const { data, isLoading } = useGetAllCentroTrabajo(query)
 
-	const options = useMemo(() => centroTrabajos?.data ?? [], [centroTrabajos])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const displayAccessorFunction = useCallback(
 		(option: { id: string }) => {

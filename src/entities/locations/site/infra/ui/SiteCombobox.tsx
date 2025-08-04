@@ -56,9 +56,9 @@ export const SiteCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, cityId, stateId, regionId])
 
-	const { sites, isLoading } = useGetAllSites(query)
+	const { data, isLoading } = useGetAllSites(query)
 
-	const options = useMemo(() => sites?.data ?? [], [sites])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const getSiteData = useCallback(
 		(value: string | number) => {

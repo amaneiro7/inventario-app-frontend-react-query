@@ -10,14 +10,18 @@ import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
 const ManagementProfileLoading = lazy(() =>
 	import('@/shared/ui/ProfileLoading').then(m => ({ default: m.ManagementProfileLoading }))
 )
-const EditHandle = lazy(() =>
-	import('@/features/user-edit/ui/EditHandle').then(m => ({ default: m.EditHandle }))
+const EditUserButton = lazy(() =>
+	import('@/features/user-edit/ui/EditUserButton').then(m => ({ default: m.EditUserButton }))
 )
-const ResetHandle = lazy(() =>
-	import('@/features/user-reset-password/ui/ResetHandle').then(m => ({ default: m.ResetHandle }))
+const ResetPasswordButton = lazy(() =>
+	import('@/features/user-reset-password/ui/ResetPasswordButton').then(m => ({
+		default: m.ResetPasswordButton
+	}))
 )
-const DeleteHandle = lazy(() =>
-	import('@/features/user-delete/ui/DeleteHandle').then(m => ({ default: m.DeleteHandle }))
+const DeleteUserButton = lazy(() =>
+	import('@/features/user-delete/ui/DeleteUserButton').then(m => ({
+		default: m.DeleteUserButton
+	}))
 )
 
 type Actions = 'editar' | 'reset' | 'delete'
@@ -25,11 +29,11 @@ type Actions = 'editar' | 'reset' | 'delete'
 const ActionHandle = ({ action, id }: { action: Actions; id: string }) => {
 	switch (action) {
 		case 'editar':
-			return <EditHandle id={id} />
+			return <EditUserButton id={id} />
 		case 'reset':
-			return <ResetHandle id={id} />
+			return <ResetPasswordButton id={id} />
 		case 'delete':
-			return <DeleteHandle id={id} />
+			return <DeleteUserButton id={id} />
 		default:
 			return null
 	}

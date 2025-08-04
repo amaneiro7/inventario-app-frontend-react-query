@@ -32,9 +32,9 @@ export function StateCombobox({
 			administrativeRegionId
 		}
 	}, [value, regionId, administrativeRegionId])
-	const { states, isLoading } = useGetAllState(query)
+	const { data, isLoading } = useGetAllState(query)
 
-	const options = useMemo(() => states?.data ?? [], [states])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const filteredOptions = useFilterOptions({ options, inputValue })
 

@@ -49,9 +49,9 @@ export function CargoCombobox({
 		vicepresidenciaId
 	])
 
-	const { cargos, isLoading } = useGetAllCargo(query)
+	const { data, isLoading } = useGetAllCargo(query)
 
-	const options = useMemo(() => cargos?.data ?? [], [cargos])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

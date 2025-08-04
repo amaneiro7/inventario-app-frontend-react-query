@@ -7,12 +7,7 @@ export const useGetAllHardDriveCapacity = (query: HardDriveCapacityFilters) => {
 	const repository = useMemo(() => new HardDriveCapacityGetAllService(), [])
 	const getAll = useMemo(() => new HardDriveCapacityGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: hardDriveCapacities
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['hardDriveCapacities', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -22,6 +17,6 @@ export const useGetAllHardDriveCapacity = (query: HardDriveCapacityFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		hardDriveCapacities
+		data
 	}
 }

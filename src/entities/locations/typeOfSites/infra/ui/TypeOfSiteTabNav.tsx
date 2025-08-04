@@ -9,7 +9,7 @@ interface Props {
 }
 export const TypeOfSiteTabNav = memo(({ handleChange, value, omit = [] }: Props) => {
 	const [inputValue, setInputValue] = useState(() => (value ? value : '0'))
-	const { typeOfSites, isLoading } = useGetAllTypeOfSite({})
+	const { data: typeOfSites, isLoading } = useGetAllTypeOfSite({})
 
 	const typeOfSiteTab = useMemo(() => {
 		// Create a set of IDs to omit for efficient lookup

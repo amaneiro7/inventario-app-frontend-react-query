@@ -19,9 +19,9 @@ export const TypeOfSiteCombobox = memo(function ({
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { typeOfSites, isLoading } = useGetAllTypeOfSite({})
+	const { data, isLoading } = useGetAllTypeOfSite({})
 
-	const options = useMemo(() => typeOfSites?.data ?? [], [typeOfSites])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

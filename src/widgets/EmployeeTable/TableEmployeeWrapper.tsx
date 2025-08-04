@@ -34,7 +34,7 @@ export const TableEmployeeWrapper = memo(function ({
 	handlePageClick,
 	handleSort
 }: TableEmployeeWrapperProps) {
-	const { employees, isLoading, isError } = useGetAllEmployees(query)
+	const { data: employees, isLoading, isError } = useGetAllEmployees(query)
 	const { colSpan, headers, visibleColumns } = useTableDeviceWrapper()
 
 	return (

@@ -17,9 +17,9 @@ export const HardDriveTypeCombobox = memo(function ({
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { hardDriveTypes, isLoading } = useGetAllHardDriveType({})
+	const { data, isLoading } = useGetAllHardDriveType({})
 
-	const options = useMemo(() => hardDriveTypes?.data ?? [], [hardDriveTypes])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

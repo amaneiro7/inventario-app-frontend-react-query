@@ -19,9 +19,9 @@ export function StatusCombobox({
 	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { status, isLoading } = useGetAllStatus({})
+	const { data, isLoading } = useGetAllStatus({})
 
-	const options = useMemo(() => status?.data ?? [], [status])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

@@ -6,12 +6,7 @@ import { type RoleFilters } from '../../application/createRoleQueryParams'
 const repository = new RoleGetAllService()
 const getAll = new RoleGetByCriteria(repository)
 export const useGetAllRoles = (query: RoleFilters) => {
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: roles
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['roles', query],
 		queryFn: () => getAll.search(query)
 	})
@@ -20,6 +15,6 @@ export const useGetAllRoles = (query: RoleFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		roles
+		data
 	}
 }

@@ -38,9 +38,9 @@ export const EmployeeCombobox = memo(function ({
 	}, [debouncedLocalSearch, value])
 
 	// Se obtienen los empleados
-	const { employees, isLoading } = useGetAllEmployees(query)
+	const { data, isLoading } = useGetAllEmployees(query)
 
-	const options = useMemo(() => employees?.data ?? [], [employees])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
 		<>

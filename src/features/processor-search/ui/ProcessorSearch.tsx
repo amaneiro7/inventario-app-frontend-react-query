@@ -1,41 +1,14 @@
-import { useMemo, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { SearchInput } from '@/shared/ui/Input/Search'
+import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
-import { type ProcessorFilters } from '@/entities/devices/features/processor/application/createProcessorQueryParams'
 
 export function ProcessorSearch() {
-	const [searchValue, setSearchValue] = useState('')
-	const [debouncedSearch] = useDebounce(searchValue, 250)
-	const [value, setValue] = useState('')
-
-	const query: ProcessorFilters = useMemo(() => {
-		return {
-			...(debouncedSearch ? { name: debouncedSearch } : { pageSize: 10 })
-		}
-	}, [debouncedSearch])
-
-	const { processor, isLoading } = useGetAllProcessor(query)
-
-	const options = useMemo(() => processor?.data ?? [], [processor])
-
-	const handleValue = (value: string) => {
-		setValue(value)
-	}
-	return (
-		<SearchInput
-			id="processor-search-numberModel"
-			search={searchValue}
-			handleChange={value => {
-				setSearchValue(value.toUpperCase().trim())
-			}}
-			url={`/form/processors/edit/${value}`}
-			name="processorSearch"
-			onChangeValue={handleValue}
-			loading={isLoading}
-			options={options}
-			value={value}
-			title="Búsqueda por Number Model"
-		/>
-	)
+    return (
+        <EntitySearch
+            entityName="processor"
+            useGetAllEntities={useGetAllProcessor}
+            urlPrefix="/form/processors/edit"
+            searchField="name"
+            title="Búsqueda por Number Model"
+        />
+    )
 }

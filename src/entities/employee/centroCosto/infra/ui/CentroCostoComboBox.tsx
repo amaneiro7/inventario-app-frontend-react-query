@@ -33,9 +33,9 @@ export function CentroCostoCombobox({
 		}
 	}, [debouncedSearch, value])
 
-	const { centroCostos, isLoading } = useGetAllCentroCosto(query)
+	const { data, isLoading } = useGetAllCentroCosto(query)
 
-	const options = useMemo(() => centroCostos?.data ?? [], [centroCostos])
+	const options = useMemo(() => data?.data ?? [], [data])
 
 	const displayAccessorFunction = useCallback(
 		(option: { id: string }) => {

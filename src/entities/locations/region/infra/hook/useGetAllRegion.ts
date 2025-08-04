@@ -8,12 +8,7 @@ export const useGetAllRegion = (query: RegionFilters) => {
 	const repository = useMemo(() => new RegionGetAllService(), [])
 	const getAll = useMemo(() => new RegionGetByCriteria(repository), [repository])
 
-	const {
-		isLoading,
-		refetch,
-		isError,
-		data: regions
-	} = useQuery({
+	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['regions', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
@@ -23,6 +18,6 @@ export const useGetAllRegion = (query: RegionFilters) => {
 		isLoading,
 		refetch,
 		isError,
-		regions
+		data
 	}
 }

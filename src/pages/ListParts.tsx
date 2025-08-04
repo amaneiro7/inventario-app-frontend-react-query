@@ -9,14 +9,14 @@ import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { TablePartsWrapper } from '@/widgets/PatsTable/TablePartsWrapper'
 
-const MainComputerFilter = lazy(() =>
-	import('@/features/computer-filter/ui/MainComputerFilter').then(m => ({
-		default: m.MainComputerFilter
+const ComputerPrimaryFilter = lazy(() =>
+	import('@/features/computer-filter/ui/ComputerPrimaryFilter').then(m => ({
+		default: m.ComputerPrimaryFilter
 	}))
 )
-const DefaultDeviceFilter = lazy(() =>
-	import('@/features/device-filter/ui/DefaultDeviceFilter').then(m => ({
-		default: m.DefaultDeviceFilter
+const DevicePrimaryFilter = lazy(() =>
+	import('@/features/device-filter/ui/DevicePrimaryFilter').then(m => ({
+		default: m.DevicePrimaryFilter
 	}))
 )
 
@@ -43,7 +43,7 @@ export default function ListParts() {
 		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<MainComputerFilter
+					<ComputerPrimaryFilter
 						categoryId={query.categoryId}
 						employeeId={query.employeeId}
 						serial={query.serial}
@@ -60,7 +60,7 @@ export default function ListParts() {
 					/>
 					<FilterAside ref={filterAsideRef}>
 						<Suspense>
-							<DefaultDeviceFilter
+							<DevicePrimaryFilter
 								activo={query.activo}
 								statusId={query.statusId}
 								brandId={query.brandId}

@@ -9,9 +9,9 @@ import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { Loading } from '@/shared/ui/Loading'
 import { LocationDataWrapper } from '@/widgets/LocationTable/LocationDataWrapper'
 
-const LocationMainFilter = lazy(() =>
-	import('@/features/location-filter/ui/LocationMainFilter').then(m => ({
-		default: m.LocationMainFilter
+const LocationPrimaryFilter = lazy(() =>
+	import('@/features/location-filter/ui/LocationPrimaryFilter').then(m => ({
+		default: m.LocationPrimaryFilter
 	}))
 )
 
@@ -24,7 +24,7 @@ export default function ListSite() {
 		<Suspense fallback={<Loading />}>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<LocationMainFilter
+					<LocationPrimaryFilter
 						administrativeRegionId={query.administrativeRegionId}
 						locationStatusId={query.locationStatusId}
 						name={query.name}
