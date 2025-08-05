@@ -6,9 +6,8 @@ import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-
 import { Loading } from '@/shared/ui/Loading'
-import { TableScreenWrapper } from '@/widgets/ScreenTable/TableScreenWrapper'
+import { TableScreenWrapper } from '@/widgets/tables/ScreenTable'
 
 const ComputerPrimaryFilter = lazy(() =>
 	import('@/features/computer-filter/ui/ComputerPrimaryFilter').then(m => ({

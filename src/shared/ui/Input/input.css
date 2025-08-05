@@ -9,7 +9,7 @@
 	--border-color-readonly: rgba(0, 0, 0, 0.2);
 	--border-color-hover: rgba(0, 0, 0, 0.87);
 	--input-padding: 8.5px 14px;
-	--label-translate: 14px;
+	--label-translate: 10px;
 }
 
 .inputBox {
@@ -64,10 +64,11 @@
 	border: 0;
 	box-sizing: content-box;
 	background: none;
-	height: 1.75rem;
+	height: 1.4rem;
 	margin: 0;
 	display: block;
 	padding: var(--input-padding);
+	border-radius: inherit;
 	overflow: hidden;
 	text-wrap: nowrap;
 	text-overflow: ellipsis;
@@ -166,16 +167,18 @@
 	position: absolute;
 	left: 0;
 	top: 0;
+	background-color: white;
+	border-radius: 5px;
 	display: block;
 	transform-origin: top left;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: calc(100% - 24px);
-	-webkit-transform: translate(var(--label-translate), 9px) scale(1);
-	-moz-transform: translate(var(--label-translate), 9px) scale(1);
-	-ms-transform: translate(var(--label-translate), 9px) scale(1);
-	transform: translate(var(--label-translate), 9px) scale(1);
+	-webkit-transform: translate(var(--label-translate), 10px) scale(1);
+	-moz-transform: translate(var(--label-translate), 10px) scale(1);
+	-ms-transform: translate(var(--label-translate), 10px) scale(1);
+	transform: translate(var(--label-translate), 10px) scale(1);
 	-webkit-transition:
 		color 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
 		-webkit-transform 200ms cubic-bezier(0, 0, 0.2, 1) 0ms,
@@ -188,18 +191,22 @@
 	pointer-events: none;
 }
 .inputBox label.with-left-icon {
-	-webkit-transform: translate(calc(var(--label-translate) + 45px), 9px) scale(1);
-	-moz-transform: translate(calc(var(--label-translate) + 45px), 9px) scale(1);
-	-ms-transform: translate(calc(var(--label-translate) + 45px), 9px) scale(1);
-	transform: translate(calc(var(--label-translate) + 45px), 9px) scale(1);
+	-webkit-transform: translate(calc(var(--label-translate) + 45px), 10px) scale(1);
+	-moz-transform: translate(calc(var(--label-translate) + 45px), 10px) scale(1);
+	-ms-transform: translate(calc(var(--label-translate) + 45px), 10px) scale(1);
+	transform: translate(calc(var(--label-translate) + 45px), 10px) scale(1);
 }
 .inputBox:focus-within label,
 .inputBox label.transform {
 	max-width: calc(133% - 32px);
-	-webkit-transform: translate(var(--label-translate), -9px) scale(0.75);
-	-moz-transform: translate(var(--label-translate), -9px) scale(0.75);
-	-ms-transform: translate(var(--label-translate), -9px) scale(0.75);
-	transform: translate(var(--label-translate), -9px) scale(0.75);
+	border-color: var(--border-color);
+	border-style: solid;
+	border-top: 1px;
+	padding-inline: 6px;
+	-webkit-transform: translate(var(--label-translate), -6px) scale(0.75);
+	-moz-transform: translate(var(--label-translate), -6px) scale(0.75);
+	-ms-transform: translate(var(--label-translate), -6px) scale(0.75);
+	transform: translate(var(--label-translate), -6px) scale(0.75);
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -208,10 +215,10 @@
 }
 
 .inputBox:has(input:disabled):focus-within label {
-	-webkit-transform: translate(var(--label-translate), 9px) scale(1);
-	-moz-transform: translate(var(--label-translate), 9px) scale(1);
-	-ms-transform: translate(var(--label-translate), 9px) scale(1);
-	transform: translate(var(--label-translate), 9px) scale(1);
+	-webkit-transform: translate(var(--label-translate), 10px) scale(1);
+	-moz-transform: translate(var(--label-translate), 10px) scale(1);
+	-ms-transform: translate(var(--label-translate), 10px) scale(1);
+	transform: translate(var(--label-translate), 10px) scale(1);
 }
 
 .inputBox .inputArea {
@@ -233,6 +240,7 @@
 	-ms-flex-align: center;
 	align-items: center;
 	width: 100%;
+	background-color: white;
 	border-radius: 0.25rem;
 }
 
@@ -241,7 +249,7 @@
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	top: -5px;
+	top: -1.5px;
 	left: 0;
 	margin: 0;
 	padding: 0px 0.5rem;

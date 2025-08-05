@@ -7,7 +7,7 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { Loading } from '@/shared/ui/Loading'
-import { TableFinantialWrapper } from '@/widgets/FinantialPrinterTable/TableFinantialWrapper'
+import { TableFinantialWrapper } from '@/widgets/tables/FinantialPrinterTable'
 
 const DevicePrimaryFilter = lazy(() =>
 	import('@/features/device-filter/ui/DevicePrimaryFilter').then(m => ({

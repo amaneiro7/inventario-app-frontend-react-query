@@ -1,35 +1,34 @@
 import { lazy, Suspense } from 'react'
-import { useGetAllFinantialPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
-import { DeviceFinantialPrinterFilter } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
+import { useGetAllScreenDevices } from '@/entities/devices/devices/infra/hook/useGetAllScreenDevices'
+import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
-import { TableDefaultDevice } from '@/entities/devices/devices/infra/ui/DeviceTable/TableDefaultDevice'
-import { type DeviceFinantialPrinterFilters } from '@/entities/devices/devices/application/finantialPrinter/CreateDeviceFinantialPrinterParams'
-
-interface TableFinantialWrapperProps {
-	query: DeviceFinantialPrinterFilters
+import { DeviceScreenFilter } from '@/entities/devices/devices/application/screenFilter/DeviceScreenFilter'
+import { type DeviceScreenFilters } from '@/entities/devices/devices/application/screenFilter/CreateDeviceScreenParams'
+interface TableScreenWrapperProps {
+	query: DeviceScreenFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
 	handleChange: (name: string, value: string | number) => void
 }
 
-const TableFinantialPrinter = lazy(() =>
-	import('@/entities/devices/devices/infra/ui/DeviceTable/TableFinantialPrinter').then(m => ({
-		default: m.TableFinantialPrinter
+const TableScreen = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableScreen').then(m => ({
+		default: m.TableScreen
 	}))
 )
 
-export function TableFinantialWrapper({
+export function TableScreenWrapper({
 	query,
 	handleSort,
 	handleChange,
 	handlePageSize,
 	handlePageClick
-}: TableFinantialWrapperProps) {
-	const { devices, isError, isLoading } = useGetAllFinantialPrinterDevices(query)
+}: TableScreenWrapperProps) {
+	const { devices, isError, isLoading } = useGetAllScreenDevices(query)
 	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
-		<TableDefaultDevice
+		<TableLayout
 			colSpan={colSpan}
 			handleChange={handleChange}
 			handlePageClick={handlePageClick}
@@ -38,8 +37,8 @@ export function TableFinantialWrapper({
 			orderBy={query?.orderBy}
 			orderType={query?.orderType}
 			dataIsLoaded={devices !== undefined}
-			pegaSizeOptions={DeviceFinantialPrinterFilter.pegaSizeOptions}
-			defaultPageSize={DeviceFinantialPrinterFilter.defaultPageSize}
+			pegaSizeOptions={DeviceScreenFilter.pegaSizeOptions}
+			defaultPageSize={DeviceScreenFilter.defaultPageSize}
 			isError={isError}
 			isLoading={isLoading}
 			typeOfSiteId={query?.typeOfSiteId}
@@ -53,7 +52,7 @@ export function TableFinantialWrapper({
 			<>
 				{devices !== undefined && (
 					<Suspense>
-						<TableFinantialPrinter
+						<TableScreen
 							colSpan={colSpan}
 							isError={isError}
 							devices={devices.data}
@@ -62,6 +61,6 @@ export function TableFinantialWrapper({
 					</Suspense>
 				)}
 			</>
-		</TableDefaultDevice>
+		</TableLayout>
 	)
 }

@@ -1,19 +1,29 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
-import { PageTitle } from '../../shared/ui/PageTitle'
+import { PageTitle } from '@/shared/ui/PageTitle'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { capitalizeFirstLetter } from '@/shared/lib/utils/capitalizeFirstLetter'
 
+/**
+ * `FormWrapper`
+ * @component
+ * @description Componente de layout que envuelve las páginas de formularios.
+ * Proporciona un título de página dinámico, breadcrumbs, optimización SEO y un contenedor de estilo (`DetailsWrapper`).
+ * Determina el modo del formulario (añadir/editar) y ajusta el título y la descripción en consecuencia.
+ * @returns {JSX.Element} El layout del formulario con el contenido de la ruta anidada.
+ */
 const FormWrapper = memo(() => {
 	const location = useLocation()
 	const isFormIndex = location.pathname === '/form'
 	const outletTitle = useOutletContext<string>()
 	const mode = useGetFormMode()
 
-	const routeTitles = useMemo(
+	/**
+	 * Mapeo de rutas de formulario a nombres de entidades para generar títulos dinámicos.
+	 */ const routeTitles = useMemo(
 		(): Record<string, string> => ({
 			'/form/device': 'Dispositivo',
 			'/form/model': 'Modelo',

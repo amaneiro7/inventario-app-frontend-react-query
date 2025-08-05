@@ -8,11 +8,11 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
-import { TypeOfSiteTabNav } from '@/entities/locations/typeOfSites/infra/ui/TypeOfSiteTabNav'
+import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { type Headers, TableHeader } from '@/shared/ui/Table/TableHeader'
 
-interface TableDefaultDeviceProps<T> {
+interface TableLayoutProps<T> {
 	children?: React.ReactElement<T>
 	total?: number
 	pageSize?: number
@@ -35,7 +35,7 @@ interface TableDefaultDeviceProps<T> {
 	handlePageSize: (pageSize: number) => void
 }
 
-export function TableDefaultDevice<T>({
+export function TableLayout<T>({
 	children,
 	defaultPageSize,
 	pageNumber,
@@ -56,7 +56,7 @@ export function TableDefaultDevice<T>({
 	handleSort,
 	handlePageClick,
 	handlePageSize
-}: TableDefaultDeviceProps<T>) {
+}: TableLayoutProps<T>) {
 	return (
 		<>
 			<TablePageWrapper>

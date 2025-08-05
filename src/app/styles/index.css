@@ -26,7 +26,7 @@
 		transform: translateX(-100%);
 	}
 }
-@keyframes slide-out-to-roght {
+@keyframes slide-out-to-right {
 	from {
 		transform: translateX(100%);
 	}
@@ -199,7 +199,7 @@
 
 	body {
 		overflow-y: scroll;
-		font-family: 'Montessat', sans-serif;
+		font-family: 'Montserrat', sans-serif;
 	}
 }
 

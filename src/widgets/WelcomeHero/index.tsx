@@ -50,3 +50,5 @@ export const WelcomeHero = memo(() => {
 		</section>
 	)
 })
+
+WelcomeHero.displayName = 'WelcomeHero'

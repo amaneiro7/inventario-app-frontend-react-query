@@ -8,7 +8,9 @@ import { TooltipProvider } from '@/shared/ui/Tooltip'
 const AppRoutes = lazy(async () =>
 	import('./providers/routes/AppRoutes').then(m => ({ default: m.AppRoutes }))
 )
-const Toaster = lazy(() => import('sonner').then(m => ({ default: m.Toaster })))
+const Notification = lazy(() =>
+	import('@/shared/ui/Notification').then(m => ({ default: m.Notifacation }))
+)
 
 function App() {
 	return (
@@ -25,7 +27,7 @@ function App() {
 							<AppRoutes />
 						</Suspense>
 						<Suspense>
-							<Toaster richColors visibleToasts={3} closeButton />
+							<Notification />
 						</Suspense>
 					</AuthContextProvider>
 				</BrowserRouter>

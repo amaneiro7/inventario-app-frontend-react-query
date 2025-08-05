@@ -9,7 +9,7 @@ import { TableHeader } from '@/shared/ui/Table/TableHeader'
 import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { TableRow } from '@/shared/ui/Table/TableRow'
 
-import { TypeOfSiteTabNav } from '@/entities/locations/typeOfSites/infra/ui/TypeOfSiteTabNav'
+import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'

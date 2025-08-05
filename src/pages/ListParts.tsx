@@ -7,7 +7,7 @@ import { Loading } from '@/shared/ui/Loading'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { TablePartsWrapper } from '@/widgets/PatsTable/TablePartsWrapper'
+import { TablePartsWrapper } from '@/widgets/tables/PartsTable'
 
 const ComputerPrimaryFilter = lazy(() =>
 	import('@/features/computer-filter/ui/ComputerPrimaryFilter').then(m => ({

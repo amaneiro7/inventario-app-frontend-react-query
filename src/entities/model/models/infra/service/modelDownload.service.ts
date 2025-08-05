@@ -1,7 +1,7 @@
+import { modelUrl } from '../../domain/entity/baseUrl'
+import { fetching } from '@/shared/api/api'
 import { type Source } from '@/types/type'
 import { type ModelDownloadRepository } from '../../domain/repository/ModelDownloadRepository'
-import { apiDownload } from '@/shared/api/apiDownload'
-import { modelUrl } from '../../domain/entity/baseUrl'
 
 export class ModelDownloadService implements ModelDownloadRepository {
 	async download({
@@ -11,7 +11,7 @@ export class ModelDownloadService implements ModelDownloadRepository {
 		queryParams?: string
 		source: Source
 	}): Promise<void> {
-		return await apiDownload(
+		return await fetching(
 			{
 				method: 'GET',
 				url: `${modelUrl}/download?${queryParams}`

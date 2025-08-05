@@ -5,9 +5,8 @@ import { useLocationFilter } from '@/entities/locations/locations/infra/hook/use
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-
 import { Loading } from '@/shared/ui/Loading'
-import { LocationDataWrapper } from '@/widgets/LocationTable/LocationDataWrapper'
+import { LocationDataWrapper } from '@/widgets/tables/LocationTable'
 
 const LocationPrimaryFilter = lazy(() =>
 	import('@/features/location-filter/ui/LocationPrimaryFilter').then(m => ({

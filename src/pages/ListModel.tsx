@@ -2,11 +2,12 @@ import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { useModelsFilter } from '@/entities/model/models/infra/hook/useModelsFilters'
-import { TableModelWrapper } from '@/widgets/ModelTable/TableModelWrapper'
+import { TableModelWrapper } from '@/widgets/tables/ModelTable'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
 import { Loading } from '@/shared/ui/Loading'
+
 const ModelPrimaryFilter = lazy(() =>
 	import('@/features/model-filter/ui/ModelPrimaryFilter').then(m => ({
 		default: m.ModelPrimaryFilter

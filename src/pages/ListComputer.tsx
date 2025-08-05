@@ -8,7 +8,7 @@ import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { FilterSection } from '@/shared/ui/FilterSection'
 import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
 import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { TableWrapper } from '@/widgets/ComputerTable/TableWrapper'
+import { TableWrapper } from '@/widgets/tables/ComputerTable/ComputerTable'
 
 const DevicePrimaryFilter = lazy(() =>
 	import('@/features/device-filter/ui/DevicePrimaryFilter').then(m => ({

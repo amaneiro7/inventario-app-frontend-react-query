@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { useGetAllModel } from '@/entities/model/models/infra/hook/useGetAllModel'
-
+import { useTableModelWrapper } from './useTableModelWrapper'
 import { Table } from '@/shared/ui/Table/Table'
 import { TableBody } from '@/shared/ui/Table/TableBody'
 import { TableHead } from '@/shared/ui/Table/TableHead'
@@ -10,10 +10,9 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { ModelGetByCriteria } from '@/entities/model/models/application/ModelGetByCriteria'
-import { PaginationBar } from '../../shared/ui/Pagination/PaginationBar'
+import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { type ModelFilters } from '@/entities/model/models/application/CreateModelsQueryParams'
-import { useTableModelWrapper } from './useTableModelWrapper'
 
 interface Props {
 	query: ModelFilters
@@ -23,7 +22,7 @@ interface Props {
 }
 
 const TableModels = lazy(() =>
-	import('../../entities/model/models/infra/ui/TableModels').then(m => ({
+	import('@/entities/model/models/infra/ui/TableModels').then(m => ({
 		default: m.TableModels
 	}))
 )

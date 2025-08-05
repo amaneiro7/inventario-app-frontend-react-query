@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllPrinterDevices'
 import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
-import { TableDefaultDevice } from '@/entities/devices/devices/infra/ui/DeviceTable/TableDefaultDevice'
+import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { DevicePrinterFilter } from '@/entities/devices/devices/application/printer/DevicePrinterFilter'
 import { type DevicePrinterFilters } from '@/entities/devices/devices/application/printer/CreateDevicePrinterParams'
 
@@ -29,7 +29,7 @@ export function TablePrinterWrapper({
 	const { devices, isError, isLoading } = useGetAllPrinterDevices(query)
 	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
-		<TableDefaultDevice
+		<TableLayout
 			colSpan={colSpan}
 			handleChange={handleChange}
 			handlePageClick={handlePageClick}
@@ -62,6 +62,6 @@ export function TablePrinterWrapper({
 					</Suspense>
 				)}
 			</>
-		</TableDefaultDevice>
+		</TableLayout>
 	)
 }

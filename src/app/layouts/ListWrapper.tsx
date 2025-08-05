@@ -1,16 +1,26 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
-import { PageTitle } from '../../shared/ui/PageTitle'
+import { PageTitle } from '@/shared/ui/PageTitle'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 
+/**
+ * `ListWrapper`
+ * @component
+ * @description Componente de layout que envuelve las páginas de listados.
+ * Proporciona un título de página dinámico, breadcrumbs, optimización SEO y un contenedor de estilo (`DetailsWrapper`).
+ * @returns {JSX.Element} El layout de listados con el contenido de la ruta anidada.
+ */
 const ListWrapper = memo(() => {
 	const location = useLocation()
 	const isListIndex = location.pathname === '/list'
 	const outletTitle = useOutletContext<string>()
 
-	const routeMetadata = useMemo(
+	/**
+	 * Metadata para las diferentes rutas de listados.
+	 * Contiene el título y la descripción para SEO y el título de la página.
+	 */ const routeMetadata = useMemo(
 		(): Record<string, { title: string; description: string }> => ({
 			'/list': {
 				title: 'Listados Generales',
@@ -40,7 +50,7 @@ const ListWrapper = memo(() => {
 			'/list/parts': {
 				title: 'Partes | Listado',
 				description:
-					'Listado de partes de equipos. Consulta disponibilidad y gestiona su inventario.'
+					'Dashboard que ofrece una visión general de las partes y componentes del sistema de inventario.'
 			},
 			'/list/usuarios': {
 				title: 'Gestión de Empleados',

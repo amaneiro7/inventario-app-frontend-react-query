@@ -1,5 +1,5 @@
+import { type JSX, lazy, Suspense } from 'react'
 import { Loading } from '@/shared/ui/Loading'
-import { lazy, Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 const ListComputer = lazy(() => import('@/pages/ListComputer'))
@@ -43,93 +43,39 @@ const PaymentSchedules = lazy(() => import('@/pages/PaymentSchedules'))
 const ListWrapper = lazy(() => import('@/app/layouts/ListWrapper'))
 const FormWrapper = lazy(() => import('@/app/layouts/FormWrapper'))
 const MonitoringWrapper = lazy(() => import('@/app/layouts/MonitoringWrapper'))
-const MonitoringAgencyMapChart = lazy(() => import('@/pages/MonitoringAgencyMapChart'))
-const MonitoringSiteMapChart = lazy(() => import('@/pages/MonitoringSiteMapChart'))
+const AgencyMapPage = lazy(() => import('@/pages/MonitoringAgencyMapChart'))
+const AdministrativeSiteMapPage = lazy(() => import('@/pages/MonitoringSiteMapChart'))
 
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const List = lazy(() => import('@/pages/List'))
 const Form = lazy(() => import('@/pages/Form'))
 const Monitoring = lazy(() => import('@/pages/Monitoring'))
 
-export function AppRoutes() {
+/**
+ * `AppRoutes`
+ * @component
+ * @description Componente que define todas las rutas de la aplicación utilizando `react-router-dom`.
+ * Implementa lazy loading para los componentes de página para optimizar el rendimiento inicial.
+ * @returns {JSX.Element} Las rutas configuradas de la aplicación.
+ */
+export function AppRoutes(): JSX.Element {
 	return (
-		<Suspense>
+		<Suspense fallback={<Loading />}>
+			{' '}
+			{/* Suspense global para todas las rutas */}
 			<Routes>
-				<Route
-					path="/login"
-					element={
-						<Suspense fallback={<Loading />}>
-							<Login />
-						</Suspense>
-					}
-				/>
-				<Route
-					path="/"
-					element={
-						<Suspense fallback={<Loading />}>
-							<Layout />
-						</Suspense>
-					}
-				>
-					<Route
-						path="/"
-						element={
-							<Suspense fallback={<Loading />}>
-								<Home />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/profile"
-						element={
-							<Suspense fallback={<Loading />}>
-								<Profile />
-							</Suspense>
-						}
-					/>
-					<Route
-						path="/user-management"
-						element={
-							<Suspense fallback={<Loading />}>
-								<UserManagement />
-							</Suspense>
-						}
-					>
-						<Route
-							path="register"
-							element={
-								<Suspense>
-									<RegisterPage />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="edit/:id"
-							element={
-								<Suspense>
-									<RegisterPage />
-								</Suspense>
-							}
-						/>
-						<Route
-							path="profile/:id"
-							element={
-								<Suspense>
-									<ManagementProfile />
-								</Suspense>
-							}
-						/>
+				<Route path="/login" element={<Login />} />
+				<Route path="/" element={<Layout />}>
+					<Route index element={<Home />} /> {/* Ruta index para / */}
+					<Route path="profile" element={<Profile />} />
+					<Route path="user-management" element={<UserManagement />}>
+						<Route path="register" element={<RegisterPage />} />
+						<Route path="edit/:id" element={<RegisterPage />} />
+						<Route path="profile/:id" element={<ManagementProfile />} />
 					</Route>
-					<Route path="/payment-schedules" element={<PaymentSchedules />} />
-					<Route
-						path="/list"
-						element={
-							<Suspense fallback={<Loading />}>
-								<ListWrapper />
-							</Suspense>
-						}
-					>
-						<Route path="" element={<List />} />
+					<Route path="payment-schedules" element={<PaymentSchedules />} />
+					<Route path="list" element={<ListWrapper />}>
+						<Route index element={<List />} />
 						<Route path="usuarios" element={<ListEmployee />} />
 						<Route path="computer" element={<ListComputer />} />
 						<Route path="monitor" element={<ListMonitor />} />
@@ -140,41 +86,22 @@ export function AppRoutes() {
 						<Route path="location" element={<ListSite />} />
 						<Route path="history" element={<ListHistory />} />
 					</Route>
-					<Route
-						path="/monitoring"
-						element={
-							<Suspense fallback={<Loading />}>
-								<MonitoringWrapper />
-							</Suspense>
-						}
-					>
-						<Route path="" element={<Monitoring />} />
+					<Route path="monitoring" element={<MonitoringWrapper />}>
+						<Route index element={<Monitoring />} />
 						<Route path="device" element={<MonitoringDevice />} />
 						<Route path="location" element={<MonitoringLocation />} />
-						<Route path="agencymap" element={<MonitoringAgencyMapChart />} />
-						<Route path="administrativesitemap" element={<MonitoringSiteMapChart />} />
+						<Route path="agencymap" element={<AgencyMapPage />} />
+						<Route
+							path="administrativesitemap"
+							element={<AdministrativeSiteMapPage />}
+						/>
 					</Route>
-					<Route
-						path="/dashboard"
-						element={
-							<Suspense>
-								<DashboardWrapper />
-							</Suspense>
-						}
-					>
-						<Route path="" element={<Dashboards />} />
+					<Route path="dashboard" element={<DashboardWrapper />}>
+						<Route index element={<Dashboards />} />
 						<Route path="computer" element={<DashboardComputer />} />
 					</Route>
-
-					<Route
-						path="/form"
-						element={
-							<Suspense fallback={<Loading />}>
-								<FormWrapper />
-							</Suspense>
-						}
-					>
-						<Route path="" element={<Form />} />
+					<Route path="form" element={<FormWrapper />}>
+						<Route index element={<Form />} />
 						<Route path="device/add" element={<FormDevice />} />
 						<Route path="device/edit/:id" element={<FormDevice />} />
 						<Route path="employee/add" element={<FormEmployee />} />
@@ -215,14 +142,7 @@ export function AppRoutes() {
 						<Route path="processors/edit/:id" element={<FormProcessor />} />
 					</Route>
 				</Route>
-				<Route
-					path="*"
-					element={
-						<Suspense fallback={<Loading />}>
-							<NotFound />
-						</Suspense>
-					}
-				/>
+				<Route path="*" element={<NotFound />} />
 			</Routes>
 		</Suspense>
 	)

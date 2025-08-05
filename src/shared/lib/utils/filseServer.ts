@@ -1,5 +1,5 @@
 import { saveAs } from 'file-saver'
-import { Source } from '../../../types/type'
+import { type Source } from '@/types/type'
 
 export const fileSaver = (data: Blob | string, source: Source) => {
 	const now = new Date()

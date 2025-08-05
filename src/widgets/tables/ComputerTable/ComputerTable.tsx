@@ -11,7 +11,7 @@ import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { TableRow } from '@/shared/ui/Table/TableRow'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
-import { TypeOfSiteTabNav } from '@/entities/locations/typeOfSites/infra/ui/TypeOfSiteTabNav'
+import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { type DeviceComputerFilters } from '@/entities/devices/devices/application/computerFilter/CreateDeviceComputerParams'
 

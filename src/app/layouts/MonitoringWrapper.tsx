@@ -1,16 +1,26 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
-import { PageTitle } from '../../shared/ui/PageTitle'
+import { PageTitle } from '@/shared/ui/PageTitle'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 
+/**
+ * `MonitoringWrapper`
+ * @component
+ * @description Componente de layout que envuelve las páginas de monitoreo.
+ * Proporciona un título de página dinámico, breadcrumbs, optimización SEO y un contenedor de estilo (`DetailsWrapper`).
+ * @returns {JSX.Element} El layout de monitoreo con el contenido de la ruta anidada.
+ */
 const MonitoringWrapper = memo(() => {
 	const location = useLocation()
 	const isMonitoringBaseIndex = location.pathname === '/monitoring'
 	const outletTitle = useOutletContext<string>()
 
-	const routeMetadata = useMemo(
+	/**
+	 * Metadata para las diferentes rutas de monitoreo.
+	 * Contiene el título y la descripción para SEO y el título de la página.
+	 */ const routeMetadata = useMemo(
 		(): Record<string, { title: string; description: string }> => ({
 			'/monitoring': {
 				title: 'Panel de Monitoreo de Red',

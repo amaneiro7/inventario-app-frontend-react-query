@@ -11,7 +11,7 @@ import { TableHead } from '@/shared/ui/Table/TableHead'
 import { TableHeader } from '@/shared/ui/Table/TableHeader'
 import { TableRow } from '@/shared/ui/Table/TableRow'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { PaginationBar } from '../../shared/ui/Pagination/PaginationBar'
+import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 import { type EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
 

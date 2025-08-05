@@ -1,14 +1,33 @@
 import axios, { type AxiosRequestConfig } from 'axios'
 import { api } from './axios.config'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { fileSaver } from '../lib/utils/filseServer'
+import { type Source } from '@/types/type'
 
-export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolean }): Promise<T> {
+type ApiConfig = AxiosRequestConfig & { _retry?: boolean }
+
+// Sobrecarga 1: Para descarga de archivos (cuando 'souerce' está presente)
+export function fetching<T>(config: ApiConfig, source: Source): Promise<void>
+
+//Sobrecarga 2: Para obtener datos (cuando 'source' está ausente)
+export function fetching<T>(config: ApiConfig, source?: undefined): Promise<T>
+
+export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T | void> {
 	try {
-		const response = await api(config)
+		const apiConfig: ApiConfig = source
+			? {
+					...config,
+					headers: {
+						'Content-Type': 'application/vnc.ms-excel'
+					},
+					responseType: 'blob'
+				}
+			: config
+		const response = await api(apiConfig)
 		if (!response.data) {
 			throw new Error('Ha ocurrido un error inesperado')
 		}
-		return response.data as T
+		return source ? fileSaver(response.data, source) : (response.data as T)
 	} catch (error) {
 		const axiosError = axios.isAxiosError(error)
 		const originalRequest = config as AxiosRequestConfig & { _retry?: boolean }
@@ -26,21 +45,20 @@ export async function fetching<T>(config: AxiosRequestConfig & { _retry?: boolea
 		// Manejo de otros errores
 		if (axiosError && error.response) {
 			const { status, data } = error.response
+			const message = data?.message
 			switch (status) {
 				case 403:
-					throw new Error(data?.message ?? 'Acceso denegado.')
+					throw new Error(message ?? 'Acceso denegado.')
 				case 404:
-					throw new Error('Recurso no encontrado.')
+					throw new Error(message ?? 'Recurso no encontrado.')
 				case 422:
-					throw new Error(data?.message ?? 'Error de validación.')
+					throw new Error(message ?? 'Error de validación.')
 				case 429:
-					throw new Error(
-						data?.message ?? 'Demasiadas solicitudes, por favor, reintente mas tarde.'
-					)
+					throw new Error(message ?? 'Demasiadas solicitudes.')
 				case 500:
-					throw new Error('Error interno del servidor.')
+					throw new Error(message ?? 'Error interno del servidor.')
 				default:
-					throw new Error(data?.message ?? `Error HTTP ${status}: Error desconocido`)
+					throw new Error(message ?? `Error HTTP ${status}`)
 			}
 		}
 		throw new Error(

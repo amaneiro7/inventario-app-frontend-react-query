@@ -1,10 +1,9 @@
 import { lazy } from 'react'
 import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/useGetAllPartsDevices'
 import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
-
+import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
 import { type DevicePartsFilters } from '@/entities/devices/devices/application/parts/CreateDevicePartsParams'
-import { TableDefaultDevice } from '@/entities/devices/devices/infra/ui/DeviceTable/TableDefaultDevice'
 
 interface TablePartsWrapperProps {
 	query: DevicePartsFilters
@@ -30,7 +29,7 @@ export function TablePartsWrapper({
 	const { devices, isError, isLoading } = useGetAllPartsDevices(query)
 	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
 	return (
-		<TableDefaultDevice
+		<TableLayout
 			colSpan={colSpan}
 			handleChange={handleChange}
 			handlePageClick={handlePageClick}
@@ -61,6 +60,6 @@ export function TablePartsWrapper({
 					/>
 				)}
 			</>
-		</TableDefaultDevice>
+		</TableLayout>
 	)
 }

@@ -1,14 +1,26 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
-import { PageTitle } from '../../shared/ui/PageTitle'
+import { PageTitle } from '@/shared/ui/PageTitle'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { Seo } from '@/shared/ui/Seo'
 
+/**
+ * `DashBoardWrapper`
+ * @component
+ * @description Componente de layout que envuelve las páginas del dashboard.
+ * Proporciona un título de página dinámico, breadcrumbs y optimización SEO.
+ * Utiliza `useOutletContext` para permitir que las rutas anidadas pasen un título al layout.
+ * @returns {JSX.Element} El layout del dashboard con el contenido de la ruta anidada.
+ */
 const DashboardWrapper = memo(() => {
 	const location = useLocation()
 	const isDashboardIndex = location.pathname === '/dashboard'
 	const outletTitle = useOutletContext<string>()
 
+	/**
+	 * Metadata para las diferentes rutas del dashboard.
+	 * Contiene el título y la descripción para SEO y el título de la página.
+	 */
 	const routeMetadata = useMemo(
 		(): Record<string, { title: string; description: string }> => ({
 			'/dashboard': {
