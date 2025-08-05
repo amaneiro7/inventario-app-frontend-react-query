@@ -120,7 +120,7 @@ export const LocationMonitoringContainer = memo(
 				</TablePageWrapper>
 				{locationMonitorings && !isLoading && !isError && (
 					<PaginationBar
-						registerOptions={LocationMonitoringGetByCriteria.pegaSizeOptions}
+						registerOptions={LocationMonitoringGetByCriteria.pageSizeOptions}
 						totalPages={locationMonitorings?.info?.totalPage}
 						total={locationMonitorings?.info?.total}
 						currentPage={locationMonitorings?.info?.page}

@@ -2,6 +2,19 @@ import { memo, useMemo } from 'react'
 import { useGetAllHardDriveCapacity } from '@/entities/devices/features/hardDrive/hardDriveCapacity/infra/hook/useGetAllHardDriveCapacity'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 
+/**
+ * `HardDriveCapacityCombobox`
+ * @component
+ * @description Componente Combobox para seleccionar la capacidad de un disco duro.
+ * Muestra las capacidades disponibles y permite la selección.
+ * @param {object} props - Las propiedades del componente.
+ * @param {string} [props.value=''] - El ID de la capacidad de disco duro seleccionada.
+ * @param {string} props.name - El nombre del campo del formulario.
+ * @param {string} [props.error=''] - Mensaje de error a mostrar.
+ * @param {boolean} [props.required=false] - Indica si el campo es requerido.
+ * @param {boolean} [props.disabled=false] - Indica si el campo está deshabilitado.
+ * @param {(name: string, value: string | number) => void} props.handleChange - Función de callback para manejar el cambio de valor.
+ */
 export const HardDriveCapacityCombobox = memo(function ({
 	value = '',
 	name,

@@ -6,7 +6,7 @@ import {
 import { LocationMonitoringGetAll } from './LocationMonitoringGetAll'
 
 export class LocationMonitoringGetByCriteria {
-	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly pageSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	private readonly getAll: LocationMonitoringGetAll
 	constructor(private readonly repository: LocationMonitoringGetAllRepository) {

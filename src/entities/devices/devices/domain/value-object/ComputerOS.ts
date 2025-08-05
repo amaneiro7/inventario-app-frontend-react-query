@@ -5,9 +5,22 @@ import { type OperatingSystemId } from '@/entities/devices/features/operatingSys
 import { type StatusId } from '@/entities/status/status/domain/value-object/StatusId'
 import { type ComputerHDDCapacity } from './ComputerHDDCapacity'
 
+/**
+ * @class ComputerOs
+ * @extends {AcceptedNullValueObject<Primitives<OperatingSystemId>>}
+ * @description Value Object que representa el sistema operativo de una computadora.
+ * Incluye lógica de validación basada en el estado del dispositivo y la capacidad del disco duro.
+ */
 export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSystemId>> {
 	private static errors = ''
-	constructor(
+
+	/**
+	 * Crea una instancia de `ComputerOs`.
+	 * @param {Primitives<OperatingSystemId> | null} value - El valor del ID del sistema operativo.
+	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
+	 * @param {Primitives<ComputerHDDCapacity> | null} hardDriveCapacity - La capacidad del disco duro asociada.
+	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
+	 */	constructor(
 		value: Primitives<OperatingSystemId> | null,
 		private readonly status: Primitives<StatusId>,
 		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity> | null
@@ -25,15 +38,31 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 		}
 	}
 
-	private static updateError(error: string): void {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} error - El mensaje de error a establecer.
+	 */	private static updateError(error: string): void {
 		ComputerOs.errors = error
 	}
 
-	private static get errorsValue(): string {
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @private
+	 * @type {string}
+	 */	private static get errorsValue(): string {
 		return ComputerOs.errors
 	}
 
-	public static isValid({
+	/**
+	 * Valida el sistema operativo en función del estado del dispositivo y la capacidad del disco duro.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {Primitives<OperatingSystemId> | null} [props.value] - El valor del ID del sistema operativo.
+	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
+	 * @param {Primitives<ComputerHDDCapacity>} [props.hardDriveCapacity] - La capacidad del disco duro asociada.
+	 * @returns {boolean} `true` si el sistema operativo es válido, `false` en caso contrario.
+	 */	public static isValid({
 		value,
 		status,
 		hardDriveCapacity
@@ -83,7 +112,11 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 		return true
 	}
 
-	public static invalidMessage(): string {
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */	public static invalidMessage(): string {
 		return ComputerOs.errorsValue
 	}
 }

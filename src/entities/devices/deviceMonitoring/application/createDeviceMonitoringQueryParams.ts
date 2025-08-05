@@ -6,6 +6,25 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type DeviceMonitoringDto } from '../domain/dto/DeviceMonitoring.dto'
 
+/**
+ * @interface DeviceMonitoringFilters
+ * @description Define la estructura de los filtros disponibles para buscar entidades `DeviceMonitoring`.
+ * @property {DeviceMonitoringDto['id']} [id] - ID de la monitorización del dispositivo.
+ * @property {DeviceMonitoringDto['status']} [status] - Estado de la monitorización del dispositivo.
+ * @property {DeviceMonitoringDto['ipAddress']} [ipAddress] - Dirección IP del dispositivo.
+ * @property {DeviceMonitoringDto['computerName']} [computerName] - Nombre del equipo del dispositivo.
+ * @property {string} [locationId] - ID de la ubicación del dispositivo.
+ * @property {string} [typeOfSiteId] - ID del tipo de sitio del dispositivo.
+ * @property {string} [siteId] - ID del sitio del dispositivo.
+ * @property {string} [cityId] - ID de la ciudad del dispositivo.
+ * @property {string} [stateId] - ID del estado del dispositivo.
+ * @property {string} [regionId] - ID de la región del dispositivo.
+ * @property {string} [administrativeRegionId] - ID de la región administrativa del dispositivo.
+ * @property {number} [pageNumber] - Número de página para la paginación.
+ * @property {number} [pageSize] - Tamaño de página para la paginación.
+ * @property {Primitives<OrderBy>} [orderBy] - Campo por el cual ordenar los resultados.
+ * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
+ */
 export interface DeviceMonitoringFilters {
 	id?: DeviceMonitoringDto['id']
 	status?: DeviceMonitoringDto['status']
@@ -24,6 +43,14 @@ export interface DeviceMonitoringFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * `createDeviceMonitoringParams`
+ * @function
+ * @description Construye una cadena de parámetros de consulta (query string) a partir de un objeto `DeviceMonitoringFilters`.
+ * Utiliza la clase `Criteria` para generar la consulta de forma estructurada.
+ * @param {DeviceMonitoringFilters} filters - El objeto de filtros para construir los parámetros de consulta.
+ * @returns {Promise<string>} Una promesa que se resuelve con la cadena de parámetros de consulta.
+ */
 export async function createDeviceMonitoringParams({
 	pageNumber,
 	pageSize,

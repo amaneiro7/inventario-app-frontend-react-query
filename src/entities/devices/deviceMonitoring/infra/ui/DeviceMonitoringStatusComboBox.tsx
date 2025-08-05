@@ -1,7 +1,22 @@
 import { useMemo } from 'react'
 import { Combobox } from '@/shared/ui/Input/Combobox'
-import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { DeviceMonitoringStatuses } from '../../domain/value-object/Status'
 
+/**
+ * `DeviceMonitoringStatusCombobox`
+ * @component
+ * @description Componente Combobox para seleccionar el estado de monitoreo de un dispositivo.
+ * Ofrece opciones como 'En línea', 'Fuera de línea', 'Nombre de host inconsistente' y 'Todos'.
+ * @param {object} props - Las propiedades del componente.
+ * @param {string | null} [props.value] - El valor seleccionado del estado de monitoreo.
+ * @param {string} props.name - El nombre del campo del formulario.
+ * @param {string} [props.error=''] - Mensaje de error a mostrar.
+ * @param {'location' | 'device'} [props.type] - Tipo de monitoreo (ubicación o dispositivo) para ajustar las opciones.
+ * @param {boolean} [props.required=false] - Indica si el campo es requerido.
+ * @param {boolean} [props.disabled=false] - Indica si el campo está deshabilitado.
+ * @param {boolean} [props.readonly=false] - Indica si el campo es de solo lectura.
+ * @param {(name: string, value: string | number) => void} props.handleChange - Función de callback para manejar el cambio de valor.
+ */
 export function DeviceMonitoringStatusCombobox({
 	value,
 	name,

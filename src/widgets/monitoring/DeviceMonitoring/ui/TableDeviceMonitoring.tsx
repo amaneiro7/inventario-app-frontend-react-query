@@ -9,7 +9,7 @@ import { TableCellError } from '@/shared/ui/Table/TableCellError'
 import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
 import { type DeviceMonitoringDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 import { DeviceMonitoringDescription } from './DeviceMonitoringDescription'
-import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
 
 interface TableDeviceMonitoringProps {
 	devices?: DeviceMonitoringDto[]

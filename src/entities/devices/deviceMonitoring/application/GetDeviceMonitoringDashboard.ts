@@ -5,12 +5,23 @@ import {
 	type DeviceMonitoringFilters
 } from './createDeviceMonitoringQueryParams'
 
+/**
+ * @class GetDeviceMonitoringDashboard
+ * @description Servicio de aplicación para obtener los datos del dashboard de monitoreo de dispositivos.
+ */
 export class GetDeviceMonitoringDashboard {
-	constructor(
+	/**
+	 * @param {DeviceMonitoringDashboardRepository} deviceMonitoringDashboardRepository - El repositorio para obtener los datos del dashboard de monitoreo de dispositivos.
+	 */	constructor(
 		private readonly deviceMonitoringDashboardRepository: DeviceMonitoringDashboardRepository
 	) {}
 
-	async execute({
+	/**
+	 * Ejecuta la obtención de los datos del dashboard de monitoreo de dispositivos.
+	 * Construye los parámetros de la consulta y delega la ejecución al repositorio.
+	 * @param {DeviceMonitoringFilters} filters - Los filtros a aplicar en la consulta.
+	 * @returns {Promise<DeviceMonitoringDashboardDto>} Una promesa que se resuelve con el DTO del dashboard de monitoreo de dispositivos.
+	 */	async execute({
 		pageNumber,
 		pageSize,
 		orderBy,

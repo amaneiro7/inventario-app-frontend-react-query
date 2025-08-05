@@ -13,10 +13,10 @@ import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
-import { type DeviceComputerFilters } from '@/entities/devices/devices/application/computerFilter/CreateDeviceComputerParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 interface TableWrapperProps {
-	query: DeviceComputerFilters
+	query: DeviceBaseFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
@@ -102,7 +102,7 @@ export const TableWrapper = memo(
 				</TablePageWrapper>
 				{devices && !isLoading && !isError && (
 					<PaginationBar
-						registerOptions={DeviceComputerFilter.pegaSizeOptions}
+						registerOptions={DeviceComputerFilter.pageSizeOptions}
 						totalPages={devices?.info?.totalPage}
 						total={devices?.info?.total}
 						currentPage={devices?.info?.page}

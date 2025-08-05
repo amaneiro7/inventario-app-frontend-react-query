@@ -101,7 +101,7 @@ export const TableEmployeeWrapper = memo(function ({
 			</TablePageWrapper>
 			{employees && !isLoading && !isError && (
 				<PaginationBar
-					registerOptions={EmployeeGetByCriteria.pegaSizeOptions}
+					registerOptions={EmployeeGetByCriteria.pageSizeOptions}
 					totalPages={employees?.info?.totalPage}
 					total={employees?.info?.total}
 					currentPage={employees?.info?.page}

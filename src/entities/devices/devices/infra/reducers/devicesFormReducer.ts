@@ -7,7 +7,7 @@ import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOpti
 import { MemoryRam } from '../../domain/value-object/MemoryRam'
 import { DeviceLocation } from '../../domain/value-object/DeviceLocation'
 import { DeviceStockNumber } from '../../domain/value-object/DeviceStockNumber'
-import { IPAddress } from '../../domain/value-object/ComputerIPAddress'
+import { IPAddress } from '../../domain/value-object/IPAddress'
 import { ComputerHDDCapacity } from '../../domain/value-object/ComputerHDDCapacity'
 import { ComputerHDDType } from '../../domain/value-object/ComputerHDDType'
 import { ComputerOs } from '../../domain/value-object/ComputerOS'

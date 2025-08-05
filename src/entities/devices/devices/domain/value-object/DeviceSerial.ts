@@ -2,32 +2,67 @@ import { GenericModel } from '@/entities/model/models/domain/value-object/Generi
 import { AcceptedNullValueObject } from '@/entities/shared/domain/value-objects/AcceptedNullValueObject'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
+/**
+ * @class DeviceSerial
+ * @extends {AcceptedNullValueObject<string>}
+ * @description Value Object que representa el número de serie de un dispositivo.
+ * Incluye validación de formato (mayúsculas, sin caracteres especiales) y longitud,
+ * y considera si el modelo es genérico para la obligatoriedad del serial.
+ */
 export class DeviceSerial extends AcceptedNullValueObject<string> {
-	static readonly NAME_MIN_LENGTH = 5
-	static readonly NAME_MAX_LENGTH = 100
-	static readonly notLowerCase = /^[^a-z]*$/
-	static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
-	static errors = ''
+	/**
+	 * Longitud mínima permitida para el número de serie.
+	 * @static
+	 * @type {number}
+	 */	static readonly NAME_MIN_LENGTH = 5
+	/**
+	 * Longitud máxima permitida para el número de serie.
+	 * @static
+	 * @type {number}
+	 */	static readonly NAME_MAX_LENGTH = 100
+	private static readonly notLowerCase = /^[^a-z]*$/
+	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
+	private static errors = ''
 
-	constructor(
+	/**
+	 * Crea una instancia de `DeviceSerial`.
+	 * @param {string | null} value - El valor del número de serie.
+	 * @param {boolean} [genericModel] - Indica si el modelo asociado es genérico.
+	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
+	 */	constructor(
 		value: string | null,
 		readonly genericModel?: boolean
 	) {
 		super(value)
-		if (!DeviceSerial.isValid({ serial: value, genericModel })) {
+		if (!DeviceSerial.isValid({ serial: this.value, genericModel: this.genericModel })) {
 			throw new Error(DeviceSerial.invalidMessage())
 		}
 	}
 
-	private static updateError(error: string): void {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} error - El mensaje de error a establecer.
+	 */	private static updateError(error: string): void {
 		DeviceSerial.errors = error
 	}
 
-	private static get errorsValue(): string {
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @private
+	 * @type {string}
+	 */	private static get errorsValue(): string {
 		return DeviceSerial.errors
 	}
 
-	public static isValid({
+	/**
+	 * Valida el número de serie del dispositivo.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {string | null} props.serial - El número de serie a validar.
+	 * @param {Primitives<GenericModel>} [props.genericModel] - Indica si el modelo es genérico.
+	 * @returns {boolean} `true` si el número de serie es válido, `false` en caso contrario.
+	 */	public static isValid({
 		serial,
 		genericModel
 	}: {
@@ -65,7 +100,11 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 		return isHasNotSpecialCharacterOnlyGuiones && isNotHasLowerCharacter && isNameValidLength
 	}
 
-	public static invalidMessage(): string {
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */	public static invalidMessage(): string {
 		return this.errorsValue
 	}
 }

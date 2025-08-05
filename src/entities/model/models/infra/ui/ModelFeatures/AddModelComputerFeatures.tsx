@@ -2,7 +2,7 @@
 import { lazy, memo, Suspense } from 'react'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 import { Input } from '@/shared/ui/Input/Input'
-import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import { MemoryRamSlotQuantity } from '@/entities/model/models/domain/value-object/MemoryRamSlotQuantity'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { ProcessorTransferList } from '@/entities/devices/features/processor/infra/ui/ProcessorTransferList'

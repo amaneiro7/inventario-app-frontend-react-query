@@ -121,7 +121,7 @@ export const DeviceMonitoringContainer = memo(
 				</TablePageWrapper>
 				{deviceMonitorings && !isLoading && !isError && (
 					<PaginationBar
-						registerOptions={DeviceComputerFilter.pegaSizeOptions}
+						registerOptions={DeviceComputerFilter.pageSizeOptions}
 						totalPages={deviceMonitorings?.info?.totalPage}
 						total={deviceMonitorings?.info?.total}
 						currentPage={deviceMonitorings?.info?.page}

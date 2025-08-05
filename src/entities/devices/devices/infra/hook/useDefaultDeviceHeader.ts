@@ -2,7 +2,17 @@ import { useMemo } from 'react'
 import { type Headers } from '@/shared/ui/Table/TableHeader'
 import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
 
-export function useDefaulDeviceHeader() {
+/**
+ * `useDefaultDeviceHeader`
+ * @function
+ * @description Hook personalizado para definir las cabeceras de tabla por defecto para dispositivos.
+ * Ajusta la visibilidad de las columnas y el `colSpan` de forma responsiva según el tamaño de la pantalla.
+ * @returns {object} Un objeto con las cabeceras (`headers`), el `colSpan` calculado y las columnas visibles (`visibleColumns`).
+ * @property {Headers[]} headers - Array de objetos de cabecera de tabla.
+ * @property {number} colSpan - El `colSpan` calculado para las celdas de la tabla.
+ * @property {string[]} visibleColumns - Array de claves de las columnas que son visibles.
+ */
+export function useDefaultDeviceHeader() {
 	const isBreakpointSmall = useMediaQuery('(max-width: 1120px)')
 	const isBreakpointExtraSmall = useMediaQuery('(max-width: 970px)')
 	const isBreakpointUltraSmall = useMediaQuery('(max-width: 855px)')
@@ -33,6 +43,14 @@ export function useDefaulDeviceHeader() {
 				size: 'large',
 				isTab: true,
 				visible: !isBreakpointUltraTinySmall
+			},
+			{
+				key: 'ipAddress',
+				label: 'Dirección IP',
+				hasOrder: true,
+				size: 'small',
+				isTab: true,
+				visible: true
 			},
 			{
 				key: 'serial',

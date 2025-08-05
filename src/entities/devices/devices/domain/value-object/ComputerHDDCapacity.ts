@@ -4,9 +4,21 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 import { type HardDriveCapacityId } from '@/entities/devices/features/hardDrive/hardDriveCapacity/domain/value-object/HardDriveCapacityId'
 import { type StatusId } from '@/entities/status/status/domain/value-object/StatusId'
 
+/**
+ * @class ComputerHDDCapacity
+ * @extends {AcceptedNullValueObject<Primitives<HardDriveCapacityId>>}
+ * @description Value Object que representa la capacidad del disco duro de una computadora.
+ * Incluye lógica de validación basada en el estado del dispositivo.
+ */
 export class ComputerHDDCapacity extends AcceptedNullValueObject<Primitives<HardDriveCapacityId>> {
 	private static errors = ''
-	constructor(
+
+	/**
+	 * Crea una instancia de `ComputerHDDCapacity`.
+	 * @param {Primitives<HardDriveCapacityId> | null} value - El valor de la capacidad del disco duro.
+	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
+	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
+	 */	constructor(
 		value: Primitives<HardDriveCapacityId> | null,
 		private readonly status: Primitives<StatusId>
 	) {
@@ -17,15 +29,30 @@ export class ComputerHDDCapacity extends AcceptedNullValueObject<Primitives<Hard
 		}
 	}
 
-	private static updateError(error: string): void {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} error - El mensaje de error a establecer.
+	 */	private static updateError(error: string): void {
 		ComputerHDDCapacity.errors = error
 	}
 
-	private static get errorsValue(): string {
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @private
+	 * @type {string}
+	 */	private static get errorsValue(): string {
 		return ComputerHDDCapacity.errors
 	}
 
-	public static isValid({
+	/**
+	 * Valida la capacidad del disco duro en función del estado del dispositivo.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {Primitives<ComputerHDDCapacity>} [props.value] - El valor de la capacidad del disco duro.
+	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
+	 * @returns {boolean} `true` si la capacidad es válida, `false` en caso contrario.
+	 */	public static isValid({
 		value,
 		status
 	}: {
@@ -53,7 +80,11 @@ export class ComputerHDDCapacity extends AcceptedNullValueObject<Primitives<Hard
 		return true
 	}
 
-	public static invalidMessage(): string {
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */	public static invalidMessage(): string {
 		return ComputerHDDCapacity.errorsValue
 	}
 }

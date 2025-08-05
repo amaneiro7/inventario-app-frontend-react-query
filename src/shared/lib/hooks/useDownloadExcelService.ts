@@ -5,13 +5,13 @@ import { DeviceDownloadService } from '@/entities/devices/devices/infra/service/
 import { ModelDownload } from '@/entities/model/models/application/ModelDownload'
 import { ModelDownloadService } from '@/entities/model/models/infra/service/modelDownload.service'
 import { type Source } from '@/types/type'
-import { type DeviceComputerFilters } from '@/entities/devices/devices/application/computerFilter/CreateDeviceComputerParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 export function useDownloadExcelService() {
 	const { events } = useAuthStore.getState()
 	const [isDownloading, setIsDownloading] = useState(false)
 	const download = useCallback(
-		async ({ query, source }: { query: DeviceComputerFilters; source: Source }) => {
+		async ({ query, source }: { query: DeviceBaseFilters; source: Source }) => {
 			setIsDownloading(true)
 			try {
 				if (source === 'model') {

@@ -3,7 +3,7 @@ import { type CentroCostoGetAllRepository } from '../domain/repository/CentroCos
 import { createCentroCostoParams, type CentroCostoFilters } from './createCentroCostoQueryParams'
 
 export class CentroCostoGetByCriteria {
-	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly pageSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	static readonly defaultOrderBy = 'name'
 	private readonly getAll: CentroCostoGetAll

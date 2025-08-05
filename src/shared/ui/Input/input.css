@@ -167,7 +167,7 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	background-color: white;
+	background-color: transparent;
 	border-radius: 5px;
 	display: block;
 	transform-origin: top left;
@@ -202,6 +202,7 @@
 	border-color: var(--border-color);
 	border-style: solid;
 	border-top: 1px;
+	background-color: white;
 	padding-inline: 6px;
 	-webkit-transform: translate(var(--label-translate), -6px) scale(0.75);
 	-moz-transform: translate(var(--label-translate), -6px) scale(0.75);

@@ -4,14 +4,29 @@ import { type EventManager } from '@/entities/shared/domain/Observer/EventManage
 import { type ProcessorSaveRepository } from '../domain/repository/ProcessorSaveRepository'
 import { type ProcessorParams } from '../domain/dto/Processor.dto'
 
+/**
+ * @class ProcessorCreator
+ * @description Clase de caso de uso para crear o actualizar entidades `Processor`.
+ * Orquesta la lógica de negocio para persistir un procesador y notificar eventos.
+ */
 export class ProcessorCreator {
-	constructor(
+	/**
+	 * Crea una instancia de `ProcessorCreator`.
+	 * @param {ProcessorSaveRepository} repository - El repositorio para guardar o actualizar el procesador.
+	 * @param {EventManager} events - El gestor de eventos para notificar el estado de la operación.
+	 */	constructor(
 		readonly repository: ProcessorSaveRepository,
 		private readonly events: EventManager
 	) {}
 
-	async create(params: ProcessorParams) {
-		// Notificar que ha empezado el proceso de creación o actualización
+	/**
+	 * Ejecuta la creación o actualización de un procesador.
+	 * Si `params.id` está presente, actualiza el procesador existente; de lo contrario, crea uno nuevo.
+	 * Notifica el estado de la operación a través del gestor de eventos.
+	 * @param {ProcessorParams} params - Los parámetros del procesador a crear o actualizar.
+	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
+	 * @throws {Error} Si ocurre un error durante la operación, se notifica y se lanza una excepción.
+	 */	async create(params: ProcessorParams) {
 		this.events.notify({ type: 'loading' })
 		try {
 			const payload = Processor.create(params).toPrimitives()

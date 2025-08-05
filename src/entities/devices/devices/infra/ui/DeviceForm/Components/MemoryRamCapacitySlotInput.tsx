@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { MemoryRamValues } from '@/entities/devices/devices/domain/value-object/MemoryRamValues'
+import { MemoryRamValues } from '../../../../domain/value-object/MemoryRamValues'
 import { Input } from '@/shared/ui/Input/Input'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 

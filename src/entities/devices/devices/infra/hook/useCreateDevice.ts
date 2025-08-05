@@ -12,6 +12,26 @@ import { DeviceSaveService } from '../service/deviceSave.service'
 import { useDeviceInitialState } from './useDeviceInitialState'
 import { type Params } from '../../domain/dto/Device.dto'
 
+/**
+ * `useCreateDevice`
+ * @function
+ * @description Hook personalizado para gestionar la creación y actualización de dispositivos.
+ * Utiliza un reducer para manejar el estado del formulario y se integra con los servicios de aplicación.
+ * @param {DefaultDevice} [defaultState] - El estado inicial opcional para el formulario del dispositivo.
+ * @returns {object} Un objeto con el estado del formulario, funciones de manejo y metadatos.
+ * @property {string} key - Una clave única para el formulario (útil para `React.key`).
+ * @property {DefaultDevice} formData - Los datos actuales del formulario.
+ * @property {'edit' | 'add'} mode - El modo actual del formulario (edición o adición).
+ * @property {DevicesErrors} errors - Los errores de validación del formulario.
+ * @property {DeviceRequired} required - Indica qué campos son requeridos.
+ * @property {DevicesDisabled} disabled - Indica qué campos están deshabilitados.
+ * @property {() => void} resetForm - Función para resetear el formulario a su estado inicial.
+ * @property {(event: React.FormEvent) => Promise<void>} handleSubmit - Función para manejar el envío del formulario.
+ * @property {(name: Action['type'], value: string | number | boolean) => void} handleChange - Función para manejar los cambios en los campos del formulario.
+ * @property {(props: { value: string; memoryRamSlotQuantity?: number; memoryRamType?: string; generic?: boolean }) => Promise<void>} handleModel - Función para manejar cambios en el modelo del dispositivo.
+ * @property {(props: { value: string; typeOfSiteId?: string; ipAddress?: string | null }) => Promise<void>} handleLocation - Función para manejar cambios en la ubicación del dispositivo.
+ * @property {(value: string, index: number) => Promise<void>} handleMemory - Función para manejar cambios en la memoria RAM.
+ */
 export function useCreateDevice(defaultState?: DefaultDevice) {
 	const key = `device${initialDeviceState?.formData?.id ? initialDeviceState.formData.id : ''}`
 	const { events } = useAuthStore.getState()
@@ -55,8 +75,12 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 			name === 'modelId' ||
 			name === 'memoryRam' ||
 			name === 'locationId'
-		)
+		) {
+			// Estos tipos de acción se manejan con funciones específicas (handleModel, handleLocation, handleMemory)
+			// o son acciones internas del reducer que no deben ser llamadas directamente por handleChange.
+			console.warn(`Action type '${name}' should not be called via handleChange.`)
 			return
+		}
 		dispatch({ type: name, payload: { value } })
 	}, [])
 

@@ -3,7 +3,7 @@ import { type DepartamentoGetAllRepository } from '../domain/repository/Departam
 import { createDepartamentoParams, type DepartamentoFilters } from './createDepartamentoQueryParams'
 
 export class DepartamentoGetByCriteria {
-	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly pageSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	static readonly defaultOrderBy = 'name'
 	private readonly getAll: DepartamentoGetAll

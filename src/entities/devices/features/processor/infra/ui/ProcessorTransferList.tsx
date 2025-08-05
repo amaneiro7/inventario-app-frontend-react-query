@@ -3,7 +3,7 @@ import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import Typography from '@/shared/ui/Typography'
-import { TransferListItem } from '../../../../../../shared/ui/TransferList/TransferListItem'
+import { TransferListItem } from '@/shared/ui/TransferList/TransferListItem'
 import { type ProcessorDto } from '@/entities/devices/features/processor/domain/dto/Processor.dto'
 
 interface ProcessorTransferListProps {

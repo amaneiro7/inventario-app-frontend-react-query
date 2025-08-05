@@ -1,27 +1,61 @@
 import { AcceptedNullValueObject } from '@/entities/shared/domain/value-objects/AcceptedNullValueObject'
 
+/**
+ * @class DeviceActivo
+ * @extends {AcceptedNullValueObject<string>}
+ * @description Value Object que representa el número de activo de un dispositivo.
+ * Incluye validación de formato (mayúsculas, sin caracteres especiales) y longitud.
+ */
 export class DeviceActivo extends AcceptedNullValueObject<string> {
-	private static readonly NAME_MIN_LENGTH = 5
-	private static readonly NAME_MAX_LENGTH = 100
+	/**
+	 * Longitud mínima permitida para el número de activo.
+	 * @static
+	 * @type {number}
+	 */ private static readonly NAME_MIN_LENGTH = 5
+	/**
+	 * Longitud máxima permitida para el número de activo.
+	 * @static
+	 * @type {number}
+	 */ private static readonly NAME_MAX_LENGTH = 100
 	private static readonly notLowerCase = /^[^a-z]*$/
 	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
+
 	private static errors = ''
-	constructor(value: string | null) {
+
+	/**
+	 * Crea una instancia de `DeviceActivo`.
+	 * @param {string | null} value - El valor del número de activo.
+	 * @throws {Error} Si el valor no es válido según las reglas definidas.
+	 */ constructor(value: string | null) {
 		super(value)
 		if (!DeviceActivo.isValid({ value })) {
 			throw new Error(DeviceActivo.invalidMessage())
 		}
 	}
 
-	private static updateError(value: string) {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} value - El mensaje de error a establecer.
+	 */ private static updateError(value: string) {
 		DeviceActivo.errors = value
 	}
 
-	static get errorsValue(): string {
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @static
+	 * @type {string}
+	 */ static get errorsValue(): string {
 		return DeviceActivo.errors
 	}
 
-	public static isValid({ value }: { value: string | null }): boolean {
+	/**
+	 * Valida el número de activo.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {string | null} props.value - El valor del número de activo a validar.
+	 * @returns {boolean} `true` si el número de activo es válido, `false` en caso contrario.
+	 */ public static isValid({ value }: { value: string | null }): boolean {
 		if (value === null || value === '') return true
 		const errorMesagge: string[] = []
 		const isHasNotSpecialCharacterOnlyGuiones = this.notSpecialCharacterOnlyGuiones.test(value)
@@ -43,7 +77,11 @@ export class DeviceActivo extends AcceptedNullValueObject<string> {
 		return isHasNotSpecialCharacterOnlyGuiones && isNotHasLowerCharacter && isNameValidLength
 	}
 
-	public static invalidMessage(): string {
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */ public static invalidMessage(): string {
 		return DeviceActivo.errorsValue
 	}
 }

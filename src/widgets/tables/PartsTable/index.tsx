@@ -1,12 +1,12 @@
 import { lazy } from 'react'
 import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/useGetAllPartsDevices'
-import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
+import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
-import { type DevicePartsFilters } from '@/entities/devices/devices/application/parts/CreateDevicePartsParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 interface TablePartsWrapperProps {
-	query: DevicePartsFilters
+	query: DeviceBaseFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
@@ -27,7 +27,7 @@ export function TablePartsWrapper({
 	handlePageClick
 }: TablePartsWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllPartsDevices(query)
-	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
+	const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
 	return (
 		<TableLayout
 			colSpan={colSpan}
@@ -38,7 +38,7 @@ export function TablePartsWrapper({
 			orderBy={query?.orderBy}
 			orderType={query?.orderType}
 			dataIsLoaded={devices !== undefined}
-			pegaSizeOptions={DevicePartsFilter.pegaSizeOptions}
+			pageSizeOptions={DevicePartsFilter.pageSizeOptions}
 			defaultPageSize={DevicePartsFilter.defaultPageSize}
 			isError={isError}
 			isLoading={isLoading}

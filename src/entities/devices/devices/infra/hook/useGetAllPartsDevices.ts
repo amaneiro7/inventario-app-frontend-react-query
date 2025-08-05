@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/entities/devices/devices/infra/service/deviceGetAll.service'
 import { DevicePartsFilter } from '../../application/parts/DevicePartsFilter'
 import { REFETCH_INTERVAL_IN_MS } from '../../domain/entity/refetchIntervalInMs'
-import { type DevicePartsFilters } from '../../application/parts/CreateDevicePartsParams'
+import { type DeviceBaseFilters } from '../../application/createDeviceQueryParams'
 
-export const useGetAllPartsDevices = (query: DevicePartsFilters) => {
+export const useGetAllPartsDevices = (query: DeviceBaseFilters) => {
 	const repository = useMemo(() => new DeviceGetAllService(), [])
 	const getAll = useMemo(() => new DevicePartsFilter(repository), [repository])
 

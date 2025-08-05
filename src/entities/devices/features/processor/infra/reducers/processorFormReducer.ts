@@ -1,5 +1,5 @@
 import { type ProcessorParams } from '../../domain/dto/Processor.dto'
-import { ProcessorProductCollection } from '../../domain/value-object/ProcessorCollection'
+import { ProcessorProductCollection } from '../../domain/value-object/ProcessorProductCollection'
 import { ProcessorCores } from '../../domain/value-object/ProcessorCores'
 import { ProcessorFrequency } from '../../domain/value-object/ProcessorFrequency'
 import { ProcessorNumberModel } from '../../domain/value-object/ProcessorNumberModel'

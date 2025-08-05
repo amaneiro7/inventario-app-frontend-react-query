@@ -6,9 +6,22 @@ import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entit
 import { type LocationId } from '@/entities/locations/locations/domain/value-object/LocationId'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
+/**
+ * @class DeviceLocation
+ * @extends {AcceptedNullValueObject<Primitives<LocationId>>}
+ * @description Value Object que representa la ubicación de un dispositivo.
+ * Incluye lógica de validación basada en el estado del dispositivo y el tipo de sitio.
+ */
 export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationId>> {
 	private static errors = ''
-	constructor(
+
+	/**
+	 * Crea una instancia de `DeviceLocation`.
+	 * @param {Primitives<LocationId> | null} value - El ID de la ubicación.
+	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
+	 * @param {Primitives<TypeOfSiteId>} [typeOfSite] - El ID del tipo de sitio de la ubicación.
+	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
+	 */	constructor(
 		value: Primitives<LocationId> | null,
 		private readonly status: Primitives<StatusId>,
 		private readonly typeOfSite?: Primitives<TypeOfSiteId>
@@ -24,15 +37,30 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 		}
 	}
 
-	private static updateError(error: string): void {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} error - El mensaje de error a establecer.
+	 */	private static updateError(error: string): void {
 		DeviceLocation.errors = error
 	}
 
-	private static get errorsValue(): string {
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @private
+	 * @type {string}
+	 */	private static get errorsValue(): string {
 		return DeviceLocation.errors
 	}
 
-	public static isValid({
+	/**
+	 * Valida la ubicación del dispositivo en función de su estado y tipo de sitio.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
+	 * @param {Primitives<TypeOfSiteId>} [props.typeOfSite] - El ID del tipo de sitio de la ubicación.
+	 * @returns {boolean} `true` si la ubicación es válida, `false` en caso contrario.
+	 */	public static isValid({
 		status,
 		typeOfSite
 	}: {
@@ -70,7 +98,11 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 		return true
 	}
 
-	public static invalidMessage(): string {
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */	public static invalidMessage(): string {
 		return this.errorsValue
 	}
 }

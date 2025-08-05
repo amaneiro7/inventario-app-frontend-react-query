@@ -102,7 +102,7 @@ export function TableModelWrapper({ query, handlePageSize, handlePageClick, hand
 			</TablePageWrapper>
 			{models && !isLoading && !isError && (
 				<PaginationBar
-					registerOptions={ModelGetByCriteria.pegaSizeOptions}
+					registerOptions={ModelGetByCriteria.pageSizeOptions}
 					totalPages={models?.info?.totalPage}
 					total={models?.info?.total}
 					currentPage={models?.info?.page}

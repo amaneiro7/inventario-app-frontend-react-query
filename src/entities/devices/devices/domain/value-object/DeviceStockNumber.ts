@@ -3,12 +3,31 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import { StatusId } from '@/entities/status/status/domain/value-object/StatusId'
 
+/**
+ * @class DeviceStockNumber
+ * @extends {AcceptedNullValueObject<string>}
+ * @description Value Object que representa el número de stock de un dispositivo.
+ * Incluye validación de longitud y reglas de negocio basadas en el estado del dispositivo.
+ */
 export class DeviceStockNumber extends AcceptedNullValueObject<string> {
-	static readonly NAME_MIN_LENGTH = 2
-	static readonly NAME_MAX_LENGTH = 10
-	static errors = ''
+	/**
+	 * Longitud mínima permitida para el número de stock.
+	 * @static
+	 * @type {number}
+	 */	static readonly NAME_MIN_LENGTH = 2
+	/**
+	 * Longitud máxima permitida para el número de stock.
+	 * @static
+	 * @type {number}
+	 */	static readonly NAME_MAX_LENGTH = 10
+	private static errors = ''
 
-	constructor(
+	/**
+	 * Crea una instancia de `DeviceStockNumber`.
+	 * @param {string | null} value - El valor del número de stock.
+	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
+	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
+	 */	constructor(
 		value: string | null,
 		private readonly status: Primitives<StatusId>
 	) {
@@ -18,15 +37,30 @@ export class DeviceStockNumber extends AcceptedNullValueObject<string> {
 		}
 	}
 
-	private static updateError(error: string): void {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} error - El mensaje de error a establecer.
+	 */	private static updateError(error: string): void {
 		this.errors = error
 	}
 
-	private static get errorsValue(): string {
-		return this.errors
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @private
+	 * @type {string}
+	 */	private static get errorsValue(): string {
+		return DeviceStockNumber.errors
 	}
 
-	public static isValid({
+	/**
+	 * Valida el número de stock en función del estado del dispositivo.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {string | null} props.value - El valor del número de stock a validar.
+	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
+	 * @returns {boolean} `true` si el número de stock es válido, `false` en caso contrario.
+	 */	public static isValid({
 		value,
 		status
 	}: {
@@ -57,7 +91,11 @@ export class DeviceStockNumber extends AcceptedNullValueObject<string> {
 		return true
 	}
 
-	public static invalidMessage(): string {
-		return this.errorsValue
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */	public static invalidMessage(): string {
+		return DeviceStockNumber.errorsValue
 	}
 }

@@ -20,8 +20,29 @@ import {
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/InvalidArgumentError'
 
+/**
+ * @class DeviceHardDrive
+ * @extends {Device}
+ * @description Entidad de dominio que representa un dispositivo de tipo disco duro.
+ * Extiende la entidad `Device` base y añade propiedades específicas de discos duros.
+ */
 export class DeviceHardDrive extends Device {
-	constructor(
+	/**
+	 * Crea una instancia de `DeviceHardDrive`.
+	 * @param {DeviceSerial} serial - El número de serie del dispositivo.
+	 * @param {DeviceActivo} activo - El número de activo del dispositivo.
+	 * @param {StatusId} statusId - El ID del estado del dispositivo.
+	 * @param {ModelId} modelId - El ID del modelo del dispositivo.
+	 * @param {CategoryId} categoryId - El ID de la categoría del dispositivo.
+	 * @param {BrandId} brandId - El ID de la marca del dispositivo.
+	 * @param {DeviceEmployee} employeeId - El ID del empleado asignado al dispositivo.
+	 * @param {DeviceLocation} locationId - El ID de la ubicación del dispositivo.
+	 * @param {DeviceObservation} observation - Observaciones sobre el dispositivo.
+	 * @param {DeviceStockNumber} stockNumber - El número de stock del dispositivo.
+	 * @param {HardDriveHealth} health - El estado de salud del disco duro.
+	 * @param {HardDriveCapacityId} hardDriveCapacityId - El ID de la capacidad del disco duro.
+	 * @param {HardDriveTypeId} hardDriveTypeId - El ID del tipo de disco duro.
+	 */	constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -50,14 +71,25 @@ export class DeviceHardDrive extends Device {
 		)
 	}
 
-	static isHardDriveCategory(
+	/**
+	 * Verifica si una categoría dada corresponde a un tipo de dispositivo de disco duro.
+	 * @static
+	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
+	 * @returns {boolean} `true` si la categoría es de disco duro, `false` en caso contrario.
+	 */	static isHardDriveCategory(
 		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
 	): boolean {
 		const allowedComputerCategories = [CategoryOptions.HARDDRIVE]
 		return allowedComputerCategories.includes(categoryId)
 	}
 
-	public static create(params: DeviceHardDriveParams) {
+	/**
+	 * Crea una nueva instancia de `DeviceHardDrive` a partir de sus propiedades primitivas.
+	 * @static
+	 * @param {DeviceHardDriveParams} params - Los parámetros del dispositivo de disco duro.
+	 * @returns {DeviceHardDrive} Una nueva instancia de `DeviceHardDrive`.
+	 * @throws {InvalidArgumentError} Si la categoría no pertenece a un tipo de disco duro.
+	 */	public static create(params: DeviceHardDriveParams) {
 		if (!DeviceHardDrive.isHardDriveCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
@@ -78,19 +110,31 @@ export class DeviceHardDrive extends Device {
 		)
 	}
 
-	get healthValue(): Primitives<HardDriveHealth> {
+	/**
+	 * Obtiene el valor primitivo del estado de salud del disco duro.
+	 * @type {Primitives<HardDriveHealth>}
+	 */	get healthValue(): Primitives<HardDriveHealth> {
 		return this.health.value
 	}
 
-	get hardDriveCapacityValue(): Primitives<HardDriveCapacityId> {
+	/**
+	 * Obtiene el valor primitivo del ID de la capacidad del disco duro.
+	 * @type {Primitives<HardDriveCapacityId>}
+	 */	get hardDriveCapacityValue(): Primitives<HardDriveCapacityId> {
 		return this.hardDriveCapacityId.value
 	}
 
-	get hardDriveTypeValue(): Primitives<HardDriveTypeId> {
+	/**
+	 * Obtiene el valor primitivo del ID del tipo de disco duro.
+	 * @type {Primitives<HardDriveTypeId>}
+	 */	get hardDriveTypeValue(): Primitives<HardDriveTypeId> {
 		return this.hardDriveTypeId.value
 	}
 
-	toPrimitives(): DeviceHardDrivePrimitives {
+	/**
+	 * Convierte la entidad `DeviceHardDrive` a su representación primitiva.
+	 * @returns {DeviceHardDrivePrimitives} La representación primitiva del dispositivo de disco duro.
+	 */	toPrimitives(): DeviceHardDrivePrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

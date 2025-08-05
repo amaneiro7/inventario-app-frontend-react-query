@@ -1,5 +1,5 @@
 import { memo, useMemo } from 'react'
-import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import { EmployeeTypeCombobox } from '@/entities/employee/employee/infra/ui/EmployeeTypeComboBox'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'

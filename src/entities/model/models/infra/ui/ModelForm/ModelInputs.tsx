@@ -2,7 +2,7 @@
 import { lazy, memo, Suspense } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'
-import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 import {

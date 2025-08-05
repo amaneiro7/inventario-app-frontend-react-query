@@ -8,7 +8,7 @@ import { ProcessorCores } from '@/entities/devices/features/processor/domain/val
 import { ProcessorFrequency } from '@/entities/devices/features/processor/domain/value-object/ProcessorFrequency'
 import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
 import { Input } from '@/shared/ui/Input/Input'
-import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { Checkbox } from '@/shared/ui/Checkbox'
 
 interface Props {
 	errors?: ProcessorsErrors

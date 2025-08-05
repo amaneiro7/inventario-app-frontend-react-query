@@ -47,7 +47,7 @@ export const LocationDataWrapper = memo(
 
 				{locations && !isLoading && !isError && locations.info?.total > 0 && (
 					<PaginationBar
-						registerOptions={LocationGetByCriteria.pegaSizeOptions}
+						registerOptions={LocationGetByCriteria.pageSizeOptions}
 						totalPages={locations?.info?.totalPage}
 						total={locations?.info?.total}
 						currentPage={locations?.info?.page}

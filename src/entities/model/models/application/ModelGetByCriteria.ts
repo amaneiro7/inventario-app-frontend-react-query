@@ -3,7 +3,7 @@ import { type ModelGetAllRepository } from '../domain/repository/ModelGetAllRepo
 import { type ModelFilters, createModelParams } from './CreateModelsQueryParams'
 
 export class ModelGetByCriteria {
-	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly pageSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	static readonly defaultOrderBy = 'categoryId'
 	private readonly getAll: ModelGetAll

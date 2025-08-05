@@ -1,14 +1,21 @@
-import { useGenericFilter } from '../../../../../shared/lib/hooks/useHookFilter'
+import { useGenericFilter } from '@/shared/lib/hooks/useHookFilter'
 import {
 	DeviceFinantialPrinterFilter,
 	defaultMainCategoryValue
 } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
-import { type DeviceFinantialPrinterFilters } from '@/entities/devices/devices/application/finantialPrinter/CreateDeviceFinantialPrinterParams'
+import { DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
+/**
+ * `useFinantialPrinterFilter`
+ * @function
+ * @description Hook personalizado para gestionar los filtros de dispositivos de tipo 'impresora financiera'.
+ * Utiliza `useGenericFilter` para integrar la lógica de filtrado, paginación y ordenación con la URL.
+ * @returns {DeviceBaseFilters & { mainCategoryId: string }} Un objeto que contiene los valores de los filtros y las funciones para manipularlos, además del `mainCategoryId` por defecto.
+ */
 export function useFinantialPrinterFilter() {
 	const mainCategoryId = defaultMainCategoryValue
 
-	const filters = useGenericFilter<DeviceFinantialPrinterFilters>({
+	const filters = useGenericFilter<DeviceBaseFilters>({
 		defaultPageSize: DeviceFinantialPrinterFilter.defaultPageSize,
 		filterKeys: [
 			'categoryId',

@@ -6,6 +6,16 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type OperatingSystemDto } from '../domain/dto/OperatingSystem.dto'
 
+/**
+ * @interface OperatingSystemFilters
+ * @description Define la estructura de los filtros disponibles para buscar entidades `OperatingSystem`.
+ * @property {OperatingSystemDto['id']} [id] - ID del sistema operativo.
+ * @property {OperatingSystemDto['name']} [name] - Nombre del sistema operativo.
+ * @property {number} [pageNumber] - Número de página para la paginación.
+ * @property {number} [pageSize] - Tamaño de página para la paginación.
+ * @property {Primitives<OrderBy>} [orderBy] - Campo por el cual ordenar los resultados.
+ * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
+ */
 export interface OperatingSystemFilters {
 	id?: OperatingSystemDto['id']
 	name?: OperatingSystemDto['name']
@@ -15,6 +25,14 @@ export interface OperatingSystemFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * `createOperatingSystemParams`
+ * @function
+ * @description Construye una cadena de parámetros de consulta (query string) a partir de un objeto `OperatingSystemFilters`.
+ * Utiliza la clase `Criteria` para generar la consulta de forma estructurada.
+ * @param {OperatingSystemFilters} filters - El objeto de filtros para construir los parámetros de consulta.
+ * @returns {Promise<string>} Una promesa que se resuelve con la cadena de parámetros de consulta.
+ */
 export async function createOperatingSystemParams({
 	pageNumber,
 	pageSize,

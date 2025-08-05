@@ -1,7 +1,7 @@
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import { ComputerHDDCapacity } from '../../domain/value-object/ComputerHDDCapacity'
 import { ComputerHDDType } from '../../domain/value-object/ComputerHDDType'
-import { IPAddress } from '../../domain/value-object/ComputerIPAddress'
+import { IPAddress } from '../../domain/value-object/IPAddress'
 import { ComputerName } from '../../domain/value-object/ComputerName'
 import { ComputerOs } from '../../domain/value-object/ComputerOS'
 import { ComputerOsArq } from '../../domain/value-object/ComputerOSArq'

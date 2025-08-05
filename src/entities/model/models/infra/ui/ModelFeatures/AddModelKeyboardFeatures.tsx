@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, memo, Suspense } from 'react'
-import { Checkbox } from '@/shared/ui/Checkbox/Checbox'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 // Types
 import {

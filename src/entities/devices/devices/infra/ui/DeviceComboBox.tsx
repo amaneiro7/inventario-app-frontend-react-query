@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { Combobox } from '@/shared/ui/Input/Combobox'
-import { DeviceFilters } from '@/entities/devices/devices/application/inputSearch/createDeviceQueryParams'
+import { DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 import { useGetAllDevicesInputSearch } from '@/entities/devices/devices/infra/hook/useGetAllDevicesInputSearch'
 import { DeviceRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/DeviceRenderOption'
 
@@ -25,7 +25,7 @@ export function DeviceCombobox({
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue, 250)
 
-	const query: DeviceFilters = useMemo(() => {
+	const query: DeviceBaseFilters = useMemo(() => {
 		return {
 			...(debouncedSearch ? { id: undefined, serial: debouncedSearch } : { pageSize: 10 }),
 			...(value ? { id: value } : {}),

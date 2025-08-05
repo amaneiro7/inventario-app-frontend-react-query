@@ -1,7 +1,7 @@
 import { StatusId } from '@/entities/status/status/domain/value-object/StatusId'
 import { ComputerHDDCapacity } from '../value-object/ComputerHDDCapacity'
 import { ComputerHDDType } from '../value-object/ComputerHDDType'
-import { IPAddress } from '../value-object/ComputerIPAddress'
+import { IPAddress } from '../value-object/IPAddress'
 import { ComputerOs } from '../value-object/ComputerOS'
 import { ComputerOsArq } from '../value-object/ComputerOSArq'
 import { DeviceActivo } from '../value-object/DeviceActivo'
@@ -24,8 +24,36 @@ import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/Inv
 import { type DeviceComputerParams, type DeviceComputerPrimitives } from '../dto/DeviceComputer.dto'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
+/**
+ * @class DeviceComputer
+ * @extends {Device}
+ * @description Entidad de dominio que representa un dispositivo de tipo computadora.
+ * Extiende la entidad `Device` base y añade propiedades específicas de computadoras.
+ */
 export class DeviceComputer extends Device {
-	constructor(
+	/**
+	 * Crea una instancia de `DeviceComputer`.
+	 * @param {DeviceSerial} serial - El número de serie del dispositivo.
+	 * @param {DeviceActivo} activo - El número de activo del dispositivo.
+	 * @param {StatusId} statusId - El ID del estado del dispositivo.
+	 * @param {CategoryId} categoryId - El ID de la categoría del dispositivo.
+	 * @param {BrandId} brandId - El ID de la marca del dispositivo.
+	 * @param {ModelId} modelId - El ID del modelo del dispositivo.
+	 * @param {DeviceEmployee} employeeId - El ID del empleado asignado al dispositivo.
+	 * @param {DeviceLocation} locationId - El ID de la ubicación del dispositivo.
+	 * @param {DeviceObservation} observation - Observaciones sobre el dispositivo.
+	 * @param {DeviceStockNumber} stockNumber - El número de stock del dispositivo.
+	 * @param {ComputerName} computerName - El nombre del equipo.
+	 * @param {ComputerProcessor} processorId - El ID del procesador.
+	 * @param {MemoryRamCapacity} memoryRamCapacity - La capacidad de memoria RAM.
+	 * @param {MemoryRam} memoryRam - Los módulos de memoria RAM.
+	 * @param {ComputerHDDCapacity} hardDriveCapacityId - El ID de la capacidad del disco duro.
+	 * @param {ComputerHDDType} hardDriveTypeId - El ID del tipo de disco duro.
+	 * @param {ComputerOs} operatingSystemId - El ID del sistema operativo.
+	 * @param {ComputerOsArq} operatingSystemArqId - El ID de la arquitectura del sistema operativo.
+	 * @param {MACAddress} macAddress - La dirección MAC.
+	 * @param {IPAddress} ipAddress - La dirección IP.
+	 */	constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -61,7 +89,12 @@ export class DeviceComputer extends Device {
 		)
 	}
 
-	static isComputerCategory(categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]) {
+	/**
+	 * Verifica si una categoría dada corresponde a un tipo de dispositivo de computadora.
+	 * @static
+	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
+	 * @returns {boolean} `true` si la categoría es de computadora, `false` en caso contrario.
+	 */	static isComputerCategory(categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]) {
 		return categoryId === CategoryOptions.COMPUTER ||
 			categoryId === CategoryOptions.ALLINONE ||
 			categoryId === CategoryOptions.LAPTOP ||
@@ -70,7 +103,13 @@ export class DeviceComputer extends Device {
 			: false
 	}
 
-	public static create(params: DeviceComputerParams) {
+	/**
+	 * Crea una nueva instancia de `DeviceComputer` a partir de sus propiedades primitivas.
+	 * @static
+	 * @param {DeviceComputerParams} params - Los parámetros del dispositivo de computadora.
+	 * @returns {DeviceComputer} Una nueva instancia de `DeviceComputer`.
+	 * @throws {InvalidArgumentError} Si la categoría no pertenece a un tipo de computadora.
+	 */	public static create(params: DeviceComputerParams) {
 		if (!DeviceComputer.isComputerCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
@@ -99,38 +138,71 @@ export class DeviceComputer extends Device {
 		)
 	}
 
-	get computerNameValue(): Primitives<ComputerName> {
+	/**
+	 * Obtiene el valor primitivo del nombre del equipo.
+	 * @type {Primitives<ComputerName>}
+	 */	get computerNameValue(): Primitives<ComputerName> {
 		return this.computerName.value
 	}
-	get memoryRamCapacityValue(): Primitives<MemoryRamCapacity> {
+	/**
+	 * Obtiene el valor primitivo de la capacidad de memoria RAM.
+	 * @type {Primitives<MemoryRamCapacity>}
+	 */	get memoryRamCapacityValue(): Primitives<MemoryRamCapacity> {
 		return this.memoryRamCapacity.value
 	}
-	get memoryRamValue(): number[] {
+	/**
+	 * Obtiene los valores primitivos de los módulos de memoria RAM.
+	 * @type {number[]}
+	 */	get memoryRamValue(): number[] {
 		return this.memoryRam.toPrimitives()
 	}
-	get processorValue(): Primitives<ComputerProcessor> {
+	/**
+	 * Obtiene el valor primitivo del ID del procesador.
+	 * @type {Primitives<ComputerProcessor>}
+	 */	get processorValue(): Primitives<ComputerProcessor> {
 		return this.processorId.value
 	}
-	get hardDriveCapacityValue(): Primitives<ComputerHDDCapacity> {
+	/**
+	 * Obtiene el valor primitivo del ID de la capacidad del disco duro.
+	 * @type {Primitives<ComputerHDDCapacity>}
+	 */	get hardDriveCapacityValue(): Primitives<ComputerHDDCapacity> {
 		return this.hardDriveCapacityId.value
 	}
-	get hardDriveTypeValue(): Primitives<ComputerHDDType> {
+	/**
+	 * Obtiene el valor primitivo del ID del tipo de disco duro.
+	 * @type {Primitives<ComputerHDDType>}
+	 */	get hardDriveTypeValue(): Primitives<ComputerHDDType> {
 		return this.hardDriveTypeId.value
 	}
-	get operatingSystemValue(): Primitives<ComputerOs> {
+	/**
+	 * Obtiene el valor primitivo del ID del sistema operativo.
+	 * @type {Primitives<ComputerOs>}
+	 */	get operatingSystemValue(): Primitives<ComputerOs> {
 		return this.operatingSystemId.value
 	}
-	get operatingSystemArqValue(): Primitives<ComputerOsArq> {
+	/**
+	 * Obtiene el valor primitivo del ID de la arquitectura del sistema operativo.
+	 * @type {Primitives<ComputerOsArq>}
+	 */	get operatingSystemArqValue(): Primitives<ComputerOsArq> {
 		return this.operatingSystemArqId.value
 	}
-	get macAddressValue(): Primitives<MACAddress> {
+	/**
+	 * Obtiene el valor primitivo de la dirección MAC.
+	 * @type {Primitives<MACAddress>}
+	 */	get macAddressValue(): Primitives<MACAddress> {
 		return this.macAddress.value
 	}
-	get ipAddressValue(): Primitives<IPAddress> {
+	/**
+	 * Obtiene el valor primitivo de la dirección IP.
+	 * @type {Primitives<IPAddress>}
+	 */	get ipAddressValue(): Primitives<IPAddress> {
 		return this.ipAddress.value
 	}
 
-	toPrimitives(): DeviceComputerPrimitives {
+	/**
+	 * Convierte la entidad `DeviceComputer` a su representación primitiva.
+	 * @returns {DeviceComputerPrimitives} La representación primitiva del dispositivo de computadora.
+	 */	toPrimitives(): DeviceComputerPrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

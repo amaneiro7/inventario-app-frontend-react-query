@@ -3,14 +3,14 @@ import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { useGetAllDevicesInputSearch } from '@/entities/devices/devices/infra/hook/useGetAllDevicesInputSearch'
 import { SearchInput } from '@/shared/ui/Input/Search'
 import { DeviceRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/DeviceRenderOption'
-import { type DeviceFilters } from '@/entities/devices/devices/application/inputSearch/createDeviceQueryParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 export function SerialSearch() {
 	const [searchValue, setSearchValue] = useState('')
 	const [debouncedSearch] = useDebounce(searchValue, 250)
 	const [value, setValue] = useState('')
 
-	const query: DeviceFilters = useMemo(() => {
+	const query: DeviceBaseFilters = useMemo(() => {
 		return {
 			...(debouncedSearch ? { serial: debouncedSearch } : { pageSize: 10 }),
 			...{ orderBy: 'categoryId' }

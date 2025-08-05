@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react'
 import { Server } from 'lucide-react'
 import { useGetAllDeviceMonitorings } from '@/entities/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
-import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { Badge } from '@/shared/ui/Badge'
 import Typography from '@/shared/ui/Typography'

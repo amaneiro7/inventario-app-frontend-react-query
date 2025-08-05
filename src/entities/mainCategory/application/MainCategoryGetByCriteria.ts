@@ -3,7 +3,7 @@ import { type MainCategoryGetAllRepository } from '../domain/repository/MainCate
 import { createMainCategoryParams, type MainCategoryFilters } from './CreateMainCategoryQueryParams'
 
 export class MainCategoryGetByCriteria {
-	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	static readonly pageSizeOptions = [10, 25, 50, 100]
 	static readonly defaultPageSize = 25
 	static readonly defaultOrderBy = 'name'
 	private readonly getAll: MainCategoryGetAll

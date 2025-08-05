@@ -21,7 +21,7 @@ interface TableLayoutProps<T> {
 	typeOfSiteId?: string
 	isLoading?: boolean
 	isError?: boolean
-	pegaSizeOptions: number[]
+	pageSizeOptions: number[]
 	totalPage?: number
 	page?: number
 	colSpan: number
@@ -45,7 +45,7 @@ export function TableLayout<T>({
 	isLoading,
 	isError,
 	dataIsLoaded,
-	pegaSizeOptions,
+	pageSizeOptions,
 	totalPage,
 	page,
 	colSpan,
@@ -109,7 +109,7 @@ export function TableLayout<T>({
 			</TablePageWrapper>
 			{dataIsLoaded && !isLoading && !isError && (
 				<PaginationBar
-					registerOptions={pegaSizeOptions}
+					registerOptions={pageSizeOptions}
 					totalPages={totalPage}
 					total={total}
 					currentPage={page}

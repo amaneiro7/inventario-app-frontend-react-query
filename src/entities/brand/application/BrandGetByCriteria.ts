@@ -13,23 +13,23 @@ export class BrandGetByCriteria {
 	 * Opciones de tamaño de página disponibles para la paginación.
 	 * @static
 	 * @type {number[]}
-	 */	static readonly pegaSizeOptions = [10, 25, 50, 100]
+	 */ static readonly pageSizeOptions = [10, 25, 50, 100]
 	/**
 	 * Tamaño de página por defecto.
 	 * @static
 	 * @type {number}
-	 */	static readonly defaultPageSize = 25
+	 */ static readonly defaultPageSize = 25
 	/**
 	 * Campo de ordenación por defecto.
 	 * @static
 	 * @type {string}
-	 */	static readonly defaultOrderBy = 'name'
+	 */ static readonly defaultOrderBy = 'name'
 	private readonly getAll: BrandGetAll
 
 	/**
 	 * Crea una instancia de `BrandGetByCriteria`.
 	 * @param {BrandGetAllRepository} repository - El repositorio para obtener todas las marcas.
-	 */	constructor(private readonly repository: BrandGetAllRepository) {
+	 */ constructor(private readonly repository: BrandGetAllRepository) {
 		this.getAll = new BrandGetAll(this.repository)
 	}
 
@@ -43,7 +43,7 @@ export class BrandGetByCriteria {
 	 * @param {import('@/entities/shared/domain/criteria/OrderType').Primitives<import('@/entities/shared/domain/criteria/OrderType').OrderType>} [filters.orderType] - El tipo de ordenación (ascendente/descendente).
 	 * @param {object} [filters.options] - Otros filtros específicos de la marca.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<BrandDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */	async search({
+	 */ async search({
 		pageNumber,
 		pageSize,
 		orderBy = BrandGetByCriteria.defaultOrderBy,

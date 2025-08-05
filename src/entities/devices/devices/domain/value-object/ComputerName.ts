@@ -3,14 +3,33 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 import { type StatusId } from '@/entities/status/status/domain/value-object/StatusId'
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 
+/**
+ * @class ComputerName
+ * @extends {AcceptedNullValueObject<string>}
+ * @description Value Object que representa el nombre de un equipo de cómputo.
+ * Incluye validación de formato (mayúsculas, sin caracteres especiales) y reglas de negocio basadas en el estado del dispositivo.
+ */
 export class ComputerName extends AcceptedNullValueObject<string> {
-	static readonly NAME_MIN_LENGTH = 5
-	static readonly NAME_MAX_LENGTH = 100
+	/**
+	 * Longitud mínima permitida para el nombre del equipo.
+	 * @static
+	 * @type {number}
+	 */	static readonly NAME_MIN_LENGTH = 5
+	/**
+	 * Longitud máxima permitida para el nombre del equipo.
+	 * @static
+	 * @type {number}
+	 */	static readonly NAME_MAX_LENGTH = 100
 	private static errors = ''
 	private static readonly notLowerCase = /^[^a-z]*$/
-	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
+	private static readonly notSpecialCharacterOnlyGuiones = /^[^\]*-[^\W_]*$/
 
-	constructor(
+	/**
+	 * Crea una instancia de `ComputerName`.
+	 * @param {string | null} value - El valor del nombre del equipo.
+	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
+	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
+	 */	constructor(
 		value: string | null,
 		readonly status: Primitives<StatusId>
 	) {
@@ -21,15 +40,30 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 		}
 	}
 
-	private static updateError(error: string): void {
+	/**
+	 * Actualiza el mensaje de error estático.
+	 * @private
+	 * @param {string} error - El mensaje de error a establecer.
+	 */	private static updateError(error: string): void {
 		this.errors = error
 	}
 
-	private static get errorsValue(): string {
+	/**
+	 * Obtiene el mensaje de error estático.
+	 * @private
+	 * @type {string}
+	 */	private static get errorsValue(): string {
 		return this.errors
 	}
 
-	public static isValid({
+	/**
+	 * Valida el nombre del equipo en función del estado del dispositivo.
+	 * @static
+	 * @param {object} props - Propiedades para la validación.
+	 * @param {Primitives<ComputerName>} props.value - El valor del nombre del equipo.
+	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
+	 * @returns {boolean} `true` si el nombre del equipo es válido, `false` en caso contrario.
+	 */	public static isValid({
 		value,
 		status
 	}: {
@@ -87,7 +121,11 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 		return isHasNotSpecialCharacterOnlyGuiones && isNotHasLowerCharacter && isNameValidLength
 	}
 
-	public static invalidMessage(): string {
+	/**
+	 * Obtiene el mensaje de error de validación.
+	 * @static
+	 * @returns {string} El mensaje de error.
+	 */	public static invalidMessage(): string {
 		return this.errorsValue
 	}
 }

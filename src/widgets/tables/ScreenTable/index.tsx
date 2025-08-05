@@ -1,11 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllScreenDevices } from '@/entities/devices/devices/infra/hook/useGetAllScreenDevices'
 import { TableLayout } from '@/shared/ui/layouts/TableLayout'
-import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
+import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { DeviceScreenFilter } from '@/entities/devices/devices/application/screenFilter/DeviceScreenFilter'
-import { type DeviceScreenFilters } from '@/entities/devices/devices/application/screenFilter/CreateDeviceScreenParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+
 interface TableScreenWrapperProps {
-	query: DeviceScreenFilters
+	query: DeviceBaseFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
@@ -26,7 +27,7 @@ export function TableScreenWrapper({
 	handlePageClick
 }: TableScreenWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllScreenDevices(query)
-	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
+	const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
 	return (
 		<TableLayout
 			colSpan={colSpan}
@@ -37,7 +38,7 @@ export function TableScreenWrapper({
 			orderBy={query?.orderBy}
 			orderType={query?.orderType}
 			dataIsLoaded={devices !== undefined}
-			pegaSizeOptions={DeviceScreenFilter.pegaSizeOptions}
+			pageSizeOptions={DeviceScreenFilter.pageSizeOptions}
 			defaultPageSize={DeviceScreenFilter.defaultPageSize}
 			isError={isError}
 			isLoading={isLoading}

@@ -1,4 +1,4 @@
-import { DeviceMonitoringStatuses } from '../value-object/DeviceMonitoringStatus'
+import { DeviceMonitoringStatuses } from '../value-object/Status'
 
 export interface DeviceMonitoringDashboardByStateDto {
 	total: number

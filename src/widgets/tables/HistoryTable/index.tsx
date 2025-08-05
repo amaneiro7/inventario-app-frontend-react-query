@@ -123,7 +123,7 @@ export function TableHistoryWrapper({
 			</TablePageWrapper>
 			{histories && !isLoading && !isError && (
 				<PaginationBar
-					registerOptions={HistoryGetByCriteria.pegaSizeOptions}
+					registerOptions={HistoryGetByCriteria.pageSizeOptions}
 					totalPages={histories?.info?.totalPage}
 					total={histories?.info?.total}
 					currentPage={histories?.info?.page}

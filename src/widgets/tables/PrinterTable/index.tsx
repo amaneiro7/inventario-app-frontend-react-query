@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllPrinterDevices'
-import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
-import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { DevicePrinterFilter } from '@/entities/devices/devices/application/printer/DevicePrinterFilter'
-import { type DevicePrinterFilters } from '@/entities/devices/devices/application/printer/CreateDevicePrinterParams'
+import { TableLayout } from '@/shared/ui/layouts/TableLayout'
+import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 interface TablePrinterWrapperProps {
-	query: DevicePrinterFilters
+	query: DeviceBaseFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
@@ -27,7 +27,7 @@ export function TablePrinterWrapper({
 	handlePageClick
 }: TablePrinterWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllPrinterDevices(query)
-	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
+	const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
 	return (
 		<TableLayout
 			colSpan={colSpan}
@@ -38,7 +38,7 @@ export function TablePrinterWrapper({
 			orderBy={query?.orderBy}
 			orderType={query?.orderType}
 			dataIsLoaded={devices !== undefined}
-			pegaSizeOptions={DevicePrinterFilter.pegaSizeOptions}
+			pageSizeOptions={DevicePrinterFilter.pageSizeOptions}
 			defaultPageSize={DevicePrinterFilter.defaultPageSize}
 			isError={isError}
 			isLoading={isLoading}

@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { Wifi, WifiOff } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
-import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/DeviceMonitoringStatus'
+import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
 import { DeviceMonitoringGetByCriteria } from '@/entities/devices/deviceMonitoring/application/DeviceMonitoringGetByCriteria'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import Typography from '@/shared/ui/Typography'
@@ -152,7 +152,7 @@ export const DeviceMonitoringMap = memo(
 					<div className="mt-4 flex w-full justify-center">
 						{/* Centered pagination */}
 						<PaginationBar
-							registerOptions={DeviceMonitoringGetByCriteria.pegaSizeOptions}
+							registerOptions={DeviceMonitoringGetByCriteria.pageSizeOptions}
 							totalPages={deviceMonitorings?.info?.totalPage}
 							total={deviceMonitorings?.info?.total}
 							currentPage={deviceMonitorings?.info?.page}

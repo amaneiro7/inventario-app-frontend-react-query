@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { useGetAllFinantialPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
+import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { DeviceFinantialPrinterFilter } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
-import { useDefaulDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaulDeviceHeader'
 import { TableLayout } from '@/shared/ui/layouts/TableLayout'
-import { type DeviceFinantialPrinterFilters } from '@/entities/devices/devices/application/finantialPrinter/CreateDeviceFinantialPrinterParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 interface TableFinantialWrapperProps {
-	query: DeviceFinantialPrinterFilters
+	query: DeviceBaseFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
@@ -27,7 +27,7 @@ export function TableFinantialWrapper({
 	handlePageClick
 }: TableFinantialWrapperProps) {
 	const { devices, isError, isLoading } = useGetAllFinantialPrinterDevices(query)
-	const { colSpan, headers, visibleColumns } = useDefaulDeviceHeader()
+	const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
 	return (
 		<TableLayout
 			colSpan={colSpan}
@@ -38,7 +38,7 @@ export function TableFinantialWrapper({
 			orderBy={query?.orderBy}
 			orderType={query?.orderType}
 			dataIsLoaded={devices !== undefined}
-			pegaSizeOptions={DeviceFinantialPrinterFilter.pegaSizeOptions}
+			pageSizeOptions={DeviceFinantialPrinterFilter.pageSizeOptions}
 			defaultPageSize={DeviceFinantialPrinterFilter.defaultPageSize}
 			isError={isError}
 			isLoading={isLoading}
