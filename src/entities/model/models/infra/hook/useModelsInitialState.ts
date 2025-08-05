@@ -13,32 +13,36 @@ const repository = new ModelGetService()
 const get = new ModelGetter(repository)
 
 /**
- * Hook personalizado para manejar el estado inicial de un modelo.
- * @param defaultState Estado inicial por defecto del modelo.
- * @returns Un objeto con el estado inicial, la función para resetear el estado y el modo del formulario.
- */ export function useModelInitialState(defaultState: DefaultModel): {
+ * Custom hook for managing the initial state of a model form.
+ * It fetches model data if in 'edit' mode and an ID is present, or initializes with default state.
+ * It also provides a way to reset the form state.
+ *
+ * @param defaultState - The default initial state for the model form.
+ * @returns An object containing the initial state, a reset function, and the form mode.
+ */
+export function useModelInitialState(defaultState: DefaultModel): {
 	initialState: DefaultModel
 	resetState: () => void
 	mode: 'edit' | 'add'
 } {
-	const { id } = useParams() // Obtiene el ID del modelo de los parámetros de la URL.
-	const location = useLocation() // Obtiene la ubicación actual de la URL.
-	const navigate = useNavigate() // Función para navegar a otras rutas.
+	const { id } = useParams() // Gets the model ID from the URL parameters.
+	const location = useLocation() // Gets the current URL location.
+	const navigate = useNavigate() // Function to navigate to other routes.
 
-	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
-	const [state, setState] = useState<DefaultModel>(defaultState) // Estado local del modelo.
+	const mode = useGetFormMode() // Gets the form mode (edit or add).
+	const [state, setState] = useState<DefaultModel>(defaultState) // Local state of the model.
 
-	// Consulta para obtener los datos del modelo si el modo es editar y no hay datos en el estado de la ubicación.
+	// Query to get model data if in edit mode and no data is present in the location state.
 	const { data: modelData, refetch } = useQuery({
-		queryKey: ['model', id], // Clave de la consulta para la caché.
-		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos del modelo.
-		enabled: !!id && mode === 'edit' && !location?.state?.model, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
-		retry: false // Deshabilita los reintentos automáticos en caso de error.
+		queryKey: ['model', id], // Query key for caching.
+		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Function to get model data.
+		enabled: !!id && mode === 'edit' && !location?.state?.model, // Enables the query only if there is an ID, the mode is edit, and no data is in the location state.
+		retry: false // Disables automatic retries in case of error.
 	})
 
 	/**
-	 * Mapea los datos del modelo obtenidos de la API al estado local.
-	 * @param model Datos del modelo obtenidos de la API.
+	 * Maps the fetched ModelDto to the DefaultModel form state.
+	 * @param model - The ModelDto object fetched from the API.
 	 */
 	const mappedModelState = useCallback((model: ModelDto): void => {
 		const { modelComputer, modelKeyboard, modelLaptop, modelMonitor, modelPrinter } = model
@@ -68,7 +72,7 @@ const get = new ModelGetter(repository)
 		})
 	}, [])
 
-	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
+	// Side effect to handle initial state and state update when dependencies change.
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('model')) {
 			setState({
@@ -88,8 +92,20 @@ const get = new ModelGetter(repository)
 		} else if (modelData) {
 			mappedModelState(modelData)
 		}
-	}, [mode, modelData, location.state, defaultState, navigate, id, mappedModelState])
+	}, [
+		mode,
+		modelData,
+		location.state,
+		defaultState,
+		navigate,
+		id,
+		mappedModelState
+	])
 
+	/**
+	 * Resets the form state. If in 'add' mode, it resets to the default state.
+	 * If in 'edit' mode, it refetches the model data to revert changes.
+	 */
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('model')) return
 

@@ -33,15 +33,41 @@ const BrandCombobox = lazy(() =>
 	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({ default: m.BrandCombobox }))
 )
 
-interface Props {
+interface ModelInputsProps {
+	/**
+	 * The current form data for the model.
+	 */
 	formData: DefaultModel
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: ModelErrors
-	required: ModelDisabled
-	disabled: ModelRequired
+	/**
+	 * An object indicating which form fields are required.
+	 */
+	required: ModelRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
+	disabled: ModelDisabled
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode?: FormMode
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: any) => void
 }
 
+/**
+ * `ModelInputs` is a memoized functional component that renders the input fields
+ * for model information. It includes comboboxes for main category, category, and brand,
+ * a text input for the model name, a checkbox for generic models, and dynamically loaded
+ * additional features based on the selected main category and category.
+ */
 export const ModelInputs = memo(function ({
 	errors,
 	disabled,
@@ -49,7 +75,7 @@ export const ModelInputs = memo(function ({
 	formData,
 	mode,
 	handleChange
-}: Props) {
+}: ModelInputsProps) {
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="grid grid-cols-2 gap-5">

@@ -14,14 +14,38 @@ import {
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface AddModelMonitorFeaturesProps {
+	/**
+	 * The current form data for the model.
+	 */
 	formData: DefaultModel
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: ModelErrors
-	required: ModelDisabled
-	disabled: ModelRequired
+	/**
+	 * An object indicating which form fields are required.
+	 */
+	required: ModelRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
+	disabled: ModelDisabled
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode?: FormMode
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: any) => void
 }
 
+/**
+ * `AddModelMonitorFeatures` is a memoized functional component that renders input fields
+ * specific to monitor models. It includes fields for screen size and various ports (VGA, DVI, HDMI).
+ */
 export const AddModelMonitorFeatures = memo(
 	({ handleChange, errors, formData, required }: AddModelMonitorFeaturesProps) => {
 		return (

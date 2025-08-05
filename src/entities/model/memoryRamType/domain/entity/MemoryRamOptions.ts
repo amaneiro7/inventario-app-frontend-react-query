@@ -1,3 +1,7 @@
+/**
+ * Defines the available memory RAM types.
+ * Each type is represented by a string value.
+ */
 export const MemoryRamTypeOptions = {
 	DDR2: 'DDR2',
 	DDR2L: 'DDR2L',

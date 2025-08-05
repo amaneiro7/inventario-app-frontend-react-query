@@ -6,6 +6,9 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type LoginUserDto } from '../domain/dto/LoginUser.dto'
 
+/**
+ * Defines the structure for filtering and pagination parameters when searching for users.
+ */
 export interface UserFilters {
 	id?: LoginUserDto['id']
 	name?: LoginUserDto['name']
@@ -18,6 +21,13 @@ export interface UserFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * Creates a query string for searching users based on provided filters and pagination options.
+ * It constructs a Criteria object and then builds a URL query string from it.
+ *
+ * @param filters - An object containing various filter criteria and pagination parameters.
+ * @returns A Promise that resolves to the constructed query string.
+ */
 export async function createUserParams({
 	pageNumber,
 	pageSize,
@@ -36,20 +46,22 @@ export async function createUserParams({
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
 
-		if (!value) {
+		if (value === undefined || value === null || value === '') {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}
 		} else {
+			const operator = (key === 'name' || key === 'lastName' || key === 'email')
+				? Operator.OR
+				: Operator.EQUAL
+
 			if (index !== -1) {
 				query.filters[index].value = value
+				query.filters[index].operator = operator
 			} else {
 				query.filters.push({
 					field: key,
-					operator:
-						key === 'name' || key === 'lastName' || key === 'email'
-							? Operator.OR
-							: Operator.EQUAL,
+					operator,
 					value
 				})
 			}

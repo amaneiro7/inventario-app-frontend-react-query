@@ -25,13 +25,34 @@ const AddModelKeyboardFeatures = lazy(async () =>
 )
 
 interface AddtionalModelFeaturesProps {
+	/**
+	 * The current form data for the model.
+	 */
 	formData: DefaultModel
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: ModelErrors
-	required: ModelDisabled
-	disabled: ModelRequired
+	/**
+	 * An object indicating which form fields are required.
+	 */
+	required: ModelRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
+	disabled: ModelDisabled
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: any) => void
 }
 
+/**
+ * `AddtionalModelFeatures` is a functional component that dynamically renders additional input fields
+ * based on the selected main category and category of the model. It uses lazy loading for feature components.
+ */
 export function AddtionalModelFeatures({
 	formData,
 	disabled,

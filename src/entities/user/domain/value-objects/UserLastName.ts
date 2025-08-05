@@ -1,5 +1,9 @@
 import { StringValueObject } from '@/entities/shared/domain/value-objects/StringValueObjects'
 
+/**
+ * Represents a user's last name as a Value Object.
+ * It extends StringValueObject and enforces specific length and format rules.
+ */
 export class UserLastName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 2
 	static readonly NAME_MAX_LENGTH = 30
@@ -8,6 +12,11 @@ export class UserLastName extends StringValueObject {
 
 	private static errors = ''
 
+	/**
+	 * Constructs a UserLastName Value Object.
+	 * @param value - The string value of the user's last name.
+	 * @throws Error if the provided value does not meet the validation criteria.
+	 */
 	constructor(value: string) {
 		super(value)
 		if (!UserLastName.isValid(value)) {
@@ -15,14 +24,27 @@ export class UserLastName extends StringValueObject {
 		}
 	}
 
+	/**
+	 * Updates the internal error message.
+	 * @param value - The error message to set.
+	 */
 	private static updateErrors(value: string): void {
 		UserLastName.errors = value
 	}
 
+	/**
+	 * Gets the current error message.
+	 * @returns The error message string.
+	 */
 	static get errorsValue(): string {
 		return UserLastName.errors
 	}
 
+	/**
+	 * Validates the given string value against predefined rules for a user's last name.
+	 * @param value - The string to validate.
+	 * @returns True if the value is valid, false otherwise.
+	 */
 	public static isValid(value: string): boolean {
 		const errors: string[] = []
 		if (value.length < UserLastName.NAME_MIN_LENGTH) {
@@ -51,6 +73,10 @@ export class UserLastName extends StringValueObject {
 		}
 	}
 
+	/**
+	 * Returns the last validation error message.
+	 * @returns The error message string.
+	 */
 	public static invalidMessage(): string {
 		return UserLastName.errorsValue
 	}

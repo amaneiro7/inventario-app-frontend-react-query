@@ -5,12 +5,30 @@ import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 
 interface ModelDescriptionProps {
+	/**
+	 * Controls the visibility of the description.
+	 */
 	open: boolean
+	/**
+	 * The model data to display.
+	 */
 	model: ModelDto
+	/**
+	 * The number of columns the description should span in the table.
+	 */
 	colSpan: number
+	/**
+	 * An array of column names that are currently visible in the table.
+	 * Used to conditionally hide redundant information in the description.
+	 */
 	visibleColumns: string[]
 }
 
+/**
+ * `ModelDescription` is a memoized component that displays detailed information about a model.
+ * It is typically used within a table row to show additional details when expanded, including
+ * computer-specific, keyboard-specific, monitor-specific, and printer-specific features.
+ */
 export const ModelDescription = memo(
 	({ open, model, colSpan, visibleColumns }: ModelDescriptionProps) => {
 		return (
@@ -97,7 +115,7 @@ export const ModelDescription = memo(
 							/>
 						</>
 					)}
-					{model?.modelPrinter && (
+					{model?.modelPrinter && (
 						<>
 							<TableCellDescInfo
 								title="Modelo del cartucho"

@@ -2,6 +2,9 @@ import { type ModelDto, type ModelParams } from '../../domain/dto/Model.dto'
 import { MemoryRamSlotQuantity } from '../../domain/value-object/MemoryRamSlotQuantity'
 import { ScreenSize } from '../../domain/value-object/ScreenSize'
 
+/**
+ * Represents the default structure for a model's form data, including all possible features.
+ */
 export interface DefaultModel extends ModelParams {
 	hasBluetooth: boolean
 	hasDVI: boolean
@@ -18,6 +21,9 @@ export interface DefaultModel extends ModelParams {
 	updatedAt?: ModelDto['updatedAt']
 }
 
+/**
+ * Defines the structure for validation errors in the model form.
+ */
 export interface ModelErrors {
 	name: string
 	mainCategoryId: string
@@ -30,6 +36,10 @@ export interface ModelErrors {
 	cartridgeModel: string
 	inputTypeId: string
 }
+
+/**
+ * Defines which fields in the model form are required based on current state.
+ */
 export interface ModelRequired {
 	name: boolean
 	mainCategoryId: boolean
@@ -43,6 +53,9 @@ export interface ModelRequired {
 	inputTypeId: boolean
 }
 
+/**
+ * Defines which fields in the model form are disabled based on current state.
+ */
 export interface ModelDisabled {
 	name: boolean
 	mainCategoryId: boolean
@@ -56,6 +69,9 @@ export interface ModelDisabled {
 	inputTypeId: boolean
 }
 
+/**
+ * Represents the entire state managed by the model form reducer.
+ */
 export interface State {
 	formData: DefaultModel
 	errors: ModelErrors
@@ -63,6 +79,9 @@ export interface State {
 	disabled: ModelDisabled
 }
 
+/**
+ * The initial state for the model form reducer.
+ */
 export const initialModelState: State = {
 	formData: {
 		id: undefined,
@@ -124,6 +143,9 @@ export const initialModelState: State = {
 	}
 }
 
+/**
+ * Defines the possible actions that can be dispatched to the model form reducer.
+ */
 export type Action =
 	| { type: 'init'; payload: { formData: DefaultModel } }
 	| { type: 'reset'; payload: { formData: DefaultModel } }
@@ -147,8 +169,18 @@ export type Action =
 	| { type: 'addProcessor'; payload: { value: string } }
 	| { type: 'removeProcessor'; payload: { value: string } }
 
+/**
+ * Reducer function for managing the state of the model form.
+ * It handles various actions to update form data, errors, required fields, and disabled fields.
+ * @param state - The current state of the form.
+ * @param action - The dispatched action.
+ * @returns The new state after applying the action.
+ */
 export const modelFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
+		/**
+		 * Initializes or resets the form data. Also updates disabled states for dependent fields.
+		 */
 		case 'reset':
 		case 'init': {
 			return {
@@ -161,6 +193,10 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+		/**
+		 * Updates the mainCategoryId field and resets related fields (categoryId, brandId, and all feature-related fields).
+		 * Also updates disabled states for dependent fields.
+		 */
 		case 'mainCategoryId': {
 			const mainCategoryId = action.payload.value
 			return {
@@ -190,6 +226,10 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+		/**
+		 * Updates the categoryId field and resets related fields (brandId and all feature-related fields).
+		 * Also updates disabled states for dependent fields.
+		 */
 		case 'categoryId': {
 			const categoryId = action.payload.value
 			return {
@@ -217,6 +257,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+		/**
+		 * Updates the brandId field and resets all feature-related fields.
+		 */
 		case 'brandId': {
 			const brandId = action.payload.value
 			return {
@@ -239,6 +282,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+		/**
+		 * Updates the name field.
+		 */
 		case 'name': {
 			const name = action.payload.value
 			return {
@@ -246,6 +292,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, name }
 			}
 		}
+		/**
+		 * Updates the generic field.
+		 */
 		case 'generic': {
 			const generic = action.payload.value
 			return {
@@ -253,6 +302,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, generic }
 			}
 		}
+		/**
+		 * Updates the memoryRamTypeId field.
+		 */
 		case 'memoryRamTypeId': {
 			const memoryRamTypeId = action.payload.value
 			return {
@@ -260,6 +312,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, memoryRamTypeId }
 			}
 		}
+		/**
+		 * Updates the memoryRamSlotQuantity field.
+		 */
 		case 'memoryRamSlotQuantity': {
 			const memoryRamSlotQuantity = action.payload.value
 			return {
@@ -267,6 +322,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, memoryRamSlotQuantity }
 			}
 		}
+		/**
+		 * Updates the hasVGA field.
+		 */
 		case 'hasVGA': {
 			const hasVGA = action.payload.value
 			return {
@@ -274,6 +332,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, hasVGA }
 			}
 		}
+		/**
+		 * Updates the hasDVI field.
+		 */
 		case 'hasDVI': {
 			const hasDVI = action.payload.value
 			return {
@@ -281,6 +342,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, hasDVI }
 			}
 		}
+		/**
+		 * Updates the hasHDMI field.
+		 */
 		case 'hasHDMI': {
 			const hasHDMI = action.payload.value
 			return {
@@ -288,6 +352,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, hasHDMI }
 			}
 		}
+		/**
+		 * Updates the hasBluetooth field.
+		 */
 		case 'hasBluetooth': {
 			const hasBluetooth = action.payload.value
 			return {
@@ -295,6 +362,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, hasBluetooth }
 			}
 		}
+		/**
+		 * Updates the hasWifiAdapter field.
+		 */
 		case 'hasWifiAdapter': {
 			const hasWifiAdapter = action.payload.value
 			return {
@@ -302,6 +372,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, hasWifiAdapter }
 			}
 		}
+		/**
+		 * Updates the batteryModel field.
+		 */
 		case 'batteryModel': {
 			const batteryModel = action.payload.value
 			return {
@@ -309,6 +382,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, batteryModel }
 			}
 		}
+		/**
+		 * Updates the hasFingerPrintReader field.
+		 */
 		case 'hasFingerPrintReader': {
 			const hasFingerPrintReader = action.payload.value
 			return {
@@ -316,6 +392,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, hasFingerPrintReader }
 			}
 		}
+		/**
+		 * Updates the screenSize field.
+		 */
 		case 'screenSize': {
 			const screenSize = action.payload.value
 			return {
@@ -323,6 +402,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, screenSize }
 			}
 		}
+		/**
+		 * Updates the cartridgeModel field.
+		 */
 		case 'cartridgeModel': {
 			const cartridgeModel = action.payload.value
 			return {
@@ -330,6 +412,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, cartridgeModel }
 			}
 		}
+		/**
+		 * Updates the inputTypeId field.
+		 */
 		case 'inputTypeId': {
 			const inputTypeId = action.payload.value
 			return {
@@ -337,6 +422,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, inputTypeId }
 			}
 		}
+		/**
+		 * Adds a new processor ID to the form data.
+		 */
 		case 'addProcessor': {
 			const processors = action.payload.value
 			return {
@@ -347,6 +435,9 @@ export const modelFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+		/**
+		 * Removes a processor ID from the form data.
+		 */
 		case 'removeProcessor': {
 			const processors = action.payload.value
 			return {

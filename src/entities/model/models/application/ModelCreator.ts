@@ -20,12 +20,32 @@ type Params =
 	| ModelKeyboardParams
 	| ModelMonitorParams
 	| ModelPrinterParams
+
+/**
+ * Service class responsible for creating and updating Model entities based on their category.
+ * It interacts with a ModelSaveRepository to persist data and an EventManager to notify about operation status.
+ */
 export class ModelCreator {
+	/**
+	 * Constructs a ModelCreator instance.
+	 * @param repository - The repository responsible for saving and updating model data.
+	 * @param events - The event manager to notify about the operation's progress (loading, success, error).
+	 */
 	constructor(
 		private readonly repository: ModelSaveRepository,
 		private readonly events: EventManager
 	) {}
 
+	/**
+	 * Creates a new model or updates an existing one based on the provided parameters and category.
+	 * It dynamically creates the correct model entity (e.g., ModelComputer, ModelLaptop) based on `params.categoryId`,
+	 * converts it to primitives, and then uses the repository to save or update the data.
+	 * Event notifications are sent for loading, success, and error states.
+	 * @param params - The parameters for creating or updating a model. If `params.id` is provided,
+	 *                 an update operation is performed; otherwise, a new model is created.
+	 * @returns A Promise that resolves to the result of the save or update operation.
+	 * @throws Error if the operation fails, with a message indicating the cause.
+	 */
 	async create(params: Params) {
 		// Notificar que ha empezado el proceso de creación o actualización
 		this.events.notify({ type: 'loading' })

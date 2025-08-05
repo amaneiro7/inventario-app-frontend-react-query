@@ -9,12 +9,30 @@ import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
 import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
 
 interface Props {
+	/**
+	 * An array of model data to display in the table.
+	 */
 	models?: ModelDto[]
+	/**
+	 * Indicates whether an error occurred during data fetching.
+	 */
 	isError: boolean
+	/**
+	 * The number of columns the table should span.
+	 */
 	colSpan: number
+	/**
+	 * An array of column names that are currently visible in the table.
+	 * Used to conditionally render table cells.
+	 */
 	visibleColumns: string[]
 }
 
+/**
+ * `TableModels` is a functional component that renders a table of model data.
+ * It handles displaying loading states, error states, empty states, and individual model rows
+ * with expandable details.
+ */
 export function TableModels({ models, colSpan, isError, visibleColumns }: Props) {
 	const { expandedRows, handleRowClick } = useExpendedRows()
 	if (isError) {

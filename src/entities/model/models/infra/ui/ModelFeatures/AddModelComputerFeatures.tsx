@@ -23,14 +23,40 @@ const MemoryRamTypeCombobox = lazy(() =>
 )
 
 interface AddModelComputerFeaturesProps {
+	/**
+	 * The current form data for the model.
+	 */
 	formData: DefaultModel
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: ModelErrors
-	required: ModelDisabled
-	disabled: ModelRequired
+	/**
+	 * An object indicating which form fields are required.
+	 */
+	required: ModelRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
+	disabled: ModelDisabled
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode?: FormMode
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: any) => void
 }
 
+/**
+ * `AddModelComputerFeatures` is a memoized functional component that renders input fields
+ * specific to computer models (including laptops, all-in-ones, and servers).
+ * It includes fields for RAM type, RAM slot quantity, various ports (VGA, DVI, HDMI),
+ * Bluetooth, Wi-Fi, battery model (for laptops), and processors.
+ */
 export const AddModelComputerFeatures = memo(
 	({ handleChange, disabled, errors, formData, required }: AddModelComputerFeaturesProps) => {
 		return (
