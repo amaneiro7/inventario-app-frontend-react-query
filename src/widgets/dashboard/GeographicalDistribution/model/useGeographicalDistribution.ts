@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
+import { useApplyFilters } from './useApplyFilters'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 /**
@@ -78,7 +79,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		const names = {
 			admRegion: 'Zonas Administrativas',
 			region: 'Regiones',
-			state: 'Estados', // Corrected typo
+			state: 'Estados',
 			city: 'Ciudades',
 			sites: 'Sitios',
 			location: 'Ubicaciones'
@@ -88,97 +89,33 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		return `Distribución total de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
 
-	// Determine if filters are active
-	const hasActiveFilters =
-		admRegionFilter !== '' ||
-		regionFilter !== '' ||
-		stateFilter !== '' ||
-		cityFilter !== '' ||
-		siteFilter !== '' ||
-		searchFilter !== ''
+	const hasActiveFilters = useMemo(
+		() =>
+			admRegionFilter !== '' ||
+			regionFilter !== '' ||
+			stateFilter !== '' ||
+			cityFilter !== '' ||
+			siteFilter !== '' ||
+			searchFilter !== '',
+		[admRegionFilter, regionFilter, stateFilter, cityFilter, siteFilter, searchFilter]
+	)
 	const MAX_ITEMS_WITHOUT_FILTER = 15
 
 	/**
 	 * Memoized filtered hierarchy based on active filters.
 	 * This memo applies filters in a cascading manner to optimize data processing.
 	 */
-	const filteredHierarchy = useMemo(() => {
-		let currentData = data
-
-		if (admRegionFilter) {
-			currentData = currentData.filter(admRegion => admRegion.name === admRegionFilter)
-		}
-
-		if (regionFilter) {
-			currentData = currentData
-				.map(admRegion => ({
-					...admRegion,
-					regions: admRegion.regions.filter(region => region.name === regionFilter)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-
-		if (stateFilter) {
-			currentData = currentData
-				.map(admRegion => ({
-					...admRegion,
-					regions: admRegion.regions
-						.map(region => ({
-							...region,
-							states: region.states.filter(state => state.name === stateFilter)
-						}))
-						.filter(region => region.states.length > 0)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-
-		if (cityFilter) {
-			currentData = currentData
-				.map(admRegion => ({
-					...admRegion,
-					regions: admRegion.regions
-						.map(region => ({
-							...region,
-							states: region.states
-								.map(state => ({
-									...state,
-									cities: state.cities.filter(city => city.name === cityFilter)
-								}))
-								.filter(state => state.cities.length > 0)
-						}))
-						.filter(region => region.states.length > 0)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-
-		if (siteFilter) {
-			currentData = currentData
-				.map(admRegion => ({
-					...admRegion,
-					regions: admRegion.regions
-						.map(region => ({
-							...region,
-							states: region.states
-								.map(state => ({
-									...state,
-									cities: state.cities
-										.map(city => ({
-											...city,
-											sites: city.sites.filter(
-												site => site.name === siteFilter
-											)
-										}))
-										.filter(city => city.sites.length > 0)
-								}))
-								.filter(state => state.cities.length > 0)
-						}))
-						.filter(region => region.states.length > 0)
-				}))
-				.filter(admRegion => admRegion.regions.length > 0)
-		}
-
-		return currentData
-	}, [data, admRegionFilter, regionFilter, stateFilter, cityFilter, siteFilter])
+	const filteredHierarchy = useMemo(
+		() =>
+			useApplyFilters(data, {
+				admRegionFilter,
+				regionFilter,
+				stateFilter,
+				cityFilter,
+				siteFilter
+			}),
+		[data, admRegionFilter, regionFilter, stateFilter, cityFilter, siteFilter]
+	)
 
 	/**
 	 * Derives unique administrative regions from the filtered hierarchy.
@@ -333,14 +270,14 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	/**
 	 * Resets all filters to their initial empty state.
 	 */
-	const clearFilters = () => {
+	const clearFilters = useCallback(() => {
 		setAdmRegionFilter('')
 		setRegionFilter('')
 		setStateFilter('')
 		setCityFilter('')
 		setSiteFilter('')
 		setSearchFilter('')
-	}
+	}, [])
 
 	// Calculate dynamic height based on the number of bars and barSize
 	const barHeight = useMemo(() => 16, [])

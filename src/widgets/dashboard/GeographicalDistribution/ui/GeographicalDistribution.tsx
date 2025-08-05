@@ -7,11 +7,19 @@ import { FilterSection } from './FilterSection'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface GeographicalDistributionProps {
+	/**
+	 * The raw geographical distribution data for computers.
+	 */
 	data: ComputerDashboardDto['region']
 }
 
 const GeoCharts = lazy(() => import('./GeoCharts').then(m => ({ default: m.GeoCharts })))
 
+/**
+ * `GeographicalDistribution` is a memoized functional component that displays a geographical distribution
+ * of equipment based on provided data. It includes filtering options by administrative region, region, state, city, and site,
+ * and visualizes the data using a bar chart.
+ */
 export const GeographicalDistribution = memo(({ data }: GeographicalDistributionProps) => {
 	const {
 		distributionData,

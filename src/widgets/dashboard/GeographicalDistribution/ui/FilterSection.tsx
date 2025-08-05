@@ -5,28 +5,93 @@ import { Input } from '@/shared/ui/Input/Input'
 import { MapPin } from 'lucide-react'
 
 interface FilterSectionProps {
+	/**
+	 * The current level of geographical aggregation being viewed.
+	 */
 	viewBy: 'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'
+	/**
+	 * Indicates whether any filters are currently active.
+	 */
 	hasActiveFilters: boolean
+	/**
+	 * List of unique administrative regions available for filtering.
+	 */
 	uniqueAdmRegions: string[]
+	/**
+	 * List of unique regions available for filtering.
+	 */
 	uniqueRegions: string[]
+	/**
+	 * List of unique states available for filtering.
+	 */
 	uniqueStates: string[]
+	/**
+	 * List of unique cities available for filtering.
+	 */
 	uniqueCities: string[]
+	/**
+	 * List of unique sites available for filtering.
+	 */
 	uniqueSites: string[]
+	/**
+	 * The currently selected administrative region filter value.
+	 */
 	admRegionFilter: string
+	/**
+	 * The currently selected region filter value.
+	 */
 	regionFilter: string
+	/**
+	 * The currently selected state filter value.
+	 */
 	stateFilter: string
+	/**
+	 * The currently selected city filter value.
+	 */
 	cityFilter: string
+	/**
+	 * The currently selected site filter value.
+	 */
 	siteFilter: string
+	/**
+	 * The current search filter string.
+	 */
 	searchFilter: string
+	/**
+	 * Setter function for the administrative region filter.
+	 */
 	setAdmRegionFilter: React.Dispatch<React.SetStateAction<string>>
+	/**
+	 * Setter function for the region filter.
+	 */
 	setRegionFilter: React.Dispatch<React.SetStateAction<string>>
+	/**
+	 * Setter function for the state filter.
+	 */
 	setStateFilter: React.Dispatch<React.SetStateAction<string>>
+	/**
+	 * Setter function for the city filter.
+	 */
 	setCityFilter: React.Dispatch<React.SetStateAction<string>>
+	/**
+	 * Setter function for the site filter.
+	 */
 	setSiteFilter: React.Dispatch<React.SetStateAction<string>>
+	/**
+	 * Setter function for the search filter.
+	 */
 	setSearchFilter: React.Dispatch<React.SetStateAction<string>>
+	/**
+	 * Callback function to clear all filters.
+	 */
 	clearFilters: () => void
 }
 
+/**
+ * `FilterSection` is a memoized functional component that provides a set of filters
+ * for geographical distribution data. It includes a search input and cascading select dropdowns
+ * for administrative region, region, state, city, and site, along with a button to clear all filters.
+ */
 export const FilterSection = memo(
 	({
 		viewBy,
