@@ -3,7 +3,7 @@ import { type ModelLaptopParams, type ModelLaptopPrimitives } from '../dto/Model
 import { Model } from './Model'
 import { BatteryModel } from '../value-object/BatteryModel'
 import { ModelName } from '../value-object/ModelName'
-import { CategoryId } from '@/entities/category/domain/value-object/CategorydId'
+import { CategoryId } from '@/entities/category/domain/value-object/CategoryId'
 import { BrandId } from '@/entities/brand/domain/value-object/BrandId'
 import { GenericModel } from '../value-object/GenericModel'
 import { MemoryRamTypeId } from '@/entities/model/memoryRamType/domain/value-object/MemoryRamTypeId'

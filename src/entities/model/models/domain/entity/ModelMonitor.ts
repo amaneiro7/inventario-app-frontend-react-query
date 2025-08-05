@@ -1,7 +1,7 @@
 import { BrandId } from '@/entities/brand/domain/value-object/BrandId'
 import { GenericModel } from '../value-object/GenericModel'
 import { Model } from './Model'
-import { CategoryId } from '@/entities/category/domain/value-object/CategorydId'
+import { CategoryId } from '@/entities/category/domain/value-object/CategoryId'
 import { ModelName } from '../value-object/ModelName'
 import { HasDVI } from '../value-object/HasDVI'
 import { HasHDMI } from '../value-object/HasHDMI'

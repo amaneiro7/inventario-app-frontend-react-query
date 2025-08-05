@@ -4,8 +4,8 @@ import { useQuery } from '@tanstack/react-query'
 import { BrandGetter } from '@/entities/brand/application/BrandGetter'
 import { BrandGetService } from '@/entities/brand/infra/service/brandGet.service'
 import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { type BrandDto } from '../../domain/dto/Brand.dto'
 import { type DefaultBrand } from '../reducers/brandFormReducer'
+import { type BrandDto } from '../../domain/dto/Brand.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new BrandGetService()

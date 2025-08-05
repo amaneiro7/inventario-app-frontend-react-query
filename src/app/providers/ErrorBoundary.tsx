@@ -1,7 +1,5 @@
-import { Component, lazy, Suspense, type ErrorInfo, type ReactNode } from 'react'
-
-// Asumimos que ErrorPage ahora acepta una prop `onReset`
-const ErrorPage = lazy(async () => import('@/pages/500'))
+import { Component, type ErrorInfo, type ReactNode } from 'react'
+import ErrorPage from '@/pages/500'
 
 /**
  * @interface ErrorBoundaryProps
@@ -73,11 +71,7 @@ export class ErrorBoundary extends Component<Props, State> {
 	 */ public render() {
 		if (this.state.hasError) {
 			// Envuelve el componente lazy-loaded en Suspense
-			return (
-				<Suspense fallback={<div>Cargando...</div>}>
-					<ErrorPage onReset={this.handleReset} />
-				</Suspense>
-			)
+			return <ErrorPage onReset={this.handleReset} />
 		}
 
 		return this.props.children

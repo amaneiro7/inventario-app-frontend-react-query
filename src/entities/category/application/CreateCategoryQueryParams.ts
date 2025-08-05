@@ -6,6 +6,17 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type CategoryDto } from '../domain/dto/Category.dto'
 
+/**
+ * @interface CategoryFilters
+ * @description Define la estructura de los filtros disponibles para buscar entidades `Category`.
+ * @property {CategoryDto['id']} [id] - ID de la categoría.
+ * @property {CategoryDto['name']} [name] - Nombre de la categoría.
+ * @property {CategoryDto['mainCategoryId']} [mainCategoryId] - ID de la categoría principal asociada.
+ * @property {number} [pageNumber] - Número de página para la paginación.
+ * @property {number} [pageSize] - Tamaño de página para la paginación.
+ * @property {Primitives<OrderBy>} [orderBy] - Campo por el cual ordenar los resultados.
+ * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
+ */
 export interface CategoryFilters {
 	id?: CategoryDto['id']
 	name?: CategoryDto['name']
@@ -16,6 +27,14 @@ export interface CategoryFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * `createCategoryParams`
+ * @function
+ * @description Construye una cadena de parámetros de consulta (query string) a partir de un objeto `CategoryFilters`.
+ * Utiliza la clase `Criteria` para generar la consulta de forma estructurada.
+ * @param {CategoryFilters} filters - El objeto de filtros para construir los parámetros de consulta.
+ * @returns {Promise<string>} Una promesa que se resuelve con la cadena de parámetros de consulta.
+ */
 export async function createCategoryParams({
 	pageNumber,
 	pageSize,

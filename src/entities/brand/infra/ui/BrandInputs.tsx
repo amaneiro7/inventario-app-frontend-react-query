@@ -7,6 +7,12 @@ import {
 	type DefaultBrand
 } from '@/entities/brand/infra/reducers/brandFormReducer'
 
+interface BrandInputsProps {
+	formData: DefaultBrand
+	errors?: BrandErrors
+	handleChange: (name: Action['type'], value: string) => void
+}
+
 /**
  * `BrandInputs`
  * @component

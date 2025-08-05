@@ -1,10 +1,9 @@
 import { memo, Suspense, useMemo } from 'react'
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
-import { PageTitle } from '@/shared/ui/PageTitle'
-import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
-
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { PageTitle } from '@/shared/ui/PageTitle'
 /**
  * `ListWrapper`
  * @component

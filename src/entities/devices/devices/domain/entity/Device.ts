@@ -1,7 +1,7 @@
 import { DeviceActivo } from '../value-object/DeviceActivo'
 import { DeviceSerial } from '../value-object/DeviceSerial'
 import { StatusId } from '@/entities/status/status/domain/value-object/StatusId'
-import { CategoryId } from '@/entities/category/domain/value-object/CategorydId'
+import { CategoryId } from '@/entities/category/domain/value-object/CategoryId'
 import { BrandId } from '@/entities/brand/domain/value-object/BrandId'
 import { ModelId } from '@/entities/model/models/domain/value-object/ModelId'
 import { DeviceLocation } from '../value-object/DeviceLocation'

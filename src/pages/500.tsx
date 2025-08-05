@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { Seo } from '@/shared/ui/Seo' // Asumo que tienes un componente Seo
 
 interface ErrorPageProps {
@@ -29,12 +28,12 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ onReset }) => {
 					>
 						Vuelva a intentar
 					</button>
-					<Link
-						to="/"
+					<a
+						href="/"
 						className="bg-rojo-600 hover:bg-rojo-500 focus-visible:outline-rojo-600 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2"
 					>
 						Volver al inicio
-					</Link>
+					</a>
 					<a
 						href="mailto:support@example.com"
 						className="text-sm font-semibold text-gray-900"

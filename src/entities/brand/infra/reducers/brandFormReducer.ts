@@ -1,5 +1,5 @@
 import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
-import { BrandName } from '../../domain/value-object/BrandName'
+import { BrandName } from '@/entities/brand/domain/value-object/BrandName'
 
 /**
  * @typedef {Object} DefaultBrand

@@ -17,6 +17,21 @@ interface CategoryTransferListProps {
 	onRemoveCategory: (name: 'removeCategory', value: string) => void
 }
 
+/**
+ * `CategoryTransferList`
+ * @component
+ * @description Componente que permite añadir y eliminar categorías de una lista.
+ * Utiliza un `Combobox` para seleccionar categorías disponibles y muestra las seleccionadas en una lista.
+ * @param {object} props - Las propiedades del componente.
+ * @param {CategoryDto['id'][]} [props.value=[]] - Un array de IDs de categorías seleccionadas.
+ * @param {string} props.name - El nombre del campo del formulario.
+ * @param {string} [props.error=''] - Mensaje de error a mostrar.
+ * @param {boolean} [props.required=false] - Indica si el campo es requerido.
+ * @param {boolean} [props.disabled=false] - Indica si el campo está deshabilitado.
+ * @param {boolean} [props.readonly=false] - Indica si el campo es de solo lectura.
+ * @param {(name: 'addCategory', value: string) => void} props.onAddCategory - Función de callback para añadir una categoría.
+ * @param {(name: 'removeCategory', value: string) => void} props.onRemoveCategory - Función de callback para eliminar una categoría.
+ */
 export function CategoryTransferList({
 	value: categories = [],
 	name,

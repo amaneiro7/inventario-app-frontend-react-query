@@ -2,7 +2,7 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 import { type DeviceId } from '../value-object/DeviceId'
 import { type DeviceSerial } from '../value-object/DeviceSerial'
 import { type DeviceActivo } from '../value-object/DeviceActivo'
-import { type CategoryId } from '@/entities/category/domain/value-object/CategorydId'
+import { type CategoryId } from '@/entities/category/domain/value-object/CategoryId'
 import { type BrandId } from '@/entities/brand/domain/value-object/BrandId'
 import { type DeviceEmployee } from '../value-object/DeviceEmployee'
 import { type DeviceObservation } from '../value-object/DeviceObservation'

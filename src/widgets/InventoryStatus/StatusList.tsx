@@ -9,7 +9,7 @@ import {
 	Archive
 } from 'lucide-react'
 import { StatusItem } from './StatusItem'
-import { StatusProgress } from '../../shared/ui/StatusProgress'
+import { StatusProgress } from '@/shared/ui/StatusProgress'
 
 interface StatusListProps {
 	statusData: Record<string, number>

@@ -1,7 +1,7 @@
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type BrandId } from '../value-object/BrandId'
 import { type BrandName } from '../value-object/BrandName'
-import { type CategoryId } from '@/entities/category/domain/value-object/CategorydId'
+import { type CategoryId } from '@/entities/category/domain/value-object/CategoryId'
 import { type Category } from '@/entities/category/domain/dto/Category.dto'
 
 /**

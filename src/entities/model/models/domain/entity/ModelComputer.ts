@@ -1,7 +1,7 @@
 import { BrandId } from '@/entities/brand/domain/value-object/BrandId'
 import { GenericModel } from '../value-object/GenericModel'
 import { Model } from './Model'
-import { CategoryId } from '@/entities/category/domain/value-object/CategorydId'
+import { CategoryId } from '@/entities/category/domain/value-object/CategoryId'
 import { MemoryRamTypeId } from '@/entities/model/memoryRamType/domain/value-object/MemoryRamTypeId'
 import { MemoryRamSlotQuantity } from '../value-object/MemoryRamSlotQuantity'
 import { ModelName } from '../value-object/ModelName'

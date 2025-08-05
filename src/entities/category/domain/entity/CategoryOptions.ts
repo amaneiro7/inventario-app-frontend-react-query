@@ -1,3 +1,8 @@
+/**
+ * @enum {string}
+ * @description Enumeración que define las opciones de categorías de equipos.
+ * Cada miembro representa una categoría con un ID único.
+ */
 export enum CategoryOptions {
 	COMPUTER = '1',
 	SERVER = '2',
