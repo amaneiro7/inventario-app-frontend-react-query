@@ -14,7 +14,7 @@ const EmployeeInputs = lazy(() =>
 	}))
 )
 const AsignDevices = lazy(() =>
-	import('@/widgets/AsignDevices/AsignDevices').then(m => ({ default: m.AsignDevices }))
+	import('@/widgets/AsignDevices').then(m => ({ default: m.AsignDevices }))
 )
 
 const FormEmployee = memo(() => {

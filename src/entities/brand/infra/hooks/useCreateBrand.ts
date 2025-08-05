@@ -11,6 +11,21 @@ import { useBrandInitialState } from './useBrandInitialState'
 import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 
+/**
+ * `useCreateBrand`
+ * @function
+ * @description Hook personalizado para gestionar la creación y actualización de marcas.
+ * Utiliza un reducer para manejar el estado del formulario y se integra con los servicios de aplicación.
+ * @param {BrandParams} [defaultState] - El estado inicial opcional para el formulario de la marca.
+ * @returns {object} Un objeto con el estado del formulario, funciones de manejo y metadatos.
+ * @property {string} key - Una clave única para el formulario (útil para `React.key`).
+ * @property {DefaultBrand} formData - Los datos actuales del formulario.
+ * @property {'edit' | 'add'} mode - El modo actual del formulario (edición o adición).
+ * @property {BrandErrors} errors - Los errores de validación del formulario.
+ * @property {() => void} resetForm - Función para resetear el formulario a su estado inicial.
+ * @property {(event: React.FormEvent) => Promise<void>} handleSubmit - Función para manejar el envío del formulario.
+ * @property {(name: Action['type'], value: string) => void} handleChange - Función para manejar los cambios en los campos del formulario.
+ */
 export function useCreateBrand(defaultState?: BrandParams) {
 	const key = `brand${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
 	const { events } = useAuthStore.getState()

@@ -1,5 +1,5 @@
 import Typography from '@/shared/ui/Typography'
-import { NetworkLinkListSkeleton } from './skeletons/NetworkLinkListSkeleton'
+import { NetworkLinkListSkeleton } from '../skeletons/NetworkLinkListSkeleton'
 
 // A generic interface for any item that can be displayed in this list.
 // The actual DTOs (e.g., DeviceMonitoringDto, LocationMonitoringDto) should implement this.

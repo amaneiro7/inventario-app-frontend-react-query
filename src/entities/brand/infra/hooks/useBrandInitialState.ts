@@ -4,17 +4,21 @@ import { useQuery } from '@tanstack/react-query'
 import { BrandGetter } from '@/entities/brand/application/BrandGetter'
 import { BrandGetService } from '@/entities/brand/infra/service/brandGet.service'
 import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type BrandDto } from '../../domain/dto/Brand.dto'
 import { type DefaultBrand } from '../reducers/brandFormReducer'
-import { BrandDto } from '../../domain/dto/Brand.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new BrandGetService()
 const get = new BrandGetter(repository)
 
 /**
- * Hook personalizado para manejar el estado inicial de una marca en un formulario.
- * @param defaultState Estado inicial por defecto de la marca.
- * @returns Un objeto con el estado inicial, la función para resetear el estado y el modo del formulario.
+ * `useBrandInitialState`
+ * @function
+ * @description Hook personalizado para manejar el estado inicial de una marca en un formulario (creación o edición).
+ * Obtiene los datos de la marca desde la API si el formulario está en modo edición o desde el estado de la ubicación.
+ * @param {DefaultBrand} defaultState - El estado inicial por defecto de la marca.
+ * @returns {{ initialState: DefaultBrand; resetState: () => void; mode: 'edit' | 'add' }}
+ * Un objeto con el estado inicial de la marca, una función para resetear el estado y el modo actual del formulario.
  */
 export function useBrandInitialState(defaultState: DefaultBrand): {
 	initialState: DefaultBrand
@@ -36,7 +40,10 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 		retry: false // Deshabilita los reintentos automáticos en caso de error.
 	})
 
-	const mapBrandToState = useCallback((brand: BrandDto): void => {
+	/**
+	 * Mapea un objeto `BrandDto` a la estructura `DefaultBrand` para el estado del formulario.
+	 * @param {BrandDto} brand - El objeto `BrandDto` a mapear.
+	 */ const mapBrandToState = useCallback((brand: BrandDto): void => {
 		setState({
 			id: brand.id,
 			name: brand.name,
@@ -63,7 +70,10 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 		}
 	}, [mode, brandData, location.state, defaultState, navigate, id])
 
-	const resetState = useCallback(async () => {
+	/**
+	 * Resetea el estado del formulario a su valor inicial o a los datos obtenidos de la API en modo edición.
+	 * @returns {Promise<void>} Una promesa que se resuelve cuando el estado ha sido reseteado.
+	 */ const resetState = useCallback(async () => {
 		// Si no estamos en la ruta de marcas, no hace nada.
 		if (!location.pathname.includes('brand')) return
 		if (mode === 'add') {

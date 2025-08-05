@@ -8,7 +8,9 @@ import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
 import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
 
 const ManagementProfileLoading = lazy(() =>
-	import('@/shared/ui/ProfileLoading').then(m => ({ default: m.ManagementProfileLoading }))
+	import('@/shared/ui/Loading/ProfileLoading').then(m => ({
+		default: m.ManagementProfileLoading
+	}))
 )
 const EditUserButton = lazy(() =>
 	import('@/features/user-edit/ui/EditUserButton').then(m => ({ default: m.EditUserButton }))

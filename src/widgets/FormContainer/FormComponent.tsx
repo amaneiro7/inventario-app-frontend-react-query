@@ -10,7 +10,7 @@ import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
 import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
-interface Props
+interface FormComponentProps
 	extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
 	handleSubmit: (event: React.FormEvent) => Promise<void>
 	handleClose: () => void
@@ -36,7 +36,7 @@ export function FormComponent({
 	children,
 	className,
 	...props
-}: Props) {
+}: FormComponentProps) {
 	const status = useFormStatus()
 
 	const classes = twMerge(

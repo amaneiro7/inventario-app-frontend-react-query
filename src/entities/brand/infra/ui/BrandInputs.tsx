@@ -7,12 +7,16 @@ import {
 	type DefaultBrand
 } from '@/entities/brand/infra/reducers/brandFormReducer'
 
-interface BrandInputsProps {
-	formData: DefaultBrand
-	errors?: BrandErrors
-	handleChange: (name: Action['type'], value: string) => void
-}
-
+/**
+ * `BrandInputs`
+ * @component
+ * @description Componente que renderiza los campos de entrada para la entidad `Brand`.
+ * Incluye el nombre de la marca y la lista de categorías asociadas.
+ * @param {object} props - Las propiedades del componente.
+ * @param {DefaultBrand} props.formData - Los datos del formulario de la marca.
+ * @param {BrandErrors} [props.errors] - Los errores de validación para los campos del formulario.
+ * @param {(name: Action['type'], value: string) => void} props.handleChange - Función de callback para manejar los cambios en los campos de entrada.
+ */
 export const BrandInputs = memo(({ errors, formData, handleChange }: BrandInputsProps) => {
 	return (
 		<>

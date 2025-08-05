@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from './Card'
+import { Card, CardContent, CardHeader, CardTitle } from '../Card'
 import { cn } from '@/shared/lib/utils'
-import Typography from './Typography'
+import Typography from '../Typography'
 
 interface BasicStatCardProps
 	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

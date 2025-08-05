@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 import { formattedDate } from '@/shared/lib/utils/formatDate'
-import Typography from './Typography'
+import Typography from '../Typography'
 
 export function LastUpdated({ updatedAt }: { updatedAt: string | Date }) {
 	const formattedUpdatedAt = useMemo(() => formattedDate(updatedAt), [updatedAt])

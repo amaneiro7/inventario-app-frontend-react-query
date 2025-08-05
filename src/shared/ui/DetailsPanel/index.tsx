@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react'
 import Typography from '@/shared/ui/Typography'
 import { StatusProgress } from '@/shared/ui/StatusProgress'
-import { DetailsPanelCard } from './DetailsPanelCard'
+import { DetailsPanelCard } from '../DetailsPanelCard'
 
 interface DetailsPanelProps {
 	selectedFloor: string | null
