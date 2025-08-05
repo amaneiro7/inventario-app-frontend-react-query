@@ -3,13 +3,7 @@ import { useMapChart } from '@/widgets/monitoring/MapChart/Model/useMapChart'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { MapChartStates } from '@/widgets/monitoring/MapChart/ui/MapChartState'
 import { useVenezuelaTopoJson } from '../utils/useVenezuelaTopoJson'
-
-/**
- * Lazily loaded component for displaying the map.
- */
-const VenezuelaMap = lazy(() =>
-	import('@/widgets/monitoring/MapChart/ui/VenezuelaMap').then(m => ({ default: m.VenezuelaMap }))
-)
+import { VenezuelaMap } from './VenezuelaMap'
 
 /**
  * Lazily loaded component for displaying details of a selected state.
@@ -78,16 +72,15 @@ export const MapChart = memo(() => {
 						hasNoData={hasNoData}
 					>
 						{/* Suspense boundary for the lazily loaded VenezuelaMap component */}
-						<Suspense fallback={<div>Cargando mapa...</div>}>
-							{venezuelaTopoJson && (
-								<VenezuelaMap
-									getColor={getColor}
-									handleStateClick={handleStateClick}
-									venezuelaGeo={venezuelaTopoJson}
-									processedStateData={processedStateData}
-								/>
-							)}
-						</Suspense>
+
+						{venezuelaTopoJson && (
+							<VenezuelaMap
+								getColor={getColor}
+								handleStateClick={handleStateClick}
+								venezuelaGeo={venezuelaTopoJson}
+								processedStateData={processedStateData}
+							/>
+						)}
 					</MapChartStates>
 				</section>
 				{/* Panel de Información - Suspense boundary for the lazily loaded StateDetailsPanel component */}
