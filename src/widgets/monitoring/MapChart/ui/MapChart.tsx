@@ -2,7 +2,7 @@ import { lazy, memo, Suspense } from 'react'
 import { useMapChart } from '@/widgets/monitoring/MapChart/Model/useMapChart'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { MapChartStates } from '@/widgets/monitoring/MapChart/ui/MapChartState'
-import venezuelaTopoJson from '@/widgets/monitoring/MapChart/Assets/venezuelaState.json' with { type: 'json' }
+import { useVenezuelaTopoJson } from '../utils/useVenezuelaTopoJson'
 
 /**
  * Lazily loaded component for displaying the map.
@@ -46,6 +46,12 @@ export const MapChart = memo(() => {
 		processedStateData
 	} = useMapChart()
 
+	const {
+		data: venezuelaTopoJson,
+		loading: topoJsonLoading,
+		error: topoJsonError
+	} = useVenezuelaTopoJson()
+
 	// Determine if there is no data to display for the map.
 	const hasNoData =
 		!locationMonitoringDashboardByState ||
@@ -66,19 +72,21 @@ export const MapChart = memo(() => {
 				{/* Section for the main map display */}
 				<section className="h-withoutHeader" aria-labelledby="map-title">
 					<MapChartStates
-						isLoading={isLoading}
-						isError={isError}
-						error={error}
+						isLoading={isLoading || topoJsonLoading}
+						isError={isError || !!topoJsonError}
+						error={error || topoJsonError}
 						hasNoData={hasNoData}
 					>
 						{/* Suspense boundary for the lazily loaded VenezuelaMap component */}
 						<Suspense fallback={<div>Cargando mapa...</div>}>
-							<VenezuelaMap
-								getColor={getColor}
-								handleStateClick={handleStateClick}
-								venezuelaGeo={venezuelaTopoJson}
-								processedStateData={processedStateData}
-							/>
+							{venezuelaTopoJson && (
+								<VenezuelaMap
+									getColor={getColor}
+									handleStateClick={handleStateClick}
+									venezuelaGeo={venezuelaTopoJson}
+									processedStateData={processedStateData}
+								/>
+							)}
 						</Suspense>
 					</MapChartStates>
 				</section>
