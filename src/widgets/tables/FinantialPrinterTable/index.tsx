@@ -4,6 +4,7 @@ import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/us
 import { DeviceFinantialPrinterFilter } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
 import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 
 interface TableFinantialWrapperProps {
 	query: DeviceBaseFilters
@@ -52,7 +53,11 @@ export function TableFinantialWrapper({
 		>
 			<>
 				{devices !== undefined && (
-					<Suspense>
+					<Suspense
+						fallback={
+							<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
+						}
+					>
 						<TableFinantialPrinter
 							colSpan={colSpan}
 							isError={isError}

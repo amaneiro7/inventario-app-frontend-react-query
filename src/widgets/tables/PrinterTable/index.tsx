@@ -4,6 +4,7 @@ import { DevicePrinterFilter } from '@/entities/devices/devices/application/prin
 import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 
 interface TablePrinterWrapperProps {
 	query: DeviceBaseFilters
@@ -52,7 +53,11 @@ export function TablePrinterWrapper({
 		>
 			<>
 				{devices !== undefined && (
-					<Suspense>
+					<Suspense
+						fallback={
+							<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
+						}
+					>
 						<TablePrinter
 							colSpan={colSpan}
 							isError={isError}

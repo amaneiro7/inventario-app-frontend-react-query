@@ -134,16 +134,15 @@ export function DeviceInputs({
 				</div>
 			</div>
 			{/* Informacion Adicional */}
-			<Suspense>
-				<AddtionalFeatures
-					formData={formData}
-					errors={errors}
-					required={required}
-					disabled={disabled}
-					handleChange={handleChange}
-					handleMemory={handleMemory}
-				/>
-			</Suspense>
+
+			<AddtionalFeatures
+				formData={formData}
+				errors={errors}
+				required={required}
+				disabled={disabled}
+				handleChange={handleChange}
+				handleMemory={handleMemory}
+			/>
 		</div>
 	)
 }

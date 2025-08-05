@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
+import { Calendar } from 'lucide-react'
 import { navigation } from '@/app/providers/routes/navigation'
 import { HomeIcon } from '@/shared/ui/icon/HomeIcon'
-import Typography from '../../shared/ui/Typography'
+import Typography from '@/shared/ui/Typography'
 import { ArrowRightBadgeIcon } from '@/shared/ui/icon/ArrowRightBadge'
-import { Calendar } from 'lucide-react'
 
 export function Nav() {
 	return (
@@ -49,7 +49,7 @@ export function Nav() {
 							<li key={itemindex}>
 								<Link
 									to={item.path}
-									className="font-body hover:text-naranja flex h-8 items-center px-4 py-2 text-center text-sm font-semibold tracking-wide transition-colors"
+									className="font-body hover:text-naranja flex h-8 items-center px-4 py-2 text-left text-xs font-semibold tracking-wide transition-colors"
 									aria-label={item.title}
 									aria-description={item.desc}
 									title={item.desc}

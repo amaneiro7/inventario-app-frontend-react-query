@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { type Headers } from '@/shared/ui/Table/TableHeader'
 import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
+import { type Headers } from '@/shared/ui/Table/TableHeader'
 
 /**
  * `useDefaultDeviceHeader`
@@ -43,14 +43,6 @@ export function useDefaultDeviceHeader() {
 				size: 'large',
 				isTab: true,
 				visible: !isBreakpointUltraTinySmall
-			},
-			{
-				key: 'ipAddress',
-				label: 'Dirección IP',
-				hasOrder: true,
-				size: 'small',
-				isTab: true,
-				visible: true
 			},
 			{
 				key: 'serial',

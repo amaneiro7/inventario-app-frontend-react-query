@@ -1,8 +1,9 @@
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/useGetAllPartsDevices'
 import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
+import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 interface TablePartsWrapperProps {
@@ -52,12 +53,18 @@ export function TablePartsWrapper({
 		>
 			<>
 				{devices !== undefined && (
-					<TableParts
-						colSpan={colSpan}
-						isError={isError}
-						devices={devices.data}
-						visibleColumns={visibleColumns}
-					/>
+					<Suspense
+						fallback={
+							<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
+						}
+					>
+						<TableParts
+							colSpan={colSpan}
+							isError={isError}
+							devices={devices.data}
+							visibleColumns={visibleColumns}
+						/>
+					</Suspense>
 				)}
 			</>
 		</TableLayout>

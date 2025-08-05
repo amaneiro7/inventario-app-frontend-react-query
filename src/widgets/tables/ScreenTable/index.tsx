@@ -4,6 +4,7 @@ import { TableLayout } from '@/shared/ui/layouts/TableLayout'
 import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { DeviceScreenFilter } from '@/entities/devices/devices/application/screenFilter/DeviceScreenFilter'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 
 interface TableScreenWrapperProps {
 	query: DeviceBaseFilters
@@ -52,7 +53,11 @@ export function TableScreenWrapper({
 		>
 			<>
 				{devices !== undefined && (
-					<Suspense>
+					<Suspense
+						fallback={
+							<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
+						}
+					>
 						<TableScreen
 							colSpan={colSpan}
 							isError={isError}
