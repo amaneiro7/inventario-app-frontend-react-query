@@ -1,3 +1,7 @@
+/**
+ * Represents the data transfer object for the status dashboard.
+ * It includes a total count and a detailed breakdown of statuses by category.
+ */
 export interface StatusDashboardDto {
 	total: number
 	status: {
@@ -26,15 +30,7 @@ export interface StatusDashboardDto {
 	}
 }
 
+/**
+ * Represents a generic object mapping status names to their counts.
+ */
 export type Overall = Record<string, number>
-
-// export interface Overall {
-// 	'En Almacen': number
-// 	Desincorporado: number
-// 	Disponible: number
-// 	'En Uso': number
-// 	'Por Desincorporar': number
-// 	Contingencia: number
-// 	Préstamo?: number
-// 	Guardia?: number
-// }

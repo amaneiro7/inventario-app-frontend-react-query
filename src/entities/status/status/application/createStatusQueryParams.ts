@@ -6,6 +6,9 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type StatusDto } from '../domain/dto/Status.dto'
 
+/**
+ * Defines the structure for filtering and pagination parameters when searching for statuses.
+ */
 export interface StatusFilters {
 	id?: StatusDto['id']
 	name?: StatusDto['name']
@@ -15,6 +18,13 @@ export interface StatusFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * Creates a query string for searching statuses based on provided filters and pagination options.
+ * It constructs a Criteria object and then builds a URL query string from it.
+ *
+ * @param filters - An object containing various filter criteria and pagination parameters.
+ * @returns A Promise that resolves to the constructed query string.
+ */
 export async function createStatusParams({
 	pageNumber,
 	pageSize,
@@ -33,7 +43,7 @@ export async function createStatusParams({
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
 
-		if (!value) {
+		if (value === undefined || value === null || value === '') {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}

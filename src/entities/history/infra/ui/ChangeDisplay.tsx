@@ -4,7 +4,15 @@ import { History } from '@/entities/history/domain/dto/History.dto'
 import { memo } from 'react'
 
 interface ChangeDisplayProps {
+	/**
+	 * An object containing the changes, where keys are field names and values are objects
+	 * with `oldValue` and `newValue` properties.
+	 */
 	changes: Record<string, { oldValue: Record<string, any>; newValue: Record<string, any> }>
+	/**
+	 * The action type of the history record (e.g., 'CREATE', 'UPDATE', 'DELETE').
+	 * This is used to determine if an "Old Value" should be displayed.
+	 */
 	action: History['action']
 }
 
@@ -29,10 +37,20 @@ const titleMap: Record<string, any> = {
 	statusId: 'Estatus'
 }
 
+/**
+ * Helper function to render a value, handling arrays by joining them with ' / '.
+ * @param value - The value to render.
+ * @returns A string representation of the value.
+ */
 const renderValue = (value: any): string => {
 	return Array.isArray(value) ? value.join(' / ') : String(value ?? 'Sin asignar')
 }
 
+/**
+ * `ChangeDisplay` is a memoized functional component that displays a list of changes
+ * from a history record. It iterates over the `changes` object and formats the old and new values
+ * for display, using a `titleMap` to provide user-friendly labels for field names.
+ */
 export const ChangeDisplay = memo(({ changes, action }: ChangeDisplayProps) => {
 	return Object.entries(changes).map(([key, { oldValue, newValue }]) => {
 		const title = titleMap[key] ?? key

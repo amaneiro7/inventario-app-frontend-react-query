@@ -8,6 +8,13 @@ export const useGetAllMainCategory = (query: MainCategoryFilters) => {
 	const repository = useMemo(() => new MainCategoryGetAllService(), [])
 	const getAll = useMemo(() => new MainCategoryGetByCriteria(repository), [repository])
 
+	/**
+	 * A React Query hook for fetching all main category data based on provided filters.
+	 * It uses `MainCategoryGetByCriteria` to perform the search and caches the results.
+	 *
+	 * @param query - An object containing filter criteria and pagination options for fetching main categories.
+	 * @returns An object containing the loading state, refetch function, error state, and the fetched data.
+	 */
 	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['mainCategories', query],
 		queryFn: async () => await getAll.search(query),

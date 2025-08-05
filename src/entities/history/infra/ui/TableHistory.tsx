@@ -11,11 +11,25 @@ import { BackgroundType } from '@/shared/ui/Typography/types'
 import { HistoryDescription } from './TableDescription'
 
 interface TableHistoryProps {
+	/**
+	 * An array of history data to display in the table.
+	 */
 	histories?: HistoryDto[]
+	/**
+	 * Indicates whether an error occurred during data fetching.
+	 */
 	isError: boolean
+	/**
+	 * The number of columns the table should span.
+	 */
 	colSpan: number
 }
 
+/**
+ * `TableHistory` is a memoized component that renders a table of history records.
+ * It handles displaying loading states, error states, empty states, and individual history rows
+ * with expandable details.
+ */
 export const TableHistory = memo(({ histories, isError, colSpan }: TableHistoryProps) => {
 	const { expandedRows, handleRowClick } = useExpendedRows()
 

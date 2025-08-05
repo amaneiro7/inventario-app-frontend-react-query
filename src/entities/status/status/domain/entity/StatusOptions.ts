@@ -1,3 +1,7 @@
+/**
+ * Defines the available status options for inventory items.
+ * Each status is represented by a string value.
+ */
 export const StatusOptions = {
 	INUSE: '1',
 	INALMACEN: '2',

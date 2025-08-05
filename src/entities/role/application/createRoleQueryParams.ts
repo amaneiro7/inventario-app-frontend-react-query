@@ -6,6 +6,9 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type RoleDto } from '../domain/dto/Role.dto'
 
+/**
+ * Defines the structure for filtering and pagination parameters when searching for roles.
+ */
 export interface RoleFilters {
 	id?: RoleDto['id']
 	name?: RoleDto['name']
@@ -15,6 +18,13 @@ export interface RoleFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * Creates a query string for searching roles based on provided filters and pagination options.
+ * It constructs a Criteria object and then builds a URL query string from it.
+ *
+ * @param filters - An object containing various filter criteria and pagination parameters.
+ * @returns A Promise that resolves to the constructed query string.
+ */
 export async function createRoleParams({
 	pageNumber,
 	pageSize,
@@ -33,7 +43,7 @@ export async function createRoleParams({
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
 
-		if (!value) {
+		if (value === undefined || value === null || value === '') {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}

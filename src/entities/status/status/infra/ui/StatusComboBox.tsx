@@ -2,6 +2,43 @@ import { useMemo } from 'react'
 import { useGetAllStatus } from '@/entities/status/status/infra/hook/useGetAllStatus'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 
+interface StatusComboboxProps {
+	/**
+	 * The currently selected status ID.
+	 */
+	value?: string
+	/**
+	 * The name of the input field.
+	 */
+	name: string
+	/**
+	 * Error message to display, if any.
+	 */
+	error?: string
+	/**
+	 * Whether the input is required.
+	 */
+	required?: boolean
+	/**
+	 * Whether the input is disabled.
+	 */
+	disabled?: boolean
+	/**
+	 * Whether the input is read-only.
+	 */
+	readonly?: boolean
+	/**
+	 * Callback function triggered when the selected value changes.
+	 * @param name - The name of the input field.
+	 * @param value - The new selected value (status ID).
+	 */
+	handleChange: (name: string, value: string | number) => void
+}
+
+/**
+ * `StatusCombobox` is a functional component that provides a searchable combobox for selecting statuses.
+ * It fetches status data and displays it in a dropdown.
+ */
 export function StatusCombobox({
 	value = '',
 	name,
@@ -10,15 +47,7 @@ export function StatusCombobox({
 	disabled = false,
 	readonly = false,
 	handleChange
-}: {
-	value?: string
-	name: string
-	error?: string
-	required?: boolean
-	disabled?: boolean
-	readonly?: boolean
-	handleChange: (name: string, value: string | number) => void
-}) {
+}: StatusComboboxProps) {
 	const { data, isLoading } = useGetAllStatus({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
