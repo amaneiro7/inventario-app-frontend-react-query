@@ -6,6 +6,13 @@ import { VicepresidenciaGetByCriteria } from '../../application/VicepresidenciaG
 const repository = new VicepresidenciaGetAllService()
 const getAll = new VicepresidenciaGetByCriteria(repository)
 
+/**
+ * A React Query hook for fetching all vicepresidencia data based on provided filters.
+ * It uses `VicepresidenciaGetByCriteria` to perform the search and caches the results.
+ *
+ * @param query - An object containing filter criteria and pagination options for fetching vicepresidencias.
+ * @returns An object containing the loading state, refetch function, error state, and the fetched data.
+ */
 export const useGetAllVicepresidencias = (query: VicepresidenciaFilters) => {
 	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['vicepresidencias', query],

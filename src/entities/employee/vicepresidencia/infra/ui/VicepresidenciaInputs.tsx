@@ -14,14 +14,39 @@ import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTrans
 import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
 
 interface Props {
+	/**
+	 * The current form data for the vicepresidencia.
+	 */
 	formData: DefaultVicepresidencia
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: VicepresidenciaErrors
+	/**
+	 * An object indicating which form fields are required.
+	 */
 	required: VicepresidenciaRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
 	disabled: VicepresidenciaDisabled
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode: FormMode
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
+/**
+ * `VicepresidenciasInputs` is a memoized functional component that renders the input fields
+ * for vicepresidencia information. It includes comboboxes for directiva and executive vicepresidencia,
+ * a text input for the vicepresidencia name, and a transfer list for cargos.
+ */
 export const VicepresidenciasInputs = memo(function ({
 	errors,
 	required,

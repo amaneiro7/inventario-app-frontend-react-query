@@ -9,6 +9,15 @@ import { type DepartamentoDto } from '../../domain/dto/Departamento.dto'
 
 const repository = new DepartamentoGetService()
 const get = new DepartamentoGetter(repository)
+
+/**
+ * A React hook that manages the initial state for the departamento form.
+ * It fetches departamento data if in 'edit' mode and an ID is present, or initializes with default state.
+ * It also provides a way to reset the form state.
+ *
+ * @param defaultState - The default initial state for the departamento form.
+ * @returns An object containing the initial state, a reset function, and the form mode.
+ */
 export function useDepartamentoInitialState(defaultState: DefaultDepartamento): {
 	initialState: DefaultDepartamento
 	resetState: () => void
@@ -28,6 +37,10 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		retry: false
 	})
 
+	/**
+	 * Maps the fetched DepartamentoDto to the DefaultDepartamento form state.
+	 * @param departamento - The DepartamentoDto object fetched from the API.
+	 */
 	const mapDepartamentoToState = useCallback((departamento: DepartamentoDto): void => {
 		setState({
 			id: departamento.id,
@@ -58,6 +71,10 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 		}
 	}, [mode, departamentoData, location.state, defaultState, navigate, id, mapDepartamentoToState])
 
+	/**
+	 * Resets the form state. If in 'add' mode, it resets to the default state.
+	 * If in 'edit' mode, it refetches the departamento data to revert changes.
+	 */
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('departamento')) return
 

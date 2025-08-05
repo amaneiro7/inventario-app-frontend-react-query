@@ -6,9 +6,23 @@ import { BrushIcon } from '@/shared/ui/icon/BrushIcon'
 import { type DefaultEmployee } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 
 interface PhoneSectionProps {
+	/**
+	 * An array of phone numbers for the employee.
+	 */
 	phones: DefaultEmployee['phone']
+	/**
+	 * An array of segmented phone numbers, each with an operator and number part.
+	 */
 	phoneSegments: DefaultEmployee['phoneSegments']
+	/**
+	 * Callback function to add a new phone or extension field.
+	 * @param params - An object specifying the type of field to add ('addPhone' or 'addExtension').
+	 */
 	handleAddPhones: ({ type }: { type: 'addPhone' | 'addExtension' }) => void
+	/**
+	 * Callback function to clear the first phone or extension field.
+	 * @param params - An object specifying the type and index of the field to clear.
+	 */
 	handleClearFirstPhone: ({
 		type,
 		index
@@ -16,6 +30,10 @@ interface PhoneSectionProps {
 		type: 'clearPhone' | 'clearExtension'
 		index: number
 	}) => void
+	/**
+	 * Callback function to handle changes in phone number or extension segments.
+	 * @param params - An object specifying the type, index, and new value of the segment.
+	 */
 	handlePhoneChange: ({
 		type,
 		index,
@@ -25,6 +43,10 @@ interface PhoneSectionProps {
 		index: number
 		value: string
 	}) => void
+	/**
+	 * Callback function to remove phone or extension fields.
+	 * @param params - An object specifying the type and index of the field to remove.
+	 */
 	handleRemovePhones: ({
 		type,
 		index
@@ -34,6 +56,10 @@ interface PhoneSectionProps {
 	}) => void
 }
 
+/**
+ * `PhoneSection` is a functional component that renders a section for managing employee phone numbers.
+ * It allows adding, removing, and clearing phone number entries, and handles changes to individual phone segments.
+ */
 export const PhoneSection = ({
 	handleAddPhones,
 	handleClearFirstPhone,

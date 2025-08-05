@@ -1,6 +1,6 @@
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type EmployeeId } from '../value-object/EmployeeId'
-import { type EmployeeUserName } from '../value-object/EmployeUsername'
+import { type EmployeeUserName } from '../value-object/EmployeeUsername'
 import { type EmployeeTypes } from '../value-object/EmployeeType'
 import { type EmployeeName } from '../value-object/EmployeeName'
 import { type EmployeeLastName } from '../value-object/EmployeeLastName'

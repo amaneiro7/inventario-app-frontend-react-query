@@ -1,14 +1,24 @@
 import { type VicepresidenciaEjecutivaParams } from '../../domain/dto/VicepresidenciaEjecutiva.dto'
 import { VicepresidenciaEjecutivaName } from '../../domain/value-object/VicepresidenciaEjecutivaName'
 
+/**
+ * Represents the default structure for an executive vicepresidencia's form data.
+ */
 export type DefaultVicepresidenciaEjecutiva = VicepresidenciaEjecutivaParams & {
 	updatedAt?: string
 }
 
+/**
+ * Defines the structure for validation errors in the executive vicepresidencia form.
+ */
 export interface VicepresidenciaEjecutivaErrors {
 	name: string
 	directivaId: string
 }
+
+/**
+ * Defines which fields in the executive vicepresidencia form are required based on current state.
+ */
 export interface VicepresidenciaEjecutivaRequired {
 	name: boolean
 	directivaId: boolean
@@ -21,6 +31,9 @@ export interface State {
 	required: VicepresidenciaEjecutivaRequired
 }
 
+/**
+ * The initial state for the executive vicepresidencia form reducer.
+ */
 export const initialVicepresidenciaEjecutivaState: State = {
 	formData: {
 		id: undefined,
@@ -40,6 +53,9 @@ export const initialVicepresidenciaEjecutivaState: State = {
 	}
 }
 
+/**
+ * Defines the possible actions that can be dispatched to the executive vicepresidencia form reducer.
+ */
 export type Action =
 	| { type: 'init'; payload: { formData: DefaultVicepresidenciaEjecutiva } }
 	| { type: 'reset'; payload: { formData: DefaultVicepresidenciaEjecutiva } }
@@ -48,8 +64,18 @@ export type Action =
 	| { type: 'addCargo'; payload: { value: string } }
 	| { type: 'removeCargo'; payload: { value: string } }
 
+/**
+ * Reducer function for managing the state of the executive vicepresidencia form.
+ * It handles various actions to update form data, errors, and required fields.
+ * @param state - The current state of the form.
+ * @param action - The dispatched action.
+ * @returns The new state after applying the action.
+ */
 export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
+		/**
+		 * Initializes or resets the form data.
+		 */
 		case 'reset':
 		case 'init': {
 			return {
@@ -58,6 +84,9 @@ export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action
 			}
 		}
 
+		/**
+		 * Updates the name field and validates it.
+		 */
 		case 'name': {
 			const name = action.payload.value
 			return {
@@ -71,6 +100,9 @@ export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action
 				}
 			}
 		}
+		/**
+		 * Updates the directivaId field.
+		 */
 		case 'directivaId': {
 			const directivaId = action.payload.value
 			return {
@@ -78,6 +110,9 @@ export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action
 				formData: { ...state.formData, directivaId }
 			}
 		}
+		/**
+		 * Adds a new cargo ID to the form data.
+		 */
 		case 'addCargo': {
 			const cargos = action.payload.value
 			return {
@@ -88,6 +123,9 @@ export const vicepresidenciaEjecutivaFormReducer = (state: State, action: Action
 				}
 			}
 		}
+		/**
+		 * Removes a cargo ID from the form data.
+		 */
 		case 'removeCargo': {
 			const cargos = action.payload.value
 			return {

@@ -2,6 +2,11 @@ import { useGenericFilter } from '@/shared/lib/hooks/useHookFilter'
 import { EmployeeGetByCriteria } from '../../application/EmployeeGetByCriteria'
 import { type EmployeeFilters } from '../../application/createEmployeeQueryParams'
 
+/**
+ * A React hook for managing employee filters.
+ * It leverages `useGenericFilter` to provide filtering capabilities based on `EmployeeFilters`.
+ * @returns An object containing filter state and handlers for updating filters.
+ */
 export function useEmployeeFilter() {
 	return useGenericFilter<EmployeeFilters>({
 		defaultPageSize: EmployeeGetByCriteria.defaultPageSize,

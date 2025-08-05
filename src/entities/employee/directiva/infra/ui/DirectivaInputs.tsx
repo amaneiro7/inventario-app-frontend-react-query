@@ -9,12 +9,30 @@ import {
 import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
 
 interface Props {
+	/**
+	 * The current form data for the directiva.
+	 */
 	formData: DefaultDirectiva
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: DirectivaErrors
+	/**
+	 * An object indicating which form fields are required.
+	 */
 	required: DirectivaRequired
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
+/**
+ * `DirectivaInputs` is a memoized functional component that renders the input fields
+ * for directiva information. It includes a text input for the directiva name and a transfer list for cargos.
+ */
 export const DirectivaInputs = memo(function ({ errors, required, formData, handleChange }: Props) {
 	return (
 		<>

@@ -9,6 +9,15 @@ import { type EmployeeDto } from '../../domain/dto/Employee.dto'
 
 const repository = new EmployeeGetService()
 const get = new EmployeeGetter(repository)
+
+/**
+ * A React hook that manages the initial state for the employee form.
+ * It fetches employee data if in 'edit' mode and an ID is present, or initializes with default state.
+ * It also provides a way to reset the form state.
+ *
+ * @param defaultState - The default initial state for the employee form.
+ * @returns An object containing the initial state, a reset function, the form mode, and a loading indicator.
+ */
 export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	initialState: DefaultEmployee
 	resetState: () => void
@@ -33,6 +42,10 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 		retry: false
 	})
 
+	/**
+	 * Maps the fetched EmployeeDto to the DefaultEmployee form state.
+	 * @param employee - The EmployeeDto object fetched from the API.
+	 */
 	const mappedEmployeeState = useCallback(
 		(employee: EmployeeDto): void => {
 			setState(() => {
@@ -57,8 +70,8 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 					cargoId: employee.cargoId ?? '',
 					extension: extension,
 					phone: phone,
-					extensionSegments: extension?.map(extension => {
-						const match = extension.match(/(\d{4})(\d{7})/)
+					extensionSegments: extension?.map(ext => {
+						const match = ext.match(/(\d{4})(\d{7})/)
 						const operadora = match ? match?.[1] : ''
 						const numero = match ? match?.[2] : ''
 
@@ -69,8 +82,8 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 							numero: ''
 						}
 					],
-					phoneSegments: phone.map(phone => {
-						const match = phone.match(/(\d{4})(\d{7})/)
+					phoneSegments: phone.map(ph => {
+						const match = ph.match(/(\d{4})(\d{7})/)
 						const operadora = match ? match?.[1] : ''
 						const numero = match ? match?.[2] : ''
 						return { operadora, numero }
@@ -80,7 +93,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 				}
 			})
 		},
-		[setState]
+		[]
 	)
 
 	useEffect(() => {
@@ -107,9 +120,14 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 		defaultState,
 		navigate,
 		id,
-		mappedEmployeeState
+		mappedEmployeeState,
+		location.pathname
 	])
 
+	/**
+	 * Resets the form state. If in 'add' mode, it resets to the default state.
+	 * If in 'edit' mode, it refetches the employee data to revert changes.
+	 */
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('employee')) return
 

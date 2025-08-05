@@ -11,12 +11,31 @@ import {
 import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
 
 interface Props {
+	/**
+	 * The current form data for the executive vicepresidencia.
+	 */
 	formData: DefaultVicepresidenciaEjecutiva
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: VicepresidenciaEjecutivaErrors
+	/**
+	 * An object indicating which form fields are required.
+	 */
 	required: VicepresidenciaEjecutivaRequired
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
+/**
+ * `VicepresidenciaEjecutivasInputs` is a memoized functional component that renders the input fields
+ * for executive vicepresidencia information. It includes a combobox for directiva, a text input for the name,
+ * and a transfer list for cargos.
+ */
 export const VicepresidenciaEjecutivasInputs = memo(function ({
 	errors,
 	required,

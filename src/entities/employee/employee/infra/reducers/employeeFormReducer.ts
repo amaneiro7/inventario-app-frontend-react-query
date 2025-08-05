@@ -6,8 +6,11 @@ import { EmployeeLastName } from '../../domain/value-object/EmployeeLastName'
 import { EmployeeName } from '../../domain/value-object/EmployeeName'
 import { Nationalities } from '../../domain/value-object/EmployeeNationality'
 import { EmployeeTypes } from '../../domain/value-object/EmployeeType'
-import { EmployeeUserName } from '../../domain/value-object/EmployeUsername'
+import { EmployeeUserName } from '../../domain/value-object/EmployeeUsername'
 
+/**
+ * Represents the default structure for an employee's form data.
+ */
 export interface DefaultEmployee {
 	id?: EmployeeDto['id']
 	userName: EmployeeDto['userName']
@@ -33,6 +36,9 @@ export interface DefaultEmployee {
 	updatedAt?: EmployeeDto['updatedAt']
 }
 
+/**
+ * Defines the structure for validation errors in the employee form.
+ */
 export interface EmployeeErrors {
 	userName: string
 	type: string
@@ -46,6 +52,10 @@ export interface EmployeeErrors {
 	vicepresidenciaId: string
 	cedula: string
 }
+
+/**
+ * Defines which fields in the employee form are required based on current state.
+ */
 export interface EmployeeRequired {
 	userName: boolean
 	type: boolean
@@ -62,6 +72,10 @@ export interface EmployeeRequired {
 	vicepresidenciaId: boolean
 	cargoId: boolean
 }
+
+/**
+ * Defines which fields in the employee form are disabled based on current state.
+ */
 export interface EmployeeDisabled {
 	userName: boolean
 	type: boolean
@@ -79,6 +93,9 @@ export interface EmployeeDisabled {
 	cargoId: boolean
 }
 
+/**
+ * Represents the entire state managed by the employee form reducer.
+ */
 export interface State {
 	formData: DefaultEmployee
 	errors: EmployeeErrors
@@ -86,6 +103,9 @@ export interface State {
 	disabled: EmployeeDisabled
 }
 
+/**
+ * The initial state for the employee form reducer.
+ */
 export const initialEmployeeState: State = {
 	formData: {
 		id: '',
@@ -158,6 +178,9 @@ export const initialEmployeeState: State = {
 	}
 }
 
+/**
+ * Defines the possible actions that can be dispatched to the employee form reducer.
+ */
 export type Action =
 	| { type: 'init'; payload: { formData: DefaultEmployee } }
 	| { type: 'reset'; payload: { formData: DefaultEmployee } }
@@ -190,8 +213,19 @@ export type Action =
 	| { type: 'phoneNumero'; payload: { index: number; value: string } }
 	| { type: 'extensionNumero'; payload: { index: number; value: string } }
 
+/**
+ * Reducer function for managing the state of the employee form.
+ * It handles various actions to update form data, errors, required fields, and disabled fields.
+ * @param state - The current state of the form.
+ * @param action - The dispatched action.
+ * @returns The new state after applying the action.
+ */
 export const employeeFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
+		/**
+		 * Initializes or resets the form data. Adjusts employeeCode and nationality based on employee type.
+		 * Also sets disabled and required fields based on the form data.
+		 */
 		case 'reset':
 		case 'init': {
 			const { type, phone, extension } = action.payload.formData
@@ -257,6 +291,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the userName field and validates it.
+		 */
 		case 'userName': {
 			const userName = action.payload.value
 			return {
@@ -270,6 +308,11 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the employee type and resets related fields (name, lastName, email, etc.)
+		 * and their required/disabled states based on the new type.
+		 */
 		case 'type': {
 			const type = action.payload.value
 			return {
@@ -324,6 +367,9 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 		}
 
+		/**
+		 * Updates the name field and validates it.
+		 */
 		case 'name': {
 			const name = action.payload.value
 			return {
@@ -337,6 +383,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the lastName field and validates it.
+		 */
 		case 'lastName': {
 			const lastName = action.payload.value
 			return {
@@ -353,6 +403,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the email field and validates it.
+		 */
 		case 'email': {
 			const email = action.payload.value
 			return {
@@ -368,6 +422,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the isStillWorking field.
+		 */
 		case 'isStillWorking': {
 			const isStillWorking = action.payload.value
 			return {
@@ -375,6 +433,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, isStillWorking }
 			}
 		}
+
+		/**
+		 * Updates the employeeCode field and validates it.
+		 */
 		case 'employeeCode': {
 			const { value } = action.payload
 			const employeeCode = value ? Number(value) : ''
@@ -392,6 +454,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the nationality field.
+		 */
 		case 'nationality': {
 			const nationality = action.payload.value
 			return {
@@ -399,6 +465,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, nationality }
 			}
 		}
+
+		/**
+		 * Updates the cedula field and validates it.
+		 */
 		case 'cedula': {
 			const { value } = action.payload
 			const cedula = value ? Number(value) : ''
@@ -416,6 +486,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the locationId field.
+		 */
 		case 'locationId': {
 			const locationId = action.payload.value
 			return {
@@ -423,6 +497,11 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, locationId }
 			}
 		}
+
+		/**
+		 * Updates the directivaId field and resets related fields (vicepresidenciaEjecutivaId, vicepresidenciaId, departamentoId, cargoId).
+		 * Also updates disabled states for dependent fields.
+		 */
 		case 'directivaId': {
 			const { value: directivaId } = action.payload
 
@@ -444,6 +523,11 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the vicepresidenciaEjecutivaId field and resets related fields (vicepresidenciaId, departamentoId, cargoId).
+		 * Also updates disabled states for dependent fields.
+		 */
 		case 'vicepresidenciaEjecutivaId': {
 			const { value: vicepresidenciaEjecutivaId } = action.payload
 
@@ -463,6 +547,11 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the vicepresidenciaId field and resets related fields (departamentoId, cargoId).
+		 * Also updates disabled states for dependent fields.
+		 */
 		case 'vicepresidenciaId': {
 			const { value: vicepresidenciaId } = action.payload
 
@@ -475,6 +564,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the departamentoId field and resets the cargoId field.
+		 */
 		case 'departamentoId': {
 			const { value: departamentoId } = action.payload
 
@@ -483,6 +576,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, departamentoId, cargoId: '' }
 			}
 		}
+
+		/**
+		 * Updates the cargoId field.
+		 */
 		case 'cargoId': {
 			const cargoId = action.payload.value
 			return {
@@ -490,6 +587,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, cargoId }
 			}
 		}
+
+		/**
+		 * Adds a new empty phone entry to the form data.
+		 */
 		case 'addPhone': {
 			const phone = [...state.formData.phone]
 			const phoneSegments = [...state.formData.phoneSegments]
@@ -506,6 +607,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 			return state
 		}
+
+		/**
+		 * Adds a new empty extension entry to the form data.
+		 */
 		case 'addExtension': {
 			const extension = [...state.formData.extension]
 			const extensionSegments = [...state.formData.extensionSegments]
@@ -522,6 +627,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 			return state
 		}
+
+		/**
+		 * Removes a phone entry at a specific index from the form data.
+		 */
 		case 'removePhone': {
 			const index = action.payload.index
 			const phone = [...state.formData.phone]
@@ -540,6 +649,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 			return state
 		}
+
+		/**
+		 * Removes an extension entry at a specific index from the form data.
+		 */
 		case 'removeExtension': {
 			const index = action.payload.index
 			const extension = [...state.formData.extension]
@@ -558,6 +671,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			}
 			return state
 		}
+
+		/**
+		 * Clears the phone number and its segments at a specific index.
+		 */
 		case 'clearPhone': {
 			const index = action.payload.index
 			const phone = [...state.formData.phone]
@@ -577,6 +694,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Clears the extension number and its segments at a specific index.
+		 */
 		case 'clearExtension': {
 			const index = action.payload.index
 			const extension = [...state.formData.extension]
@@ -596,12 +717,16 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the numeric part of an extension at a specific index.
+		 */
 		case 'extensionNumero': {
 			const { index, value } = action.payload
 
 			const extension = [...state.formData.extension]
 			const extensionSegments = [...state.formData.extensionSegments]
-			const maxLength = 7 // Define el límite de caracteres
+			const maxLength = 7 // Define the character limit
 			const trucatedValue = value.trim().slice(0, maxLength)
 
 			extensionSegments[index] = {
@@ -619,6 +744,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the area code (operadora) of an extension at a specific index.
+		 */
 		case 'extensionOperadora': {
 			const { index, value } = action.payload
 
@@ -640,12 +769,16 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the numeric part of a phone number at a specific index.
+		 */
 		case 'phoneNumero': {
 			const { index, value } = action.payload
 
 			const phone = [...state.formData.phone]
 			const phoneSegments = [...state.formData.phoneSegments]
-			const maxLength = 7 // Define el límite de caracteres
+			const maxLength = 7 // Define the character limit
 			const trucatedValue = value.trim().slice(0, maxLength)
 
 			phoneSegments[index] = {
@@ -663,6 +796,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
+
+		/**
+		 * Updates the area code (operadora) of a phone number at a specific index.
+		 */
 		case 'phoneOperadora': {
 			const { index, value } = action.payload
 

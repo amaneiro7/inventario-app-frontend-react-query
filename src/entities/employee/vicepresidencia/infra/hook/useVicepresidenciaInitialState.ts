@@ -9,6 +9,15 @@ import { type VicepresidenciaDto } from '../../domain/dto/Vicepresidencia.dto'
 
 const repository = new VicepresidenciaGetService()
 const get = new VicepresidenciaGetter(repository)
+
+/**
+ * A React hook that manages the initial state for the vicepresidencia form.
+ * It fetches vicepresidencia data if in 'edit' mode and an ID is present, or initializes with default state.
+ * It also provides a way to reset the form state.
+ *
+ * @param defaultState - The default initial state for the vicepresidencia form.
+ * @returns An object containing the initial state, a reset function, and the form mode.
+ */
 export function useVicepresidenciaInitialState(defaultState: DefaultVicepresidencia): {
 	initialState: DefaultVicepresidencia
 	resetState: () => void
@@ -28,6 +37,10 @@ export function useVicepresidenciaInitialState(defaultState: DefaultVicepresiden
 		retry: false
 	})
 
+	/**
+	 * Maps the fetched VicepresidenciaDto to the DefaultVicepresidencia form state.
+	 * @param vicepresidencia - The VicepresidenciaDto object fetched from the API.
+	 */
 	const mappedVicepresidenciaState = useCallback((vicepresidencia: VicepresidenciaDto): void => {
 		setState({
 			id: vicepresidencia.id,

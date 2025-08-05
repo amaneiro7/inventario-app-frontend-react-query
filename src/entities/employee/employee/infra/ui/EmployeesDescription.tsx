@@ -6,12 +6,29 @@ import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
 import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 interface EmployeeDescriptionProps {
+	/**
+	 * Controls the visibility of the description.
+	 */
 	open: boolean
+	/**
+	 * The employee data to display.
+	 */
 	employee: EmployeeDto
+	/**
+	 * The number of columns the description should span in the table.
+	 */
 	colSpan: number
+	/**
+	 * An array of column names that are currently visible in the table.
+	 * Used to conditionally hide redundant information in the description.
+	 */
 	visibleColumns: string[]
 }
 
+/**
+ * `EmployeeDescription` is a memoized component that displays detailed information about an employee.
+ * It is typically used within a table row to show additional details when expanded.
+ */
 export const EmployeeDescription = memo(
 	({ open, employee, colSpan, visibleColumns }: EmployeeDescriptionProps) => {
 		return (

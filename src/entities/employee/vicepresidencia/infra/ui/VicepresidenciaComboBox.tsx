@@ -4,6 +4,51 @@ import { type VicepresidenciaFilters } from '@/entities/employee/vicepresidencia
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 
+interface VicepresidenciaComboboxProps {
+	/**
+	 * The currently selected vicepresidencia ID.
+	 */
+	value?: string
+	/**
+	 * The ID of the associated directiva, used for filtering vicepresidencias.
+	 */
+	directivaId?: string
+	/**
+	 * The ID of the associated executive vicepresidencia, used for filtering vicepresidencias.
+	 */
+	vicepresidenciaEjecutivaId?: string
+	/**
+	 * The name of the input field.
+	 */
+	name: string
+	/**
+	 * Error message to display, if any.
+	 */
+	error?: string
+	/**
+	 * Whether the input is required.
+	 */
+	required?: boolean
+	/**
+	 * Whether the input is disabled.
+	 */
+	disabled?: boolean
+	/**
+	 * Whether the input is read-only.
+	 */
+	readonly?: boolean
+	/**
+	 * Callback function triggered when the selected value changes.
+	 * @param name - The name of the input field.
+	 * @param value - The new selected value (vicepresidencia ID).
+	 */
+	handleChange: (name: string, value: string | number) => void
+}
+
+/**
+ * `VicepresidenciaCombobox` is a memoized functional component that provides a searchable combobox for selecting vicepresidencias.
+ * It fetches vicepresidencia data based on user input and associated organizational hierarchy IDs (directiva, vicepresidencia ejecutiva).
+ */
 export const VicepresidenciaCombobox = memo(function ({
 	value = '',
 	name,
@@ -14,17 +59,7 @@ export const VicepresidenciaCombobox = memo(function ({
 	disabled = false,
 	readonly = false,
 	handleChange
-}: {
-	value?: string
-	directivaId?: string
-	vicepresidenciaEjecutivaId?: string
-	name: string
-	error?: string
-	required?: boolean
-	readonly?: boolean
-	disabled?: boolean
-	handleChange: (name: string, value: string | number) => void
-}) {
+}: VicepresidenciaComboboxProps) {
 	const [inputValue, setInputValue] = useState('')
 	const [debouncedSearch] = useDebounce(inputValue)
 	const query: VicepresidenciaFilters = useMemo(

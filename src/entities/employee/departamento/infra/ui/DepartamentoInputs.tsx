@@ -9,19 +9,44 @@ import {
 } from '@/entities/employee/departamento/infra/reducers/departamentoFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
-import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
 import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
+import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
 import { VicepresidenciaCombobox } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox'
 
 interface DepartamentoInputsProps {
+	/**
+	 * The current form data for the departamento.
+	 */
 	formData: DefaultDepartamento
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: DepartamentoErrors
+	/**
+	 * An object indicating which form fields are required.
+	 */
 	required: DepartamentoRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
 	disabled: DepartamentoDisabled
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode: FormMode
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
+/**
+ * `DepartamentoInputs` is a memoized functional component that renders the input fields
+ * for departamento information. It includes comboboxes for directiva, vicepresidencia ejecutiva,
+ * and vicepresidencia, a text input for the departamento name, and a transfer list for cargos.
+ */
 export const DepartamentoInputs = memo(
 	({ errors, mode, required, disabled, formData, handleChange }: DepartamentoInputsProps) => {
 		return (

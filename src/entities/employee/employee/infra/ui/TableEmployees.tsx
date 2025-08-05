@@ -10,12 +10,30 @@ import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
 import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 interface TableEmployeesProps {
+	/**
+	 * An array of employee data to display in the table.
+	 */
 	employees?: EmployeeDto[]
+	/**
+	 * Indicates whether an error occurred during data fetching.
+	 */
 	isError: boolean
+	/**
+	 * The number of columns the table should span.
+	 */
 	colSpan: number
+	/**
+	 * An array of column names that are currently visible in the table.
+	 * Used to conditionally render table cells.
+	 */
 	visibleColumns: string[]
 }
 
+/**
+ * `TableEmployees` is a memoized component that renders a table of employee data.
+ * It handles displaying loading states, error states, empty states, and individual employee rows
+ * with expandable details.
+ */
 export const TableEmployees = memo(
 	({ employees, isError, colSpan, visibleColumns }: TableEmployeesProps) => {
 		const { expandedRows, handleRowClick } = useExpendedRows()

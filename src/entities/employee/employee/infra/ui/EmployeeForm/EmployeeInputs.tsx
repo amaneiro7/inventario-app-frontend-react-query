@@ -11,13 +11,41 @@ import {
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface Props {
+	/**
+	 * The current form data for the employee.
+	 */
 	formData: DefaultEmployee
+	/**
+	 * An object containing validation errors for each form field.
+	 */
 	errors: EmployeeErrors
+	/**
+	 * An object indicating which form fields are required.
+	 */
 	required: EmployeeRequired
+	/**
+	 * An object indicating which form fields are disabled.
+	 */
 	disabled: EmployeeDisabled
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode: FormMode
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: any) => void
+	/**
+	 * Callback function to add new phone or extension fields.
+	 * @param params - An object specifying whether to add a 'phone' or 'extension'.
+	 */
 	handleAddPhones: ({ type }: { type: 'addPhone' | 'addExtension' }) => void
+	/**
+	 * Callback function to clear the first phone or extension field.
+	 * @param params - An object specifying the type and index of the field to clear.
+	 */
 	handleClearFirstPhone: ({
 		type,
 		index
@@ -25,6 +53,10 @@ interface Props {
 		type: 'clearPhone' | 'clearExtension'
 		index: number
 	}) => void
+	/**
+	 * Callback function to handle changes in phone number or extension segments.
+	 * @param params - An object specifying the type, index, and new value of the segment.
+	 */
 	handlePhoneChange: ({
 		type,
 		index,
@@ -34,6 +66,10 @@ interface Props {
 		index: number
 		value: string
 	}) => void
+	/**
+	 * Callback function to remove phone or extension fields.
+	 * @param params - An object specifying the type and index of the field to remove.
+	 */
 	handleRemovePhones: ({
 		type,
 		index
@@ -43,6 +79,11 @@ interface Props {
 	}) => void
 }
 
+/**
+ * `EmployeeInputs` is a memoized component that renders the main and additional input sections
+ * for the employee form. It receives form data, errors, required/disabled states, and handlers
+ * as props and passes them down to its child components.
+ */
 export const EmployeeInputs = memo(
 	({
 		errors,

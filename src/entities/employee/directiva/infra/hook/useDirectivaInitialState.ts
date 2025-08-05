@@ -9,6 +9,15 @@ import { type DirectivaDto } from '../../domain/dto/Directiva.dto'
 
 const repository = new DirectivaGetService()
 const get = new DirectivaGetter(repository)
+
+/**
+ * A React hook that manages the initial state for the directiva form.
+ * It fetches directiva data if in 'edit' mode and an ID is present, or initializes with default state.
+ * It also provides a way to reset the form state.
+ *
+ * @param defaultState - The default initial state for the directiva form.
+ * @returns An object containing the initial state, a reset function, and the form mode.
+ */
 export function useDirectivaInitialState(defaultState: DefaultDirectiva): {
 	initialState: DefaultDirectiva
 	resetState: () => void
@@ -28,6 +37,10 @@ export function useDirectivaInitialState(defaultState: DefaultDirectiva): {
 		retry: false
 	})
 
+	/**
+	 * Maps the fetched DirectivaDto to the DefaultDirectiva form state.
+	 * @param directiva - The DirectivaDto object fetched from the API.
+	 */
 	const mappedDirectivaState = useCallback((directiva: DirectivaDto): void => {
 		setState({
 			id: directiva.id,
@@ -55,6 +68,10 @@ export function useDirectivaInitialState(defaultState: DefaultDirectiva): {
 		}
 	}, [mode, directivaData, location.state, defaultState, navigate, id, mappedDirectivaState])
 
+	/**
+	 * Resets the form state. If in 'add' mode, it resets to the default state.
+	 * If in 'edit' mode, it refetches the directiva data to revert changes.
+	 */
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('directiva')) return
 

@@ -9,6 +9,15 @@ import { type CargoDto } from '../../domain/dto/Cargo.dto'
 
 const repository = new CargoGetService()
 const get = new CargoGetter(repository)
+
+/**
+ * A React hook that manages the initial state for the cargo form.
+ * It fetches cargo data if in 'edit' mode and an ID is present, or initializes with default state.
+ * It also provides a way to reset the form state.
+ *
+ * @param defaultState - The default initial state for the cargo form.
+ * @returns An object containing the initial state, a reset function, and the form mode.
+ */
 export function useCargoInitialState(defaultState: DefaultCargo): {
 	initialState: DefaultCargo
 	resetState: () => void
@@ -28,6 +37,10 @@ export function useCargoInitialState(defaultState: DefaultCargo): {
 		retry: false
 	})
 
+	/**
+	 * Maps the fetched CargoDto to the DefaultCargo form state.
+	 * @param cargo - The CargoDto object fetched from the API.
+	 */
 	const mapCargoToState = useCallback((cargo: CargoDto): void => {
 		setState({
 			id: cargo.id,
@@ -55,6 +68,10 @@ export function useCargoInitialState(defaultState: DefaultCargo): {
 		}
 	}, [mode, cargoData, location.state, defaultState, navigate, id, mapCargoToState])
 
+	/**
+	 * Resets the form state. If in 'add' mode, it resets to the default state.
+	 * If in 'edit' mode, it refetches the cargo data to revert changes.
+	 */
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('cargo')) return
 

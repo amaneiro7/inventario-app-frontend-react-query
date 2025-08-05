@@ -1,15 +1,25 @@
 import { type DepartamentoDto, type DepartamentoParams } from '../../domain/dto/Departamento.dto'
 import { DepartamentoName } from '../../domain/value-object/DepartamentoName'
 
+/**
+ * Represents the default structure for a departamento's form data.
+ */
 export type DefaultDepartamento = DepartamentoParams & {
 	vicepresidenciaEjecutivaId: DepartamentoDto['vicepresidencia']['vicepresidenciaEjecutivaId']
 	directivaId: DepartamentoDto['vicepresidencia']['vicepresidenciaEjecutiva']['directivaId']
 	updatedAt?: string
 }
 
+/**
+ * Defines the structure for validation errors in the departamento form.
+ */
 export interface DepartamentoErrors {
 	name: string
 }
+
+/**
+ * Defines which fields in the departamento form are required based on current state.
+ */
 export interface DepartamentoRequired {
 	name: boolean
 	directivaId: boolean
@@ -17,6 +27,10 @@ export interface DepartamentoRequired {
 	vicepresidenciaId: boolean
 	cargos: boolean
 }
+
+/**
+ * Defines which fields in the departamento form are disabled based on current state.
+ */
 export interface DepartamentoDisabled {
 	name: boolean
 	directivaId: boolean
@@ -25,6 +39,9 @@ export interface DepartamentoDisabled {
 	cargos: boolean
 }
 
+/**
+ * Represents the entire state managed by the departamento form reducer.
+ */
 export interface State {
 	formData: DefaultDepartamento
 	errors: DepartamentoErrors
@@ -32,6 +49,9 @@ export interface State {
 	disabled: DepartamentoDisabled
 }
 
+/**
+ * The initial state for the departamento form reducer.
+ */
 export const initialDepartamentoState: State = {
 	formData: {
 		id: '',
@@ -61,6 +81,9 @@ export const initialDepartamentoState: State = {
 	}
 }
 
+/**
+ * Defines the possible actions that can be dispatched to the departamento form reducer.
+ */
 export type Action =
 	| { type: 'init'; payload: { formData: DefaultDepartamento } }
 	| { type: 'reset'; payload: { formData: DefaultDepartamento } }
@@ -74,8 +97,18 @@ export type Action =
 	| { type: 'removeCargo'; payload: { value: string } }
 	| { type: 'name'; payload: { value: DefaultDepartamento['name'] } }
 
+/**
+ * Reducer function for managing the state of the departamento form.
+ * It handles various actions to update form data, errors, required fields, and disabled fields.
+ * @param state - The current state of the form.
+ * @param action - The dispatched action.
+ * @returns The new state after applying the action.
+ */
 export const departamentoFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
+		/**
+		 * Initializes or resets the form data. Also updates disabled states for dependent fields.
+		 */
 		case 'reset':
 		case 'init': {
 			return {
@@ -88,6 +121,9 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				}
 			}
 		}
+		/**
+		 * Updates the name field and validates it.
+		 */
 		case 'name': {
 			const name = action.payload.value
 			return {
@@ -99,6 +135,9 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				}
 			}
 		}
+		/**
+		 * Updates the directivaId field and updates disabled states for dependent fields.
+		 */
 		case 'directivaId': {
 			const directivaId = action.payload.value
 			return {
@@ -111,6 +150,9 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				}
 			}
 		}
+		/**
+		 * Updates the vicepresidenciaEjecutivaId field and updates disabled states for dependent fields.
+		 */
 		case 'vicepresidenciaEjecutivaId': {
 			const vicepresidenciaEjecutivaId = action.payload.value
 			return {
@@ -119,6 +161,9 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				disabled: { ...state.disabled, vicepresidenciaId: !vicepresidenciaEjecutivaId }
 			}
 		}
+		/**
+		 * Updates the vicepresidenciaId field.
+		 */
 		case 'vicepresidenciaId': {
 			const vicepresidenciaId = action.payload.value
 			return {
@@ -126,6 +171,9 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				formData: { ...state.formData, vicepresidenciaId }
 			}
 		}
+		/**
+		 * Adds a new cargo ID to the form data.
+		 */
 		case 'addCargo': {
 			const cargos = action.payload.value
 			return {
@@ -136,6 +184,9 @@ export const departamentoFormReducer = (state: State, action: Action): State => 
 				}
 			}
 		}
+		/**
+		 * Removes a cargo ID from the form data.
+		 */
 		case 'removeCargo': {
 			const cargos = action.payload.value
 			return {

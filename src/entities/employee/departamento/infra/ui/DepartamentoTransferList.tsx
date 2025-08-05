@@ -7,16 +7,49 @@ import { TransferListItem } from '../../../../../shared/ui/TransferList/Transfer
 import { type DepartamentoDto } from '@/entities/employee/departamento/domain/dto/Departamento.dto'
 
 interface DepartamentoTransferListProps {
+	/**
+	 * An array of selected departamento IDs.
+	 */
 	value?: DepartamentoDto['id'][]
+	/**
+	 * The name of the input field.
+	 */
 	name: string
+	/**
+	 * Error message to display, if any.
+	 */
 	error?: string
+	/**
+	 * Whether the input is required.
+	 */
 	required?: boolean
+	/**
+	 * Whether the input is disabled.
+	 */
 	disabled?: boolean
+	/**
+	 * Whether the input is read-only.
+	 */
 	readonly?: boolean
+	/**
+	 * Callback function triggered when a departamento is added to the list.
+	 * @param name - The name of the action ('addDepartamento').
+	 * @param value - The ID of the departamento to add.
+	 */
 	onAddDepartamento: (name: 'addDepartamento', value: string) => void
+	/**
+	 * Callback function triggered when a departamento is removed from the list.
+	 * @param name - The name of the action ('removeDepartamento').
+	 * @param value - The ID of the departamento to remove.
+	 */
 	onRemoveDepartamento: (name: 'removeDepartamento', value: string) => void
 }
 
+/**
+ * `DepartamentoTransferList` is a functional component that provides a dual-list interface
+ * for selecting and managing departamentos. It allows users to search for available departamentos
+ * and add/remove them from a selected list.
+ */
 export function DepartamentoTransferList({
 	value: departamentos = [],
 	name,

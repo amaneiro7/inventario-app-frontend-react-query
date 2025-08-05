@@ -12,9 +12,19 @@ import { VicepresidenciaEjecutivaSaveService } from '../service/vicepresidenciaE
 import { VicepresidenciaEjecutivaCreator } from '../../application/VicepresidenciaEjecutivaCreator'
 import { useVicepresidenciaEjecutivaInitialState } from './useVicepresidenciaEjecutivaInitialState'
 
+/**
+ * A React hook for managing vicepresidencia ejecutiva creation and update forms.
+ * It handles form state, validation errors, and interactions with the VicepresidenciaEjecutivaCreator service.
+ * @param defaultState - Optional initial state for the form, typically used for editing existing vicepresidencias ejecutivas.
+ * @returns An object containing form data, mode, errors, required fields, and various handlers.
+ */
 export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepresidenciaEjecutiva) {
 	const { events } = useAuthStore.getState()
 
+	/**
+	 * Memoized function to create or update a vicepresidencia ejecutiva.
+	 * It uses the VicepresidenciaEjecutivaCreator service to perform the operation.
+	 */
 	const create = useMemo(
 		() => async (formData: VicepresidenciaEjecutivaParams) => {
 			return await new VicepresidenciaEjecutivaCreator(
@@ -50,6 +60,9 @@ export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepres
 		})
 	}, [initialState])
 
+	/**
+	 * Resets the form to its initial state.
+	 */
 	const resetForm = useCallback(() => {
 		dispatch({
 			type: 'reset',
@@ -57,12 +70,23 @@ export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepres
 		})
 	}, [prevState, initialState])
 
+	/**
+	 * Handles changes to form input fields.
+	 * @param name - The name of the action/field to update.
+	 * @param value - The new value for the field.
+	 */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback((name: Action['type'], value: any) => {
 		if (name === 'init' || name === 'reset') return
 		dispatch({ type: name, payload: { value } })
 	}, [])
 
+	/**
+	 * Handles the form submission.
+	 * Prevents default form submission and calls the `create` function with the current form data.
+	 * Resets the form state after successful submission.
+	 * @param event - The React form event.
+	 */
 	const handleSubmit = useCallback(
 		async (event: React.FormEvent) => {
 			event.preventDefault()

@@ -15,42 +15,147 @@ import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { EmployeeCedula } from '@/entities/employee/employee/domain/value-object/EmployeeCedula'
 
 interface MainEmployeeInfoProps {
+	/**
+	 * The username of the employee.
+	 */
 	userName: DefaultEmployee['userName']
+	/**
+	 * The type of the employee.
+	 */
 	type: DefaultEmployee['type']
+	/**
+	 * Indicates if the employee is still working.
+	 */
 	isStillWorking: DefaultEmployee['isStillWorking']
+	/**
+	 * The first name of the employee.
+	 */
 	name: DefaultEmployee['name']
+	/**
+	 * The last name of the employee.
+	 */
 	lastName: DefaultEmployee['lastName']
+	/**
+	 * The email of the employee.
+	 */
 	email: DefaultEmployee['email']
+	/**
+	 * The employee code.
+	 */
 	employeeCode: DefaultEmployee['employeeCode']
+	/**
+	 * The national identification number (cedula) of the employee.
+	 */
 	cedula: DefaultEmployee['cedula']
+	/**
+	 * The nationality of the employee.
+	 */
 	nationality: DefaultEmployee['nationality']
+	/**
+	 * The current mode of the form (e.g., 'add' or 'edit').
+	 */
 	mode: FormMode
+	/**
+	 * Indicates if the userName field is required.
+	 */
 	userNameRequired: EmployeeRequired['userName']
+	/**
+	 * Indicates if the type field is required.
+	 */
 	typeRequired: EmployeeRequired['type']
+	/**
+	 * Indicates if the name field is required.
+	 */
 	nameRequired: EmployeeRequired['name']
+	/**
+	 * Indicates if the lastName field is required.
+	 */
 	lastNameRequired: EmployeeRequired['lastName']
+	/**
+	 * Indicates if the email field is required.
+	 */
 	emailRequired: EmployeeRequired['email']
+	/**
+	 * Indicates if the employeeCode field is required.
+	 */
 	employeeCodeRequired: EmployeeRequired['employeeCode']
+	/**
+	 * Indicates if the cedula field is required.
+	 */
 	cedulaRequired: EmployeeRequired['cedula']
+	/**
+	 * Indicates if the userName field is disabled.
+	 */
 	userNameDisabled: EmployeeDisabled['userName']
+	/**
+	 * Indicates if the type field is disabled.
+	 */
 	typeDisabled: EmployeeDisabled['type']
+	/**
+	 * Indicates if the name field is disabled.
+	 */
 	nameDisabled: EmployeeDisabled['name']
+	/**
+	 * Indicates if the lastName field is disabled.
+	 */
 	lastNameDisabled: EmployeeDisabled['lastName']
+	/**
+	 * Indicates if the email field is disabled.
+	 */
 	emailDisabled: EmployeeDisabled['email']
+	/**
+	 * Indicates if the employeeCode field is disabled.
+	 */
 	employeeCodeDisabled: EmployeeDisabled['employeeCode']
+	/**
+	 * Indicates if the cedula field is disabled.
+	 */
 	cedulaDisabled: EmployeeDisabled['cedula']
+	/**
+	 * Indicates if the nationality field is disabled.
+	 */
 	nationalityDisabled: EmployeeDisabled['nationality']
+	/**
+	 * Error message for the userName field.
+	 */
 	userNameError: EmployeeErrors['userName']
+	/**
+	 * Error message for the name field.
+	 */
 	nameError: EmployeeErrors['name']
+	/**
+	 * Error message for the lastName field.
+	 */
 	lastNameError: EmployeeErrors['lastName']
+	/**
+	 * Error message for the email field.
+	 */
 	emailError: EmployeeErrors['email']
+	/**
+	 * Error message for the employeeCode field.
+	 */
 	employeeCodeError: EmployeeErrors['employeeCode']
+	/**
+	 * Error message for the cedula field.
+	 */
 	cedulaError: EmployeeErrors['cedula']
+	/**
+	 * Error message for the type field.
+	 */
 	typeError: EmployeeErrors['type']
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	/**
+	 * Callback function to handle changes in form input fields.
+	 * @param name - The name of the field being changed.
+	 * @param value - The new value of the field.
+	 */
 	handleChange: (name: Action['type'], value: any) => void
 }
 
+/**
+ * `MainEmployeeInfo` is a memoized functional component that renders the main input fields
+ * for employee information, including username, type, employment status, name, last name, email,
+ * employee code, and national identification number (cedula) with nationality selection.
+ */
 export const MainEmployeeInfo = memo(
 	({
 		userName,
@@ -89,7 +194,7 @@ export const MainEmployeeInfo = memo(
 	}: MainEmployeeInfoProps) => {
 		const nacionalities = useMemo(() => {
 			return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
-		}, [Nationalities])
+		}, [])
 		return (
 			<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 				<Typography color="azul" variant="h5">

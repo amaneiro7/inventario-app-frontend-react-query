@@ -1,3 +1,7 @@
+/**
+ * Defines a list of Venezuelan area codes, including the city and state associated with each code.
+ * This data is used for validating and providing context to phone numbers and extensions.
+ */
 export const codigosAreaVenezuela = [
 	{ ciudad: 'Caracas', codigo: '0212', estado: 'Distrito Capital' },
 	{ ciudad: 'Maracaibo', codigo: '0261', estado: 'Zulia' },

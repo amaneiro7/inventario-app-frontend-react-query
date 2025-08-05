@@ -6,6 +6,9 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type VicepresidenciaDto } from '../domain/dto/Vicepresidencia.dto'
 
+/**
+ * Defines the structure for filtering and pagination parameters when searching for vicepresidencias.
+ */
 export interface VicepresidenciaFilters {
 	id?: VicepresidenciaDto['id']
 	name?: VicepresidenciaDto['name']
@@ -16,6 +19,13 @@ export interface VicepresidenciaFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * Creates a query string for searching vicepresidencias based on provided filters and pagination options.
+ * It constructs a Criteria object and then builds a URL query string from it.
+ *
+ * @param filters - An object containing various filter criteria and pagination parameters.
+ * @returns A Promise that resolves to the constructed query string.
+ */
 export async function createVicepresidenciaParams({
 	pageNumber,
 	pageSize,
@@ -34,7 +44,7 @@ export async function createVicepresidenciaParams({
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
 
-		if (!value) {
+		if (value === undefined || value === null || value === '') {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}

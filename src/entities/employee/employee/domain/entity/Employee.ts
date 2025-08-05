@@ -1,4 +1,4 @@
-import { EmployeeUserName } from '../value-object/EmployeUsername'
+import { EmployeeUserName } from '../value-object/EmployeeUsername'
 import { EmployeeType } from '../value-object/EmployeeType'
 import { EmployeeName } from '../value-object/EmployeeName'
 import { EmployeeLastName } from '../value-object/EmployeeLastName'

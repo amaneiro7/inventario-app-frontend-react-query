@@ -1,5 +1,9 @@
 import { StringValueObject } from '@/entities/shared/domain/value-objects/StringValueObjects'
 
+/**
+ * Represents the name of a Departamento as a Value Object.
+ * It extends StringValueObject and enforces specific length and format rules.
+ */
 export class DepartamentoName extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 3
 	static readonly NAME_MAX_LENGTH = 100
@@ -7,6 +11,11 @@ export class DepartamentoName extends StringValueObject {
 
 	private static error = ''
 
+	/**
+	 * Constructs a DepartamentoName Value Object.
+	 * @param value - The string value of the departamento name.
+	 * @throws Error if the provided value does not meet the validation criteria.
+	 */
 	constructor(value: string) {
 		super(value)
 		if (!DepartamentoName.isValid(value)) {
@@ -14,6 +23,11 @@ export class DepartamentoName extends StringValueObject {
 		}
 	}
 
+	/**
+	 * Validates the given string value against predefined rules for a departamento name.
+	 * @param value - The string to validate.
+	 * @returns True if the value is valid, false otherwise.
+	 */
 	public static isValid(value: string): boolean {
 		const errors: string[] = []
 		const validFormat = DepartamentoName.regex.test(value)
@@ -38,6 +52,10 @@ export class DepartamentoName extends StringValueObject {
 		}
 	}
 
+	/**
+	 * Returns the last validation error message.
+	 * @returns The error message string.
+	 */
 	public static invalidMessage(): string {
 		return DepartamentoName.error
 	}

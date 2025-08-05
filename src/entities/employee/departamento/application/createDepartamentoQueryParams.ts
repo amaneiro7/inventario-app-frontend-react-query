@@ -6,6 +6,9 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type DepartamentoDto } from '../domain/dto/Departamento.dto'
 
+/**
+ * Defines the structure for filtering and pagination parameters when searching for departamentos.
+ */
 export interface DepartamentoFilters {
 	id?: DepartamentoDto['id']
 	name?: DepartamentoDto['name']
@@ -18,6 +21,13 @@ export interface DepartamentoFilters {
 	orderType?: Primitives<OrderType>
 }
 
+/**
+ * Creates a query string for searching departamentos based on provided filters and pagination options.
+ * It constructs a Criteria object and then builds a URL query string from it.
+ *
+ * @param filters - An object containing various filter criteria and pagination parameters.
+ * @returns A Promise that resolves to the constructed query string.
+ */
 export async function createDepartamentoParams({
 	pageNumber,
 	pageSize,
@@ -36,7 +46,7 @@ export async function createDepartamentoParams({
 	Object.entries(options).forEach(([key, value]) => {
 		const index = query.filters.findIndex(filter => filter.field === key)
 
-		if (!value) {
+		if (value === undefined || value === null || value === '') {
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}
