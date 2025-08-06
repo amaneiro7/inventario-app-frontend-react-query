@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Activity, Server, Wifi, WifiOff } from 'lucide-react'
-import { formattedDate } from '@/shared/lib/utils/formatDate'
+import { formatDateTime } from '@/shared/lib/utils/formatDate'
 import { BasicStatCard } from '@/shared/ui/BasicStatCard'
 import Typography from '@/shared/ui/Typography'
 
@@ -95,7 +95,7 @@ export const MonitoringSummary = memo(
 				<BasicStatCard
 					title="Última Actualización"
 					icon={<Activity className="h-4 w-4 text-gray-500" aria-hidden="true" />}
-					value={dataUpdatedAt ? formattedDate(dataUpdatedAt) : 'N/A'}
+					value={dataUpdatedAt ? formatDateTime(dataUpdatedAt) : 'N/A'}
 					desc={
 						isFetching ? 'Actualizando ahora...' : 'Datos actualizados en tiempo real.'
 					}
