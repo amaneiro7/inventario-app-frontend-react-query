@@ -196,6 +196,7 @@
 	-ms-transform: translate(calc(var(--label-translate) + 45px), 10px) scale(1);
 	transform: translate(calc(var(--label-translate) + 45px), 10px) scale(1);
 }
+.inputBox:has(input:autofill) label,
 .inputBox:focus-within label,
 .inputBox label.transform {
 	max-width: calc(133% - 32px);
@@ -204,6 +205,8 @@
 	border-top: 1px;
 	background-color: white;
 	padding-inline: 6px;
+	padding-block: 1px;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 	-webkit-transform: translate(var(--label-translate), -6px) scale(0.75);
 	-moz-transform: translate(var(--label-translate), -6px) scale(0.75);
 	-ms-transform: translate(var(--label-translate), -6px) scale(0.75);
@@ -220,6 +223,10 @@
 	-moz-transform: translate(var(--label-translate), 10px) scale(1);
 	-ms-transform: translate(var(--label-translate), 10px) scale(1);
 	transform: translate(var(--label-translate), 10px) scale(1);
+}
+.inputBox:has(input:disabled) label.transform {
+	background-color: rgba(229, 229, 229);
+	color: black;
 }
 
 .inputBox .inputArea {
