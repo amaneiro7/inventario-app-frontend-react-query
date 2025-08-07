@@ -71,13 +71,9 @@ export const TableEmployeeWrapper = memo(function ({
 					</TableHeader>
 					<TableBody>
 						<>
-							{isLoading ||
-								(employees === undefined && (
-									<LoadingTable
-										registerPerPage={query?.pageSize}
-										colspan={colSpan}
-									/>
-								))}
+							{(isLoading || employees === undefined) && (
+								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
+							)}
 							{employees !== undefined && (
 								<Suspense
 									fallback={
