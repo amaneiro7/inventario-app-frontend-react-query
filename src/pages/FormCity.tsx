@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateCity } from '@/entities/locations/city/infra/hook/useCreateCity'
 import { CityInputs } from '@/entities/locations/city/infra/ui/CityInputs'
 import { CitySearch } from '@/features/city-search/ui/CitySearch'

@@ -1,5 +1,5 @@
 import { useCreateBrand } from '@/entities/brand/infra/hooks/useCreateBrand'
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { BrandInputs } from '@/entities/brand/infra/ui/BrandInputs'
 import { BrandSearch } from '@/features/brand-search/ui/BrandSearch'
 

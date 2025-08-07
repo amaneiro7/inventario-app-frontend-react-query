@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateDirectiva } from '@/entities/employee/directiva/infra/hook/useCreateDirectiva'
 import { DirectivaInputs } from '@/entities/employee/directiva/infra/ui/DirectivaInputs'
 import { DirectivaSearch } from '@/features/directiva-search/ui/DirectivaSearch'

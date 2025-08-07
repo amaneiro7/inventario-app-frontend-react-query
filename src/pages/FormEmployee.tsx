@@ -1,7 +1,12 @@
-import { lazy, memo, Suspense, useMemo } from 'react'
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { lazy, Suspense, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
+import { FormSkeleton } from '@/widgets/FormContainer/FormSkeleton'
+import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/components/SignatureGeneratorSkeleton'
 
 const EmployeeSearch = lazy(() =>
 	import('@/features/employee-search/ui/EmployeeSearch').then(m => ({
@@ -16,8 +21,11 @@ const EmployeeInputs = lazy(() =>
 const AsignDevices = lazy(() =>
 	import('@/widgets/AsignDevices').then(m => ({ default: m.AsignDevices }))
 )
+const SignatureGenerator = lazy(() =>
+	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
+)
 
-const FormEmployee = memo(() => {
+export default function FormEmployee() {
 	const {
 		formData,
 		key,
@@ -25,6 +33,7 @@ const FormEmployee = memo(() => {
 		errors,
 		disabled,
 		required,
+		employeeData,
 		handleChange,
 		handleSubmit,
 		resetForm,
@@ -36,54 +45,71 @@ const FormEmployee = memo(() => {
 	const updatedAt = useMemo(() => {
 		return formData.updatedAt
 	}, [formData.updatedAt])
+	const navigate = useNavigate()
+
 	return (
-		<FormContainer
-			id={key}
-			description="Ingrese los datos del usuario el cual desea registar."
-			isAddForm={mode === 'add'}
-			handleSubmit={handleSubmit}
-			handleClose={() => {
-				window.history.back()
-			}}
-			searchInput={<EmployeeSearch />}
-			reset={mode === 'edit' ? resetForm : undefined}
-			lastUpdated={updatedAt}
-			url="/form/employee/add"
-		>
-			<Tabs defaultValue="form" className="space-y-4">
-				<TabsList>
-					<TabsTrigger value="form">Formulario</TabsTrigger>
-					{mode === 'edit' && (
-						<TabsTrigger value="asignDevice">Dispositvios asignados</TabsTrigger>
-					)}
-				</TabsList>
+		<>
+			<Tabs defaultValue="form" className="h-full space-y-4">
+				<DetailsBoxWrapper position="right">
+					<TabsList className="w-fit">
+						<TabsTrigger value="form">Formulario</TabsTrigger>
+						{mode === 'edit' && (
+							<>
+								<TabsTrigger value="asignDevice">
+									Dispositivos asignados
+								</TabsTrigger>
+								<TabsTrigger value="signatureGenerator">
+									Generador de firma
+								</TabsTrigger>
+							</>
+						)}
+					</TabsList>
+				</DetailsBoxWrapper>
 
 				<TabsContent value="form" className="space-y-4">
-					<Suspense fallback={<div className="min-h-[765px]">Loading...</div>}>
-						<EmployeeInputs
-							formData={formData}
-							errors={errors}
-							required={required}
-							disabled={disabled}
-							mode={mode}
-							handleChange={handleChange}
-							handleAddPhones={handleAddPhones}
-							handleClearFirstPhone={handleClearFirstPhone}
-							handlePhoneChange={handlePhoneChange}
-							handleRemovePhones={handleRemovePhones}
-						/>
+					<Suspense fallback={<FormSkeleton />}>
+						<FormContainer
+							id={key}
+							description="Ingrese los datos del usuario el cual desea registar."
+							isAddForm={mode === 'add'}
+							handleSubmit={handleSubmit}
+							handleClose={() => {
+								navigate(-1)
+							}}
+							searchInput={<EmployeeSearch />}
+							reset={mode === 'edit' ? resetForm : undefined}
+							lastUpdated={updatedAt}
+							url="/form/employee/add"
+						>
+							<EmployeeInputs
+								formData={formData}
+								errors={errors}
+								required={required}
+								disabled={disabled}
+								mode={mode}
+								handleChange={handleChange}
+								handleAddPhones={handleAddPhones}
+								handleClearFirstPhone={handleClearFirstPhone}
+								handlePhoneChange={handlePhoneChange}
+								handleRemovePhones={handleRemovePhones}
+							/>
+						</FormContainer>
 					</Suspense>
 				</TabsContent>
 
 				<TabsContent value="asignDevice" className="space-y-4">
-					<Suspense fallback={<div className="min-h-[765px]">Loading...</div>}>
-						<AsignDevices devices={formData.devices} />
+					<DetailsBoxWrapper className="h-full">
+						<Suspense fallback={<AsignDevicesSkeleton />}>
+							<AsignDevices data={employeeData} />
+						</Suspense>
+					</DetailsBoxWrapper>
+				</TabsContent>
+				<TabsContent value="signatureGenerator" className="space-y-4">
+					<Suspense fallback={<SignatureGeneratorSkeleton />}>
+						<SignatureGenerator employeeData={employeeData} />
 					</Suspense>
 				</TabsContent>
 			</Tabs>
-		</FormContainer>
+		</>
 	)
-})
-
-FormEmployee.displayName = 'FormEmployee'
-export default FormEmployee
+}

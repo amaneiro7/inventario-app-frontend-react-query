@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateVicepresidenciaEjecutiva } from '@/entities/employee/vicepresidenciaEjecutiva/infra/hook/useCreateVicepresidenciaEjecutiva'
 import { VicepresidenciaEjecutivasInputs } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaInputs'
 import { VicepresidenciaEjecutivaSearch } from '@/features/vicepresidencia-ejecutiva-search/ui/VicepresidenciaEjecutivaSearch'

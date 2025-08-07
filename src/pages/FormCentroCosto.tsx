@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useCreateCentroCosto'
 import { CentroCostoInputs } from '@/entities/employee/centroCosto/infra/ui/CentroCostoInputs'
 import { CentroCostoSearch } from '@/features/centro-costo-search/ui/CentroCostoSearch'

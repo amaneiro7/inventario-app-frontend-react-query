@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useCreateCentroTrabajo'
 import { CentroTrabajoInputs } from '@/entities/employee/centroTrabajo/infra/ui/CentroTrabajoInputs'
 import { CentroTrabajoSearch } from '@/features/centro-trabajo-search/ui/CentroTrabajoSearch'

@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateLocation } from '@/entities/locations/locations/infra/hook/useCreateLocation'
 import { LocationInputs } from '@/entities/locations/locations/infra/ui/LocationInputs'
 import { LocationSearch } from '@/features/location-search/ui/LocationSearch'

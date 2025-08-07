@@ -7,15 +7,20 @@ import { FormComponent } from './FormComponent'
 import { Tag } from '@/shared/ui/Tag'
 import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { SearchSection } from './SearchSection'
-import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { FormSkeleton } from './FormSkeleton'
+import { FormErrorState } from './FormErrorState'
+import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
-interface Props {
+interface FormContainerProps {
 	id: string
+	// data: T
 	description: string
 	url: string
 	isAddForm: boolean
 	standBy?: boolean
+	isLoading?: boolean
+	isError?: boolean
 	border?: boolean
 	lastUpdated?: string
 	updatedBy?: HistoryDto[] | null
@@ -37,10 +42,23 @@ export const FormContainer = memo(
 		updatedBy,
 		lastUpdated,
 		standBy = false,
+		isLoading = false,
+		isError = false,
 		handleSubmit,
 		handleClose,
 		reset
-	}: React.PropsWithChildren<Props>) => {
+	}: React.PropsWithChildren<FormContainerProps>) => {
+		if (isLoading) {
+			return <FormSkeleton />
+		}
+
+		// if (!isAddForm && !data) {
+		// 	return <NotFoundState />
+		// }
+
+		if (isError) {
+			return <FormErrorState />
+		}
 		return (
 			<>
 				<DetailsBoxWrapper>

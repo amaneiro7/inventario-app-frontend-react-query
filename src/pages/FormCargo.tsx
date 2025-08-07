@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 import { useCreateCargo } from '@/entities/employee/cargo/infra/hook/useCreateCargo'
 import { CargoSearch } from '@/features/cargo-search/ui/CargoSearch'
 import { CargoInputs } from '@/entities/employee/cargo/infra/ui/CargoInputs'

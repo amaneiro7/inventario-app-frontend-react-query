@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { useCreateModel } from '@/entities/model/models/infra/hook/useCreateModels'
 import { ModelInputs } from '@/entities/model/models/infra/ui/ModelForm/ModelInputs'
-import { FormContainer } from '@/widgets/FormContainer/formContainer'
+import { FormContainer } from '@/widgets/FormContainer/FormContainer'
 
 const ModelSearch = lazy(() =>
 	import('@/features/model-search/ui/ModelSearch').then(m => ({ default: m.ModelSearch }))
