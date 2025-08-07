@@ -203,6 +203,7 @@
 	border-color: var(--border-color);
 	border-style: solid;
 	border-top: 1px;
+	color: var(--text-color-primary);
 	background-color: white;
 	padding-inline: 6px;
 	padding-block: 1px;
