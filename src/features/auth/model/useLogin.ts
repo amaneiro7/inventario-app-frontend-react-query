@@ -16,12 +16,12 @@ export function useLogin() {
 		password: ''
 	})
 	const [errors, setErrors] = useState({ email: '', password: '' })
-	const [togglePassword, setTogglePassword] = useState(true)
+	const [isPasswordVisible, setTogglePassword] = useState(false)
 	const isPasswordFirstInput = useRef(true)
 	const isEmailFirstInput = useRef(true)
 
 	const handleToggleViewPassword = () => {
-		setTogglePassword(!togglePassword)
+		setTogglePassword(!isPasswordVisible)
 	}
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,7 +67,7 @@ export function useLogin() {
 		errors,
 		formData,
 		handleToggleViewPassword,
-		togglePassword,
+		isPasswordVisible,
 		handleChange,
 		handleSubmit
 	}

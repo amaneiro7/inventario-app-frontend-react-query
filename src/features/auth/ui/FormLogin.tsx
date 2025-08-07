@@ -10,11 +10,12 @@ import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
 import { useMemo } from 'react'
 import { formatDateWithWeekday } from '@/shared/lib/utils/formatDate'
 import { LazyLogoImage } from '@/shared/ui/Images/LazyLogoImage'
+import './formLogin.css'
 
 export const FormLogin = () => {
 	const {
 		formData,
-		togglePassword,
+		isPasswordVisible,
 		errors,
 		handleSubmit,
 		handleChange,
@@ -38,32 +39,40 @@ export const FormLogin = () => {
 	const date = formatDateWithWeekday(currentDate)
 
 	return (
-		<main className="bg-[url('@/shared/assets/bnc_logo-white.png')] bg-cover bg-no-repeat">
+		<main className="formLogin">
 			<section className="mx-auto flex h-screen w-11/12 flex-col items-center justify-center gap-2 px-6 py-8 sm:max-w-md lg:py-0">
-				<header className="flex w-full flex-row items-end-safe justify-between px-2">
-					<LazyLogoImage
-						className="clear-none w-12 max-w-12 bg-contain pr-1"
-						width="44"
-						height="44"
-					/>
+				<header className="flex w-full flex-row items-end-safe justify-end px-2">
 					<Typography
 						align="right"
 						transform="capitalize"
-						color="azul"
+						color="black"
 						weight="semibold"
 						variant="p"
+						// className="text-shadow-2xs text-shadow-black/1"
 					>
 						{date}
 					</Typography>
 				</header>
-				<div className="flex flex-col gap-4 overflow-hidden rounded-lg bg-white shadow-2xl">
-					<div className="h-fit w-full py-4">
-						<Typography align="center" color="naranja" variant="h2">
+				<div className="flex flex-col overflow-hidden rounded-lg bg-white shadow-lg shadow-black/60">
+					{/* logo y titulo */}
+					<header className="border-naranja grid h-fit w-full grid-cols-[auto_1fr] items-center gap-4 border-b-8 px-4 py-6">
+						<LazyLogoImage
+							className="h-auto w-12 flex-shrink-0"
+							width="44"
+							height="44"
+						/>
+						<Typography
+							align="center"
+							color="azul"
+							weight="semibold"
+							variant="h4"
+							className="text-pretty"
+						>
 							Sistema Gestión de Inventario
 							<br />
 							{titleLogo}
 						</Typography>
-					</div>
+					</header>
 					<div className="bg-azul space-y-4 p-6">
 						<Typography align="center" color="white" weight="semibold" variant="h2">
 							Iniciar Sesión
@@ -74,7 +83,7 @@ export const FormLogin = () => {
 							crendenciales
 						</Typography>
 						<form id="login" action="submit" onSubmit={handleSubmit}>
-							<div className="mb-20 space-y-6 md:space-y-8">
+							<div className="my-10 space-y-6 md:space-y-8">
 								<Input
 									id="login-email"
 									leftIcon={
@@ -98,17 +107,22 @@ export const FormLogin = () => {
 									label="Contraseña"
 									name="password"
 									value={formData.password}
-									type={togglePassword ? 'password' : 'text'}
+									type={isPasswordVisible ? 'text' : 'password'}
 									autoComplete="currentpassword"
 									onChange={handleChange}
+									aria-label={
+										isPasswordVisible
+											? 'Ocultar contraseña'
+											: 'Mostrar contraseña'
+									}
 									errorMessage={errors.password}
 									error={!!errors.password}
 									required
 									rightIcon={
-										togglePassword ? (
-											<UnlockIcon className="aspect-square w-4 fill-black/60" />
-										) : (
+										isPasswordVisible ? (
 											<LockIcon className="aspect-square w-4 fill-black/60" />
+										) : (
+											<UnlockIcon className="aspect-square w-4 fill-black/60" />
 										)
 									}
 									onRightIconClick={handleToggleViewPassword}
