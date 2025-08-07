@@ -27,7 +27,7 @@ export const typography: Record<
 	},
 
 	h5: {
-		classes: 'text-sx lg:text-sm xl:text-base 2xl:text-lg font-semibold'
+		classes: 'text-xs lg:text-sm xl:text-base 2xl:text-lg font-semibold'
 	},
 
 	h6: {
