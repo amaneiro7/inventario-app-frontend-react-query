@@ -7,9 +7,9 @@ export function formatDateTime(date: string | Date | number): string {
 		const options: Intl.DateTimeFormatOptions = {
 			year: 'numeric',
 			month: '2-digit',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric',
+			day: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit',
 			hour12: true
 		}
 		const userLocal = navigator.language || 'es-VE'
@@ -29,7 +29,7 @@ export function formatDateWithWeekday(date: string | Date | number): string {
 			year: 'numeric',
 			month: '2-digit',
 			weekday: 'long',
-			day: 'numeric'
+			day: '2-digit'
 		}
 		const userLocal = navigator.language || 'es-VE'
 		// return dateObj.toLocaleString(userLocal, options)
