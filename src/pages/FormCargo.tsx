@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateCargo } from '@/entities/employee/cargo/infra/hook/useCreateCargo'
 import { CargoSearch } from '@/features/cargo-search/ui/CargoSearch'
 import { CargoInputs } from '@/entities/employee/cargo/infra/ui/CargoInputs'
@@ -17,7 +17,7 @@ export default function FormCargo() {
 	} = useCreateCargo()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del Cargo el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -38,6 +38,6 @@ export default function FormCargo() {
 				handleChange={handleChange}
 				errors={errors}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

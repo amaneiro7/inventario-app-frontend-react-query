@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateLocation } from '@/entities/locations/locations/infra/hook/useCreateLocation'
 import { LocationInputs } from '@/entities/locations/locations/infra/ui/LocationInputs'
 import { LocationSearch } from '@/features/location-search/ui/LocationSearch'
@@ -18,7 +18,7 @@ export default function FormLocation() {
 	} = useCreateLocation()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos de la ubicación el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -41,6 +41,6 @@ export default function FormLocation() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

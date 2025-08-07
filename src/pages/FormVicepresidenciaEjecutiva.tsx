@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateVicepresidenciaEjecutiva } from '@/entities/employee/vicepresidenciaEjecutiva/infra/hook/useCreateVicepresidenciaEjecutiva'
 import { VicepresidenciaEjecutivasInputs } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaInputs'
 import { VicepresidenciaEjecutivaSearch } from '@/features/vicepresidencia-ejecutiva-search/ui/VicepresidenciaEjecutivaSearch'
@@ -8,7 +8,7 @@ export default function FormVicepresidenciaEjecutiva() {
 		useCreateVicepresidenciaEjecutiva()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos de la vicepresidencia ejecutiva el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -27,6 +27,6 @@ export default function FormVicepresidenciaEjecutiva() {
 				handleChange={handleChange}
 				errors={errors}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

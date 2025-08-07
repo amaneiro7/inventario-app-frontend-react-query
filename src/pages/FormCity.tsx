@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateCity } from '@/entities/locations/city/infra/hook/useCreateCity'
 import { CityInputs } from '@/entities/locations/city/infra/ui/CityInputs'
 import { CitySearch } from '@/features/city-search/ui/CitySearch'
@@ -8,7 +8,7 @@ export default function FormCity() {
 		useCreateCity()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos de la ciudad el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -27,6 +27,6 @@ export default function FormCity() {
 				handleChange={handleChange}
 				errors={errors}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

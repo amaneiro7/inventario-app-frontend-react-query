@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateRegion } from '@/entities/locations/region/infra/hook/useCreateRegion'
 import { RegionInputs } from '@/entities/locations/region/infra/ui/RegionInputs'
 import { RegionSearch } from '@/features/region-search/ui/RegionSearch'
@@ -17,7 +17,7 @@ export default function FormRegion() {
 	} = useCreateRegion()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Busque la región el cual desea registrar en una de las zonas administrativas"
 			isAddForm
@@ -40,6 +40,6 @@ export default function FormRegion() {
 					errors={errors}
 				/>
 			)}
-		</FormContainer>
+		</FormLayout>
 	)
 }

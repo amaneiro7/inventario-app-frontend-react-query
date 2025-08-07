@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useCreateCentroCosto'
 import { CentroCostoInputs } from '@/entities/employee/centroCosto/infra/ui/CentroCostoInputs'
 import { CentroCostoSearch } from '@/features/centro-costo-search/ui/CentroCostoSearch'
@@ -17,7 +17,7 @@ export default function FormCentroCosto() {
 	} = useCreateCentroCosto()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del cenrto de costo el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -39,6 +39,6 @@ export default function FormCentroCosto() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

@@ -10,10 +10,10 @@ import { StatusId } from '@/entities/status/status/domain/value-object/StatusId'
 import { DeviceActivo } from '../value-object/DeviceActivo'
 import { DeviceSerial } from '../value-object/DeviceSerial'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
+import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/InvalidArgumentError'
+import { IPAddressMFP } from '../value-object/IPAddressMFP'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type DeviceMFPParams, type DeviceMFPPrimitives } from '../dto/DeviceMFPParams'
-import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/InvalidArgumentError'
-import { MFPIPAddress } from '../value-object/MFPIPAddress'
 
 /**
  * @class DeviceMFP
@@ -34,8 +34,8 @@ export class DeviceMFP extends Device {
 	 * @param {DeviceLocation} locationId - El ID de la ubicación del dispositivo.
 	 * @param {DeviceObservation} observation - Observaciones sobre el dispositivo.
 	 * @param {DeviceStockNumber} stockNumber - El número de stock del dispositivo.
-	 * @param {MFPIPAddress} ipAddress - La dirección IP de la MFP.
-	 */	constructor(
+	 * @param {IPAddressMFP} ipAddress - La dirección IP de la MFP.
+	 */ constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -46,7 +46,7 @@ export class DeviceMFP extends Device {
 		locationId: DeviceLocation,
 		observation: DeviceObservation,
 		stockNumber: DeviceStockNumber,
-		private readonly ipAddress: MFPIPAddress
+		private readonly ipAddress: IPAddressMFP
 	) {
 		super(
 			serial,
@@ -67,7 +67,7 @@ export class DeviceMFP extends Device {
 	 * @static
 	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
 	 * @returns {boolean} `true` si la categoría es MFP, `false` en caso contrario.
-	 */	static isMFPCategory(
+	 */ static isMFPCategory(
 		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
 	): boolean {
 		const allowedComputerCategories = [CategoryOptions.MFP]
@@ -80,7 +80,7 @@ export class DeviceMFP extends Device {
 	 * @param {DeviceMFPParams} params - Los parámetros del dispositivo MFP.
 	 * @returns {DeviceMFP} Una nueva instancia de `DeviceMFP`.
 	 * @throws {InvalidArgumentError} Si la categoría no pertenece a un tipo de MFP.
-	 */	public static create(params: DeviceMFPParams) {
+	 */ public static create(params: DeviceMFPParams) {
 		if (!DeviceMFP.isMFPCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
@@ -95,21 +95,21 @@ export class DeviceMFP extends Device {
 			new DeviceLocation(params.locationId, params.statusId, params.typeOfSiteId),
 			new DeviceObservation(params.observation),
 			new DeviceStockNumber(params.stockNumber, params.statusId),
-			new MFPIPAddress(params.ipAddress)
+			new IPAddressMFP(params.ipAddress)
 		)
 	}
 
 	/**
 	 * Obtiene el valor primitivo de la dirección IP de la MFP.
-	 * @type {Primitives<MFPIPAddress>}
-	 */	get ipAddressValue(): Primitives<MFPIPAddress> {
+	 * @type {Primitives<IPAddressMFP>}
+	 */ get ipAddressValue(): Primitives<IPAddressMFP> {
 		return this.ipAddress.value
 	}
 
 	/**
 	 * Convierte la entidad `DeviceMFP` a su representación primitiva.
 	 * @returns {DeviceMFPPrimitives} La representación primitiva del dispositivo MFP.
-	 */	toPrimitives(): DeviceMFPPrimitives {
+	 */ toPrimitives(): DeviceMFPPrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

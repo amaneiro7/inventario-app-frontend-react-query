@@ -5,7 +5,7 @@ import { type DeviceSaveRepository } from '../domain/repository/DeviceSaveReposi
 import { type Params } from '../domain/dto/Device.dto'
 import { DeviceComputer } from '../domain/entity/DeviceComputer'
 import { DeviceHardDrive } from '../domain/entity/DeviceHardDrive'
-import { DeviceMFP } from '../domain/entity/DeviceComputerMFP'
+import { DeviceMFP } from '../domain/entity/DeviceMFP'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 
 /**
@@ -17,7 +17,7 @@ export class DeviceCreator {
 	/**
 	 * @param {DeviceSaveRepository} repository - The repository for saving/updating device data.
 	 * @param {EventManager} events - The event manager to notify about process status (loading, success, error).
-	 */	constructor(
+	 */ constructor(
 		private readonly repository: DeviceSaveRepository,
 		private readonly events: EventManager
 	) {}
@@ -27,7 +27,7 @@ export class DeviceCreator {
 	 * @param {Params} params - The device data.
 	 * @returns {Promise<{ message: string }>} A promise that resolves with a success message.
 	 * @throws {Error} Throws an error if the creation/update process fails.
-	 */	async create(params: Params) {
+	 */ async create(params: Params) {
 		this.events.notify({ type: 'loading' })
 		try {
 			let device: Device | DeviceComputer | DeviceHardDrive | DeviceMFP

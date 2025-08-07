@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react'
 import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreateDevice'
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 
 const DeviceInputs = lazy(() =>
 	import('@/entities/devices/devices/infra/ui/DeviceForm/DeviceInputs').then(m => ({
@@ -31,7 +31,7 @@ export default function FormDevice() {
 
 	return (
 		<>
-			<FormContainer
+			<FormLayout
 				id={key}
 				description="Ingrese los datos del dispositivo el cual desea registar."
 				isAddForm={mode === 'add'}
@@ -58,7 +58,7 @@ export default function FormDevice() {
 						handleModel={handleModel}
 					/>
 				</Suspense>
-			</FormContainer>
+			</FormLayout>
 		</>
 	)
 }

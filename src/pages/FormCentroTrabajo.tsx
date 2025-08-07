@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useCreateCentroTrabajo'
 import { CentroTrabajoInputs } from '@/entities/employee/centroTrabajo/infra/ui/CentroTrabajoInputs'
 import { CentroTrabajoSearch } from '@/features/centro-trabajo-search/ui/CentroTrabajoSearch'
@@ -17,7 +17,7 @@ export default function FormCentroTrabajo() {
 	} = useCreateCentroTrabajo()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -39,6 +39,6 @@ export default function FormCentroTrabajo() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

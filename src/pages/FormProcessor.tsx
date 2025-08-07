@@ -1,5 +1,5 @@
 import { useCreateProcessor } from '@/entities/devices/features/processor/infra/hooks/useCreateProcessor'
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { ProcessorInputs } from '@/entities/devices/features/processor/infra/ui/ProcessorInputs'
 import { ProcessorSearch } from '@/features/processor-search/ui/ProcessorSearch'
 
@@ -8,7 +8,7 @@ export default function FormProcessor() {
 		useCreateProcessor()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del procesador el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -22,6 +22,6 @@ export default function FormProcessor() {
 			searchInput={<ProcessorSearch />}
 		>
 			<ProcessorInputs formData={formData} handleChange={handleChange} errors={errors} />
-		</FormContainer>
+		</FormLayout>
 	)
 }

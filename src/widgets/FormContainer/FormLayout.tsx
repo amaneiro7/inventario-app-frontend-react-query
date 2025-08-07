@@ -12,7 +12,7 @@ import { FormSkeleton } from './FormSkeleton'
 import { FormErrorState } from './FormErrorState'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
-interface FormContainerProps {
+interface FormLayoutProps {
 	id: string
 	// data: T
 	description: string
@@ -30,7 +30,7 @@ interface FormContainerProps {
 	reset?: () => void
 }
 
-export const FormContainer = memo(
+export const FormLayout = memo(
 	({
 		id,
 		url,
@@ -47,7 +47,7 @@ export const FormContainer = memo(
 		handleSubmit,
 		handleClose,
 		reset
-	}: React.PropsWithChildren<FormContainerProps>) => {
+	}: React.PropsWithChildren<FormLayoutProps>) => {
 		if (isLoading) {
 			return <FormSkeleton />
 		}

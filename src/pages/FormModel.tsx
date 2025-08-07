@@ -1,7 +1,7 @@
 import { lazy } from 'react'
 import { useCreateModel } from '@/entities/model/models/infra/hook/useCreateModels'
 import { ModelInputs } from '@/entities/model/models/infra/ui/ModelForm/ModelInputs'
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 
 const ModelSearch = lazy(() =>
 	import('@/features/model-search/ui/ModelSearch').then(m => ({ default: m.ModelSearch }))
@@ -21,7 +21,7 @@ export default function FormModel() {
 	} = useCreateModel()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del modelo el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -42,6 +42,6 @@ export default function FormModel() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

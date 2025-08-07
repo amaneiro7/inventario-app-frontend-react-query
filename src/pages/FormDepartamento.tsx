@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateDepartamento } from '@/entities/employee/departamento/infra/hook/useCreateDepartamento'
 import { DepartamentoInputs } from '@/entities/employee/departamento/infra/ui/DepartamentoInputs'
 import { DepartamentoSearch } from '@/features/departamento-search/ui/DepartamentoSearch'
@@ -17,7 +17,7 @@ export default function FormDepartamento() {
 	} = useCreateDepartamento()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del departamento el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -39,6 +39,6 @@ export default function FormDepartamento() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

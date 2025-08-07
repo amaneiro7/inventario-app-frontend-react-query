@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateDirectiva } from '@/entities/employee/directiva/infra/hook/useCreateDirectiva'
 import { DirectivaInputs } from '@/entities/employee/directiva/infra/ui/DirectivaInputs'
 import { DirectivaSearch } from '@/features/directiva-search/ui/DirectivaSearch'
@@ -8,7 +8,7 @@ export default function FormDirectiva() {
 		useCreateDirectiva()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos de la directiva el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -27,6 +27,6 @@ export default function FormDirectiva() {
 				handleChange={handleChange}
 				errors={errors}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

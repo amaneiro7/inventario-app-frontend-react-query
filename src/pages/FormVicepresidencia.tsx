@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateVicepresidencia } from '@/entities/employee/vicepresidencia/infra/hook/useCreateVicepresidencia'
 import { VicepresidenciasInputs } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaInputs'
 import { VicepresidenciaSearch } from '@/features/vicepresidencia-search/ui/VicepresidenciaSearch'
@@ -17,7 +17,7 @@ export default function FormVicepresidencia() {
 	} = useCreateVicepresidencia()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos de la vicepresidencia el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -38,6 +38,6 @@ export default function FormVicepresidencia() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

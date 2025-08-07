@@ -1,4 +1,4 @@
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { useCreateSite } from '@/entities/locations/site/infra/hook/useCreateCity'
 import { SiteInputs } from '@/entities/locations/site/infra/ui/SiteInputs'
 import { SiteSearch } from '@/features/site-search/ui/SiteSearch'
@@ -8,7 +8,7 @@ export default function FormSite() {
 		useCreateSite()
 
 	return (
-		<FormContainer
+		<FormLayout
 			id={key}
 			description="Ingrese los datos del sitio el cual desea registar."
 			isAddForm={mode === 'add'}
@@ -28,6 +28,6 @@ export default function FormSite() {
 				errors={errors}
 				mode={mode}
 			/>
-		</FormContainer>
+		</FormLayout>
 	)
 }

@@ -2,7 +2,7 @@ import { lazy, Suspense, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
-import { FormContainer } from '@/widgets/FormContainer/FormContainer'
+import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
 import { FormSkeleton } from '@/widgets/FormContainer/FormSkeleton'
@@ -68,7 +68,7 @@ export default function FormEmployee() {
 
 				<TabsContent value="form" className="space-y-4">
 					<Suspense fallback={<FormSkeleton />}>
-						<FormContainer
+						<FormLayout
 							id={key}
 							description="Ingrese los datos del usuario el cual desea registar."
 							isAddForm={mode === 'add'}
@@ -93,7 +93,7 @@ export default function FormEmployee() {
 								handlePhoneChange={handlePhoneChange}
 								handleRemovePhones={handleRemovePhones}
 							/>
-						</FormContainer>
+						</FormLayout>
 					</Suspense>
 				</TabsContent>
 
