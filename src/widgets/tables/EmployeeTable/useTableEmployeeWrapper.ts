@@ -3,7 +3,7 @@ import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
 import { type Headers } from '@/shared/ui/Table/TableHeader'
 
 export function useTableDeviceWrapper() {
-	const isBreakpointLarg = useMediaQuery('(max-width: 1380px)')
+	// const isBreakpointLarg = useMediaQuery('(max-width: 1380px)') nose esta usando
 	const isBreakpointMedium = useMediaQuery('(max-width: 1240px)')
 	const isBreakpointSmall = useMediaQuery('(max-width: 1120px)')
 	const isBreakpointExtraSmall = useMediaQuery('(max-width: 1010px)')
@@ -86,7 +86,6 @@ export function useTableDeviceWrapper() {
 			}
 		],
 		[
-			isBreakpointLarg,
 			isBreakpointMedium,
 			isBreakpointSmall,
 			isBreakpointExtraSmall,
@@ -95,18 +94,16 @@ export function useTableDeviceWrapper() {
 		]
 	)
 	const colSpan = isBreakpointUltraTinySmall
-		? 3
+		? 4
 		: isBreakpointUltraSmall
-			? 4
+			? 5
 			: isBreakpointExtraSmall
-				? 5
+				? 6
 				: isBreakpointSmall
-					? 6
+					? 7
 					: isBreakpointMedium
-						? 7
-						: isBreakpointLarg
-							? 8
-							: 9 // Ajusta el colSpan dinámicamente
+						? 8
+						: 9 // Ajusta el colSpan dinámicamente
 
 	const visibleColumns = useMemo(() => {
 		return headers.filter(header => header.visible).map(h => h.key)
