@@ -25,7 +25,7 @@ export class EmployeeCargo extends AcceptedNullValueObject<Primitives<CargoId>> 
 		private readonly type: Primitives<EmployeeType>
 	) {
 		super(value)
-		if (!EmployeeCargo.isValid({ value, type: this.type })) {
+		if (!EmployeeCargo.isValid({ value: this.value, type: this.type })) {
 			throw new Error(EmployeeCargo.invalidMessage())
 		}
 	}
@@ -47,11 +47,13 @@ export class EmployeeCargo extends AcceptedNullValueObject<Primitives<CargoId>> 
 		EmployeeCargo.error = '' // Clear the error message
 
 		if (type === EmployeeTypes.GENERIC) {
-			if (value !== null) { // If it's generic, cargo must be null
+			if (value !== null) {
+				// If it's generic, cargo must be null
 				EmployeeCargo.error = 'Si es genérico no puede tener un cargo.'
 				return false
 			}
-		} else { // If it's not generic, cargo is mandatory
+		} else {
+			// If it's not generic, cargo is mandatory
 			if (value === null) {
 				EmployeeCargo.error = 'El cargo es obligatorio.'
 				return false

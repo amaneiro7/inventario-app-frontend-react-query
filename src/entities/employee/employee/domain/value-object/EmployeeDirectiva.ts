@@ -25,7 +25,7 @@ export class EmployeeDirectiva extends AcceptedNullValueObject<Primitives<Direct
 		private readonly type: Primitives<EmployeeType>
 	) {
 		super(value)
-		if (!EmployeeDirectiva.isValid({ value, type: this.type })) {
+		if (!EmployeeDirectiva.isValid({ value: this.value, type: this.type })) {
 			throw new Error(EmployeeDirectiva.invalidMessage())
 		}
 	}
@@ -47,11 +47,13 @@ export class EmployeeDirectiva extends AcceptedNullValueObject<Primitives<Direct
 		EmployeeDirectiva.error = '' // Clear the error message
 
 		if (type === EmployeeTypes.GENERIC) {
-			if (value !== null) { // If it's generic, directiva must be null
+			if (value !== null) {
+				// If it's generic, directiva must be null
 				EmployeeDirectiva.error = 'Si es genérico no puede tener una directiva.'
 				return false
 			}
-		} else { // If it's not generic, directiva is mandatory
+		} else {
+			// If it's not generic, directiva is mandatory
 			if (value === null) {
 				EmployeeDirectiva.error = 'La directiva es obligatoria.'
 				return false

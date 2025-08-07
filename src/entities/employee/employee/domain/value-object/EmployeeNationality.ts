@@ -38,7 +38,7 @@ export class EmployeeNationality extends AcceptedNullValueObject<Nationalities> 
 		private readonly type: Primitives<EmployeeType>
 	) {
 		super(value)
-		if (!EmployeeNationality.isValid({ value, type: this.type })) {
+		if (!EmployeeNationality.isValid({ value: this.value, type: this.type })) {
 			throw new Error(EmployeeNationality.invalidMessage())
 		}
 	}
@@ -58,7 +58,8 @@ export class EmployeeNationality extends AcceptedNullValueObject<Nationalities> 
 				EmployeeNationality.error = 'La nacionalidad es obligatoria.'
 				return false
 			}
-		} else { // If it's generic, nationality must be null
+		} else {
+			// If it's generic, nationality must be null
 			if (value !== null) {
 				EmployeeNationality.error = 'Si es genérico no puede tener una nacionalidad.'
 				return false

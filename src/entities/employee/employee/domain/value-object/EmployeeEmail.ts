@@ -26,7 +26,7 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 	 */
 	constructor(value: string | null) {
 		super(value)
-		if (!EmployeeEmail.isValid({ value })) {
+		if (!EmployeeEmail.isValid({ value: this.value })) {
 			throw new Error(EmployeeEmail.invalidMessage())
 		}
 	}
@@ -40,12 +40,13 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 	public static isValid({ value }: { value: Primitives<EmployeeEmail> }): boolean {
 		EmployeeEmail.error = '' // Clear the error message
 
-		if (value === null) {
+		if (!value) {
 			return true // Null is accepted
 		}
 
 		if (!EmployeeEmail.regex.test(value)) {
-			EmployeeEmail.error = 'No es un formato de correo electrónico válido o no pertenece al dominio bnc.com.ve.'
+			EmployeeEmail.error =
+				'No es un formato de correo electrónico válido o no pertenece al dominio bnc.com.ve.'
 			return false
 		}
 		return true
