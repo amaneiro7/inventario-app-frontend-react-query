@@ -18,7 +18,7 @@ export const SignatureForm = memo(
 		return (
 			<DetailsBoxWrapper>
 				<Typography color="azul" variant="h3">
-					Datos de la firma
+					Datos de la Firma
 				</Typography>
 				<div className="space-y-4">
 					{/* Información personal */}

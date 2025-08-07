@@ -17,7 +17,7 @@ export const SignaturePreview = memo(({ data, placeHolder, ref }: SignaturePrevi
 		<DetailsBoxWrapper>
 			<div className="flex flex-col items-center justify-center bg-white">
 				<Typography className="self-start" color="azul" variant="h3">
-					Vista previa
+					Vista Previa
 				</Typography>
 				<div ref={ref} className="bg-white p-2">
 					<div

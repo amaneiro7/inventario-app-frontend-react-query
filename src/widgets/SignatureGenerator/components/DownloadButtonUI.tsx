@@ -37,7 +37,7 @@ export const DownloadButtonUI = memo(
 
 		return (
 			<DetailsBoxWrapper>
-				<Typography color="gray-600" variant="h3">
+				<Typography color="azul" variant="h3">
 					Descargar Firma
 				</Typography>
 
