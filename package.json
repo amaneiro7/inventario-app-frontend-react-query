@@ -32,6 +32,7 @@
 		"eslint-config-react-app": "7.0.1",
 		"file-saver": "2.0.5",
 		"file-server": "2.2.1",
+		"html-to-image": "^1.11.13",
 		"js-cookie": "3.0.5",
 		"just-debounce-it": "3.2.0",
 		"lucide-react": "0.535.0",
