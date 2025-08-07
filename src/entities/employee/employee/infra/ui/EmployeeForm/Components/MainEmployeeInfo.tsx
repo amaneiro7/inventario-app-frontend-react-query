@@ -196,7 +196,7 @@ export const MainEmployeeInfo = memo(
 			return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
 		}, [])
 		return (
-			<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
+			<div className="flex flex-col gap-2 rounded-lg border border-gray-400 p-8 pt-4">
 				<Typography color="azul" variant="h5">
 					Información principal del usuario
 				</Typography>

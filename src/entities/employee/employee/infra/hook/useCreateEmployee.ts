@@ -1,16 +1,16 @@
 import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
+import { useEmployeeInitialState } from './useEmployeeInitialState'
 import {
 	type DefaultEmployee,
 	type Action,
 	initialEmployeeState,
 	employeeFormReducer
 } from '../reducers/employeeFormReducer'
-import { type EmployeeParams } from '../../domain/dto/Employee.dto'
 import { EmployeeSaveService } from '../service/employeeSave.service'
 import { EmployeeCreator } from '../../application/EmployeeCreator'
-import { useEmployeeInitialState } from './useEmployeeInitialState'
+import { type EmployeeParams } from '../../domain/dto/Employee.dto'
 
 /**
  * A React hook for managing employee creation and update forms.
@@ -19,7 +19,7 @@ import { useEmployeeInitialState } from './useEmployeeInitialState'
  * @returns An object containing form data, mode, errors, required fields, disabled fields, and various handlers.
  */
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
-	const { initialState, mode, resetState } = useEmployeeInitialState(
+	const { initialState, mode, resetState, employeeData } = useEmployeeInitialState(
 		defaultState ?? initialEmployeeState.formData
 	)
 	const { events } = useAuthStore.getState()
@@ -171,6 +171,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		errors,
 		required,
 		disabled,
+		employeeData,
 		handlePhoneChange,
 		handleAddPhones,
 		handleRemovePhones,

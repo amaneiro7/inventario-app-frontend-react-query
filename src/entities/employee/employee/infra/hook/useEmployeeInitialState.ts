@@ -23,6 +23,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	resetState: () => void
 	mode: 'edit' | 'add'
 	isLoading: boolean
+	employeeData: EmployeeDto | undefined
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -46,55 +47,52 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	 * Maps the fetched EmployeeDto to the DefaultEmployee form state.
 	 * @param employee - The EmployeeDto object fetched from the API.
 	 */
-	const mappedEmployeeState = useCallback(
-		(employee: EmployeeDto): void => {
-			setState(() => {
-				const phone = employee.phone ?? []
-				const extension = employee.extension ?? []
-				return {
-					id: employee.id,
-					userName: employee.userName,
-					type: employee.type,
-					name: employee.name ?? '',
-					lastName: employee.lastName ?? '',
-					email: employee.email ?? '',
-					isStillWorking: employee.isStillWorking,
-					employeeCode: employee.employeeCode ?? '',
-					nationality: employee.nationality ?? '',
-					cedula: employee.cedula ?? '',
-					locationId: employee.locationId ?? '',
-					directivaId: employee.directivaId ?? '',
-					vicepresidenciaEjecutivaId: employee.vicepresidenciaEjecutivaId ?? '',
-					vicepresidenciaId: employee.vicepresidenciaId ?? '',
-					departamentoId: employee.departamentoId ?? '',
-					cargoId: employee.cargoId ?? '',
-					extension: extension,
-					phone: phone,
-					extensionSegments: extension?.map(ext => {
-						const match = ext.match(/(\d{4})(\d{7})/)
-						const operadora = match ? match?.[1] : ''
-						const numero = match ? match?.[2] : ''
+	const mappedEmployeeState = useCallback((employee: EmployeeDto): void => {
+		setState(() => {
+			const phone = employee.phone ?? []
+			const extension = employee.extension ?? []
+			return {
+				id: employee.id,
+				userName: employee.userName,
+				type: employee.type,
+				name: employee.name ?? '',
+				lastName: employee.lastName ?? '',
+				email: employee.email ?? '',
+				isStillWorking: employee.isStillWorking,
+				employeeCode: employee.employeeCode ?? '',
+				nationality: employee.nationality ?? '',
+				cedula: employee.cedula ?? '',
+				locationId: employee.locationId ?? '',
+				directivaId: employee.directivaId ?? '',
+				vicepresidenciaEjecutivaId: employee.vicepresidenciaEjecutivaId ?? '',
+				vicepresidenciaId: employee.vicepresidenciaId ?? '',
+				departamentoId: employee.departamentoId ?? '',
+				cargoId: employee.cargoId ?? '',
+				extension: extension,
+				phone: phone,
+				extensionSegments: extension?.map(ext => {
+					const match = ext.match(/(\d{4})(\d{7})/)
+					const operadora = match ? match?.[1] : ''
+					const numero = match ? match?.[2] : ''
 
-						return { operadora, numero }
-					}) ?? [
-						{
-							operadora: '',
-							numero: ''
-						}
-					],
-					phoneSegments: phone.map(ph => {
-						const match = ph.match(/(\d{4})(\d{7})/)
-						const operadora = match ? match?.[1] : ''
-						const numero = match ? match?.[2] : ''
-						return { operadora, numero }
-					}),
-					devices: employee.devices ?? [],
-					updatedAt: employee.updatedAt
-				}
-			})
-		},
-		[]
-	)
+					return { operadora, numero }
+				}) ?? [
+					{
+						operadora: '',
+						numero: ''
+					}
+				],
+				phoneSegments: phone.map(ph => {
+					const match = ph.match(/(\d{4})(\d{7})/)
+					const operadora = match ? match?.[1] : ''
+					const numero = match ? match?.[2] : ''
+					return { operadora, numero }
+				}),
+				devices: employee.devices ?? [],
+				updatedAt: employee.updatedAt
+			}
+		})
+	}, [])
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('employee')) {
@@ -143,6 +141,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 
 	return {
 		mode,
+		employeeData,
 		initialState: state,
 		resetState,
 		isLoading: isFetching
