@@ -32,7 +32,7 @@ export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto |
 			siteName: employeeData?.location?.name ?? '',
 			typeOfSite: employeeData?.location?.typeOfSiteId ?? '',
 			email: employeeData?.email ?? '',
-			address: employeeData?.location?.site.address ?? '',
+			address: employeeData?.location?.site?.address ?? '',
 			numbers: phoneNumberText ?? ''
 		}
 	})
