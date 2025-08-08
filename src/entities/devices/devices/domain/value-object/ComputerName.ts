@@ -14,22 +14,22 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	 * Longitud mínima permitida para el nombre del equipo.
 	 * @static
 	 * @type {number}
-	 */	static readonly NAME_MIN_LENGTH = 5
+	 */ static readonly NAME_MIN_LENGTH = 5
 	/**
 	 * Longitud máxima permitida para el nombre del equipo.
 	 * @static
 	 * @type {number}
-	 */	static readonly NAME_MAX_LENGTH = 100
+	 */ static readonly NAME_MAX_LENGTH = 100
 	private static errors = ''
 	private static readonly notLowerCase = /^[^a-z]*$/
-	private static readonly notSpecialCharacterOnlyGuiones = /^[^\]*-[^\W_]*$/
+	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 
 	/**
 	 * Crea una instancia de `ComputerName`.
 	 * @param {string | null} value - El valor del nombre del equipo.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: string | null,
 		readonly status: Primitives<StatusId>
 	) {
@@ -44,7 +44,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */	private static updateError(error: string): void {
+	 */ private static updateError(error: string): void {
 		this.errors = error
 	}
 
@@ -52,7 +52,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return this.errors
 	}
 
@@ -63,7 +63,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	 * @param {Primitives<ComputerName>} props.value - El valor del nombre del equipo.
 	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
 	 * @returns {boolean} `true` si el nombre del equipo es válido, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		value,
 		status
 	}: {
@@ -125,7 +125,7 @@ export class ComputerName extends AcceptedNullValueObject<string> {
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return this.errorsValue
 	}
 }
