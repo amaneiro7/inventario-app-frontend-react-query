@@ -1,4 +1,4 @@
-import { memo, Suspense } from 'react'
+import { memo } from 'react'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import Typography from '@/shared/ui/Typography'
 import { StepsToFollow } from '../StepsToFollow/StepsToFollow'
@@ -7,27 +7,25 @@ import { FormComponent } from './FormComponent'
 import { Tag } from '@/shared/ui/Tag'
 import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { SearchSection } from './SearchSection'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { FormSkeleton } from './FormSkeleton'
-import { FormErrorState } from './FormErrorState'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
 interface FormLayoutProps {
 	id: string
-	// data: T
 	description: string
 	url: string
 	isAddForm: boolean
 	standBy?: boolean
-	isLoading?: boolean
-	isError?: boolean
 	border?: boolean
 	lastUpdated?: string
 	updatedBy?: HistoryDto[] | null
 	searchInput?: React.ReactElement
 	handleSubmit: (event: React.FormEvent) => Promise<void>
-	handleClose: () => void
+	handleClose?: () => void
 	reset?: () => void
+	onRetry?: () => void
+	isLoading?: boolean
+	isError?: boolean
+	isNotFound?: boolean
 }
 
 export const FormLayout = memo(
@@ -42,23 +40,14 @@ export const FormLayout = memo(
 		updatedBy,
 		lastUpdated,
 		standBy = false,
-		isLoading = false,
-		isError = false,
+		isLoading,
+		isError,
+		isNotFound,
 		handleSubmit,
 		handleClose,
+		onRetry,
 		reset
 	}: React.PropsWithChildren<FormLayoutProps>) => {
-		if (isLoading) {
-			return <FormSkeleton />
-		}
-
-		// if (!isAddForm && !data) {
-		// 	return <NotFoundState />
-		// }
-
-		if (isError) {
-			return <FormErrorState />
-		}
 		return (
 			<>
 				<DetailsBoxWrapper>
@@ -78,17 +67,20 @@ export const FormLayout = memo(
 							></Tag>
 						) : null}
 					</Typography>
-					<Suspense fallback={<InputFallback />}>
-						<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
-					</Suspense>
+
+					<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 				</DetailsBoxWrapper>
 				{!standBy && (
 					<DetailsBoxWrapper position="center">
 						<FormComponent
 							id={id}
+							isLoading={isLoading}
+							isError={isError}
+							isNotFound={isNotFound}
 							handleSubmit={handleSubmit}
 							handleClose={handleClose}
 							reset={reset}
+							onRetry={onRetry}
 							border={border}
 							updatedBy={updatedBy}
 							lastUpdated={lastUpdated}

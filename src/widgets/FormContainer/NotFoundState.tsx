@@ -1,26 +1,19 @@
-import { useNavigate } from 'react-router-dom'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import Button from '@/shared/ui/Button'
 import Typography from '@/shared/ui/Typography'
+import { AlertCircle } from 'lucide-react'
 
 export const NotFoundState = () => {
-	const navigate = useNavigate()
 	return (
-		<DetailsBoxWrapper className="flex flex-col items-center justify-center rounded-lg border-2 border-gray-300 bg-white p-12 text-center">
-			<Typography variant="h3" weight="semibold" className="text-gray-800">
-				Recurso no encontrado
+		<div className="flex flex-col items-center justify-center space-y-2 py-8">
+			<div className="bg-amarillo rounded-full p-6">
+				<AlertCircle className="h-12 w-12" />
+			</div>
+			<Typography variant="h3" color="black">
+				No se encontró el elemento
 			</Typography>
-			<Typography variant="p" className="mt-2 text-gray-500">
-				El recurso que intentas editar no existe. Es posible que haya sido eliminado.
+			<Typography variant="p" color="gris">
+				El elemento que estás buscando no existe. Por favor, verifica la información e
+				intenta de nuevo.
 			</Typography>
-			<Button
-				className="mt-6"
-				text="Regresar"
-				onClick={() => navigate(-1)}
-				buttonSize="large"
-				color="gray"
-				size="content"
-			/>
-		</DetailsBoxWrapper>
+		</div>
 	)
 }
