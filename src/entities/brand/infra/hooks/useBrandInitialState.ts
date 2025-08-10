@@ -24,16 +24,27 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 	initialState: DefaultBrand
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
 	const navigate = useNavigate() // Función para navegar a otras rutas.
 	const [state, setState] = useState<DefaultBrand>(defaultState) // Estado local de la marca.
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
 	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
 
 	// Consulta para obtener los datos de la marca si el modo es editar y no hay datos en el estado de la ubicación.
-	const { data: brandData, refetch } = useQuery({
+	const {
+		data: brandData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['brand', id], // Clave de la consulta para la caché.
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos de la marca.
 		enabled: !!id && mode === 'edit' && !location?.state?.brand, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
@@ -44,10 +55,11 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 	 * Mapea un objeto `BrandDto` a la estructura `DefaultBrand` para el estado del formulario.
 	 * @param {BrandDto} brand - El objeto `BrandDto` a mapear.
 	 */ const mapBrandToState = useCallback((brand: BrandDto): void => {
+		const categories = [...brand?.categories.map(category => category.id)]
 		setState({
 			id: brand.id,
 			name: brand.name,
-			categories: brand?.categories.map(category => category.id) ?? [],
+			categories,
 			updatedAt: brand?.updatedAt
 		})
 	}, [])
@@ -60,6 +72,12 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 
 		if (location?.state?.brand) {
@@ -68,7 +86,7 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 			// Si hay datos de la API, actualiza el estado con esos datos.
 			mapBrandToState(brandData)
 		}
-	}, [mode, brandData, location.state, defaultState, navigate, id])
+	}, [mode, brandData, location.state, defaultState, navigate, id, error])
 
 	/**
 	 * Resetea el estado del formulario a su valor inicial o a los datos obtenidos de la API en modo edición.
@@ -95,6 +113,10 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

@@ -34,9 +34,8 @@ export function useCreateBrand(defaultState?: BrandParams) {
 		return await new BrandCreator(new BrandSaveService(), events).create(formData)
 	}
 
-	const { initialState, mode, resetState } = useBrandInitialState(
-		defaultState ?? initialBrandState.formData
-	)
+	const { initialState, mode, resetState, isError, isNotFound, isLoading, onRetry } =
+		useBrandInitialState(defaultState ?? initialBrandState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData }, dispatch] = useReducer(brandFormReducer, initialBrandState)
 
@@ -72,6 +71,10 @@ export function useCreateBrand(defaultState?: BrandParams) {
 		formData,
 		mode,
 		errors,
+		isNotFound,
+		isError,
+		isLoading,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange
