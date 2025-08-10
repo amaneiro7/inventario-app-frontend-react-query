@@ -24,9 +24,8 @@ export function useCreateCentroCosto(defaultState?: DefaultCentroCosto) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useCentroCostoInitialState(
-		defaultState ?? initialCentroCostoState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useCentroCostoInitialState(defaultState ?? initialCentroCostoState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		centroCostoFormReducer,
@@ -78,6 +77,10 @@ export function useCreateCentroCosto(defaultState?: DefaultCentroCosto) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

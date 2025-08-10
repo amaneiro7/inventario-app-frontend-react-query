@@ -32,9 +32,8 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useDirectivaInitialState(
-		defaultState ?? initialDirectivaState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useDirectivaInitialState(defaultState ?? initialDirectivaState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required }, dispatch] = useReducer(
 		directivaFormReducer,
@@ -99,6 +98,10 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		mode,
 		errors,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

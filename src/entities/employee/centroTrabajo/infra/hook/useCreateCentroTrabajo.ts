@@ -24,9 +24,8 @@ export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useCentroTrabajoInitialState(
-		defaultState ?? initialCentroTrabajoState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useCentroTrabajoInitialState(defaultState ?? initialCentroTrabajoState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		centroTrabajoFormReducer,
@@ -78,6 +77,10 @@ export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

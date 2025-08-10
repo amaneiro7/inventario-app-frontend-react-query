@@ -22,9 +22,8 @@ export function useCreateLocation(defaultState?: DefaultLocation) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useLocationInitialState(
-		defaultState ?? initialLocationState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useLocationInitialState(defaultState ?? initialLocationState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		locationFormReducer,
@@ -74,6 +73,10 @@ export function useCreateLocation(defaultState?: DefaultLocation) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange,

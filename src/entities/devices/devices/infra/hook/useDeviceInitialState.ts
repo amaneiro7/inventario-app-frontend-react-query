@@ -20,16 +20,27 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 	initialState: DefaultDevice
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams() // Obtiene el ID del dispositivo de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
 	const navigate = useNavigate() // Función para navegar a otras rutas.
 	const [state, setState] = useState<DefaultDevice>(defaultState) // Estado local del dispositivo.
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
 	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
 
 	// Consulta para obtener los datos del dispositivo si el modo es editar y no hay datos en el estado de la ubicación.
-	const { data: deviceData, refetch } = useQuery({
+	const {
+		data: deviceData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['device', id], // Clave de la consulta para la caché.
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos del dispositivo.
 		enabled: !!id && mode === 'edit' && !location?.state?.device, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
@@ -133,6 +144,12 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 			navigate('/error')
 			return
 		}
+
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 		if (location.state?.data) {
 			setState(location.state.data)
@@ -167,6 +184,10 @@ export function useDeviceInitialState(defaultState: DefaultDevice): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

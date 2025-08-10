@@ -43,9 +43,8 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useDeviceInitialState(
-		defaultState ?? initialDeviceState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useDeviceInitialState(defaultState ?? initialDeviceState.formData)
 	const prevState = usePrevious(initialState)
 
 	const [{ errors, required, disabled, formData }, dispatch] = useReducer(
@@ -139,6 +138,10 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange,

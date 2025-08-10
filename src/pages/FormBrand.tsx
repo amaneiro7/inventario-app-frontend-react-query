@@ -1,6 +1,5 @@
 import { lazy, Suspense } from 'react'
 import { useCreateBrand } from '@/entities/brand/infra/hooks/useCreateBrand'
-
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 
 const FormLayout = lazy(() =>

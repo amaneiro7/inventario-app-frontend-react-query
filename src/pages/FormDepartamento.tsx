@@ -1,7 +1,20 @@
-import { FormLayout } from '@/widgets/FormContainer/FormLayout'
+import { lazy, Suspense } from 'react'
 import { useCreateDepartamento } from '@/entities/employee/departamento/infra/hook/useCreateDepartamento'
-import { DepartamentoInputs } from '@/entities/employee/departamento/infra/ui/DepartamentoInputs'
-import { DepartamentoSearch } from '@/features/departamento-search/ui/DepartamentoSearch'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+
+const FormLayout = lazy(() =>
+	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
+)
+const DepartamentoInputs = lazy(() =>
+	import('@/entities/employee/departamento/infra/ui/DepartamentoInputs').then(m => ({
+		default: m.DepartamentoInputs
+	}))
+)
+const DepartamentoSearch = lazy(() =>
+	import('@/features/departamento-search/ui/DepartamentoSearch').then(m => ({
+		default: m.DepartamentoSearch
+	}))
+)
 
 export default function FormDepartamento() {
 	const {
@@ -11,34 +24,41 @@ export default function FormDepartamento() {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		handleChange,
 		handleSubmit,
 		resetForm
 	} = useCreateDepartamento()
 
 	return (
-		<FormLayout
-			id={key}
-			description="Ingrese los datos del departamento el cual desea registar."
-			isAddForm={mode === 'add'}
-			handleSubmit={handleSubmit}
-			handleClose={() => {
-				window.history.back()
-			}}
-			reset={mode === 'edit' ? resetForm : undefined}
-			url="/form/departamento/add"
-			border
-			lastUpdated={formData.updatedAt}
-			searchInput={<DepartamentoSearch />}
-		>
-			<DepartamentoInputs
-				required={required}
-				formData={formData}
-				disabled={disabled}
-				handleChange={handleChange}
-				errors={errors}
-				mode={mode}
-			/>
-		</FormLayout>
+		<Suspense fallback={<FormSkeletonLayout />}>
+			<FormLayout
+				id={key}
+				description="Ingrese los datos del departamento el cual desea registar."
+				isAddForm={mode === 'add'}
+				handleSubmit={handleSubmit}
+				isError={isError}
+				isLoading={isLoading}
+				isNotFound={isNotFound}
+				onRetry={onRetry}
+				reset={mode === 'edit' ? resetForm : undefined}
+				url="/form/departamento/add"
+				border
+				lastUpdated={formData.updatedAt}
+				searchInput={<DepartamentoSearch />}
+			>
+				<DepartamentoInputs
+					required={required}
+					formData={formData}
+					disabled={disabled}
+					handleChange={handleChange}
+					errors={errors}
+					mode={mode}
+				/>
+			</FormLayout>
+		</Suspense>
 	)
 }

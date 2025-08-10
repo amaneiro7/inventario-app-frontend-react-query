@@ -14,15 +14,26 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 	initialState: ProcessorParams
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [state, setState] = useState<ProcessorParams>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
 	const mode = useGetFormMode()
 
-	const { data: processorData, refetch } = useQuery({
+	const {
+		data: processorData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['processor', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.processor,
@@ -38,6 +49,11 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 		if (!id) {
 			navigate('/error')
 			return
+		}
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
 		}
 		if (location.state?.processor) {
 			setState(location.state.processor)
@@ -70,6 +86,10 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

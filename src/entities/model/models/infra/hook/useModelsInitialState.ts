@@ -24,6 +24,10 @@ export function useModelInitialState(defaultState: DefaultModel): {
 	initialState: DefaultModel
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams() // Gets the model ID from the URL parameters.
 	const location = useLocation() // Gets the current URL location.
@@ -31,9 +35,16 @@ export function useModelInitialState(defaultState: DefaultModel): {
 
 	const mode = useGetFormMode() // Gets the form mode (edit or add).
 	const [state, setState] = useState<DefaultModel>(defaultState) // Local state of the model.
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
 	// Query to get model data if in edit mode and no data is present in the location state.
-	const { data: modelData, refetch } = useQuery({
+	const {
+		data: modelData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['model', id], // Query key for caching.
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Function to get model data.
 		enabled: !!id && mode === 'edit' && !location?.state?.model, // Enables the query only if there is an ID, the mode is edit, and no data is in the location state.
@@ -87,20 +98,18 @@ export function useModelInitialState(defaultState: DefaultModel): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.model) {
 			setState(location.state.model)
 		} else if (modelData) {
 			mappedModelState(modelData)
 		}
-	}, [
-		mode,
-		modelData,
-		location.state,
-		defaultState,
-		navigate,
-		id,
-		mappedModelState
-	])
+	}, [mode, modelData, location.state, defaultState, navigate, id, mappedModelState])
 
 	/**
 	 * Resets the form state. If in 'add' mode, it resets to the default state.
@@ -122,6 +131,10 @@ export function useModelInitialState(defaultState: DefaultModel): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

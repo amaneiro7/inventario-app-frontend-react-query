@@ -1,7 +1,21 @@
-import { FormLayout } from '@/widgets/FormContainer/FormLayout'
+import { lazy, Suspense } from 'react'
 import { useCreateLocation } from '@/entities/locations/locations/infra/hook/useCreateLocation'
-import { LocationInputs } from '@/entities/locations/locations/infra/ui/LocationInputs'
-import { LocationSearch } from '@/features/location-search/ui/LocationSearch'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+
+const LocationInputs = lazy(() =>
+	import('@/entities/locations/locations/infra/ui/LocationInputs').then(m => ({
+		default: m.LocationInputs
+	}))
+)
+const LocationSearch = lazy(() =>
+	import('@/features/location-search/ui/LocationSearch').then(m => ({
+		default: m.LocationSearch
+	}))
+)
+
+const FormLayout = lazy(() =>
+	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
+)
 
 export default function FormLocation() {
 	const {
@@ -11,6 +25,10 @@ export default function FormLocation() {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		handleChange,
 		handleSite,
 		handleSubmit,
@@ -18,29 +36,32 @@ export default function FormLocation() {
 	} = useCreateLocation()
 
 	return (
-		<FormLayout
-			id={key}
-			description="Ingrese los datos de la ubicación el cual desea registar."
-			isAddForm={mode === 'add'}
-			handleSubmit={handleSubmit}
-			handleClose={() => {
-				window.history.back()
-			}}
-			reset={mode === 'edit' ? resetForm : undefined}
-			url="/form/location/add"
-			border
-			lastUpdated={formData.updatedAt}
-			searchInput={<LocationSearch />}
-		>
-			<LocationInputs
-				required={required}
-				formData={formData}
-				disabled={disabled}
-				handleChange={handleChange}
-				handleSite={handleSite}
-				errors={errors}
-				mode={mode}
-			/>
-		</FormLayout>
+		<Suspense fallback={<FormSkeletonLayout />}>
+			<FormLayout
+				id={key}
+				description="Ingrese los datos de la ubicación el cual desea registar."
+				isAddForm={mode === 'add'}
+				handleSubmit={handleSubmit}
+				isError={isError}
+				isLoading={isLoading}
+				isNotFound={isNotFound}
+				onRetry={onRetry}
+				reset={mode === 'edit' ? resetForm : undefined}
+				url="/form/location/add"
+				border
+				lastUpdated={formData.updatedAt}
+				searchInput={<LocationSearch />}
+			>
+				<LocationInputs
+					required={required}
+					formData={formData}
+					disabled={disabled}
+					handleChange={handleChange}
+					handleSite={handleSite}
+					errors={errors}
+					mode={mode}
+				/>
+			</FormLayout>
+		</Suspense>
 	)
 }

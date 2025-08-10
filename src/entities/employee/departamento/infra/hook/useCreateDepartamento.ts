@@ -34,9 +34,8 @@ export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useDepartamentoInitialState(
-		defaultState ?? initialDepartamentoState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useDepartamentoInitialState(defaultState ?? initialDepartamentoState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		departamentoFormReducer,
@@ -102,6 +101,10 @@ export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

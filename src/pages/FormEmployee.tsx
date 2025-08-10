@@ -1,12 +1,14 @@
 import { lazy, Suspense, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
-import { FormLayout } from '@/widgets/FormContainer/FormLayout'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
-import { FormSkeleton } from '@/widgets/FormContainer/FormSkeleton'
 import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/components/SignatureGeneratorSkeleton'
+
+const FormLayout = lazy(() =>
+	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
+)
 
 const EmployeeSearch = lazy(() =>
 	import('@/features/employee-search/ui/EmployeeSearch').then(m => ({
@@ -33,7 +35,11 @@ export default function FormEmployee() {
 		errors,
 		disabled,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
 		employeeData,
+		onRetry,
 		handleChange,
 		handleSubmit,
 		resetForm,
@@ -45,7 +51,6 @@ export default function FormEmployee() {
 	const updatedAt = useMemo(() => {
 		return formData.updatedAt
 	}, [formData.updatedAt])
-	const navigate = useNavigate()
 
 	return (
 		<>
@@ -67,15 +72,16 @@ export default function FormEmployee() {
 				</DetailsBoxWrapper>
 
 				<TabsContent value="form" className="space-y-4">
-					<Suspense fallback={<FormSkeleton />}>
+					<Suspense fallback={<FormSkeletonLayout />}>
 						<FormLayout
 							id={key}
 							description="Ingrese los datos del usuario el cual desea registar."
 							isAddForm={mode === 'add'}
 							handleSubmit={handleSubmit}
-							handleClose={() => {
-								navigate(-1)
-							}}
+							isError={isError}
+							isLoading={isLoading}
+							isNotFound={isNotFound}
+							onRetry={onRetry}
 							searchInput={<EmployeeSearch />}
 							reset={mode === 'edit' ? resetForm : undefined}
 							lastUpdated={updatedAt}

@@ -22,6 +22,10 @@ export function useVicepresidenciaInitialState(defaultState: DefaultVicepresiden
 	initialState: DefaultVicepresidencia
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -29,8 +33,15 @@ export function useVicepresidenciaInitialState(defaultState: DefaultVicepresiden
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultVicepresidencia>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: vicepresidenciaData, refetch } = useQuery({
+	const {
+		data: vicepresidenciaData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['vicepresidencia', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.vicepresidencia,
@@ -61,6 +72,12 @@ export function useVicepresidenciaInitialState(defaultState: DefaultVicepresiden
 		if (!id) {
 			navigate('/error')
 			return
+		}
+
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
 		}
 
 		if (location?.state?.vicepresidencia) {
@@ -94,6 +111,10 @@ export function useVicepresidenciaInitialState(defaultState: DefaultVicepresiden
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

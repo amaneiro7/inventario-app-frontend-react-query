@@ -1,6 +1,10 @@
 import { Suspense, lazy } from 'react'
 import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreateDevice'
-import { FormLayout } from '@/widgets/FormContainer/FormLayout'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+
+const FormLayout = lazy(() =>
+	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
+)
 
 const DeviceInputs = lazy(() =>
 	import('@/entities/devices/devices/infra/ui/DeviceForm/DeviceInputs').then(m => ({
@@ -21,6 +25,10 @@ export default function FormDevice() {
 		errors,
 		disabled,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		handleChange,
 		handleLocation,
 		handleMemory,
@@ -30,35 +38,34 @@ export default function FormDevice() {
 	} = useCreateDevice()
 
 	return (
-		<>
+		<Suspense fallback={<FormSkeletonLayout />}>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del dispositivo el cual desea registar."
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
-				handleClose={() => {
-					window.history.back()
-				}}
+				isError={isError}
+				isLoading={isLoading}
+				isNotFound={isNotFound}
+				onRetry={onRetry}
 				searchInput={<SerialSearch />}
 				reset={mode === 'edit' ? resetForm : undefined}
 				lastUpdated={formData.updatedAt}
 				updatedBy={formData.history}
 				url="/form/device/add"
 			>
-				<Suspense fallback={<div className="min-h-[455px]" />}>
-					<DeviceInputs
-						formData={formData}
-						errors={errors}
-						required={required}
-						disabled={disabled}
-						mode={mode}
-						handleChange={handleChange}
-						handleLocation={handleLocation}
-						handleMemory={handleMemory}
-						handleModel={handleModel}
-					/>
-				</Suspense>
+				<DeviceInputs
+					formData={formData}
+					errors={errors}
+					required={required}
+					disabled={disabled}
+					mode={mode}
+					handleChange={handleChange}
+					handleLocation={handleLocation}
+					handleMemory={handleMemory}
+					handleModel={handleModel}
+				/>
 			</FormLayout>
-		</>
+		</Suspense>
 	)
 }

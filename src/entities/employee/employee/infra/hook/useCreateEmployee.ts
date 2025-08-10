@@ -19,9 +19,16 @@ import { type EmployeeParams } from '../../domain/dto/Employee.dto'
  * @returns An object containing form data, mode, errors, required fields, disabled fields, and various handlers.
  */
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
-	const { initialState, mode, resetState, employeeData } = useEmployeeInitialState(
-		defaultState ?? initialEmployeeState.formData
-	)
+	const {
+		initialState,
+		mode,
+		resetState,
+		employeeData,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry
+	} = useEmployeeInitialState(defaultState ?? initialEmployeeState.formData)
 	const { events } = useAuthStore.getState()
 
 	/**
@@ -172,6 +179,10 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		required,
 		disabled,
 		employeeData,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		handlePhoneChange,
 		handleAddPhones,
 		handleRemovePhones,

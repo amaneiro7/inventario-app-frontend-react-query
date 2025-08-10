@@ -14,6 +14,10 @@ export function useRegionInitialState(defaultState: DefaultRegion): {
 	initialState: DefaultRegion
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -21,8 +25,15 @@ export function useRegionInitialState(defaultState: DefaultRegion): {
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultRegion>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: regionData, refetch } = useQuery({
+	const {
+		data: regionData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['region', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.region,
@@ -48,6 +59,12 @@ export function useRegionInitialState(defaultState: DefaultRegion): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.region) {
 			setState(location.state.region)
 		} else if (regionData) {
@@ -71,6 +88,10 @@ export function useRegionInitialState(defaultState: DefaultRegion): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

@@ -14,6 +14,10 @@ export function useCityInitialState(defaultState: DefaultCity): {
 	initialState: DefaultCity
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -21,8 +25,15 @@ export function useCityInitialState(defaultState: DefaultCity): {
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultCity>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: cityData, refetch } = useQuery({
+	const {
+		data: cityData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['city', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.city,
@@ -50,6 +61,12 @@ export function useCityInitialState(defaultState: DefaultCity): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.city) {
 			setState(location.state.city)
 		} else if (cityData) {
@@ -73,6 +90,10 @@ export function useCityInitialState(defaultState: DefaultCity): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

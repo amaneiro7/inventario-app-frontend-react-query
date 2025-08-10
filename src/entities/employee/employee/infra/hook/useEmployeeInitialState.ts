@@ -24,6 +24,9 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 	mode: 'edit' | 'add'
 	isLoading: boolean
 	employeeData: EmployeeDto | undefined
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -31,10 +34,14 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultEmployee>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
 	const {
 		data: employeeData,
 		refetch,
+		error,
+		isError,
+		isLoading,
 		isFetching
 	} = useQuery({
 		queryKey: ['employee', id],
@@ -105,6 +112,12 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.employee) {
 			setState(location.state.employee)
 		} else if (employeeData && !isFetching) {
@@ -143,7 +156,10 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 		mode,
 		employeeData,
 		initialState: state,
+		isLoading,
+		isError,
+		isNotFound,
 		resetState,
-		isLoading: isFetching
+		onRetry: refetch
 	}
 }

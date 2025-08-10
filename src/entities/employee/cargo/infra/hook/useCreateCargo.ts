@@ -33,9 +33,8 @@ export function useCreateCargo(defaultState?: DefaultCargo) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useCargoInitialState(
-		defaultState ?? initialCargoState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useCargoInitialState(defaultState ?? initialCargoState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		cargoFormReducer,
@@ -98,6 +97,10 @@ export function useCreateCargo(defaultState?: DefaultCargo) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

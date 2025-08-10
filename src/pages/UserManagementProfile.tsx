@@ -42,7 +42,7 @@ const ActionHandle = ({ action, id }: { action: Actions; id: string }) => {
 }
 
 export default function ManagementProfile() {
-	const { formData, loading } = useCreateUser()
+	const { formData, isLoading, isNotFound } = useCreateUser()
 	const [action, setAction] = useState<Actions>('editar')
 
 	const title = `${
@@ -54,7 +54,7 @@ export default function ManagementProfile() {
 					? 'Eliminar Usuario'
 					: 'Seleccione'
 	}`
-	if (loading) {
+	if (isLoading) {
 		return (
 			<DetailsBoxWrapper position="center">
 				<ManagementProfileLoading />
@@ -62,7 +62,7 @@ export default function ManagementProfile() {
 		)
 	}
 
-	if (!formData?.id) {
+	if (isNotFound || !formData?.id) {
 		return (
 			<DetailsBoxWrapper position="center">
 				<div className="rounded-md bg-red-50 p-4">
@@ -127,7 +127,7 @@ export default function ManagementProfile() {
 				</DescriptionListElement>
 				<DescriptionListElement title={title}>
 					<Suspense fallback={<Skeleton width={180} height={32} />}>
-						<ActionHandle action={action} id={formData.id} />
+						<ActionHandle action={action} id={formData?.id} />
 					</Suspense>
 				</DescriptionListElement>
 			</DetailsInfo>

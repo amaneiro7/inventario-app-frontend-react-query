@@ -22,9 +22,8 @@ export function useCreateRegion(defaultState?: DefaultRegion) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useRegionInitialState(
-		defaultState ?? initialRegionState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useRegionInitialState(defaultState ?? initialRegionState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		regionFormReducer,
@@ -73,6 +72,10 @@ export function useCreateRegion(defaultState?: DefaultRegion) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

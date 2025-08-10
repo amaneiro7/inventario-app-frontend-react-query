@@ -22,9 +22,8 @@ export function useCreateModel(defaultState?: DefaultModel) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useModelInitialState(
-		defaultState ?? initialModelState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useModelInitialState(defaultState ?? initialModelState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		modelFormReducer,
@@ -69,6 +68,10 @@ export function useCreateModel(defaultState?: DefaultModel) {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

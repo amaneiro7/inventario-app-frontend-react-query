@@ -22,6 +22,10 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 	initialState: DefaultDepartamento
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -29,8 +33,15 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultDepartamento>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: departamentoData, refetch } = useQuery({
+	const {
+		data: departamentoData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['departamento', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.departamento,
@@ -64,6 +75,12 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.departamento) {
 			setState(location.state.departamento)
 		} else if (departamentoData) {
@@ -91,6 +108,10 @@ export function useDepartamentoInitialState(defaultState: DefaultDepartamento): 
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

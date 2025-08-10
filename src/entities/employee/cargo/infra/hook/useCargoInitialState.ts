@@ -22,6 +22,10 @@ export function useCargoInitialState(defaultState: DefaultCargo): {
 	initialState: DefaultCargo
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -29,8 +33,15 @@ export function useCargoInitialState(defaultState: DefaultCargo): {
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultCargo>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: cargoData, refetch } = useQuery({
+	const {
+		data: cargoData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['cargo', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.cargo,
@@ -61,6 +72,12 @@ export function useCargoInitialState(defaultState: DefaultCargo): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.cargo) {
 			setState(location.state.cargo)
 		} else if (cargoData) {
@@ -88,6 +105,10 @@ export function useCargoInitialState(defaultState: DefaultCargo): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

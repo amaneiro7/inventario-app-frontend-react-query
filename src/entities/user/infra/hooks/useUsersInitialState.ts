@@ -13,7 +13,10 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 	initialState: DefaultUsers
 	resetState: () => void
 	mode: 'edit' | 'register'
-	loading: boolean
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams() // Obtiene el ID del usuario de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
@@ -21,12 +24,14 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 
 	const mode = location.pathname.includes('register') ? 'register' : 'edit' // Obtiene el modo del formulario (editar o agregar).
 	const [state, setState] = useState<DefaultUsers>(defaultState) // Estado local del usuario.
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
 	// Consulta para obtener los datos del usuario si el modo es editar y no hay datos en el estado de la ubicación.
 	const {
 		data: userData,
 		refetch,
-		isFetching,
+		error,
+		isError,
 		isLoading
 	} = useQuery({
 		queryKey: ['users', id], // Clave de la consulta para la caché.
@@ -66,6 +71,12 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.user) {
 			setState(location.state.user)
 		} else if (userData) {
@@ -90,6 +101,9 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 		mode,
 		initialState: state,
 		resetState,
-		loading: isLoading || isFetching
+		isLoading,
+		isError,
+		isNotFound,
+		onRetry: refetch
 	}
 }

@@ -22,9 +22,8 @@ export function useCreateSite(defaultState?: DefaultSite) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useSiteInitialState(
-		defaultState ?? initialSiteState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useSiteInitialState(defaultState ?? initialSiteState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required }, dispatch] = useReducer(SiteFormReducer, initialSiteState)
 	const key = useMemo(
@@ -69,6 +68,10 @@ export function useCreateSite(defaultState?: DefaultSite) {
 		mode,
 		errors,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

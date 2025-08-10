@@ -21,9 +21,8 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		[events]
 	)
 
-	const { initialState, mode, resetState, loading } = useUserInitialState(
-		defaultState ?? initialUserState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useUserInitialState(defaultState ?? initialUserState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		userFormReducer,
@@ -68,7 +67,10 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		errors,
 		required,
 		disabled,
-		loading,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

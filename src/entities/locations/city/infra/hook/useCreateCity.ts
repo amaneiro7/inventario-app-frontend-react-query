@@ -22,9 +22,8 @@ export function useCreateCity(defaultState?: DefaultCity) {
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useCityInitialState(
-		defaultState ?? initialCityState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useCityInitialState(defaultState ?? initialCityState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required }, dispatch] = useReducer(cityFormReducer, initialCityState)
 	const key = useMemo(
@@ -69,6 +68,10 @@ export function useCreateCity(defaultState?: DefaultCity) {
 		mode,
 		errors,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

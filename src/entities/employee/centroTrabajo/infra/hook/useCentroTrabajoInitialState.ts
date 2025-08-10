@@ -13,6 +13,10 @@ export function useCentroTrabajoInitialState(defaultState: DefaultCentroTrabajo)
 	initialState: DefaultCentroTrabajo
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -20,8 +24,15 @@ export function useCentroTrabajoInitialState(defaultState: DefaultCentroTrabajo)
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultCentroTrabajo>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: centroTrabajoData, refetch } = useQuery({
+	const {
+		data: centroTrabajoData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['centroTrabajo', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.centroTrabajo,
@@ -46,6 +57,12 @@ export function useCentroTrabajoInitialState(defaultState: DefaultCentroTrabajo)
 		if (!id) {
 			navigate('/error')
 			return
+		}
+
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
 		}
 
 		if (location?.state?.centroTrabajo) {
@@ -79,6 +96,10 @@ export function useCentroTrabajoInitialState(defaultState: DefaultCentroTrabajo)
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

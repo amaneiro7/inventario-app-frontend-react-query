@@ -35,9 +35,10 @@ export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepres
 		[events]
 	)
 
-	const { initialState, mode, resetState } = useVicepresidenciaEjecutivaInitialState(
-		defaultState ?? initialVicepresidenciaEjecutivaState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useVicepresidenciaEjecutivaInitialState(
+			defaultState ?? initialVicepresidenciaEjecutivaState.formData
+		)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required }, dispatch] = useReducer(
 		vicepresidenciaEjecutivaFormReducer,
@@ -104,6 +105,10 @@ export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepres
 		mode,
 		errors,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

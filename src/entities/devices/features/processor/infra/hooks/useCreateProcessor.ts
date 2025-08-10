@@ -21,9 +21,8 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 		return await new ProcessorCreator(new ProcessorSaveService(), events).create(formData)
 	}
 
-	const { initialState, mode, resetState } = useProcessorInitialState(
-		defaultState ?? initialProcessorState.formData
-	)
+	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
+		useProcessorInitialState(defaultState ?? initialProcessorState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData }, dispatch] = useReducer(processorFormReducer, initialProcessorState)
 
@@ -60,6 +59,10 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 		formData,
 		mode,
 		errors,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange

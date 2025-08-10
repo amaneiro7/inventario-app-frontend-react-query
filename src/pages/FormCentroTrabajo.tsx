@@ -1,7 +1,20 @@
-import { FormLayout } from '@/widgets/FormContainer/FormLayout'
+import { lazy, Suspense } from 'react'
 import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useCreateCentroTrabajo'
-import { CentroTrabajoInputs } from '@/entities/employee/centroTrabajo/infra/ui/CentroTrabajoInputs'
-import { CentroTrabajoSearch } from '@/features/centro-trabajo-search/ui/CentroTrabajoSearch'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+
+const FormLayout = lazy(() =>
+	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
+)
+const CentroTrabajoInputs = lazy(() =>
+	import('@/entities/employee/centroTrabajo/infra/ui/CentroTrabajoInputs').then(m => ({
+		default: m.CentroTrabajoInputs
+	}))
+)
+const CentroTrabajoSearch = lazy(() =>
+	import('@/features/centro-trabajo-search/ui/CentroTrabajoSearch').then(m => ({
+		default: m.CentroTrabajoSearch
+	}))
+)
 
 export default function FormCentroTrabajo() {
 	const {
@@ -11,34 +24,41 @@ export default function FormCentroTrabajo() {
 		errors,
 		disabled,
 		required,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		handleChange,
 		handleSubmit,
 		resetForm
 	} = useCreateCentroTrabajo()
 
 	return (
-		<FormLayout
-			id={key}
-			description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
-			isAddForm={mode === 'add'}
-			handleSubmit={handleSubmit}
-			handleClose={() => {
-				window.history.back()
-			}}
-			reset={mode === 'edit' ? resetForm : undefined}
-			url="/form/centrotrabajo/add"
-			border
-			lastUpdated={formData.updatedAt}
-			searchInput={<CentroTrabajoSearch />}
-		>
-			<CentroTrabajoInputs
-				required={required}
-				formData={formData}
-				disabled={disabled}
-				handleChange={handleChange}
-				errors={errors}
-				mode={mode}
-			/>
-		</FormLayout>
+		<Suspense fallback={<FormSkeletonLayout />}>
+			<FormLayout
+				id={key}
+				description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
+				isAddForm={mode === 'add'}
+				handleSubmit={handleSubmit}
+				isError={isError}
+				isLoading={isLoading}
+				isNotFound={isNotFound}
+				onRetry={onRetry}
+				reset={mode === 'edit' ? resetForm : undefined}
+				url="/form/centrotrabajo/add"
+				border
+				lastUpdated={formData.updatedAt}
+				searchInput={<CentroTrabajoSearch />}
+			>
+				<CentroTrabajoInputs
+					required={required}
+					formData={formData}
+					disabled={disabled}
+					handleChange={handleChange}
+					errors={errors}
+					mode={mode}
+				/>
+			</FormLayout>
+		</Suspense>
 	)
 }

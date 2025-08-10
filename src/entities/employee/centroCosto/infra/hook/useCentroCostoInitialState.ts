@@ -13,6 +13,10 @@ export function useCentroCostoInitialState(defaultState: DefaultCentroCosto): {
 	initialState: DefaultCentroCosto
 	resetState: () => void
 	mode: 'edit' | 'add'
+	isLoading: boolean
+	isNotFound: boolean
+	isError: boolean
+	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
@@ -20,8 +24,15 @@ export function useCentroCostoInitialState(defaultState: DefaultCentroCosto): {
 
 	const mode = useGetFormMode()
 	const [state, setState] = useState<DefaultCentroCosto>(defaultState)
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 
-	const { data: centroCostoData, refetch } = useQuery({
+	const {
+		data: centroCostoData,
+		refetch,
+		error,
+		isError,
+		isLoading
+	} = useQuery({
 		queryKey: ['centroCosto', id],
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
 		enabled: !!id && mode === 'edit' && !location?.state?.centroCosto,
@@ -47,6 +58,12 @@ export function useCentroCostoInitialState(defaultState: DefaultCentroCosto): {
 			return
 		}
 
+		if (error?.message.includes('Recurso no encontrado.')) {
+			setIsNotFound(true)
+		} else {
+			setIsNotFound(false)
+		}
+
 		if (location?.state?.centroCosto) {
 			setState(location.state.centroCosto)
 		} else if (centroCostoData) {
@@ -70,6 +87,10 @@ export function useCentroCostoInitialState(defaultState: DefaultCentroCosto): {
 	return {
 		mode,
 		initialState: state,
-		resetState
+		isLoading,
+		isError,
+		isNotFound,
+		resetState,
+		onRetry: refetch
 	}
 }

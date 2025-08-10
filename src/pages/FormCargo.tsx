@@ -1,7 +1,16 @@
-import { FormLayout } from '@/widgets/FormContainer/FormLayout'
+import { lazy, Suspense } from 'react'
 import { useCreateCargo } from '@/entities/employee/cargo/infra/hook/useCreateCargo'
-import { CargoSearch } from '@/features/cargo-search/ui/CargoSearch'
-import { CargoInputs } from '@/entities/employee/cargo/infra/ui/CargoInputs'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+
+const FormLayout = lazy(() =>
+	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
+)
+const CargoInputs = lazy(() =>
+	import('@/entities/employee/cargo/infra/ui/CargoInputs').then(m => ({ default: m.CargoInputs }))
+)
+const CargoSearch = lazy(() =>
+	import('@/features/cargo-search/ui/CargoSearch').then(m => ({ default: m.CargoSearch }))
+)
 
 export default function FormCargo() {
 	const {
@@ -11,33 +20,40 @@ export default function FormCargo() {
 		errors,
 		required,
 		disabled,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry,
 		handleChange,
 		handleSubmit,
 		resetForm
 	} = useCreateCargo()
 
 	return (
-		<FormLayout
-			id={key}
-			description="Ingrese los datos del Cargo el cual desea registar."
-			isAddForm={mode === 'add'}
-			handleSubmit={handleSubmit}
-			handleClose={() => {
-				window.history.back()
-			}}
-			reset={mode === 'edit' ? resetForm : undefined}
-			url="/form/cargo/add"
-			border
-			lastUpdated={formData.updatedAt}
-			searchInput={<CargoSearch />}
-		>
-			<CargoInputs
-				required={required}
-				formData={formData}
-				disabled={disabled}
-				handleChange={handleChange}
-				errors={errors}
-			/>
-		</FormLayout>
+		<Suspense fallback={<FormSkeletonLayout />}>
+			<FormLayout
+				id={key}
+				description="Ingrese los datos del Cargo el cual desea registar."
+				isAddForm={mode === 'add'}
+				handleSubmit={handleSubmit}
+				isError={isError}
+				isLoading={isLoading}
+				isNotFound={isNotFound}
+				onRetry={onRetry}
+				reset={mode === 'edit' ? resetForm : undefined}
+				url="/form/cargo/add"
+				border
+				lastUpdated={formData.updatedAt}
+				searchInput={<CargoSearch />}
+			>
+				<CargoInputs
+					required={required}
+					formData={formData}
+					disabled={disabled}
+					handleChange={handleChange}
+					errors={errors}
+				/>
+			</FormLayout>
+		</Suspense>
 	)
 }
