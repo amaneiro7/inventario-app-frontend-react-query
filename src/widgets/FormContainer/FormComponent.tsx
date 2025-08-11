@@ -135,3 +135,5 @@ export const FormComponent = memo(
 		)
 	}
 )
+
+FormComponent.displayName = 'FormComponent'

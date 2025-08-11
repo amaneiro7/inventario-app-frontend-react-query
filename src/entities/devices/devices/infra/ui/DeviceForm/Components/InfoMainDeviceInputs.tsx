@@ -12,7 +12,7 @@ import { EmployeeCombobox } from '@/entities/employee/employee/infra/ui/Employee
 import { LocationCombobox } from '@/entities/locations/locations/infra/ui/LocationComboBox'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 // import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip'
-interface Props {
+interface InfoMainDeviceInputsProps {
 	isLoading: boolean
 	mode: FormMode
 	serial: DefaultDevice['serial']
@@ -53,57 +53,58 @@ interface Props {
 	}) => Promise<void>
 }
 
-export const InfoMainDeviceInputs = memo(function ({
-	serial,
-	activo,
-	employeeId,
-	statusId,
-	locationId,
-	stockNumber,
-	typeOfSiteId,
-	observation,
-	errorSerial,
-	errorActivo,
-	errorEmployeeId,
-	errorLocationId,
-	errorStockNumber,
-	errorObservation,
-	disabledSerial,
-	disabledActivo,
-	disabledEmployeeId,
-	disabledStockNumber,
-	disabledLocationId,
-	disabledObservation,
-	requiredSerial,
-	requiredActivo,
-	requiredEmployeeId,
-	requiredLocationId,
-	requiredStockNumber,
-	requiredObservation,
-	mode,
-	isLoading,
-	handleLocation,
-	handleChange
-}: Props) {
-	return (
-		<>
-			<div className="flex items-center justify-center gap-2">
-				<Input
-					id="device-serial"
-					value={serial ?? ''}
-					name="serial"
-					isLoading={isLoading}
-					label="Serial"
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('serial', e.target.value)
-					}
-					readOnly={mode === 'edit'}
-					error={!!errorSerial}
-					errorMessage={errorSerial}
-					required={requiredSerial}
-					disabled={disabledSerial}
-				/>
-				{/* <Tooltip>
+export const InfoMainDeviceInputs = memo(
+	({
+		serial,
+		activo,
+		employeeId,
+		statusId,
+		locationId,
+		stockNumber,
+		typeOfSiteId,
+		observation,
+		errorSerial,
+		errorActivo,
+		errorEmployeeId,
+		errorLocationId,
+		errorStockNumber,
+		errorObservation,
+		disabledSerial,
+		disabledActivo,
+		disabledEmployeeId,
+		disabledStockNumber,
+		disabledLocationId,
+		disabledObservation,
+		requiredSerial,
+		requiredActivo,
+		requiredEmployeeId,
+		requiredLocationId,
+		requiredStockNumber,
+		requiredObservation,
+		mode,
+		isLoading,
+		handleLocation,
+		handleChange
+	}: InfoMainDeviceInputsProps) => {
+		return (
+			<>
+				<div className="flex items-center justify-center gap-2">
+					<Input
+						id="device-serial"
+						value={serial ?? ''}
+						name="serial"
+						isLoading={isLoading}
+						label="Serial"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('serial', e.target.value)
+						}
+						readOnly={mode === 'edit'}
+						error={!!errorSerial}
+						errorMessage={errorSerial}
+						required={requiredSerial}
+						disabled={disabledSerial}
+					/>
+					{/* <Tooltip>
 					<TooltipTrigger>
 						<div className="relative h-16 w-[30px]">
 							<span className="bg-azul border-azul-900 absolute top-0.5 left-0 mb-10 rounded-full border px-2.5 py-1.5 text-white">
@@ -115,73 +116,74 @@ export const InfoMainDeviceInputs = memo(function ({
 						<p>This tooltip appears on the right</p>
 					</TooltipContent>
 				</Tooltip> */}
-			</div>
-			<Input
-				id="device-activo"
-				value={activo ?? ''}
-				name="activo"
-				isLoading={isLoading}
-				label="Activo"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('activo', e.target.value)
-				}
-				error={!!errorActivo}
-				errorMessage={errorActivo}
-				required={requiredActivo}
-				disabled={disabledActivo}
-			/>
-
-			<EmployeeCombobox
-				value={employeeId ?? ''}
-				handleChange={(_name, value) => handleChange('employeeId', value)}
-				name="employeeId"
-				isLoading={isLoading}
-				error={errorEmployeeId}
-				required={requiredEmployeeId}
-				disabled={disabledEmployeeId}
-			/>
-			<LocationCombobox
-				value={locationId ?? ''}
-				statusId={statusId}
-				handleFormChange={handleLocation}
-				name="locationId"
-				isLoading={isLoading}
-				method="form"
-				error={errorLocationId}
-				required={requiredLocationId}
-				disabled={disabledLocationId}
-			/>
-
-			{typeOfSiteId === TypeOfSiteOptions.ALMACEN ? (
+				</div>
 				<Input
-					id="device-stocknumber"
-					value={stockNumber ?? ''}
-					name="stockNumber"
+					id="device-activo"
+					value={activo ?? ''}
+					name="activo"
 					isLoading={isLoading}
-					label="N° de Stock"
+					label="Activo"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('stockNumber', e.target.value)
+						handleChange('activo', e.target.value)
 					}
-					error={!!errorStockNumber}
-					errorMessage={errorStockNumber}
-					required={requiredStockNumber}
-					disabled={disabledStockNumber}
+					error={!!errorActivo}
+					errorMessage={errorActivo}
+					required={requiredActivo}
+					disabled={disabledActivo}
 				/>
-			) : null}
-			<Input
-				id="device-observation"
-				value={observation ?? ''}
-				name="observation"
-				isLoading={isLoading}
-				label="Observación"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('observation', e.target.value)
-				}
-				error={!!errorObservation}
-				errorMessage={errorObservation}
-				required={requiredObservation}
-				disabled={disabledObservation}
-			/>
-		</>
-	)
-})
+
+				<EmployeeCombobox
+					value={employeeId ?? ''}
+					handleChange={(_name, value) => handleChange('employeeId', value)}
+					name="employeeId"
+					isLoading={isLoading}
+					error={errorEmployeeId}
+					required={requiredEmployeeId}
+					disabled={disabledEmployeeId}
+				/>
+				<LocationCombobox
+					value={locationId ?? ''}
+					statusId={statusId}
+					handleFormChange={handleLocation}
+					name="locationId"
+					isLoading={isLoading}
+					method="form"
+					error={errorLocationId}
+					required={requiredLocationId}
+					disabled={disabledLocationId}
+				/>
+
+				{typeOfSiteId === TypeOfSiteOptions.ALMACEN ? (
+					<Input
+						id="device-stocknumber"
+						value={stockNumber ?? ''}
+						name="stockNumber"
+						isLoading={isLoading}
+						label="N° de Stock"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('stockNumber', e.target.value)
+						}
+						error={!!errorStockNumber}
+						errorMessage={errorStockNumber}
+						required={requiredStockNumber}
+						disabled={disabledStockNumber}
+					/>
+				) : null}
+				<Input
+					id="device-observation"
+					value={observation ?? ''}
+					name="observation"
+					isLoading={isLoading}
+					label="Observación"
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('observation', e.target.value)
+					}
+					error={!!errorObservation}
+					errorMessage={errorObservation}
+					required={requiredObservation}
+					disabled={disabledObservation}
+				/>
+			</>
+		)
+	}
+)

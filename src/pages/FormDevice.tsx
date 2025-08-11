@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreateDevice'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { FormDeviceSkeletonLayout } from '@/entities/devices/devices/infra/ui/DeviceForm/DeviceFormLayoutSkeleton'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -38,7 +39,13 @@ export default function FormDevice() {
 	} = useCreateDevice()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout>
+					<FormDeviceSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del dispositivo el cual desea registar."
