@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { lazy, memo, Suspense } from 'react'
+import { memo } from 'react'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 import { Input } from '@/shared/ui/Input/Input'
 import { Checkbox } from '@/shared/ui/Checkbox'
 import { MemoryRamSlotQuantity } from '@/entities/model/models/domain/value-object/MemoryRamSlotQuantity'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+
 import { ProcessorTransferList } from '@/entities/devices/features/processor/infra/ui/ProcessorTransferList'
 // Types
 import {
@@ -15,13 +15,7 @@ import {
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-
-const MemoryRamTypeCombobox = lazy(() =>
-	import('@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox').then(m => ({
-		default: m.MemoryRamTypeCombobox
-	}))
-)
-
+import { MemoryRamTypeCombobox } from '@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox'
 interface AddModelComputerFeaturesProps {
 	/**
 	 * The current form data for the model.
@@ -49,6 +43,7 @@ interface AddModelComputerFeaturesProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -58,24 +53,32 @@ interface AddModelComputerFeaturesProps {
  * Bluetooth, Wi-Fi, battery model (for laptops), and processors.
  */
 export const AddModelComputerFeatures = memo(
-	({ handleChange, disabled, errors, formData, required }: AddModelComputerFeaturesProps) => {
+	({
+		handleChange,
+		disabled,
+		errors,
+		formData,
+		isLoading,
+		required
+	}: AddModelComputerFeaturesProps) => {
 		return (
 			<>
 				<div className="flex gap-4">
-					<Suspense fallback={<InputFallback />}>
-						<MemoryRamTypeCombobox
-							value={formData.memoryRamTypeId}
-							handleChange={(_name, value) => handleChange('memoryRamTypeId', value)}
-							name="memoryRamTypeId"
-							error={errors.memoryRamTypeId}
-							required={required.memoryRamTypeId}
-							disabled={disabled.memoryRamTypeId}
-						/>
-					</Suspense>
+					<MemoryRamTypeCombobox
+						value={formData.memoryRamTypeId}
+						handleChange={(_name, value) => handleChange('memoryRamTypeId', value)}
+						name="memoryRamTypeId"
+						error={errors.memoryRamTypeId}
+						required={required.memoryRamTypeId}
+						disabled={disabled.memoryRamTypeId}
+						isLoading={isLoading}
+					/>
+
 					<Input
 						id="memoryRamSlotQuantity"
 						value={formData.memoryRamSlotQuantity}
 						name="memoryRamSlotQuantity"
+						isLoading={isLoading}
 						type="number"
 						label="Cantidad de ranuras"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -140,6 +143,7 @@ export const AddModelComputerFeatures = memo(
 						id="batteryModel"
 						value={formData.batteryModel}
 						name="batteryModel"
+						isLoading={isLoading}
 						label="Número de modelo de bateria"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('batteryModel', e.target.value)
@@ -153,6 +157,7 @@ export const AddModelComputerFeatures = memo(
 				<ProcessorTransferList
 					value={formData.processors}
 					name="processors"
+					isLoading={isLoading}
 					onAddProcessor={handleChange}
 					onRemoveProcessor={handleChange}
 				/>

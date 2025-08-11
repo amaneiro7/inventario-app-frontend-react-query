@@ -28,6 +28,10 @@ interface EmployeeTypeComboboxProps {
 	 */
 	readonly?: boolean
 	/**
+	 * Whether the input is read-only.
+	 */
+	isLoading?: boolean
+	/**
 	 * Callback function triggered when the selected value changes.
 	 * @param name - The name of the input field.
 	 * @param value - The new selected value (employee type).
@@ -46,6 +50,7 @@ export function EmployeeTypeCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: EmployeeTypeComboboxProps) {
 	const options = useMemo(() => {
@@ -62,6 +67,7 @@ export function EmployeeTypeCombobox({
 				required={required}
 				disabled={disabled}
 				error={!!error}
+				isLoading={isLoading}
 				errorMessage={error}
 				searchField={false}
 				onChangeValue={handleChange}

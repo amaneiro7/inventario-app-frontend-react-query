@@ -149,6 +149,7 @@ interface MainEmployeeInfoProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -190,6 +191,7 @@ export const MainEmployeeInfo = memo(
 		employeeCodeError,
 		cedulaError,
 		typeError,
+		isLoading,
 		handleChange
 	}: MainEmployeeInfoProps) => {
 		const nacionalities = useMemo(() => {
@@ -208,6 +210,7 @@ export const MainEmployeeInfo = memo(
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('userName', e.target.value)
 					}
+					isLoading={isLoading}
 					readOnly={mode === 'edit'}
 					error={!!userNameError}
 					errorMessage={userNameError}
@@ -222,6 +225,7 @@ export const MainEmployeeInfo = memo(
 					disabled={typeDisabled}
 					error={typeError}
 					readonly={mode === 'edit'}
+					isLoading={isLoading}
 				/>
 				<Checkbox
 					value={isStillWorking}
@@ -240,6 +244,7 @@ export const MainEmployeeInfo = memo(
 						id="employee-name"
 						value={name ?? ''}
 						name="name"
+						isLoading={isLoading}
 						label="Nombres"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('name', e.target.value)
@@ -252,6 +257,7 @@ export const MainEmployeeInfo = memo(
 					<Input
 						id="employee-lastName"
 						value={lastName ?? ''}
+						isLoading={isLoading}
 						name="lastName"
 						label="Apellidos"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -267,6 +273,7 @@ export const MainEmployeeInfo = memo(
 					id="employee-email"
 					value={email ?? ''}
 					name="email"
+					isLoading={isLoading}
 					label="Correo electrónico"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('email', e.target.value)
@@ -282,6 +289,7 @@ export const MainEmployeeInfo = memo(
 						value={employeeCode ?? ''}
 						name="employeeCode"
 						label="Código de empleado"
+						isLoading={isLoading}
 						type="number"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('employeeCode', e.target.value)
@@ -299,6 +307,7 @@ export const MainEmployeeInfo = memo(
 						value={cedula ?? ''}
 						name="cedula"
 						label="Cédula de Identidad"
+						isLoading={isLoading}
 						type="number"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('cedula', e.target.value)

@@ -6,6 +6,7 @@ import { BrushIcon } from '@/shared/ui/icon/BrushIcon'
 import { type DefaultEmployee } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 
 interface PhoneSectionProps {
+	isLoading: boolean
 	/**
 	 * An array of phone numbers for the employee.
 	 */
@@ -65,6 +66,7 @@ export const PhoneSection = ({
 	handleClearFirstPhone,
 	handlePhoneChange,
 	handleRemovePhones,
+	isLoading,
 	phones,
 	phoneSegments
 }: PhoneSectionProps) => {
@@ -91,6 +93,7 @@ export const PhoneSection = ({
 			{phoneSegments.map(({ numero, operadora }, index) => (
 				<div key={index} className="flex items-center gap-2">
 					<PhoneInput
+						isLoading={isLoading}
 						index={index}
 						numero={numero}
 						operadora={operadora}

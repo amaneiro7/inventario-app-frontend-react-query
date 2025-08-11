@@ -21,6 +21,7 @@ export const HardDriveCapacityCombobox = memo(function ({
 	error = '',
 	required = false,
 	disabled = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -28,9 +29,10 @@ export const HardDriveCapacityCombobox = memo(function ({
 	error?: string
 	required?: boolean
 	disabled?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { data, isLoading } = useGetAllHardDriveCapacity({})
+	const { data, isLoading: loading } = useGetAllHardDriveCapacity({})
 
 	const options = useMemo(() => {
 		return (
@@ -48,7 +50,8 @@ export const HardDriveCapacityCombobox = memo(function ({
 				label="Disco Duro"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

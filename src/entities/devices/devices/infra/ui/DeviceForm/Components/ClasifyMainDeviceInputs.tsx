@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -7,36 +7,14 @@ import {
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-
-const StatusCombobox = lazy(() =>
-	import('@/entities/status/status/infra/ui/StatusComboBox').then(m => ({
-		default: m.StatusCombobox
-	}))
-)
-const MainCategoryCombobox = lazy(() =>
-	import('@/entities/mainCategory/infra/ui/MainCategoryComboBox').then(m => ({
-		default: m.MainCategoryCombobox
-	}))
-)
-const CategoryCombobox = lazy(() =>
-	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
-		default: m.CategoryCombobox
-	}))
-)
-const BrandCombobox = lazy(() =>
-	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({
-		default: m.BrandCombobox
-	}))
-)
-const ModelCombobox = lazy(() =>
-	import('@/entities/model/models/infra/ui/ModelComboBox').then(m => ({
-		default: m.ModelCombobox
-	}))
-)
-
-interface Props {
+import { StatusCombobox } from '@/entities/status/status/infra/ui/StatusComboBox'
+import { MainCategoryCombobox } from '@/entities/mainCategory/infra/ui/MainCategoryComboBox'
+import { CategoryCombobox } from '@/entities/category/infra/ui/CategoryComboBox'
+import { BrandCombobox } from '@/entities/brand/infra/ui/BrandComboBox'
+import { ModelCombobox } from '@/entities/model/models/infra/ui/ModelComboBox'
+interface ClasifyMainDeviceInputsProps {
 	mode: FormMode
+	isLoading: boolean
 	statusId: DefaultDevice['statusId']
 	mainCategoryId: DefaultDevice['mainCategoryId']
 	categoryId: DefaultDevice['categoryId']
@@ -71,92 +49,96 @@ interface Props {
 	}) => Promise<void>
 }
 
-export const ClasifyMainDeviceInputs = memo(function ({
-	mode,
-	statusId,
-	mainCategoryId,
-	categoryId,
-	brandId,
-	modelId,
-	errorStatusId,
-	errorMainCategoryId,
-	errorCategoryId,
-	errorBrandId,
-	errorModelId,
-	disabledStatusId,
-	disabledMainCategoryId,
-	disabledCategoryId,
-	disabledBrandId,
-	disabledModelId,
-	requiredStatusId,
-	requiredMainCategoryId,
-	requiredCategoryId,
-	requiredBrandId,
-	requiredModelId,
-	handleChange,
-	handleModel
-}: Props) {
-	return (
-		<>
-			<Suspense fallback={<InputFallback />}>
+export const ClasifyMainDeviceInputs = memo(
+	({
+		mode,
+		isLoading,
+		statusId,
+		mainCategoryId,
+		categoryId,
+		brandId,
+		modelId,
+		errorStatusId,
+		errorMainCategoryId,
+		errorCategoryId,
+		errorBrandId,
+		errorModelId,
+		disabledStatusId,
+		disabledMainCategoryId,
+		disabledCategoryId,
+		disabledBrandId,
+		disabledModelId,
+		requiredStatusId,
+		requiredMainCategoryId,
+		requiredCategoryId,
+		requiredBrandId,
+		requiredModelId,
+		handleChange,
+		handleModel
+	}: ClasifyMainDeviceInputsProps) => {
+		return (
+			<>
 				<StatusCombobox
 					value={statusId}
 					handleChange={(_name, value) => handleChange('statusId', value)}
 					name="statusId"
+					isLoading={isLoading}
 					error={errorStatusId}
 					required={requiredStatusId}
 					disabled={disabledStatusId}
 				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
+
 				<MainCategoryCombobox
 					value={mainCategoryId}
 					handleChange={(_name, value) => handleChange('mainCategoryId', value)}
 					name="mainCategoryId"
+					isLoading={isLoading}
 					error={errorMainCategoryId}
 					required={requiredMainCategoryId}
 					disabled={disabledMainCategoryId}
 					readonly={mode === 'edit'}
 				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
+
 				<CategoryCombobox
 					value={categoryId}
 					handleChange={(_name, value) => handleChange('categoryId', value)}
 					mainCategoryId={mainCategoryId}
 					name="categoryId"
+					isLoading={isLoading}
 					error={errorCategoryId}
 					required={requiredCategoryId}
 					disabled={disabledCategoryId}
 					readonly={mode === 'edit'}
 				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
+
 				<BrandCombobox
 					value={brandId}
 					handleChange={(_name, value) => handleChange('brandId', value)}
 					name="brandId"
+					isLoading={isLoading}
 					error={errorBrandId}
 					required={requiredBrandId}
 					disabled={disabledBrandId}
 					categoryId={categoryId}
 					readonly={mode === 'edit'}
 				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
+
 				<ModelCombobox
 					value={modelId}
 					handleFormChange={handleModel}
 					brandId={brandId}
 					categoryId={categoryId}
 					name="modelId"
+					isLoading={isLoading}
 					method="form"
 					readonly={mode === 'edit'}
 					error={errorModelId}
 					required={requiredModelId}
 					disabled={disabledModelId}
 				/>
-			</Suspense>
-		</>
-	)
-})
+			</>
+		)
+	}
+)
+
+ClasifyMainDeviceInputs.displayName = 'ClasifyMainDeviceInputs'

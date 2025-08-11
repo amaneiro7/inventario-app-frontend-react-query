@@ -27,6 +27,7 @@ interface StatusComboboxProps {
 	 * Whether the input is read-only.
 	 */
 	readonly?: boolean
+	isLoading?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
 	 * @param name - The name of the input field.
@@ -46,9 +47,10 @@ export function StatusCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: StatusComboboxProps) {
-	const { data, isLoading } = useGetAllStatus({})
+	const { data, isLoading: loading } = useGetAllStatus({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -59,7 +61,8 @@ export function StatusCombobox({
 				label="Estatus"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

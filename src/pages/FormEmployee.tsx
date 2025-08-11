@@ -79,7 +79,6 @@ export default function FormEmployee() {
 							isAddForm={mode === 'add'}
 							handleSubmit={handleSubmit}
 							isError={isError}
-							isLoading={isLoading}
 							isNotFound={isNotFound}
 							onRetry={onRetry}
 							searchInput={<EmployeeSearch />}
@@ -92,6 +91,7 @@ export default function FormEmployee() {
 								errors={errors}
 								required={required}
 								disabled={disabled}
+								isLoading={isLoading}
 								mode={mode}
 								handleChange={handleChange}
 								handleAddPhones={handleAddPhones}

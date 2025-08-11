@@ -11,6 +11,7 @@ export function CentroCostoCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -19,6 +20,7 @@ export function CentroCostoCombobox({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -33,7 +35,7 @@ export function CentroCostoCombobox({
 		}
 	}, [debouncedSearch, value])
 
-	const { data, isLoading } = useGetAllCentroCosto(query)
+	const { data, isLoading: loading } = useGetAllCentroCosto(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -57,7 +59,8 @@ export function CentroCostoCombobox({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				isLoading={isLoading}
+				loading={loading}
 				options={options}
 				displayAccessor={displayAccessorFunction}
 				onInputChange={setInputValue}

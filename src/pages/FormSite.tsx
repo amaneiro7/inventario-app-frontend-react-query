@@ -37,7 +37,6 @@ export default function FormSite() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -51,6 +50,7 @@ export default function FormSite() {
 					handleChange={handleChange}
 					errors={errors}
 					mode={mode}
+					isLoading={isLoading}
 				/>
 			</FormLayout>
 		</Suspense>

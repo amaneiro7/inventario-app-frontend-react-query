@@ -253,6 +253,18 @@
 	border-radius: 0.25rem;
 }
 
+.inputBox .inputArea.isLoading {
+	background-color: var(--bg-color-disabled);
+	animation: skeleton-loading 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	color: transparent;
+}
+
+@keyframes skeleton-loading {
+	50% {
+		opacity: 0.5;
+	}
+}
+
 .inputBox fieldset {
 	text-align: left;
 	position: absolute;

@@ -17,6 +17,7 @@ import {
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 
 interface AdditionalEmployeeInfoProps {
+	isLoading: boolean
 	/**
 	 * The ID of the employee's location.
 	 */
@@ -165,6 +166,7 @@ export const AdditionalEmployeeInfo = memo(
 		handleClearFirstPhone,
 		handlePhoneChange,
 		handleRemovePhones,
+		isLoading,
 		cargoId,
 		departamentoId,
 		directivaId,
@@ -199,6 +201,7 @@ export const AdditionalEmployeeInfo = memo(
 					handleChange={(_name, value) => handleChange('locationId', value)}
 					name="locationId"
 					method="search"
+					isLoading={isLoading}
 					statusId={StatusOptions.INUSE} // se coloca asi para que solo aparaceran las ubicaciones de agencia y torres
 					required={locationIdRequired}
 					disabled={locationIdDisabled}
@@ -207,6 +210,7 @@ export const AdditionalEmployeeInfo = memo(
 					value={directivaId ?? ''}
 					handleChange={(_name, value) => handleChange('directivaId', value)}
 					name="directivaId"
+					isLoading={isLoading}
 					required={directivaIdRequired}
 					disabled={directivaIdDisabled}
 				/>
@@ -216,6 +220,7 @@ export const AdditionalEmployeeInfo = memo(
 						handleChange('vicepresidenciaEjecutivaId', value)
 					}
 					name="vicepresidenciaEjecutivaId"
+					isLoading={isLoading}
 					directivaId={directivaId ?? ''}
 					required={vicepresidenciaEjecutivaIdRequired}
 					disabled={vicepresidenciaEjecutivaIdDisabled}
@@ -227,6 +232,7 @@ export const AdditionalEmployeeInfo = memo(
 					name="vicepresidenciaId"
 					required={vicepresidenciaIdRequired}
 					disabled={vicepresidenciaIdDisabled}
+					isLoading={isLoading}
 				/>
 				<DepartamentoCombobox
 					value={departamentoId ?? ''}
@@ -235,6 +241,7 @@ export const AdditionalEmployeeInfo = memo(
 					name="departamentoId"
 					required={departamentoIdRequired}
 					disabled={departamentoIdDisabled}
+					isLoading={isLoading}
 				/>
 				<CargoCombobox
 					value={cargoId ?? ''}
@@ -246,6 +253,7 @@ export const AdditionalEmployeeInfo = memo(
 					departamentoId={departamentoId ?? ''}
 					required={cargoIdRequired}
 					disabled={cargoIdDisabled}
+					isLoading={isLoading}
 				/>
 
 				<PhoneSection
@@ -255,6 +263,7 @@ export const AdditionalEmployeeInfo = memo(
 					handleRemovePhones={handleRemovePhones}
 					phones={phone}
 					phoneSegments={phoneSegments}
+					isLoading={isLoading}
 				/>
 				<ExtensionSection
 					handleAddPhones={handleAddPhones}
@@ -263,6 +272,7 @@ export const AdditionalEmployeeInfo = memo(
 					handleRemovePhones={handleRemovePhones}
 					extension={extension}
 					extensionSegments={extensionSegments}
+					isLoading={isLoading}
 				/>
 			</div>
 		)

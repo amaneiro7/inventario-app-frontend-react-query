@@ -30,10 +30,11 @@ interface ExtensionSectionProps {
 		type: 'clearPhone' | 'clearExtension'
 		index: number
 	}) => void
+	isLoading: boolean
 	/**
 	 * Callback function to handle changes in phone number or extension segments.
 	 * @param params - An object specifying the type, index, and new value of the segment.
-		 */
+	 */
 	handlePhoneChange: ({
 		type,
 		index,
@@ -66,7 +67,8 @@ export const ExtensionSection = ({
 	handlePhoneChange,
 	handleRemovePhones,
 	extension,
-	extensionSegments
+	extensionSegments,
+	isLoading
 }: ExtensionSectionProps) => {
 	const addPhoneButtonText = 'Agregar otra extensión'
 	const removePhoneButtonTitle = 'Eliminar extensión'
@@ -93,6 +95,7 @@ export const ExtensionSection = ({
 					<ExtensionInput
 						index={index}
 						numero={numero}
+						isLoading={isLoading}
 						operadora={operadora}
 						handlePhoneChange={handlePhoneChange}
 					/>

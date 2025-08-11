@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { lazy, memo, Suspense } from 'react'
+import { memo } from 'react'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+
 // Types
 import {
 	type Action,
@@ -11,12 +11,7 @@ import {
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-
-const InputTypeCombobox = lazy(() =>
-	import('@/entities/model/inputType/infra/ui/InputTypeComboBox').then(m => ({
-		default: m.InputTypeCombobox
-	}))
-)
+import { InputTypeCombobox } from '@/entities/model/inputType/infra/ui/InputTypeComboBox'
 
 interface AddModelKeyboardFeaturesProps {
 	/**
@@ -45,6 +40,7 @@ interface AddModelKeyboardFeaturesProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -52,20 +48,26 @@ interface AddModelKeyboardFeaturesProps {
  * specific to keyboard models. It includes fields for input type and a checkbox for fingerprint reader.
  */
 export const AddModelKeyboardFeatures = memo(
-	({ handleChange, disabled, errors, formData, required }: AddModelKeyboardFeaturesProps) => {
+	({
+		handleChange,
+		disabled,
+		errors,
+		formData,
+		isLoading,
+		required
+	}: AddModelKeyboardFeaturesProps) => {
 		return (
 			<>
 				<div className="flex gap-4">
-					<Suspense fallback={<InputFallback />}>
-						<InputTypeCombobox
-							value={formData.inputTypeId}
-							handleChange={(_name, value) => handleChange('inputTypeId', value)}
-							name="inputTypeId"
-							error={errors.inputTypeId}
-							required={required.inputTypeId}
-							disabled={disabled.inputTypeId}
-						/>
-					</Suspense>
+					<InputTypeCombobox
+						value={formData.inputTypeId}
+						handleChange={(_name, value) => handleChange('inputTypeId', value)}
+						name="inputTypeId"
+						isLoading={isLoading}
+						error={errors.inputTypeId}
+						required={required.inputTypeId}
+						disabled={disabled.inputTypeId}
+					/>
 
 					<Checkbox
 						label="Tiene lector de huella"

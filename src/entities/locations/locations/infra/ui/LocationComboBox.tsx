@@ -20,6 +20,7 @@ interface BaseProps {
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 }
 interface SearchProps extends BaseProps {
 	method: 'search'
@@ -71,6 +72,7 @@ export const LocationCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	typeOfSiteId,
 	siteId,
 	statusId,
@@ -108,7 +110,7 @@ export const LocationCombobox = memo(function ({
 		administrativeRegionId
 	])
 
-	const { data, isLoading } = useGetAllLocations(query)
+	const { data, isLoading: loading } = useGetAllLocations(query)
 	const options = useMemo(() => data?.data ?? [], [data])
 
 	const handleChangeValue = useCallback(
@@ -138,7 +140,8 @@ export const LocationCombobox = memo(function ({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				onChangeValue={handleChangeValue}
 				onInputChange={setInputValue}

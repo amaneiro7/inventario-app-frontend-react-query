@@ -1,6 +1,8 @@
 import { memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-
+import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
+import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
 import {
 	type VicepresidenciaDisabled,
 	type Action,
@@ -9,9 +11,6 @@ import {
 	type VicepresidenciaRequired
 } from '@/entities/employee/vicepresidencia/infra/reducers/vicepresidenciaFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
-import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
 
 interface Props {
 	/**
@@ -40,6 +39,7 @@ interface Props {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: string | number) => void
+	isLoading: boolean
 }
 
 /**
@@ -53,6 +53,7 @@ export const VicepresidenciasInputs = memo(function ({
 	formData,
 	disabled,
 	mode,
+	isLoading,
 	handleChange
 }: Props) {
 	return (
@@ -64,6 +65,7 @@ export const VicepresidenciasInputs = memo(function ({
 				required={required.directivaId}
 				disabled={disabled.directivaId}
 				readonly={mode === 'edit'}
+				isLoading={isLoading}
 			/>
 			<VicepresidenciaEjecutivaCombobox
 				value={formData.vicepresidenciaEjecutivaId}
@@ -72,11 +74,13 @@ export const VicepresidenciasInputs = memo(function ({
 				readonly={mode === 'edit'}
 				required={required.vicepresidenciaEjecutivaId}
 				directivaId={formData.directivaId}
+				isLoading={isLoading}
 			/>
 			<Input
 				id="vicepresidencia-name"
 				value={formData.name}
 				name="name"
+				isLoading={isLoading}
 				label="Nombre de la vicepresidencia "
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('name', e.target.value)
@@ -88,6 +92,7 @@ export const VicepresidenciasInputs = memo(function ({
 			<CargoTransferList
 				value={formData.cargos}
 				name="cargos"
+				isLoading={isLoading}
 				onAddCargo={handleChange}
 				onRemoveCargo={handleChange}
 				required={required.cargos}

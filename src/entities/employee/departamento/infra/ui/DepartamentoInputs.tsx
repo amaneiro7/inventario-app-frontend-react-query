@@ -1,5 +1,9 @@
 import { memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
+import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
+import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
+import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+import { VicepresidenciaCombobox } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox'
 import {
 	type Action,
 	type DepartamentoErrors,
@@ -8,10 +12,6 @@ import {
 	type DepartamentoDisabled
 } from '@/entities/employee/departamento/infra/reducers/departamentoFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
-import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
-import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-import { VicepresidenciaCombobox } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox'
 
 interface DepartamentoInputsProps {
 	/**
@@ -33,6 +33,7 @@ interface DepartamentoInputsProps {
 	/**
 	 * The current mode of the form (e.g., 'add' or 'edit').
 	 */
+	isLoading: boolean
 	mode: FormMode
 	/**
 	 * Callback function to handle changes in form input fields.
@@ -48,7 +49,15 @@ interface DepartamentoInputsProps {
  * and vicepresidencia, a text input for the departamento name, and a transfer list for cargos.
  */
 export const DepartamentoInputs = memo(
-	({ errors, mode, required, disabled, formData, handleChange }: DepartamentoInputsProps) => {
+	({
+		errors,
+		mode,
+		required,
+		disabled,
+		formData,
+		isLoading = false,
+		handleChange
+	}: DepartamentoInputsProps) => {
 		return (
 			<>
 				<DirectivaCombobox
@@ -58,6 +67,7 @@ export const DepartamentoInputs = memo(
 					required={required.directivaId}
 					disabled={disabled.directivaId}
 					readonly={mode === 'edit'}
+					isLoading={isLoading}
 				/>
 				<div className="flex gap-4">
 					<VicepresidenciaEjecutivaCombobox
@@ -70,6 +80,7 @@ export const DepartamentoInputs = memo(
 						required={required.vicepresidenciaEjecutivaId}
 						disabled={disabled.vicepresidenciaEjecutivaId}
 						readonly={mode === 'edit'}
+						isLoading={isLoading}
 					/>
 					<VicepresidenciaCombobox
 						value={formData.vicepresidenciaId}
@@ -79,6 +90,7 @@ export const DepartamentoInputs = memo(
 						required={required.vicepresidenciaId}
 						disabled={disabled.vicepresidenciaId}
 						readonly={mode === 'edit'}
+						isLoading={isLoading}
 					/>
 				</div>
 				<Input
@@ -93,6 +105,7 @@ export const DepartamentoInputs = memo(
 					errorMessage={errors?.name}
 					required={required.name}
 					disabled={disabled.name}
+					isLoading={isLoading}
 				/>
 				<CargoTransferList
 					value={formData.cargos}
@@ -101,6 +114,7 @@ export const DepartamentoInputs = memo(
 					onRemoveCargo={handleChange}
 					required={required.cargos}
 					disabled={disabled.cargos}
+					isLoading={isLoading}
 				/>
 			</>
 		)

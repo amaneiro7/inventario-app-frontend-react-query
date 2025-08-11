@@ -7,6 +7,7 @@ interface InputProps<T extends string | number | readonly string[]>
 	label: string
 	value: T
 	error?: boolean
+	isLoading?: boolean
 	name: string
 	valid?: boolean
 	transform?: boolean
@@ -25,6 +26,7 @@ export const Input = memo(
 		valid,
 		errorMessage,
 		required = false,
+		isLoading = false,
 		readOnly = false,
 		disabled = false,
 		transform = false,
@@ -47,6 +49,7 @@ export const Input = memo(
 				name={name}
 				error={error}
 				valid={valid}
+				isLoading={isLoading}
 				transform={transform}
 				errorMessage={errorMessage}
 				required={required}

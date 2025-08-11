@@ -30,6 +30,10 @@ interface CargoTransferListProps {
 	/**
 	 * Whether the input is read-only.
 	 */
+	isLoading?: boolean
+	/**
+	 * Whether the input is loading.
+	 */
 	readonly?: boolean
 	/**
 	 * Callback function triggered when a cargo is added to the list.
@@ -57,11 +61,12 @@ export function CargoTransferList({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	onAddCargo,
 	onRemoveCargo
 }: CargoTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { data: allCargos, isLoading } = useGetAllCargo({})
+	const { data: allCargos, isLoading: loading } = useGetAllCargo({})
 
 	const availableOptions = useMemo(
 		() => allCargos?.data?.filter(cargo => !cargos.includes(cargo.id)) ?? [],
@@ -96,7 +101,8 @@ export function CargoTransferList({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={filteredOptions}
 				onInputChange={setInputValue}
 				onChangeValue={(_name, value) => handleAddCargo(value)}
@@ -112,6 +118,7 @@ export function CargoTransferList({
 							const cargo = allCargos?.data?.find(c => c.id === cargoId)
 							return (
 								<TransferListItem
+									isLoading={isLoading}
 									key={cargoId}
 									id={cargoId}
 									name={cargo?.name}

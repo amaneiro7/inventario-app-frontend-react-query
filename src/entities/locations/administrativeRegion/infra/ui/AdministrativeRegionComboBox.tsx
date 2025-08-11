@@ -9,6 +9,7 @@ export const AdministrativeRegionCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -17,9 +18,10 @@ export const AdministrativeRegionCombobox = memo(function ({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { data, isLoading } = useGetAllAdministrativeRegion({})
+	const { data, isLoading: loading } = useGetAllAdministrativeRegion({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -30,7 +32,8 @@ export const AdministrativeRegionCombobox = memo(function ({
 				label="Región Administrativa"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

@@ -36,7 +36,6 @@ export default function FormCity() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -45,6 +44,7 @@ export default function FormCity() {
 				searchInput={<CitySearch />}
 			>
 				<CityInputs
+					isLoading={isLoading}
 					required={required}
 					formData={formData}
 					handleChange={handleChange}

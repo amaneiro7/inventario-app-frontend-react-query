@@ -40,7 +40,6 @@ export default function FormProcessor() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -48,7 +47,12 @@ export default function FormProcessor() {
 				border
 				searchInput={<ProcessorSearch />}
 			>
-				<ProcessorInputs formData={formData} handleChange={handleChange} errors={errors} />
+				<ProcessorInputs
+					isLoading={isLoading}
+					formData={formData}
+					handleChange={handleChange}
+					errors={errors}
+				/>
 			</FormLayout>
 		</Suspense>
 	)

@@ -29,40 +29,47 @@ interface MemoryRamTypeComboboxProps {
 	 * @param value - The new selected value (memory RAM type ID).
 	 */
 	handleChange: (name: string, value: string | number) => void
+	isLoading?: boolean
 }
 
 /**
  * `MemoryRamTypeCombobox` is a memoized functional component that provides a searchable combobox for selecting memory RAM types.
  * It fetches memory RAM type data and displays it in a dropdown.
  */
-export const MemoryRamTypeCombobox = memo(function ({
-	value = '',
-	name,
-	error = '',
-	required = false,
-	disabled = false,
-	handleChange
-}: MemoryRamTypeComboboxProps) {
-	const { data: memoryRamTypes, isLoading } = useGetAllMemoryRamType({})
+export const MemoryRamTypeCombobox = memo(
+	({
+		value = '',
+		name,
+		error = '',
+		required = false,
+		disabled = false,
+		isLoading = false,
+		handleChange
+	}: MemoryRamTypeComboboxProps) => {
+		const { data: memoryRamTypes, isLoading: loading } = useGetAllMemoryRamType({})
 
-	const options = useMemo(() => memoryRamTypes?.data ?? [], [memoryRamTypes])
+		const options = useMemo(() => memoryRamTypes?.data ?? [], [memoryRamTypes])
 
-	return (
-		<>
-			<Combobox
-				id="MemoryRamType"
-				label="Tipo de memoria"
-				value={value}
-				name={name}
-				loading={isLoading}
-				options={options}
-				required={required}
-				disabled={disabled}
-				error={!!error}
-				errorMessage={error}
-				searchField={false}
-				onChangeValue={handleChange}
-			/>
-		</>
-	)
-})
+		return (
+			<>
+				<Combobox
+					id="MemoryRamType"
+					label="Tipo de memoria"
+					value={value}
+					name={name}
+					loading={loading}
+					isLoading={isLoading}
+					options={options}
+					required={required}
+					disabled={disabled}
+					error={!!error}
+					errorMessage={error}
+					searchField={false}
+					onChangeValue={handleChange}
+				/>
+			</>
+		)
+	}
+)
+
+MemoryRamTypeCombobox.displayName = 'MemoryRamTypeCombobox'

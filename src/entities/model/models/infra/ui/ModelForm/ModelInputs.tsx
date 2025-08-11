@@ -3,8 +3,9 @@ import { lazy, memo, Suspense } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-
+import { MainCategoryCombobox } from '@/entities/mainCategory/infra/ui/MainCategoryComboBox'
+import { CategoryCombobox } from '@/entities/category/infra/ui/CategoryComboBox'
+import { BrandCombobox } from '@/entities/brand/infra/ui/BrandComboBox'
 import {
 	type Action,
 	type DefaultModel,
@@ -18,19 +19,6 @@ const AddtionalModelFeatures = lazy(() =>
 	import('@/entities/model/models/infra/ui/ModelFeatures/AdditionalModelFeatures').then(m => ({
 		default: m.AddtionalModelFeatures
 	}))
-)
-const MainCategoryCombobox = lazy(() =>
-	import('@/entities/mainCategory/infra/ui/MainCategoryComboBox').then(m => ({
-		default: m.MainCategoryCombobox
-	}))
-)
-const CategoryCombobox = lazy(() =>
-	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
-		default: m.CategoryCombobox
-	}))
-)
-const BrandCombobox = lazy(() =>
-	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({ default: m.BrandCombobox }))
 )
 
 interface ModelInputsProps {
@@ -60,6 +48,7 @@ interface ModelInputsProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -74,6 +63,7 @@ export const ModelInputs = memo(function ({
 	required,
 	formData,
 	mode,
+	isLoading,
 	handleChange
 }: ModelInputsProps) {
 	return (
@@ -83,40 +73,38 @@ export const ModelInputs = memo(function ({
 					<Typography color="azul" variant="h4">
 						Clasificación del dispositivo
 					</Typography>
-					<Suspense fallback={<InputFallback />}>
-						<MainCategoryCombobox
-							value={formData.mainCategoryId}
-							handleChange={(_name, value) => handleChange('mainCategoryId', value)}
-							name="mainCategoryId"
-							error={errors.mainCategoryId}
-							required={required.mainCategoryId}
-							disabled={disabled.mainCategoryId}
-							readonly={mode === 'edit'}
-						/>
-					</Suspense>
-					<Suspense fallback={<InputFallback />}>
-						<CategoryCombobox
-							value={formData.categoryId}
-							handleChange={(_name, value) => handleChange('categoryId', value)}
-							mainCategoryId={formData.mainCategoryId}
-							name="categoryId"
-							error={errors.categoryId}
-							required={required.categoryId}
-							disabled={disabled.categoryId}
-							readonly={mode === 'edit'}
-						/>
-					</Suspense>
-					<Suspense fallback={<InputFallback />}>
-						<BrandCombobox
-							value={formData.brandId}
-							handleChange={(_name, value) => handleChange('brandId', value)}
-							name="brandId"
-							error={errors.brandId}
-							required={required.brandId}
-							disabled={disabled.brandId}
-							readonly={mode === 'edit'}
-						/>
-					</Suspense>
+
+					<MainCategoryCombobox
+						value={formData.mainCategoryId}
+						handleChange={(_name, value) => handleChange('mainCategoryId', value)}
+						name="mainCategoryId"
+						error={errors.mainCategoryId}
+						required={required.mainCategoryId}
+						disabled={disabled.mainCategoryId}
+						readonly={mode === 'edit'}
+						isLoading={isLoading}
+					/>
+					<CategoryCombobox
+						value={formData.categoryId}
+						handleChange={(_name, value) => handleChange('categoryId', value)}
+						mainCategoryId={formData.mainCategoryId}
+						name="categoryId"
+						error={errors.categoryId}
+						required={required.categoryId}
+						disabled={disabled.categoryId}
+						readonly={mode === 'edit'}
+						isLoading={isLoading}
+					/>
+					<BrandCombobox
+						value={formData.brandId}
+						handleChange={(_name, value) => handleChange('brandId', value)}
+						name="brandId"
+						error={errors.brandId}
+						required={required.brandId}
+						disabled={disabled.brandId}
+						readonly={mode === 'edit'}
+						isLoading={isLoading}
+					/>
 				</div>
 				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
@@ -126,6 +114,7 @@ export const ModelInputs = memo(function ({
 						id="model-name"
 						value={formData.name}
 						name="name"
+						isLoading={isLoading}
 						label="Nombre del modelo"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('name', e.target.value)
@@ -155,6 +144,7 @@ export const ModelInputs = memo(function ({
 					required={required}
 					disabled={disabled}
 					handleChange={handleChange}
+					isLoading={isLoading}
 				/>
 			</Suspense>
 		</div>

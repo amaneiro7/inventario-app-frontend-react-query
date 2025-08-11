@@ -37,7 +37,6 @@ export default function FormCargo() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -47,6 +46,7 @@ export default function FormCargo() {
 				searchInput={<CargoSearch />}
 			>
 				<CargoInputs
+					isLoading={isLoading}
 					required={required}
 					formData={formData}
 					disabled={disabled}

@@ -29,6 +29,7 @@ interface Props {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: string | number) => void
+	isLoading: boolean
 }
 
 /**
@@ -40,6 +41,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 	errors,
 	required,
 	formData,
+	isLoading,
 	handleChange
 }: Props) {
 	return (
@@ -48,12 +50,14 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 				value={formData.directivaId}
 				handleChange={(_name, value) => handleChange('directivaId', value)}
 				name="directivaId"
+				isLoading={isLoading}
 				required={required.directivaId}
 			/>
 			<Input
 				id="vicepresidencia-ejecutiva-search-name"
 				value={formData.name}
 				name="name"
+				isLoading={isLoading}
 				label="Nombre de la vicepresidencia ejecutiva"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('name', e.target.value)
@@ -65,6 +69,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 			<CargoTransferList
 				value={formData.cargos}
 				name="cargos"
+				isLoading={isLoading}
 				onAddCargo={handleChange}
 				onRemoveCargo={handleChange}
 				required={required.cargos}

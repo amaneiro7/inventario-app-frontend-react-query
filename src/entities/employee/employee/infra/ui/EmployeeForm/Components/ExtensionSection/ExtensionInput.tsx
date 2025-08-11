@@ -28,6 +28,7 @@ interface ExtensionInputProps {
 		index: number
 		value: string
 	}) => void
+	isLoading: boolean
 }
 
 /**
@@ -36,7 +37,7 @@ interface ExtensionInputProps {
  * It integrates with the `useExtension` hook for validation and change handling.
  */
 export const ExtensionInput = memo(
-	({ operadora, numero, index, handlePhoneChange }: ExtensionInputProps) => {
+	({ operadora, numero, index, isLoading, handlePhoneChange }: ExtensionInputProps) => {
 		const { codAreaGroupBy, errorMessage, handleNumeroChange, handleOperadoraChange, isError } =
 			useExtension({ operadora, numero, index, handlePhoneChange })
 
@@ -50,6 +51,7 @@ export const ExtensionInput = memo(
 				pattern="[0-9]{7}"
 				inputMode="numeric"
 				onChange={handleNumeroChange}
+				isLoading={isLoading}
 				error={isError}
 				errorMessage={errorMessage}
 				selectInput={

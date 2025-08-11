@@ -41,7 +41,6 @@ export default function FormCentroTrabajo() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -51,6 +50,7 @@ export default function FormCentroTrabajo() {
 				searchInput={<CentroTrabajoSearch />}
 			>
 				<CentroTrabajoInputs
+					isLoading={isLoading}
 					required={required}
 					formData={formData}
 					disabled={disabled}

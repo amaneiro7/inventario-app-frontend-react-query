@@ -26,6 +26,7 @@ interface EmployeeComboboxProps {
 	 * Whether the input is disabled.
 	 */
 	disabled?: boolean
+	isLoading?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
 	 * @param name - The name of the input field.
@@ -44,6 +45,7 @@ export const EmployeeCombobox = memo(function ({
 	error = '',
 	required = false,
 	disabled = false,
+	isLoading = false,
 	handleChange
 }: EmployeeComboboxProps) {
 	const [inputValue, setInputValue] = useState('')
@@ -64,7 +66,7 @@ export const EmployeeCombobox = memo(function ({
 	}, [debouncedLocalSearch, value])
 
 	// Fetch employee data based on the constructed query
-	const { data, isLoading } = useGetAllEmployees(query)
+	const { data, isLoading: loading } = useGetAllEmployees(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -80,7 +82,8 @@ export const EmployeeCombobox = memo(function ({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				onChangeValue={handleChange}
 				onInputChange={setInputValue}

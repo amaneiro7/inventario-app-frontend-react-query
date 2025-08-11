@@ -1,32 +1,35 @@
-import { lazy, memo } from 'react'
+import { memo } from 'react'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 
-const Input = lazy(
-	async () => await import('@/shared/ui/Input/Input').then(m => ({ default: m.Input }))
-)
-
-interface Props {
+interface AddMFPFeaturesProps {
 	error: DevicesErrors['ipAddress']
 	ipAddress: DefaultDevice['ipAddress']
+	isLoading: boolean
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
-export const AddMFPFeatures = memo(function ({ ipAddress, error, handleChange }: Props) {
-	return (
-		<Input
-			id="mfp-ipaddress"
-			value={ipAddress ?? ''}
-			name="ipAddress"
-			label="Dirección IP"
-			onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-				handleChange('ipAddress', e.target.value)
-			}
-			error={!!error}
-			errorMessage={error}
-		/>
-	)
-})
+export const AddMFPFeatures = memo(
+	({ ipAddress, error, isLoading, handleChange }: AddMFPFeaturesProps) => {
+		return (
+			<Input
+				id="mfp-ipaddress"
+				value={ipAddress ?? ''}
+				name="ipAddress"
+				isLoading={isLoading}
+				label="Dirección IP"
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+					handleChange('ipAddress', e.target.value)
+				}
+				error={!!error}
+				errorMessage={error}
+			/>
+		)
+	}
+)
+
+AddMFPFeatures.displayName = 'AddMFPFeatures'

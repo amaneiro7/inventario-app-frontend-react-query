@@ -40,7 +40,6 @@ export default function FormRegion() {
 				isAddForm
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -52,6 +51,7 @@ export default function FormRegion() {
 				{mode === 'edit' && (
 					<RegionInputs
 						required={required}
+						isLoading={isLoading}
 						formData={formData}
 						disabled={disabled}
 						handleChange={handleChange}

@@ -13,6 +13,7 @@ interface ProcessorTransferListProps {
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	onAddProcessor: (name: 'addProcessor', value: string) => void
 	onRemoveProcessor: (name: 'removeProcessor', value: string) => void
 }
@@ -24,11 +25,12 @@ export function ProcessorTransferList({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	onAddProcessor,
 	onRemoveProcessor
 }: ProcessorTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { data: allProcessors, isLoading } = useGetAllProcessor({})
+	const { data: allProcessors, isLoading: loading } = useGetAllProcessor({})
 
 	const availableOptions = useMemo(
 		() => allProcessors?.data?.filter(processor => !processors.includes(processor.id)) ?? [],
@@ -63,7 +65,8 @@ export function ProcessorTransferList({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={filteredOptions}
 				onInputChange={setInputValue}
 				onChangeValue={(_name, value) => handleAddProcessor(value)}
@@ -82,6 +85,7 @@ export function ProcessorTransferList({
 									key={processorId}
 									id={processorId}
 									name={cargo?.name}
+									isLoading={isLoading}
 									onRemove={handleRemoveProcessor}
 								/>
 							)

@@ -34,7 +34,6 @@ export default function FormBrand() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -42,7 +41,12 @@ export default function FormBrand() {
 				border
 				searchInput={<BrandSearch />}
 			>
-				<BrandInputs formData={formData} handleChange={handleChange} errors={errors} />
+				<BrandInputs
+					formData={formData}
+					isLoading={isLoading}
+					handleChange={handleChange}
+					errors={errors}
+				/>
 			</FormLayout>
 		</Suspense>
 	)

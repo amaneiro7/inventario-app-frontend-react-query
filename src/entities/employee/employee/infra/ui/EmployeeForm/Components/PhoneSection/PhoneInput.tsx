@@ -29,6 +29,7 @@ interface PhoneInputProps {
 		index: number
 		value: string
 	}) => void
+	isLoading: boolean
 }
 
 const operadoras = Object.values(PhoneNumberAreaCode).map(phone => ({ id: phone }))
@@ -39,7 +40,7 @@ const operadoras = Object.values(PhoneNumberAreaCode).map(phone => ({ id: phone 
  * It integrates with the `usePhone` hook for validation and change handling.
  */
 export const PhoneInput = memo(
-	({ operadora, numero, index, handlePhoneChange }: PhoneInputProps) => {
+	({ operadora, numero, index, isLoading, handlePhoneChange }: PhoneInputProps) => {
 		const { errorMessage, handleOperadoraChange, handleNumeroChange, isError } = usePhone({
 			handlePhoneChange,
 			index,
@@ -59,6 +60,7 @@ export const PhoneInput = memo(
 				onChange={handleNumeroChange}
 				error={isError}
 				errorMessage={errorMessage}
+				isLoading={isLoading}
 				selectInput={
 					<select
 						value={operadora}

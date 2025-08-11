@@ -1,4 +1,11 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo } from 'react'
+import { Input } from '@/shared/ui/Input/Input'
+import { OperatingSystemArqCombobox } from '@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
+import { OperatingSystemCombobox } from '@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
+import { HardDriveTypeCombobox } from '@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
+import { HardDriveCapacityCombobox } from '@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
+import { MemoryRamCapacitySlotInput } from './MemoryRamCapacitySlotInput'
+import { ProcessorCombobox } from '@/entities/devices/features/processor/infra/ui/ProcessorComboBox'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -6,47 +13,7 @@ import {
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
-import { Input } from '@/shared/ui/Input/Input'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-
-const OperatingSystemCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
-	).then(m => ({
-		default: m.OperatingSystemCombobox
-	}))
-)
-const OperatingSystemArqCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
-	).then(m => ({
-		default: m.OperatingSystemArqCombobox
-	}))
-)
-const ProcessorCombobox = lazy(() =>
-	import('@/entities/devices/features/processor/infra/ui/ProcessorComboBox').then(m => ({
-		default: m.ProcessorCombobox
-	}))
-)
-const HardDriveCapacityCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
-	).then(m => ({
-		default: m.HardDriveCapacityCombobox
-	}))
-)
-const HardDriveTypeCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
-	).then(m => ({
-		default: m.HardDriveTypeCombobox
-	}))
-)
-const MemoryRamCapacitySlotInput = lazy(() =>
-	import('./MemoryRamCapacitySlotInput').then(m => ({ default: m.MemoryRamCapacitySlotInput }))
-)
-
-interface Props {
+interface AddComputerFeaturesProps {
 	computerName: DefaultDevice['computerName']
 	processorId: DefaultDevice['processorId']
 	modelId: DefaultDevice['modelId']
@@ -89,171 +56,175 @@ interface Props {
 	requiredOperatingSystemId: DeviceRequired['operatingSystemId']
 	requiredIpAddress: DeviceRequired['ipAddress']
 	requiredMacAddress: DeviceRequired['macAddress']
+	isLoading: boolean
 	handleMemory: (value: string, index: number) => void
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
-export const AddComputerFeatures = memo(({ handleChange, handleMemory, ...props }: Props) => {
-	return (
-		<>
-			<Input
-				id="device-computerName"
-				value={props.computerName ?? ''}
-				name="computerName"
-				label="Nombre de equipo"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('computerName', e.target.value)
-				}
-				error={!!props.errorsComputerName}
-				errorMessage={props.errorsComputerName}
-				required={props.requiredComputerName}
-				disabled={props.disabledComputerName}
-			/>
-			<div className="flex gap-2">
+export const AddComputerFeatures = memo(
+	({ handleChange, handleMemory, isLoading, ...props }: AddComputerFeaturesProps) => {
+		return (
+			<>
 				<Input
-					id="device-ipaddress"
-					value={props.ipAddress ?? ''}
-					name="ipAddress"
-					label="Dirección IP"
+					id="device-computerName"
+					value={props.computerName ?? ''}
+					name="computerName"
+					isLoading={isLoading}
+					label="Nombre de equipo"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('ipAddress', e.target.value)
+						handleChange('computerName', e.target.value)
 					}
-					error={!!props.errorsIpAddress}
-					errorMessage={props.errorsIpAddress}
-					required={props.requiredIpAddress}
-					disabled={props.disabledIpAddress}
+					error={!!props.errorsComputerName}
+					errorMessage={props.errorsComputerName}
+					required={props.requiredComputerName}
+					disabled={props.disabledComputerName}
 				/>
-				<Input
-					id="device-macaddress"
-					value={props.macAddress ?? ''}
-					name="macAddress"
-					label="Dirección MAC"
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('macAddress', e.target.value)
-					}
-					error={!!props.errorsMacAddress}
-					errorMessage={props.errorsMacAddress}
-					required={props.requiredMacAddress}
-					disabled={props.disabledMacAddress}
-				/>
-			</div>
+				<div className="flex gap-2">
+					<Input
+						id="device-ipaddress"
+						value={props.ipAddress ?? ''}
+						name="ipAddress"
+						isLoading={isLoading}
+						label="Dirección IP"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('ipAddress', e.target.value)
+						}
+						error={!!props.errorsIpAddress}
+						errorMessage={props.errorsIpAddress}
+						required={props.requiredIpAddress}
+						disabled={props.disabledIpAddress}
+					/>
+					<Input
+						id="device-macaddress"
+						value={props.macAddress ?? ''}
+						name="macAddress"
+						isLoading={isLoading}
+						label="Dirección MAC"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('macAddress', e.target.value)
+						}
+						error={!!props.errorsMacAddress}
+						errorMessage={props.errorsMacAddress}
+						required={props.requiredMacAddress}
+						disabled={props.disabledMacAddress}
+					/>
+				</div>
 
-			<Suspense fallback={<InputFallback />}>
 				<ProcessorCombobox
 					value={props.processorId ?? ''}
 					handleChange={(_name, value) => handleChange('processorId', value)}
 					name="processorId"
+					isLoading={isLoading}
 					modelId={props.modelId}
 					error={props.errorsProcessorId}
 					required={props.requiredProcessorId}
 					disabled={props.disabledProcessorId}
 				/>
-			</Suspense>
 
-			<div className="grid gap-4 md:grid-cols-2">
-				<div className="grid grid-cols-2 gap-4">
-					{props.memoryRam.length > 0
-						? props.memoryRam?.map((_, index) => (
-								<MemoryRamCapacitySlotInput
-									key={`memRam-${index}`}
-									index={index}
-									onChange={handleMemory}
-									value={props.memoryRam[index]}
-								/>
-							))
-						: null}
-				</div>
-				<div className="flex gap-4">
-					<Input
-						id="computer-memoryRamCapacity"
-						value={props.memoryRamCapacity ?? ''}
-						name="memoryRamCapacity"
-						label="Total Memoria Ram"
-						type="number"
-						readOnly
-						transform
-						aria-readonly
-						tabIndex={-1}
-						onMouseDown={e => {
-							e.preventDefault()
-						}}
-						error={!!props.errorsMemoryRamCapacity}
-						errorMessage={props.errorsMemoryRamCapacity}
-						required={props.requiredMemoryRamCapacity}
-						disabled={props.disabledMemoryRamCapacity}
-					/>
+				<div className="grid gap-4 md:grid-cols-2">
+					<div className="grid grid-cols-2 gap-4">
+						{props.memoryRam.length > 0
+							? props.memoryRam?.map((_, index) => (
+									<MemoryRamCapacitySlotInput
+										key={`memRam-${index}`}
+										index={index}
+										onChange={handleMemory}
+										value={props.memoryRam[index]}
+										isLoading={isLoading}
+									/>
+								))
+							: null}
+					</div>
+					<div className="flex gap-4">
+						<Input
+							id="computer-memoryRamCapacity"
+							value={props.memoryRamCapacity ?? ''}
+							name="memoryRamCapacity"
+							isLoading={isLoading}
+							label="Total Memoria Ram"
+							type="number"
+							readOnly
+							transform
+							aria-readonly
+							tabIndex={-1}
+							onMouseDown={e => {
+								e.preventDefault()
+							}}
+							error={!!props.errorsMemoryRamCapacity}
+							errorMessage={props.errorsMemoryRamCapacity}
+							required={props.requiredMemoryRamCapacity}
+							disabled={props.disabledMemoryRamCapacity}
+						/>
 
-					<Input
-						id="computer-memoryRamType"
-						name="memoryRamType"
-						label="Tipo de Memoria"
-						value={props.memoryRamType}
-						readOnly
-						disabled
-						tabIndex={-1}
-					/>
+						<Input
+							id="computer-memoryRamType"
+							name="memoryRamType"
+							isLoading={isLoading}
+							label="Tipo de Memoria"
+							value={props.memoryRamType}
+							readOnly
+							disabled
+							tabIndex={-1}
+						/>
+					</div>
 				</div>
-			</div>
-			<div className="grid gap-4 md:grid-cols-3">
-				<div className="col-span-2">
-					<Suspense fallback={<InputFallback />}>
+				<div className="grid gap-4 md:grid-cols-3">
+					<div className="col-span-2">
 						<HardDriveCapacityCombobox
 							value={props.hardDriveCapacityId ?? ''}
 							handleChange={(_name, value) =>
 								handleChange('hardDriveCapacityId', value)
 							}
 							name="hardDriveCapacityId"
+							isLoading={isLoading}
 							error={props.errorsHardDriveCapacityId}
 							required={props.requiredHardDriveCapacityId}
 							disabled={props.disabledHardDriveCapacityId}
 						/>
-					</Suspense>
-				</div>
-				<div>
-					<Suspense fallback={<InputFallback />}>
+					</div>
+					<div>
 						<HardDriveTypeCombobox
 							value={props.hardDriveTypeId ?? ''}
 							handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
 							name="hardDriveTypeId"
+							isLoading={isLoading}
 							error={props.errorsHardDriveTypeId}
 							required={props.requiredHardDriveTypeId}
 							disabled={props.disabledHardDriveTypeId}
 						/>
-					</Suspense>
+					</div>
 				</div>
-			</div>
-			<div className="grid gap-4 md:grid-cols-3">
-				<div className="col-span-2">
-					<Suspense fallback={<InputFallback />}>
+				<div className="grid gap-4 md:grid-cols-3">
+					<div className="col-span-2">
 						<OperatingSystemCombobox
 							value={props.operatingSystemId ?? ''}
 							handleChange={(_name, value) =>
 								handleChange('operatingSystemId', value)
 							}
 							name="operatingSystemId"
+							isLoading={isLoading}
 							error={props.errorsOperatingSystemId}
 							required={props.requiredOperatingSystemId}
 							disabled={props.disabledOperatingSystemId}
 						/>
-					</Suspense>
-				</div>
-				<div>
-					<Suspense fallback={<InputFallback />}>
+					</div>
+					<div>
 						<OperatingSystemArqCombobox
 							value={props.operatingSystemArqId ?? ''}
 							handleChange={(_name, value) =>
 								handleChange('operatingSystemArqId', value)
 							}
 							name="operatingSystemArqId"
+							isLoading={isLoading}
 							error={props.errorsOperatingSystemArqId}
 							required={props.requiredOperatingSystemArqId}
 							disabled={props.disabledOperatingSystemArqId}
 						/>
-					</Suspense>
+					</div>
 				</div>
-			</div>
-		</>
-	)
-})
+			</>
+		)
+	}
+)
 
 AddComputerFeatures.displayName = 'AddComputerFeatures'

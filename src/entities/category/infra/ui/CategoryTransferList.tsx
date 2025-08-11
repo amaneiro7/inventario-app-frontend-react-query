@@ -13,6 +13,7 @@ interface CategoryTransferListProps {
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	onAddCategory: (name: 'addCategory', value: string) => void
 	onRemoveCategory: (name: 'removeCategory', value: string) => void
 }
@@ -39,11 +40,12 @@ export function CategoryTransferList({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	onAddCategory,
 	onRemoveCategory
 }: CategoryTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { data: allCategories, isLoading } = useGetAllCategory({})
+	const { data: allCategories, isLoading: loading } = useGetAllCategory({})
 
 	const availableOptions = useMemo(
 		() => allCategories?.data?.filter(category => !categories.includes(category.id)) ?? [],
@@ -78,7 +80,8 @@ export function CategoryTransferList({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={filteredOptions}
 				onInputChange={setInputValue}
 				onChangeValue={(_name, value) => handleAddCategory(value)}
@@ -86,7 +89,7 @@ export function CategoryTransferList({
 			/>
 			<div className="rounded shadow-lg shadow-slate-400">
 				<Typography color="white" className="bg-azul w-full rounded-t px-4 py-2">
-					Categoria Seleccionadas
+					Categorias Seleccionadas
 				</Typography>
 				{categories.length > 0 ? (
 					<ul role="options" className="flex w-full flex-col rounded">
@@ -95,6 +98,7 @@ export function CategoryTransferList({
 							return (
 								<TransferListItem
 									key={categoryId}
+									isLoading={isLoading}
 									id={categoryId}
 									name={cargo?.name}
 									onRemove={handleRemoveCategory}

@@ -12,6 +12,7 @@ export const RegionCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -21,6 +22,7 @@ export const RegionCombobox = memo(function ({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -29,7 +31,7 @@ export const RegionCombobox = memo(function ({
 			administrativeRegionId
 		}
 	}, [value, administrativeRegionId])
-	const { data, isLoading } = useGetAllRegion(query)
+	const { data, isLoading: loading } = useGetAllRegion(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -42,7 +44,8 @@ export const RegionCombobox = memo(function ({
 				label="Región"
 				value={value}
 				name={name}
-				loading={isLoading}
+				isLoading={isLoading}
+				loading={loading}
 				options={filteredOptions}
 				required={required}
 				disabled={disabled}

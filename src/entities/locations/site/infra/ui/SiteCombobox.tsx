@@ -15,6 +15,7 @@ interface BaseProps {
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 }
 interface SearchProps extends BaseProps {
 	method: 'search'
@@ -35,6 +36,7 @@ export const SiteCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	cityId,
 	stateId,
 	regionId,
@@ -56,7 +58,7 @@ export const SiteCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, cityId, stateId, regionId])
 
-	const { data, isLoading } = useGetAllSites(query)
+	const { data, isLoading: loading } = useGetAllSites(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -91,7 +93,8 @@ export const SiteCombobox = memo(function ({
 				name={name}
 				required={required}
 				disabled={disabled}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				error={!!error}
 				errorMessage={error}
 				options={options}

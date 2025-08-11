@@ -17,6 +17,7 @@ interface ComboboxProps<T extends string | number | readonly string[], O extends
 	required?: boolean
 	error?: boolean
 	valid?: boolean
+	isLoading?: boolean
 	clearButton?: boolean
 	errorMessage?: string
 	className?: string
@@ -56,6 +57,7 @@ export const Combobox = memo(function <
 	required = false,
 	leftIcon,
 	loading = false,
+	isLoading = false,
 	searchField = true,
 	rightIcon,
 	inputValue,
@@ -144,6 +146,7 @@ export const Combobox = memo(function <
 			name={name}
 			error={error}
 			valid={valid}
+			isLoading={isLoading}
 			errorMessage={errorMessage}
 			required={required}
 			disabled={disabled}

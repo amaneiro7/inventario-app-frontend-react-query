@@ -38,6 +38,7 @@ interface AddModelPrinterFeaturesProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -45,7 +46,14 @@ interface AddModelPrinterFeaturesProps {
  * specific to printer models. It includes a field for the cartridge model.
  */
 export const AddModelPrinterFeatures = memo(
-	({ handleChange, errors, formData, disabled, required }: AddModelPrinterFeaturesProps) => {
+	({
+		handleChange,
+		errors,
+		formData,
+		disabled,
+		isLoading,
+		required
+	}: AddModelPrinterFeaturesProps) => {
 		return (
 			<>
 				<div className="flex gap-4">
@@ -53,6 +61,7 @@ export const AddModelPrinterFeatures = memo(
 						id="cartridgeModel"
 						value={formData.cartridgeModel}
 						name="cartridgeModel"
+						isLoading={isLoading}
 						label="Número de modelo del cartucho"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('cartridgeModel', e.target.value)

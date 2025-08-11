@@ -9,6 +9,7 @@ export function LocationStatusCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -17,9 +18,10 @@ export function LocationStatusCombobox({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { data, isLoading } = useGetAllLocationStatus({})
+	const { data, isLoading: loading } = useGetAllLocationStatus({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -30,7 +32,8 @@ export function LocationStatusCombobox({
 				label="Estatus Operacional"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

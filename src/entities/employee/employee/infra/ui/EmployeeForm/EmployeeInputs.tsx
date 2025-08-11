@@ -10,7 +10,7 @@ import {
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
-interface Props {
+interface EmployeeInputsProps {
 	/**
 	 * The current form data for the employee.
 	 */
@@ -25,6 +25,10 @@ interface Props {
 	required: EmployeeRequired
 	/**
 	 * An object indicating which form fields are disabled.
+	 */
+	isLoading: boolean
+	/**
+	 * An object indicating which form fields is loading.
 	 */
 	disabled: EmployeeDisabled
 	/**
@@ -91,12 +95,13 @@ export const EmployeeInputs = memo(
 		disabled,
 		formData,
 		mode,
+		isLoading,
 		handleChange,
 		handleAddPhones,
 		handleClearFirstPhone,
 		handlePhoneChange,
 		handleRemovePhones
-	}: Props) => {
+	}: EmployeeInputsProps) => {
 		return (
 			<div className="flex flex-col gap-4">
 				{/* Informacion Principal */}
@@ -112,6 +117,7 @@ export const EmployeeInputs = memo(
 						cedula={formData.cedula}
 						nationality={formData.nationality}
 						mode={mode}
+						isLoading={isLoading}
 						userNameRequired={required.userName}
 						typeRequired={required.type}
 						nameRequired={required.name}
@@ -142,6 +148,7 @@ export const EmployeeInputs = memo(
 						handleClearFirstPhone={handleClearFirstPhone}
 						handleRemovePhones={handleRemovePhones}
 						handlePhoneChange={handlePhoneChange}
+						isLoading={isLoading}
 						locationId={formData.locationId}
 						directivaId={formData.directivaId}
 						vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId}

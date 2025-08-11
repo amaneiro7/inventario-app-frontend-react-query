@@ -47,6 +47,7 @@ interface AddtionalModelFeaturesProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -58,6 +59,7 @@ export function AddtionalModelFeatures({
 	disabled,
 	errors,
 	required,
+	isLoading,
 	handleChange
 }: AddtionalModelFeaturesProps) {
 	const additionalFeatures = useMemo(() => {
@@ -70,6 +72,7 @@ export function AddtionalModelFeatures({
 					required={required}
 					disabled={disabled}
 					handleChange={handleChange}
+					isLoading={isLoading}
 				/>
 			)
 		}
@@ -83,6 +86,7 @@ export function AddtionalModelFeatures({
 						required={required}
 						disabled={disabled}
 						handleChange={handleChange}
+						isLoading={isLoading}
 					/>
 				)
 			case MainCategoryOptions.SCREENS:
@@ -93,6 +97,7 @@ export function AddtionalModelFeatures({
 						required={required}
 						disabled={disabled}
 						handleChange={handleChange}
+						isLoading={isLoading}
 					/>
 				)
 			case MainCategoryOptions.PRINTERS:
@@ -103,6 +108,7 @@ export function AddtionalModelFeatures({
 						required={required}
 						disabled={disabled}
 						handleChange={handleChange}
+						isLoading={isLoading}
 					/>
 				)
 			default:

@@ -26,6 +26,10 @@ interface DirectivaComboboxProps {
 	/**
 	 * Whether the input is read-only.
 	 */
+	isLoading?: boolean
+	/**
+	 * Whether the input is loading.
+	 */
 	readonly?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
@@ -39,36 +43,40 @@ interface DirectivaComboboxProps {
  * `DirectivaCombobox` is a memoized functional component that provides a searchable combobox for selecting directivas.
  * It fetches directiva data and displays it in a dropdown.
  */
-export const DirectivaCombobox = memo(function ({
-	value = '',
-	name,
-	error = '',
-	required = false,
-	disabled = false,
-	readonly = false,
-	handleChange
-}: DirectivaComboboxProps) {
-	const { data, isLoading } = useGetAllDirectiva({})
+export const DirectivaCombobox = memo(
+	({
+		value = '',
+		name,
+		error = '',
+		required = false,
+		disabled = false,
+		readonly = false,
+		isLoading = false,
+		handleChange
+	}: DirectivaComboboxProps) => {
+		const { data, isLoading: loading } = useGetAllDirectiva({})
 
-	const options = useMemo(() => data?.data ?? [], [data])
+		const options = useMemo(() => data?.data ?? [], [data])
 
-	return (
-		<>
-			<Combobox
-				id="directiva"
-				label="Directiva"
-				value={value}
-				name={name}
-				loading={isLoading}
-				options={options}
-				required={required}
-				disabled={disabled}
-				error={!!error}
-				errorMessage={error}
-				searchField={false}
-				readOnly={readonly}
-				onChangeValue={handleChange}
-			/>
-		</>
-	)
-})
+		return (
+			<>
+				<Combobox
+					id="directiva"
+					label="Directiva"
+					value={value}
+					name={name}
+					isLoading={isLoading}
+					loading={loading}
+					options={options}
+					required={required}
+					disabled={disabled}
+					error={!!error}
+					errorMessage={error}
+					searchField={false}
+					readOnly={readonly}
+					onChangeValue={handleChange}
+				/>
+			</>
+		)
+	}
+)

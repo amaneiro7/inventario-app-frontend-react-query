@@ -13,6 +13,7 @@ export function StateCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -23,6 +24,7 @@ export function StateCombobox({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -32,7 +34,7 @@ export function StateCombobox({
 			administrativeRegionId
 		}
 	}, [value, regionId, administrativeRegionId])
-	const { data, isLoading } = useGetAllState(query)
+	const { data, isLoading: loading } = useGetAllState(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -45,7 +47,8 @@ export function StateCombobox({
 				label="Estados"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={filteredOptions}
 				required={required}
 				disabled={disabled}

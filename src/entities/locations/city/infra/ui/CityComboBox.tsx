@@ -11,6 +11,7 @@ export function CityCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	stateId,
 	regionId,
 	administrativeRegionId = '',
@@ -25,6 +26,7 @@ export function CityCombobox({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -40,7 +42,7 @@ export function CityCombobox({
 		}
 	}, [debouncedSearch, value, stateId, regionId, administrativeRegionId])
 
-	const { data, isLoading } = useGetAllCity(query)
+	const { data, isLoading: loading } = useGetAllCity(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -53,7 +55,8 @@ export function CityCombobox({
 				name={name}
 				required={required}
 				disabled={disabled}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				error={!!error}
 				errorMessage={error}
 				options={options}

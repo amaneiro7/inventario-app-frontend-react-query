@@ -27,6 +27,7 @@ export function BrandCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	categoryId = '',
 	mainCategoryId = '',
 	handleChange
@@ -39,6 +40,7 @@ export function BrandCombobox({
 	readonly?: boolean
 	categoryId?: string
 	mainCategoryId?: string
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -54,7 +56,7 @@ export function BrandCombobox({
 		}
 	}, [debouncedSearch, value, mainCategoryId, categoryId])
 
-	const { data, isLoading } = useGetAllBrands(query)
+	const { data, isLoading: loading } = useGetAllBrands(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -70,7 +72,8 @@ export function BrandCombobox({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				onInputChange={setInputValue}
 				onChangeValue={handleChange}

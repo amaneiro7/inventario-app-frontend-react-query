@@ -45,7 +45,6 @@ export default function FormDevice() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				searchInput={<SerialSearch />}
@@ -60,6 +59,7 @@ export default function FormDevice() {
 					required={required}
 					disabled={disabled}
 					mode={mode}
+					isLoading={isLoading}
 					handleChange={handleChange}
 					handleLocation={handleLocation}
 					handleMemory={handleMemory}

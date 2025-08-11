@@ -32,6 +32,10 @@ interface VicepresidenciaEjecutivaComboboxProps {
 	/**
 	 * Whether the input is read-only.
 	 */
+	isLoading?: boolean
+	/**
+	 * Whether the input is loading.
+	 */
 	readonly?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
@@ -53,6 +57,7 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: VicepresidenciaEjecutivaComboboxProps) {
 	const [inputValue, setInputValue] = useState('')
@@ -64,7 +69,7 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 		[value, directivaId]
 	)
 
-	const { data, isLoading } = useGetAllVicepresidenciaEjecutivas(query)
+	const { data, isLoading: loading } = useGetAllVicepresidenciaEjecutivas(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -77,7 +82,8 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 				label="Vicepresidencia Ejecutiva"
 				value={value}
 				name={name}
-				loading={isLoading}
+				isLoading={isLoading}
+				loading={loading}
 				options={filteredOptions}
 				required={required}
 				disabled={disabled}

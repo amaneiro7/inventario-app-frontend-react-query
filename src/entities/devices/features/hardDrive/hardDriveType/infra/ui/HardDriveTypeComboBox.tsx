@@ -20,6 +20,7 @@ export const HardDriveTypeCombobox = memo(function ({
 	name,
 	error = '',
 	required = false,
+	isLoading = false,
 	disabled = false,
 	handleChange
 }: {
@@ -27,10 +28,11 @@ export const HardDriveTypeCombobox = memo(function ({
 	name: string
 	error?: string
 	required?: boolean
+	isLoading?: boolean
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { data, isLoading } = useGetAllHardDriveType({})
+	const { data, isLoading: loading } = useGetAllHardDriveType({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -41,7 +43,8 @@ export const HardDriveTypeCombobox = memo(function ({
 				label="Tipo"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

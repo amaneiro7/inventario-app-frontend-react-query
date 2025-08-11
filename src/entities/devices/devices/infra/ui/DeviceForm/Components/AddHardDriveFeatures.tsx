@@ -1,76 +1,69 @@
-import { lazy, memo, Suspense } from 'react'
+import { memo } from 'react'
 import {
 	type Action,
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 import { HardDriveHealth } from '@/entities/devices/devices/domain/value-object/HardDriveHealth'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { Input } from '@/shared/ui/Input/Input'
+import { HardDriveCapacityCombobox } from '@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
+import { HardDriveTypeCombobox } from '@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
 
-const HardDriveTypeCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
-	).then(m => ({
-		default: m.HardDriveTypeCombobox
-	}))
-)
-const HardDriveCapacityCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
-	).then(m => ({
-		default: m.HardDriveCapacityCombobox
-	}))
-)
-
-interface Props {
+interface AddHardDriveFeaturesProps {
 	hardDriveCapacityId: DefaultDevice['hardDriveCapacityId']
 	hardDriveTypeId: DefaultDevice['hardDriveTypeId']
 	health: DefaultDevice['health']
 	errorsHealth: DevicesErrors['health']
+	isLoading: boolean
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
-export const AddHardDriveFeatures = memo(function ({
-	errorsHealth,
-	hardDriveCapacityId,
-	hardDriveTypeId,
-	health,
-	handleChange
-}: Props) {
-	return (
-		<div className="flex gap-4">
-			<Input
-				id="hdd-health"
-				value={health}
-				name="health"
-				type="number"
-				label="Health"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('health', e.target.value)
-				}
-				error={!!errorsHealth}
-				errorMessage={errorsHealth}
-				required
-				min={HardDriveHealth.MIN}
-				max={HardDriveHealth.MAX}
-			/>
-			<Suspense fallback={<InputFallback />}>
+export const AddHardDriveFeatures = memo(
+	({
+		errorsHealth,
+		hardDriveCapacityId,
+		hardDriveTypeId,
+		health,
+		isLoading,
+		handleChange
+	}: AddHardDriveFeaturesProps) => {
+		return (
+			<div className="flex gap-4">
+				<Input
+					id="hdd-health"
+					value={health}
+					name="health"
+					isLoading={isLoading}
+					type="number"
+					label="Health"
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('health', e.target.value)
+					}
+					error={!!errorsHealth}
+					errorMessage={errorsHealth}
+					required
+					min={HardDriveHealth.MIN}
+					max={HardDriveHealth.MAX}
+				/>
+
 				<HardDriveCapacityCombobox
 					value={hardDriveCapacityId ?? ''}
 					handleChange={(_name, value) => handleChange('hardDriveCapacityId', value)}
 					name="hardDriveCapacityId"
+					isLoading={isLoading}
 					required
 				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
+
 				<HardDriveTypeCombobox
 					value={hardDriveTypeId ?? ''}
 					handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
 					name="hardDriveTypeId"
+					isLoading={isLoading}
 					required
 				/>
-			</Suspense>
-		</div>
-	)
-})
+			</div>
+		)
+	}
+)
+
+AddHardDriveFeatures.displayName = 'AddHardDriveFeatures'

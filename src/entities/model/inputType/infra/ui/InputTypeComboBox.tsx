@@ -30,40 +30,45 @@ interface InputTypeComboboxProps {
 	 * @param value - The new selected value (input type ID).
 	 */
 	handleChange: (name: string, value: string | number) => void
+	isLoading: boolean
 }
 
 /**
  * `InputTypeCombobox` is a memoized functional component that provides a searchable combobox for selecting input types.
  * It fetches input type data and displays it in a dropdown.
  */
-export const InputTypeCombobox = memo(function ({
-	value = '',
-	name,
-	error = '',
-	required = false,
-	disabled = false,
-	handleChange
-}: InputTypeComboboxProps) {
-	const { data: inputTypes, isLoading } = useGetAllInputType({})
+export const InputTypeCombobox = memo(
+	({
+		value = '',
+		name,
+		error = '',
+		required = false,
+		isLoading = false,
+		disabled = false,
+		handleChange
+	}: InputTypeComboboxProps) => {
+		const { data: inputTypes, isLoading: loading } = useGetAllInputType({})
 
-	const options = useMemo(() => inputTypes?.data ?? [], [inputTypes])
+		const options = useMemo(() => inputTypes?.data ?? [], [inputTypes])
 
-	return (
-		<>
-			<Combobox
-				id="InputType"
-				label="Tipo de Entrada"
-				value={value}
-				name={name}
-				loading={isLoading}
-				options={options}
-				required={required}
-				disabled={disabled}
-				error={!!error}
-				errorMessage={error}
-				searchField={false}
-				onChangeValue={handleChange}
-			/>
-		</>
-	)
-})
+		return (
+			<>
+				<Combobox
+					id="InputType"
+					label="Tipo de Entrada"
+					value={value}
+					name={name}
+					loading={loading}
+					isLoading={isLoading}
+					options={options}
+					required={required}
+					disabled={disabled}
+					error={!!error}
+					errorMessage={error}
+					searchField={false}
+					onChangeValue={handleChange}
+				/>
+			</>
+		)
+	}
+)

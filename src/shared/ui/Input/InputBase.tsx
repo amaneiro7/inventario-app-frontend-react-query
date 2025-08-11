@@ -11,6 +11,7 @@ interface Props<T extends string | number | readonly string[]>
 	name: string
 	required?: boolean
 	disabled?: boolean
+	isLoading?: boolean
 	error?: boolean
 	valid?: boolean
 	transform?: boolean
@@ -36,6 +37,7 @@ export const InputBase = memo(
 		required = false,
 		disabled = false,
 		transform = false,
+		isLoading = false,
 		leftIcon,
 		selectInput,
 		rightIcon,
@@ -64,7 +66,7 @@ export const InputBase = memo(
 					leftIcon={leftIcon || selectInput ? true : false}
 					transform={transform}
 				/>
-				<div className="inputArea">
+				<div className={`inputArea ${isLoading ? 'isLoading' : ''}`}>
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
 					{selectInput ? <>{selectInput}</> : null}
 					{children}

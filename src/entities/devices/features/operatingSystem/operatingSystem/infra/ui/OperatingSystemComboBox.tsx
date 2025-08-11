@@ -21,6 +21,7 @@ export const OperatingSystemCombobox = memo(function ({
 	error = '',
 	required = false,
 	disabled = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -28,9 +29,10 @@ export const OperatingSystemCombobox = memo(function ({
 	error?: string
 	required?: boolean
 	disabled?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const { data, isLoading } = useGetAllOperatingSystem({})
+	const { data, isLoading: loading } = useGetAllOperatingSystem({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -41,7 +43,8 @@ export const OperatingSystemCombobox = memo(function ({
 				label="Sistema Operativo"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { lazy, Suspense } from 'react'
+import { lazy } from 'react'
 import Typography from '@/shared/ui/Typography'
 import { ClasifyMainDeviceInputs } from './Components/ClasifyMainDeviceInputs'
 import { InfoMainDeviceInputs } from './Components/InfoMainDeviceInputs'
@@ -22,6 +22,7 @@ interface DeviceInputsProps {
 	required: DeviceRequired
 	disabled: DevicesDisabled
 	mode: FormMode
+	isLoading: boolean
 	handleChange: (name: Action['type'], value: any) => Promise<void>
 	handleLocation: ({
 		value,
@@ -52,6 +53,7 @@ export function DeviceInputs({
 	disabled,
 	required,
 	mode,
+	isLoading,
 	handleChange,
 	handleLocation,
 	handleMemory,
@@ -65,72 +67,72 @@ export function DeviceInputs({
 					<Typography color="azul" variant="h4">
 						Información del dispositivo
 					</Typography>
-					<Suspense>
-						<InfoMainDeviceInputs
-							handleChange={handleChange}
-							handleLocation={handleLocation}
-							mode={mode}
-							statusId={formData.statusId}
-							locationId={formData.locationId}
-							stockNumber={formData.stockNumber}
-							typeOfSiteId={formData.typeOfSiteId}
-							serial={formData.serial}
-							activo={formData.activo}
-							employeeId={formData.employeeId}
-							observation={formData.observation}
-							errorSerial={errors.serial}
-							errorLocationId={errors.locationId}
-							errorStockNumber={errors.stockNumber}
-							errorActivo={errors.activo}
-							errorEmployeeId={errors.employeeId}
-							errorObservation={errors.observation}
-							disabledSerial={disabled.serial}
-							disabledActivo={disabled.activo}
-							disabledEmployeeId={disabled.employeeId}
-							disabledLocationId={disabled.locationId}
-							disabledStockNumber={disabled.stockNumber}
-							disabledObservation={disabled.observation}
-							requiredSerial={required.serial}
-							requiredActivo={required.activo}
-							requiredEmployeeId={required.employeeId}
-							requiredObservation={required.observation}
-							requiredLocationId={required.locationId}
-							requiredStockNumber={required.stockNumber}
-						/>
-					</Suspense>
+
+					<InfoMainDeviceInputs
+						handleChange={handleChange}
+						handleLocation={handleLocation}
+						mode={mode}
+						isLoading={isLoading}
+						statusId={formData.statusId}
+						locationId={formData.locationId}
+						stockNumber={formData.stockNumber}
+						typeOfSiteId={formData.typeOfSiteId}
+						serial={formData.serial}
+						activo={formData.activo}
+						employeeId={formData.employeeId}
+						observation={formData.observation}
+						errorSerial={errors.serial}
+						errorLocationId={errors.locationId}
+						errorStockNumber={errors.stockNumber}
+						errorActivo={errors.activo}
+						errorEmployeeId={errors.employeeId}
+						errorObservation={errors.observation}
+						disabledSerial={disabled.serial}
+						disabledActivo={disabled.activo}
+						disabledEmployeeId={disabled.employeeId}
+						disabledLocationId={disabled.locationId}
+						disabledStockNumber={disabled.stockNumber}
+						disabledObservation={disabled.observation}
+						requiredSerial={required.serial}
+						requiredActivo={required.activo}
+						requiredEmployeeId={required.employeeId}
+						requiredObservation={required.observation}
+						requiredLocationId={required.locationId}
+						requiredStockNumber={required.stockNumber}
+					/>
 				</div>
 				{/* Clasificacion Principal */}
 				<div className="flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4">
 					<Typography color="azul" variant="h4">
 						Clasificación del dispositivo
 					</Typography>
-					<Suspense>
-						<ClasifyMainDeviceInputs
-							handleChange={handleChange}
-							handleModel={handleModel}
-							mode={mode}
-							statusId={formData.statusId}
-							mainCategoryId={formData.mainCategoryId}
-							categoryId={formData.categoryId}
-							brandId={formData.brandId}
-							modelId={formData.modelId}
-							errorStatusId={errors.statusId}
-							errorMainCategoryId={errors.mainCategoryId}
-							errorCategoryId={errors.categoryId}
-							errorBrandId={errors.brandId}
-							errorModelId={errors.modelId}
-							disabledStatusId={disabled.statusId}
-							disabledMainCategoryId={disabled.mainCategoryId}
-							disabledCategoryId={disabled.categoryId}
-							disabledBrandId={disabled.brandId}
-							disabledModelId={disabled.modelId}
-							requiredStatusId={required.statusId}
-							requiredMainCategoryId={required.mainCategoryId}
-							requiredCategoryId={required.categoryId}
-							requiredBrandId={required.brandId}
-							requiredModelId={required.modelId}
-						/>
-					</Suspense>
+
+					<ClasifyMainDeviceInputs
+						handleChange={handleChange}
+						handleModel={handleModel}
+						mode={mode}
+						isLoading={isLoading}
+						statusId={formData.statusId}
+						mainCategoryId={formData.mainCategoryId}
+						categoryId={formData.categoryId}
+						brandId={formData.brandId}
+						modelId={formData.modelId}
+						errorStatusId={errors.statusId}
+						errorMainCategoryId={errors.mainCategoryId}
+						errorCategoryId={errors.categoryId}
+						errorBrandId={errors.brandId}
+						errorModelId={errors.modelId}
+						disabledStatusId={disabled.statusId}
+						disabledMainCategoryId={disabled.mainCategoryId}
+						disabledCategoryId={disabled.categoryId}
+						disabledBrandId={disabled.brandId}
+						disabledModelId={disabled.modelId}
+						requiredStatusId={required.statusId}
+						requiredMainCategoryId={required.mainCategoryId}
+						requiredCategoryId={required.categoryId}
+						requiredBrandId={required.brandId}
+						requiredModelId={required.modelId}
+					/>
 				</div>
 			</div>
 			{/* Informacion Adicional */}
@@ -142,6 +144,7 @@ export function DeviceInputs({
 				disabled={disabled}
 				handleChange={handleChange}
 				handleMemory={handleMemory}
+				isLoading={isLoading}
 			/>
 		</div>
 	)

@@ -40,7 +40,6 @@ export default function FormDirectiva() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -50,6 +49,7 @@ export default function FormDirectiva() {
 			>
 				<DirectivaInputs
 					required={required}
+					isLoading={isLoading}
 					formData={formData}
 					handleChange={handleChange}
 					errors={errors}

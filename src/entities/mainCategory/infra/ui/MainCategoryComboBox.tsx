@@ -33,6 +33,7 @@ interface MainCategoryComboboxProps {
 	 * @param value - The new selected value (main category ID).
 	 */
 	handleChange: (name: string, value: string | number) => void
+	isLoading?: boolean
 }
 
 /**
@@ -46,9 +47,10 @@ export const MainCategoryCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: MainCategoryComboboxProps) {
-	const { data: mainCategories, isLoading } = useGetAllMainCategory({})
+	const { data: mainCategories, isLoading: loading } = useGetAllMainCategory({})
 
 	const options = useMemo(() => mainCategories?.data ?? [], [mainCategories])
 
@@ -59,7 +61,8 @@ export const MainCategoryCombobox = memo(function ({
 				label="Categoria"
 				value={value}
 				name={name}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				required={required}
 				disabled={disabled}

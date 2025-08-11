@@ -45,6 +45,7 @@ interface CargoComboboxProps {
 	 * Whether the input is read-only.
 	 */
 	readonly?: boolean
+	isLoading?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
 	 * @param name - The name of the input field.
@@ -64,6 +65,7 @@ export function CargoCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	directivaId = '',
 	vicepresidenciaEjecutivaId = '',
 	vicepresidenciaId = '',
@@ -91,7 +93,7 @@ export function CargoCombobox({
 		vicepresidenciaId
 	])
 
-	const { data, isLoading } = useGetAllCargo(query)
+	const { data, isLoading: loading } = useGetAllCargo(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -107,7 +109,8 @@ export function CargoCombobox({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				onInputChange={setInputValue}
 				onChangeValue={handleChange}

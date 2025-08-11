@@ -8,11 +8,12 @@ import {
 	type CargoDisabled
 } from '@/entities/employee/cargo/infra/reducers/cargoFormReducer'
 
-interface Props {
+interface CargoInputsProps {
 	/**
 	 * The current form data for the cargo.
 	 */
 	formData: DefaultCargo
+	isLoading: boolean
 	/**
 	 * An object containing validation errors for each form field.
 	 */
@@ -38,28 +39,34 @@ interface Props {
  * for cargo information. It receives form data, errors, required/disabled states, and a change handler
  * as props.
  */
-export const CargoInputs = memo(function ({
-	errors,
-	required,
-	disabled,
-	formData,
-	handleChange
-}: Props) {
-	return (
-		<>
-			<Input
-				id="cargo-name"
-				value={formData.name}
-				name="name"
-				label="Nombre del cargo"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('name', e.target.value)
-				}
-				error={!!errors?.name}
-				errorMessage={errors?.name}
-				required={required.name}
-				disabled={disabled.name}
-			/>
-		</>
-	)
-})
+export const CargoInputs = memo(
+	({
+		errors,
+		required,
+		disabled,
+		formData,
+		isLoading = false,
+		handleChange
+	}: CargoInputsProps) => {
+		return (
+			<>
+				<Input
+					id="cargo-name"
+					value={formData.name}
+					name="name"
+					label="Nombre del cargo"
+					isLoading={isLoading}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('name', e.target.value)
+					}
+					error={!!errors?.name}
+					errorMessage={errors?.name}
+					required={required.name}
+					disabled={disabled.name}
+				/>
+			</>
+		)
+	}
+)
+
+CargoInputs.displayName = 'CargoInputs'

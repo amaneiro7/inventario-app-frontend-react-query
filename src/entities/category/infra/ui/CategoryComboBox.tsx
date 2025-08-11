@@ -27,6 +27,7 @@ export const CategoryCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: {
 	value?: string
@@ -36,6 +37,7 @@ export const CategoryCombobox = memo(function ({
 	required?: boolean
 	disabled?: boolean
 	readonly?: boolean
+	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -46,7 +48,7 @@ export const CategoryCombobox = memo(function ({
 		[value, mainCategoryId]
 	)
 
-	const { data, isLoading } = useGetAllCategory(query)
+	const { data, isLoading: loading } = useGetAllCategory(query)
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
@@ -64,7 +66,8 @@ export const CategoryCombobox = memo(function ({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				isLoading={isLoading}
+				loading={loading}
 				options={filteredOptions}
 				onInputChange={setInputValue}
 				onChangeValue={handleChange}

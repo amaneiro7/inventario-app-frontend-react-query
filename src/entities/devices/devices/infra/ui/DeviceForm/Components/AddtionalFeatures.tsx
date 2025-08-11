@@ -19,11 +19,12 @@ const AddHardDriveFeatures = lazy(() =>
 	import('./AddHardDriveFeatures').then(m => ({ default: m.AddHardDriveFeatures }))
 )
 
-interface Props {
+interface AddtionalFeaturesProps {
 	formData: DefaultDevice
 	errors: DevicesErrors
 	required: DeviceRequired
 	disabled: DevicesDisabled
+	isLoading: boolean
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	handleChange: (name: Action['type'], value: any) => Promise<void>
 	handleMemory: (value: string, index: number) => Promise<void>
@@ -34,9 +35,10 @@ export function AddtionalFeatures({
 	disabled,
 	errors,
 	required,
+	isLoading,
 	handleChange,
 	handleMemory
-}: Props) {
+}: AddtionalFeaturesProps) {
 	const additionalFeatures = useMemo(() => {
 		switch (formData.categoryId) {
 			case CategoryOptions.ALLINONE:
@@ -51,6 +53,7 @@ export function AddtionalFeatures({
 							computerName={formData.computerName}
 							processorId={formData.processorId}
 							modelId={formData.modelId}
+							isLoading={isLoading}
 							memoryRam={formData.memoryRam}
 							memoryRamCapacity={formData.memoryRamCapacity}
 							memoryRamType={formData.memoryRamType}
@@ -102,6 +105,7 @@ export function AddtionalFeatures({
 							ipAddress={formData.ipAddress}
 							handleChange={handleChange}
 							error={errors.ipAddress}
+							isLoading={isLoading}
 						/>
 					</Suspense>
 				)
@@ -114,6 +118,7 @@ export function AddtionalFeatures({
 							health={formData.health}
 							errorsHealth={errors.health}
 							handleChange={handleChange}
+							isLoading={isLoading}
 						/>
 					</Suspense>
 				)

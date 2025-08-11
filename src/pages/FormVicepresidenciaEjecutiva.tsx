@@ -41,7 +41,6 @@ export default function FormVicepresidenciaEjecutiva() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -50,6 +49,7 @@ export default function FormVicepresidenciaEjecutiva() {
 				searchInput={<VicepresidenciaEjecutivaSearch />}
 			>
 				<VicepresidenciaEjecutivasInputs
+					isLoading={isLoading}
 					required={required}
 					formData={formData}
 					handleChange={handleChange}

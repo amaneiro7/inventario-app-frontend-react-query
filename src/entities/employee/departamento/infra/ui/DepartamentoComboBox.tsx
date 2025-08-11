@@ -41,6 +41,7 @@ interface DepartamentoComboboxProps {
 	 * Whether the input is read-only.
 	 */
 	readonly?: boolean
+	isLoading?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
 	 * @param name - The name of the input field.
@@ -63,6 +64,7 @@ export const DepartamentoCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	readonly = false,
+	isLoading = false,
 	handleChange
 }: DepartamentoComboboxProps) {
 	const [inputValue, setInputValue] = useState('')
@@ -78,7 +80,7 @@ export const DepartamentoCombobox = memo(function ({
 		}
 	}, [debouncedSearch, value, name, vicepresidenciaId, directivaId, vicepresidenciaEjecutivaId])
 
-	const { data, isLoading } = useGetAllDepartamento(query)
+	const { data, isLoading: loading } = useGetAllDepartamento(query)
 	const options = useMemo(() => data?.data ?? [], [data])
 
 	return (
@@ -93,7 +95,8 @@ export const DepartamentoCombobox = memo(function ({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				loading={isLoading}
+				loading={loading}
+				isLoading={isLoading}
 				options={options}
 				onChangeValue={handleChange}
 				onInputChange={setInputValue}

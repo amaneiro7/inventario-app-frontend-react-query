@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import { Checkbox } from '@/shared/ui/Checkbox'
@@ -40,6 +39,7 @@ interface AddModelMonitorFeaturesProps {
 	 * @param value - The new value of the field.
 	 */
 	handleChange: (name: Action['type'], value: any) => void
+	isLoading: boolean
 }
 
 /**
@@ -47,7 +47,7 @@ interface AddModelMonitorFeaturesProps {
  * specific to monitor models. It includes fields for screen size and various ports (VGA, DVI, HDMI).
  */
 export const AddModelMonitorFeatures = memo(
-	({ handleChange, errors, formData, required }: AddModelMonitorFeaturesProps) => {
+	({ handleChange, errors, formData, isLoading, required }: AddModelMonitorFeaturesProps) => {
 		return (
 			<>
 				<div className="flex gap-4">
@@ -55,6 +55,7 @@ export const AddModelMonitorFeatures = memo(
 						id="screenSize"
 						value={formData.screenSize}
 						name="screenSize"
+						isLoading={isLoading}
 						type="number"
 						label="Tamaño de la pantaña"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

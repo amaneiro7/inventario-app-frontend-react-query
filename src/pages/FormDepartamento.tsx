@@ -41,7 +41,6 @@ export default function FormDepartamento() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -51,6 +50,7 @@ export default function FormDepartamento() {
 				searchInput={<DepartamentoSearch />}
 			>
 				<DepartamentoInputs
+					isLoading={isLoading}
 					required={required}
 					formData={formData}
 					disabled={disabled}

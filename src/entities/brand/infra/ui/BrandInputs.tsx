@@ -10,6 +10,7 @@ import {
 interface BrandInputsProps {
 	formData: DefaultBrand
 	errors?: BrandErrors
+	isLoading: boolean
 	handleChange: (name: Action['type'], value: string) => void
 }
 
@@ -23,29 +24,33 @@ interface BrandInputsProps {
  * @param {BrandErrors} [props.errors] - Los errores de validación para los campos del formulario.
  * @param {(name: Action['type'], value: string) => void} props.handleChange - Función de callback para manejar los cambios en los campos de entrada.
  */
-export const BrandInputs = memo(({ errors, formData, handleChange }: BrandInputsProps) => {
-	return (
-		<>
-			<Input
-				id="brand-name"
-				value={formData.name}
-				name="name"
-				label="Nombre de la marca"
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-					handleChange('name', e.target.value)
-				}
-				error={!!errors?.name}
-				errorMessage={errors?.name}
-				required
-			/>
-			<CategoryTransferList
-				value={formData.categories}
-				name="categories"
-				onAddCategory={handleChange}
-				onRemoveCategory={handleChange}
-			/>
-		</>
-	)
-})
+export const BrandInputs = memo(
+	({ errors, isLoading, formData, handleChange }: BrandInputsProps) => {
+		return (
+			<>
+				<Input
+					id="brand-name"
+					value={formData.name}
+					name="name"
+					label="Nombre de la marca"
+					isLoading={isLoading}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('name', e.target.value)
+					}
+					error={!!errors?.name}
+					errorMessage={errors?.name}
+					required
+				/>
+				<CategoryTransferList
+					isLoading={isLoading}
+					value={formData.categories}
+					name="categories"
+					onAddCategory={handleChange}
+					onRemoveCategory={handleChange}
+				/>
+			</>
+		)
+	}
+)
 
 BrandInputs.displayName = 'BrandInputs'

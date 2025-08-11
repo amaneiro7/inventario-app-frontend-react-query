@@ -43,7 +43,6 @@ export default function FormLocation() {
 				isAddForm={mode === 'add'}
 				handleSubmit={handleSubmit}
 				isError={isError}
-				isLoading={isLoading}
 				isNotFound={isNotFound}
 				onRetry={onRetry}
 				reset={mode === 'edit' ? resetForm : undefined}
@@ -60,6 +59,7 @@ export default function FormLocation() {
 					handleSite={handleSite}
 					errors={errors}
 					mode={mode}
+					isLoading={isLoading}
 				/>
 			</FormLayout>
 		</Suspense>

@@ -41,6 +41,7 @@ interface BaseProps {
 	 * Whether the input is read-only.
 	 */
 	readonly?: boolean
+	isLoading?: boolean
 }
 
 interface SearchProps extends BaseProps {
@@ -90,82 +91,86 @@ type Props = SearchProps | FormProps
  * It fetches model data based on user input and associated category, main category, and brand IDs.
  * It supports two modes: 'search' for filtering and 'form' for detailed data handling.
  */
-export const ModelCombobox = memo(function ({
-	value = '',
-	name,
-	error = '',
-	required = false,
-	disabled = false,
-	readonly = false,
-	categoryId,
-	mainCategoryId,
-	brandId,
-	method = 'search',
-	...props
-}: Props) {
-	const [inputValue, setInputValue] = useState('')
-	const [debouncedSearch] = useDebounce(inputValue)
+export const ModelCombobox = memo(
+	({
+		value = '',
+		name,
+		error = '',
+		required = false,
+		disabled = false,
+		readonly = false,
+		isLoading = false,
+		categoryId,
+		mainCategoryId,
+		brandId,
+		method = 'search',
+		...props
+	}: Props) => {
+		const [inputValue, setInputValue] = useState('')
+		const [debouncedSearch] = useDebounce(inputValue)
 
-	const query: ModelFilters = useMemo(() => {
-		return {
-			...(value ? { id: value } : { id: undefined }),
-			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-			mainCategoryId,
-			categoryId,
-			brandId
-		}
-	}, [debouncedSearch, value, name, mainCategoryId, categoryId, brandId])
-
-	const { data: models, isLoading } = useGetAllModel({ query })
-	const options = useMemo(() => models?.data ?? [], [models])
-
-	const getModelsData = useCallback(
-		(value: string | number) => {
-			return options.find(model => model.id === value)
-		},
-		[options]
-	)
-
-	const handleChangeValue = useCallback(
-		(name: string, value: string | number) => {
-			if (method === 'form' && 'handleFormChange' in props) {
-				const data = getModelsData(value)
-				void props.handleFormChange({
-					value: `${value}`,
-					memoryRamSlotQuantity:
-						data?.modelComputer?.memoryRamSlotQuantity ??
-						data?.modelLaptop?.memoryRamSlotQuantity,
-					memoryRamType:
-						data?.modelComputer?.memoryRamType.name ??
-						data?.modelLaptop?.memoryRamType.name ??
-						'',
-					generic: data?.generic ?? undefined
-				})
-			} else if (method === 'search' && 'handleChange' in props) {
-				props.handleChange(name, value)
+		const query: ModelFilters = useMemo(() => {
+			return {
+				...(value ? { id: value } : { id: undefined }),
+				...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+				mainCategoryId,
+				categoryId,
+				brandId
 			}
-		},
-		[options, method, props, getModelsData]
-	)
+		}, [debouncedSearch, value, name, mainCategoryId, categoryId, brandId])
 
-	return (
-		<>
-			<Combobox
-				id="modelId"
-				label="Modelos"
-				value={value}
-				inputValue={inputValue}
-				name={name}
-				required={required}
-				disabled={disabled}
-				error={!!error}
-				errorMessage={error}
-				loading={isLoading}
-				options={options}
-				onChangeValue={handleChangeValue}
-				onInputChange={setInputValue}
-				readOnly={readonly}
-			/>
-		</>
-	)
-})
+		const { data: models, isLoading: loading } = useGetAllModel({ query })
+		const options = useMemo(() => models?.data ?? [], [models])
+
+		const getModelsData = useCallback(
+			(value: string | number) => {
+				return options.find(model => model.id === value)
+			},
+			[options]
+		)
+
+		const handleChangeValue = useCallback(
+			(name: string, value: string | number) => {
+				if (method === 'form' && 'handleFormChange' in props) {
+					const data = getModelsData(value)
+					void props.handleFormChange({
+						value: `${value}`,
+						memoryRamSlotQuantity:
+							data?.modelComputer?.memoryRamSlotQuantity ??
+							data?.modelLaptop?.memoryRamSlotQuantity,
+						memoryRamType:
+							data?.modelComputer?.memoryRamType.name ??
+							data?.modelLaptop?.memoryRamType.name ??
+							'',
+						generic: data?.generic ?? undefined
+					})
+				} else if (method === 'search' && 'handleChange' in props) {
+					props.handleChange(name, value)
+				}
+			},
+			[options, method, props, getModelsData]
+		)
+
+		return (
+			<>
+				<Combobox
+					id="modelId"
+					label="Modelos"
+					value={value}
+					inputValue={inputValue}
+					name={name}
+					required={required}
+					disabled={disabled}
+					error={!!error}
+					errorMessage={error}
+					loading={loading}
+					isLoading={isLoading}
+					options={options}
+					onChangeValue={handleChangeValue}
+					onInputChange={setInputValue}
+					readOnly={readonly}
+				/>
+			</>
+		)
+	}
+)
