@@ -1,21 +1,47 @@
-import { memo } from 'react'
-import { CargoCombobox } from '@/entities/employee/cargo/infra/ui/CargoComboBox'
-import { DepartamentoCombobox } from '@/entities/employee/departamento/infra/ui/DepartamentoComboBox'
-import { LocationCombobox } from '@/entities/locations/locations/infra/ui/LocationComboBox'
-import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
-import { VicepresidenciaCombobox } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox'
-import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+import { lazy, memo } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { PhoneSection } from './PhoneSection'
-import { ExtensionSection } from './ExtensionSection'
+import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import {
 	type DefaultEmployee,
 	type EmployeeRequired,
 	type Action,
-	EmployeeDisabled
+	type EmployeeDisabled
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
-import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 
+const CargoCombobox = lazy(() =>
+	import('@/entities/employee/cargo/infra/ui/CargoComboBox').then(m => ({
+		default: m.CargoCombobox
+	}))
+)
+const DepartamentoCombobox = lazy(() =>
+	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
+		default: m.DepartamentoCombobox
+	}))
+)
+const LocationCombobox = lazy(() =>
+	import('@/entities/locations/locations/infra/ui/LocationComboBox').then(m => ({
+		default: m.LocationCombobox
+	}))
+)
+const DirectivaCombobox = lazy(() =>
+	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
+		default: m.DirectivaCombobox
+	}))
+)
+const VicepresidenciaCombobox = lazy(() =>
+	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
+		default: m.VicepresidenciaCombobox
+	}))
+)
+const VicepresidenciaEjecutivaCombobox = lazy(() =>
+	import(
+		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+	).then(m => ({ default: m.VicepresidenciaEjecutivaCombobox }))
+)
+const PhoneSection = lazy(() => import('./PhoneSection').then(m => ({ default: m.PhoneSection })))
+const ExtensionSection = lazy(() =>
+	import('./ExtensionSection').then(m => ({ default: m.ExtensionSection }))
+)
 interface AdditionalEmployeeInfoProps {
 	isLoading: boolean
 	/**

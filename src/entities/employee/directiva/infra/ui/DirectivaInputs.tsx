@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
@@ -6,7 +6,12 @@ import {
 	type DefaultDirectiva,
 	type DirectivaRequired
 } from '@/entities/employee/directiva/infra/reducers/directivaFormReducer'
-import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
+
+const CargoTransferList = lazy(() =>
+	import('@/entities/employee/cargo/infra/ui/CargoTransferList').then(m => ({
+		default: m.CargoTransferList
+	}))
+)
 
 interface DirectivaInputsProps {
 	/**

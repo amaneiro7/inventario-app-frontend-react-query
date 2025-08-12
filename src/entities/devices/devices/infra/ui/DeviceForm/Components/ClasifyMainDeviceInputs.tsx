@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -7,11 +7,30 @@ import {
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { StatusCombobox } from '@/entities/status/status/infra/ui/StatusComboBox'
-import { MainCategoryCombobox } from '@/entities/mainCategory/infra/ui/MainCategoryComboBox'
-import { CategoryCombobox } from '@/entities/category/infra/ui/CategoryComboBox'
-import { BrandCombobox } from '@/entities/brand/infra/ui/BrandComboBox'
-import { ModelCombobox } from '@/entities/model/models/infra/ui/ModelComboBox'
+
+const StatusCombobox = lazy(() =>
+	import('@/entities/status/status/infra/ui/StatusComboBox').then(m => ({
+		default: m.StatusCombobox
+	}))
+)
+const MainCategoryCombobox = lazy(() =>
+	import('@/entities/mainCategory/infra/ui/MainCategoryComboBox').then(m => ({
+		default: m.MainCategoryCombobox
+	}))
+)
+const CategoryCombobox = lazy(() =>
+	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
+		default: m.CategoryCombobox
+	}))
+)
+const BrandCombobox = lazy(() =>
+	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({ default: m.BrandCombobox }))
+)
+const ModelCombobox = lazy(() =>
+	import('@/entities/model/models/infra/ui/ModelComboBox').then(m => ({
+		default: m.ModelCombobox
+	}))
+)
 interface ClasifyMainDeviceInputsProps {
 	mode: FormMode
 	isLoading: boolean

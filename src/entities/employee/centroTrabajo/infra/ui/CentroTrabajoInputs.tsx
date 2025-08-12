@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import {
 	type CentroTrabajoErrors,
@@ -8,7 +8,12 @@ import {
 	type CentroTrabajoRequired
 } from '@/entities/employee/centroTrabajo/infra/reducers/centroTrabajoFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { CentroCostoCombobox } from '@/entities/employee/centroCosto/infra/ui/CentroCostoComboBox'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+const CentroCostoCombobox = lazy(() =>
+	import('@/entities/employee/centroCosto/infra/ui/CentroCostoComboBox').then(m => ({
+		default: m.CentroCostoCombobox
+	}))
+)
 
 interface CentroTrabajoInputsProps {
 	formData: DefaultCentroTrabajo
@@ -32,15 +37,17 @@ export const CentroTrabajoInputs = memo(
 	}: CentroTrabajoInputsProps) => {
 		return (
 			<div className="flex w-full max-w-2xl flex-col content-center gap-4 justify-self-center">
-				<CentroCostoCombobox
-					value={formData.centroCostoId}
-					handleChange={(_name, value) => handleChange('centroCostoId', value)}
-					name="centroCostoId"
-					isLoading={isLoading}
-					required={required.centroCostoId}
-					disabled={disabled.centroCostoId}
-					readonly={mode === 'edit'}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<CentroCostoCombobox
+						value={formData.centroCostoId}
+						handleChange={(_name, value) => handleChange('centroCostoId', value)}
+						name="centroCostoId"
+						isLoading={isLoading}
+						required={required.centroCostoId}
+						disabled={disabled.centroCostoId}
+						readonly={mode === 'edit'}
+					/>
+				</Suspense>
 				<div className="flex gap-4">
 					<Input
 						id="centro-trabajo-cod"

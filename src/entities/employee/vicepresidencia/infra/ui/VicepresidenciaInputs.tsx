@@ -1,8 +1,5 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { VicepresidenciaEjecutivaCombobox } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-import { CargoTransferList } from '@/entities/employee/cargo/infra/ui/CargoTransferList'
-import { DirectivaCombobox } from '@/entities/employee/directiva/infra/ui/DirectivaComboBox'
 import {
 	type VicepresidenciaDisabled,
 	type Action,
@@ -11,6 +8,22 @@ import {
 	type VicepresidenciaRequired
 } from '@/entities/employee/vicepresidencia/infra/reducers/vicepresidenciaFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+
+const VicepresidenciaEjecutivaCombobox = lazy(() =>
+	import(
+		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+	).then(m => ({ default: m.VicepresidenciaEjecutivaCombobox }))
+)
+const CargoTransferList = lazy(() =>
+	import('@/entities/employee/cargo/infra/ui/CargoTransferList').then(m => ({
+		default: m.CargoTransferList
+	}))
+)
+const DirectivaCombobox = lazy(() =>
+	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
+		default: m.DirectivaCombobox
+	}))
+)
 
 interface Props {
 	/**

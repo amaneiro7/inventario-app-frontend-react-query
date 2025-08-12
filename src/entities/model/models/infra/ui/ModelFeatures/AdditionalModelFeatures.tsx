@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy, Suspense, useMemo } from 'react'
+import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
+import Typography from '@/shared/ui/Typography'
+import { ModelSkeleton } from '../ModelSkeletons/ModelFormLayoutSkeleton'
 import {
 	type Action,
 	type DefaultModel,
@@ -7,10 +11,6 @@ import {
 	type ModelErrors,
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
-import Typography from '@/shared/ui/Typography'
-import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
-import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
-import { ModelSkeleton } from '../ModelSkeletons/ModelFormLayoutSkeleton'
 
 const AddModelComputerFeatures = lazy(async () =>
 	import('./AddModelComputerFeatures').then(m => ({ default: m.AddModelComputerFeatures }))
@@ -67,7 +67,7 @@ export function AddtionalModelFeatures({
 		// Condición adicional para teclados basada en categoryId
 		if (formData.categoryId === CategoryOptions.KEYBOARD) {
 			return (
-				<Suspense fallback={<ModelSkeleton type='keyboard' />}>
+				<Suspense fallback={<ModelSkeleton type="keyboard" />}>
 					<AddModelKeyboardFeatures
 						formData={formData}
 						errors={errors}
@@ -83,7 +83,7 @@ export function AddtionalModelFeatures({
 		switch (formData.mainCategoryId) {
 			case MainCategoryOptions.COMPUTER:
 				return (
-					<Suspense fallback={<ModelSkeleton type='computer' />}>
+					<Suspense fallback={<ModelSkeleton type="computer" />}>
 						<AddModelComputerFeatures
 							formData={formData}
 							errors={errors}
@@ -96,7 +96,7 @@ export function AddtionalModelFeatures({
 				)
 			case MainCategoryOptions.SCREENS:
 				return (
-					<Suspense fallback={<ModelSkeleton type='screens' />}>
+					<Suspense fallback={<ModelSkeleton type="screens" />}>
 						<AddModelMonitorFeatures
 							formData={formData}
 							errors={errors}
@@ -109,7 +109,7 @@ export function AddtionalModelFeatures({
 				)
 			case MainCategoryOptions.PRINTERS:
 				return (
-					<Suspense fallback={<ModelSkeleton type='printer' />}>
+					<Suspense fallback={<ModelSkeleton type="printer" />}>
 						<AddModelPrinterFeatures
 							formData={formData}
 							errors={errors}

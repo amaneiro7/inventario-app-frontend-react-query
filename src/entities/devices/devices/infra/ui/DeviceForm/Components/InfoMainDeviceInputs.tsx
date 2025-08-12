@@ -1,4 +1,6 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { Input } from '@/shared/ui/Input/Input'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -6,11 +8,18 @@ import {
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
-import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { Input } from '@/shared/ui/Input/Input'
-import { EmployeeCombobox } from '@/entities/employee/employee/infra/ui/EmployeeComboBox'
-import { LocationCombobox } from '@/entities/locations/locations/infra/ui/LocationComboBox'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+
+const EmployeeCombobox = lazy(() =>
+	import('@/entities/employee/employee/infra/ui/EmployeeComboBox').then(m => ({
+		default: m.EmployeeCombobox
+	}))
+)
+const LocationCombobox = lazy(() =>
+	import('@/entities/locations/locations/infra/ui/LocationComboBox').then(m => ({
+		default: m.LocationCombobox
+	}))
+)
 // import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip'
 interface InfoMainDeviceInputsProps {
 	isLoading: boolean
@@ -141,6 +150,7 @@ export const InfoMainDeviceInputs = memo(
 					required={requiredEmployeeId}
 					disabled={disabledEmployeeId}
 				/>
+
 				<LocationCombobox
 					value={locationId ?? ''}
 					statusId={statusId}

@@ -1,12 +1,16 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { CategoryTransferList } from '@/entities/category/infra/ui/CategoryTransferList'
 import {
 	type BrandErrors,
 	type Action,
 	type DefaultBrand
 } from '@/entities/brand/infra/reducers/brandFormReducer'
 
+const CategoryTransferList = lazy(() =>
+	import('@/entities/category/infra/ui/CategoryTransferList').then(m => ({
+		default: m.CategoryTransferList
+	}))
+)
 interface BrandInputsProps {
 	formData: DefaultBrand
 	errors?: BrandErrors

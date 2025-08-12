@@ -1,11 +1,5 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { OperatingSystemArqCombobox } from '@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
-import { OperatingSystemCombobox } from '@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
-import { HardDriveTypeCombobox } from '@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
-import { HardDriveCapacityCombobox } from '@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
-import { MemoryRamCapacitySlotInput } from './MemoryRamCapacitySlotInput'
-import { ProcessorCombobox } from '@/entities/devices/features/processor/infra/ui/ProcessorComboBox'
 import {
 	type DeviceRequired,
 	type DevicesDisabled,
@@ -13,6 +7,35 @@ import {
 	type DefaultDevice,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
+const OperatingSystemArqCombobox = lazy(() =>
+	import(
+		'@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
+	).then(m => ({ default: m.OperatingSystemArqCombobox }))
+)
+const OperatingSystemCombobox = lazy(() =>
+	import(
+		'@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
+	).then(m => ({ default: m.OperatingSystemCombobox }))
+)
+const HardDriveTypeCombobox = lazy(() =>
+	import(
+		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
+	).then(m => ({ default: m.HardDriveTypeCombobox }))
+)
+const HardDriveCapacityCombobox = lazy(() =>
+	import(
+		'@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
+	).then(m => ({ default: m.HardDriveCapacityCombobox }))
+)
+const MemoryRamCapacitySlotInput = lazy(() =>
+	import('./MemoryRamCapacitySlotInput').then(m => ({ default: m.MemoryRamCapacitySlotInput }))
+)
+const ProcessorCombobox = lazy(() =>
+	import('@/entities/devices/features/processor/infra/ui/ProcessorComboBox').then(m => ({
+		default: m.ProcessorCombobox
+	}))
+)
+
 interface AddComputerFeaturesProps {
 	computerName: DefaultDevice['computerName']
 	processorId: DefaultDevice['processorId']

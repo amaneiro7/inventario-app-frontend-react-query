@@ -2,9 +2,6 @@ import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { MainCategoryCombobox } from '@/entities/mainCategory/infra/ui/MainCategoryComboBox'
-import { CategoryCombobox } from '@/entities/category/infra/ui/CategoryComboBox'
-import { BrandCombobox } from '@/entities/brand/infra/ui/BrandComboBox'
 import {
 	type Action,
 	type DefaultModel,
@@ -13,6 +10,20 @@ import {
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+
+const MainCategoryCombobox = lazy(() =>
+	import('@/entities/mainCategory/infra/ui/MainCategoryComboBox').then(m => ({
+		default: m.MainCategoryCombobox
+	}))
+)
+const CategoryCombobox = lazy(() =>
+	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
+		default: m.CategoryCombobox
+	}))
+)
+const BrandCombobox = lazy(() =>
+	import('@/entities/brand/infra/ui/BrandComboBox').then(m => ({ default: m.BrandCombobox }))
+)
 
 const AddtionalModelFeatures = lazy(() =>
 	import('@/entities/model/models/infra/ui/ModelFeatures/AdditionalModelFeatures').then(m => ({

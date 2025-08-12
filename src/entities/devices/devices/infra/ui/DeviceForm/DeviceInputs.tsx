@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { lazy } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { ClasifyMainDeviceInputs } from './Components/ClasifyMainDeviceInputs'
-import { InfoMainDeviceInputs } from './Components/InfoMainDeviceInputs'
 import {
 	Action,
 	type DefaultDevice,
@@ -14,6 +12,14 @@ import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 const AddtionalFeatures = lazy(async () =>
 	import('./Components/AddtionalFeatures').then(m => ({ default: m.AddtionalFeatures }))
+)
+const ClasifyMainDeviceInputs = lazy(() =>
+	import('./Components/ClasifyMainDeviceInputs').then(m => ({
+		default: m.ClasifyMainDeviceInputs
+	}))
+)
+const InfoMainDeviceInputs = lazy(() =>
+	import('./Components/InfoMainDeviceInputs').then(m => ({ default: m.InfoMainDeviceInputs }))
 )
 
 interface DeviceInputsProps {

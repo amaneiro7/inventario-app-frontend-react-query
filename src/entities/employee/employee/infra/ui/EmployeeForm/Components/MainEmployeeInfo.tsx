@@ -1,9 +1,9 @@
-import { memo, useMemo } from 'react'
-import { Checkbox } from '@/shared/ui/Checkbox'
-import { EmployeeTypeCombobox } from '@/entities/employee/employee/infra/ui/EmployeeTypeComboBox'
-import { Input } from '@/shared/ui/Input/Input'
-import Typography from '@/shared/ui/Typography'
+import { lazy, memo, useMemo } from 'react'
+import { EmployeeCedula } from '@/entities/employee/employee/domain/value-object/EmployeeCedula'
 import { Nationalities } from '@/entities/employee/employee/domain/value-object/EmployeeNationality'
+import Typography from '@/shared/ui/Typography'
+import { Input } from '@/shared/ui/Input/Input'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import {
 	type EmployeeDisabled,
 	type EmployeeErrors,
@@ -12,7 +12,12 @@ import {
 	type DefaultEmployee
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { EmployeeCedula } from '@/entities/employee/employee/domain/value-object/EmployeeCedula'
+
+const EmployeeTypeCombobox = lazy(() =>
+	import('@/entities/employee/employee/infra/ui/EmployeeTypeComboBox').then(m => ({
+		default: m.EmployeeTypeCombobox
+	}))
+)
 
 interface MainEmployeeInfoProps {
 	/**

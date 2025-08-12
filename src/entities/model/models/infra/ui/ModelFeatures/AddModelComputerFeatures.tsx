@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo } from 'react'
+import { lazy, memo } from 'react'
+import { MemoryRamSlotQuantity } from '@/entities/model/models/domain/value-object/MemoryRamSlotQuantity'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 import { Input } from '@/shared/ui/Input/Input'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { MemoryRamSlotQuantity } from '@/entities/model/models/domain/value-object/MemoryRamSlotQuantity'
-import { MemoryRamTypeCombobox } from '@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox'
-import { ProcessorTransferList } from '@/entities/devices/features/processor/infra/ui/ProcessorTransferList'
 // Types
 import {
 	type Action,
@@ -15,6 +13,17 @@ import {
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+
+const MemoryRamTypeCombobox = lazy(() =>
+	import('@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox').then(m => ({
+		default: m.MemoryRamTypeCombobox
+	}))
+)
+const ProcessorTransferList = lazy(() =>
+	import('@/entities/devices/features/processor/infra/ui/ProcessorTransferList').then(m => ({
+		default: m.ProcessorTransferList
+	}))
+)
 
 interface AddModelComputerFeaturesProps {
 	/**

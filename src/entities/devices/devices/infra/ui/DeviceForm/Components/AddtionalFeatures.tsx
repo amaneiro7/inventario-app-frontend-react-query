@@ -8,6 +8,9 @@ import {
 	type DevicesDisabled,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
+import { AddMFPFeaturesSkeleton } from '../AddMFPFeaturesSkeleton'
+import { AddHardDriveFeaturesSkeleton } from '../AddHardDriveFeaturesSkeleton'
+import { AddComputerFeaturesSkeleton } from '../AddComputerFeaturesSkeleton'
 
 const AddComputerFeatures = lazy(() =>
 	import('./AddComputerFeatures').then(m => ({ default: m.AddComputerFeatures }))
@@ -46,9 +49,7 @@ export function AddtionalFeatures({
 			case CategoryOptions.LAPTOP:
 			case CategoryOptions.SERVER:
 				return (
-					<Suspense
-						fallback={<div className="animate-pulse-medium min-h-96 bg-gray-200" />}
-					>
+					<Suspense fallback={<AddComputerFeaturesSkeleton />}>
 						<AddComputerFeatures
 							computerName={formData.computerName}
 							processorId={formData.processorId}
@@ -100,7 +101,7 @@ export function AddtionalFeatures({
 				)
 			case CategoryOptions.MFP:
 				return (
-					<Suspense>
+					<Suspense fallback={<AddMFPFeaturesSkeleton />}>
 						<AddMFPFeatures
 							ipAddress={formData.ipAddress}
 							handleChange={handleChange}
@@ -111,7 +112,7 @@ export function AddtionalFeatures({
 				)
 			case CategoryOptions.HARDDRIVE:
 				return (
-					<Suspense>
+					<Suspense fallback={<AddHardDriveFeaturesSkeleton />}>
 						<AddHardDriveFeatures
 							hardDriveCapacityId={formData.hardDriveCapacityId}
 							hardDriveTypeId={formData.hardDriveTypeId}

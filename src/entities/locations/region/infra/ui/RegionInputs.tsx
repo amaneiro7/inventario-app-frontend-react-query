@@ -1,6 +1,5 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { AdministrativeRegionCombobox } from '@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox'
 import {
 	type Action,
 	type RegionErrors,
@@ -8,6 +7,12 @@ import {
 	type RegionRequired,
 	type RegionDisabled
 } from '@/entities/locations/region/infra/reducers/regionFormReducer'
+
+const AdministrativeRegionCombobox = lazy(() =>
+	import('@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox').then(
+		m => ({ default: m.AdministrativeRegionCombobox })
+	)
+)
 
 interface RegionInputsProps {
 	formData: DefaultRegion

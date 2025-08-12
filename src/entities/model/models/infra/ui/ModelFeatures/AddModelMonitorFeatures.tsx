@@ -1,7 +1,7 @@
 import { memo } from 'react'
+import { ScreenSize } from '@/entities/model/models/domain/value-object/ScreenSize'
 import { Input } from '@/shared/ui/Input/Input'
 import { Checkbox } from '@/shared/ui/Checkbox'
-import { ScreenSize } from '@/entities/model/models/domain/value-object/ScreenSize'
 // Types
 import {
 	type Action,

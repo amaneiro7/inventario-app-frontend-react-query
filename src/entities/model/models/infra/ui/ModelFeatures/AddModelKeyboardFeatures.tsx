@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Checkbox } from '@/shared/ui/Checkbox'
 
 // Types
@@ -11,7 +11,12 @@ import {
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { InputTypeCombobox } from '@/entities/model/inputType/infra/ui/InputTypeComboBox'
+
+const InputTypeCombobox = lazy(() =>
+	import('@/entities/model/inputType/infra/ui/InputTypeComboBox').then(m => ({
+		default: m.InputTypeCombobox
+	}))
+)
 
 interface AddModelKeyboardFeaturesProps {
 	/**

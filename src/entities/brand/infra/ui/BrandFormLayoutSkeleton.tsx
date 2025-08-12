@@ -8,7 +8,6 @@ export const BrandFormSkeletonLayout = () => (
 				<div>
 					<div className="h-10 animate-pulse rounded bg-gray-400" />
 					<div className="h-10 animate-pulse rounded bg-gray-200" />
-					<div className="h-10 animate-pulse rounded bg-gray-200" />
 				</div>
 			</div>
 		</div>

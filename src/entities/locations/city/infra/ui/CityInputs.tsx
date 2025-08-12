@@ -1,4 +1,4 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import {
 	type Action,
@@ -6,9 +6,22 @@ import {
 	type DefaultCity,
 	type CityRequired
 } from '@/entities/locations/city/infra/reducers/cityFormReducer'
-import { RegionCombobox } from '@/entities/locations/region/infra/ui/RegionComboBox'
-import { StateCombobox } from '@/entities/locations/state/infra/ui/StateComboBox'
-import { AdministrativeRegionCombobox } from '@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox'
+
+const RegionCombobox = lazy(() =>
+	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
+		default: m.RegionCombobox
+	}))
+)
+const StateCombobox = lazy(() =>
+	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
+		default: m.StateCombobox
+	}))
+)
+const AdministrativeRegionCombobox = lazy(() =>
+	import('@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox').then(
+		m => ({ default: m.AdministrativeRegionCombobox })
+	)
+)
 
 interface CityInputsProps {
 	formData: DefaultCity
@@ -29,6 +42,7 @@ export const CityInputs = memo(
 					isLoading={isLoading}
 					required={required.administrativeRegionId}
 				/>
+
 				<RegionCombobox
 					value={formData.regionId}
 					handleChange={(_name, value) => handleChange('regionId', value)}
@@ -37,6 +51,7 @@ export const CityInputs = memo(
 					isLoading={isLoading}
 					required={required.regionId}
 				/>
+
 				<StateCombobox
 					value={formData.stateId}
 					isLoading={isLoading}
@@ -45,6 +60,7 @@ export const CityInputs = memo(
 					regionId={formData.regionId}
 					required={required.stateId}
 				/>
+
 				<Input
 					id="city-name"
 					value={formData.name}

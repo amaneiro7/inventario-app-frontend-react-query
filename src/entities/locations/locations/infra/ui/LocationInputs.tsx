@@ -1,13 +1,6 @@
-import { memo } from 'react'
+import { lazy, memo } from 'react'
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { Input } from '@/shared/ui/Input/Input'
-import { TypeOfSiteCombobox } from '@/entities/locations/typeOfSites/infra/ui/TypeOfSiteComboBox'
-import { LocationStatusCombobox } from '@/entities/locations/locationStatus/infra/ui/LocationStatusComboBox'
-import { RegionCombobox } from '@/entities/locations/region/infra/ui/RegionComboBox'
-import { StateCombobox } from '@/entities/locations/state/infra/ui/StateComboBox'
-import { CityCombobox } from '@/entities/locations/city/infra/ui/CityComboBox'
-import { SiteCombobox } from '@/entities/locations/site/infra/ui/SiteCombobox'
-import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import {
 	type Action,
 	type LocationErrors,
@@ -15,6 +8,38 @@ import {
 	type LocationRequired,
 	type LocationDisabled
 } from '@/entities/locations/locations/infra/reducers/locationFormReducer'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+
+const TypeOfSiteCombobox = lazy(() =>
+	import('@/entities/locations/typeOfSites/infra/ui/TypeOfSiteComboBox').then(m => ({
+		default: m.TypeOfSiteCombobox
+	}))
+)
+const LocationStatusCombobox = lazy(() =>
+	import('@/entities/locations/locationStatus/infra/ui/LocationStatusComboBox').then(m => ({
+		default: m.LocationStatusCombobox
+	}))
+)
+const RegionCombobox = lazy(() =>
+	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
+		default: m.RegionCombobox
+	}))
+)
+const StateCombobox = lazy(() =>
+	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
+		default: m.StateCombobox
+	}))
+)
+const CityCombobox = lazy(() =>
+	import('@/entities/locations/city/infra/ui/CityComboBox').then(m => ({
+		default: m.CityCombobox
+	}))
+)
+const SiteCombobox = lazy(() =>
+	import('@/entities/locations/site/infra/ui/SiteCombobox').then(m => ({
+		default: m.SiteCombobox
+	}))
+)
 
 interface LocationInputsProps {
 	formData: DefaultLocation
