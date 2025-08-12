@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateSite } from '@/entities/locations/site/infra/hook/useCreateCity'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { SiteFormSkeletonLayout } from '@/entities/locations/site/infra/ui/SiteFormSkeletonLayout'
 
 const SiteInputs = lazy(() =>
 	import('@/entities/locations/site/infra/ui/SiteInputs').then(m => ({ default: m.SiteInputs }))
@@ -30,7 +31,13 @@ export default function FormSite() {
 	} = useCreateSite()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<SiteFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del sitio el cual desea registar."
@@ -44,14 +51,16 @@ export default function FormSite() {
 				border
 				searchInput={<SiteSearch />}
 			>
-				<SiteInputs
-					required={required}
-					formData={formData}
-					handleChange={handleChange}
-					errors={errors}
-					mode={mode}
-					isLoading={isLoading}
-				/>
+				<Suspense fallback={<SiteFormSkeletonLayout />}>
+					<SiteInputs
+						required={required}
+						formData={formData}
+						handleChange={handleChange}
+						errors={errors}
+						mode={mode}
+						isLoading={isLoading}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

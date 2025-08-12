@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateDirectiva } from '@/entities/employee/directiva/infra/hook/useCreateDirectiva'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { DirectivaFormSkeletonLayout } from '@/entities/employee/directiva/infra/ui/DirectivaFormLayoutSkeleton.tsx'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -33,7 +34,13 @@ export default function FormDirectiva() {
 	} = useCreateDirectiva()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<DirectivaFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos de la directiva el cual desea registar."
@@ -47,13 +54,15 @@ export default function FormDirectiva() {
 				border
 				searchInput={<DirectivaSearch />}
 			>
-				<DirectivaInputs
-					required={required}
-					isLoading={isLoading}
-					formData={formData}
-					handleChange={handleChange}
-					errors={errors}
-				/>
+				<Suspense fallback={<DirectivaFormSkeletonLayout />}>
+					<DirectivaInputs
+						required={required}
+						isLoading={isLoading}
+						formData={formData}
+						handleChange={handleChange}
+						errors={errors}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

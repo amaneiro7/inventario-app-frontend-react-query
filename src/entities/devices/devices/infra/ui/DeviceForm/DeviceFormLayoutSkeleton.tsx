@@ -1,4 +1,4 @@
-export const FormDeviceSkeletonLayout = () => (
+export const DeviceFormSkeletonLayout = () => (
 	<>
 		{/* Inputs */}
 		<div className="flex w-full flex-col gap-4">

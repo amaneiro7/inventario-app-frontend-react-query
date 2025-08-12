@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateLocation } from '@/entities/locations/locations/infra/hook/useCreateLocation'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { LocationFormSkeletonLayout } from '@/entities/locations/locations/infra/ui/LocationFormSkeletonLayout'
 
 const LocationInputs = lazy(() =>
 	import('@/entities/locations/locations/infra/ui/LocationInputs').then(m => ({
@@ -36,7 +37,13 @@ export default function FormLocation() {
 	} = useCreateLocation()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<LocationFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos de la ubicación el cual desea registar."
@@ -51,16 +58,18 @@ export default function FormLocation() {
 				lastUpdated={formData.updatedAt}
 				searchInput={<LocationSearch />}
 			>
-				<LocationInputs
-					required={required}
-					formData={formData}
-					disabled={disabled}
-					handleChange={handleChange}
-					handleSite={handleSite}
-					errors={errors}
-					mode={mode}
-					isLoading={isLoading}
-				/>
+				<Suspense fallback={<LocationFormSkeletonLayout />}>
+					<LocationInputs
+						required={required}
+						formData={formData}
+						disabled={disabled}
+						handleChange={handleChange}
+						handleSite={handleSite}
+						errors={errors}
+						mode={mode}
+						isLoading={isLoading}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

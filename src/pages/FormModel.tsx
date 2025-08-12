@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateModel } from '@/entities/model/models/infra/hook/useCreateModels'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { ModelSkeleton } from '@/entities/model/models/infra/ui/ModelSkeletons/ModelFormLayoutSkeleton.tsx'
 
 const ModelInputs = lazy(() =>
 	import('@/entities/model/models/infra/ui/ModelForm/ModelInputs').then(m => ({
@@ -34,7 +35,13 @@ export default function FormModel() {
 	} = useCreateModel()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout>
+					<ModelSkeleton type='form' />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del modelo el cual desea registar."
@@ -48,15 +55,17 @@ export default function FormModel() {
 				lastUpdated={formData.updatedAt}
 				searchInput={<ModelSearch />}
 			>
-				<ModelInputs
-					required={required}
-					disabled={disabled}
-					formData={formData}
-					handleChange={handleChange}
-					errors={errors}
-					mode={mode}
-					isLoading={isLoading}
-				/>
+				<Suspense fallback={<ModelSkeleton type='form' />}>
+					<ModelInputs
+						required={required}
+						disabled={disabled}
+						formData={formData}
+						handleChange={handleChange}
+						errors={errors}
+						mode={mode}
+						isLoading={isLoading}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

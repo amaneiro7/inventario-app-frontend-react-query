@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateVicepresidenciaEjecutiva } from '@/entities/employee/vicepresidenciaEjecutiva/infra/hook/useCreateVicepresidenciaEjecutiva'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { VicepresidenciaEjecutivaFormSkeletonLayout } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaFormLayoutSkeleton.tsx'
 
 const VicepresidenciaEjecutivasInputs = lazy(() =>
 	import(
@@ -34,7 +35,13 @@ export default function FormVicepresidenciaEjecutiva() {
 	} = useCreateVicepresidenciaEjecutiva()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<VicepresidenciaEjecutivaFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos de la vicepresidencia ejecutiva el cual desea registar."
@@ -48,13 +55,15 @@ export default function FormVicepresidenciaEjecutiva() {
 				border
 				searchInput={<VicepresidenciaEjecutivaSearch />}
 			>
-				<VicepresidenciaEjecutivasInputs
-					isLoading={isLoading}
-					required={required}
-					formData={formData}
-					handleChange={handleChange}
-					errors={errors}
-				/>
+				<Suspense fallback={<VicepresidenciaEjecutivaFormSkeletonLayout />}>
+					<VicepresidenciaEjecutivasInputs
+						isLoading={isLoading}
+						required={required}
+						formData={formData}
+						handleChange={handleChange}
+						errors={errors}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

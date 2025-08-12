@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateBrand } from '@/entities/brand/infra/hooks/useCreateBrand'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { BrandFormSkeletonLayout } from '@/entities/brand/infra/ui/BrandFormLayoutSkeleton'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -27,7 +28,13 @@ export default function FormBrand() {
 		resetForm
 	} = useCreateBrand()
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<BrandFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos de la marca el cual desea registar."
@@ -41,12 +48,14 @@ export default function FormBrand() {
 				border
 				searchInput={<BrandSearch />}
 			>
-				<BrandInputs
-					formData={formData}
-					isLoading={isLoading}
-					handleChange={handleChange}
-					errors={errors}
-				/>
+				<Suspense fallback={<BrandFormSkeletonLayout />}>
+					<BrandInputs
+						formData={formData}
+						isLoading={isLoading}
+						handleChange={handleChange}
+						errors={errors}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

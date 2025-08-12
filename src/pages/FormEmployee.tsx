@@ -5,6 +5,7 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
 import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/components/SignatureGeneratorSkeleton'
+import { EmployeeFormSkeletonLayout } from '@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeFormLayoutSkeleton'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -72,7 +73,13 @@ export default function FormEmployee() {
 				</DetailsBoxWrapper>
 
 				<TabsContent value="form" className="space-y-4">
-					<Suspense fallback={<FormSkeletonLayout />}>
+					<Suspense
+						fallback={
+							<FormSkeletonLayout>
+								<EmployeeFormSkeletonLayout />
+							</FormSkeletonLayout>
+						}
+					>
 						<FormLayout
 							id={key}
 							description="Ingrese los datos del usuario el cual desea registar."
@@ -86,19 +93,21 @@ export default function FormEmployee() {
 							lastUpdated={updatedAt}
 							url="/form/employee/add"
 						>
-							<EmployeeInputs
-								formData={formData}
-								errors={errors}
-								required={required}
-								disabled={disabled}
-								isLoading={isLoading}
-								mode={mode}
-								handleChange={handleChange}
-								handleAddPhones={handleAddPhones}
-								handleClearFirstPhone={handleClearFirstPhone}
-								handlePhoneChange={handlePhoneChange}
-								handleRemovePhones={handleRemovePhones}
-							/>
+							<Suspense fallback={<EmployeeFormSkeletonLayout />}>
+								<EmployeeInputs
+									formData={formData}
+									errors={errors}
+									required={required}
+									disabled={disabled}
+									isLoading={isLoading}
+									mode={mode}
+									handleChange={handleChange}
+									handleAddPhones={handleAddPhones}
+									handleClearFirstPhone={handleClearFirstPhone}
+									handlePhoneChange={handlePhoneChange}
+									handleRemovePhones={handleRemovePhones}
+								/>
+							</Suspense>
 						</FormLayout>
 					</Suspense>
 				</TabsContent>

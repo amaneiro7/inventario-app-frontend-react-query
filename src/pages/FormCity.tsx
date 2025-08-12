@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateCity } from '@/entities/locations/city/infra/hook/useCreateCity'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { CityFormSkeletonLayout } from '@/entities/locations/city/infra/ui/CityFormSkeletonLayout'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -29,7 +30,13 @@ export default function FormCity() {
 	} = useCreateCity()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<CityFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos de la ciudad el cual desea registar."
@@ -43,13 +50,15 @@ export default function FormCity() {
 				border
 				searchInput={<CitySearch />}
 			>
-				<CityInputs
-					isLoading={isLoading}
-					required={required}
-					formData={formData}
-					handleChange={handleChange}
-					errors={errors}
-				/>
+				<Suspense fallback={<CityFormSkeletonLayout />}>
+					<CityInputs
+						isLoading={isLoading}
+						required={required}
+						formData={formData}
+						handleChange={handleChange}
+						errors={errors}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

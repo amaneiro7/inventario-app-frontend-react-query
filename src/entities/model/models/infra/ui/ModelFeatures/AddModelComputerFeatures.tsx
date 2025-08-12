@@ -4,7 +4,7 @@ import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptio
 import { Input } from '@/shared/ui/Input/Input'
 import { Checkbox } from '@/shared/ui/Checkbox'
 import { MemoryRamSlotQuantity } from '@/entities/model/models/domain/value-object/MemoryRamSlotQuantity'
-
+import { MemoryRamTypeCombobox } from '@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox'
 import { ProcessorTransferList } from '@/entities/devices/features/processor/infra/ui/ProcessorTransferList'
 // Types
 import {
@@ -15,7 +15,7 @@ import {
 	type ModelRequired
 } from '@/entities/model/models/infra/reducers/modelFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { MemoryRamTypeCombobox } from '@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox'
+
 interface AddModelComputerFeaturesProps {
 	/**
 	 * The current form data for the model.

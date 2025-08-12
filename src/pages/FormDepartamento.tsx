@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateDepartamento } from '@/entities/employee/departamento/infra/hook/useCreateDepartamento'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { DepartamentoFormSkeletonLayout } from '@/entities/employee/departamento/infra/ui/DepartamentoFormSkeletonLayout'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -34,7 +35,13 @@ export default function FormDepartamento() {
 	} = useCreateDepartamento()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<DepartamentoFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del departamento el cual desea registar."
@@ -49,15 +56,17 @@ export default function FormDepartamento() {
 				lastUpdated={formData.updatedAt}
 				searchInput={<DepartamentoSearch />}
 			>
-				<DepartamentoInputs
-					isLoading={isLoading}
-					required={required}
-					formData={formData}
-					disabled={disabled}
-					handleChange={handleChange}
-					errors={errors}
-					mode={mode}
-				/>
+				<Suspense fallback={<DepartamentoFormSkeletonLayout />}>
+					<DepartamentoInputs
+						isLoading={isLoading}
+						required={required}
+						formData={formData}
+						disabled={disabled}
+						handleChange={handleChange}
+						errors={errors}
+						mode={mode}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

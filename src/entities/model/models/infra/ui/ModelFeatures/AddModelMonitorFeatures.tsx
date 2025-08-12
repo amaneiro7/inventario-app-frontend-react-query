@@ -50,7 +50,7 @@ export const AddModelMonitorFeatures = memo(
 	({ handleChange, errors, formData, isLoading, required }: AddModelMonitorFeaturesProps) => {
 		return (
 			<>
-				<div className="flex gap-4">
+				<div className="grid gap-4 md:grid-cols-2">
 					<Input
 						id="screenSize"
 						value={formData.screenSize}
@@ -64,40 +64,40 @@ export const AddModelMonitorFeatures = memo(
 						error={!!errors?.screenSize}
 						errorMessage={errors?.screenSize}
 						required={required.screenSize}
-						rightAdorment={<p>Pulgadas</p>}
+						rightAdorment={<span className="text-[8px]">Pulgadas</span>}
 						min={ScreenSize.MIN}
 						max={ScreenSize.MAX}
 						step={0.1}
 					/>
-				</div>
-				<div className="grid grid-flow-row gap-4 md:grid-cols-3">
-					<Checkbox
-						label="Tiene puerto VGA"
-						text="¿Tiene puerto VGA?"
-						value={formData.hasVGA}
-						name="hasVGA"
-						onChange={e => {
-							handleChange('hasVGA', e.target.checked)
-						}}
-					/>
-					<Checkbox
-						label="Tiene puerto DVI"
-						text="¿Tiene puerto DVI?"
-						value={formData.hasDVI}
-						name="hasDVI"
-						onChange={e => {
-							handleChange('hasDVI', e.target.checked)
-						}}
-					/>
-					<Checkbox
-						label="Tiene puerto HDMI"
-						text="¿Tiene puerto HDMI?"
-						value={formData.hasHDMI}
-						name="hasHDMI"
-						onChange={e => {
-							handleChange('hasHDMI', e.target.checked)
-						}}
-					/>
+					<div className="grid grid-flow-row gap-4 md:grid-cols-2">
+						<Checkbox
+							label="Tiene puerto VGA"
+							text="¿Tiene puerto VGA?"
+							value={formData.hasVGA}
+							name="hasVGA"
+							onChange={e => {
+								handleChange('hasVGA', e.target.checked)
+							}}
+						/>
+						<Checkbox
+							label="Tiene puerto DVI"
+							text="¿Tiene puerto DVI?"
+							value={formData.hasDVI}
+							name="hasDVI"
+							onChange={e => {
+								handleChange('hasDVI', e.target.checked)
+							}}
+						/>
+						<Checkbox
+							label="Tiene puerto HDMI"
+							text="¿Tiene puerto HDMI?"
+							value={formData.hasHDMI}
+							name="hasHDMI"
+							onChange={e => {
+								handleChange('hasHDMI', e.target.checked)
+							}}
+						/>
+					</div>
 				</div>
 			</>
 		)

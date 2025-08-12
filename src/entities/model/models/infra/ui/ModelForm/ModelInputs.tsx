@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'
 import { Checkbox } from '@/shared/ui/Checkbox'
@@ -137,16 +136,15 @@ export const ModelInputs = memo(function ({
 			</div>
 
 			{/* Informacion Adicional */}
-			<Suspense>
-				<AddtionalModelFeatures
-					formData={formData}
-					errors={errors}
-					required={required}
-					disabled={disabled}
-					handleChange={handleChange}
-					isLoading={isLoading}
-				/>
-			</Suspense>
+
+			<AddtionalModelFeatures
+				formData={formData}
+				errors={errors}
+				required={required}
+				disabled={disabled}
+				handleChange={handleChange}
+				isLoading={isLoading}
+			/>
 		</div>
 	)
 })

@@ -10,6 +10,7 @@ import {
 import Typography from '@/shared/ui/Typography'
 import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
+import { ModelSkeleton } from '../ModelSkeletons/ModelFormLayoutSkeleton'
 
 const AddModelComputerFeatures = lazy(async () =>
 	import('./AddModelComputerFeatures').then(m => ({ default: m.AddModelComputerFeatures }))
@@ -66,50 +67,58 @@ export function AddtionalModelFeatures({
 		// Condición adicional para teclados basada en categoryId
 		if (formData.categoryId === CategoryOptions.KEYBOARD) {
 			return (
-				<AddModelKeyboardFeatures
-					formData={formData}
-					errors={errors}
-					required={required}
-					disabled={disabled}
-					handleChange={handleChange}
-					isLoading={isLoading}
-				/>
+				<Suspense fallback={<ModelSkeleton type='keyboard' />}>
+					<AddModelKeyboardFeatures
+						formData={formData}
+						errors={errors}
+						required={required}
+						disabled={disabled}
+						handleChange={handleChange}
+						isLoading={isLoading}
+					/>
+				</Suspense>
 			)
 		}
 		// Lógica existente basada en mainCategoryId
 		switch (formData.mainCategoryId) {
 			case MainCategoryOptions.COMPUTER:
 				return (
-					<AddModelComputerFeatures
-						formData={formData}
-						errors={errors}
-						required={required}
-						disabled={disabled}
-						handleChange={handleChange}
-						isLoading={isLoading}
-					/>
+					<Suspense fallback={<ModelSkeleton type='computer' />}>
+						<AddModelComputerFeatures
+							formData={formData}
+							errors={errors}
+							required={required}
+							disabled={disabled}
+							handleChange={handleChange}
+							isLoading={isLoading}
+						/>
+					</Suspense>
 				)
 			case MainCategoryOptions.SCREENS:
 				return (
-					<AddModelMonitorFeatures
-						formData={formData}
-						errors={errors}
-						required={required}
-						disabled={disabled}
-						handleChange={handleChange}
-						isLoading={isLoading}
-					/>
+					<Suspense fallback={<ModelSkeleton type='screens' />}>
+						<AddModelMonitorFeatures
+							formData={formData}
+							errors={errors}
+							required={required}
+							disabled={disabled}
+							handleChange={handleChange}
+							isLoading={isLoading}
+						/>
+					</Suspense>
 				)
 			case MainCategoryOptions.PRINTERS:
 				return (
-					<AddModelPrinterFeatures
-						formData={formData}
-						errors={errors}
-						required={required}
-						disabled={disabled}
-						handleChange={handleChange}
-						isLoading={isLoading}
-					/>
+					<Suspense fallback={<ModelSkeleton type='printer' />}>
+						<AddModelPrinterFeatures
+							formData={formData}
+							errors={errors}
+							required={required}
+							disabled={disabled}
+							handleChange={handleChange}
+							isLoading={isLoading}
+						/>
+					</Suspense>
 				)
 			default:
 				return null
@@ -122,7 +131,7 @@ export function AddtionalModelFeatures({
 					<Typography color="azul" variant="h4">
 						Información Adicional
 					</Typography>
-					<Suspense>{additionalFeatures}</Suspense>
+					{additionalFeatures}
 				</div>
 			)}
 		</>

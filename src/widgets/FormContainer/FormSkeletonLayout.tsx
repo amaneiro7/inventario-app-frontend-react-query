@@ -1,4 +1,9 @@
-export const FormSkeletonLayout = ({ children }: React.PropsWithChildren) => (
+import { cn } from '@/shared/lib/utils'
+
+export const FormSkeletonLayout = ({
+	children,
+	border
+}: React.PropsWithChildren<{ border?: boolean }>) => (
 	<>
 		{/* Search Input */}
 		<div className="flex w-full flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
@@ -12,15 +17,26 @@ export const FormSkeletonLayout = ({ children }: React.PropsWithChildren) => (
 			</div>
 		</div>
 		{/* Inputs */}
-		<div className="flex w-full flex-col items-center gap-3 rounded-2xl bg-white p-4 shadow-sm">
-			<div className="relative grid min-h-64 w-full gap-5">
-				{/* Inputs */}
-				{children ? children : <Default />}
-				{/* Buttons */}
-				<div className="mt-8 flex flex-col justify-end gap-5 justify-self-end md:w-1/3 md:flex-row">
-					<div className="h-11 w-32 animate-pulse rounded bg-gray-200" />
-					<div className="h-11 w-32 animate-pulse rounded bg-gray-200" />
-					<div className="h-11 w-32 animate-pulse rounded bg-gray-200" />
+		<div
+			aria-label="DetailsBoxWrapper"
+			className="flex w-full flex-col items-center gap-3 rounded-2xl bg-white p-4 shadow-sm"
+		>
+			<div
+				aria-label="form"
+				className={cn(
+					'flex w-full justify-center bg-white',
+					border && 'flex flex-col gap-4 rounded-lg border border-gray-400 p-8 pt-4'
+				)}
+			>
+				<div className="relative grid min-h-64 w-full gap-5">
+					{/* Inputs */}
+					{children ? children : <Default />}
+					{/* Buttons */}
+					<div className="mt-8 flex flex-col justify-end gap-5 justify-self-end md:w-1/3 md:flex-row">
+						<div className="h-11 w-32 animate-pulse rounded bg-gray-200" />
+						<div className="h-11 w-32 animate-pulse rounded bg-gray-200" />
+						<div className="h-11 w-32 animate-pulse rounded bg-gray-200" />
+					</div>
 				</div>
 			</div>
 		</div>

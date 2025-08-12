@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react'
 import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreateDevice'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
-import { FormDeviceSkeletonLayout } from '@/entities/devices/devices/infra/ui/DeviceForm/DeviceFormLayoutSkeleton'
+import { DeviceFormSkeletonLayout } from '@/entities/devices/devices/infra/ui/DeviceForm/DeviceFormLayoutSkeleton'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -42,7 +42,7 @@ export default function FormDevice() {
 		<Suspense
 			fallback={
 				<FormSkeletonLayout>
-					<FormDeviceSkeletonLayout />
+					<DeviceFormSkeletonLayout />
 				</FormSkeletonLayout>
 			}
 		>
@@ -60,18 +60,20 @@ export default function FormDevice() {
 				updatedBy={formData.history}
 				url="/form/device/add"
 			>
-				<DeviceInputs
-					formData={formData}
-					errors={errors}
-					required={required}
-					disabled={disabled}
-					mode={mode}
-					isLoading={isLoading}
-					handleChange={handleChange}
-					handleLocation={handleLocation}
-					handleMemory={handleMemory}
-					handleModel={handleModel}
-				/>
+				<Suspense fallback={<DeviceFormSkeletonLayout />}>
+					<DeviceInputs
+						formData={formData}
+						errors={errors}
+						required={required}
+						disabled={disabled}
+						mode={mode}
+						isLoading={isLoading}
+						handleChange={handleChange}
+						handleLocation={handleLocation}
+						handleMemory={handleMemory}
+						handleModel={handleModel}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateCargo } from '@/entities/employee/cargo/infra/hook/useCreateCargo'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { CargoFormSkeletonLayout } from '@/entities/employee/cargo/infra/ui/CargoFormSkeletonLayout'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -30,7 +31,13 @@ export default function FormCargo() {
 	} = useCreateCargo()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<CargoFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del Cargo el cual desea registar."
@@ -45,14 +52,16 @@ export default function FormCargo() {
 				lastUpdated={formData.updatedAt}
 				searchInput={<CargoSearch />}
 			>
-				<CargoInputs
-					isLoading={isLoading}
-					required={required}
-					formData={formData}
-					disabled={disabled}
-					handleChange={handleChange}
-					errors={errors}
-				/>
+				<Suspense fallback={<CargoFormSkeletonLayout />}>
+					<CargoInputs
+						isLoading={isLoading}
+						required={required}
+						formData={formData}
+						disabled={disabled}
+						handleChange={handleChange}
+						errors={errors}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)

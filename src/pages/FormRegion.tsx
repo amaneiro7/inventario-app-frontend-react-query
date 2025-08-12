@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateRegion } from '@/entities/locations/region/infra/hook/useCreateRegion'
-import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { RegionFormLayoutSkeleton } from '@/entities/locations/region/infra/ui/RegionFormLayoutSkeleton'
+import { RegionFormInputSkeleton } from '@/entities/locations/region/infra/ui/RegionFormInputSkeleton'
 
 const RegionInputs = lazy(() =>
 	import('@/entities/locations/region/infra/ui/RegionInputs').then(m => ({
@@ -33,7 +34,7 @@ export default function FormRegion() {
 	} = useCreateRegion()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense fallback={<RegionFormLayoutSkeleton />}>
 			<FormLayout
 				id={key}
 				description="Busque la región el cual desea registrar en una de las zonas administrativas"
@@ -49,14 +50,16 @@ export default function FormRegion() {
 				searchInput={<RegionSearch />}
 			>
 				{mode === 'edit' && (
-					<RegionInputs
-						required={required}
-						isLoading={isLoading}
-						formData={formData}
-						disabled={disabled}
-						handleChange={handleChange}
-						errors={errors}
-					/>
+					<Suspense fallback={<RegionFormInputSkeleton />}>
+						<RegionInputs
+							required={required}
+							isLoading={isLoading}
+							formData={formData}
+							disabled={disabled}
+							handleChange={handleChange}
+							errors={errors}
+						/>
+					</Suspense>
 				)}
 			</FormLayout>
 		</Suspense>

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { useCreateProcessor } from '@/entities/devices/features/processor/infra/hooks/useCreateProcessor'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { ProcessorFormSkeletonLayout } from '@/entities/devices/features/processor/infra/ui/ProcessorFormLayoutSkeleton.tsx'
 
 const ProcessorInputs = lazy(() =>
 	import('@/entities/devices/features/processor/infra/ui/ProcessorInputs').then(m => ({
@@ -33,7 +34,13 @@ export default function FormProcessor() {
 	} = useCreateProcessor()
 
 	return (
-		<Suspense fallback={<FormSkeletonLayout />}>
+		<Suspense
+			fallback={
+				<FormSkeletonLayout border>
+					<ProcessorFormSkeletonLayout />
+				</FormSkeletonLayout>
+			}
+		>
 			<FormLayout
 				id={key}
 				description="Ingrese los datos del procesador el cual desea registar."
@@ -47,12 +54,14 @@ export default function FormProcessor() {
 				border
 				searchInput={<ProcessorSearch />}
 			>
-				<ProcessorInputs
-					isLoading={isLoading}
-					formData={formData}
-					handleChange={handleChange}
-					errors={errors}
-				/>
+				<Suspense fallback={<ProcessorFormSkeletonLayout />}>
+					<ProcessorInputs
+						isLoading={isLoading}
+						formData={formData}
+						handleChange={handleChange}
+						errors={errors}
+					/>
+				</Suspense>
 			</FormLayout>
 		</Suspense>
 	)
