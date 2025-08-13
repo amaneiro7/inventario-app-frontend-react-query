@@ -3,17 +3,41 @@ import { useGetAllComputerDevices } from '@/entities/devices/devices/infra/hook/
 import { useTableDeviceWrapper } from './useTableDeviceWrapper'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { DeviceComputerFilter } from '@/entities/devices/devices/application/computerFilter/DeviceComputerFilter'
-import { Table } from '@/shared/ui/Table/Table'
-import { TableBody } from '@/shared/ui/Table/TableBody'
-import { TableHead } from '@/shared/ui/Table/TableHead'
-import { TableHeader } from '@/shared/ui/Table/TableHeader'
-import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
-import { TableRow } from '@/shared/ui/Table/TableRow'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
-import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
-import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+
+const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
+const TableBody = lazy(() =>
+	import('@/shared/ui/Table/TableBody').then(m => ({ default: m.TableBody }))
+)
+const TableHead = lazy(() =>
+	import('@/shared/ui/Table/TableHead').then(m => ({ default: m.TableHead }))
+)
+const TableHeader = lazy(() =>
+	import('@/shared/ui/Table/TableHeader').then(m => ({ default: m.TableHeader }))
+)
+const TablePageWrapper = lazy(() =>
+	import('@/shared/ui/Table/TablePageWrapper').then(m => ({ default: m.TablePageWrapper }))
+)
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+
+const TabsNav = lazy(() => import('@/shared/ui/Tabs/TabsNav').then(m => ({ default: m.TabsNav })))
+const PaginationBar = lazy(() =>
+	import('@/shared/ui/Pagination/PaginationBar').then(m => ({ default: m.PaginationBar }))
+)
+
+const TypeOfSiteTabNav = lazy(() =>
+	import('@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav').then(m => ({
+		default: m.TypeOfSiteTabNav
+	}))
+)
+const TableDevice = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableDevice').then(m => ({
+		default: m.TableDevice
+	}))
+)
 
 interface TableWrapperProps {
 	query: DeviceBaseFilters
@@ -22,12 +46,6 @@ interface TableWrapperProps {
 	handleSort: (field: string) => Promise<void>
 	handleChange: (name: string, value: string | number) => void
 }
-
-const TableDevice = lazy(() =>
-	import('@/entities/devices/devices/infra/ui/DeviceTable/TableDevice').then(m => ({
-		default: m.TableDevice
-	}))
-)
 
 export const TableWrapper = memo(
 	({ query, handleSort, handleChange, handlePageSize, handlePageClick }: TableWrapperProps) => {

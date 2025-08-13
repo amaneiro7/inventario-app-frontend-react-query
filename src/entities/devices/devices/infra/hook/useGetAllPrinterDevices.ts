@@ -26,7 +26,7 @@ export const useGetAllPrinterDevices = (query: DeviceBaseFilters) => {
 		isError,
 		data: devices
 	} = useQuery({
-		queryKey: ['devices', query],
+		queryKey: ['devices', 'printers', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
 		refetchOnMount: true,

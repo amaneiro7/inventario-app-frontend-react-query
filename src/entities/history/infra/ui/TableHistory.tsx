@@ -1,15 +1,28 @@
-import React, { memo } from 'react'
+import React, { lazy, memo } from 'react'
 import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
-import { TableRow } from '@/shared/ui/Table/TableRow'
-import { TableCell } from '@/shared/ui/Table/TableCell'
-import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
-import { TableCellError } from '@/shared/ui/Table/TableCellError'
-import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
-import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
-import { BackgroundType } from '@/shared/ui/Typography/types'
-import { HistoryDescription } from './TableDescription'
+import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
+import { type BackgroundType } from '@/shared/ui/Typography/types'
 
+const HistoryDescription = lazy(() =>
+	import('./HistoryDescription').then(m => ({ default: m.HistoryDescription }))
+)
+
+const TableCell = lazy(() =>
+	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
+)
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+const TableCellOpenIcon = lazy(() =>
+	import('@/shared/ui/Table/TableCellOpenIcon').then(m => ({ default: m.TableCellOpenIcon }))
+)
+const TableCellError = lazy(() =>
+	import('@/shared/ui/Table/TableCellError').then(m => ({ default: m.TableCellError }))
+)
+const TableCellEmpty = lazy(() =>
+	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
+)
 interface TableHistoryProps {
 	/**
 	 * An array of history data to display in the table.

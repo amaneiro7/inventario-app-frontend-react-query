@@ -1,12 +1,27 @@
-import React, { memo } from 'react'
+import React, { lazy, memo } from 'react'
 import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
-import { TableRow } from '@/shared/ui/Table/TableRow'
-import { TableCell } from '@/shared/ui/Table/TableCell'
-import { TableCellError } from '@/shared/ui/Table/TableCellError'
-import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
-import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
-import { EmployeeDescription } from '@/entities/employee/employee/infra/ui/EmployeesDescription'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
+
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+const TableCell = lazy(() =>
+	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
+)
+const TableCellError = lazy(() =>
+	import('@/shared/ui/Table/TableCellError').then(m => ({ default: m.TableCellError }))
+)
+const TableCellEmpty = lazy(() =>
+	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
+)
+const TableCellOpenIcon = lazy(() =>
+	import('@/shared/ui/Table/TableCellOpenIcon').then(m => ({ default: m.TableCellOpenIcon }))
+)
+const EmployeeDescription = lazy(() =>
+	import('@/entities/employee/employee/infra/ui/EmployeesDescription').then(m => ({
+		default: m.EmployeeDescription
+	}))
+)
 import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 interface TableEmployeesProps {
@@ -84,13 +99,21 @@ export const TableEmployees = memo(
 								{visibleColumns.includes('phone') ? (
 									<TableCell
 										size="small"
-										value={formatearTelefono(employee?.phone[0])}
+										value={
+											employee.phone
+												? formatearTelefono(employee?.phone[0])
+												: ''
+										}
 									/>
 								) : null}
 								{visibleColumns.includes('extension') ? (
 									<TableCell
 										size="small"
-										value={formatearTelefono(employee?.extension[0])}
+										value={
+											employee.extension
+												? formatearTelefono(employee?.extension[0])
+												: ''
+										}
 									/>
 								) : null}
 								<TableCellOpenIcon open={expandedRows.includes(employee.id)} />

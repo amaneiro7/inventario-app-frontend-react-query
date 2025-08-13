@@ -2,11 +2,24 @@ import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLocationFilter } from '@/entities/locations/locations/infra/hook/useLocationFilters'
 //components
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/shared/ui/FilterSection'
-import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { Loading } from '@/shared/ui/Loading'
-import { LocationDataWrapper } from '@/widgets/tables/LocationTable'
+import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
+import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
+
+const LocationDataWrapper = lazy(() =>
+	import('@/widgets/tables/LocationTable').then(m => ({ default: m.LocationDataWrapper }))
+)
+
+const DetailsBoxWrapper = lazy(() =>
+	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
+		default: m.DetailsBoxWrapper
+	}))
+)
+const FilterSection = lazy(() =>
+	import('@/shared/ui/FilterSection').then(m => ({ default: m.FilterSection }))
+)
+const ButtonSection = lazy(() =>
+	import('@/shared/ui/ButttonSection/ButtonSection').then(m => ({ default: m.ButtonSection }))
+)
 
 const LocationPrimaryFilter = lazy(() =>
 	import('@/features/location-filter/ui/LocationPrimaryFilter').then(m => ({
@@ -20,35 +33,41 @@ export default function ListSite() {
 		useLocationFilter()
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<LocationPrimaryFilter
-						administrativeRegionId={query.administrativeRegionId}
-						locationStatusId={query.locationStatusId}
-						name={query.name}
-						regionId={query.regionId}
-						stateId={query.stateId}
-						cityId={query.cityId}
-						typeOfSiteId={query.typeOfSiteId}
-						subnet={query.subnet}
-						handleChange={handleChange}
-					/>
+					<Suspense fallback={<PrimaryFilterSkeleton />}>
+						<LocationPrimaryFilter
+							administrativeRegionId={query.administrativeRegionId}
+							locationStatusId={query.locationStatusId}
+							name={query.name}
+							regionId={query.regionId}
+							stateId={query.stateId}
+							cityId={query.cityId}
+							typeOfSiteId={query.typeOfSiteId}
+							subnet={query.subnet}
+							handleChange={handleChange}
+						/>
+					</Suspense>
 				</FilterSection>
-				<ButtonSection
-					handleClear={cleanFilters}
-					handleAdd={() => {
-						navigate('/form/location/add')
-					}}
-				/>
+				<Suspense fallback={<ButtonSectionSkeleton />}>
+					<ButtonSection
+						handleClear={cleanFilters}
+						handleAdd={() => {
+							navigate('/form/location/add')
+						}}
+					/>
+				</Suspense>
 			</DetailsBoxWrapper>
-			<LocationDataWrapper
-				handlePageSize={handlePageSize}
-				handlePageClick={handlePageClick}
-				handleChange={handleChange}
-				handleSort={handleSort}
-				query={query}
-			/>
-		</Suspense>
+			<Suspense fallback={null}>
+				<LocationDataWrapper
+					handlePageSize={handlePageSize}
+					handlePageClick={handlePageClick}
+					handleChange={handleChange}
+					handleSort={handleSort}
+					query={query}
+				/>
+			</Suspense>
+		</>
 	)
 }

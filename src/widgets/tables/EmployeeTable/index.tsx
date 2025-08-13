@@ -2,18 +2,32 @@ import { lazy, memo, Suspense } from 'react'
 import { useGetAllEmployees } from '@/entities/employee/employee/infra/hook/useGetAllEmployee'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { useTableDeviceWrapper } from './useTableEmployeeWrapper'
-
 import { EmployeeGetByCriteria } from '@/entities/employee/employee/application/EmployeeGetByCriteria'
-import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
-import { Table } from '@/shared/ui/Table/Table'
-import { TableBody } from '@/shared/ui/Table/TableBody'
-import { TableHead } from '@/shared/ui/Table/TableHead'
-import { TableHeader } from '@/shared/ui/Table/TableHeader'
-import { TableRow } from '@/shared/ui/Table/TableRow'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
-import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 import { type EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
+
+const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
+const TableBody = lazy(() =>
+	import('@/shared/ui/Table/TableBody').then(m => ({ default: m.TableBody }))
+)
+const TableHead = lazy(() =>
+	import('@/shared/ui/Table/TableHead').then(m => ({ default: m.TableHead }))
+)
+const TableHeader = lazy(() =>
+	import('@/shared/ui/Table/TableHeader').then(m => ({ default: m.TableHeader }))
+)
+const TablePageWrapper = lazy(() =>
+	import('@/shared/ui/Table/TablePageWrapper').then(m => ({ default: m.TablePageWrapper }))
+)
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+
+const TabsNav = lazy(() => import('@/shared/ui/Tabs/TabsNav').then(m => ({ default: m.TabsNav })))
+
+const PaginationBar = lazy(() =>
+	import('@/shared/ui/Pagination/PaginationBar').then(m => ({ default: m.PaginationBar }))
+)
 
 interface TableEmployeeWrapperProps {
 	query: EmployeeFilters

@@ -27,7 +27,6 @@ const Component = (
 	const [open, setOpen] = useState(false)
 
 	const handleOpen = useCallback(() => {
-		console.log('abrir')
 		triggerRef.current = document.activeElement as HTMLElement
 		setOpen(true)
 	}, [])

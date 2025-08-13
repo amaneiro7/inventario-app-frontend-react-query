@@ -1,8 +1,16 @@
-import { memo } from 'react'
-import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
-import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
-import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
+import { lazy, memo } from 'react'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
+import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
+
+const TableCellDescInfo = lazy(() =>
+	import('@/shared/ui/Table/TableCellDescInfo').then(m => ({ default: m.TableCellDescInfo }))
+)
+
+const TableCellDescription = lazy(() =>
+	import('@/shared/ui/Table/TableCellDescription').then(m => ({
+		default: m.TableCellDescription
+	}))
+)
 
 interface ModelDescriptionProps {
 	/**
@@ -115,7 +123,7 @@ export const ModelDescription = memo(
 							/>
 						</>
 					)}
-					{model?.modelPrinter && (
+					{model?.modelPrinter && (
 						<>
 							<TableCellDescInfo
 								title="Modelo del cartucho"

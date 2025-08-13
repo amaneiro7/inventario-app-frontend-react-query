@@ -3,12 +3,32 @@ import { useNavigate } from 'react-router-dom'
 import { useComputerFilter } from '@/entities/devices/devices/infra/hook/useComputerFilters'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 //components
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { FilterSection } from '@/shared/ui/FilterSection'
-import { FilterAside, type FilterAsideRef } from '@/widgets/FilterAside'
-import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { TableWrapper } from '@/widgets/tables/ComputerTable/ComputerTable'
+import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
+import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
+import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+// Types
+import { type FilterAsideRef } from '@/widgets/FilterAside'
+
+const DetailsBoxWrapper = lazy(() =>
+	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
+		default: m.DetailsBoxWrapper
+	}))
+)
+const FilterSection = lazy(() =>
+	import('@/shared/ui/FilterSection').then(m => ({ default: m.FilterSection }))
+)
+const ButtonSection = lazy(() =>
+	import('@/shared/ui/ButttonSection/ButtonSection').then(m => ({ default: m.ButtonSection }))
+)
+
+const FilterAside = lazy(() =>
+	import('@/widgets/FilterAside').then(m => ({ default: m.FilterAside }))
+)
+
+const TableWrapper = lazy(() =>
+	import('@/widgets/tables/ComputerTable/ComputerTable').then(m => ({ default: m.TableWrapper }))
+)
 
 const DevicePrimaryFilter = lazy(() =>
 	import('@/features/device-filter/ui/DevicePrimaryFilter').then(m => ({
@@ -55,24 +75,26 @@ export default function ListComputer() {
 		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<ComputerPrimaryFilter
-						categoryId={query.categoryId}
-						employeeId={query.employeeId}
-						serial={query.serial}
-						locationId={query.locationId}
-						regionId={query.regionId}
-						administrativeRegionId={query.administrativeRegionId}
-						mainCategoryId={mainCategoryId}
-						typeOfSiteId={query.typeOfSiteId}
-						directivaId={query.directivaId}
-						vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-						vicepresidenciaId={query.vicepresidenciaId}
-						departamentoId={query.departamentoId}
-						handleChange={handleChange}
-					/>
+					<Suspense fallback={<PrimaryFilterSkeleton />}>
+						<ComputerPrimaryFilter
+							categoryId={query.categoryId}
+							employeeId={query.employeeId}
+							serial={query.serial}
+							locationId={query.locationId}
+							regionId={query.regionId}
+							administrativeRegionId={query.administrativeRegionId}
+							mainCategoryId={mainCategoryId}
+							typeOfSiteId={query.typeOfSiteId}
+							directivaId={query.directivaId}
+							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+							vicepresidenciaId={query.vicepresidenciaId}
+							departamentoId={query.departamentoId}
+							handleChange={handleChange}
+						/>
+					</Suspense>
 
-					<FilterAside ref={filterAsideRef}>
-						<Suspense>
+					<Suspense fallback={null}>
+						<FilterAside ref={filterAsideRef}>
 							<DevicePrimaryFilter
 								activo={query.activo}
 								statusId={query.statusId}
@@ -104,36 +126,40 @@ export default function ListComputer() {
 								hardDriveTypeId={query.hardDriveTypeId}
 								processor={query.processor}
 							/>
-						</Suspense>
-					</FilterAside>
-				</FilterSection>
-				<ButtonSection
-					handleExportToExcel={handleDownloadToExcel}
-					loading={isDownloading}
-					filterButton
-					handleClear={cleanFilters}
-					handleAdd={() => {
-						navigate('/form/device/add')
-					}}
-					handleFilter={() => filterAsideRef.current?.handleOpen()}
-				>
-					<Suspense fallback={<InputFallback />}>
-						<ComputerOrderByCombobox
-							handleSort={handleSort}
-							orderBy={query.orderBy}
-							orderType={query.orderType}
-							name="orderBy"
-						/>
+						</FilterAside>
 					</Suspense>
-				</ButtonSection>
+				</FilterSection>
+				<Suspense fallback={<ButtonSectionSkeleton />}>
+					<ButtonSection
+						handleExportToExcel={handleDownloadToExcel}
+						loading={isDownloading}
+						filterButton
+						handleClear={cleanFilters}
+						handleAdd={() => {
+							navigate('/form/device/add')
+						}}
+						handleFilter={() => filterAsideRef.current?.handleOpen()}
+					>
+						<Suspense fallback={<InputFallback />}>
+							<ComputerOrderByCombobox
+								handleSort={handleSort}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								name="orderBy"
+							/>
+						</Suspense>
+					</ButtonSection>
+				</Suspense>
 			</DetailsBoxWrapper>
-			<TableWrapper
-				handlePageSize={handlePageSize}
-				handlePageClick={handlePageClick}
-				handleChange={handleChange}
-				handleSort={handleSort}
-				query={query}
-			/>
+			<Suspense fallback={<TableSkeleton withTab />}>
+				<TableWrapper
+					handlePageSize={handlePageSize}
+					handlePageClick={handlePageClick}
+					handleChange={handleChange}
+					handleSort={handleSort}
+					query={query}
+				/>
+			</Suspense>
 		</>
 	)
 }

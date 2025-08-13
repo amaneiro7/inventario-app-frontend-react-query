@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { cn } from '@/shared/lib/utils'
 import { type TableBody } from './TableBody'
 import { type TableHeader } from './TableHeader'
 
@@ -15,7 +15,7 @@ function TableComponent<T extends typeof TableBody | typeof TableHeader>({
 	className,
 	...props
 }: Props<T>) {
-	const classes = twMerge(
+	const classes = cn(
 		'clear-both relative w-min-content border-separate border-spacing-0 table rounded-e-lg overflow-hidden',
 		className
 	)

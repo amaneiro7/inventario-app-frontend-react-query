@@ -4,6 +4,7 @@ import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { PageTitle } from '@/shared/ui/PageTitle'
+import { ListWrapperSkeleton } from './ListWrapperSkeleton'
 /**
  * `ListWrapper`
  * @component
@@ -102,7 +103,7 @@ const ListWrapper = memo(() => {
 			<DynamicBreadcrumb segments={breadcrumbSegments} />
 			<PageTitle title={title} />
 			<DetailsWrapper>
-				<Suspense>
+				<Suspense fallback={<ListWrapperSkeleton />}>
 					<Outlet context={title} />
 				</Suspense>
 			</DetailsWrapper>

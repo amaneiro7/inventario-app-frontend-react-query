@@ -27,7 +27,7 @@ export const useGetAllComputerDevices = ({ query }: { query: DeviceBaseFilters }
 		isError,
 		data: devices
 	} = useQuery({
-		queryKey: ['devices', query],
+		queryKey: ['devices', 'computers', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
 		refetchOnMount: true,

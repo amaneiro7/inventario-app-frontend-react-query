@@ -53,20 +53,22 @@ export const TypeOfSiteTabNav = memo(
 			))
 		}, [])
 
+		if (isLoading) {
+			return renderSkeletons
+		}
+
 		return (
 			<>
-				{isLoading
-					? renderSkeletons
-					: typeOfSiteTab.map(type => (
-							<TabNav
-								key={type.id}
-								id={type.id}
-								displayName={type.name}
-								handleClick={() => handleClick(type.id)}
-								value={value ?? '0'} // Usar la prop 'value' directamente
-								active={(value ?? '0') === type.id} // Comparar con la prop 'value'
-							/>
-						))}
+				{typeOfSiteTab.map(type => (
+					<TabNav
+						key={type.id}
+						id={type.id}
+						displayName={type.name}
+						handleClick={() => handleClick(type.id)}
+						value={value ?? '0'} // Usar la prop 'value' directamente
+						active={(value ?? '0') === type.id} // Comparar con la prop 'value'
+					/>
+				))}
 			</>
 		)
 	}

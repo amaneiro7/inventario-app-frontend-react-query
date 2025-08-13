@@ -2,11 +2,26 @@ import { lazy, Suspense } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { useModelsFilter } from '@/entities/model/models/infra/hook/useModelsFilters'
-import { TableModelWrapper } from '@/widgets/tables/ModelTable'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/shared/ui/FilterSection'
-import { ButtonSection } from '@/shared/ui/ButttonSection/ButtonSection'
-import { Loading } from '@/shared/ui/Loading'
+//components
+import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
+import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
+import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+
+const TableModelWrapper = lazy(() =>
+	import('@/widgets/tables/ModelTable').then(m => ({ default: m.TableModelWrapper }))
+)
+
+const DetailsBoxWrapper = lazy(() =>
+	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
+		default: m.DetailsBoxWrapper
+	}))
+)
+const FilterSection = lazy(() =>
+	import('@/shared/ui/FilterSection').then(m => ({ default: m.FilterSection }))
+)
+const ButtonSection = lazy(() =>
+	import('@/shared/ui/ButttonSection/ButtonSection').then(m => ({ default: m.ButtonSection }))
+)
 
 const ModelPrimaryFilter = lazy(() =>
 	import('@/features/model-filter/ui/ModelPrimaryFilter').then(m => ({
@@ -26,32 +41,38 @@ export default function ListModel() {
 	}
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<>
 			<DetailsBoxWrapper>
 				<FilterSection>
-					<ModelPrimaryFilter
-						handleChange={handleChange}
-						categoryId={query.categoryId}
-						mainCategoryId={query.mainCategoryId}
-						brandId={query.brandId}
-						id={query.id}
-					/>
+					<Suspense fallback={<PrimaryFilterSkeleton />}>
+						<ModelPrimaryFilter
+							handleChange={handleChange}
+							categoryId={query.categoryId}
+							mainCategoryId={query.mainCategoryId}
+							brandId={query.brandId}
+							id={query.id}
+						/>
+					</Suspense>
 				</FilterSection>
-				<ButtonSection
-					handleExportToExcel={handleDownloadToExcel}
-					loading={isDownloading}
-					handleClear={cleanFilters}
-					handleAdd={() => {
-						navigate('/form/model/add')
-					}}
-				/>
+				<Suspense fallback={<ButtonSectionSkeleton />}>
+					<ButtonSection
+						handleExportToExcel={handleDownloadToExcel}
+						loading={isDownloading}
+						handleClear={cleanFilters}
+						handleAdd={() => {
+							navigate('/form/model/add')
+						}}
+					/>
+				</Suspense>
 			</DetailsBoxWrapper>
-			<TableModelWrapper
-				handlePageSize={handlePageSize}
-				handlePageClick={handlePageClick}
-				handleSort={handleSort}
-				query={query}
-			/>
-		</Suspense>
+			<Suspense fallback={<TableSkeleton />}>
+				<TableModelWrapper
+					handlePageSize={handlePageSize}
+					handlePageClick={handlePageClick}
+					handleSort={handleSort}
+					query={query}
+				/>
+			</Suspense>
+		</>
 	)
 }

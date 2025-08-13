@@ -1,12 +1,25 @@
-import React, { memo } from 'react'
+import React, { lazy, memo } from 'react'
 import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
-import { TableRow } from '@/shared/ui/Table/TableRow'
-import { TableCell } from '@/shared/ui/Table/TableCell'
-import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
-import { TableCellError } from '@/shared/ui/Table/TableCellError'
-import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
-import { ComputerDescription } from './ComputerDescription'
 import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
+
+const TableCell = lazy(() =>
+	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
+)
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+const TableCellOpenIcon = lazy(() =>
+	import('@/shared/ui/Table/TableCellOpenIcon').then(m => ({ default: m.TableCellOpenIcon }))
+)
+const TableCellError = lazy(() =>
+	import('@/shared/ui/Table/TableCellError').then(m => ({ default: m.TableCellError }))
+)
+const TableCellEmpty = lazy(() =>
+	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
+)
+const ComputerDescription = lazy(() =>
+	import('./ComputerDescription').then(m => ({ default: m.ComputerDescription }))
+)
 
 interface TableDeviceProps {
 	devices?: DeviceDto[]
@@ -81,3 +94,5 @@ export const TableDevice = memo(
 		)
 	}
 )
+
+TableDevice.displayName = 'TableDevice'

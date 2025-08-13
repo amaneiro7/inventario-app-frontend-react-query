@@ -1,12 +1,25 @@
-import React from 'react'
+import React, { lazy, memo } from 'react'
 import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
-import { TableCellError } from '@/shared/ui/Table/TableCellError'
-import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
-import { TableRow } from '@/shared/ui/Table/TableRow'
-import { TableCell } from '@/shared/ui/Table/TableCell'
-import { PartsDescription } from './PartsDescription'
-import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
 import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
+
+const TableCell = lazy(() =>
+	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
+)
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+const TableCellOpenIcon = lazy(() =>
+	import('@/shared/ui/Table/TableCellOpenIcon').then(m => ({ default: m.TableCellOpenIcon }))
+)
+const TableCellError = lazy(() =>
+	import('@/shared/ui/Table/TableCellError').then(m => ({ default: m.TableCellError }))
+)
+const TableCellEmpty = lazy(() =>
+	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
+)
+const PartsDescription = lazy(() =>
+	import('./PartsDescription').then(m => ({ default: m.PartsDescription }))
+)
 
 interface TablePartsProps {
 	devices?: DeviceDto[]
@@ -15,7 +28,7 @@ interface TablePartsProps {
 	visibleColumns: string[]
 }
 
-export function TableParts({ devices, colSpan, isError, visibleColumns }: TablePartsProps) {
+export const TableParts = memo(({ devices, colSpan, isError, visibleColumns }: TablePartsProps) => {
 	const { expandedRows, handleRowClick } = useExpendedRows()
 	if (isError) {
 		return <TableCellError colSpan={colSpan} />
@@ -68,4 +81,6 @@ export function TableParts({ devices, colSpan, isError, visibleColumns }: TableP
 			))}
 		</>
 	)
-}
+})
+
+TableParts.displayName = 'TableParts'

@@ -15,7 +15,7 @@ export const useGetAllPartsDevices = (query: DeviceBaseFilters) => {
 		isError,
 		data: devices
 	} = useQuery({
-		queryKey: ['devices', query],
+		queryKey: ['devices', 'parts', query],
 		queryFn: () => getAll.search(query),
 		staleTime: 60 * 1000,
 		refetchOnMount: true,

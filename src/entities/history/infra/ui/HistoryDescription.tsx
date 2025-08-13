@@ -1,8 +1,18 @@
-import { memo } from 'react'
-import { TableCellDescInfo } from '@/shared/ui/Table/TableCellDescInfo'
-import { TableCellDescription } from '@/shared/ui/Table/TableCellDescription'
-import { ChangeDisplay } from './ChangeDisplay'
+import { lazy, memo } from 'react'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
+
+const ChangeDisplay = lazy(() =>
+	import('./ChangeDisplay').then(m => ({ default: m.ChangeDisplay }))
+)
+const TableCellDescInfo = lazy(() =>
+	import('@/shared/ui/Table/TableCellDescInfo').then(m => ({ default: m.TableCellDescInfo }))
+)
+
+const TableCellDescription = lazy(() =>
+	import('@/shared/ui/Table/TableCellDescription').then(m => ({
+		default: m.TableCellDescription
+	}))
+)
 
 interface HistoryDescriptionProps {
 	/**

@@ -26,7 +26,7 @@ export const ButtonSection = memo(
 		children
 	}: React.PropsWithChildren<ButtonSectionProps>) => {
 		return (
-			<section className="my-4 flex min-h-8 w-full items-start justify-start gap-2">
+			<section className="my-4 flex min-h-[60px] w-full items-start justify-start gap-2">
 				{handleExportToExcel && (
 					<Button
 						type="button"
