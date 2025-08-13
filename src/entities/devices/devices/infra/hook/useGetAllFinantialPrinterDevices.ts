@@ -1,14 +1,12 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/entities/devices/devices/infra/service/deviceGetAll.service'
 import { DeviceFinantialPrinterFilter } from '../../application/finantialPrinter/DeviceFinantialPrinterFilter'
 import { REFETCH_INTERVAL_IN_MS } from '../../domain/entity/refetchIntervalInMs'
 import { type DeviceBaseFilters } from '../../application/createDeviceQueryParams'
 
+const repository = new DeviceGetAllService()
+const getAll = new DeviceFinantialPrinterFilter(repository)
 export const useGetAllFinantialPrinterDevices = (query: DeviceBaseFilters) => {
-	const repository = useMemo(() => new DeviceGetAllService(), [])
-	const getAll = useMemo(() => new DeviceFinantialPrinterFilter(repository), [repository])
-
 	const {
 		isLoading,
 		refetch,

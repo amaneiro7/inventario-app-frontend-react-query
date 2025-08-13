@@ -1,9 +1,10 @@
-import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetAllService } from '@/entities/devices/devices/infra/service/deviceGetAll.service'
 import { DeviceGetByCriteria } from '../../application/inputSearch/DeviceGetByCriteria'
 import { type DeviceBaseFilters } from '../../application/createDeviceQueryParams'
 
+const repository = new DeviceGetAllService()
+const getAll = new DeviceGetByCriteria(repository)
 /**
  * `useGetAllDevicesInputSearch`
  * @function
@@ -17,9 +18,6 @@ import { type DeviceBaseFilters } from '../../application/createDeviceQueryParam
  * @property {import('@/entities/shared/domain/methods/Response').Response<import('../../domain/dto/Device.dto').DeviceDto> | undefined} data - Los datos de los dispositivos obtenidos de la consulta.
  */
 export const useGetAllDevicesInputSearch = (query: DeviceBaseFilters) => {
-	const repository = useMemo(() => new DeviceGetAllService(), [])
-	const getAll = useMemo(() => new DeviceGetByCriteria(repository), [repository])
-
 	const { isLoading, refetch, isError, data } = useQuery({
 		queryKey: ['devices', 'serialInputSearch', query],
 		queryFn: () => getAll.search(query)
