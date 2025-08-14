@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig } from 'axios'
 import { api } from './axios.config'
-import { useAuthStore } from '@/features/auth/model/useAuthStore'
+// import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { fileSaver } from '../lib/utils/filseServer'
 import { type Source } from '@/types/type'
 
@@ -30,17 +30,6 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 		return source ? fileSaver(response.data, source) : (response.data as T)
 	} catch (error) {
 		const axiosError = axios.isAxiosError(error)
-		const originalRequest = config as AxiosRequestConfig & { _retry?: boolean }
-
-		if (axiosError && error?.status === 401 && !originalRequest._retry) {
-			originalRequest._retry = true
-
-			const accessToken = await useAuthStore.getState().refreshTokenValidity()
-
-			originalRequest.headers = originalRequest.headers ?? {}
-			originalRequest.headers.Authorization = `Bearer ${accessToken}`
-			originalRequest._retry = true
-		}
 
 		// Manejo de otros errores
 		if (axiosError && error.response) {
