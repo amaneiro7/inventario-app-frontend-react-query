@@ -14,7 +14,7 @@ export class ProcessorCreator {
 	 * Crea una instancia de `ProcessorCreator`.
 	 * @param {ProcessorSaveRepository} repository - El repositorio para guardar o actualizar el procesador.
 	 * @param {EventManager} events - El gestor de eventos para notificar el estado de la operación.
-	 */	constructor(
+	 */ constructor(
 		readonly repository: ProcessorSaveRepository,
 		private readonly events: EventManager
 	) {}
@@ -26,7 +26,7 @@ export class ProcessorCreator {
 	 * @param {ProcessorParams} params - Los parámetros del procesador a crear o actualizar.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
 	 * @throws {Error} Si ocurre un error durante la operación, se notifica y se lanza una excepción.
-	 */	async create(params: ProcessorParams) {
+	 */ async create(params: ProcessorParams) {
 		this.events.notify({ type: 'loading' })
 		try {
 			const payload = Processor.create(params).toPrimitives()
@@ -40,7 +40,7 @@ export class ProcessorCreator {
 			// Notifica el error y lanza una excepción.
 			const errorMessage = `${error}`
 			this.events.notify({ type: 'error', message: errorMessage })
-			throw new Error(errorMessage)
+			return { message: errorMessage }
 		}
 	}
 }

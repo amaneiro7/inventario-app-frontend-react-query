@@ -42,7 +42,7 @@ export class DepartamentoCreator {
 			// Notify the error and throw an exception.
 			const errorMessage = `${error}`
 			this.events.notify({ type: 'error', message: errorMessage })
-			throw new Error(errorMessage)
+			return { message: errorMessage }
 		}
 	}
 }

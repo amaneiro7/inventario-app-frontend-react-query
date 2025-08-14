@@ -27,7 +27,7 @@ export function useAuth() {
 		if (token && !isTokenExpired(token)) {
 			if (!user) {
 				const cacheUser = getUser()
-				setUser(cacheUser ? JSON.parse(cacheUser) : null)
+				setUser(cacheUser ? cacheUser : null)
 			}
 			return
 		}
@@ -58,7 +58,7 @@ export function useAuth() {
 
 	useLayoutEffect(() => {
 		if (location.pathname === '/login') return
-		const refreshInterceptor = api.interceptors.request.use(
+		const refreshInterceptor = api.interceptors.response.use(
 			async response => response,
 			async error => {
 				const originalRequest = error.config as InternalAxiosRequestConfig & {
