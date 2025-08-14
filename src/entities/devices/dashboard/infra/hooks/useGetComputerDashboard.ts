@@ -23,7 +23,7 @@ export const useGetComputerDashboard = () => {
 		isError,
 		data: computerDashboard
 	} = useQuery({
-		queryKey: ['computerDashboard'],
+		queryKey: ['dashboard', 'computer'],
 		queryFn: () => get.execute()
 	})
 

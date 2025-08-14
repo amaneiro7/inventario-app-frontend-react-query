@@ -10,6 +10,7 @@ import {
 	initialUserState,
 	userFormReducer
 } from '../reducers/usersFormReducer'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateUser(defaultState?: DefaultUsers) {
 	const { events } = useAuthStore.getState()
@@ -57,6 +58,7 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		event.preventDefault()
 		event.stopPropagation()
 		await create(formData as never).then(() => {
+			queryClient.invalidateQueries({ queryKey: ['users'] })
 			resetState()
 		})
 	}

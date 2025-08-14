@@ -11,6 +11,7 @@ import { type CityParams } from '../../domain/dto/City.dto'
 import { CitySaveService } from '../service/citySave.service'
 import { CityCreator } from '../../application/CityCreator'
 import { useCityInitialState } from './useCityInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateCity(defaultState?: DefaultCity) {
 	const { events } = useAuthStore.getState()
@@ -56,6 +57,7 @@ export function useCreateCity(defaultState?: DefaultCity) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['cities'] })
 				resetState()
 			})
 		},

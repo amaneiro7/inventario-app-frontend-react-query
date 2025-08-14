@@ -12,6 +12,7 @@ import { CargoSaveService } from '../service/cargoSave.service'
 import { CargoCreator } from '../../application/CargoCreator'
 import { useCargoInitialState } from './useCargoInitialState'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 /**
  * A React hook for managing cargo creation and update forms.
@@ -84,6 +85,7 @@ export function useCreateCargo(defaultState?: DefaultCargo) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['cargos'] })
 				resetState()
 			})
 		},

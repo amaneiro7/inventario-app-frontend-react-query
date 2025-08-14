@@ -23,7 +23,7 @@ export const useGetGeneralDashboard = () => {
 		isError,
 		data: generalDashboard
 	} = useQuery({
-		queryKey: ['generalDashboard'],
+		queryKey: ['dashboard', 'general'],
 		queryFn: () => get.execute()
 	})
 

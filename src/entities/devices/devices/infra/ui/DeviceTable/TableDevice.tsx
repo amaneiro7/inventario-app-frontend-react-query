@@ -1,4 +1,5 @@
 import React, { lazy, memo } from 'react'
+import { cn } from '@/shared/lib/utils'
 import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
 import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
@@ -44,10 +45,11 @@ export const TableDevice = memo(
 				{devices?.map(device => (
 					<React.Fragment key={device.id}>
 						<TableRow
-							className={`[&>td]:cursor-pointer ${
+							className={cn(
+								'animate-blink [&>td]:cursor-pointer',
 								expandedRows.includes(device.id) &&
-								'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
-							}`}
+									'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
+							)}
 							onClick={() => handleRowClick(device.id)}
 						>
 							{visibleColumns.includes('employeeId') ? (

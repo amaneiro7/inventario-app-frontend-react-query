@@ -40,18 +40,19 @@ api.interceptors.response.use(
 			originalRequest._retry = true // Marcar como reintento
 
 			try {
-				// Llama a tu lógica para refrescar el token
+				// Llama a la lógica para refrescar el token. El store se encargará de devolver la promesa existente si ya hay un refresco en curso.
 				const newAccessToken = await useAuthStore.getState().refreshTokenValidity()
 
-				// Actualiza el header de autorización en la instancia de axios
-				axios.defaults.headers.common['Authorization'] = 'Bearer ' + newAccessToken
-				originalRequest.headers['Authorization'] = 'Bearer ' + newAccessToken
+				if (newAccessToken) {
+					// Actualiza el header de la petición original que falló
+					originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
 
-				// Reintenta la petición original con el nuevo token
-				return api(originalRequest)
+					// Reintenta la petición original con el nuevo token
+					return api(originalRequest)
+				}
 			} catch (refreshError) {
-				// Si el refresh token falla, desloguea al usuario
-				useAuthStore.getState().logout()
+				// Si el refresh token falla, el store ya se encarga de hacer logout.
+				// Simplemente rechazamos la promesa para que la petición original falle definitivamente.
 				return Promise.reject(refreshError)
 			}
 		}

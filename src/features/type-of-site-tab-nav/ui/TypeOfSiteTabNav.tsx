@@ -1,7 +1,8 @@
-import { memo, useCallback, useMemo } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { useGetAllTypeOfSite } from '@/entities/locations/typeOfSites/infra/hook/useGetAllTypeOfSite'
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { TabNav } from '@/shared/ui/Tabs/TabNav'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
 
 interface TypeOfSiteTabNavProps {
 	handleChange: (name: string, value: string) => void
@@ -12,6 +13,13 @@ interface TypeOfSiteTabNavProps {
 export const TypeOfSiteTabNav = memo(
 	({ handleChange, value, omit = [] }: TypeOfSiteTabNavProps) => {
 		const { data: typeOfSites, isLoading } = useGetAllTypeOfSite({})
+		// estado local del componente para la UI optimista.
+		// Se inicializa con el valor que viene de las props para el primer renderizado.
+		const [activeTabId, setActiveTabId] = useState(value ?? '0')
+
+		useEffectAfterMount(() => {
+			setActiveTabId(value ?? '0')
+		}, [value])
 
 		const typeOfSiteTab = useMemo(() => {
 			// el valor Omit es por si se quiere omitar algun valo del array
@@ -29,13 +37,17 @@ export const TypeOfSiteTabNav = memo(
 
 		const handleClick = useCallback(
 			(typeId: string) => {
+				// Comprobar contra el estado local
 				// Si la pestaña ya está activa, no hacer nada
-				if (typeId === value) return
+				if (typeId === activeTabId) return
+
+				// Actualiza el estado global
+				setActiveTabId(typeId)
 
 				// Llamar a handleChange con el nuevo valor
 				handleChange('typeOfSiteId', typeId === '0' ? '' : typeId)
 			},
-			[handleChange, value]
+			[handleChange, activeTabId]
 		)
 
 		// Generar skeletons de forma más dinámica y limpia
@@ -46,9 +58,7 @@ export const TypeOfSiteTabNav = memo(
 					role="tab"
 					aria-selected={index === 0}
 					aria-label={`Cargando pestaña ${index + 1}`}
-					className={`flex h-7 animate-pulse items-center justify-center rounded-t-md bg-gray-300 p-4 px-4 text-center text-xs will-change-auto ${
-						index === 0 ? 'font-bold text-gray-100' : 'text-gray-500'
-					}`}
+					className="flex h-7 animate-pulse items-center justify-center rounded-t-md bg-gray-300 p-4 px-4 text-center"
 				/>
 			))
 		}, [])
@@ -65,8 +75,8 @@ export const TypeOfSiteTabNav = memo(
 						id={type.id}
 						displayName={type.name}
 						handleClick={() => handleClick(type.id)}
-						value={value ?? '0'} // Usar la prop 'value' directamente
-						active={(value ?? '0') === type.id} // Comparar con la prop 'value'
+						value={activeTabId}
+						active={activeTabId === type.id}
 					/>
 				))}
 			</>

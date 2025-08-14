@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useCallback, useLayoutEffect, useReducer } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
@@ -33,6 +34,7 @@ import { type Params } from '../../domain/dto/Device.dto'
  * @property {(value: string, index: number) => Promise<void>} handleMemory - Función para manejar cambios en la memoria RAM.
  */
 export function useCreateDevice(defaultState?: DefaultDevice) {
+	const queryClient = useQueryClient()
 	const key = `device${initialDeviceState?.formData?.id ? initialDeviceState.formData.id : ''}`
 	const { events } = useAuthStore.getState()
 
@@ -127,6 +129,7 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		event.preventDefault()
 		event.stopPropagation()
 		await create(formData as never).then(() => {
+			queryClient.invalidateQueries({ queryKey: ['devices'] })
 			resetState()
 		})
 	}

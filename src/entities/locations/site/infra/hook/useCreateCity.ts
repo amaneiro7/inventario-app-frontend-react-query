@@ -11,6 +11,7 @@ import { type SiteParams } from '../../domain/dto/Site.dto'
 import { SiteSaveService } from '../service/siteSave.service'
 import { SiteCreator } from '../../application/SiteCreator'
 import { useSiteInitialState } from './useSiteInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateSite(defaultState?: DefaultSite) {
 	const { events } = useAuthStore.getState()
@@ -56,6 +57,7 @@ export function useCreateSite(defaultState?: DefaultSite) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['sites'] })
 				resetState()
 			})
 		},

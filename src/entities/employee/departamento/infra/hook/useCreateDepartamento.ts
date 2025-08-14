@@ -11,6 +11,7 @@ import { type DepartamentoParams } from '../../domain/dto/Departamento.dto'
 import { DepartamentoSaveService } from '../service/departamentoSave.service'
 import { DepartamentoCreator } from '../../application/DepartamentoCreator'
 import { useDepartamentoInitialState } from './useDepartamentoInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 /**
  * A React hook for managing departamento creation and update forms.
@@ -88,6 +89,7 @@ export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['departamentos'] })
 				resetState()
 			})
 		},

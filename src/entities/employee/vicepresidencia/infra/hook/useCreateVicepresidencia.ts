@@ -11,6 +11,7 @@ import { type VicepresidenciaParams } from '../../domain/dto/Vicepresidencia.dto
 import { VicepresidenciaSaveService } from '../service/vicepresidenciaSave.service'
 import { VicepresidenciaCreator } from '../../application/VicepresidenciaCreator'
 import { useVicepresidenciaInitialState } from './useVicepresidenciaInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 /**
  * A React hook for managing vicepresidencia creation and update forms.
@@ -91,6 +92,7 @@ export function useCreateVicepresidencia(defaultState?: DefaultVicepresidencia) 
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['vicepresidencias'] })
 				resetState()
 			})
 		},

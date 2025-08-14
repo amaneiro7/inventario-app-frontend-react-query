@@ -11,6 +11,7 @@ import { type RegionParams } from '../../domain/dto/region.dto'
 import { RegionSaveService } from '../service/regionSave.service'
 import { RegionCreator } from '../../application/RegionCreator'
 import { useRegionInitialState } from './useRegionInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateRegion(defaultState?: DefaultRegion) {
 	const { events } = useAuthStore.getState()
@@ -59,6 +60,7 @@ export function useCreateRegion(defaultState?: DefaultRegion) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['regions'] })
 				resetState()
 			})
 		},

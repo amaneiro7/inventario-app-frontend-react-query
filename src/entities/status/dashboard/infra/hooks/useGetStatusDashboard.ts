@@ -18,7 +18,7 @@ export const useGetStatusDashboard = () => {
 		isError,
 		data: statusDashboard
 	} = useQuery({
-		queryKey: ['statusDashboard'],
+		queryKey: ['dashboard', 'status'],
 		queryFn: () => get.execute()
 	})
 

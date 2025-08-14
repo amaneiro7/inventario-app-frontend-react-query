@@ -11,6 +11,7 @@ import { type CentroTrabajoParams } from '../../domain/dto/CentroTrabajo.dto'
 import { CentroTrabajoSaveService } from '../service/centroTrabajoSave.service'
 import { CentroTrabajoCreator } from '../../application/CentroTrabajoCreator'
 import { useCentroTrabajoInitialState } from './useCentroTrabajoInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
 	const { events } = useAuthStore.getState()
@@ -64,6 +65,7 @@ export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['centroTrabajos'] })
 				resetState()
 			})
 		},

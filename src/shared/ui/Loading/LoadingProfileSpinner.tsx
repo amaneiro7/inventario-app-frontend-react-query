@@ -1,10 +1,16 @@
+import { cn } from '@/shared/lib/utils'
+
 interface LoadingSpinnerProps {
 	text?: string
+	className?: string
 }
 
-export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ text = 'Cargando...' }) => {
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+	text = 'Cargando...',
+	className
+}) => {
 	return (
-		<div className="flex flex-col items-center justify-center p-8">
+		<div className={cn('flex flex-col items-center justify-center p-8', className)}>
 			<svg
 				className="h-10 w-10 animate-spin text-blue-500"
 				xmlns="http://www.w3.org/2000/svg"

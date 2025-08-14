@@ -10,6 +10,7 @@ import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import { useBrandInitialState } from './useBrandInitialState'
 import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 /**
  * `useCreateBrand`
@@ -62,6 +63,7 @@ export function useCreateBrand(defaultState?: BrandParams) {
 		event.preventDefault()
 		event.stopPropagation()
 		await create(formData).then(() => {
+			queryClient.invalidateQueries({ queryKey: ['brands'] })
 			resetState()
 		})
 	}

@@ -11,6 +11,7 @@ import {
 import { EmployeeSaveService } from '../service/employeeSave.service'
 import { EmployeeCreator } from '../../application/EmployeeCreator'
 import { type EmployeeParams } from '../../domain/dto/Employee.dto'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 /**
  * A React hook for managing employee creation and update forms.
@@ -165,6 +166,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData as never).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['employees'] })
 				resetState()
 			})
 		},

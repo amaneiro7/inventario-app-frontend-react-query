@@ -17,9 +17,11 @@ interface AuthState {
 	events: EventManager
 	loading: boolean
 	isRefreshing: boolean
+	// Almacena la promesa de la operación de refresco para que otras llamadas puedan esperar a que termine.
+	refreshTokenPromise: Promise<string | void> | null
 	abortController: AbortController
-	getToken: () => string | undefined
-	getUser: () => LoginUserDto | undefined
+	getToken: () => any
+	getUser: () => any
 	setLoading: (loading: boolean) => void
 	setRefreshing: (loading: boolean) => void
 	setUser: (user: LoginUserDto | null) => void
@@ -29,16 +31,8 @@ interface AuthState {
 	refreshTokenValidity: () => Promise<string | void>
 }
 
-const {
-	getItem: getToken,
-	removeItem: removeToken,
-	setItem: saveToken
-} = useLocalStorage<string>('jwt')
-const {
-	getItem: getUser,
-	removeItem: removeUser,
-	setItem: saveUser
-} = useLocalStorage<LoginUserDto>('user')
+const { getItem: getToken, removeItem: removeToken, setItem: saveToken } = useLocalStorage<string>('jwt')
+const { getItem: getUser, removeItem: removeUser, setItem: saveUser } = useLocalStorage<LoginUserDto>('user')
 
 export const useAuthStore = create<AuthState>((set, get) => ({
 	user: getUser() ?? null,
@@ -46,6 +40,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 	loading: false,
 	events: events,
 	isRefreshing: false,
+	refreshTokenPromise: null,
 	abortController,
 	getUser,
 	getToken,
@@ -77,23 +72,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 			removeUser()
 		}
 	},
-	refreshTokenValidity: async () => {
+	refreshTokenValidity: () => {
 		if (!get().isRefreshing) {
 			set({ isRefreshing: true })
-			try {
-				const response = await refreshTokenServcice.execute()
-				console.log('response', response)
-				set({ user: response.user, token: response.accessToken })
+			const refreshTokenPromise = refreshTokenServcice.execute().then(response => {
+				set({ user: response.user, token: response.accessToken, isRefreshing: false, refreshTokenPromise: null })
 				saveToken(response.accessToken)
 				saveUser(response.user)
 				return response.accessToken
-			} catch (refreshError) {
+			}).catch(refreshError => {
 				get().logout()
+				set({ isRefreshing: false, refreshTokenPromise: null })
 				return Promise.reject(refreshError)
-			} finally {
-				set({ isRefreshing: false })
-			}
+			})
+
+			set({ refreshTokenPromise })
+			return refreshTokenPromise
 		}
+		return get().refreshTokenPromise as Promise<string | void>
 	}
 }))
 

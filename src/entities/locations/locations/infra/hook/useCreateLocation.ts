@@ -11,6 +11,7 @@ import { LocationSaveService } from '../service/locationSave.service'
 import { LocationCreator } from '../../application/LocationCreator'
 import { useLocationInitialState } from './useLocationInitialState'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateLocation(defaultState?: DefaultLocation) {
 	const { events } = useAuthStore.getState()
@@ -63,6 +64,7 @@ export function useCreateLocation(defaultState?: DefaultLocation) {
 		event.preventDefault()
 		event.stopPropagation()
 		await create(formData).then(() => {
+			queryClient.invalidateQueries({ queryKey: ['locations'] })
 			resetState()
 		})
 	}

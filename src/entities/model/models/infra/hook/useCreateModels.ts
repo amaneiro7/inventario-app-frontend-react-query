@@ -11,6 +11,7 @@ import {
 import { ModelSaveService } from '../service/modelSave.service'
 import { ModelCreator } from '../../application/ModelCreator'
 import { useModelInitialState } from './useModelsInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateModel(defaultState?: DefaultModel) {
 	const { events } = useAuthStore.getState()
@@ -58,6 +59,7 @@ export function useCreateModel(defaultState?: DefaultModel) {
 		event.preventDefault()
 		event.stopPropagation()
 		await create(formData as never).then(() => {
+			queryClient.invalidateQueries({ queryKey: ['models'] })
 			resetState()
 		})
 	}

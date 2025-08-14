@@ -11,6 +11,7 @@ import { CentroCostoSaveService } from '../service/centroCostoSave.service'
 import { CentroCostoCreator } from '../../application/CentroCostoCreator'
 import { useCentroCostoInitialState } from './useCentroCostoInitialState'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 export function useCreateCentroCosto(defaultState?: DefaultCentroCosto) {
 	const { events } = useAuthStore.getState()
@@ -64,6 +65,7 @@ export function useCreateCentroCosto(defaultState?: DefaultCentroCosto) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['centroCostos'] })
 				resetState()
 			})
 		},

@@ -8,7 +8,7 @@ const getAll = new UserGetByCriteria(repository)
 
 export const useGetAllUser = (query: UserFilters) => {
 	const { isLoading, refetch, isError, data } = useQuery({
-		queryKey: ['user', query],
+		queryKey: ['users', query],
 		queryFn: () => getAll.search(query),
 		staleTime: Infinity
 	})

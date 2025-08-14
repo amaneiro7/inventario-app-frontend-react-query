@@ -11,6 +11,7 @@ import { type DirectivaParams } from '../../domain/dto/Directiva.dto'
 import { DirectivaSaveService } from '../service/directivaSave.service'
 import { DirectivaCreator } from '../../application/DirectivaCreator'
 import { useDirectivaInitialState } from './useDirectivaInitialState'
+import { queryClient } from '@/shared/lib/queryCliente'
 
 /**
  * A React hook for managing directiva creation and update forms.
@@ -86,6 +87,7 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 			event.preventDefault()
 			event.stopPropagation()
 			await create(formData).then(() => {
+				queryClient.invalidateQueries({ queryKey: ['directivas'] })
 				resetState()
 			})
 		},
