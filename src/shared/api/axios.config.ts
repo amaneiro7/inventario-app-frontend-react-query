@@ -11,6 +11,21 @@ export const api: AxiosInstance = axios.create({
 	}
 })
 
+// Interceptor de PETICIÓN (se ejecuta antes de enviar la petición)
+api.interceptors.request.use(
+	config => {
+		// Obtiene el token del store de Zustand
+		const token = useAuthStore.getState().token
+		if (token) {
+			config.headers['Authorization'] = `Bearer ${token}`
+		}
+		return config
+	},
+	error => {
+		return Promise.reject(error)
+	}
+)
+
 // Esto es un interceptor de RESPUESTA
 api.interceptors.response.use(
 	// La función de la izquierda se ejecuta si la petición es exitosa (status 2xx)

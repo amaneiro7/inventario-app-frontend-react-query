@@ -18,8 +18,8 @@ interface AuthState {
 	loading: boolean
 	isRefreshing: boolean
 	abortController: AbortController
-	getToken: () => any
-	getUser: () => any
+	getToken: () => string | undefined
+	getUser: () => LoginUserDto | undefined
 	setLoading: (loading: boolean) => void
 	setRefreshing: (loading: boolean) => void
 	setUser: (user: LoginUserDto | null) => void
@@ -29,12 +29,20 @@ interface AuthState {
 	refreshTokenValidity: () => Promise<string | void>
 }
 
-const { getItem: getToken, removeItem: removeToken, setItem: saveToken } = useLocalStorage('jwt')
-const { getItem: getUser, removeItem: removeUser, setItem: saveUser } = useLocalStorage('user')
+const {
+	getItem: getToken,
+	removeItem: removeToken,
+	setItem: saveToken
+} = useLocalStorage<string>('jwt')
+const {
+	getItem: getUser,
+	removeItem: removeUser,
+	setItem: saveUser
+} = useLocalStorage<LoginUserDto>('user')
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-	user: getUser() ? getUser() : null,
-	token: getToken() || null,
+	user: getUser() ?? null,
+	token: getToken() ?? null,
 	loading: false,
 	events: events,
 	isRefreshing: false,
@@ -59,16 +67,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 			.finally(() => set({ loading: false }))
 	},
 	logout: async () => {
-		await logoutService.execute()
-		set({ user: null, token: null })
-		removeToken()
-		removeUser()
+		try {
+			await logoutService.execute()
+		} catch (error) {
+			console.error('Logout API call failed, but proceeding with client-side logout.', error)
+		} finally {
+			set({ user: null, token: null })
+			removeToken()
+			removeUser()
+		}
 	},
 	refreshTokenValidity: async () => {
 		if (!get().isRefreshing) {
 			set({ isRefreshing: true })
 			try {
 				const response = await refreshTokenServcice.execute()
+				console.log('response', response)
 				set({ user: response.user, token: response.accessToken })
 				saveToken(response.accessToken)
 				saveUser(response.user)
