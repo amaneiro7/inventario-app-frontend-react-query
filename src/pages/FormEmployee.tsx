@@ -56,7 +56,7 @@ export default function FormEmployee() {
 	return (
 		<>
 			<Tabs defaultValue="form" className="h-full space-y-4">
-				<DetailsBoxWrapper position="right">
+				<DetailsBoxWrapper position="start">
 					<TabsList className="w-fit">
 						<TabsTrigger value="form">Formulario</TabsTrigger>
 						{mode === 'edit' && (
