@@ -12,7 +12,9 @@ export const TableSkeleton = ({ withTab = false }: { withTab?: boolean }) => {
 			>
 				{withTab && (
 					<div className="flex items-center" role="tablist">
-						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-400 p-4 px-4 text-center last:border-r" />
+						<div className="bg-azul flex h-7 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 p-4 px-4 text-center text-transparent last:border-r">
+							Todos
+						</div>
 						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
 						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
 						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
@@ -24,7 +26,7 @@ export const TableSkeleton = ({ withTab = false }: { withTab?: boolean }) => {
 				/>
 			</div>
 			{/* Table Header */}
-			<div className="h-10 w-full animate-pulse rounded-e-lg bg-slate-400" />
+			<div className="bg-azul h-10 w-full animate-pulse rounded-e-lg" />
 			{/* Table Body */}
 			{Array.from({ length: 20 }).map((_, index) => (
 				<div
