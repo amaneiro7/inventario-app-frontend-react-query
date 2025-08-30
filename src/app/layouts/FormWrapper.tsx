@@ -26,6 +26,7 @@ const FormWrapper = memo(() => {
 	 */ const routeTitles = useMemo(
 		(): Record<string, string> => ({
 			'/form/device': 'Dispositivo',
+			'/form/shipment': 'Relación de Envio',
 			'/form/model': 'Modelo',
 			'/form/brand': 'Marca',
 			'/form/processor': 'Procesador',

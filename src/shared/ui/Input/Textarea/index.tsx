@@ -2,7 +2,10 @@ import React, { memo } from 'react'
 import { InputBase } from '../InputBase'
 
 interface InputProps<T extends string | number | readonly string[]>
-	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+	extends React.DetailedHTMLProps<
+		React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+		HTMLTextAreaElement
+	> {
 	id: string
 	label: string
 	value: T
@@ -18,7 +21,7 @@ interface InputProps<T extends string | number | readonly string[]>
 	rightAdorment?: React.ReactNode
 	onRightIconClick?: () => void
 }
-export const Input = memo(
+export const Textarea = memo(
 	<T extends string | number | readonly string[]>({
 		id,
 		value,
@@ -34,7 +37,6 @@ export const Input = memo(
 		leftIcon,
 		rightIcon,
 		rightAdorment,
-		type,
 		name,
 		selectInput,
 		onRightIconClick,
@@ -44,7 +46,6 @@ export const Input = memo(
 			<InputBase
 				id={id}
 				label={label}
-				type={type}
 				value={value}
 				name={name}
 				error={error}
@@ -59,9 +60,8 @@ export const Input = memo(
 				rightAdorment={rightAdorment}
 				onRightIconClick={onRightIconClick}
 			>
-				<input
+				<textarea
 					id={id}
-					type={type}
 					name={name}
 					value={value}
 					required={required}
@@ -83,4 +83,4 @@ export const Input = memo(
 	}
 )
 
-Input.displayName = 'Input'
+Textarea.displayName = 'Textarea'

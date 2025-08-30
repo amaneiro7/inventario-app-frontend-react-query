@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { ErrorBoundary } from './providers/ErrorBoundary'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { AuthContextProvider } from './providers/AuthContextProvider'
 import { Loading } from '@/shared/ui/Loading'
 import { TooltipProvider } from '@/shared/ui/Tooltip'

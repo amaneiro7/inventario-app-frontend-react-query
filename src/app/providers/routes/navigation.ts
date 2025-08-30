@@ -104,7 +104,7 @@ export const navigation: Navigation[] = [
 		label: 'Gestión de Dispositivos',
 		navs: [
 			{
-				title: 'Agregar Nuevo Dispositivo', // Más conciso
+				title: 'Agregar Nuevo Dispositivo',
 				path: '/form/device/add',
 				desc: 'Registra un nuevo dispositivo en el inventario, especificando sus características y ubicación.'
 			},
@@ -114,7 +114,7 @@ export const navigation: Navigation[] = [
 				desc: 'Crea un nuevo registro de modelo de dispositivo para categorizar el hardware.'
 			},
 			{
-				title: 'Agregar Nueva Marca', // Coherencia en el género
+				title: 'Agregar Nueva Marca',
 				path: '/form/brand/add',
 				desc: 'Introduce una nueva marca de dispositivos al catálogo del sistema.'
 			},
@@ -122,6 +122,11 @@ export const navigation: Navigation[] = [
 				title: 'Agregar Nuevo Procesador',
 				path: '/form/processors/add',
 				desc: 'Define y registra nuevos tipos de procesadores utilizados en los equipos.'
+			},
+			{
+				title: 'Agregar Nueva relación de envio',
+				path: '/form/shipment/add',
+				desc: ''
 			}
 		]
 	},

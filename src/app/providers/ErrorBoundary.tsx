@@ -68,7 +68,7 @@ export class ErrorBoundary extends Component<Props, State> {
 	 * @description Renderiza la UI del componente.
 	 * Si `hasError` es `true`, muestra la UI de fallback (`ErrorPage`); de lo contrario, renderiza los componentes hijos.
 	 * @returns {ReactNode} La UI a renderizar.
-	 */ public render() {
+	 */ public render(): ReactNode {
 		if (this.state.hasError) {
 			// Envuelve el componente lazy-loaded en Suspense
 			return <ErrorPage onReset={this.handleReset} />

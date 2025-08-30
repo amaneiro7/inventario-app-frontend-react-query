@@ -14,6 +14,7 @@ interface EmployeeComboboxProps {
 	 * The name of the input field.
 	 */
 	name: string
+	label?: string
 	/**
 	 * Error message to display, if any.
 	 */
@@ -43,6 +44,7 @@ export const EmployeeCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
+	label = 'Usuarios',
 	required = false,
 	disabled = false,
 	isLoading = false,
@@ -74,7 +76,7 @@ export const EmployeeCombobox = memo(function ({
 		<>
 			<Combobox
 				id="employee"
-				label="Usuarios"
+				label={label}
 				value={value}
 				inputValue={inputValue}
 				name={name}

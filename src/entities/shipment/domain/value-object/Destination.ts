@@ -1,0 +1,3 @@
+import { SiteId } from '@/entities/locations/site/domain/value-object/SiteId'
+
+export class Destination extends SiteId {}

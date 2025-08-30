@@ -9,6 +9,7 @@ import { type LocationFilters } from '@/entities/locations/locations/application
 interface BaseProps {
 	value?: string
 	name: string
+	label?: string
 	typeOfSiteId?: string
 	siteId?: string
 	statusId?: string
@@ -69,6 +70,7 @@ export const LocationCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
+	label = 'Ubicación',
 	required = false,
 	disabled = false,
 	readonly = false,
@@ -132,7 +134,7 @@ export const LocationCombobox = memo(function ({
 		<>
 			<Combobox
 				id="location"
-				label="Ubicación"
+				label={label}
 				value={value}
 				inputValue={inputValue}
 				name={name}

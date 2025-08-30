@@ -3,7 +3,7 @@ import './input.css'
 import { Label } from './Label'
 import { Fieldset } from './Fieldset'
 
-interface Props<T extends string | number | readonly string[]>
+interface InputBaseProps<T extends string | number | readonly string[]>
 	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	label: string
 	type?: React.HTMLInputTypeAttribute
@@ -46,7 +46,7 @@ export const InputBase = memo(
 		children,
 		onRightIconClick,
 		...props
-	}: React.PropsWithChildren<Props<T>>) => {
+	}: React.PropsWithChildren<InputBaseProps<T>>) => {
 		return (
 			<div
 				ref={ref}
@@ -80,7 +80,7 @@ export const InputBase = memo(
 							tabIndex={-1}
 						>
 							{rightIcon}
-							<span className="sr-only">Hola Mundo</span>
+							<span className="sr-only" />
 						</button>
 					) : null}
 					<Fieldset
@@ -98,3 +98,5 @@ export const InputBase = memo(
 		)
 	}
 )
+
+InputBase.displayName = 'InputBase'

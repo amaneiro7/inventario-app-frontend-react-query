@@ -24,6 +24,7 @@ const Profile = lazy(() => import('@/pages/Profile'))
 const Layout = lazy(() => import('@/widgets/Layout/Layout'))
 const Login = lazy(() => import('@/pages/Login'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
+const FormShipment = lazy(() => import('@/pages/FormShipment'))
 const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
 const FormModel = lazy(() => import('@/pages/FormModel'))
 const FormRegion = lazy(() => import('@/pages/FormRegion'))
@@ -102,6 +103,8 @@ export function AppRoutes(): JSX.Element {
 					</Route>
 					<Route path="form" element={<FormWrapper />}>
 						<Route index element={<Form />} />
+						<Route path="shipment/add" element={<FormShipment />} />
+						<Route path="shipment/edit/:id" element={<FormShipment />} />
 						<Route path="device/add" element={<FormDevice />} />
 						<Route path="device/edit/:id" element={<FormDevice />} />
 						<Route path="employee/add" element={<FormEmployee />} />

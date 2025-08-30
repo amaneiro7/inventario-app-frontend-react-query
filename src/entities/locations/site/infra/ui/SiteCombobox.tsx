@@ -7,6 +7,7 @@ import { type SiteFilters } from '@/entities/locations/site/application/createSi
 interface BaseProps {
 	value?: string
 	name: string
+	label?: string
 	cityId?: string
 	stateId?: string
 	regionId?: string
@@ -33,6 +34,7 @@ export const SiteCombobox = memo(function ({
 	value = '',
 	name,
 	error = '',
+	label = 'Sitios',
 	required = false,
 	disabled = false,
 	readonly = false,
@@ -88,7 +90,7 @@ export const SiteCombobox = memo(function ({
 		<>
 			<Combobox
 				id="site"
-				label="Sitios"
+				label={label}
 				value={value}
 				name={name}
 				required={required}

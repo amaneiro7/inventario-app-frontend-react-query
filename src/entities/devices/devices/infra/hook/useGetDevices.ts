@@ -3,6 +3,7 @@ import { DeviceGetter } from '../../application/DeviceGetter'
 import { DeviceGetService } from '../service/deviceGet.service'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type DeviceId } from '../../domain/value-object/DeviceId'
+import { type DeviceDto } from '../../domain/dto/Device.dto'
 
 const repository = new DeviceGetService()
 const get = new DeviceGetter(repository)
@@ -19,7 +20,11 @@ const get = new DeviceGetter(repository)
  * @property {boolean} isLoading - Indica si la consulta está en curso.
  * @property {boolean} isError - Indica si la consulta ha resultado en un error.
  */
-export function useGetDevice({ id }: { id: Primitives<DeviceId> }) {
+export function useGetDevice({ id }: { id: Primitives<DeviceId> }): {
+	data: DeviceDto | undefined
+	isLoading: boolean
+	isError: boolean
+} {
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['device', id],
 		queryFn: () => get.execute({ id })
