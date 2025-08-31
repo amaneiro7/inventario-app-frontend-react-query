@@ -77,9 +77,6 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 			name === 'memoryRam' ||
 			name === 'locationId'
 		) {
-			// Estos tipos de acción se manejan con funciones específicas (handleModel, handleLocation, handleMemory)
-			// o son acciones internas del reducer que no deben ser llamadas directamente por handleChange.
-			console.warn(`Action type '${name}' should not be called via handleChange.`)
 			return
 		}
 		dispatch({ type: name, payload: { value } })

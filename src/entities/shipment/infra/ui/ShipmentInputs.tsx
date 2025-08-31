@@ -163,6 +163,7 @@ export const ShipmentInputs = memo(
 						onAddDevice={handleChange}
 						onRemoveDevice={handleChange}
 						isLoading={isLoading}
+						readonly={mode === 'edit'}
 						value={formData.deviceIds}
 					/>
 				</div>

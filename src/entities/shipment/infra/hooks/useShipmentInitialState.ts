@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/react-query'
 import { ShipmentGetter } from '@/entities/shipment/application/ShipmentGetter'
 import { ShipmentGetService } from '@/entities/shipment/infra/service/shipmentGet.service'
 import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { convetDateForInputs } from '@/shared/lib/utils/convertDateForInput'
 import { type DefaultShipment } from '@/entities/shipment/infra/reducers/shipmentFormReducers'
 import { type ShipmentDto } from '../../domain/dto/Shipment.dto'
-import { convetDateForInputs } from '@/shared/lib/utils/convertDateForInput'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new ShipmentGetService()
@@ -23,6 +23,7 @@ const get = new ShipmentGetter(repository)
  */
 export function useShipmentInitialState(defaultState: DefaultShipment): {
 	initialState: DefaultShipment
+	shipmentData: ShipmentDto | undefined
 	resetState: () => void
 	mode: 'edit' | 'add'
 	isLoading: boolean
@@ -126,6 +127,7 @@ export function useShipmentInitialState(defaultState: DefaultShipment): {
 	return {
 		mode,
 		initialState: state,
+		shipmentData,
 		isLoading,
 		isError,
 		isNotFound,

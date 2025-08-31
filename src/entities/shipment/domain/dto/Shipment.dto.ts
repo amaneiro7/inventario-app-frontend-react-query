@@ -11,8 +11,23 @@ import { type Observation } from '../value-object/Observation'
 import { type ShipmentStatus } from '../value-object/ShipmentStatus'
 import { type ShipmentReason } from '../value-object/ShipmentReason'
 import { type DeviceId } from '@/entities/devices/devices/domain/value-object/DeviceId'
-import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 import { type ShipmendtCode } from '../value-object/ShipmentCode'
+import { type DeviceSerial } from '@/entities/devices/devices/domain/value-object/DeviceSerial'
+import { type DeviceActivo } from '@/entities/devices/devices/domain/value-object/DeviceActivo'
+import { type StatusName } from '@/entities/status/status/domain/value-object/StatusName'
+import { type BrandName } from '@/entities/brand/domain/value-object/BrandName'
+import { type ModelName } from '@/entities/model/models/domain/value-object/ModelName'
+import { type ComputerName } from '@/entities/devices/devices/domain/value-object/ComputerName'
+import { type ProcessorName } from '@/entities/devices/features/processor/domain/value-object/ProcessorName'
+import { type MemoryRamValues } from '@/entities/devices/devices/domain/value-object/MemoryRamValues'
+import { type HardDriveHealth } from '@/entities/devices/devices/domain/value-object/HardDriveHealth'
+import { type HardDriveCapacityName } from '@/entities/devices/features/hardDrive/hardDriveCapacity/domain/value-object/HardDriveCapacityName'
+import { type HardDriveTypeName } from '@/entities/devices/features/hardDrive/hardDriveType/domain/value-object/HardDriveTypeName'
+import { type IPAddress } from '@/entities/devices/devices/domain/value-object/IPAddress'
+import { type MACAddress } from '@/entities/devices/devices/domain/value-object/MACAddress'
+import { type OperatingSystemArqName } from '@/entities/devices/features/operatingSystem/operatingSystemArq/domain/value-object/OperatingSystemArqName'
+import { type OperatingSystemName } from '@/entities/devices/features/operatingSystem/operatingSystem/domain/value-object/OperatingSystemName'
+import { type MemoryRamCapacity } from '@/entities/devices/devices/domain/value-object/MemoryRamCapacity'
 
 /**
  * @interface Shipment
@@ -75,15 +90,54 @@ export type ShipmentPrimitives = Omit<Shipment, 'id'> & {}
  * @property {string} updatedAt - La fecha y hora de la última actualización del envío.
  */
 export type ShipmentDto = Shipment & {
-	shipmentDevice: {
-		id: Primitives<ShipmentId>
-		shipmentId: Primitives<ShipmentId>
-		deviceId: Primitives<DeviceId>
-		devices: DeviceDto
-	}[]
+	shipmentDevice: ShipmentDevice[]
 	sentBy: Primitives<SentBy>
+	destinationLocation: {
+		address: string
+		name: string
+	}
+	originLocation: {
+		address: string
+		name: string
+	}
+	fromUser: {
+		name: string
+		lastName: string
+	}
+	toEMployee: {
+		name: string
+		lastName: string
+	}
 	shipmentDate: string
 	shipmentCode: Primitives<ShipmendtCode>
 	deliveryDate: string
 	updatedAt: string
+}
+
+export interface ShipmentDevice {
+	id: Primitives<ShipmentId>
+	shipmentId: Primitives<ShipmentId>
+	deviceId: Primitives<DeviceId>
+	deviceSnapshot: DeviceSnapshotData
+}
+
+interface DeviceSnapshotData {
+	id: Primitives<DeviceId>
+	categoryName: string
+	serial: Primitives<DeviceSerial>
+	activo: Primitives<DeviceActivo>
+	status: Primitives<StatusName>
+	brandName: Primitives<BrandName>
+	modelName: Primitives<ModelName>
+	computerName?: Primitives<ComputerName>
+	processorName?: Primitives<ProcessorName>
+	memoryRam?: Primitives<MemoryRamValues>[]
+	memoryRamCapacity?: Primitives<MemoryRamCapacity>
+	hardDriveCapacity?: Primitives<HardDriveCapacityName>
+	hardDriveType?: Primitives<HardDriveTypeName>
+	operatingSystem?: Primitives<OperatingSystemName>
+	operatingSystemArq?: Primitives<OperatingSystemArqName>
+	macAddress?: Primitives<MACAddress>
+	ipAddress?: Primitives<IPAddress>
+	health?: Primitives<HardDriveHealth>
 }

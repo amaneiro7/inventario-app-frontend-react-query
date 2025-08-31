@@ -3,6 +3,7 @@ import { ShipmentCreator } from '@/entities/shipment/application/ShipmentCreator
 import { ShipmentSaveService } from '@/entities/shipment/infra/service/shipmentSave.service'
 import {
 	type Action,
+	type DefaultShipment,
 	initialShipmentState,
 	ShipmentFormReducer
 } from '@/entities/shipment/infra/reducers/shipmentFormReducers'
@@ -27,7 +28,7 @@ import { type ShipmentParams } from '@/entities/shipment/domain/dto/Shipment.dto
  * @property {(event: React.FormEvent) => Promise<void>} handleSubmit - Función para manejar el envío del formulario.
  * @property {(name: Action['type'], value: string) => void} handleChange - Función para manejar los cambios en los campos del formulario.
  */
-export function useCreateShipment(defaultState?: ShipmentParams) {
+export function useCreateShipment(defaultState?: DefaultShipment) {
 	const key = `shipment${initialShipmentState?.formData?.id ? initialShipmentState.formData.id : ''}`
 	const { events } = useAuthStore.getState()
 
@@ -35,8 +36,16 @@ export function useCreateShipment(defaultState?: ShipmentParams) {
 		return await new ShipmentCreator(new ShipmentSaveService(), events).create(formData)
 	}
 
-	const { initialState, mode, resetState, isError, isNotFound, isLoading, onRetry } =
-		useShipmentInitialState(defaultState ?? initialShipmentState.formData)
+	const {
+		initialState,
+		shipmentData,
+		mode,
+		resetState,
+		isError,
+		isNotFound,
+		isLoading,
+		onRetry
+	} = useShipmentInitialState(defaultState ?? initialShipmentState.formData)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData, required }, dispatch] = useReducer(
 		ShipmentFormReducer,
@@ -65,7 +74,7 @@ export function useCreateShipment(defaultState?: ShipmentParams) {
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
 		event.stopPropagation()
-		await create(formData).then(() => {
+		await create(formData as never).then(() => {
 			queryClient.invalidateQueries({ queryKey: ['shipments'] })
 			resetState()
 		})
@@ -74,6 +83,7 @@ export function useCreateShipment(defaultState?: ShipmentParams) {
 	return {
 		key,
 		formData,
+		shipmentData,
 		mode,
 		errors,
 		required,
