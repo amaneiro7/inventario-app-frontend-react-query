@@ -5,7 +5,8 @@ import {
 	type ShipmentErrors,
 	type Action,
 	type DefaultShipment,
-	type ShipmentRequired
+	type ShipmentRequired,
+	type ShipmentDisabled
 } from '@/entities/shipment/infra/reducers/shipmentFormReducers'
 
 const Input = lazy(() => import('@/shared/ui/Input/Input').then(m => ({ default: m.Input })))
@@ -35,6 +36,7 @@ interface ShipmentInputsProps {
 	formData: DefaultShipment
 	errors?: ShipmentErrors
 	required?: ShipmentRequired
+	disabled?: ShipmentDisabled
 	mode: FormMode
 	isLoading: boolean
 	handleChange: (name: Action['type'], value: string) => void
@@ -51,7 +53,15 @@ interface ShipmentInputsProps {
  * @param {(name: Action['type'], value: string) => void} props.handleChange - Función de callback para manejar los cambios en los campos de entrada.
  */
 export const ShipmentInputs = memo(
-	({ required, errors, mode, isLoading, formData, handleChange }: ShipmentInputsProps) => {
+	({
+		required,
+		disabled,
+		errors,
+		mode,
+		isLoading,
+		formData,
+		handleChange
+	}: ShipmentInputsProps) => {
 		const {
 			auth: { user }
 		} = use(AuthContext)
@@ -62,6 +72,7 @@ export const ShipmentInputs = memo(
 					handleChange={(_name, value) => handleChange('status', value as string)}
 					name="status"
 					mode={mode}
+					readonly={disabled?.status}
 					required={required?.status}
 					error={errors?.status}
 				/>
@@ -71,7 +82,7 @@ export const ShipmentInputs = memo(
 					name="reason"
 					required={required?.reason}
 					error={errors?.reason}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || disabled?.reason}
 				/>
 
 				<SiteCombobox
@@ -83,7 +94,7 @@ export const ShipmentInputs = memo(
 					method="search"
 					required={required?.origin}
 					error={errors?.origin}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || disabled?.origin}
 				/>
 				<SiteCombobox
 					handleChange={(_name, value) => handleChange('destination', value as string)}
@@ -94,7 +105,7 @@ export const ShipmentInputs = memo(
 					required={required?.destination}
 					error={errors?.destination}
 					method="search"
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || disabled?.destination}
 				/>
 				<Input
 					value={`${user?.name} ${user?.lastName}`}
@@ -110,6 +121,7 @@ export const ShipmentInputs = memo(
 					name="receivedBy"
 					label="Recibido por"
 					isLoading={isLoading}
+					readonly={disabled?.receivedBy}
 					value={formData.receivedBy}
 					required={required?.receivedBy}
 					error={errors?.receivedBy}
@@ -122,7 +134,7 @@ export const ShipmentInputs = memo(
 					value={formData.shipmentDate}
 					transform
 					type="date"
-					readOnly={mode === 'edit'}
+					readOnly={mode === 'edit' || disabled?.shipmentDate}
 					required={required?.shipmentDate}
 					errorMessage={errors?.shipmentDate}
 					onChange={e => handleChange('shipmentDate', e.target.value)}
@@ -145,6 +157,7 @@ export const ShipmentInputs = memo(
 					name="trackingNumber"
 					value={formData.trackingNumber}
 					required={required?.trackingNumber}
+					readOnly={disabled?.trackingNumber}
 					errorMessage={errors?.trackingNumber}
 					onChange={e => handleChange('trackingNumber', e.target.value)}
 				/>
@@ -155,6 +168,7 @@ export const ShipmentInputs = memo(
 					required={required?.observation}
 					errorMessage={errors?.observation}
 					value={formData.observation}
+					readOnly={disabled?.observation}
 					onChange={e => handleChange('observation', e.target.value)}
 				/>
 				<div className="col-span-2">

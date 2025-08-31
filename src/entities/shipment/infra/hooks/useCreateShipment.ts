@@ -47,7 +47,7 @@ export function useCreateShipment(defaultState?: DefaultShipment) {
 		onRetry
 	} = useShipmentInitialState(defaultState ?? initialShipmentState.formData)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(
+	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		ShipmentFormReducer,
 		initialShipmentState
 	)
@@ -86,6 +86,7 @@ export function useCreateShipment(defaultState?: DefaultShipment) {
 		shipmentData,
 		mode,
 		errors,
+		disabled,
 		required,
 		isNotFound,
 		isError,

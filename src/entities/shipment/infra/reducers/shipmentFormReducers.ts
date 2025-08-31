@@ -53,6 +53,18 @@ export interface ShipmentRequired {
 	trackingNumber: boolean
 	observation: boolean
 }
+export interface ShipmentDisabled {
+	status: boolean
+	reason: boolean
+	origin: boolean
+	destination: boolean
+	sentBy: boolean
+	receivedBy: boolean
+	shipmentDate: boolean
+	deliveryDate: boolean
+	trackingNumber: boolean
+	observation: boolean
+}
 
 /**
  * @interface State
@@ -64,6 +76,7 @@ export interface State {
 	formData: DefaultShipment
 	errors: ShipmentErrors
 	required: ShipmentRequired
+	disabled: ShipmentDisabled
 }
 
 /**
@@ -109,6 +122,18 @@ export const initialShipmentState: State = {
 		deliveryDate: false,
 		trackingNumber: false,
 		observation: true
+	},
+	disabled: {
+		status: false,
+		reason: false,
+		origin: false,
+		destination: false,
+		sentBy: false,
+		receivedBy: false,
+		shipmentDate: false,
+		deliveryDate: false,
+		trackingNumber: false,
+		observation: false
 	}
 }
 
@@ -151,6 +176,9 @@ export const ShipmentFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'init':
 		case 'reset': {
+			const isFinalized =
+				action.payload.formData.status === StatusEnum.CANCELLED ||
+				action.payload.formData.status === StatusEnum.DELIVERED
 			return {
 				...state,
 				formData: { ...action.payload.formData },
@@ -158,6 +186,19 @@ export const ShipmentFormReducer = (state: State, action: Action): State => {
 				required: {
 					...initialShipmentState.required,
 					observation: action.payload.formData.deviceIds.length === 0
+				},
+				disabled: {
+					...initialShipmentState.disabled,
+					status: isFinalized,
+					reason: isFinalized,
+					origin: isFinalized,
+					destination: isFinalized,
+					sentBy: isFinalized,
+					receivedBy: isFinalized,
+					shipmentDate: isFinalized,
+					deliveryDate: isFinalized,
+					trackingNumber: isFinalized,
+					observation: isFinalized
 				}
 			}
 		}
@@ -220,9 +261,7 @@ export const ShipmentFormReducer = (state: State, action: Action): State => {
 		case 'status': {
 			const status = action.payload.value
 			const deliveryDate =
-				status === StatusEnum.CANCELLED || status === StatusEnum.DELIVERED
-					? convetDateForInputs(new Date())
-					: ''
+				status === StatusEnum.DELIVERED ? convetDateForInputs(new Date()) : ''
 			return {
 				...state,
 				formData: {
@@ -232,7 +271,7 @@ export const ShipmentFormReducer = (state: State, action: Action): State => {
 				},
 				required: {
 					...state.required,
-					receivedBy: status === StatusEnum.CANCELLED || status === StatusEnum.DELIVERED
+					receivedBy: status === StatusEnum.DELIVERED
 				}
 			}
 		}

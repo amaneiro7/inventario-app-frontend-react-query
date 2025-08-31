@@ -1,12 +1,12 @@
 import { lazy } from 'react'
 import { StatusEnum } from '@/entities/shipment/domain/value-object/ShipmentStatus'
 import Typography from '@/shared/ui/Typography'
-import { DetailItem } from './ui/DetailItem'
-import { GetStatusIndicator } from './model/GetStatusIndicator'
+import { DetailItem } from './DetailItem'
+import { GetStatusIndicator } from './GetStatusIndicator'
 import { type ShipmentDto } from '@/entities/shipment/domain/dto/Shipment.dto'
 
 const ShippedDeviceCard = lazy(() =>
-	import('./ui/ShippedDeviceCard').then(m => ({ default: m.ShippedDeviceCard }))
+	import('./ShippedDeviceCard').then(m => ({ default: m.ShippedDeviceCard }))
 )
 
 interface ShipmentDetailsProps {
@@ -37,7 +37,11 @@ export const ShipmentDetails = ({ data }: ShipmentDetailsProps) => {
 					label="Estatus del envío"
 					value={GetStatusIndicator(data?.status as StatusEnum)}
 				/>
-				<DetailItem label="Motivo del envío" value={data?.reason ?? 'N/A'} />
+				<DetailItem
+					label="Motivo del envío"
+					value={data?.reason ?? 'N/A'}
+					transform="capitalize"
+				/>
 				<DetailItem
 					label="Enviado por"
 					value={`${data?.fromUser?.name} ${data?.fromUser?.lastName}`}
@@ -45,8 +49,8 @@ export const ShipmentDetails = ({ data }: ShipmentDetailsProps) => {
 				<DetailItem
 					label="Recibido por"
 					value={
-						data?.toEMployee
-							? `${data.toEMployee.name} ${data.toEMployee.lastName}`
+						data?.toEmployee
+							? `${data.toEmployee.name} ${data.toEmployee.lastName}`
 							: 'Pendiente de recepción'
 					}
 				/>
@@ -101,7 +105,7 @@ export const ShipmentDetails = ({ data }: ShipmentDetailsProps) => {
 						No hay dispositivos en este envío.
 					</Typography>
 				) : (
-					<div className="flex flex-col flex-wrap gap-4 sm:flex-row">
+					<div className="grid grid-cols-1 gap-4 sm:flex-row md:grid-cols-2">
 						{data.shipmentDevice.map(device => (
 							<ShippedDeviceCard key={device.id} shipmentDevice={device} />
 						))}

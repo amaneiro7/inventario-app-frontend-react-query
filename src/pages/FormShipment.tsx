@@ -28,6 +28,7 @@ export default function FormShipment() {
 		key,
 		errors,
 		required,
+		disabled,
 		isError,
 		isLoading,
 		isNotFound,
@@ -74,6 +75,7 @@ export default function FormShipment() {
 									isLoading={isLoading}
 									mode={mode}
 									required={required}
+									disabled={disabled}
 									handleChange={handleChange}
 									errors={errors}
 								/>

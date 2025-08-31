@@ -27,6 +27,7 @@ interface EmployeeComboboxProps {
 	 * Whether the input is disabled.
 	 */
 	disabled?: boolean
+	readonly?: boolean
 	isLoading?: boolean
 	/**
 	 * Callback function triggered when the selected value changes.
@@ -48,6 +49,7 @@ export const EmployeeCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	isLoading = false,
+	readonly = false,
 	handleChange
 }: EmployeeComboboxProps) {
 	const [inputValue, setInputValue] = useState('')
@@ -87,6 +89,7 @@ export const EmployeeCombobox = memo(function ({
 				loading={loading}
 				isLoading={isLoading}
 				options={options}
+				readOnly={readonly}
 				onChangeValue={handleChange}
 				onInputChange={setInputValue}
 				displayAccessor="userName"

@@ -31,10 +31,17 @@ export class ShipmentCreator {
 		// Notificar que ha empezado el proceso de creación o actualización
 		this.events.notify({ type: 'loading' })
 		try {
-			const payload = Shipment.create(params).toPrimitives()
-			const result = params.id
-				? await this.repository.update({ id: new ShipmentId(params.id).value, payload })
-				: await this.repository.save({ payload })
+			let result
+			if (params.id) {
+				const payload = Shipment.fromPrimitives(params).toPrimitives()
+				result = await this.repository.update({
+					id: new ShipmentId(params.id).value,
+					payload
+				})
+			} else {
+				const payload = Shipment.create(params).toPrimitives()
+				result = await this.repository.save({ payload })
+			}
 			this.events.notify({ type: 'success', message: result.message })
 			return result
 		} catch (error) {

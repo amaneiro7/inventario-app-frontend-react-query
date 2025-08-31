@@ -104,7 +104,7 @@ export type ShipmentDto = Shipment & {
 		name: string
 		lastName: string
 	}
-	toEMployee: {
+	toEmployee: {
 		name: string
 		lastName: string
 	}

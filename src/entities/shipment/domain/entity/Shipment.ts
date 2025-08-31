@@ -47,7 +47,48 @@ export class Shipment {
 	) {}
 
 	/**
-	 * Crea una nueva instancia de `Shipment` a partir de sus propiedades primitivas.
+	 * Crea una instancia de `Shipment` a partir de datos existentes (p. ej., desde la base de datos o API).
+	 * Este método se utiliza para reconstruir una entidad y solo valida invariantes que siempre deben cumplirse.
+	 * @param {ShipmentPrimitives} params - Las propiedades primitivas del envío.
+	 * @returns {Shipment} Una instancia de `Shipment`.
+	 */
+	static fromPrimitives(params: ShipmentPrimitives): Shipment {
+		// Invariant rule: origin and destination cannot be the same.
+		if (params.origin === params.destination) {
+			throw new InvalidArgumentError('El origen y el destino no pueden ser el mismo.')
+		}
+
+		if (params.deliveryDate && params.deliveryDate < params.shipmentDate) {
+			throw new InvalidArgumentError(
+				'La fecha de entrega no puede ser anterior a la fecha de envío.'
+			)
+		}
+
+		if (params.status === StatusEnum.DELIVERED && !params.receivedBy) {
+			throw new InvalidArgumentError(
+				'Para marcar un envío como entregado, el campo "recibido por" es obligatorio.'
+			)
+		}
+
+		const deviceIds = params.deviceIds.map(device => new DeviceId(device))
+
+		return new Shipment(
+			new Origin(params.origin),
+			new Destination(params.destination),
+			new ShipmentDate(params.shipmentDate),
+			new DeliveryDate(params.deliveryDate),
+			new ReceivedBy(params.receivedBy),
+			new TrackingNumber(params.trackingNumber),
+			new Observation(params.observation),
+			new ShipmentStatus(params.status),
+			new ShipmentReason(params.reason),
+			deviceIds
+		)
+	}
+
+	/**
+	 * Crea una **nueva** instancia de `Shipment` a partir de sus propiedades primitivas,
+	 * aplicando las reglas de negocio para la creación.
 	 * @param {ShipmentPrimitives} params - Las propiedades primitivas del envío.
 	 * @returns {Shipment} Una nueva instancia de `Shipment`.
 	 */
@@ -58,26 +99,12 @@ export class Shipment {
 				`Un envío solo puede crearse con el estado PENDIENTE o EN TRÁNSITO, pero se recibió '${params.status}'.`
 			)
 		}
-		if (params.origin === params.destination) {
-			throw new InvalidArgumentError('El origen y el destino no pueden ser el mismo.')
+		if (params.deliveryDate) {
+			throw new InvalidArgumentError('Un envío nuevo no puede tener una fecha de entrega.')
 		}
-		// if (params.deliveryDate !== null) {
-		// 	throw new InvalidArgumentError('Un envío nuevo no puede tener una fecha de entrega.')
-		// }
-		const deviceIds = params.deviceIds.map(device => new DeviceId(device))
-		console.log('params', params.deviceIds)
-		return new Shipment(
-			new Origin(params.origin),
-			new Destination(params.destination),
-			new ShipmentDate(params.shipmentDate),
-			new DeliveryDate(params.deliveryDate), // Will be null, checked above
-			new ReceivedBy(params.receivedBy),
-			new TrackingNumber(params.trackingNumber),
-			new Observation(params.observation),
-			new ShipmentStatus(params.status),
-			new ShipmentReason(params.reason),
-			deviceIds
-		)
+
+		// Re-use fromPrimitives for construction and invariant validation
+		return Shipment.fromPrimitives(params)
 	}
 
 	get originValue(): Origin['value'] {
