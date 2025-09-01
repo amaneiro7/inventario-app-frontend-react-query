@@ -1,10 +1,10 @@
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { type SignatureData } from '..'
-import Typography from '@/shared/ui/Typography'
-import { Input } from '@/shared/ui/Input/Input'
-import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { memo } from 'react'
 import { AlertCircle } from 'lucide-react'
+import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import Typography from '@/shared/ui/Typography'
+import { Input } from '@/shared/ui/Input/Input'
+import { type SignatureData } from '..'
 
 interface SignatureFormProps {
 	data: SignatureData
@@ -53,7 +53,7 @@ export const SignatureForm = memo(
 						name="cargo"
 						required
 						transform
-						// readOnly
+						readOnly
 						value={data.cargo}
 						placeholder={placeHolder.cargo}
 						onChange={e => onChange('cargo', e.target.value)}
@@ -65,7 +65,7 @@ export const SignatureForm = memo(
 						name="vicepresidenciaEjecutiva"
 						required
 						transform
-						// readOnly
+						readOnly
 						value={data.vicepresidenciaEjecutiva}
 						placeholder={placeHolder.vicepresidenciaEjecutiva}
 						onChange={e => onChange('vicepresidenciaEjecutiva', e.target.value)}
@@ -76,7 +76,7 @@ export const SignatureForm = memo(
 						name="vicepresidencia"
 						required
 						transform
-						// readOnly
+						readOnly
 						value={data.vicepresidencia}
 						placeholder={placeHolder.vicepresidencia}
 						onChange={e => onChange('vicepresidencia', e.target.value)}
@@ -116,7 +116,7 @@ export const SignatureForm = memo(
 						name="email"
 						required
 						transform
-						// readOnly
+						readOnly
 						value={data.email}
 						placeholder={placeHolder.email}
 						onChange={e => onChange('email', e.target.value)}
