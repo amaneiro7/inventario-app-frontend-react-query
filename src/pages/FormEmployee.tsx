@@ -1,11 +1,19 @@
 import { lazy, Suspense, useMemo } from 'react'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
 import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/components/SignatureGeneratorSkeleton'
 import { EmployeeFormSkeletonLayout } from '@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeFormLayoutSkeleton'
+
+const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
+const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
+const TabsList = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsList })))
+const TabsTrigger = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsTrigger })))
+const DetailsBoxWrapper = lazy(() =>
+	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
+		default: m.DetailsBoxWrapper
+	}))
+)
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
