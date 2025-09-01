@@ -28,7 +28,7 @@ export const LocationDetailsPanel = ({ selectedFloor, locations }: LocationDetai
 			offlineCount={locationSelectedData?.offlineCount}
 			isDataLoaded={hasSelectedStateData}
 			currentStateData={currentStateData}
-			deparments={locationSelectedData?.vpeName}
+			departments={locationSelectedData?.vpeName}
 		>
 			<NetworkSiteLinkMonitoring selectedFloor={selectedFloor} />
 		</DetailsPanel>
