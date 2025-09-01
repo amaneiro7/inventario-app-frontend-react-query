@@ -32,6 +32,11 @@ const ListWrapper = memo(() => {
 				description:
 					'Consulta el listado completo de equipos de computación disponibles. Filtra, busca y gestiona la información detallada de cada equipo.'
 			},
+			'/list/shipment': {
+				title: 'Relaciones de Envío | Listado',
+				description:
+					'Consulta el listado completo de envíos de dispositivos. Filtra, busca y gestiona la información detallada de cada envío.'
+			},
 			'/list/monitor': {
 				title: 'Monitores | Listado',
 				description:

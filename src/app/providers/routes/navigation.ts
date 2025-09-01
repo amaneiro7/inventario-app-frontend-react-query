@@ -19,6 +19,11 @@ export const navigation: Navigation[] = [
 				desc: 'Visualiza el inventario completo de equipos de computación y sus detalles.'
 			},
 			{
+				title: 'Lista de Envíos',
+				path: '/list/shipment',
+				desc: 'Explora el historial y el estado de todos los envíos de dispositivos registrados.'
+			},
+			{
 				title: 'Lista de Monitores',
 				path: '/list/monitor',
 				desc: 'Explora el inventario de todos los monitores registrados en el sistema.'
@@ -124,9 +129,9 @@ export const navigation: Navigation[] = [
 				desc: 'Define y registra nuevos tipos de procesadores utilizados en los equipos.'
 			},
 			{
-				title: 'Agregar Nueva relación de envio',
+				title: 'Crear Relación de Envío',
 				path: '/form/shipment/add',
-				desc: ''
+				desc: 'Genera una nueva guía de envío para el traslado de dispositivos entre ubicaciones.'
 			}
 		]
 	},

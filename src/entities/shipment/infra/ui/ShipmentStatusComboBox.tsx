@@ -4,7 +4,7 @@ import { StatusEnum } from '../../domain/value-object/ShipmentStatus'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface ShipmentStatusComboboxProps {
-	mode: FormMode
+	mode?: FormMode
 	value?: string
 	name: string
 	error?: string
@@ -20,7 +20,7 @@ interface ShipmentStatusComboboxProps {
  */
 export function ShipmentStatusCombobox({
 	mode,
-	value,
+	value = '',
 	name,
 	error = '',
 	required = false,
@@ -58,7 +58,7 @@ export function ShipmentStatusCombobox({
 			<Combobox
 				id="shipmentStatus"
 				label="Estatus"
-				value={value ?? StatusEnum.PENDING}
+				value={value}
 				name={name}
 				options={options}
 				required={required}

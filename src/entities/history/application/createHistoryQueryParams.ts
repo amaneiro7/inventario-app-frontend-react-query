@@ -2,10 +2,10 @@ import { Criteria } from '@/entities/shared/domain/criteria/Criteria'
 import { Operator } from '@/entities/shared/domain/criteria/FilterOperators'
 import { OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/entities/shared/domain/criteria/OrderType'
+import { HistoryGetByCriteria } from './HistoryGetByCriteria'
 import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type HistoryDto } from '../domain/dto/History.dto'
-import { HistoryGetByCriteria } from './HistoryGetByCriteria'
 
 /**
  * Defines the structure for filtering and pagination parameters when searching for history records.

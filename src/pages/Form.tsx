@@ -1,15 +1,16 @@
 import { LinkCard } from '@/shared/ui/LinkCard'
 import {
 	Computer,
-	Factory, // Sugerencia para Marca
-	Cpu, // Sugerencia para Procesador
-	UserPlus, // Sugerencia para Empleado (creación)
-	Scale, // Sugerencia para Directiva (camino, dirección)
-	Briefcase, // Sugerencia para Vicepresidencia Ejecutiva/Vicepresidencia
-	Layers, // Sugerencia para Departamento
-	Badge, // Sugerencia para Cargo
-	MapPin, // Sugerencia para Ubicación/Sitio/Ciudad/Región
-	Package // Sugerencia genérica para Modelo
+	Factory,
+	Cpu,
+	UserPlus,
+	Scale,
+	Briefcase,
+	Layers,
+	Badge,
+	MapPin,
+	Package,
+	Truck
 } from 'lucide-react'
 
 const Form = () => {
@@ -21,81 +22,87 @@ const Form = () => {
 			to: 'device/add'
 		},
 		{
+			title: 'Relación de envio',
+			description: 'Crear una nueva relación de envío para el traslado de dispositivos.',
+			icon: Truck,
+			to: 'shipment/add'
+		},
+		{
 			title: 'Modelo',
 			description: 'Crear un nuevo modelo de equipo o dispositivo.',
-			icon: Package, // Icono sugerido
+			icon: Package,
 			to: 'model/add'
 		},
 		{
 			title: 'Marca',
 			description: 'Añadir una nueva marca de fabricante.',
-			icon: Factory, // Icono sugerido
+			icon: Factory,
 			to: 'brand/add'
 		},
 		{
 			title: 'Procesador',
 			description: 'Registrar un nuevo tipo de procesador.',
-			icon: Cpu, // Icono sugerido
+			icon: Cpu,
 			to: 'processors/add'
 		},
 		{
 			title: 'Empleado',
 			description: 'Dar de alta un nuevo empleado en el sistema.',
-			icon: UserPlus, // Icono sugerido
+			icon: UserPlus,
 			to: 'employee/add'
 		},
 		{
 			title: 'Directiva',
 			description: 'Crear una nueva directiva o vía de comunicación.',
-			icon: Scale, // Icono sugerido
+			icon: Scale,
 			to: 'directiva/add'
 		},
 		{
 			title: 'Vicepresidencia Ejecutiva',
 			description: 'Registrar una nueva vicepresidencia ejecutiva.',
-			icon: Briefcase, // Icono sugerido
+			icon: Briefcase,
 			to: 'vicepresidenciaejecutiva/add'
 		},
 		{
 			title: 'Vicepresidencia',
 			description: 'Crear una nueva vicepresidencia.',
-			icon: Briefcase, // Icono sugerido
+			icon: Briefcase,
 			to: 'vicepresidencia/add'
 		},
 		{
 			title: 'Departamento',
 			description: 'Añadir un nuevo departamento a la estructura organizacional.',
-			icon: Layers, // Icono sugerido
+			icon: Layers,
 			to: 'departamento/add'
 		},
 		{
 			title: 'Cargo',
 			description: 'Registrar un nuevo cargo o puesto de trabajo.',
-			icon: Badge, // Icono sugerido
+			icon: Badge,
 			to: 'cargo/add'
 		},
 		{
 			title: 'Ubicación',
 			description: 'Crear una nueva ubicación física.',
-			icon: MapPin, // Icono sugerido
+			icon: MapPin,
 			to: 'location/add'
 		},
 		{
 			title: 'Sitio',
 			description: 'Registrar un nuevo sitio específico dentro de una ubicación.',
-			icon: MapPin, // Icono sugerido
+			icon: MapPin,
 			to: 'site/add'
 		},
 		{
 			title: 'Ciudad',
 			description: 'Añadir una nueva ciudad al sistema.',
-			icon: MapPin, // Icono sugerido
+			icon: MapPin,
 			to: 'city/add'
 		},
 		{
 			title: 'Región',
 			description: 'Crear una nueva región geográfica.',
-			icon: MapPin, // Icono sugerido
+			icon: MapPin,
 			to: 'region'
 		}
 	]

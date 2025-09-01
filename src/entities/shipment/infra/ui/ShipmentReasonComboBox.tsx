@@ -17,7 +17,7 @@ interface ShipmentReasonComboboxProps {
  * by their employment Reason (active, inactive, or all).
  */
 export function ShipmentReasonCombobox({
-	value,
+	value = '',
 	name,
 	error = '',
 	required = false,
@@ -44,7 +44,7 @@ export function ShipmentReasonCombobox({
 			<Combobox
 				id="shipmentReason"
 				label="Motivo"
-				value={value ?? ReasonEnum.REPAIR}
+				value={value}
 				name={name}
 				options={options}
 				required={required}

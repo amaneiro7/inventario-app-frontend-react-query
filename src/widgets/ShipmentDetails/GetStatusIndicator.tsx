@@ -9,22 +9,22 @@ export const GetStatusIndicator = (status?: StatusEnum) => {
 	switch (status) {
 		case StatusEnum.PENDING:
 			icon = <Clock size={16} />
-			className = 'bg-yellow-100 text-yellow-800'
+			className = 'bg-amarillo-100 text-amarillo-800'
 			text = 'Pendiente'
 			break
 		case StatusEnum.IN_TRANSIT:
 			icon = <Truck size={16} />
-			className = 'bg-blue-100 text-blue-800'
+			className = 'bg-azul-100 text-azul-800'
 			text = 'En Tránsito'
 			break
 		case StatusEnum.DELIVERED:
 			icon = <CheckCircle2 size={16} />
-			className = 'bg-green-100 text-green-800'
+			className = 'bg-verde-100 text-verde-800'
 			text = 'Entregado'
 			break
 		case StatusEnum.CANCELLED:
 			icon = <XCircle size={16} />
-			className = 'bg-red-100 text-red-800'
+			className = 'bg-rojo-100 text-rojo-800'
 			text = 'Cancelado'
 			break
 		default:

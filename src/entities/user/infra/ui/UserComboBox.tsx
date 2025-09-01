@@ -5,11 +5,13 @@ import { Combobox } from '@/shared/ui/Input/Combobox'
 
 export const UserCombobox = memo(function ({
 	value = '',
+	label = 'Usuarios de servicio',
 	name,
 	handleChange
 }: {
 	value?: string
 	name: string
+	label?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -24,7 +26,7 @@ export const UserCombobox = memo(function ({
 		<>
 			<Combobox
 				id="serviceUsers"
-				label="Usuarios de servicio"
+				label={label}
 				value={value}
 				name={name}
 				loading={isLoading}

@@ -1,10 +1,10 @@
 import { Criteria } from '@/entities/shared/domain/criteria/Criteria'
 import { Operator } from '@/entities/shared/domain/criteria/FilterOperators'
 import { OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
-import { OrderType, OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
+import { OrderType } from '@/entities/shared/domain/criteria/OrderType'
+import { ShipmentGetByCriteria } from './ShipmentGetByCriteria'
 import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type ShipmentDto } from '../domain/dto/Shipment.dto'
 
 /**
  * @interface ShipmentFilters
@@ -17,18 +17,18 @@ import { type ShipmentDto } from '../domain/dto/Shipment.dto'
  * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
  */
 export interface ShipmentFilters {
-	id?: ShipmentDto['id']
-	origin?: ShipmentDto['origin']
-	shipmentCode?: ShipmentDto['shipmentCode']
-	destination?: ShipmentDto['destination']
+	id?: string
+	origin?: string
+	shipmentCode?: string
+	destination?: string
 	shipmentDate?: string
 	deliveryDate?: string
-	sentBy?: ShipmentDto['sentBy']
-	receivedBy?: ShipmentDto['receivedBy']
-	trackingNumber?: ShipmentDto['trackingNumber']
-	observation?: ShipmentDto['observation']
-	status?: ShipmentDto['status']
-	reason?: ShipmentDto['reason']
+	sentBy?: string
+	receivedBy?: string
+	trackingNumber?: string
+	observation?: string
+	status?: string
+	reason?: string
 	deviceId?: string
 	pageNumber?: number
 	pageSize?: number
@@ -55,8 +55,8 @@ export async function createShipmentParams({
 		filters: [],
 		pageSize,
 		pageNumber,
-		orderBy,
-		orderType: OrderTypes.DESC
+		orderBy: orderBy ?? ShipmentGetByCriteria.defaultOrderBy,
+		orderType: !orderBy && !orderType ? ShipmentGetByCriteria.defaultOrderType : orderType
 	}
 
 	Object.entries(options).forEach(([key, value]) => {

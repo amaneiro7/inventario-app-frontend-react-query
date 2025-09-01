@@ -3,6 +3,7 @@ import { StatusEnum } from '@/entities/shipment/domain/value-object/ShipmentStat
 import Typography from '@/shared/ui/Typography'
 import { DetailItem } from './DetailItem'
 import { GetStatusIndicator } from './GetStatusIndicator'
+import { formatDateToUTC } from '@/shared/lib/utils/formatDateToUTC'
 import { type ShipmentDto } from '@/entities/shipment/domain/dto/Shipment.dto'
 
 const ShippedDeviceCard = lazy(() =>
@@ -56,19 +57,11 @@ export const ShipmentDetails = ({ data }: ShipmentDetailsProps) => {
 				/>
 				<DetailItem
 					label="Fecha de envío"
-					value={
-						data?.shipmentDate
-							? new Date(data.shipmentDate).toLocaleDateString()
-							: 'N/A'
-					}
+					value={data?.shipmentDate ? formatDateToUTC(data.shipmentDate) : 'N/A'}
 				/>
 				<DetailItem
 					label="Fecha de recepción"
-					value={
-						data?.deliveryDate
-							? new Date(data.deliveryDate).toLocaleDateString()
-							: 'Pendiente'
-					}
+					value={data?.deliveryDate ? formatDateToUTC(data.deliveryDate) : 'Pendiente'}
 				/>
 				<DetailItem label="Observación" value={data?.observation || 'Sin observaciones'} />
 			</div>
