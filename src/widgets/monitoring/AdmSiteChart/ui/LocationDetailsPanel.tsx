@@ -1,7 +1,12 @@
-import { DetailsPanel } from '@/shared/ui/DetailsPanel'
-import { NetworkSiteLinkMonitoring } from './NetworkSiteLinkMonitoring'
+import { lazy } from 'react'
 import { type DeviceMonitoringDashboardByLocationDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
 
+const DetailsPanel = lazy(() =>
+	import('@/shared/ui/DetailsPanel').then(m => ({ default: m.DetailsPanel }))
+)
+const NetworkSiteLinkMonitoring = lazy(() =>
+	import('./NetworkSiteLinkMonitoring').then(m => ({ default: m.NetworkSiteLinkMonitoring }))
+)
 interface LocationDetailsPanelProps {
 	selectedFloor: string | null
 	locations?: DeviceMonitoringDashboardByLocationDto

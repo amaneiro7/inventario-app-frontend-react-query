@@ -1,9 +1,12 @@
-import { memo } from 'react'
-import Typography from '@/shared/ui/Typography'
+import { lazy, memo } from 'react'
 import { usePanelText } from './usePanelText' // Hook para la lógica de texto
-import { PanelHeader } from './PanelHeader'
-import { PanelStats } from './PanelStats'
-import { DepartmentList } from './DepartmentList'
+import Typography from '@/shared/ui/Typography'
+
+const PanelHeader = lazy(() => import('./PanelHeader').then(m => ({ default: m.PanelHeader })))
+const PanelStats = lazy(() => import('./PanelStats').then(m => ({ default: m.PanelStats })))
+const DepartmentList = lazy(() =>
+	import('./DepartmentList').then(m => ({ default: m.DepartmentList }))
+)
 
 interface DetailsPanelProps {
 	selectedFloor: string | null

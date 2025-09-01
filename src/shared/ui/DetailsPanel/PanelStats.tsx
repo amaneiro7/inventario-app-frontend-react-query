@@ -1,6 +1,11 @@
-import { memo } from 'react'
-import { StatusProgress } from '@/shared/ui/StatusProgress'
-import { DetailsPanelCard } from '../DetailsPanelCard'
+import { lazy, memo } from 'react'
+
+const StatusProgress = lazy(() =>
+	import('@/shared/ui/StatusProgress').then(m => ({ default: m.StatusProgress }))
+)
+const DetailsPanelCard = lazy(() =>
+	import('../DetailsPanelCard').then(m => ({ default: m.DetailsPanelCard }))
+)
 
 interface PanelStatsProps {
 	onlineCount: number
