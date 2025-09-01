@@ -241,7 +241,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					nationality:
 						type === EmployeeTypes.GENERIC || !type
 							? ''
-							: (action.payload.formData.nationality ?? Nationalities.V),
+							: action.payload.formData.nationality || Nationalities.V,
 					phone: phone.length > 0 ? phone : [''],
 					extension: extension.length > 0 ? extension : [''],
 					phoneSegments:
