@@ -423,7 +423,6 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 					)
 				}))
 				.filter(operatingSystem => operatingSystem.administrativeRegion.length > 0)
-			console.log(filteredData)
 		}
 
 		return filteredData

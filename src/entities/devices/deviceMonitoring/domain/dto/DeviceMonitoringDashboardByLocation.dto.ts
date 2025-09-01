@@ -40,4 +40,5 @@ export interface Locations {
 	total: number
 	onlineCount: number
 	offlineCount: number
+	vpeName: Array<string | null>
 }

@@ -76,10 +76,12 @@ const MonitoringSiteMapChart = () => {
 						<StatusLegend />
 					</div>
 				</div>
-				<div className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_410px]">
+				{/* Contenido: Layout de 2 columnas responsive */}
+				<div className="flex flex-wrap justify-evenly gap-8">
+					{/* Columna 1: Torres. Ocupa el espacio que necesita su contenido. */}
 					<section
 						aria-labelledby="sites-title"
-						className="grid grid-cols-1 gap-6 md:grid-cols-2"
+						className="flex flex-wrap items-start gap-6"
 					>
 						<h2 id="sites-title" className="sr-only">
 							Sedes en {selectedAdmRegion}
@@ -115,12 +117,15 @@ const MonitoringSiteMapChart = () => {
 						))}
 					</section>
 
-					<Suspense>
-						<LocationDetailsPanel
-							locations={selectedRegionData}
-							selectedFloor={selectedFloor}
-						/>
-					</Suspense>
+					{/* Columna 2: Panel de Detalles. Crecerá para llenar el espacio sobrante y tiene un ancho mínimo. */}
+					<div className="max-w-xl min-w-md flex-1">
+						<Suspense>
+							<LocationDetailsPanel
+								locations={selectedRegionData}
+								selectedFloor={selectedFloor}
+							/>
+						</Suspense>
+					</div>
 				</div>
 			</CardContent>
 		</Card>

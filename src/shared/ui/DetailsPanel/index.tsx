@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react'
 import Typography from '@/shared/ui/Typography'
 import { StatusProgress } from '@/shared/ui/StatusProgress'
 import { DetailsPanelCard } from '../DetailsPanelCard'
+import { DeparmentDetailsPanel } from '../DeparmentDetailsPanel'
 
 interface DetailsPanelProps {
 	selectedFloor: string | null
@@ -12,6 +13,7 @@ interface DetailsPanelProps {
 	offlineCount?: number
 	isDataLoaded: boolean
 	currentStateData: boolean
+	deparments?: (string | null)[]
 	panelType: 'devices' | 'locations'
 }
 export const DetailsPanel = memo(
@@ -24,6 +26,7 @@ export const DetailsPanel = memo(
 		total = 0,
 		currentStateData,
 		isDataLoaded,
+		deparments,
 		panelType,
 		children
 	}: React.PropsWithChildren<DetailsPanelProps>) => {
@@ -82,6 +85,9 @@ export const DetailsPanel = memo(
 				<p id={panelDescriptionId} className="sr-only">
 					{mainPanelDescription}
 				</p>
+				{deparments && deparments.length > 0 && (
+					<DeparmentDetailsPanel deparment={deparments} />
+				)}
 
 				{isDataLoaded && currentStateData ? (
 					<>

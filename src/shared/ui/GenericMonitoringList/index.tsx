@@ -1,5 +1,6 @@
 import Typography from '@/shared/ui/Typography'
 import { NetworkLinkListSkeleton } from '../skeletons/NetworkLinkListSkeleton'
+import { EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 // A generic interface for any item that can be displayed in this list.
 // The actual DTOs (e.g., DeviceMonitoringDto, LocationMonitoringDto) should implement this.
@@ -9,6 +10,7 @@ export interface GenericMonitorableItem {
 	status: string // The raw status string (e.g., "ONLINE", "OFFLINE")
 	subDetail: string | null // Optional: for IP Address or any other secondary detail
 	// Add any other properties your `renderItem` function might need
+	employee: EmployeeDto | null
 }
 
 interface GenericMonitoringListProps<T extends GenericMonitorableItem> {

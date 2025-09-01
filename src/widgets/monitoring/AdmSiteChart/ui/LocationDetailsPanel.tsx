@@ -1,4 +1,4 @@
-import { DetailsPanel } from '../../../../shared/ui/DetailsPanel'
+import { DetailsPanel } from '@/shared/ui/DetailsPanel'
 import { NetworkSiteLinkMonitoring } from './NetworkSiteLinkMonitoring'
 import { type DeviceMonitoringDashboardByLocationDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByLocation.dto'
 
@@ -28,6 +28,7 @@ export const LocationDetailsPanel = ({ selectedFloor, locations }: LocationDetai
 			offlineCount={locationSelectedData?.offlineCount}
 			isDataLoaded={hasSelectedStateData}
 			currentStateData={currentStateData}
+			deparments={locationSelectedData?.vpeName}
 		>
 			<NetworkSiteLinkMonitoring selectedFloor={selectedFloor} />
 		</DetailsPanel>
