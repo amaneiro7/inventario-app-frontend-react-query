@@ -1,12 +1,14 @@
 import { lazy, Suspense } from 'react'
-import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { useCreateShipment } from '@/entities/shipment/infra/hooks/useCreateShipment'
-import { ShipmentFormSkeletonLayout } from '@/entities/shipment/infra/ui/ShipmentFormLayoutSkeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { ShipmentDetails } from '@/widgets/ShipmentDetails'
+import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { ShipmentFormSkeletonLayout } from '@/entities/shipment/infra/ui/ShipmentFormLayoutSkeleton'
 import { ShipmentDetailsSkeletonLayout } from '@/entities/shipment/infra/ui/ShipmentDetailsLayoutSkeleton'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 
+const ShipmentDetails = lazy(() =>
+	import('@/widgets/ShipmentDetails').then(m => ({ default: m.ShipmentDetails }))
+)
 const ShipmentSearch = lazy(() =>
 	import('@/features/shipment-search/ui/ShipmentSearch').then(m => ({
 		default: m.ShipmentSearch
