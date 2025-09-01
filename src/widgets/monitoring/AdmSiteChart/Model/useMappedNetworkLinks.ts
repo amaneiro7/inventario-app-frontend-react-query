@@ -1,10 +1,15 @@
 import { useMemo } from 'react'
-import { type DeviceMonitoringDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
+import { type DeviceMonitoringDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
 import { type GenericMonitorableItem } from '@/shared/ui/GenericMonitoringList'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
+
+export interface DeviceMonitorings extends GenericMonitorableItem {
+	employee: EmployeeDto | null
+}
 
 export const useMappedNetworkLinks = (deviceMonitorings?: DeviceMonitoringDto[]) => {
-	const networkLinks: GenericMonitorableItem[] = useMemo(() => {
+	const networkLinks: DeviceMonitorings[] = useMemo(() => {
 		if (!deviceMonitorings) return []
 
 		return deviceMonitorings

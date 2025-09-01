@@ -3,10 +3,10 @@ import { Server } from 'lucide-react'
 import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
 import { Badge } from '@/shared/ui/Badge'
 import Typography from '@/shared/ui/Typography'
-import { type GenericMonitorableItem } from '@/shared/ui/GenericMonitoringList'
+import { type DeviceMonitorings } from '../Model/useMappedNetworkLinks'
 
 interface NetworkLinkItemCardProps {
-	link: GenericMonitorableItem
+	link: DeviceMonitorings
 }
 
 export const NetworkLinkItemCard = memo(({ link }: NetworkLinkItemCardProps) => {
@@ -52,7 +52,9 @@ export const NetworkLinkItemCard = memo(({ link }: NetworkLinkItemCardProps) => 
 							color="gray-600"
 							weight="medium"
 						>
-							<span className="font-medium text-gray-700">{link.employee?.userName}</span>
+							<span className="font-medium text-gray-700">
+								{link.employee?.userName}
+							</span>
 							{orgUnitName && (
 								<>
 									<span className="hidden text-gray-400 md:inline">|</span>

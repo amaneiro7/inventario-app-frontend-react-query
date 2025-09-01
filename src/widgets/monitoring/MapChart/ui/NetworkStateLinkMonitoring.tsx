@@ -34,7 +34,8 @@ export const NetworkStateLinkMonitoring = memo(
 					id: data.id,
 					name: data.name,
 					status: data.status,
-					subDetail: data.subnet
+					subDetail: data.subnet,
+					employeee: null
 				}))
 				.sort((a, b) => {
 					// Prioritize OFFLINE over ONLINE, then sort by name
