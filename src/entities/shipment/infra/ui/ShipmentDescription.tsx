@@ -50,7 +50,7 @@ export const ShipmentDescription = memo(
 					colspan={colSpan}
 				>
 					{/* --- Grupo 1: Información del Envío --- */}
-					<div className="border-b p-4">
+					<div className="border-b">
 						<Typography
 							variant="h5"
 							color="azul"
@@ -100,7 +100,7 @@ export const ShipmentDescription = memo(
 						</div>
 					</div>
 					{/* --- Grupo 2: Equipos Incluidos --- */}
-					<div className="p-4">
+					<div className="flex-1 p-4">
 						<Typography
 							variant="h5"
 							color="azul"
