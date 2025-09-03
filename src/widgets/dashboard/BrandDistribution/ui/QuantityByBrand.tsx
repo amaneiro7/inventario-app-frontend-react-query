@@ -16,16 +16,14 @@ export const QuantityByBrand = ({ brandData }: QuantityByBrandProps) => {
 			<CardHeader>
 				<CardTitle>Cantidad de equipos por marca</CardTitle>
 				<CardDescription>Total de equipos por marca</CardDescription>
-				<CardContent className="mb-6 h-80">
-					<Suspense
-						fallback={
-							<div className="h-96 min-h-96 w-full animate-pulse bg-gray-200" />
-						}
-					>
-						<DeviceByBrand brandData={brandData} />
-					</Suspense>
-				</CardContent>
 			</CardHeader>
+			<CardContent className="mb-6 h-80">
+				<Suspense
+					fallback={<div className="h-96 min-h-96 w-full animate-pulse bg-gray-200" />}
+				>
+					<DeviceByBrand brandData={brandData} />
+				</Suspense>
+			</CardContent>
 		</Card>
 	)
 }

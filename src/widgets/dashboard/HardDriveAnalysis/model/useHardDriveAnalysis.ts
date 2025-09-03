@@ -11,7 +11,7 @@ export interface HDDTypeData {
 }
 
 export type HDDPrepareGroupedBarData = Record<string, unknown>[]
-export function useHardDriveAnalysys({ data }: UseHardDriveAnalysisProps) {
+export function useHardDriveAnalysis({ data }: UseHardDriveAnalysisProps) {
 	// Process data by drive type
 	const typeData: HDDTypeData[] = useMemo(() => {
 		const resultMap = new Map<string, number>()

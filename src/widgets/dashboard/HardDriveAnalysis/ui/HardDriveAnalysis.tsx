@@ -1,6 +1,6 @@
 import { lazy, memo } from 'react'
 import { HardDrive } from 'lucide-react'
-import { useHardDriveAnalysys } from '../model/useHardDriveAnalysys'
+import { useHardDriveAnalysis } from '../model/useHardDriveAnalysis'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
@@ -18,7 +18,7 @@ interface HardDriveAnalysisProps {
 
 export const HardDriveAnalysis: React.FC<HardDriveAnalysisProps> = memo(({ data }) => {
 	const { typeData, barHeight, prepareGroupedBarData, totalDrivesByCapacity, totalDrivesByType } =
-		useHardDriveAnalysys({ data })
+		useHardDriveAnalysis({ data })
 
 	return (
 		<div className="grid grid-cols-[repeat(auto-fit,minmax(550px,1fr))] gap-4">

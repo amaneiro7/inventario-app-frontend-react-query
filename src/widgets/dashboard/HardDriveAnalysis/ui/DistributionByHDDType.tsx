@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
-import { type HDDPrepareGroupedBarData, type HDDTypeData } from '../model/useHardDriveAnalysys'
+import { type HDDPrepareGroupedBarData, type HDDTypeData } from '../model/useHardDriveAnalysis'
 
 const HardDriveByType = lazy(() =>
 	import('./HardDriveByType').then(m => ({ default: m.HardDriveByType }))

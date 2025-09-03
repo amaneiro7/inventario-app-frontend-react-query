@@ -1,6 +1,6 @@
 import { lazy, memo } from 'react'
 import { MapPin } from 'lucide-react'
-import { useOperatingSystemAnalysys } from '../model/useOperatingSystemAnalysis'
+import { useOperatingSystemAnalysis } from '../model/useOperatingSystemAnalysis'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
@@ -18,7 +18,7 @@ interface OSAnalysisProps {
 }
 export const OSAnalysis: React.FC<OSAnalysisProps> = memo(({ data }) => {
 	const { arqData, barHeight, prepareGroupedBarData, totalArq, totalOperatingSystem } =
-		useOperatingSystemAnalysys({ data })
+		useOperatingSystemAnalysis({ data })
 
 	return (
 		<>

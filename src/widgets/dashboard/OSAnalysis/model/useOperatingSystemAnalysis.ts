@@ -12,7 +12,7 @@ export interface ArqData {
 
 export type OSPrepareGroupedBarData = Record<string, unknown>
 
-export function useOperatingSystemAnalysys({ data }: UseOperatingSystemAnalysisProps) {
+export function useOperatingSystemAnalysis({ data }: UseOperatingSystemAnalysisProps) {
 	// Process data by os arquitecture
 	const arqData: ArqData[] = useMemo(() => {
 		const resultMap = new Map<string, number>()

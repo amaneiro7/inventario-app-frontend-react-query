@@ -11,7 +11,7 @@ import {
 	Tooltip
 } from 'recharts'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
-import { HDDPrepareGroupedBarData, HDDTypeData } from '../model/useHardDriveAnalysys'
+import { HDDPrepareGroupedBarData, HDDTypeData } from '../model/useHardDriveAnalysis'
 
 interface HardDriveByTypeProps {
 	prepareGroupedBarData: HDDPrepareGroupedBarData
