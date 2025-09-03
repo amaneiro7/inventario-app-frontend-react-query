@@ -1,20 +1,28 @@
 import { lazy, memo, Suspense, useCallback } from 'react'
 import { useMemoryRamTypeAnalysys } from '../model/useMemoryRamTypeAnalysis'
-import { type MemoryViewSelect, useMemoryRamAnalysis } from '../model/useMemoryRamAnalysis'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
-import { TypeOfSiteSelect } from './TypeOfSiteSelect'
-import { RamTypeSelect } from './RamTypeSelect'
-import { PieCard } from '@/shared/ui/PieChart/PieCard'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { type MemoryViewSelect, useMemoryRamAnalysis } from '../model/useMemoryRamAnalysis'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
-interface MemoryRamAnalysisProps {
-	data: ComputerDashboardDto
-}
+const TypeOfSiteSelect = lazy(() =>
+	import('./TypeOfSiteSelect').then(m => ({ default: m.TypeOfSiteSelect }))
+)
+const RamTypeSelect = lazy(() =>
+	import('./RamTypeSelect').then(m => ({ default: m.RamTypeSelect }))
+)
+const PieCard = lazy(() =>
+	import('@/shared/ui/PieChart/PieCard').then(m => ({ default: m.PieCard }))
+)
 
 const MemoryRamChart = lazy(() =>
 	import('./MemoryRamChart').then(m => ({ default: m.MemoryRamChart }))
 )
+interface MemoryRamAnalysisProps {
+	data: ComputerDashboardDto
+}
 export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 	const { memoryData, setViewBy, total, viewBy } = useMemoryRamAnalysis({
 		data: data.memoryRamCapacity
@@ -41,27 +49,37 @@ export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 	)
 	return (
 		<div>
-			<PieCard
-				data={memoryData}
-				total={total}
-				dataKey="count"
-				title="Análisis de Capacidad de Memoria RAM"
-				desc="Distribución de equipos por capacidad total de memoria RAM."
-				selectSection={
-					<Select value={viewBy} onValueChange={handleViewByChange}>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="Ver por..." />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="all">Todos</SelectItem>
-							<SelectItem value="inUse">En uso</SelectItem>
-							<SelectItem value="administrative">Torre</SelectItem>
-							<SelectItem value="agency">Agencia</SelectItem>
-							<SelectItem value="almacen">En almacén</SelectItem>
-						</SelectContent>
-					</Select>
-				}
-			/>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						message="Error al cargar el análisis de capacidad de memoria RAM."
+						onReset={onReset}
+					/>
+				)}
+			>
+				<PieCard
+					data={memoryData}
+					total={total}
+					dataKey="count"
+					title="Análisis de Capacidad de Memoria RAM"
+					desc="Distribución de equipos por capacidad total de memoria RAM."
+					selectSection={
+						<Select value={viewBy} onValueChange={handleViewByChange}>
+							<SelectTrigger className="w-[180px]">
+								<SelectValue placeholder="Ver por..." />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="all">Todos</SelectItem>
+								<SelectItem value="inUse">En uso</SelectItem>
+								<SelectItem value="administrative">Torre</SelectItem>
+								<SelectItem value="agency">Agencia</SelectItem>
+								<SelectItem value="almacen">En almacén</SelectItem>
+							</SelectContent>
+						</Select>
+					}
+				/>
+			</ErrorBoundary>
+
 			<Card className="col-span-2">
 				<CardHeader className="flex flex-row flex-wrap items-center justify-between">
 					<div className="flex-1/2">
@@ -84,17 +102,26 @@ export const MemoryRamAnalysis = memo(({ data }: MemoryRamAnalysisProps) => {
 					</div>
 				</CardHeader>
 				<CardContent style={{ height: dynamicHeight ?? '20rem', minHeight: '20rem' }}>
-					<Suspense
-						fallback={
-							<div className="h-80 min-h-80 w-full animate-pulse bg-gray-200" />
-						}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="Error al cargar el gráfico de distribución de módulos de RAM."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<MemoryRamChart
-							barHeight={barHeight}
-							prepareGroupedBarData={prepareGroupedBarData}
-							availableMemValues={availableMemValues}
-						/>
-					</Suspense>
+						<Suspense
+							fallback={
+								<div className="h-80 min-h-80 w-full animate-pulse bg-gray-200" />
+							}
+						>
+							<MemoryRamChart
+								barHeight={barHeight}
+								prepareGroupedBarData={prepareGroupedBarData}
+								availableMemValues={availableMemValues}
+							/>
+						</Suspense>
+					</ErrorBoundary>
 				</CardContent>
 			</Card>
 		</div>

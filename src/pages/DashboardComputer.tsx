@@ -1,4 +1,5 @@
 import { lazy, Suspense } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useGetComputerDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetComputerDashboard'
 import { Seo } from '@/shared/ui/Seo'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
@@ -57,6 +58,25 @@ const MemoryRamAnalysis = lazy(() =>
 
 export default function DashboardComputer() {
 	const { computerDashboard, isLoading } = useGetComputerDashboard()
+	const [searchParams, setSearchParams] = useSearchParams()
+
+	const tabValues = [
+		'overview',
+		'brands',
+		'models',
+		'geographical',
+		'harddrive',
+		'operatingSystem',
+		'operatingSystemByRegion',
+		'memoryRam',
+		'inventory'
+	]
+	const currentTab = searchParams.get('tab')
+	const activeTab = currentTab && tabValues.includes(currentTab) ? currentTab : 'overview'
+
+	const handleTabChange = (value: string) => {
+		setSearchParams({ tab: value })
+	}
 
 	if (isLoading || !computerDashboard) {
 		return <Loading />
@@ -83,7 +103,7 @@ export default function DashboardComputer() {
 					</Suspense>
 				</ErrorBoundary>
 			</section>
-			<Tabs defaultValue="overview" className="space-y-4">
+			<Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
 				<TabsList>
 					<TabsTrigger value="overview">Overview</TabsTrigger>
 					<TabsTrigger value="brands">Marcas</TabsTrigger>
@@ -168,6 +188,7 @@ export default function DashboardComputer() {
 						</Suspense>
 					</ErrorBoundary>
 				</TabsContent>
+
 				<TabsContent value="harddrive" className="space-y-4">
 					<ErrorBoundary
 						fallback={({ onReset }) => (
@@ -184,6 +205,7 @@ export default function DashboardComputer() {
 						</Suspense>
 					</ErrorBoundary>
 				</TabsContent>
+
 				<TabsContent value="operatingSystem" className="space-y-4">
 					<ErrorBoundary
 						fallback={({ onReset }) => (
@@ -200,6 +222,7 @@ export default function DashboardComputer() {
 						</Suspense>
 					</ErrorBoundary>
 				</TabsContent>
+
 				<TabsContent value="operatingSystemByRegion" className="space-y-4">
 					<ErrorBoundary
 						fallback={({ onReset }) => (
@@ -218,6 +241,7 @@ export default function DashboardComputer() {
 						</Suspense>
 					</ErrorBoundary>
 				</TabsContent>
+
 				<TabsContent value="memoryRam" className="space-y-4">
 					<ErrorBoundary
 						fallback={({ onReset }) => (
