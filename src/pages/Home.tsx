@@ -1,8 +1,18 @@
 import { lazy, Suspense } from 'react'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import Typography from '@/shared/ui/Typography'
-import { WelcomeHero } from '@/widgets/WelcomeHero'
-import { InventorySummary } from '@/widgets/InventorySummary'
-import { QuickActions } from '@/widgets/QuickAccess'
+import { InventorySummarySkeleton } from '@/widgets/InventorySummary/InventorySummarySkeleton'
+
+const QuickActions = lazy(() =>
+	import('@/widgets/QuickAccess').then(m => ({ default: m.QuickActions }))
+)
+const WelcomeHero = lazy(() =>
+	import('@/widgets/WelcomeHero').then(m => ({ default: m.WelcomeHero }))
+)
+const InventorySummary = lazy(() =>
+	import('@/widgets/InventorySummary').then(m => ({ default: m.InventorySummary }))
+)
 
 const InventoryChart = lazy(() =>
 	import('@/widgets/InventoryChart').then(m => ({ default: m.InventoryChart }))
@@ -20,46 +30,101 @@ const RecentActivities = lazy(() =>
 export default function Home() {
 	return (
 		<div className="mb-6 space-y-6">
+			{/* Secccion del Hero */}
 			<WelcomeHero />
+			{/* Seccion de los cuadros del balance del inventario */}
 			<section className="fade-in">
 				<Typography variant="h2" weight="semibold" className="mb-4">
 					Resumen de inventario
 				</Typography>
-				<InventorySummary />
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="Error al cargar el resumen del inventario."
+							onReset={onReset}
+						/>
+					)}
+				>
+					<Suspense fallback={<InventorySummarySkeleton />}>
+						<InventorySummary />
+					</Suspense>
+				</ErrorBoundary>
 			</section>
+			{/* Seccion de los Acciones rápidas */}
 			<QuickActions />
-			<div className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+			<section className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
+				{/* Seccion Cuadro de modificaciones por mes */}
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="Error al cargar el gráfico de inventario."
+							onReset={onReset}
+						/>
+					)}
 				>
-					<InventoryChart />
-				</Suspense>
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+					<Suspense
+						fallback={
+							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+						}
+					>
+						<InventoryChart />
+					</Suspense>
+				</ErrorBoundary>
+				{/* Actividad reciente */}
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="Error al cargar las actividades recientes."
+							onReset={onReset}
+						/>
+					)}
 				>
-					<RecentActivities />
-				</Suspense>
-			</div>
-			<div className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+					<Suspense
+						fallback={
+							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+						}
+					>
+						<RecentActivities />
+					</Suspense>
+				</ErrorBoundary>
+			</section>
+
+			<section className="fade-in grid grid-cols-1 gap-6 lg:grid-cols-2">
+				{/* Seccion de Estado de inventario */}
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="Error al cargar el estado del inventario."
+							onReset={onReset}
+						/>
+					)}
 				>
-					<InventoryStatus />
-				</Suspense>
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+					<Suspense
+						fallback={
+							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+						}
+					>
+						<InventoryStatus />
+					</Suspense>
+				</ErrorBoundary>
+				{/* Seccion de Distribución de inventario */}
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="Error al cargar la distribución del inventario."
+							onReset={onReset}
+						/>
+					)}
 				>
-					<InventoryDistribution />
-				</Suspense>
-			</div>
+					<Suspense
+						fallback={
+							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+						}
+					>
+						<InventoryDistribution />
+					</Suspense>
+				</ErrorBoundary>
+			</section>
 		</div>
 	)
 }

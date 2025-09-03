@@ -2,9 +2,14 @@ import { lazy, Suspense } from 'react'
 import { useGetComputerDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetComputerDashboard'
 import { Seo } from '@/shared/ui/Seo'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
-import { InventorySummary } from '@/widgets/InventorySummary'
 import { Loading } from '@/shared/ui/Loading'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InventorySummarySkeleton } from '@/widgets/InventorySummary/InventorySummarySkeleton'
 
+const InventorySummary = lazy(() =>
+	import('@/widgets/InventorySummary').then(m => ({ default: m.InventorySummary }))
+)
 const InventoryOverview = lazy(() =>
 	import('@/widgets/dashboard/InventoryOverview/ui/InventoryOverview').then(m => ({
 		default: m.InventoryOverview
@@ -65,7 +70,18 @@ export default function DashboardComputer() {
 		<>
 			<Seo title={title} description={description} />
 			<section className="fade-in mb-6">
-				<InventorySummary />
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="No se pudo cargar el resumen del inventario."
+							onReset={onReset}
+						/>
+					)}
+				>
+					<Suspense fallback={<InventorySummarySkeleton />}>
+						<InventorySummary />
+					</Suspense>
+				</ErrorBoundary>
 			</section>
 			<Tabs defaultValue="overview" className="space-y-4">
 				<TabsList>
@@ -83,73 +99,156 @@ export default function DashboardComputer() {
 				</TabsList>
 
 				<TabsContent value="overview" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar la vista general."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<InventoryOverview
-							categoryData={computerDashboard.category}
-							statusData={computerDashboard.status}
-						/>
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<InventoryOverview
+								categoryData={computerDashboard.category}
+								statusData={computerDashboard.status}
+							/>
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 
 				<TabsContent value="brands" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar la distribución por marcas."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<BrandDistribution brandData={computerDashboard.brand} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<BrandDistribution brandData={computerDashboard.brand} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 
 				<TabsContent value="models" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar el desglose por modelos."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<ModelBreakdown data={computerDashboard.brand} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<ModelBreakdown data={computerDashboard.brand} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 
 				<TabsContent value="geographical" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar la distribución geográfica."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<GeographicalDistribution data={computerDashboard.region} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<GeographicalDistribution data={computerDashboard.region} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="harddrive" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar el análisis de discos duros."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<HardDriveAnalysis data={computerDashboard.hardDrive} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<HardDriveAnalysis data={computerDashboard.hardDrive} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="operatingSystem" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar el análisis de sistemas operativos."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<OSAnalysis data={computerDashboard.operatingSystem} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<OSAnalysis data={computerDashboard.operatingSystem} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="operatingSystemByRegion" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar la distribución de S.O. por región."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<OSDIstributionByRegion data={computerDashboard.operatingSystemByRegion} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<OSDIstributionByRegion
+								data={computerDashboard.operatingSystemByRegion}
+							/>
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="memoryRam" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar el análisis de memoria RAM."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<MemoryRamAnalysis data={computerDashboard} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<MemoryRamAnalysis data={computerDashboard} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="inventory" className="space-y-4">
-					<Suspense
-						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="No se pudo cargar la tabla de inventario."
+								onReset={onReset}
+							/>
+						)}
 					>
-						<InventoryBrandTable data={computerDashboard.brand} />
-					</Suspense>
+						<Suspense
+							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+						>
+							<InventoryBrandTable data={computerDashboard.brand} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 			</Tabs>
 		</>

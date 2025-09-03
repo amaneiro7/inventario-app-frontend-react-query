@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface UseInventoryOverviewProps {
@@ -64,11 +64,15 @@ export const useInventoryOverview = ({ categoryData }: UseInventoryOverviewProps
 		}
 	}, [selectedCategory, categoryData])
 
+	const handleCategorySelect = useCallback((value: string) => {
+		setSelectedCategory(value)
+	}, [])
+
 	return {
 		prepareGroupedBarData,
 		barHeight,
 		selectedCategory,
-		setSelectedCategory,
+		handleCategorySelect,
 		getTotalCount,
 		getSelectedCategoryData
 	}

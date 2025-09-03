@@ -4,7 +4,8 @@ import ErrorPage from '@/pages/500'
 // Definimos las props que nuestro ErrorBoundary aceptará
 interface Props {
 	children?: ReactNode // Los componentes hijos que este límite protegerá
-	fallback?: ReactNode // La UI que se mostrará si ocurre un error
+	// El fallback puede ser un componente o una función que recibe `onReset` y devuelve un componente
+	fallback?: ReactNode | ((props: { onReset: () => void }) => ReactNode)
 }
 
 // Definimos el estado interno del componente
@@ -52,16 +53,26 @@ export class ErrorBoundary extends Component<Props, State> {
 	 * @private
 	 * @description Resetea el estado del ErrorBoundary para intentar renderizar de nuevo.
 	 * Se pasa como prop al componente de fallback.
-	 */ private readonly handleReset = () => {
+	 */
+	private readonly handleReset = () => {
 		this.setState({ hasError: false })
 	}
 
 	public render() {
 		// Si el estado indica que hay un error, renderizamos la UI de fallback.
 		if (this.state.hasError) {
-			// Puedes pasar un componente de fallback personalizado a través de las props,
-			// o tener uno por defecto.
-			return this.props.fallback ?? <ErrorPage onReset={this.handleReset} />
+			// Si el fallback es una función, la llamamos pasándole onReset (render prop pattern)
+			if (typeof this.props.fallback === 'function') {
+				return this.props.fallback({ onReset: this.handleReset })
+			}
+
+			// Si es un componente de React, lo renderizamos directamente
+			if (this.props.fallback) {
+				return this.props.fallback
+			}
+
+			// Si no se proporciona fallback, usamos la página de error por defecto
+			return <ErrorPage onReset={this.handleReset} />
 		}
 
 		// Si no hay error, simplemente renderizamos los componentes hijos.
