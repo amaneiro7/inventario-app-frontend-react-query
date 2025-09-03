@@ -9,7 +9,7 @@ import {
  * @param filters - An object containing the filter values.
  * @returns The filtered data.
  */
-export const useApplyFilters = (
+export const applyGeoFilters = (
 	data: ComputerDashboardDto['region'],
 	filters: {
 		admRegionFilter: string

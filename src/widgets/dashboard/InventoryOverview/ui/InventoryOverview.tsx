@@ -3,6 +3,7 @@ import { useInventoryOverview } from '../model/useInventoryOverview'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InventoryOverviewSkeleton } from './InventoryOverviewSkeleton'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 const PieCard = lazy(() =>
@@ -42,19 +43,15 @@ export const InventoryOverview = ({ categoryData, statusData }: InventoryOvervie
 		return statusData.reduce((sum, cat) => sum + cat.count, 0)
 	}, [statusData])
 	return (
-		<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
-			<ErrorBoundary
-				fallback={({ onReset }) => (
-					<WidgetErrorFallback
-						message="No se pudo cargar la distribución por tipo de sitio."
-						onReset={onReset}
-					/>
-				)}
-			>
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+		<Suspense fallback={<InventoryOverviewSkeleton />}>
+			<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="No se pudo cargar la distribución por tipo de sitio."
+							onReset={onReset}
+						/>
+					)}
 				>
 					<DeviceByTypeOfSite
 						categoryData={categoryData}
@@ -64,20 +61,14 @@ export const InventoryOverview = ({ categoryData, statusData }: InventoryOvervie
 						getSelectedCategoryData={getSelectedCategoryData}
 						handleCategorySelect={handleCategorySelect}
 					/>
-				</Suspense>
-			</ErrorBoundary>
-			<ErrorBoundary
-				fallback={({ onReset }) => (
-					<WidgetErrorFallback
-						message="No se pudo cargar la distribución por estatus."
-						onReset={onReset}
-					/>
-				)}
-			>
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+				</ErrorBoundary>
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="No se pudo cargar la distribución por estatus."
+							onReset={onReset}
+						/>
+					)}
 				>
 					<PieCard
 						data={statusData}
@@ -87,44 +78,32 @@ export const InventoryOverview = ({ categoryData, statusData }: InventoryOvervie
 						dataKey="count"
 						total={totalStatus}
 					/>
-				</Suspense>
-			</ErrorBoundary>
-			<ErrorBoundary
-				fallback={({ onReset }) => (
-					<WidgetErrorFallback
-						message="No se pudo cargar la distribución por categoría."
-						onReset={onReset}
-					/>
-				)}
-			>
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+				</ErrorBoundary>
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="No se pudo cargar la distribución por categoría."
+							onReset={onReset}
+						/>
+					)}
 				>
 					<DeviceDistributionByCategory categoryData={categoryData} />
-				</Suspense>
-			</ErrorBoundary>
-			{/* New Triple Bar Chart showing all equipment by category and site type */}
-			<ErrorBoundary
-				fallback={({ onReset }) => (
-					<WidgetErrorFallback
-						message="No se pudo cargar la distribución detallada por sitio."
-						onReset={onReset}
-					/>
-				)}
-			>
-				<Suspense
-					fallback={
-						<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
-					}
+				</ErrorBoundary>
+				{/* New Triple Bar Chart showing all equipment by category and site type */}
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="No se pudo cargar la distribución detallada por sitio."
+							onReset={onReset}
+						/>
+					)}
 				>
 					<DistributionByTypeOfSite
 						barHeight={barHeight}
 						prepareGroupedBarData={prepareGroupedBarData}
 					/>
-				</Suspense>
-			</ErrorBoundary>
-		</div>
+				</ErrorBoundary>
+			</div>
+		</Suspense>
 	)
 }

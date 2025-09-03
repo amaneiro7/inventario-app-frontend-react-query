@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { useApplyFilters } from './useApplyFilters'
+import { applyGeoFilters } from './applyGeoFilters'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 /**
@@ -107,7 +107,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 	 */
 	const filteredHierarchy = useMemo(
 		() =>
-			useApplyFilters(data, {
+			applyGeoFilters(data, {
 				admRegionFilter,
 				regionFilter,
 				stateFilter,
