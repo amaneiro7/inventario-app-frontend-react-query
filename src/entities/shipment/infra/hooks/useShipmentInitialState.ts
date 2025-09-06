@@ -61,13 +61,14 @@ export function useShipmentInitialState(defaultState: DefaultShipment): {
 		const deviceIds = [...shipment?.shipmentDevice.map(device => device.deviceId)]
 		const shipmentDate = convetDateForInputs(shipment.shipmentDate)
 		const deliveryDate = convetDateForInputs(shipment.deliveryDate)
+		const sentBy = `${shipment?.fromUser?.name} ${shipment?.fromUser.lastName}`
 		setState({
 			id: shipment.id,
 			origin: shipment.origin,
 			destination: shipment.destination,
 			shipmentDate,
 			deliveryDate,
-			sentBy: shipment.sentBy,
+			sentBy,
 			receivedBy: shipment.receivedBy ?? '',
 			trackingNumber: shipment.trackingNumber ?? '',
 			observation: shipment.observation ?? '',

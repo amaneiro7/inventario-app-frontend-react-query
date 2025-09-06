@@ -1,4 +1,4 @@
-import { lazy, memo, use } from 'react'
+import { lazy, memo, use, useMemo } from 'react'
 import { AuthContext } from '@/app/providers/AuthContext'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import {
@@ -65,6 +65,10 @@ export const ShipmentInputs = memo(
 		const {
 			auth: { user }
 		} = use(AuthContext)
+		const sentBy = useMemo(
+			() => (mode === 'add' ? `${user?.name} ${user?.lastName}` : (formData?.sentBy ?? '')),
+			[mode, formData.sentBy]
+		)
 		return (
 			<div className="grid gap-4 md:grid-cols-2">
 				<ShipmentStatusCombobox
@@ -108,7 +112,7 @@ export const ShipmentInputs = memo(
 					readonly={mode === 'edit' || disabled?.destination}
 				/>
 				<Input
-					value={`${user?.name} ${user?.lastName}`}
+					value={sentBy}
 					label="Enviado por"
 					readOnly
 					name="sentBy"
