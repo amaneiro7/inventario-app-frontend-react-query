@@ -1,10 +1,10 @@
 import { lazy, memo, Suspense } from 'react'
 import { useGetAllComputerDevices } from '@/entities/devices/devices/infra/hook/useGetAllComputerDevices'
-import { useTableDeviceWrapper } from './useTableDeviceWrapper'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { DeviceComputerFilter } from '@/entities/devices/devices/application/computerFilter/DeviceComputerFilter'
 import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { useTableComputer } from './useTableComputer'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
 const TableBody = lazy(() =>
@@ -50,7 +50,8 @@ interface TableWrapperProps {
 export const TableWrapper = memo(
 	({ query, handleSort, handleChange, handlePageSize, handlePageClick }: TableWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllComputerDevices({ query })
-		const { colSpan, headers, visibleColumns } = useTableDeviceWrapper()
+		const { colSpan } = useTableComputer()
+
 		return (
 			<>
 				<TablePageWrapper>
@@ -66,27 +67,127 @@ export const TableWrapper = memo(
 					<Table>
 						<TableHeader>
 							<TableRow>
-								{headers
-									.filter(header => header.visible)
-									.map((header, index) => (
-										<TableHead
-											aria-colindex={index + 1}
-											key={header.key}
-											isTab={header.isTab}
-											handleSort={
-												header.hasOrder
-													? eventManager(handleSort)
-													: undefined
-											}
-											name={header.label}
-											orderBy={header.hasOrder ? query.orderBy : undefined}
-											orderType={
-												header.hasOrder ? query.orderType : undefined
-											}
-											orderByField={header.hasOrder ? header.key : undefined}
-											size={header.size}
-										/>
-									))}
+								<TableHead
+									aria-colindex={1}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="employeeId"
+									size="small"
+								>
+									Usuario
+								</TableHead>
+								<TableHead
+									aria-colindex={2}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="locationId"
+									size="large"
+									className="hidden xl:table-cell"
+								>
+									Ubicación
+								</TableHead>
+								<TableHead
+									aria-colindex={3}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="ipAddress"
+									size="small"
+								>
+									Dirección IP
+								</TableHead>
+								<TableHead
+									aria-colindex={4}
+									className="hidden md:table-cell"
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="serial"
+									size="small"
+								>
+									Serial
+								</TableHead>
+								<TableHead
+									aria-colindex={5}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="categoryId"
+									size="small"
+									className="1xl:table-cell hidden"
+								>
+									Categoria
+								</TableHead>
+								<TableHead
+									aria-colindex={6}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="brandId"
+									size="small"
+									className="hidden lg:table-cell"
+								>
+									Marca
+								</TableHead>
+								<TableHead
+									aria-colindex={7}
+									className="hidden sm:table-cell"
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="modelId"
+									size="xLarge"
+								>
+									Modelo
+								</TableHead>
+								<TableHead
+									aria-colindex={8}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="computerName"
+									size="small"
+									className="hidden lg:table-cell"
+								>
+									Nombre de Equipo
+								</TableHead>
+								<TableHead
+									aria-colindex={9}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="operatingSystem"
+									size="medium"
+									className="hidden 2xl:table-cell"
+								>
+									Sistema Operativo
+								</TableHead>
+								<TableHead
+									aria-colindex={10}
+									isTab
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="observation"
+									size="auto"
+									className="3xl:table-cell hidden"
+								>
+									Observaciones
+								</TableHead>
+								<TableHead aria-colindex={11} isTab size="xSmall">
+									<span className="sr-only">Acciones</span>
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
@@ -110,7 +211,6 @@ export const TableWrapper = memo(
 											colSpan={colSpan}
 											isError={isError}
 											devices={devices.data}
-											visibleColumns={visibleColumns}
 										/>
 									</Suspense>
 								)}
@@ -132,10 +232,7 @@ export const TableWrapper = memo(
 			</>
 		)
 	},
-	(prevProps, nextProps) =>
-		prevProps.query === nextProps.query &&
-		prevProps.handleSort === nextProps.handleSort &&
-		prevProps.handleChange === nextProps.handleChange &&
-		prevProps.handlePageSize === nextProps.handlePageSize &&
-		prevProps.handlePageClick === nextProps.handlePageClick
+	(prevProps, nextProps) => prevProps.query === nextProps.query
 )
+
+TableWrapper.displayName = 'TableWrapper'

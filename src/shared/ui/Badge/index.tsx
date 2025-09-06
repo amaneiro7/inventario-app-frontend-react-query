@@ -14,7 +14,11 @@ export const badgeVariants = cva(
 				naranja: 'border-transparent bg-naranja text-naranja-foreground ',
 				azul: 'border-transparent bg-azul text-white ',
 				verde: 'border-transparent bg-verde text-white ',
-				rojo: 'border-transparent bg-rojo text-white '
+				rojo: 'border-transparent bg-rojo text-white ',
+				amarillo: 'border-transparent bg-amarillo text-white ',
+				pink: 'border-transparent bg-pink text-white ',
+				purple: 'border-transparent bg-purple text-white ',
+				sky: 'border-transparent bg-sky text-white '
 			}
 		},
 		defaultVariants: {

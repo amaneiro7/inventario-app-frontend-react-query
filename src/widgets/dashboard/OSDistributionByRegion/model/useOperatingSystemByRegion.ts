@@ -8,6 +8,7 @@ import {
 	type Location,
 	type ComputerDashboardDto
 } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import { useGeographicalFilters } from '../../shared/model/useGeographicalFilters'
 
 interface UseOperatingSystemByRegionProps {
 	data: ComputerDashboardDto['operatingSystemByRegion']
@@ -25,13 +26,7 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 	const [viewBy, setViewBy] = useState<
 		'admRegion' | 'region' | 'state' | 'city' | 'site' | 'location'
 	>('admRegion')
-	const [admRegionFilter, setAdmRegionFilter] = useState<string>('')
-	const [regionFilter, setRegionFilter] = useState<string>('')
-	const [stateFilter, setStateFilter] = useState<string>('')
-	const [siteFilter, setSiteFilter] = useState<string>('')
-	const [cityFilter, setCityFilter] = useState<string>('')
 	const [typeOfSiteFilter, setTypeOfSiteFilter] = useState<string>('')
-	const [searchFilter, setSearchFilter] = useState<string>('')
 	const [sortOrder, setSortOrder] = useState<'name' | 'count'>('count')
 
 	const barName = useMemo(() => {
@@ -47,20 +42,6 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 
 		return `Distribución total de equipos por ${name.charAt(0).toUpperCase() + name.slice(1)}`
 	}, [viewBy])
-
-	// Determine if filters are active
-	const hasActiveFilters = useMemo(() => {
-		return !!(
-			admRegionFilter ||
-			regionFilter ||
-			stateFilter ||
-			cityFilter ||
-			siteFilter ||
-			searchFilter
-		)
-	}, [admRegionFilter, regionFilter, stateFilter, cityFilter, siteFilter, searchFilter])
-
-	const MAX_ITEMS_WITHOUT_FILTER = 15
 
 	const typeOfSiteFilteredData = useMemo(() => {
 		if (!typeOfSiteFilter) {
@@ -90,230 +71,39 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		}))
 	}, [data, typeOfSiteFilter])
 
-	const allNames = useMemo(() => {
-		const operatingSystem = [...new Set(data.map(item => item.name))].sort()
-		const typeOfSites = [...new Set(data.flatMap(os => Object.keys(os.typeOfSiteCount)))]
-		const administrativeRegions = [
-			...new Set(data.flatMap(os => os.administrativeRegion.map(adm => adm.name)))
-		].sort()
+	const combinedGeoData = useMemo(() => {
+		const allRegions: Record<string, Regions> = {}
 
-		const regions = [
-			...new Set(
-				typeOfSiteFilteredData.flatMap(os =>
-					os.administrativeRegion.flatMap(adm => adm.regions.map(region => region.name))
-				)
-			)
-		].sort()
+		data.forEach(os => {
+			os.administrativeRegion.forEach(adm => {
+				if (!allRegions[adm.name]) {
+					allRegions[adm.name] = { ...adm, regions: [] } // Simplified structure for options
+				}
+			})
+		})
 
-		const states = [
-			...new Set(
-				typeOfSiteFilteredData.flatMap(os =>
-					os.administrativeRegion.flatMap(adm =>
-						adm.regions.flatMap(region => region.states.map(state => state.name))
-					)
-				)
-			)
-		].sort()
+		return Object.values(allRegions)
+	}, [data])
 
-		const cities = [
-			...new Set(
-				typeOfSiteFilteredData.flatMap(os =>
-					os.administrativeRegion.flatMap(adm =>
-						adm.regions.flatMap(region =>
-							region.states.flatMap(region => region.cities.map(city => city.name))
-						)
-					)
-				)
-			)
-		].sort()
-
-		const sites = [
-			...new Set(
-				typeOfSiteFilteredData.flatMap(os =>
-					os.administrativeRegion.flatMap(adm =>
-						adm.regions.flatMap(region =>
-							region.states.flatMap(state =>
-								state.cities.flatMap(city => city.sites.map(site => site.name))
-							)
-						)
-					)
-				)
-			)
-		].sort()
-
-		return {
-			operatingSystem,
-			typeOfSites,
-			administrativeRegions,
-			regions,
-			states,
-			cities,
-			sites
-		}
-	}, [typeOfSiteFilteredData])
-
-	const uniqueOperatingSystem = useMemo(() => {
-		return allNames.operatingSystem.filter(
-			os => !searchFilter || os.toLowerCase().includes(searchFilter.toLowerCase())
-		)
-	}, [allNames.operatingSystem, searchFilter])
-
-	const uniqueTypeOfSite = useMemo(() => {
-		return allNames.typeOfSites
-	}, [allNames.typeOfSites])
-
-	const uniqueAdmRegions = useMemo(() => {
-		return allNames.administrativeRegions.filter(
-			os => !searchFilter || os.toLowerCase().includes(searchFilter.toLowerCase())
-		)
-	}, [allNames.administrativeRegions, searchFilter])
-
-	const uniqueRegions = useMemo(() => {
-		let regions = allNames.regions
-		if (admRegionFilter) {
-			regions = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion
-					.filter(adm => adm.name === admRegionFilter)
-					.flatMap(adm => adm.regions.map(region => region.name))
-			)
-		}
-		return [...new Set(regions)]
-			.sort()
-			.filter(
-				region => !searchFilter || region.toLowerCase().includes(searchFilter.toLowerCase())
-			)
-	}, [allNames.regions, typeOfSiteFilteredData, admRegionFilter, searchFilter])
-
-	const uniqueStates = useMemo(() => {
-		let states = allNames.states
-		if (regionFilter) {
-			states = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion.flatMap(adm =>
-					adm.regions
-						.filter(region => region.name === regionFilter)
-						.flatMap(region => region.states.map(state => state.name))
-				)
-			)
-		} else if (admRegionFilter) {
-			states = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion
-					.filter(adm => adm.name === admRegionFilter)
-					.flatMap(adm =>
-						adm.regions.flatMap(region => region.states.map(state => state.name))
-					)
-			)
-		}
-		return [...new Set(states)].sort()
-	}, [typeOfSiteFilteredData, admRegionFilter, regionFilter, allNames.states, searchFilter])
-
-	const uniqueCities = useMemo(() => {
-		let cities = allNames.cities
-
-		if (stateFilter) {
-			cities = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion.flatMap(adm =>
-					adm.regions.flatMap(region =>
-						region.states
-							.filter(state => state.name === stateFilter)
-							.flatMap(state => state.cities.map(city => city.name))
-					)
-				)
-			)
-		} else if (regionFilter) {
-			cities = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion.flatMap(adm =>
-					adm.regions
-						.filter(region => region.name === regionFilter)
-						.flatMap(region =>
-							region.states.flatMap(state => state.cities.map(city => city.name))
-						)
-				)
-			)
-		} else if (admRegionFilter) {
-			cities = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion
-					.filter(adm => adm.name === admRegionFilter)
-					.flatMap(adm =>
-						adm.regions.flatMap(region =>
-							region.states.flatMap(state => state.cities.map(city => city.name))
-						)
-					)
-			)
-		}
-
-		return [...new Set(cities)].sort()
-	}, [
-		typeOfSiteFilteredData,
-		admRegionFilter,
-		regionFilter,
-		stateFilter,
-		allNames.cities,
-		searchFilter
-	])
-
-	const uniqueSites = useMemo(() => {
-		let sites = allNames.sites
-
-		if (cityFilter) {
-			sites = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion.flatMap(adm =>
-					adm.regions.flatMap(region =>
-						region.states.flatMap(state =>
-							state.cities
-								.filter(city => city.name === cityFilter)
-								.flatMap(city => city.sites.map(site => site.name))
-						)
-					)
-				)
-			)
-		} else if (stateFilter) {
-			sites = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion.flatMap(adm =>
-					adm.regions.flatMap(region =>
-						region.states
-							.filter(state => state.name === stateFilter)
-							.flatMap(state =>
-								state.cities.flatMap(city => city.sites.map(site => site.name))
-							)
-					)
-				)
-			)
-		} else if (regionFilter) {
-			sites = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion.flatMap(adm =>
-					adm.regions
-						.filter(region => region.name === regionFilter)
-						.flatMap(region =>
-							region.states.flatMap(state =>
-								state.cities.flatMap(city => city.sites.map(site => site.name))
-							)
-						)
-				)
-			)
-		} else if (admRegionFilter) {
-			sites = typeOfSiteFilteredData.flatMap(os =>
-				os.administrativeRegion
-					.filter(adm => adm.name === admRegionFilter)
-					.flatMap(adm =>
-						adm.regions.flatMap(region =>
-							region.states.flatMap(state =>
-								state.cities.flatMap(city => city.sites.map(site => site.name))
-							)
-						)
-					)
-			)
-		}
-
-		return [...new Set(sites)].sort()
-	}, [
-		typeOfSiteFilteredData,
+	const {
 		admRegionFilter,
 		regionFilter,
 		stateFilter,
 		cityFilter,
-		allNames.sites,
-		searchFilter
-	])
+		siteFilter,
+		searchFilter,
+		hasActiveFilters,
+		clearFilters: clearGeoFilters,
+		...geoFilters
+	} = useGeographicalFilters({ data: combinedGeoData })
+
+	const uniqueOperatingSystem = useMemo(() => {
+		return [...new Set(data.map(item => item.name))].sort()
+	}, [data])
+
+	const uniqueTypeOfSite = useMemo(() => {
+		return [...new Set(data.flatMap(os => Object.keys(os.typeOfSiteCount)))]
+	}, [data])
 
 	const filteredData = useMemo(() => {
 		// 1. Copia superficial de 'typeOfSiteFilteredData' y filtrado directo
@@ -507,21 +297,17 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 				return countB - countA
 			})
 		}
+		const MAX_ITEMS_WITHOUT_FILTER = 15
 		if (!hasActiveFilters) {
 			result = result.slice(0, MAX_ITEMS_WITHOUT_FILTER)
 		}
 		return result
-	}, [filteredData, viewBy, searchFilter, sortOrder])
+	}, [filteredData, viewBy, searchFilter, sortOrder, hasActiveFilters])
 
 	// Clear filters
 	const clearFilters = () => {
-		setAdmRegionFilter('')
-		setRegionFilter('')
-		setStateFilter('')
-		setCityFilter('')
-		setSiteFilter('')
+		clearGeoFilters()
 		setTypeOfSiteFilter('')
-		setSearchFilter('')
 	}
 
 	// Calculate dynamic height based on the number of bars and barSize
@@ -548,21 +334,11 @@ export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionP
 		dynamicHeight,
 		uniqueTypeOfSite,
 		uniqueOperatingSystem,
-		uniqueStates,
-		uniqueCities,
-		uniqueRegions,
-		uniqueSites,
-		uniqueAdmRegions,
 		sortOrder,
 		setViewBy,
-		setAdmRegionFilter,
-		setRegionFilter,
-		setStateFilter,
-		setCityFilter,
-		setSiteFilter,
 		setTypeOfSiteFilter,
-		setSearchFilter,
 		setSortOrder,
-		clearFilters
+		clearFilters,
+		...geoFilters
 	}
 }

@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useMediaQuery } from '@/shared/ui/icon/useMediaQuery'
+import { useMediaQuery } from '@/shared/lib/hooks/useMediaQuery'
 import { type Headers } from '@/shared/ui/Table/TableHeader'
 
 export function useLocationMonitoringContainer() {
