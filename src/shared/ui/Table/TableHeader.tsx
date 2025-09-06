@@ -1,5 +1,6 @@
-import { type TableHeadSize, type TableHead } from './TableHead'
-import { type TableRow } from './TableRow'
+import { forwardRef } from 'react'
+import { cn } from '@/shared/lib/utils'
+import { type TableHeadSize } from './TableHead'
 
 export interface Headers {
 	key: string
@@ -10,22 +11,19 @@ export interface Headers {
 	visible: boolean
 }
 
-interface Props
-	extends React.DetailedHTMLProps<
-		React.HTMLAttributes<HTMLTableSectionElement>,
-		HTMLTableSectionElement
-	> {
-	children: React.ReactElement<typeof TableRow<typeof TableHead>>
-}
+export const TableHeader = forwardRef<
+	HTMLTableSectionElement,
+	React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+	<thead
+		ref={ref}
+		className={cn(
+			'border-l-azul bg-azul sticky top-0 z-10 w-max min-w-max border-l-3 text-white drop-shadow-lg',
+			className
+		)}
+		role="rowgroup"
+		{...props}
+	/>
+))
 
-export function TableHeader({ children, ...props }: Props) {
-	return (
-		<thead
-			className="border-l-azul bg-azul sticky top-0 z-10 w-max min-w-max border-l-3 text-white drop-shadow-lg"
-			role="rowgroup"
-			{...props}
-		>
-			{children}
-		</thead>
-	)
-}
+TableHeader.displayName = 'TableHeader'

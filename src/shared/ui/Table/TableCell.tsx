@@ -1,95 +1,53 @@
-import { ReactNode, Suspense, lazy } from 'react'
-import { twMerge } from 'tailwind-merge'
-import cn from 'classnames'
-import { type BackgroundType, type ColorType } from '../Typography/types'
+import { forwardRef, memo, type ReactNode } from 'react'
+import { cn } from '@/shared/lib/utils'
 
-const TableCellWithUrl = lazy(() =>
-	import('./TableCellWithUrl').then(m => ({ default: m.TableCellWithUrl }))
-)
-const TableCellText = lazy(() =>
-	import('./TableCellText').then(m => ({ default: m.TableCellText }))
-)
-const Tag = lazy(() => import('../Tag').then(m => ({ default: m.Tag })))
-
-interface Props<T>
-	extends React.DetailedHTMLProps<
-		React.TdHTMLAttributes<HTMLTableCellElement>,
-		HTMLTableCellElement
-	> {
-	value: string | number
-	icon?: ReactNode
-	url?: string
-	state?: T
-	tag?: boolean
-	color?: ColorType
-	backgroundColor?: BackgroundType
-	size: keyof typeof Size
-	align?: AlignType
-}
-
+// El objeto Size se mantiene igual
 const Size = {
-	auto: 'w-auto', // auto
-	xxSmall: 'max-w-8 min-w-8 w-8', // 32px
-	xSmall: 'max-w-20 min-w-20 w-20', // 80px
-	small: 'max-w-28 min-w-28 w-28', // 112px
-	medium: 'max-w-36 min-w-36 w-36', // 144px
-	large: 'max-w-44 min-w-44 w-44', // 176px
-	xLarge: 'max-w-52 min-w-52 w-52', // 224px
-	xxLarge: 'max-w-60 min-w-60 w-60' // 256px
+	auto: 'w-auto',
+	xxSmall: 'max-w-8 min-w-8 w-8',
+	xSmall: 'max-w-20 min-w-20 w-20',
+	small: 'max-w-28 min-w-28 w-28',
+	medium: 'max-w-36 min-w-36 w-36',
+	large: 'max-w-44 min-w-44 w-44',
+	xLarge: 'max-w-52 min-w-52 w-52',
+	xxLarge: 'max-w-60 min-w-60 w-60'
 } as const
-type AlignType = 'left' | 'center' | 'right'
 
-export function TableCell<T>({
-	value,
-	icon,
-	url,
-	state,
-	size,
-	tag = false,
-	className,
-	align = 'left',
-	color = 'black',
-	backgroundColor = 'white',
-	...props
-}: React.PropsWithChildren<Props<T>>) {
-	const classes = twMerge(
-		'min-h-8 h-8 p-0 text-gray-800 overflow-hidden whitespace-nowrap text-ellipsis border-b-2 border-b-gray-300 ',
-		cn({
-			[`${Size[size]}`]: size
-		}),
-		className
-	)
-	return (
-		<td
-			role="cell"
-			tabIndex={-1}
-			data-key={value}
-			className={classes}
-			aria-label={`${value}`}
-			title={`${value}`}
-			{...props}
-		>
-			{url ? (
-				<Suspense>
-					<TableCellWithUrl align={align} value={value} url={url} state={state} />
-				</Suspense>
-			) : tag ? (
-				<Suspense>
-					<Tag
-						align={align}
-						backgroundColor={backgroundColor}
-						color={color}
-						option="tiny"
-						iconText={value ?? ''}
-					/>
-				</Suspense>
-			) : icon ? (
-				icon
-			) : (
-				<Suspense>
-					<TableCellText align={align} value={value} />
-				</Suspense>
-			)}
-		</td>
-	)
+// Las props ahora son mucho más simples
+interface TableCellProps extends React.TdHTMLAttributes<HTMLTableCellElement> {
+	children?: ReactNode
+	size: keyof typeof Size
+	// Mantenemos `value` opcional para accesibilidad (title, aria-label) si es necesario,
+	// pero el contenido principal es `children`.
+	value?: string | number
 }
+
+export const TableCell = memo(
+	forwardRef<HTMLTableCellElement, TableCellProps>(
+		({ className, children, size, align = 'left', value, ...props }, ref) => {
+			return (
+				<td
+					ref={ref}
+					role="cell"
+					align={align}
+					className={cn(
+						'h-8 min-h-8 overflow-hidden border-b-2 border-b-gray-300 py-0 ps-2 text-ellipsis whitespace-nowrap text-gray-800',
+						// 'h-10 overflow-hidden border-b p-2 text-ellipsis whitespace-nowrap',
+						// 'text-foreground text-sm',
+						{
+							[`${Size[size]}`]: size
+						},
+						className
+					)}
+					// El title puede venir del `value` o del prop `title` directamente
+					title={props.title ?? (typeof value === 'string' ? value : undefined)}
+					{...props}
+				>
+					{children}
+				</td>
+			)
+		}
+	)
+)
+
+TableCell.displayName = 'TableCell'

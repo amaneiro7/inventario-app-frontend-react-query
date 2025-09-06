@@ -1,23 +1,9 @@
-import { memo, useMemo } from 'react'
-import { twMerge } from 'tailwind-merge'
-import cn from 'classnames'
+import { forwardRef, useMemo } from 'react'
+import { cn } from '@/shared/lib/utils'
 import { TableIcon } from '@/shared/ui/icon/TableIcon'
 import { type OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
 import { type OrderType, OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-
-type Props = React.DetailedHTMLProps<
-	React.ThHTMLAttributes<HTMLTableCellElement>,
-	HTMLTableCellElement
-> & {
-	name: string
-	orderByField?: string
-	size: keyof typeof TableHeadSize
-	handleSort?: (field: string) => void
-	orderBy?: Primitives<OrderBy>
-	orderType?: Primitives<OrderType>
-	isTab?: boolean
-}
 
 export const TableHeadSize = {
 	xxSmall: 'w-8', // 32px
@@ -29,28 +15,48 @@ export const TableHeadSize = {
 	xxLarge: 'w-64', // 256px
 	auto: 'w-auto' // 224px
 } as const
+type BaseProps = React.ThHTMLAttributes<HTMLTableCellElement> & {
+	size: keyof typeof TableHeadSize
+	isTab?: boolean
+}
 
-export const TableHead = memo(
-	({
-		name,
-		size,
-		className,
-		orderByField,
-		handleSort,
-		isTab = false,
-		orderBy,
-		orderType,
-		...props
-	}: Props) => {
-		const classes = twMerge(
-			'group/th min-h-9 h-9 p-2 font-semibold tracking-wider align-middle whitespace-nowrap capitalize last:rounded-e-lg data-[sortable=true]:cursor-pointer data-[sortable=true]:hover:text-azul-500 outline-hidden focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-focus focus-visible:outline-offset-2 text-start',
-			cn({
-				[`${TableHeadSize[size]}`]: size,
-				['first:rounded-es-lg']: isTab,
-				['first:rounded-s-lg']: !isTab
-			}),
-			className
+type SortableProps = {
+	handleSort: (field: string) => Promise<void>
+	orderByField: string
+	orderBy?: Primitives<OrderBy>
+	orderType?: Primitives<OrderType>
+}
+
+type NonSortableProps = {
+	handleSort?: never
+	orderByField?: never
+	orderBy?: never
+	orderType?: never
+}
+
+type Props = BaseProps & (SortableProps | NonSortableProps)
+
+export const TableHead = forwardRef<HTMLTableCellElement, Props>(
+	(
+		{
+			className,
+			size,
+			children,
+			orderByField,
+			handleSort,
+			isTab = false,
+			orderBy,
+			orderType,
+			...props
+		},
+		ref
+	) => {
+		const IconClasses = useMemo(
+			() =>
+				'group-hover/th:text-azul-500 inline-block aspect-square h-3 w-3 stroke-2 text-inherit opacity-30 transition-transform duration-300 group-hover/th:opacity-100 data-[active=true]:opacity-100 data-[direction=down]:rotate-180',
+			[]
 		)
+
 		const ariaSort: React.AriaAttributes['aria-sort'] = useMemo(() => {
 			return orderType === OrderTypes.ASC
 				? 'ascending'
@@ -58,34 +64,46 @@ export const TableHead = memo(
 					? 'descending'
 					: undefined
 		}, [orderType])
-		const iconDirection = useMemo(() => {
-			if (orderBy === orderByField) {
-				return ariaSort === 'descending' ? 'down' : 'up'
-			}
-			return undefined
-		}, [orderBy, orderByField, ariaSort])
 		return (
 			<th
 				data-sortable={handleSort ? 'true' : 'false'}
 				role="columnheader"
 				scope="col"
+				ref={ref}
 				tabIndex={-1}
-				data-key={name}
 				aria-sort={ariaSort}
-				className={classes}
-				onClick={handleSort ? () => handleSort(orderByField ?? name) : undefined}
+				className={cn(
+					'group/th data-[sortable=true]:hover:text-azul-500 focus-visible:outline-focus h-9 min-h-9 p-2 text-start align-middle font-semibold tracking-wider whitespace-nowrap capitalize outline-hidden last:rounded-e-lg focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 data-[sortable=true]:cursor-pointer',
+					{
+						[`${TableHeadSize[size]}`]: size,
+						['first:rounded-es-lg']: isTab,
+						['first:rounded-s-lg']: !isTab
+					},
+					className
+				)}
+				onClick={handleSort ? () => handleSort(orderByField) : undefined}
 				{...props}
 			>
-				{name}
+				{children}
 				{handleSort && (
-					<TableIcon
-						aria-hidden
-						focusable="false"
-						role="presentation"
-						data-visible={orderBy === orderByField}
-						data-direction={iconDirection}
-						className="group-hover/th:text-azul-500 ms-2 mb-px inline-block aspect-square w-3 stroke-2 text-inherit opacity-0 transition-transform duration-300 group-hover/th:opacity-100 data-[direction=down]:rotate-180 data-[visible=true]:opacity-100"
-					/>
+					<div className="ml-1 inline-flex items-center">
+						<TableIcon
+							aria-hidden
+							focusable="false"
+							role="presentation"
+							data-active={orderBy === orderByField && orderType !== OrderTypes.DESC}
+							data-direction="up"
+							className={IconClasses}
+						/>
+						<TableIcon
+							aria-hidden
+							focusable="false"
+							role="presentation"
+							data-active={orderBy === orderByField && orderType === OrderTypes.DESC}
+							data-direction="down"
+							className={IconClasses}
+						/>
+					</div>
 				)}
 			</th>
 		)

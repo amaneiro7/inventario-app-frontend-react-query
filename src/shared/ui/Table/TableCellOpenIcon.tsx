@@ -1,23 +1,36 @@
-import { ArrowRightBadgeIcon } from '@/shared/ui/icon/ArrowRightBadge'
+import { memo } from 'react'
+import { Eye } from 'lucide-react'
+import { TableCell } from './TableCell'
+import Button from '../Button'
 
-type Props = React.DetailedHTMLProps<
+type TableCellOpenIconProps = React.DetailedHTMLProps<
 	React.TdHTMLAttributes<HTMLTableCellElement>,
 	HTMLTableCellElement
 > & {
-	open: boolean
 	index?: number
+	onClick: React.DOMAttributes<HTMLButtonElement>['onClick']
 }
-export function TableCellOpenIcon({ open, index, ...props }: React.PropsWithChildren<Props>) {
-	return (
-		<td
-			aria-colindex={index}
-			className="w-8 max-w-min min-w-min content-center border-b-2 border-b-gray-300"
-			{...props}
-		>
-			<ArrowRightBadgeIcon
-				data-open={open}
-				className="text-azul-600 hover:text-azul-700 mx-0 my-auto aspect-square w-4 text-center transition-transform duration-500 data-[open=false]:-rotate-90 data-[open=true]:rotate-90"
-			/>
-		</td>
-	)
-}
+export const TableCellOpenIcon = memo(
+	({
+		index,
+		align = 'center',
+		onClick,
+		...props
+	}: React.PropsWithChildren<TableCellOpenIconProps>) => {
+		return (
+			<TableCell aria-colindex={index} size="xSmall" align={align} className="p-0" {...props}>
+				<Button
+					buttonSize="small"
+					size="content"
+					color="blue"
+					text="Ver Detalles"
+					srOnly
+					onClick={onClick}
+					icon={<Eye className="h-5 w-5" />}
+				/>
+			</TableCell>
+		)
+	}
+)
+
+TableCellOpenIcon.displayName = 'TableCellOpenIcon'

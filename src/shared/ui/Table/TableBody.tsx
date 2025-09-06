@@ -1,12 +1,16 @@
-type Props = React.DetailedHTMLProps<
-	React.HTMLAttributes<HTMLTableSectionElement>,
-	HTMLTableSectionElement
->
+import { forwardRef } from 'react'
+import { cn } from '@/shared/lib/utils'
 
-export function TableBody({ children, ...props }: React.PropsWithChildren<Props>) {
-	return (
-		<tbody role="rowgroup" {...props}>
-			{children}
-		</tbody>
-	)
-}
+export const TableBody = forwardRef<
+	HTMLTableSectionElement,
+	React.HTMLAttributes<HTMLTableSectionElement>
+>(({ className, ...props }, ref) => (
+	<tbody
+		ref={ref}
+		className={cn('[&_tr:last-child]:border-0', className)}
+		role="rowgroup"
+		{...props}
+	/>
+))
+
+TableBody.displayName = 'TableBody'
