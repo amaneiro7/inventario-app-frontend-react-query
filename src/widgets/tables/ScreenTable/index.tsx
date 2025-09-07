@@ -3,6 +3,7 @@ import { useGetAllScreenDevices } from '@/entities/devices/devices/infra/hook/us
 import { DeviceScreenFilter } from '@/entities/devices/devices/application/screenFilter/DeviceScreenFilter'
 import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 const TableLayout = lazy(() =>
 	import('@/shared/ui/layouts/TableLayout').then(m => ({ default: m.TableLayout }))
@@ -37,7 +38,7 @@ export const TableScreenWrapper = memo(
 	}: TableScreenWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllScreenDevices(query)
 		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
-			useTableGenericDeviceBody()
+			useTableGenericDeviceBody<DeviceDto>()
 		return (
 			<TableLayout
 				handleChange={handleChange}

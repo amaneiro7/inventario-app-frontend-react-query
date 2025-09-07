@@ -1,6 +1,7 @@
-import React, { lazy, memo } from 'react'
-import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { lazy, memo, Suspense } from 'react'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 const TableRow = lazy(() =>
 	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
@@ -17,31 +18,13 @@ const TableCellEmpty = lazy(() =>
 const TableCellOpenIcon = lazy(() =>
 	import('@/shared/ui/Table/TableCellOpenIcon').then(m => ({ default: m.TableCellOpenIcon }))
 )
-const EmployeeDescription = lazy(() =>
-	import('@/entities/employee/employee/infra/ui/EmployeesDescription').then(m => ({
-		default: m.EmployeeDescription
-	}))
+const Dialog = lazy(() => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
+const DetailsEmployeeModal = lazy(() =>
+	import('./DetailsEmployeeModal').then(m => ({ default: m.DetailsEmployeeModal }))
 )
-import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
-
 interface TableEmployeesProps {
-	/**
-	 * An array of employee data to display in the table.
-	 */
 	employees?: EmployeeDto[]
-	/**
-	 * Indicates whether an error occurred during data fetching.
-	 */
 	isError: boolean
-	/**
-	 * The number of columns the table should span.
-	 */
-	colSpan: number
-	/**
-	 * An array of column names that are currently visible in the table.
-	 * Used to conditionally render table cells.
-	 */
-	visibleColumns: string[]
 }
 
 /**
@@ -49,85 +32,101 @@ interface TableEmployeesProps {
  * It handles displaying loading states, error states, empty states, and individual employee rows
  * with expandable details.
  */
-export const TableEmployees = memo(
-	({ employees, isError, colSpan, visibleColumns }: TableEmployeesProps) => {
-		const { expandedRows, handleRowClick } = useExpendedRows()
-
-		if (isError) {
-			return <TableCellError colSpan={colSpan} />
-		}
-		if (employees && employees.length === 0) {
-			return <TableCellEmpty colSpan={colSpan} />
-		}
-
-		return (
-			<>
-				{employees !== undefined &&
-					employees.map(employee => (
-						<React.Fragment key={employee.id}>
-							<TableRow
-								className={`[&>td]:cursor-pointer ${
-									expandedRows.includes(employee.id) &&
-									'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
-								}`}
-								onClick={() => handleRowClick(employee.id)}
-							>
-								{visibleColumns.includes('employeeCode') ? (
-									<TableCell
-										size="xxSmall"
-										value={employee?.employeeCode ?? ''}
-									/>
-								) : null}
-								{visibleColumns.includes('userName') ? (
-									<TableCell size="small" value={employee?.userName} />
-								) : null}
-								{visibleColumns.includes('name') ? (
-									<TableCell size="small" value={employee?.name ?? ''} />
-								) : null}
-								{visibleColumns.includes('lastName') ? (
-									<TableCell size="small" value={employee?.lastName ?? ''} />
-								) : null}
-								{visibleColumns.includes('departamentoId') ? (
-									<TableCell
-										size="xLarge"
-										value={employee?.departamento?.name ?? ''}
-									/>
-								) : null}
-								{visibleColumns.includes('cargoId') ? (
-									<TableCell size="xLarge" value={employee?.cargo?.name ?? ''} />
-								) : null}
-								{visibleColumns.includes('phone') ? (
-									<TableCell
-										size="small"
-										value={
-											employee.phone
-												? formatearTelefono(employee?.phone[0])
-												: ''
-										}
-									/>
-								) : null}
-								{visibleColumns.includes('extension') ? (
-									<TableCell
-										size="small"
-										value={
-											employee.extension
-												? formatearTelefono(employee?.extension[0])
-												: ''
-										}
-									/>
-								) : null}
-								<TableCellOpenIcon open={expandedRows.includes(employee.id)} />
-							</TableRow>
-
-							<EmployeeDescription
-								open={expandedRows.includes(employee.id)}
-								employee={employee}
-								colSpan={colSpan}
-								visibleColumns={visibleColumns}
-							/>
-						</React.Fragment>
-					))}
-			</>
-		)
+export const TableEmployees = memo(({ employees, isError }: TableEmployeesProps) => {
+	const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+		useTableGenericDeviceBody<EmployeeDto>()
+	if (isError) {
+		return <TableCellError />
 	}
-)
+	if (employees && employees.length === 0) {
+		return <TableCellEmpty />
+	}
+
+	return (
+		<>
+			{employees !== undefined &&
+				employees.map(employee => (
+					<TableRow key={employee.id}>
+						<TableCell
+							className="hidden xl:table-cell"
+							aria-colindex={1}
+							size="xxSmall"
+							value={employee?.employeeCode ?? ''}
+						>
+							{employee?.employeeCode ?? ''}
+						</TableCell>
+
+						<TableCell aria-colindex={2} size="small" value={employee?.userName}>
+							{employee?.userName}
+						</TableCell>
+
+						<TableCell
+							className="2md:table-cell hidden"
+							aria-colindex={3}
+							size="small"
+							value={employee?.name ?? ''}
+						>
+							{employee?.name ?? ''}
+						</TableCell>
+
+						<TableCell
+							className="2md:table-cell hidden"
+							aria-colindex={4}
+							size="small"
+							value={employee?.lastName ?? ''}
+						>
+							{employee?.lastName ?? ''}
+						</TableCell>
+
+						<TableCell
+							className="hidden lg:table-cell"
+							aria-colindex={5}
+							size="xLarge"
+							value={employee?.departamento?.name ?? ''}
+						>
+							{employee?.departamento?.name ?? ''}
+						</TableCell>
+
+						<TableCell
+							className="hidden xl:table-cell"
+							aria-colindex={6}
+							size="xLarge"
+							value={employee?.cargo?.name ?? ''}
+						>
+							{employee?.cargo?.name ?? ''}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={7}
+							size="small"
+							value={employee.phone ? formatearTelefono(employee?.phone[0]) : ''}
+						>
+							{employee.phone ? formatearTelefono(employee?.phone[0]) : ''}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={8}
+							size="small"
+							value={
+								employee.extension ? formatearTelefono(employee?.extension[0]) : ''
+							}
+						>
+							{employee.extension ? formatearTelefono(employee?.extension[0]) : ''}
+						</TableCell>
+
+						<TableCellOpenIcon index={9} onClick={() => handleViewDetails(employee)} />
+					</TableRow>
+				))}
+			<Suspense>
+				<Dialog ref={dialogRef}>
+					{selectedDevice && (
+						<DetailsEmployeeModal
+							onClose={handleCloseModal}
+							employee={selectedDevice}
+						/>
+					)}
+				</Dialog>
+			</Suspense>
+		</>
+	)
+})

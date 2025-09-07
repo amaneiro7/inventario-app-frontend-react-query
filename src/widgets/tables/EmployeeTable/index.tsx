@@ -1,9 +1,8 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { useGetAllEmployees } from '@/entities/employee/employee/infra/hook/useGetAllEmployee'
 import { eventManager } from '@/shared/lib/utils/eventManager'
-import { useTableDeviceWrapper } from './useTableEmployeeWrapper'
 import { EmployeeGetByCriteria } from '@/entities/employee/employee/application/EmployeeGetByCriteria'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { EmployeeTableLoading } from './EmployeeTableLoading'
 import { type EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
@@ -49,8 +48,12 @@ export const TableEmployeeWrapper = memo(function ({
 	handleSort
 }: TableEmployeeWrapperProps) {
 	const { data: employees, isLoading, isError } = useGetAllEmployees(query)
-	const { colSpan, headers, visibleColumns } = useTableDeviceWrapper()
 
+	const SkeletonFallback = useMemo(() => {
+		return Array.from({
+			length: query.pageSize ?? EmployeeGetByCriteria.defaultPageSize
+		}).map((_, index) => <EmployeeTableLoading key={`loader-${index}`} />)
+	}, [query.pageSize, EmployeeGetByCriteria.defaultPageSize])
 	return (
 		<>
 			<TablePageWrapper>
@@ -64,47 +67,103 @@ export const TableEmployeeWrapper = memo(function ({
 				<Table>
 					<TableHeader>
 						<TableRow>
-							{headers
-								.filter(header => header.visible)
-								.map((header, index) => (
-									<TableHead
-										aria-colindex={index}
-										key={header.key}
-										isTab={header.isTab}
-										handleSort={
-											header.hasOrder ? eventManager(handleSort) : undefined
-										}
-										name={header.label}
-										orderBy={header.hasOrder ? query.orderBy : undefined}
-										orderType={header.hasOrder ? query.orderType : undefined}
-										orderByField={header.hasOrder ? header.key : undefined}
-										size={header.size}
-									/>
-								))}
+							<TableHead
+								aria-colindex={1}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="employeeCode"
+								size="xxSmall"
+								className="hidden xl:table-cell"
+							>
+								Cod. Empleado
+							</TableHead>
+							<TableHead
+								aria-colindex={2}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="userName"
+								size="small"
+							>
+								Usuario
+							</TableHead>
+							<TableHead
+								aria-colindex={3}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="name"
+								size="small"
+								className="2md:table-cell hidden"
+							>
+								Nombres
+							</TableHead>
+							<TableHead
+								aria-colindex={4}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="lastName"
+								size="small"
+								className="2md:table-cell hidden"
+							>
+								Apellidos
+							</TableHead>
+							<TableHead
+								aria-colindex={5}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="departamentoId"
+								size="xLarge"
+								className="hidden lg:table-cell"
+							>
+								Departamento
+							</TableHead>
+							<TableHead
+								aria-colindex={6}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="cargoId"
+								size="xLarge"
+								className="hidden xl:table-cell"
+							>
+								Cargo
+							</TableHead>
+							<TableHead
+								aria-colindex={7}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="phone"
+								size="small"
+							>
+								Teléfono
+							</TableHead>
+							<TableHead
+								aria-colindex={8}
+								handleSort={eventManager(handleSort)}
+								orderBy={query.orderBy}
+								orderType={query.orderType}
+								orderByField="extension"
+								size="small"
+							>
+								Extensión
+							</TableHead>
+							<TableHead aria-colindex={9} isTab size="xSmall">
+								<span className="sr-only">Acciones</span>
+							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						<>
-							{(isLoading || employees === undefined) && (
-								<LoadingTable registerPerPage={query?.pageSize} colspan={colSpan} />
-							)}
-							{employees !== undefined && (
-								<Suspense
-									fallback={
-										<LoadingTable
-											registerPerPage={query?.pageSize}
-											colspan={colSpan}
-										/>
-									}
-								>
-									<TableEmployees
-										colSpan={colSpan}
-										isError={isError}
-										employees={employees.data}
-										visibleColumns={visibleColumns}
-									/>
-								</Suspense>
-							)}
+							{isLoading && SkeletonFallback}
+
+							<Suspense fallback={SkeletonFallback}>
+								<TableEmployees isError={isError} employees={employees?.data} />
+							</Suspense>
 						</>
 					</TableBody>
 				</Table>

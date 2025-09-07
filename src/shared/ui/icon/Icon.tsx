@@ -35,7 +35,11 @@ import {
 	History,
 	ScrollText,
 	Info,
-	ListTodo
+	ListTodo,
+	User,
+	Contact,
+	Briefcase,
+	MapPin
 } from 'lucide-react'
 
 const iconMap = {
@@ -74,7 +78,11 @@ const iconMap = {
 	history: History,
 	scrollText: ScrollText,
 	info: Info,
-	list: ListTodo
+	list: ListTodo,
+	user: User,
+	contact: Contact,
+	briefcase: Briefcase,
+	mapPin: MapPin
 }
 
 export type IconName = keyof typeof iconMap

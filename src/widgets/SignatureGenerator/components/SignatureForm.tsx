@@ -1,20 +1,21 @@
 import { memo } from 'react'
-import { AlertCircle } from 'lucide-react'
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { AlertCircle } from 'lucide-react'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import Typography from '@/shared/ui/Typography'
 import { Input } from '@/shared/ui/Input/Input'
-import { type SignatureData } from '..'
+import { type SignatureData, type SignatureErrors } from '../model/useSignatureData'
 
 interface SignatureFormProps {
 	data: SignatureData
+	errors: SignatureErrors
 	placeHolder: SignatureData
 	isFormValid: boolean
 	onChange: (field: keyof SignatureData, value: string) => void
 }
 
 export const SignatureForm = memo(
-	({ data, isFormValid, placeHolder, onChange }: SignatureFormProps) => {
+	({ data, isFormValid, placeHolder, errors, onChange }: SignatureFormProps) => {
 		return (
 			<DetailsBoxWrapper>
 				<Typography color="azul" variant="h3">
@@ -35,7 +36,10 @@ export const SignatureForm = memo(
 							value={data.name}
 							placeholder={placeHolder.name}
 							onChange={e => onChange('name', e.target.value)}
+							error={!!errors.name}
+							errorMessage={errors.name}
 						/>
+
 						<Input
 							id="signature-lastName"
 							label="Apellido"
@@ -45,6 +49,8 @@ export const SignatureForm = memo(
 							value={data.lastName}
 							placeholder={placeHolder.lastName}
 							onChange={e => onChange('lastName', e.target.value)}
+							error={!!errors.lastName}
+							errorMessage={errors.lastName}
 						/>
 					</div>
 					<Input
@@ -57,6 +63,8 @@ export const SignatureForm = memo(
 						value={data.cargo}
 						placeholder={placeHolder.cargo}
 						onChange={e => onChange('cargo', e.target.value)}
+						error={!!errors.cargo}
+						errorMessage={errors.cargo}
 					/>
 
 					<Input
@@ -69,6 +77,8 @@ export const SignatureForm = memo(
 						value={data.vicepresidenciaEjecutiva}
 						placeholder={placeHolder.vicepresidenciaEjecutiva}
 						onChange={e => onChange('vicepresidenciaEjecutiva', e.target.value)}
+						error={!!errors.vicepresidenciaEjecutiva}
+						errorMessage={errors.vicepresidenciaEjecutiva}
 					/>
 					<Input
 						id="signature-vicepresidencia"
@@ -80,6 +90,8 @@ export const SignatureForm = memo(
 						value={data.vicepresidencia}
 						placeholder={placeHolder.vicepresidencia}
 						onChange={e => onChange('vicepresidencia', e.target.value)}
+						error={!!errors.vicepresidencia}
+						errorMessage={errors.vicepresidencia}
 					/>
 
 					{data.typeOfSite === TypeOfSiteOptions.AGENCY && (
@@ -92,6 +104,8 @@ export const SignatureForm = memo(
 							value={data.siteName}
 							placeholder={placeHolder.siteName}
 							onChange={e => onChange('siteName', e.target.value)}
+							error={!!errors.siteName}
+							errorMessage={errors.siteName}
 						/>
 					)}
 				</div>
@@ -109,6 +123,8 @@ export const SignatureForm = memo(
 						value={data.numbers}
 						placeholder={placeHolder.numbers}
 						onChange={e => onChange('numbers', e.target.value)}
+						error={!!errors.numbers}
+						errorMessage={errors.numbers}
 					/>
 					<Input
 						id="signature-email"
@@ -120,6 +136,8 @@ export const SignatureForm = memo(
 						value={data.email}
 						placeholder={placeHolder.email}
 						onChange={e => onChange('email', e.target.value)}
+						error={!!errors.email}
+						errorMessage={errors.email}
 					/>
 					<Input
 						id="signature-address"
@@ -130,6 +148,8 @@ export const SignatureForm = memo(
 						value={data.address}
 						placeholder={placeHolder.address}
 						onChange={e => onChange('address', e.target.value)}
+						error={!!errors.address}
+						errorMessage={errors.address}
 					/>
 				</div>
 				{/* Contenedor para el mensaje de error con altura fija para evitar layout shift */}
