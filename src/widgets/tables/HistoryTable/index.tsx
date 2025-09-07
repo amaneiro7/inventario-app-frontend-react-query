@@ -1,8 +1,8 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { HistoryGetByCriteria } from '@/entities/history/application/HistoryGetByCriteria'
 import { useGetAllHistorys } from '@/entities/history/infra/hook/useGetAllHistory'
 import { eventManager } from '@/shared/lib/utils/eventManager'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { HistoryTableLoading } from './HistoryTableLoading'
 import { type HistoryFilters } from '@/entities/history/application/createHistoryQueryParams'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
@@ -42,7 +42,11 @@ const TableHistory = lazy(() =>
 export const TableHistoryWrapper = memo(
 	({ query, handleSort, handlePageSize, handlePageClick }: TableHistoryWrapperProps) => {
 		const { data: histories, isError, isLoading } = useGetAllHistorys(query)
-		const colSpan = 6
+		const SkeletonFallback = useMemo(() => {
+			return Array.from({
+				length: query.pageSize ?? HistoryGetByCriteria.defaultPageSize
+			}).map((_, index) => <HistoryTableLoading key={`loader-${index}`} />)
+		}, [query.pageSize, HistoryGetByCriteria.defaultPageSize])
 		return (
 			<>
 				<TablePageWrapper>
@@ -64,8 +68,9 @@ export const TableHistoryWrapper = memo(
 									orderType={query.orderType}
 									orderByField="userId"
 									size="medium"
-									name="Realizado por"
-								/>
+								>
+									Realizado por
+								</TableHead>
 								<TableHead
 									aria-colindex={2}
 									handleSort={eventManager(handleSort)}
@@ -73,8 +78,10 @@ export const TableHistoryWrapper = memo(
 									orderType={query.orderType}
 									orderByField="action"
 									size="small"
-									name="Acción"
-								/>
+									className="hidden md:table-cell"
+								>
+									Acción
+								</TableHead>
 								<TableHead
 									aria-colindex={3}
 									handleSort={eventManager(handleSort)}
@@ -82,8 +89,10 @@ export const TableHistoryWrapper = memo(
 									orderType={query.orderType}
 									orderByField="categoryId"
 									size="small"
-									name="Categoria"
-								/>
+									className="hidden lg:table-cell"
+								>
+									Categoria
+								</TableHead>
 								<TableHead
 									aria-colindex={4}
 									handleSort={eventManager(handleSort)}
@@ -91,8 +100,9 @@ export const TableHistoryWrapper = memo(
 									orderType={query.orderType}
 									orderByField="serial"
 									size="small"
-									name="Serial"
-								/>
+								>
+									Serial
+								</TableHead>
 								<TableHead
 									aria-colindex={5}
 									handleSort={eventManager(handleSort)}
@@ -100,35 +110,21 @@ export const TableHistoryWrapper = memo(
 									orderType={query.orderType}
 									orderByField="updatedAt"
 									size="small"
-									name="Fecha de Actualización"
-								/>
-								<TableHead aria-colindex={6} size="xxSmall" name="" />
+									className="hidden lg:table-cell"
+								>
+									Fecha de Actualización
+								</TableHead>
+								<TableHead aria-colindex={6} size="xSmall">
+									<span className="sr-only">Acciones</span>
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							<>
-								{isLoading && (
-									<LoadingTable
-										registerPerPage={query?.pageSize}
-										colspan={colSpan}
-									/>
-								)}
-								{histories !== undefined && (
-									<Suspense
-										fallback={
-											<LoadingTable
-												registerPerPage={query?.pageSize}
-												colspan={colSpan}
-											/>
-										}
-									>
-										<TableHistory
-											colSpan={colSpan}
-											isError={isError}
-											histories={histories.data}
-										/>
-									</Suspense>
-								)}
+								{isLoading && SkeletonFallback}
+								<Suspense fallback={SkeletonFallback}>
+									<TableHistory isError={isError} histories={histories?.data} />
+								</Suspense>
 							</>
 						</TableBody>
 					</Table>

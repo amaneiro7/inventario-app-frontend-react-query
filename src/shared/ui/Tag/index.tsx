@@ -29,13 +29,11 @@ export function Tag({
 			option={option}
 			variant="span"
 			align={align}
-			className="w-fit inline-flex items-center gap-1 rounded-2xl px-2"
+			className="inline-flex w-fit items-center gap-1 rounded-2xl px-2 py-0.5"
 			background={backgroundColor}
 		>
-			<>
-				{icon}
-				{iconText}
-			</>
+			{icon}
+			{iconText}
 		</Typography>
 	)
 }

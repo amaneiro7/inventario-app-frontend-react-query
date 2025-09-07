@@ -1,12 +1,13 @@
-import React, { lazy, memo } from 'react'
-import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { lazy, memo, Suspense } from 'react'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 import { type BackgroundType } from '@/shared/ui/Typography/types'
 
-const HistoryDescription = lazy(() =>
-	import('./HistoryDescription').then(m => ({ default: m.HistoryDescription }))
+const DetailHistoryModal = lazy(() =>
+	import('./DetailHistoryModal').then(m => ({ default: m.DetailHistoryModal }))
 )
+const Tag = lazy(() => import('@/shared/ui/Tag').then(m => ({ default: m.Tag })))
 
 const TableCell = lazy(() =>
 	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
@@ -23,19 +24,10 @@ const TableCellError = lazy(() =>
 const TableCellEmpty = lazy(() =>
 	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
 )
+const Dialog = lazy(() => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
 interface TableHistoryProps {
-	/**
-	 * An array of history data to display in the table.
-	 */
 	histories?: HistoryDto[]
-	/**
-	 * Indicates whether an error occurred during data fetching.
-	 */
 	isError: boolean
-	/**
-	 * The number of columns the table should span.
-	 */
-	colSpan: number
 }
 
 /**
@@ -43,14 +35,15 @@ interface TableHistoryProps {
  * It handles displaying loading states, error states, empty states, and individual history rows
  * with expandable details.
  */
-export const TableHistory = memo(({ histories, isError, colSpan }: TableHistoryProps) => {
-	const { expandedRows, handleRowClick } = useExpendedRows()
+export const TableHistory = memo(({ histories, isError }: TableHistoryProps) => {
+	const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+		useTableGenericDeviceBody<HistoryDto>()
 
 	if (isError) {
-		return <TableCellError colSpan={colSpan} />
+		return <TableCellError />
 	}
 	if (histories && histories.length === 0) {
-		return <TableCellEmpty colSpan={colSpan} />
+		return <TableCellEmpty />
 	}
 
 	return (
@@ -63,35 +56,56 @@ export const TableHistory = memo(({ histories, isError, colSpan }: TableHistoryP
 				const backGroundColor: BackgroundType =
 					operation === 'Creación' ? 'naranja' : 'verde'
 				return (
-					<React.Fragment key={history.id}>
-						<TableRow
-							className={`[&>td]:cursor-pointer ${
-								expandedRows.includes(history.id) &&
-								'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
-							}`}
-							onClick={() => handleRowClick(history.id)}
+					<TableRow key={history.id}>
+						<TableCell
+							aria-colindex={1}
+							size="medium"
+							value={history.user?.email ?? ''}
 						>
-							<TableCell size="medium" value={history.user?.email ?? ''} />
-							<TableCell
-								size="small"
-								tag
-								backgroundColor={backGroundColor}
+							{history.user?.email ?? ''}
+						</TableCell>
+						<TableCell aria-colindex={2} size="small" className="hidden md:table-cell">
+							<Tag
 								color="white"
-								value={operation}
+								iconText={operation}
+								backgroundColor={backGroundColor}
+								option="tiny"
 							/>
-							<TableCell size="small" value={history.device?.category?.name ?? ''} />
-							<TableCell size="small" value={history.device?.serial ?? ''} />
-							<TableCell size="small" value={relativeTime} />
-							<TableCellOpenIcon open={expandedRows.includes(history.id)} />
-						</TableRow>
-						<HistoryDescription
-							open={expandedRows.includes(history.id)}
-							colSpan={colSpan}
-							history={history}
-						/>
-					</React.Fragment>
+						</TableCell>
+						<TableCell
+							aria-colindex={3}
+							className="hidden lg:table-cell"
+							size="small"
+							value={history.device?.category?.name ?? ''}
+						>
+							{history.device?.category?.name ?? ''}
+						</TableCell>
+						<TableCell
+							aria-colindex={4}
+							size="small"
+							value={history.device?.serial ?? ''}
+						>
+							{history.device?.serial ?? ''}
+						</TableCell>
+						<TableCell
+							aria-colindex={5}
+							size="small"
+							value={relativeTime}
+							className="hidden lg:table-cell"
+						>
+							{relativeTime}
+						</TableCell>
+						<TableCellOpenIcon index={6} onClick={() => handleViewDetails(history)} />
+					</TableRow>
 				)
 			})}
+			<Suspense>
+				<Dialog ref={dialogRef}>
+					{selectedDevice && (
+						<DetailHistoryModal onClose={handleCloseModal} history={selectedDevice} />
+					)}
+				</Dialog>
+			</Suspense>
 		</>
 	)
 })

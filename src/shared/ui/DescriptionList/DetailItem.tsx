@@ -9,8 +9,8 @@ export const DetailItem = ({
 }: {
 	label: string
 	value: string | string[] | React.ReactNode
-	classNameBox?: string
-	classNameText?: string
+	classNameBox?: HTMLElement['className']
+	classNameText?: HTMLElement['className']
 }) => (
 	<div className={cn('flex flex-col items-start justify-start py-1.5', classNameBox)}>
 		<Typography variant="p" option="tiny" weight="semibold" color="azul">

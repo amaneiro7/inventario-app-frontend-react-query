@@ -165,14 +165,10 @@ export const TableShipmentWrapper = memo(
 						<TableBody>
 							<>
 								{isLoading && SkeletonFallback}
-								{shipments !== undefined && (
-									<Suspense fallback={SkeletonFallback}>
-										<TableShipment
-											isError={isError}
-											shipments={shipments.data}
-										/>
-									</Suspense>
-								)}
+
+								<Suspense fallback={SkeletonFallback}>
+									<TableShipment isError={isError} shipments={shipments?.data} />
+								</Suspense>
 							</>
 						</TableBody>
 					</Table>

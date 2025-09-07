@@ -28,7 +28,14 @@ import {
 	XCircle,
 	Package,
 	HelpCircle,
-	ClipboardList
+	ClipboardList,
+	PlusCircle,
+	Edit3,
+	Trash2,
+	History,
+	ScrollText,
+	Info,
+	ListTodo
 } from 'lucide-react'
 
 const iconMap = {
@@ -60,7 +67,14 @@ const iconMap = {
 	xCircle: XCircle,
 	package: Package,
 	helpCircle: HelpCircle,
-	chipboardList: ClipboardList
+	chipboardList: ClipboardList,
+	plusCircle: PlusCircle,
+	edit: Edit3,
+	trash: Trash2,
+	history: History,
+	scrollText: ScrollText,
+	info: Info,
+	list: ListTodo
 }
 
 export type IconName = keyof typeof iconMap

@@ -1,12 +1,15 @@
-import { getDeviceIcon } from '@/entities/category/infra/ui/GetDeviceIcon'
+import { GetDeviceIcon } from '@/entities/category/infra/ui/GetDeviceIcon'
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import Typography from '@/shared/ui/Typography'
-import { Badge, type BadgeProps } from '@/shared/ui/Badge'
+import { Tag } from '@/shared/ui/Tag'
+import { type BackgroundType } from '@/shared/ui/Typography/types'
+import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
+import { type DeviceSerial } from '../../../domain/value-object/DeviceSerial'
+import { type DeviceActivo } from '../../../domain/value-object/DeviceActivo'
 
 interface ModalTitleProps {
-	serial: string | null
-	activo: string | null
-	// Se recomienda pasar el ID del estatus para una lógica más robusta
+	serial: Primitives<DeviceSerial>
+	activo: Primitives<DeviceActivo>
 	statusId: string
 	statusName: string
 	computerName?: string | null | undefined
@@ -15,16 +18,16 @@ interface ModalTitleProps {
 
 // Mapa para asociar ID de estatus con un color de Badge
 // Usamos los nombres de variantes que tu componente Badge pueda tener.
-const statusColorMap: Record<string, BadgeProps['variant']> = {
+const statusColorMap: Record<string, BackgroundType> = {
 	[StatusOptions.INUSE]: 'verde',
-	[StatusOptions.DISPONIBLE]: 'azul',
-	[StatusOptions.INALMACEN]: 'default', // Gris/Default
-	[StatusOptions.PORDESINCORPORAR]: 'amarillo',
+	[StatusOptions.DISPONIBLE]: 'amarillo',
+	[StatusOptions.INALMACEN]: 'gris',
+	[StatusOptions.PORDESINCORPORAR]: 'rojo',
 	[StatusOptions.DESINCORPORADO]: 'rojo',
-	[StatusOptions.PRESTAMO]: 'purple',
+	[StatusOptions.PRESTAMO]: 'naranja',
 	[StatusOptions.CONTINGENCIA]: 'naranja',
-	[StatusOptions.GUARDIA]: 'sky',
-	[StatusOptions.JORNADA]: 'pink'
+	[StatusOptions.GUARDIA]: 'naranja',
+	[StatusOptions.JORNADA]: 'naranja'
 }
 
 export const ModalTitle = ({
@@ -36,17 +39,22 @@ export const ModalTitle = ({
 	statusName
 }: ModalTitleProps) => {
 	// Se busca el color correspondiente. Si no se encuentra, se usa 'default'.
-	const badgeVariant = statusColorMap[statusId] ?? 'default'
+	const backGroundColor = statusColorMap[statusId] ?? 'default'
 
 	return (
 		<div>
 			<Typography variant="h3" className="flex items-center gap-2">
-				{getDeviceIcon(category)}
+				{<GetDeviceIcon categoryName={category} />}
 				{computerName ?? 'Detalles del Equipo'}
 			</Typography>
 			<div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
 				{/* El Badge ahora recibe la variante de color dinámicamente */}
-				<Badge variant={badgeVariant}>{statusName}</Badge>
+				<Tag
+					option="tiny"
+					backgroundColor={backGroundColor}
+					iconText={statusName}
+					color="white"
+				/>
 				<Typography variant="span" option="small" className="font-mono">
 					Serial: {serial ?? 'Sin Serial'}
 				</Typography>
