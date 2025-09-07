@@ -5,8 +5,8 @@ interface ShipmentDeviceCardDetailsProps {
 	value: string | null | undefined
 }
 
-export const ShipmentDeviceCardDetails = ({ label, value }: ShipmentDeviceCardDetailsProps) => (
-	<Typography variant="span">
+export const DeviceSummaryCardDetails = ({ label, value }: ShipmentDeviceCardDetailsProps) => (
+	<Typography variant="p" option="tiny" color="gris">
 		{label}: <strong>{value ?? 'N/A'}</strong>
 	</Typography>
 )

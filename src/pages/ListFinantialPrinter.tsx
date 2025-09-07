@@ -5,7 +5,6 @@ import { useFinantialPrinterFilter } from '@/entities/devices/devices/infra/hook
 //components
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
-import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 // Types
 import { type FilterAsideRef } from '@/widgets/FilterAside'
 
@@ -115,15 +114,14 @@ export default function ListFinantialPrinter() {
 					/>
 				</Suspense>
 			</DetailsBoxWrapper>
-			<Suspense fallback={<TableSkeleton withTab />}>
-				<TableFinantialWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleChange={handleChange}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+
+			<TableFinantialWrapper
+				handlePageSize={handlePageSize}
+				handlePageClick={handlePageClick}
+				handleChange={handleChange}
+				handleSort={handleSort}
+				query={query}
+			/>
 		</>
 	)
 }

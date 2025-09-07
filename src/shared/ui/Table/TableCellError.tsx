@@ -1,11 +1,16 @@
-import { memo } from 'react'
 import { TableCell } from './TableCell'
 import { TableRow } from './TableRow'
 
-export const TableCellError = memo(({ colSpan }: { colSpan: number }) => {
+export const TableCellError = () => {
 	return (
-		<TableRow>
-			<TableCell colSpan={colSpan} size="xLarge" value="Ha ocurrido un error" />
+		<TableRow className="relative h-24">
+			<TableCell
+				className="absolute inset-0 flex w-full items-center justify-center"
+				size="auto"
+				value="Ha ocurrido un error"
+			>
+				Ha ocurrido un error
+			</TableCell>
 		</TableRow>
 	)
-})
+}

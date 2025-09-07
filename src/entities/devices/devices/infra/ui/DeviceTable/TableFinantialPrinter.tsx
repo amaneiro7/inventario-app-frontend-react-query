@@ -25,11 +25,10 @@ interface TableFinantialPrinterProps {
 	devices?: DeviceDto[]
 	isError: boolean
 	colSpan: number
-	visibleColumns: string[]
 }
 
 export const TableFinantialPrinter = memo(
-	({ devices, colSpan, isError, visibleColumns }: TableFinantialPrinterProps) => {
+	({ devices, colSpan, isError }: TableFinantialPrinterProps) => {
 		const { expandedRows, handleRowClick } = useExpendedRows()
 
 		if (isError) {

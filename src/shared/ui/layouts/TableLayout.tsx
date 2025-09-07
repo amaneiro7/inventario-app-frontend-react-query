@@ -1,8 +1,7 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useMemo } from 'react'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
-import { type Headers } from '@/shared/ui/Table/TableHeader'
+import { GenericTableDeviceSkeleton } from '@/widgets/tables/GenericTableDeviceSkeleton'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
 const TableBody = lazy(() =>
@@ -42,11 +41,9 @@ interface TableLayoutProps<T> {
 	pageSizeOptions: number[]
 	totalPage?: number
 	page?: number
-	colSpan: number
 	orderBy?: string
 	orderType?: OrderTypes
 	dataIsLoaded: boolean
-	headers: Headers[]
 	handleSort: (field: string) => Promise<void>
 	handleChange: (name: string, value: string) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
@@ -55,7 +52,7 @@ interface TableLayoutProps<T> {
 
 export function TableLayout<T>({
 	children,
-	defaultPageSize,
+	defaultPageSize = 25,
 	pageNumber,
 	pageSize,
 	total,
@@ -66,15 +63,18 @@ export function TableLayout<T>({
 	pageSizeOptions,
 	totalPage,
 	page,
-	colSpan,
 	orderBy,
 	orderType,
-	headers,
 	handleChange,
 	handleSort,
 	handlePageClick,
 	handlePageSize
 }: TableLayoutProps<T>) {
+	const SkeletonFallback = useMemo(() => {
+		return Array.from({ length: pageSize ?? defaultPageSize }).map((_, index) => (
+			<GenericTableDeviceSkeleton key={`loader-${index}`} />
+		))
+	}, [pageSize, defaultPageSize])
 	return (
 		<>
 			<TablePageWrapper>
@@ -90,37 +90,97 @@ export function TableLayout<T>({
 				<Table>
 					<TableHeader>
 						<TableRow>
-							{headers
-								.filter(header => header.visible)
-								.map((header, index) => (
-									<TableHead
-										aria-colindex={index}
-										key={header.key}
-										isTab={header.isTab}
-										handleSort={
-											header.hasOrder ? eventManager(handleSort) : undefined
-										}
-										name={header.label}
-										orderBy={header.hasOrder ? orderBy : undefined}
-										orderType={header.hasOrder ? orderType : undefined}
-										orderByField={header.hasOrder ? header.key : undefined}
-										size={header.size}
-									/>
-								))}
+							<TableHead
+								aria-colindex={1}
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="employeeId"
+								size="small"
+							>
+								Usuario
+							</TableHead>
+							<TableHead
+								aria-colindex={2}
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="locationId"
+								size="xLarge"
+								className="hidden md:table-cell"
+							>
+								Ubicación
+							</TableHead>
+							<TableHead
+								aria-colindex={3}
+								className="2md:table-cell hidden"
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="serial"
+								size="small"
+							>
+								Serial
+							</TableHead>
+							<TableHead
+								aria-colindex={4}
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="categoryId"
+								size="small"
+								className="2lg:table-cell hidden"
+							>
+								Categoria
+							</TableHead>
+							<TableHead
+								aria-colindex={5}
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="brandId"
+								size="small"
+								className="hidden lg:table-cell"
+							>
+								Marca
+							</TableHead>
+							<TableHead
+								aria-colindex={6}
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="modelId"
+								size="large"
+							>
+								Modelo
+							</TableHead>
+							<TableHead
+								aria-colindex={7}
+								isTab
+								handleSort={eventManager(handleSort)}
+								orderBy={orderBy}
+								orderType={orderType}
+								orderByField="observation"
+								size="medium"
+								className="hidden xl:table-cell"
+							>
+								Observaciones
+							</TableHead>
+							<TableHead aria-colindex={8} isTab size="xSmall">
+								<span className="sr-only">Acciones</span>
+							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
 						<>
-							{isLoading && (
-								<LoadingTable registerPerPage={pageSize} colspan={colSpan} />
-							)}
-							<Suspense
-								fallback={
-									<LoadingTable registerPerPage={pageSize} colspan={colSpan} />
-								}
-							>
-								{children}
-							</Suspense>
+							{isLoading && SkeletonFallback}
+							<Suspense fallback={SkeletonFallback}>{children}</Suspense>
 						</>
 					</TableBody>
 				</Table>

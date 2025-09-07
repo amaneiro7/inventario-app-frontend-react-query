@@ -1,16 +1,22 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo } from 'react'
 import { useGetAllFinantialPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllFinantialPrinterDevices'
-import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { DeviceFinantialPrinterFilter } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 const TableLayout = lazy(() =>
 	import('@/shared/ui/layouts/TableLayout').then(m => ({ default: m.TableLayout }))
 )
-const TableFinantialPrinter = lazy(() =>
-	import('@/entities/devices/devices/infra/ui/DeviceTable/TableFinantialPrinter').then(m => ({
-		default: m.TableFinantialPrinter
+
+const TableGenericDeviceBody = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceBody').then(m => ({
+		default: m.TableGenericDeviceBody
+	}))
+)
+
+const TableGenericDeviceCell = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceCell').then(m => ({
+		default: m.TableGenericDeviceCell
 	}))
 )
 interface TableFinantialWrapperProps {
@@ -30,10 +36,10 @@ export const TableFinantialWrapper = memo(
 		handlePageClick
 	}: TableFinantialWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllFinantialPrinterDevices(query)
-		const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
+		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+			useTableGenericDeviceBody()
 		return (
 			<TableLayout
-				colSpan={colSpan}
 				handleChange={handleChange}
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
@@ -51,24 +57,19 @@ export const TableFinantialWrapper = memo(
 				totalPage={devices?.info?.totalPage}
 				pageSize={query?.pageSize}
 				total={devices?.info?.total}
-				headers={headers}
 			>
-				<>
-					{devices !== undefined && (
-						<Suspense
-							fallback={
-								<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
-							}
-						>
-							<TableFinantialPrinter
-								colSpan={colSpan}
-								isError={isError}
-								devices={devices.data}
-								visibleColumns={visibleColumns}
-							/>
-						</Suspense>
-					)}
-				</>
+				<TableGenericDeviceBody
+					dialogRef={dialogRef}
+					handleCloseModal={handleCloseModal}
+					selectedDevice={selectedDevice}
+					isError={isError}
+					devices={devices?.data}
+				>
+					<TableGenericDeviceCell
+						handleViewDetails={handleViewDetails}
+						devices={devices?.data}
+					/>
+				</TableGenericDeviceBody>
 			</TableLayout>
 		)
 	}

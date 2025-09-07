@@ -1,16 +1,22 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo } from 'react'
 import { useGetAllPrinterDevices } from '@/entities/devices/devices/infra/hook/useGetAllPrinterDevices'
 import { DevicePrinterFilter } from '@/entities/devices/devices/application/printer/DevicePrinterFilter'
-import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 const TableLayout = lazy(() =>
 	import('@/shared/ui/layouts/TableLayout').then(m => ({ default: m.TableLayout }))
 )
-const TablePrinter = lazy(() =>
-	import('@/entities/devices/devices/infra/ui/DeviceTable/TablePrinter').then(m => ({
-		default: m.TablePrinter
+const TableGenericDeviceBody = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceBody').then(m => ({
+		default: m.TableGenericDeviceBody
+	}))
+)
+
+const TableGenericDeviceCell = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceCell').then(m => ({
+		default: m.TableGenericDeviceCell
 	}))
 )
 interface TablePrinterWrapperProps {
@@ -30,10 +36,10 @@ export const TablePrinterWrapper = memo(
 		handlePageClick
 	}: TablePrinterWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllPrinterDevices(query)
-		const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
+		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+			useTableGenericDeviceBody<DeviceDto>()
 		return (
 			<TableLayout
-				colSpan={colSpan}
 				handleChange={handleChange}
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
@@ -51,24 +57,19 @@ export const TablePrinterWrapper = memo(
 				totalPage={devices?.info?.totalPage}
 				pageSize={query?.pageSize}
 				total={devices?.info?.total}
-				headers={headers}
 			>
-				<>
-					{devices !== undefined && (
-						<Suspense
-							fallback={
-								<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
-							}
-						>
-							<TablePrinter
-								colSpan={colSpan}
-								isError={isError}
-								devices={devices.data}
-								visibleColumns={visibleColumns}
-							/>
-						</Suspense>
-					)}
-				</>
+				<TableGenericDeviceBody
+					dialogRef={dialogRef}
+					handleCloseModal={handleCloseModal}
+					selectedDevice={selectedDevice}
+					isError={isError}
+					devices={devices?.data}
+				>
+					<TableGenericDeviceCell
+						handleViewDetails={handleViewDetails}
+						devices={devices?.data}
+					/>
+				</TableGenericDeviceBody>
 			</TableLayout>
 		)
 	}

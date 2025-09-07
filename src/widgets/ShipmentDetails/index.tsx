@@ -6,8 +6,10 @@ import { GetStatusIndicator } from './GetStatusIndicator'
 import { formatDateToUTC } from '@/shared/lib/utils/formatDateToUTC'
 import { type ShipmentDto } from '@/entities/shipment/domain/dto/Shipment.dto'
 
-const ShippedDeviceCard = lazy(() =>
-	import('./ShippedDeviceCard').then(m => ({ default: m.ShippedDeviceCard }))
+const DeviceSummaryCard = lazy(() =>
+	import('../../entities/shipment/infra/ui/DeviceSummaryCard').then(m => ({
+		default: m.DeviceSummaryCard
+	}))
 )
 
 interface ShipmentDetailsProps {
@@ -100,7 +102,7 @@ export const ShipmentDetails = ({ data }: ShipmentDetailsProps) => {
 				) : (
 					<div className="grid grid-cols-1 gap-4 sm:flex-row md:grid-cols-2">
 						{data.shipmentDevice.map(device => (
-							<ShippedDeviceCard key={device.id} shipmentDevice={device} />
+							<DeviceSummaryCard key={device.id} shipmentDevice={device} />
 						))}
 					</div>
 				)}

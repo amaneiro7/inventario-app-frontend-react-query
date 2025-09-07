@@ -1,13 +1,16 @@
-import { memo } from 'react'
 import { TableRow } from './TableRow'
 import { TableCell } from './TableCell'
 
-export const TableCellEmpty = memo(({ colSpan }: { colSpan: number }) => {
+export const TableCellEmpty = () => {
 	return (
-		<TableRow>
-			<TableCell colSpan={colSpan + 1} size="xLarge" value="No se encontraron resultados" />
+		<TableRow className="relative h-24">
+			<TableCell
+				size="auto"
+				className="absolute inset-0 flex w-full items-center justify-center"
+				value="No se encontraron resultados"
+			>
+				No se encontraron resultados
+			</TableCell>
 		</TableRow>
 	)
-})
-
-TableCellEmpty.displayName = 'TableCellEmpty'
+}

@@ -9,7 +9,7 @@ interface ModalTitleProps {
 	// Se recomienda pasar el ID del estatus para una lógica más robusta
 	statusId: string
 	statusName: string
-	computerName: string | null | undefined
+	computerName?: string | null | undefined
 	category: string
 }
 

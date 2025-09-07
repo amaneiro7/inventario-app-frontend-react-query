@@ -8,7 +8,7 @@ type TableCellOpenIconProps = React.DetailedHTMLProps<
 	HTMLTableCellElement
 > & {
 	index?: number
-	onClick: React.DOMAttributes<HTMLButtonElement>['onClick']
+	onClick?: React.DOMAttributes<HTMLButtonElement>['onClick']
 }
 export const TableCellOpenIcon = memo(
 	({

@@ -1,16 +1,21 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo } from 'react'
 import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/useGetAllPartsDevices'
-import { useDefaultDeviceHeader } from '@/entities/devices/devices/infra/hook/useDefaultDeviceHeader'
 import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 const TableLayout = lazy(() =>
 	import('@/shared/ui/layouts/TableLayout').then(m => ({ default: m.TableLayout }))
 )
-const TableParts = lazy(() =>
-	import('@/entities/devices/devices/infra/ui/DeviceTable/TableParts').then(m => ({
-		default: m.TableParts
+const TableGenericDeviceBody = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceBody').then(m => ({
+		default: m.TableGenericDeviceBody
+	}))
+)
+
+const TableGenericDeviceCell = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceCell').then(m => ({
+		default: m.TableGenericDeviceCell
 	}))
 )
 interface TablePartsWrapperProps {
@@ -30,10 +35,10 @@ export const TablePartsWrapper = memo(
 		handlePageClick
 	}: TablePartsWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllPartsDevices(query)
-		const { colSpan, headers, visibleColumns } = useDefaultDeviceHeader()
+		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+			useTableGenericDeviceBody()
 		return (
 			<TableLayout
-				colSpan={colSpan}
 				handleChange={handleChange}
 				handlePageClick={handlePageClick}
 				handlePageSize={handlePageSize}
@@ -51,24 +56,19 @@ export const TablePartsWrapper = memo(
 				totalPage={devices?.info?.totalPage}
 				pageSize={query?.pageSize}
 				total={devices?.info?.total}
-				headers={headers}
 			>
-				<>
-					{devices !== undefined && (
-						<Suspense
-							fallback={
-								<LoadingTable registerPerPage={query.pageSize} colspan={colSpan} />
-							}
-						>
-							<TableParts
-								colSpan={colSpan}
-								isError={isError}
-								devices={devices.data}
-								visibleColumns={visibleColumns}
-							/>
-						</Suspense>
-					)}
-				</>
+				<TableGenericDeviceBody
+					dialogRef={dialogRef}
+					handleCloseModal={handleCloseModal}
+					selectedDevice={selectedDevice}
+					isError={isError}
+					devices={devices?.data}
+				>
+					<TableGenericDeviceCell
+						handleViewDetails={handleViewDetails}
+						devices={devices?.data}
+					/>
+				</TableGenericDeviceBody>
 			</TableLayout>
 		)
 	}

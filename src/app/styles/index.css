@@ -152,6 +152,8 @@
 	--height-withoutHeader: calc(100vh - 10rem);
 
 	--breakpoint-xs: 475px;
+	--breakpoint-2md: 896px;
+	--breakpoint-2lg: 1152px;
 	--breakpoint-1xl: 1360px;
 	--breakpoint-3xl: 1620px;
 	--breakpoint-4xl: 1920px;

@@ -1,10 +1,11 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { useGetAllComputerDevices } from '@/entities/devices/devices/infra/hook/useGetAllComputerDevices'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { DeviceComputerFilter } from '@/entities/devices/devices/application/computerFilter/DeviceComputerFilter'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
+import { LoadingComputerRow } from './LoadingComputerRow'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
-import { useTableComputer } from './useTableComputer'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
 const TableBody = lazy(() =>
@@ -33,9 +34,14 @@ const TypeOfSiteTabNav = lazy(() =>
 		default: m.TypeOfSiteTabNav
 	}))
 )
-const TableDevice = lazy(() =>
-	import('@/entities/devices/devices/infra/ui/DeviceTable/TableDevice').then(m => ({
-		default: m.TableDevice
+const TableDeviceComputer = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableDeviceComputer').then(m => ({
+		default: m.TableDeviceComputer
+	}))
+)
+const TableGenericDeviceBody = lazy(() =>
+	import('@/entities/devices/devices/infra/ui/DeviceTable/TableGenericDeviceBody').then(m => ({
+		default: m.TableGenericDeviceBody
 	}))
 )
 
@@ -50,7 +56,14 @@ interface TableWrapperProps {
 export const TableWrapper = memo(
 	({ query, handleSort, handleChange, handlePageSize, handlePageClick }: TableWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllComputerDevices({ query })
-		const { colSpan } = useTableComputer()
+		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+			useTableGenericDeviceBody<DeviceDto>()
+
+		const SkeletonFallback = useMemo(() => {
+			return Array.from({
+				length: query.pageSize ?? DeviceComputerFilter.defaultPageSize
+			}).map((_, index) => <LoadingComputerRow key={`loader-${index}`} />)
+		}, [query.pageSize, DeviceComputerFilter.defaultPageSize])
 
 		return (
 			<>
@@ -192,28 +205,23 @@ export const TableWrapper = memo(
 						</TableHeader>
 						<TableBody>
 							<>
-								{isLoading && (
-									<LoadingTable
-										registerPerPage={query?.pageSize}
-										colspan={colSpan}
-									/>
-								)}
-								{devices !== undefined && (
-									<Suspense
-										fallback={
-											<LoadingTable
-												registerPerPage={query?.pageSize}
-												colspan={colSpan}
-											/>
-										}
-									>
-										<TableDevice
-											colSpan={colSpan}
+								{isLoading && SkeletonFallback}
+								{
+									<Suspense fallback={SkeletonFallback}>
+										<TableGenericDeviceBody
+											dialogRef={dialogRef}
+											handleCloseModal={handleCloseModal}
+											selectedDevice={selectedDevice}
 											isError={isError}
-											devices={devices.data}
-										/>
+											devices={devices?.data}
+										>
+											<TableDeviceComputer
+												handleViewDetails={handleViewDetails}
+												devices={devices?.data}
+											/>
+										</TableGenericDeviceBody>
 									</Suspense>
-								)}
+								}
 							</>
 						</TableBody>
 					</Table>

@@ -1,13 +1,12 @@
-import React, { lazy, memo } from 'react'
-import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { lazy, memo, Suspense } from 'react'
 import { formatDateToUTC } from '@/shared/lib/utils/formatDateToUTC'
-import { StatusEnum } from '../../domain/value-object/ShipmentStatus'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
+import { getShipmentStatusText } from './GetShipmentStatusText'
+import { getShipmentStatusColor } from './GetShipmentStatusColor'
+import { type StatusEnum } from '../../domain/value-object/ShipmentStatus'
 import { type ShipmentDto } from '@/entities/shipment/domain/dto/Shipment.dto'
-import { type BackgroundType } from '@/shared/ui/Typography/types'
 
-const ShipmentDescription = lazy(() =>
-	import('./ShipmentDescription').then(m => ({ default: m.ShipmentDescription }))
-)
+const Tag = lazy(() => import('@/shared/ui/Tag').then(m => ({ default: m.Tag })))
 
 const TableCell = lazy(() =>
 	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
@@ -24,20 +23,13 @@ const TableCellError = lazy(() =>
 const TableCellEmpty = lazy(() =>
 	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
 )
+const Dialog = lazy(() => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
+const DetailsShipmentModal = lazy(() =>
+	import('./DetailsShipmentModal').then(m => ({ default: m.DetailsShipmentModal }))
+)
 interface TableShipmentProps {
-	/**
-	 * An array of Shipment data to display in the table.
-	 */
 	shipments?: ShipmentDto[]
-	/**
-	 * Indicates whether an error occurred during data fetching.
-	 */
 	isError: boolean
-	/**
-	 * The number of columns the table should span.
-	 */
-	colSpan: number
-	visibleColumns: string[]
 }
 
 /**
@@ -45,111 +37,126 @@ interface TableShipmentProps {
  * It handles displaying loading states, error states, empty states, and individual Shipment rows
  * with expandable details.
  */
-export const TableShipment = memo(
-	({ shipments, isError, colSpan, visibleColumns }: TableShipmentProps) => {
-		const { expandedRows, handleRowClick } = useExpendedRows()
+export const TableShipment = memo(({ shipments, isError }: TableShipmentProps) => {
+	const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+		useTableGenericDeviceBody<ShipmentDto>()
 
-		if (isError) {
-			return <TableCellError colSpan={colSpan} />
-		}
-		if (shipments && shipments.length === 0) {
-			return <TableCellEmpty colSpan={colSpan} />
-		}
-
-		return (
-			<>
-				{shipments?.map(shipment => {
-					const deliveryDate = shipment.deliveryDate
-						? formatDateToUTC(shipment.deliveryDate)
-						: 'Pendiente'
-					const shipmentDate = formatDateToUTC(shipment.shipmentDate)
-					const status = shipment.status
-						.split('_')
-						.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-						.join(' ')
-					const reason = shipment.reason
-						.split('_')
-						.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-						.join(' ')
-					const backGroundColor = (status: string): BackgroundType => {
-						switch (status) {
-							case StatusEnum.PENDING:
-								return 'amarillo'
-							case StatusEnum.IN_TRANSIT:
-								return 'azul'
-							case StatusEnum.DELIVERED:
-								return 'verde'
-							case StatusEnum.CANCELLED:
-								return 'rojo'
-							default:
-								return 'gris'
-						}
-					}
-					return (
-						<React.Fragment key={shipment.id}>
-							<TableRow
-								className={`[&>td]:cursor-pointer ${
-									expandedRows.includes(shipment.id) &&
-									'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
-								}`}
-								onClick={() => handleRowClick(shipment.id)}
-							>
-								{visibleColumns.includes('shipmentCode') ? (
-									<TableCell size="small" value={shipment.shipmentCode} />
-								) : null}
-								{visibleColumns.includes('status') ? (
-									<TableCell
-										tag
-										backgroundColor={backGroundColor(shipment.status)}
-										color="white"
-										size="xSmall"
-										value={status}
-									/>
-								) : null}
-								{visibleColumns.includes('sentBy') ? (
-									<TableCell
-										size="small"
-										value={`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
-									/>
-								) : null}
-								{visibleColumns.includes('origen') ? (
-									<TableCell size="large" value={shipment.originLocation?.name} />
-								) : null}
-								{visibleColumns.includes('destination') ? (
-									<TableCell
-										size="large"
-										value={shipment.destinationLocation?.name}
-									/>
-								) : null}
-								{visibleColumns.includes('reason') ? (
-									<TableCell size="xSmall" value={reason} />
-								) : null}
-								{visibleColumns.includes('shipmentDeviceLenght') ? (
-									<TableCell
-										size="xSmall"
-										value={shipment.shipmentDevice.length}
-									/>
-								) : null}
-								{visibleColumns.includes('shipmentDate') ? (
-									<TableCell size="small" value={shipmentDate} />
-								) : null}
-								{visibleColumns.includes('deliveryDate') ? (
-									<TableCell size="small" value={deliveryDate} />
-								) : null}
-								{visibleColumns.includes('actions') ? (
-									<TableCellOpenIcon open={expandedRows.includes(shipment.id)} />
-								) : null}
-							</TableRow>
-							<ShipmentDescription
-								open={expandedRows.includes(shipment.id)}
-								colSpan={colSpan}
-								shipment={shipment}
-								visibleColumns={visibleColumns}
-							/>
-						</React.Fragment>
-					)
-				})}
-			</>
-		)
+	if (isError) {
+		return <TableCellError />
 	}
-)
+	if (shipments && shipments.length === 0) {
+		return <TableCellEmpty />
+	}
+
+	return (
+		<>
+			{shipments?.map(shipment => {
+				const deliveryDate = shipment.deliveryDate
+					? formatDateToUTC(shipment.deliveryDate)
+					: 'Pendiente'
+				const shipmentDate = formatDateToUTC(shipment.shipmentDate)
+				const status = shipment.status as StatusEnum
+				const reason = shipment.reason
+					.split('_')
+					.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+					.join(' ')
+				return (
+					<TableRow key={shipment.id}>
+						<TableCell aria-colindex={1} size="small" value={shipment.shipmentCode}>
+							{shipment.shipmentCode}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={2}
+							size="xSmall"
+							value={status}
+							className="xs:table-cell hidden"
+						>
+							<Tag
+								backgroundColor={getShipmentStatusColor(status)}
+								iconText={getShipmentStatusText(status)}
+								color="white"
+								option="tiny"
+							/>
+						</TableCell>
+
+						<TableCell
+							aria-colindex={3}
+							size="small"
+							value={`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
+							className="hidden 2xl:table-cell"
+						>
+							{`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={4}
+							size="large"
+							value={shipment.originLocation?.name}
+							className="1xl:table-cell hidden"
+						>
+							{shipment.originLocation?.name}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={5}
+							size="large"
+							value={shipment.destinationLocation?.name}
+							className="2md:table-cell hidden"
+						>
+							{shipment.destinationLocation?.name}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={6}
+							size="xSmall"
+							value={reason}
+							className="hidden lg:table-cell"
+						>
+							{reason}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={7}
+							size="xSmall"
+							value={shipment.shipmentDevice.length}
+							className="2lg:table-cell hidden"
+						>
+							{shipment.shipmentDevice.length}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={8}
+							size="small"
+							value={shipmentDate}
+							className="hidden md:table-cell"
+						>
+							{shipmentDate}
+						</TableCell>
+
+						<TableCell
+							aria-colindex={9}
+							size="small"
+							value={deliveryDate}
+							className="2md:table-cell hidden"
+						>
+							{deliveryDate}
+						</TableCell>
+
+						<TableCellOpenIcon index={10} onClick={() => handleViewDetails(shipment)} />
+					</TableRow>
+				)
+			})}
+			<Suspense>
+				<Dialog ref={dialogRef}>
+					{selectedDevice && (
+						<DetailsShipmentModal
+							onClose={handleCloseModal}
+							shipment={selectedDevice}
+						/>
+					)}
+				</Dialog>
+			</Suspense>
+		</>
+	)
+})
