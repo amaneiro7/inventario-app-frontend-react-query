@@ -1,115 +1,117 @@
-import React, { memo } from 'react'
-import { CircleSlash, HelpCircle, TriangleAlert, Wifi, WifiOff } from 'lucide-react'
+import { memo, Suspense } from 'react'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
-import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { monitoringStatusConfig } from '../../Shared/Model/monitoringStatusConfig'
 import { TableCellOpenIcon } from '@/shared/ui/Table/TableCellOpenIcon'
 import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TableCell } from '@/shared/ui/Table/TableCell'
 import { TableCellError } from '@/shared/ui/Table/TableCellError'
 import { TableCellEmpty } from '@/shared/ui/Table/TableCellEmpty'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
+import { Icon } from '@/shared/ui/icon/Icon'
+import { Dialog } from '@/shared/ui/Modal/Modal'
+import { DetailsDeviceMonitoringModal } from './DetailsDeviceMonitoringModal'
 import { type DeviceMonitoringDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
-import { DeviceMonitoringDescription } from './DeviceMonitoringDescription'
-import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
 
 interface TableDeviceMonitoringProps {
 	devices?: DeviceMonitoringDto[]
 	isError: boolean
-	colSpan: number
-	visibleColumns: string[]
 }
 
-export const TableDeviceMonitoring = memo(
-	({ devices, isError, colSpan, visibleColumns }: TableDeviceMonitoringProps) => {
-		const { expandedRows, handleRowClick } = useExpendedRows()
-		if (isError) {
-			return <TableCellError colSpan={colSpan} />
-		}
-		if (devices && devices.length === 0) {
-			return <TableCellEmpty colSpan={colSpan} />
-		}
+export const TableDeviceMonitoring = memo(({ devices, isError }: TableDeviceMonitoringProps) => {
+	const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+		useTableGenericDeviceBody<DeviceMonitoringDto>()
 
-		return (
-			<>
-				{devices?.map(device => (
-					<React.Fragment key={device.id}>
-						<TableRow
-							className={`[&>td]:cursor-pointer ${
-								expandedRows.includes(device.id) &&
-								'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
-							}`}
-							onClick={() => handleRowClick(device.id)}
-						>
-							{visibleColumns.includes('status') ? (
-								<TableCell
-									size="small"
-									value={device.status}
-									icon={
-										device.status === DeviceMonitoringStatuses.ONLINE ? (
-											<Wifi className="ml-4 h-4 w-4 text-center text-green-500" />
-										) : device.status === DeviceMonitoringStatuses.OFFLINE ? (
-											<WifiOff className="ml-4 h-4 w-4 text-red-500" />
-										) : device.status ===
-										  DeviceMonitoringStatuses.HOSTNAME_MISMATCH ? (
-											<TriangleAlert className="ml-4 h-4 w-4 text-orange-500" />
-										) : device.status ===
-										  DeviceMonitoringStatuses.NOTAVAILABLE ? (
-											<CircleSlash className="ml-4 h-4 w-4 text-gray-500" />
-										) : (
-											<HelpCircle className="ml-4 h-4 w-4 text-gray-400" />
-										)
-									}
-								/>
-							) : null}
-							{visibleColumns.includes('computerName') ? (
-								<TableCell size="xLarge" value={device?.computerName ?? ''} />
-							) : null}
-							{visibleColumns.includes('ipAddress') ? (
-								<TableCell size="small" value={device?.ipAddress ?? ''} />
-							) : null}
-							{visibleColumns.includes('locationId') ? (
-								<TableCell size="xxLarge" value={device.location.name ?? ''} />
-							) : null}
-							{visibleColumns.includes('lastSuccess') ? (
-								<TableCell
-									size="small"
-									value={
-										device.lastSuccess
-											? getRelativeTime(device.lastSuccess)
-											: 'Nunca en línea'
-									}
-								/>
-							) : null}
-							{visibleColumns.includes('lastFailed') ? (
-								<TableCell
-									size="small"
-									value={
-										device.lastFailed
-											? getRelativeTime(device.lastFailed)
-											: 'Nunca offline'
-									}
-								/>
-							) : null}
-							{visibleColumns.includes('lastScan') ? (
-								<TableCell
-									size="small"
-									value={
-										device.lastScan
-											? getRelativeTime(device.lastScan)
-											: 'Pendiente'
-									}
-								/>
-							) : null}
-							<TableCellOpenIcon open={expandedRows.includes(device.id)} />
-						</TableRow>
-						<DeviceMonitoringDescription
-							open={expandedRows.includes(device.id)}
-							device={device}
-							colSpan={colSpan}
-							visibleColumns={visibleColumns}
-						/>
-					</React.Fragment>
-				))}
-			</>
-		)
+	if (isError) {
+		return <TableCellError />
 	}
-)
+	if (devices && devices.length === 0) {
+		return <TableCellEmpty />
+	}
+
+	return (
+		<>
+			{devices?.map(device => (
+				<TableRow key={device.id}>
+					<TableCell aria-colindex={1} size="small" value={device.status}>
+						<Icon
+							name={monitoringStatusConfig[device.status]?.icon ?? 'helpCircle'}
+							className={
+								monitoringStatusConfig[device.status]?.className ??
+								'ml-4 h-4 w-4 text-gray-400'
+							}
+						/>
+					</TableCell>
+
+					<TableCell aria-colindex={2} size="xLarge" value={device?.computerName ?? ''}>
+						{device?.computerName ?? ''}
+					</TableCell>
+
+					<TableCell
+						aria-colindex={3}
+						size="small"
+						value={device?.ipAddress ?? ''}
+						className="hidden sm:table-cell"
+					>
+						{device?.ipAddress ?? ''}
+					</TableCell>
+
+					<TableCell
+						aria-colindex={4}
+						size="xxLarge"
+						value={device.location.name ?? ''}
+						className="2md:table-cell hidden"
+					>
+						{device.location.name ?? ''}
+					</TableCell>
+
+					<TableCell
+						aria-colindex={5}
+						size="small"
+						value={
+							device.lastSuccess
+								? getRelativeTime(device.lastSuccess)
+								: 'Nunca en línea'
+						}
+						className="hidden lg:table-cell"
+					>
+						{device.lastSuccess
+							? getRelativeTime(device.lastSuccess)
+							: 'Nunca en línea'}
+					</TableCell>
+
+					<TableCell
+						aria-colindex={6}
+						size="small"
+						value={
+							device.lastFailed ? getRelativeTime(device.lastFailed) : 'Nunca offline'
+						}
+						className="hidden xl:table-cell"
+					>
+						{device.lastFailed ? getRelativeTime(device.lastFailed) : 'Nunca offline'}
+					</TableCell>
+
+					<TableCell
+						aria-colindex={7}
+						size="small"
+						value={device.lastScan ? getRelativeTime(device.lastScan) : 'Pendiente'}
+						className="1xl:table-cell hidden"
+					>
+						{device.lastScan ? getRelativeTime(device.lastScan) : 'Pendiente'}
+					</TableCell>
+
+					<TableCellOpenIcon index={8} onClick={() => handleViewDetails(device)} />
+				</TableRow>
+			))}
+			<Suspense>
+				<Dialog ref={dialogRef}>
+					{selectedDevice && (
+						<DetailsDeviceMonitoringModal
+							onClose={handleCloseModal}
+							device={selectedDevice}
+						/>
+					)}
+				</Dialog>
+			</Suspense>
+		</>
+	)
+})

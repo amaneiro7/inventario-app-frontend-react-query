@@ -3,6 +3,7 @@ import { useGetAllFinantialPrinterDevices } from '@/entities/devices/devices/inf
 import { DeviceFinantialPrinterFilter } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
 import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 const TableLayout = lazy(() =>
 	import('@/shared/ui/layouts/TableLayout').then(m => ({ default: m.TableLayout }))
@@ -37,7 +38,7 @@ export const TableFinantialWrapper = memo(
 	}: TableFinantialWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllFinantialPrinterDevices(query)
 		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
-			useTableGenericDeviceBody()
+			useTableGenericDeviceBody<DeviceDto>()
 		return (
 			<TableLayout
 				handleChange={handleChange}

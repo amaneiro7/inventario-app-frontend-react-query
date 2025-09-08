@@ -61,14 +61,14 @@ export const ComputerInformation = ({ device }: { device: DeviceDto }) => {
 			<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
 				{computer?.ipAddress && (
 					<DetailItem
-						className="font-mono"
+						classNameText="font-mono"
 						label="Dirección IP"
 						value={computer?.ipAddress}
 					/>
 				)}
 				{computer?.macAddress && (
 					<DetailItem
-						className="font-mono"
+						classNameText="font-mono"
 						label="Dirección MAC"
 						value={computer.macAddress}
 					/>

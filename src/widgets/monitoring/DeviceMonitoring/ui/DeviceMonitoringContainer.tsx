@@ -1,6 +1,5 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { eventManager } from '@/shared/lib/utils/eventManager'
-import { useDeviceMonitoringContainer } from '../Model/useDeviceMonitoringContainer'
 import { DeviceComputerFilter } from '@/entities/devices/devices/application/computerFilter/DeviceComputerFilter'
 import { Table } from '@/shared/ui/Table/Table'
 import { TableBody } from '@/shared/ui/Table/TableBody'
@@ -8,14 +7,13 @@ import { TableHead } from '@/shared/ui/Table/TableHead'
 import { TableHeader } from '@/shared/ui/Table/TableHeader'
 import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { TableRow } from '@/shared/ui/Table/TableRow'
-
 import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
+import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
+import { DeviceMonitoringTableLoading } from './DeviceMonitoringTableLoading'
 import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 import { type Response } from '@/entities/shared/domain/methods/Response'
 import { type DeviceMonitoring } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
-import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 
 interface DeviceMonitoringContainerProps {
 	query: DeviceMonitoringFilters
@@ -45,7 +43,11 @@ export const DeviceMonitoringContainer = memo(
 		handlePageSize,
 		handlePageClick
 	}: DeviceMonitoringContainerProps) => {
-		const { colSpan, headers, visibleColumns } = useDeviceMonitoringContainer()
+		const SkeletonFallback = useMemo(() => {
+			return Array.from({
+				length: query.pageSize ?? DeviceComputerFilter.defaultPageSize
+			}).map((_, index) => <DeviceMonitoringTableLoading key={`loader-${index}`} />)
+		}, [query.pageSize, DeviceComputerFilter.defaultPageSize])
 		return (
 			<>
 				<TablePageWrapper>
@@ -65,53 +67,94 @@ export const DeviceMonitoringContainer = memo(
 					<Table>
 						<TableHeader>
 							<TableRow>
-								{headers
-									.filter(header => header.visible)
-									.map((header, index) => (
-										<TableHead
-											aria-colindex={index + 1}
-											key={header.key}
-											isTab={header.isTab}
-											handleSort={
-												header.hasOrder
-													? eventManager(handleSort)
-													: undefined
-											}
-											name={header.label}
-											orderBy={header.hasOrder ? query.orderBy : undefined}
-											orderType={
-												header.hasOrder ? query.orderType : undefined
-											}
-											orderByField={header.hasOrder ? header.key : undefined}
-											size={header.size}
-										/>
-									))}
+								<TableHead aria-colindex={1} size="small" isTab>
+									Estado
+								</TableHead>
+								<TableHead
+									aria-colindex={2}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="computerName"
+									size="xLarge"
+									isTab
+								>
+									Nombre de Equipo
+								</TableHead>
+								<TableHead
+									aria-colindex={3}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="ipAddress"
+									size="small"
+									isTab
+									className="hidden sm:table-cell"
+								>
+									Dirección IP
+								</TableHead>
+								<TableHead
+									aria-colindex={4}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="locationId"
+									size="xxLarge"
+									isTab
+									className="2md:table-cell hidden"
+								>
+									Ubicación
+								</TableHead>
+								<TableHead
+									aria-colindex={5}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="lastSuccess"
+									size="small"
+									isTab
+									className="hidden lg:table-cell"
+								>
+									Última Conexión
+								</TableHead>
+								<TableHead
+									aria-colindex={6}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="lastFailed"
+									size="small"
+									isTab
+									className="hidden xl:table-cell"
+								>
+									Última Desconexión
+								</TableHead>
+								<TableHead
+									aria-colindex={7}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="lastScan"
+									size="small"
+									isTab
+									className="1xl:table-cell hidden"
+								>
+									Último escaneo
+								</TableHead>
+
+								<TableHead aria-colindex={8} isTab size="xSmall">
+									<span className="sr-only">Acciones</span>
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							<>
-								{isLoading && (
-									<LoadingTable
-										registerPerPage={query?.pageSize}
-										colspan={colSpan}
-										openIcon={false}
-									/>
-								)}
+								{isLoading && SkeletonFallback}
 								{deviceMonitorings !== undefined && (
-									<Suspense
-										fallback={
-											<LoadingTable
-												registerPerPage={query?.pageSize}
-												colspan={colSpan}
-												openIcon={false}
-											/>
-										}
-									>
+									<Suspense fallback={SkeletonFallback}>
 										<TableDeviceMonitoring
-											colSpan={colSpan}
 											isError={isError}
 											devices={deviceMonitorings.data}
-											visibleColumns={visibleColumns}
 										/>
 									</Suspense>
 								)}

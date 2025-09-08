@@ -1,6 +1,5 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { eventManager } from '@/shared/lib/utils/eventManager'
-import { useLocationMonitoringContainer } from '../Model/useLocationMonitoringContainer'
 import { Table } from '@/shared/ui/Table/Table'
 import { TableBody } from '@/shared/ui/Table/TableBody'
 import { TableHead } from '@/shared/ui/Table/TableHead'
@@ -9,9 +8,9 @@ import { TablePageWrapper } from '@/shared/ui/Table/TablePageWrapper'
 import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TabsNav } from '@/shared/ui/Tabs/TabsNav'
 import { TypeOfSiteTabNav } from '@/features/type-of-site-tab-nav/ui/TypeOfSiteTabNav'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
 import { PaginationBar } from '@/shared/ui/Pagination/PaginationBar'
 import { LocationMonitoringGetByCriteria } from '@/entities/locations/locationMonitoring/application/LocationMonitoringGetByCriteria'
+import { LocationMonitoringTableLoading } from './LocationMonitoringTableLoading'
 import { type LocationMonitoring } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoring.dto'
 import { type Response } from '@/entities/shared/domain/methods/Response'
 import { type LocationMonitoringFilters } from '@/entities/locations/locationMonitoring/application/createLocationMonitoringQueryParams'
@@ -44,7 +43,11 @@ export const LocationMonitoringContainer = memo(
 		handlePageSize,
 		handlePageClick
 	}: LocationMonitoringContainerProps) => {
-		const { colSpan, headers, visibleColumns } = useLocationMonitoringContainer()
+		const SkeletonFallback = useMemo(() => {
+			return Array.from({
+				length: query.pageSize ?? LocationMonitoringGetByCriteria.defaultPageSize
+			}).map((_, index) => <LocationMonitoringTableLoading key={`loader-${index}`} />)
+		}, [query.pageSize, LocationMonitoringGetByCriteria.defaultPageSize])
 		return (
 			<>
 				<TablePageWrapper>
@@ -64,53 +67,94 @@ export const LocationMonitoringContainer = memo(
 					<Table>
 						<TableHeader>
 							<TableRow>
-								{headers
-									.filter(header => header.visible)
-									.map((header, index) => (
-										<TableHead
-											aria-colindex={index + 1}
-											key={header.key}
-											isTab={header.isTab}
-											handleSort={
-												header.hasOrder
-													? eventManager(handleSort)
-													: undefined
-											}
-											name={header.label}
-											orderBy={header.hasOrder ? query.orderBy : undefined}
-											orderType={
-												header.hasOrder ? query.orderType : undefined
-											}
-											orderByField={header.hasOrder ? header.key : undefined}
-											size={header.size}
-										/>
-									))}
+								<TableHead aria-colindex={1} size="small" isTab>
+									Estatus
+								</TableHead>
+								<TableHead
+									aria-colindex={2}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="name"
+									size="xxLarge"
+									isTab
+								>
+									Nombre del sitio
+								</TableHead>
+								<TableHead
+									aria-colindex={3}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="subnet"
+									size="medium"
+									isTab
+									className="hidden sm:table-cell"
+								>
+									Dirección IP
+								</TableHead>
+								<TableHead
+									aria-colindex={4}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="stateId"
+									size="medium"
+									isTab
+									className="2md:table-cell hidden"
+								>
+									Estado
+								</TableHead>
+								<TableHead
+									aria-colindex={5}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="lastSuccess"
+									size="small"
+									isTab
+									className="hidden lg:table-cell"
+								>
+									Última Conexión
+								</TableHead>
+								<TableHead
+									aria-colindex={6}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="lastFailed"
+									size="small"
+									isTab
+									className="hidden xl:table-cell"
+								>
+									Última Desconexión
+								</TableHead>
+								<TableHead
+									aria-colindex={7}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="lastScan"
+									size="small"
+									isTab
+									className="1xl:table-cell hidden"
+								>
+									Último escaneo
+								</TableHead>
+
+								<TableHead aria-colindex={8} isTab size="xSmall">
+									<span className="sr-only">Acciones</span>
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							<>
-								{isLoading && (
-									<LoadingTable
-										registerPerPage={query?.pageSize}
-										colspan={colSpan}
-										openIcon={false}
-									/>
-								)}
+								{isLoading && SkeletonFallback}
 								{locationMonitorings !== undefined && (
-									<Suspense
-										fallback={
-											<LoadingTable
-												registerPerPage={query?.pageSize}
-												colspan={colSpan}
-												openIcon={false}
-											/>
-										}
-									>
+									<Suspense fallback={SkeletonFallback}>
 										<TableLocationMonitoring
-											colSpan={colSpan}
 											isError={isError}
 											locations={locationMonitorings.data}
-											visibleColumns={visibleColumns}
 										/>
 									</Suspense>
 								)}

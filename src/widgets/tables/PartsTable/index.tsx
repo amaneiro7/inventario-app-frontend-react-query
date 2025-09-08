@@ -3,6 +3,7 @@ import { useGetAllPartsDevices } from '@/entities/devices/devices/infra/hook/use
 import { DevicePartsFilter } from '@/entities/devices/devices/application/parts/DevicePartsFilter'
 import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 const TableLayout = lazy(() =>
 	import('@/shared/ui/layouts/TableLayout').then(m => ({ default: m.TableLayout }))
@@ -36,7 +37,7 @@ export const TablePartsWrapper = memo(
 	}: TablePartsWrapperProps) => {
 		const { devices, isError, isLoading } = useGetAllPartsDevices(query)
 		const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
-			useTableGenericDeviceBody()
+			useTableGenericDeviceBody<DeviceDto>()
 		return (
 			<TableLayout
 				handleChange={handleChange}
