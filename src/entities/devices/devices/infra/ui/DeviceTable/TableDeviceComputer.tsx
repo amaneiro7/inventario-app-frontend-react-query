@@ -100,7 +100,7 @@ export const TableDeviceComputer = memo(
 
 						<TableCell
 							aria-colindex={10}
-							className="4xl:table-cell hidden"
+							className="3xl:table-cell hidden"
 							size="auto"
 							value={device.observation ?? ''}
 						/>
