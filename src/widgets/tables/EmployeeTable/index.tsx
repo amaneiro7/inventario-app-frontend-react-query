@@ -54,6 +54,7 @@ export const TableEmployeeWrapper = memo(function ({
 			length: query.pageSize ?? EmployeeGetByCriteria.defaultPageSize
 		}).map((_, index) => <EmployeeTableLoading key={`loader-${index}`} />)
 	}, [query.pageSize, EmployeeGetByCriteria.defaultPageSize])
+
 	return (
 		<>
 			<TablePageWrapper>

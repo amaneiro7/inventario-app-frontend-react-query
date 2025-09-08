@@ -100,7 +100,7 @@ export const TableShipmentWrapper = memo(
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="origen"
+									orderByField="origin"
 									size="large"
 									className="1xl:table-cell hidden"
 								>

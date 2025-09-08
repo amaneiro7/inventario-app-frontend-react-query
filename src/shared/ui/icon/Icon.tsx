@@ -39,7 +39,9 @@ import {
 	User,
 	Contact,
 	Briefcase,
-	MapPin
+	MapPin,
+	Cpu,
+	Sliders
 } from 'lucide-react'
 
 const iconMap = {
@@ -82,7 +84,9 @@ const iconMap = {
 	user: User,
 	contact: Contact,
 	briefcase: Briefcase,
-	mapPin: MapPin
+	mapPin: MapPin,
+	cpu: Cpu,
+	sliders: Sliders
 }
 
 export type IconName = keyof typeof iconMap

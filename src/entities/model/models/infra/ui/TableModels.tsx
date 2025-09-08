@@ -1,5 +1,5 @@
-import React, { lazy, memo } from 'react'
-import { useExpendedRows } from '@/shared/lib/hooks/useExpendedRows'
+import { lazy, memo, Suspense } from 'react'
+import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { type ModelDto } from '@/entities/model/models/domain/dto/Model.dto'
 
 const TableCell = lazy(() =>
@@ -17,30 +17,15 @@ const TableCellError = lazy(() =>
 const TableCellEmpty = lazy(() =>
 	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
 )
-const ModelDescription = lazy(() =>
-	import('@/entities/model/models/infra/ui/ModelsDescription').then(m => ({
-		default: m.ModelDescription
-	}))
+
+const Dialog = lazy(() => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
+const DetailsModelModal = lazy(() =>
+	import('./DetailsModelModal').then(m => ({ default: m.DetailsModelModal }))
 )
 
 interface TableModelsProps {
-	/**
-	 * An array of model data to display in the table.
-	 */
 	models?: ModelDto[]
-	/**
-	 * Indicates whether an error occurred during data fetching.
-	 */
 	isError: boolean
-	/**
-	 * The number of columns the table should span.
-	 */
-	colSpan: number
-	/**
-	 * An array of column names that are currently visible in the table.
-	 * Used to conditionally render table cells.
-	 */
-	visibleColumns: string[]
 }
 
 /**
@@ -48,57 +33,59 @@ interface TableModelsProps {
  * It handles displaying loading states, error states, empty states, and individual model rows
  * with expandable details.
  */
-export const TableModels = memo(
-	({ models, colSpan, isError, visibleColumns }: TableModelsProps) => {
-		const { expandedRows, handleRowClick } = useExpendedRows()
-		if (isError) {
-			return <TableCellError colSpan={colSpan} />
-		}
-		if (models && models.length === 0) {
-			return <TableCellEmpty colSpan={colSpan} />
-		}
-		return (
-			<>
-				{models?.map(model => (
-					<React.Fragment key={model.id}>
-						<TableRow
-							className={`[&>td]:cursor-pointer ${
-								expandedRows.includes(model.id) &&
-								'[&>td]:border-b-slate-200 [&>td]:bg-slate-200'
-							}`}
-							onClick={() => handleRowClick(model.id)}
-						>
-							{visibleColumns.includes('mainCategoryId') ? (
-								<TableCell
-									size="small"
-									value={model?.category?.mainCategory?.name}
-								/>
-							) : null}
-							{visibleColumns.includes('categoryId') ? (
-								<TableCell size="small" value={model?.category?.name} />
-							) : null}
-							{visibleColumns.includes('brandId') ? (
-								<TableCell size="small" value={model?.brand?.name} />
-							) : null}
-							{visibleColumns.includes('name') ? (
-								<TableCell size="large" value={model?.name} />
-							) : null}
-							{visibleColumns.includes('generic') ? (
-								<TableCell size="small" value={model?.generic ? 'Si' : 'No'} />
-							) : null}
-							<TableCellOpenIcon open={expandedRows.includes(model.id)} />
-						</TableRow>
-
-						<ModelDescription
-							open={expandedRows.includes(model.id)}
-							model={model}
-							colSpan={colSpan}
-							visibleColumns={visibleColumns}
-						/>
-					</React.Fragment>
-				))}
-			</>
-		)
+export const TableModels = memo(({ models, isError }: TableModelsProps) => {
+	const { dialogRef, handleCloseModal, handleViewDetails, selectedDevice } =
+		useTableGenericDeviceBody<ModelDto>()
+	if (isError) {
+		return <TableCellError />
 	}
-)
+	if (models && models.length === 0) {
+		return <TableCellEmpty />
+	}
+	return (
+		<>
+			{models?.map(model => (
+				<TableRow key={model.id}>
+					<TableCell
+						aria-colindex={1}
+						size="small"
+						value={model?.category?.mainCategory?.name}
+					>
+						{model?.category?.mainCategory?.name}
+					</TableCell>
+
+					<TableCell aria-colindex={2} size="small" value={model?.category?.name}>
+						{model?.category?.name}
+					</TableCell>
+
+					<TableCell aria-colindex={3} size="small" value={model?.brand?.name}>
+						{model?.brand?.name}
+					</TableCell>
+
+					<TableCell aria-colindex={4} size="large" value={model?.name}>
+						{model?.name}
+					</TableCell>
+
+					<TableCell
+						aria-colindex={5}
+						size="small"
+						value={model?.generic ? 'Si' : 'No'}
+						className="hidden md:table-cell"
+					>
+						{model?.generic ? 'Si' : 'No'}
+					</TableCell>
+
+					<TableCellOpenIcon index={6} onClick={() => handleViewDetails(model)} />
+				</TableRow>
+			))}
+			<Suspense>
+				<Dialog ref={dialogRef}>
+					{selectedDevice && (
+						<DetailsModelModal onClose={handleCloseModal} model={selectedDevice} />
+					)}
+				</Dialog>
+			</Suspense>
+		</>
+	)
+})
 TableModels.displayName = 'TableModels'

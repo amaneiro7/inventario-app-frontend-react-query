@@ -44,79 +44,76 @@ export const TableEmployees = memo(({ employees, isError }: TableEmployeesProps)
 
 	return (
 		<>
-			{employees !== undefined &&
-				employees.map(employee => (
-					<TableRow key={employee.id}>
-						<TableCell
-							className="hidden xl:table-cell"
-							aria-colindex={1}
-							size="xxSmall"
-							value={employee?.employeeCode ?? ''}
-						>
-							{employee?.employeeCode ?? ''}
-						</TableCell>
+			{employees?.map(employee => (
+				<TableRow key={employee.id}>
+					<TableCell
+						className="hidden xl:table-cell"
+						aria-colindex={1}
+						size="xxSmall"
+						value={employee?.employeeCode ?? ''}
+					>
+						{employee?.employeeCode ?? ''}
+					</TableCell>
 
-						<TableCell aria-colindex={2} size="small" value={employee?.userName}>
-							{employee?.userName}
-						</TableCell>
+					<TableCell aria-colindex={2} size="small" value={employee?.userName}>
+						{employee?.userName}
+					</TableCell>
 
-						<TableCell
-							className="2md:table-cell hidden"
-							aria-colindex={3}
-							size="small"
-							value={employee?.name ?? ''}
-						>
-							{employee?.name ?? ''}
-						</TableCell>
+					<TableCell
+						className="2md:table-cell hidden"
+						aria-colindex={3}
+						size="small"
+						value={employee?.name ?? ''}
+					>
+						{employee?.name ?? ''}
+					</TableCell>
 
-						<TableCell
-							className="2md:table-cell hidden"
-							aria-colindex={4}
-							size="small"
-							value={employee?.lastName ?? ''}
-						>
-							{employee?.lastName ?? ''}
-						</TableCell>
+					<TableCell
+						className="2md:table-cell hidden"
+						aria-colindex={4}
+						size="small"
+						value={employee?.lastName ?? ''}
+					>
+						{employee?.lastName ?? ''}
+					</TableCell>
 
-						<TableCell
-							className="hidden lg:table-cell"
-							aria-colindex={5}
-							size="xLarge"
-							value={employee?.departamento?.name ?? ''}
-						>
-							{employee?.departamento?.name ?? ''}
-						</TableCell>
+					<TableCell
+						className="hidden lg:table-cell"
+						aria-colindex={5}
+						size="xLarge"
+						value={employee?.departamento?.name ?? ''}
+					>
+						{employee?.departamento?.name ?? ''}
+					</TableCell>
 
-						<TableCell
-							className="hidden xl:table-cell"
-							aria-colindex={6}
-							size="xLarge"
-							value={employee?.cargo?.name ?? ''}
-						>
-							{employee?.cargo?.name ?? ''}
-						</TableCell>
+					<TableCell
+						className="hidden xl:table-cell"
+						aria-colindex={6}
+						size="xLarge"
+						value={employee?.cargo?.name ?? ''}
+					>
+						{employee?.cargo?.name ?? ''}
+					</TableCell>
 
-						<TableCell
-							aria-colindex={7}
-							size="small"
-							value={employee.phone ? formatearTelefono(employee?.phone[0]) : ''}
-						>
-							{employee.phone ? formatearTelefono(employee?.phone[0]) : ''}
-						</TableCell>
+					<TableCell
+						aria-colindex={7}
+						size="small"
+						value={employee.phone ? formatearTelefono(employee?.phone[0]) : ''}
+					>
+						{employee.phone ? formatearTelefono(employee?.phone[0]) : ''}
+					</TableCell>
 
-						<TableCell
-							aria-colindex={8}
-							size="small"
-							value={
-								employee.extension ? formatearTelefono(employee?.extension[0]) : ''
-							}
-						>
-							{employee.extension ? formatearTelefono(employee?.extension[0]) : ''}
-						</TableCell>
+					<TableCell
+						aria-colindex={8}
+						size="small"
+						value={employee.extension ? formatearTelefono(employee?.extension[0]) : ''}
+					>
+						{employee.extension ? formatearTelefono(employee?.extension[0]) : ''}
+					</TableCell>
 
-						<TableCellOpenIcon index={9} onClick={() => handleViewDetails(employee)} />
-					</TableRow>
-				))}
+					<TableCellOpenIcon index={9} onClick={() => handleViewDetails(employee)} />
+				</TableRow>
+			))}
 			<Suspense>
 				<Dialog ref={dialogRef}>
 					{selectedDevice && (

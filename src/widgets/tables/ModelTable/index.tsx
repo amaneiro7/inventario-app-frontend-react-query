@@ -1,9 +1,8 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { useGetAllModel } from '@/entities/model/models/infra/hook/useGetAllModel'
-import { useTableModelWrapper } from './useTableModelWrapper'
 import { eventManager } from '@/shared/lib/utils/eventManager'
 import { ModelGetByCriteria } from '@/entities/model/models/application/ModelGetByCriteria'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { ModelTableLoading } from './ModelTableLoading'
 import { type ModelFilters } from '@/entities/model/models/application/CreateModelsQueryParams'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
@@ -40,9 +39,9 @@ interface TableModelWrapperProps {
 	handleSort: (field: string) => Promise<void>
 }
 
+const REFETCH_INTERVAL_IN_MS = 60000 // 1 min
 export const TableModelWrapper = memo(
 	({ query, handlePageSize, handlePageClick, handleSort }: TableModelWrapperProps) => {
-		const REFETCH_INTERVAL_IN_MS = 60000 // 1 min
 		const {
 			data: models,
 			isError,
@@ -51,7 +50,11 @@ export const TableModelWrapper = memo(
 			query,
 			refetchInterval: REFETCH_INTERVAL_IN_MS
 		})
-		const { colSpan, headers, visibleColumns } = useTableModelWrapper()
+		const SkeletonFallback = useMemo(() => {
+			return Array.from({
+				length: query.pageSize ?? ModelGetByCriteria.defaultPageSize
+			}).map((_, index) => <ModelTableLoading key={`loader-${index}`} />)
+		}, [query.pageSize, ModelGetByCriteria.defaultPageSize])
 		return (
 			<>
 				<TablePageWrapper>
@@ -65,55 +68,68 @@ export const TableModelWrapper = memo(
 					<Table>
 						<TableHeader>
 							<TableRow>
-								{headers
-									.filter(header => header.visible)
-									.map((header, index) => (
-										<TableHead
-											aria-colindex={index}
-											key={header.key}
-											isTab={header.isTab}
-											handleSort={
-												header.hasOrder
-													? eventManager(handleSort)
-													: undefined
-											}
-											name={header.label}
-											orderBy={header.hasOrder ? query.orderBy : undefined}
-											orderType={
-												header.hasOrder ? query.orderType : undefined
-											}
-											orderByField={header.hasOrder ? header.key : undefined}
-											size={header.size}
-										/>
-									))}
+								<TableHead
+									aria-colindex={1}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="mainCategoryId"
+									size="small"
+								>
+									Categoria
+								</TableHead>
+								<TableHead
+									aria-colindex={2}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="categoryId"
+									size="small"
+								>
+									SubCategoria
+								</TableHead>
+								<TableHead
+									aria-colindex={3}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="brandId"
+									size="small"
+								>
+									Marca
+								</TableHead>
+								<TableHead
+									aria-colindex={4}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="name"
+									size="large"
+								>
+									Modelo
+								</TableHead>
+								<TableHead
+									aria-colindex={5}
+									handleSort={eventManager(handleSort)}
+									orderBy={query.orderBy}
+									orderType={query.orderType}
+									orderByField="generic"
+									size="small"
+									className="hidden md:table-cell"
+								>
+									Genérico
+								</TableHead>
+								<TableHead aria-colindex={6} isTab size="xSmall">
+									<span className="sr-only">Acciones</span>
+								</TableHead>
 							</TableRow>
 						</TableHeader>
 						<TableBody>
 							<>
-								{isLoading ||
-									(models === undefined && (
-										<LoadingTable
-											registerPerPage={query?.pageSize}
-											colspan={colSpan}
-										/>
-									))}
-								{models !== undefined && (
-									<Suspense
-										fallback={
-											<LoadingTable
-												registerPerPage={query?.pageSize}
-												colspan={colSpan}
-											/>
-										}
-									>
-										<TableModels
-											colSpan={colSpan}
-											isError={isError}
-											models={models.data}
-											visibleColumns={visibleColumns}
-										/>
-									</Suspense>
-								)}
+								{isLoading && SkeletonFallback}
+								<Suspense fallback={SkeletonFallback}>
+									<TableModels isError={isError} models={models?.data} />
+								</Suspense>
 							</>
 						</TableBody>
 					</Table>
