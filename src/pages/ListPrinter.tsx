@@ -8,6 +8,8 @@ import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionS
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 // Types
 import { type FilterAsideRef } from '@/widgets/FilterAside'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const DetailsBoxWrapper = lazy(() =>
 	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
@@ -60,67 +62,87 @@ export default function ListPrinter() {
 
 	return (
 		<>
-			<DetailsBoxWrapper>
-				<FilterSection>
-					<Suspense fallback={<PrimaryFilterSkeleton />}>
-						<ComputerPrimaryFilter
-							categoryId={query.categoryId}
-							employeeId={query.employeeId}
-							serial={query.serial}
-							locationId={query.locationId}
-							regionId={query.regionId}
-							administrativeRegionId={query.administrativeRegionId}
-							mainCategoryId={mainCategoryId}
-							typeOfSiteId={query.typeOfSiteId}
-							directivaId={query.directivaId}
-							vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-							vicepresidenciaId={query.vicepresidenciaId}
-							departamentoId={query.departamentoId}
-							handleChange={handleChange}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="Error al cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton />}>
+							<ComputerPrimaryFilter
+								categoryId={query.categoryId}
+								employeeId={query.employeeId}
+								serial={query.serial}
+								locationId={query.locationId}
+								regionId={query.regionId}
+								administrativeRegionId={query.administrativeRegionId}
+								mainCategoryId={mainCategoryId}
+								typeOfSiteId={query.typeOfSiteId}
+								directivaId={query.directivaId}
+								vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+								vicepresidenciaId={query.vicepresidenciaId}
+								departamentoId={query.departamentoId}
+								handleChange={handleChange}
+							/>
+						</Suspense>
+						<Suspense fallback={null}>
+							<FilterAside ref={filterAsideRef}>
+								<Suspense>
+									<DevicePrimaryFilter
+										activo={query.activo}
+										statusId={query.statusId}
+										brandId={query.brandId}
+										modelId={query.modelId}
+										categoryId={query.categoryId}
+										mainCategoryId={mainCategoryId}
+										stateId={query.stateId}
+										regionId={query.regionId}
+										administrativeRegionId={query.administrativeRegionId}
+										cityId={query.cityId}
+										handleChange={handleChange}
+									/>
+								</Suspense>
+							</FilterAside>
+						</Suspense>
+					</FilterSection>
+					<Suspense fallback={<ButtonSectionSkeleton />}>
+						<ButtonSection
+							handleExportToExcel={handleDownloadToExcel}
+							loading={isDownloading}
+							handleClear={cleanFilters}
+							handleAdd={() => {
+								navigate('/form/device/add')
+							}}
+							filterButton
+							handleFilter={() => filterAsideRef.current?.handleOpen()}
 						/>
 					</Suspense>
-					<Suspense fallback={null}>
-						<FilterAside ref={filterAsideRef}>
-							<Suspense>
-								<DevicePrimaryFilter
-									activo={query.activo}
-									statusId={query.statusId}
-									brandId={query.brandId}
-									modelId={query.modelId}
-									categoryId={query.categoryId}
-									mainCategoryId={mainCategoryId}
-									stateId={query.stateId}
-									regionId={query.regionId}
-									administrativeRegionId={query.administrativeRegionId}
-									cityId={query.cityId}
-									handleChange={handleChange}
-								/>
-							</Suspense>
-						</FilterAside>
-					</Suspense>
-				</FilterSection>
-				<Suspense fallback={<ButtonSectionSkeleton />}>
-					<ButtonSection
-						handleExportToExcel={handleDownloadToExcel}
-						loading={isDownloading}
-						handleClear={cleanFilters}
-						handleAdd={() => {
-							navigate('/form/device/add')
-						}}
-						filterButton
-						handleFilter={() => filterAsideRef.current?.handleOpen()}
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar la tabla de datos."
+					/>
+				)}
+			>
+				<Suspense fallback={<TableSkeleton withTab />}>
+					<TablePrinterWrapper
+						handlePageSize={handlePageSize}
+						handlePageClick={handlePageClick}
+						handleChange={handleChange}
+						handleSort={handleSort}
+						query={query}
 					/>
 				</Suspense>
-			</DetailsBoxWrapper>
-			<Suspense fallback={<TableSkeleton withTab />}>
-				<TablePrinterWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleChange={handleChange}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

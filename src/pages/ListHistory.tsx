@@ -4,6 +4,8 @@ import { useHistoryFilter } from '@/entities/history/infra/hook/useHistoryFilter
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 // import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
 const TableHistoryWrapper = lazy(() =>
@@ -41,37 +43,57 @@ export default function ListHstory() {
 
 	return (
 		<>
-			<DetailsBoxWrapper>
-				<FilterSection>
-					<Suspense fallback={<PrimaryFilterSkeleton />}>
-						<HistoryPrimaryFilter
-							employeeId={query.employeeId}
-							deviceId={query.deviceId}
-							userId={query.userId}
-							action={query.action}
-							startDate={query.startDate}
-							endDate={query.endDate}
-							handleChange={handleChange}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="Error al cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton />}>
+							<HistoryPrimaryFilter
+								employeeId={query.employeeId}
+								deviceId={query.deviceId}
+								userId={query.userId}
+								action={query.action}
+								startDate={query.startDate}
+								endDate={query.endDate}
+								handleChange={handleChange}
+							/>
+						</Suspense>
+					</FilterSection>
+					<Suspense fallback={<ButtonSectionSkeleton />}>
+						<ButtonSection
+							handleClear={cleanFilters}
+							handleAdd={() => {
+								navigate('/form/device/add')
+							}}
 						/>
 					</Suspense>
-				</FilterSection>
-				<Suspense fallback={<ButtonSectionSkeleton />}>
-					<ButtonSection
-						handleClear={cleanFilters}
-						handleAdd={() => {
-							navigate('/form/device/add')
-						}}
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar la tabla de datos."
+					/>
+				)}
+			>
+				<Suspense fallback={<TableSkeleton />}>
+					<TableHistoryWrapper
+						handlePageSize={handlePageSize}
+						handlePageClick={handlePageClick}
+						handleSort={handleSort}
+						query={query}
 					/>
 				</Suspense>
-			</DetailsBoxWrapper>
-			<Suspense fallback={<TableSkeleton />}>
-				<TableHistoryWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

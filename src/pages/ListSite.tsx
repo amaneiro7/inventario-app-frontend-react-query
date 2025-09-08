@@ -4,6 +4,8 @@ import { useLocationFilter } from '@/entities/locations/locations/infra/hook/use
 //components
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const LocationDataWrapper = lazy(() =>
 	import('@/widgets/tables/LocationTable').then(m => ({ default: m.LocationDataWrapper }))
@@ -34,40 +36,60 @@ export default function ListSite() {
 
 	return (
 		<>
-			<DetailsBoxWrapper>
-				<FilterSection>
-					<Suspense fallback={<PrimaryFilterSkeleton />}>
-						<LocationPrimaryFilter
-							administrativeRegionId={query.administrativeRegionId}
-							locationStatusId={query.locationStatusId}
-							name={query.name}
-							regionId={query.regionId}
-							stateId={query.stateId}
-							cityId={query.cityId}
-							typeOfSiteId={query.typeOfSiteId}
-							subnet={query.subnet}
-							handleChange={handleChange}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="Error al cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton />}>
+							<LocationPrimaryFilter
+								administrativeRegionId={query.administrativeRegionId}
+								locationStatusId={query.locationStatusId}
+								name={query.name}
+								regionId={query.regionId}
+								stateId={query.stateId}
+								cityId={query.cityId}
+								typeOfSiteId={query.typeOfSiteId}
+								subnet={query.subnet}
+								handleChange={handleChange}
+							/>
+						</Suspense>
+					</FilterSection>
+					<Suspense fallback={<ButtonSectionSkeleton />}>
+						<ButtonSection
+							handleClear={cleanFilters}
+							handleAdd={() => {
+								navigate('/form/location/add')
+							}}
 						/>
 					</Suspense>
-				</FilterSection>
-				<Suspense fallback={<ButtonSectionSkeleton />}>
-					<ButtonSection
-						handleClear={cleanFilters}
-						handleAdd={() => {
-							navigate('/form/location/add')
-						}}
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar la tabla de datos."
+					/>
+				)}
+			>
+				<Suspense fallback={null}>
+					<LocationDataWrapper
+						handlePageSize={handlePageSize}
+						handlePageClick={handlePageClick}
+						handleChange={handleChange}
+						handleSort={handleSort}
+						query={query}
 					/>
 				</Suspense>
-			</DetailsBoxWrapper>
-			<Suspense fallback={null}>
-				<LocationDataWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleChange={handleChange}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

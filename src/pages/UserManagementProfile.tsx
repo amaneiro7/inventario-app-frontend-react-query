@@ -6,6 +6,8 @@ import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionLi
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
 import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const ManagementProfileLoading = lazy(() =>
 	import('@/shared/ui/Loading/ProfileLoading').then(m => ({
@@ -65,11 +67,11 @@ export default function ManagementProfile() {
 	if (isNotFound || !formData?.id) {
 		return (
 			<DetailsBoxWrapper position="center">
-				<div className="rounded-md bg-red-50 p-4">
+				<div className="bg-rojo-50 rounded-md p-4">
 					<div className="flex">
 						<div className="flex-shrink-0">
 							<svg
-								className="h-5 w-5 text-red-400"
+								className="text-rojo-400 h-5 w-5"
 								viewBox="0 0 20 20"
 								fill="currentColor"
 								aria-hidden="true"
@@ -82,10 +84,10 @@ export default function ManagementProfile() {
 							</svg>
 						</div>
 						<div className="ml-3">
-							<h3 className="text-sm font-medium text-red-800">
+							<h3 className="text-rojo-800 text-sm font-medium">
 								Usuario no encontrado
 							</h3>
-							<div className="mt-2 text-sm text-red-700">
+							<div className="text-rojo-700 mt-2 text-sm">
 								<p>
 									No se pudieron cargar los detalles del usuario. Por favor,
 									verifica la información o intenta nuevamente.
@@ -100,37 +102,46 @@ export default function ManagementProfile() {
 
 	return (
 		<DetailsBoxWrapper position="center">
-			<DetailsInfo title="Información del usuario">
-				<DescriptionListElement title="Nombre">
-					<DescriptionDesc desc={formData.name} />
-				</DescriptionListElement>
-				<DescriptionListElement title="Apellido">
-					<DescriptionDesc desc={formData.lastName} />
-				</DescriptionListElement>
-				<DescriptionListElement title="Correo">
-					<DescriptionDesc desc={formData.email} />
-				</DescriptionListElement>
-				<DescriptionListElement title="Role">
-					<DescriptionDesc desc={formData?.role?.name ?? ''} />
-				</DescriptionListElement>
-				<DescriptionListElement title="Acciones">
-					<Select value={action} onValueChange={value => setAction(value as Actions)}>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="Acciones" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="editar">Editar</SelectItem>
-							<SelectItem value="reset">Restablecer contraseña</SelectItem>
-							<SelectItem value="delete">Eliminar Usuario</SelectItem>
-						</SelectContent>
-					</Select>
-				</DescriptionListElement>
-				<DescriptionListElement title={title}>
-					<Suspense fallback={<Skeleton width={180} height={32} />}>
-						<ActionHandle action={action} id={formData?.id} />
-					</Suspense>
-				</DescriptionListElement>
-			</DetailsInfo>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						message="No se pudieron mostrar los detalles de este usuario."
+					/>
+				)}
+			>
+				<DetailsInfo title="Información del usuario">
+					<DescriptionListElement title="Nombre">
+						<DescriptionDesc desc={formData.name} />
+					</DescriptionListElement>
+					<DescriptionListElement title="Apellido">
+						<DescriptionDesc desc={formData.lastName} />
+					</DescriptionListElement>
+					<DescriptionListElement title="Correo">
+						<DescriptionDesc desc={formData.email} />
+					</DescriptionListElement>
+					<DescriptionListElement title="Role">
+						<DescriptionDesc desc={formData?.role?.name ?? ''} />
+					</DescriptionListElement>
+					<DescriptionListElement title="Acciones">
+						<Select value={action} onValueChange={value => setAction(value as Actions)}>
+							<SelectTrigger className="w-[180px]">
+								<SelectValue placeholder="Acciones" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="editar">Editar</SelectItem>
+								<SelectItem value="reset">Restablecer contraseña</SelectItem>
+								<SelectItem value="delete">Eliminar Usuario</SelectItem>
+							</SelectContent>
+						</Select>
+					</DescriptionListElement>
+					<DescriptionListElement title={title}>
+						<Suspense fallback={<Skeleton width={180} height={32} />}>
+							<ActionHandle action={action} id={formData?.id} />
+						</Suspense>
+					</DescriptionListElement>
+				</DetailsInfo>
+			</ErrorBoundary>
 		</DetailsBoxWrapper>
 	)
 }

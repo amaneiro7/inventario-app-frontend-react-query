@@ -4,6 +4,8 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
 import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/components/SignatureGeneratorSkeleton'
 import { EmployeeFormSkeletonLayout } from '@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeFormLayoutSkeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -89,49 +91,79 @@ export default function FormEmployee() {
 							</FormSkeletonLayout>
 						}
 					>
-						<FormLayout
-							id={key}
-							description="Ingrese los datos del usuario el cual desea registar."
-							isAddForm={mode === 'add'}
-							handleSubmit={handleSubmit}
-							isError={isError}
-							isNotFound={isNotFound}
-							onRetry={onRetry}
-							searchInput={<EmployeeSearch />}
-							reset={mode === 'edit' ? resetForm : undefined}
-							lastUpdated={updatedAt}
-							url="/form/employee/add"
-						>
-							<Suspense fallback={<EmployeeFormSkeletonLayout />}>
-								<EmployeeInputs
-									formData={formData}
-									errors={errors}
-									required={required}
-									disabled={disabled}
-									isLoading={isLoading}
-									mode={mode}
-									handleChange={handleChange}
-									handleAddPhones={handleAddPhones}
-									handleClearFirstPhone={handleClearFirstPhone}
-									handlePhoneChange={handlePhoneChange}
-									handleRemovePhones={handleRemovePhones}
+						<ErrorBoundary
+							fallback={({ onReset }) => (
+								<WidgetErrorFallback
+									onReset={onReset}
+									variant="default"
+									message="No se pudo cargar el formulario."
 								/>
-							</Suspense>
-						</FormLayout>
+							)}
+						>
+							<FormLayout
+								id={key}
+								description="Ingrese los datos del usuario el cual desea registar."
+								isAddForm={mode === 'add'}
+								handleSubmit={handleSubmit}
+								isError={isError}
+								isNotFound={isNotFound}
+								onRetry={onRetry}
+								searchInput={<EmployeeSearch />}
+								reset={mode === 'edit' ? resetForm : undefined}
+								lastUpdated={updatedAt}
+								url="/form/employee/add"
+							>
+								<Suspense fallback={<EmployeeFormSkeletonLayout />}>
+									<EmployeeInputs
+										formData={formData}
+										errors={errors}
+										required={required}
+										disabled={disabled}
+										isLoading={isLoading}
+										mode={mode}
+										handleChange={handleChange}
+										handleAddPhones={handleAddPhones}
+										handleClearFirstPhone={handleClearFirstPhone}
+										handlePhoneChange={handlePhoneChange}
+										handleRemovePhones={handleRemovePhones}
+									/>
+								</Suspense>
+							</FormLayout>
+						</ErrorBoundary>
 					</Suspense>
 				</TabsContent>
 
 				<TabsContent value="asignDevice" className="space-y-4">
 					<DetailsBoxWrapper className="h-full">
-						<Suspense fallback={<AsignDevicesSkeleton />}>
-							<AsignDevices data={employeeData} />
-						</Suspense>
+						<ErrorBoundary
+							fallback={({ onReset }) => (
+								<WidgetErrorFallback
+									onReset={onReset}
+									variant="default"
+									message="La vista de dispositivos asigandos no esta disponible"
+								/>
+							)}
+						>
+							<Suspense fallback={<AsignDevicesSkeleton />}>
+								<AsignDevices data={employeeData} />
+							</Suspense>
+						</ErrorBoundary>
 					</DetailsBoxWrapper>
 				</TabsContent>
 				<TabsContent value="signatureGenerator" className="space-y-4">
-					<Suspense fallback={<SignatureGeneratorSkeleton />}>
-						<SignatureGenerator employeeData={employeeData} />
-					</Suspense>
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								onReset={onReset}
+								variant="default"
+								message="El generador de firmas no esta disponible."
+							/>
+						)}
+					>
+						<Suspense fallback={<SignatureGeneratorSkeleton />}>
+							<SignatureGenerator employeeData={employeeData} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 			</Tabs>
 		</>

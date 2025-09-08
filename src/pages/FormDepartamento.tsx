@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateDepartamento } from '@/entities/employee/departamento/infra/hook/useCreateDepartamento'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { DepartamentoFormSkeletonLayout } from '@/entities/employee/departamento/infra/ui/DepartamentoFormSkeletonLayout'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -42,32 +44,42 @@ export default function FormDepartamento() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos del departamento el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/departamento/add"
-				border
-				lastUpdated={formData.updatedAt}
-				searchInput={<DepartamentoSearch />}
-			>
-				<Suspense fallback={<DepartamentoFormSkeletonLayout />}>
-					<DepartamentoInputs
-						isLoading={isLoading}
-						required={required}
-						formData={formData}
-						disabled={disabled}
-						handleChange={handleChange}
-						errors={errors}
-						mode={mode}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos del departamento el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/departamento/add"
+					border
+					lastUpdated={formData.updatedAt}
+					searchInput={<DepartamentoSearch />}
+				>
+					<Suspense fallback={<DepartamentoFormSkeletonLayout />}>
+						<DepartamentoInputs
+							isLoading={isLoading}
+							required={required}
+							formData={formData}
+							disabled={disabled}
+							handleChange={handleChange}
+							errors={errors}
+							mode={mode}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

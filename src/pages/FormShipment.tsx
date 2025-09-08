@@ -5,6 +5,8 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { ShipmentFormSkeletonLayout } from '@/entities/shipment/infra/ui/ShipmentFormLayoutSkeleton'
 import { ShipmentDetailsSkeletonLayout } from '@/entities/shipment/infra/ui/ShipmentDetailsLayoutSkeleton'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 const ShipmentDetails = lazy(() =>
 	import('@/widgets/ShipmentDetails').then(m => ({ default: m.ShipmentDetails }))
@@ -58,38 +60,58 @@ export default function FormShipment() {
 							</FormSkeletonLayout>
 						}
 					>
-						<FormLayout
-							id={key}
-							description="Ingrese los datos de la relación de envios el cual desea registar."
-							isAddForm={mode === 'add'}
-							handleSubmit={handleSubmit}
-							isError={isError}
-							isNotFound={isNotFound}
-							onRetry={onRetry}
-							reset={mode === 'edit' ? resetForm : undefined}
-							url="/form/shipment/add"
-							border
-							searchInput={<ShipmentSearch />}
-						>
-							<Suspense fallback={<ShipmentFormSkeletonLayout />}>
-								<ShipmentInputs
-									formData={formData}
-									isLoading={isLoading}
-									mode={mode}
-									required={required}
-									disabled={disabled}
-									handleChange={handleChange}
-									errors={errors}
+						<ErrorBoundary
+							fallback={({ onReset }) => (
+								<WidgetErrorFallback
+									onReset={onReset}
+									variant="default"
+									message="No se pudo cargar el formulario."
 								/>
-							</Suspense>
-						</FormLayout>
+							)}
+						>
+							<FormLayout
+								id={key}
+								description="Ingrese los datos de la relación de envios el cual desea registar."
+								isAddForm={mode === 'add'}
+								handleSubmit={handleSubmit}
+								isError={isError}
+								isNotFound={isNotFound}
+								onRetry={onRetry}
+								reset={mode === 'edit' ? resetForm : undefined}
+								url="/form/shipment/add"
+								border
+								searchInput={<ShipmentSearch />}
+							>
+								<Suspense fallback={<ShipmentFormSkeletonLayout />}>
+									<ShipmentInputs
+										formData={formData}
+										isLoading={isLoading}
+										mode={mode}
+										required={required}
+										disabled={disabled}
+										handleChange={handleChange}
+										errors={errors}
+									/>
+								</Suspense>
+							</FormLayout>
+						</ErrorBoundary>
 					</Suspense>
 				</TabsContent>
 				<TabsContent value="details">
 					<DetailsBoxWrapper className="space-y-6 p-6 pt-4 sm:p-8 sm:pt-4">
-						<Suspense fallback={<ShipmentDetailsSkeletonLayout />}>
-							<ShipmentDetails data={shipmentData} />
-						</Suspense>
+						<ErrorBoundary
+							fallback={({ onReset }) => (
+								<WidgetErrorFallback
+									onReset={onReset}
+									variant="default"
+									message="Los detalles del envio no estan disponibles."
+								/>
+							)}
+						>
+							<Suspense fallback={<ShipmentDetailsSkeletonLayout />}>
+								<ShipmentDetails data={shipmentData} />
+							</Suspense>
+						</ErrorBoundary>
 					</DetailsBoxWrapper>
 				</TabsContent>
 			</Tabs>

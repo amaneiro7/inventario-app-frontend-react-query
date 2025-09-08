@@ -6,13 +6,18 @@ import { Tag } from '@/shared/ui/Tag'
 import Typography from '@/shared/ui/Typography'
 import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { PageTitle } from '@/shared/ui/PageTitle'
-import { SearchSection } from '@/widgets/FormContainer/SearchSection'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { StepsToFollow } from '@/widgets/StepsToFollow/StepsToFollow'
 import { ProfileStepsToFollow } from '@/widgets/StepsToFollow/ProfileStepsToFollow'
 import { RegisterEditStepsToFollow } from '@/widgets/StepsToFollow/RegisterEditStepsToFollow'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+
+const SearchSection = lazy(() =>
+	import('@/widgets/FormContainer/SearchSection').then(m => ({ default: m.SearchSection }))
+)
 
 const UserServiceSearch = lazy(() =>
 	import('@/features/user-serach/ui/UserServiceSearch').then(m => ({
@@ -86,19 +91,34 @@ export default function UserManagement() {
 							)}
 						</Typography>
 					</Typography>
-					<Suspense>
-						<SearchSection
-							url="/user-management/register"
-							searchInput={
-								<Suspense fallback={<InputFallback />}>
-									<UserServiceSearch />
-								</Suspense>
-							}
-							isEdit={pageInfo.page !== 'register'}
-						/>
-					</Suspense>
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								message="La sección de búsqueda no está disponible."
+								onReset={onReset}
+								variant="compact"
+							/>
+						)}
+					>
+						<Suspense fallback={<InputFallback />}>
+							<SearchSection
+								url="/user-management/register"
+								searchInput={<UserServiceSearch />}
+								isEdit={pageInfo.page !== 'register'}
+							/>
+						</Suspense>
+					</ErrorBoundary>
 				</DetailsBoxWrapper>
-				<Outlet />
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							message="Ocurrió un error al cargar el contenido."
+							onReset={onReset}
+						/>
+					)}
+				>
+					<Outlet />
+				</ErrorBoundary>
 			</DetailsWrapper>
 			{pageInfo.page ? (
 				<StepsToFollow>

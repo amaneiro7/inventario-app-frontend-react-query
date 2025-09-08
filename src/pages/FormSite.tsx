@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateSite } from '@/entities/locations/site/infra/hook/useCreateCity'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { SiteFormSkeletonLayout } from '@/entities/locations/site/infra/ui/SiteFormSkeletonLayout'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 const SiteInputs = lazy(() =>
 	import('@/entities/locations/site/infra/ui/SiteInputs').then(m => ({ default: m.SiteInputs }))
@@ -38,30 +40,40 @@ export default function FormSite() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos del sitio el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/site/add"
-				border
-				searchInput={<SiteSearch />}
-			>
-				<Suspense fallback={<SiteFormSkeletonLayout />}>
-					<SiteInputs
-						required={required}
-						formData={formData}
-						handleChange={handleChange}
-						errors={errors}
-						mode={mode}
-						isLoading={isLoading}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos del sitio el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/site/add"
+					border
+					searchInput={<SiteSearch />}
+				>
+					<Suspense fallback={<SiteFormSkeletonLayout />}>
+						<SiteInputs
+							required={required}
+							formData={formData}
+							handleChange={handleChange}
+							errors={errors}
+							mode={mode}
+							isLoading={isLoading}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

@@ -5,6 +5,8 @@ import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 import { type FilterAsideRef } from '@/widgets/FilterAside'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const DetailsBoxWrapper = lazy(() =>
 	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
@@ -44,61 +46,81 @@ export default function ListEmployee() {
 
 	return (
 		<>
-			<DetailsBoxWrapper>
-				<FilterSection>
-					<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={6} />}>
-						<EmployeePrimaryFilter
-							cargoId={query.cargoId}
-							isStillWorking={query.isStillWorking}
-							locationId={query.locationId}
-							departamentoId={query.departamentoId}
-							vicepresidenciaId={query.vicepresidenciaId}
-							type={query.type}
-							cityId={query.cityId}
-							stateId={query.stateId}
-							regionId={query.regionId}
-							userName={query.userName}
-							handleChange={handleChange}
-						/>
-					</Suspense>
-					<Suspense fallback={null}>
-						<FilterAside ref={filterAsideRef}>
-							<EmployeeOtherFilter
-								name={query.name}
-								lastName={query.lastName}
-								email={query.email}
-								cedula={query.cedula}
-								employeeCode={query.employeeCode}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="Error al cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={6} />}>
+							<EmployeePrimaryFilter
+								cargoId={query.cargoId}
+								isStillWorking={query.isStillWorking}
+								locationId={query.locationId}
+								departamentoId={query.departamentoId}
 								vicepresidenciaId={query.vicepresidenciaId}
-								directivaId={query.directivaId}
-								vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-								regionId={query.regionId}
-								stateId={query.stateId}
+								type={query.type}
 								cityId={query.cityId}
+								stateId={query.stateId}
+								regionId={query.regionId}
+								userName={query.userName}
 								handleChange={handleChange}
 							/>
-						</FilterAside>
+						</Suspense>
+						<Suspense fallback={null}>
+							<FilterAside ref={filterAsideRef}>
+								<EmployeeOtherFilter
+									name={query.name}
+									lastName={query.lastName}
+									email={query.email}
+									cedula={query.cedula}
+									employeeCode={query.employeeCode}
+									vicepresidenciaId={query.vicepresidenciaId}
+									directivaId={query.directivaId}
+									vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+									regionId={query.regionId}
+									stateId={query.stateId}
+									cityId={query.cityId}
+									handleChange={handleChange}
+								/>
+							</FilterAside>
+						</Suspense>
+					</FilterSection>
+					<Suspense fallback={<ButtonSectionSkeleton />}>
+						<ButtonSection
+							handleClear={cleanFilters}
+							handleAdd={() => {
+								navigate('/form/employee/add')
+							}}
+							filterButton
+							handleFilter={() => filterAsideRef.current?.handleOpen()}
+						/>
 					</Suspense>
-				</FilterSection>
-				<Suspense fallback={<ButtonSectionSkeleton />}>
-					<ButtonSection
-						handleClear={cleanFilters}
-						handleAdd={() => {
-							navigate('/form/employee/add')
-						}}
-						filterButton
-						handleFilter={() => filterAsideRef.current?.handleOpen()}
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar la tabla de datos."
+					/>
+				)}
+			>
+				<Suspense fallback={<TableSkeleton />}>
+					<TableEmployeeWrapper
+						handlePageSize={handlePageSize}
+						handlePageClick={handlePageClick}
+						handleSort={handleSort}
+						query={query}
 					/>
 				</Suspense>
-			</DetailsBoxWrapper>
-			<Suspense fallback={<TableSkeleton />}>
-				<TableEmployeeWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

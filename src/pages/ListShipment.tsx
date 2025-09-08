@@ -5,6 +5,8 @@ import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 import { type FilterAsideRef } from '@/widgets/FilterAside'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 // import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
 const DetailsBoxWrapper = lazy(() =>
@@ -52,52 +54,72 @@ export default function ListShipment() {
 
 	return (
 		<>
-			<DetailsBoxWrapper>
-				<FilterSection>
-					<Suspense fallback={<PrimaryFilterSkeleton />}>
-						<ShipmentPrimaryFilter
-							handleChange={handleChange}
-							shipmentCode={query.shipmentCode}
-							status={query.status}
-							destination={query.destination}
-							shipmentDate={query.shipmentDate}
-							deliveryDate={query.deliveryDate}
-							sentBy={query.sentBy}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="Error al cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton />}>
+							<ShipmentPrimaryFilter
+								handleChange={handleChange}
+								shipmentCode={query.shipmentCode}
+								status={query.status}
+								destination={query.destination}
+								shipmentDate={query.shipmentDate}
+								deliveryDate={query.deliveryDate}
+								sentBy={query.sentBy}
+							/>
+						</Suspense>
+						<Suspense fallback={null}>
+							<FilterAside ref={filterAsideRef}>
+								<ShipmentOtherFilter
+									reason={query.reason}
+									origin={query.origin}
+									receivedBy={query.receivedBy}
+									trackingNumber={query.trackingNumber}
+									observation={query.observation}
+									deviceId={query.deviceId}
+									handleChange={handleChange}
+								/>
+							</FilterAside>
+						</Suspense>
+					</FilterSection>
+					<Suspense fallback={<ButtonSectionSkeleton />}>
+						<ButtonSection
+							handleClear={cleanFilters}
+							filterButton
+							handleAdd={() => {
+								navigate('/form/shipment/add')
+							}}
+							handleFilter={() => filterAsideRef.current?.handleOpen()}
 						/>
 					</Suspense>
-					<Suspense fallback={null}>
-						<FilterAside ref={filterAsideRef}>
-							<ShipmentOtherFilter
-								reason={query.reason}
-								origin={query.origin}
-								receivedBy={query.receivedBy}
-								trackingNumber={query.trackingNumber}
-								observation={query.observation}
-								deviceId={query.deviceId}
-								handleChange={handleChange}
-							/>
-						</FilterAside>
-					</Suspense>
-				</FilterSection>
-				<Suspense fallback={<ButtonSectionSkeleton />}>
-					<ButtonSection
-						handleClear={cleanFilters}
-						filterButton
-						handleAdd={() => {
-							navigate('/form/shipment/add')
-						}}
-						handleFilter={() => filterAsideRef.current?.handleOpen()}
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar la tabla de datos."
+					/>
+				)}
+			>
+				<Suspense fallback={<TableSkeleton />}>
+					<TableShipmentWrapper
+						handlePageSize={handlePageSize}
+						handlePageClick={handlePageClick}
+						handleSort={handleSort}
+						query={query}
 					/>
 				</Suspense>
-			</DetailsBoxWrapper>
-			<Suspense fallback={<TableSkeleton />}>
-				<TableShipmentWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

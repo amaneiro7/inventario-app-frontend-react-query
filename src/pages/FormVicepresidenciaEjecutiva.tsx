@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateVicepresidenciaEjecutiva } from '@/entities/employee/vicepresidenciaEjecutiva/infra/hook/useCreateVicepresidenciaEjecutiva'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { VicepresidenciaEjecutivaFormSkeletonLayout } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaFormLayoutSkeleton.tsx'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 const VicepresidenciaEjecutivasInputs = lazy(() =>
 	import(
@@ -42,29 +44,39 @@ export default function FormVicepresidenciaEjecutiva() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos de la vicepresidencia ejecutiva el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/vicepresidenciaEjecutiva/add"
-				border
-				searchInput={<VicepresidenciaEjecutivaSearch />}
-			>
-				<Suspense fallback={<VicepresidenciaEjecutivaFormSkeletonLayout />}>
-					<VicepresidenciaEjecutivasInputs
-						isLoading={isLoading}
-						required={required}
-						formData={formData}
-						handleChange={handleChange}
-						errors={errors}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos de la vicepresidencia ejecutiva el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/vicepresidenciaEjecutiva/add"
+					border
+					searchInput={<VicepresidenciaEjecutivaSearch />}
+				>
+					<Suspense fallback={<VicepresidenciaEjecutivaFormSkeletonLayout />}>
+						<VicepresidenciaEjecutivasInputs
+							isLoading={isLoading}
+							required={required}
+							formData={formData}
+							handleChange={handleChange}
+							errors={errors}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

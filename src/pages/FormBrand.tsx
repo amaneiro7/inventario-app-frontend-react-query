@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateBrand } from '@/entities/brand/infra/hooks/useCreateBrand'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { BrandFormSkeletonLayout } from '@/entities/brand/infra/ui/BrandFormLayoutSkeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -35,28 +37,38 @@ export default function FormBrand() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos de la marca el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/brand/add"
-				border
-				searchInput={<BrandSearch />}
-			>
-				<Suspense fallback={<BrandFormSkeletonLayout />}>
-					<BrandInputs
-						formData={formData}
-						isLoading={isLoading}
-						handleChange={handleChange}
-						errors={errors}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos de la marca el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/brand/add"
+					border
+					searchInput={<BrandSearch />}
+				>
+					<Suspense fallback={<BrandFormSkeletonLayout />}>
+						<BrandInputs
+							formData={formData}
+							isLoading={isLoading}
+							handleChange={handleChange}
+							errors={errors}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

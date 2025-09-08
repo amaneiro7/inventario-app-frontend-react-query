@@ -2,6 +2,8 @@ import { Suspense, lazy } from 'react'
 import { useCreateDevice } from '@/entities/devices/devices/infra/hook/useCreateDevice'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { DeviceFormSkeletonLayout } from '@/entities/devices/devices/infra/ui/DeviceForm/DeviceFormLayoutSkeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -46,35 +48,45 @@ export default function FormDevice() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos del dispositivo el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				searchInput={<SerialSearch />}
-				reset={mode === 'edit' ? resetForm : undefined}
-				lastUpdated={formData.updatedAt}
-				updatedBy={formData.history}
-				url="/form/device/add"
-			>
-				<Suspense fallback={<DeviceFormSkeletonLayout />}>
-					<DeviceInputs
-						formData={formData}
-						errors={errors}
-						required={required}
-						disabled={disabled}
-						mode={mode}
-						isLoading={isLoading}
-						handleChange={handleChange}
-						handleLocation={handleLocation}
-						handleMemory={handleMemory}
-						handleModel={handleModel}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos del dispositivo el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					searchInput={<SerialSearch />}
+					reset={mode === 'edit' ? resetForm : undefined}
+					lastUpdated={formData.updatedAt}
+					updatedBy={formData.history}
+					url="/form/device/add"
+				>
+					<Suspense fallback={<DeviceFormSkeletonLayout />}>
+						<DeviceInputs
+							formData={formData}
+							errors={errors}
+							required={required}
+							disabled={disabled}
+							mode={mode}
+							isLoading={isLoading}
+							handleChange={handleChange}
+							handleLocation={handleLocation}
+							handleMemory={handleMemory}
+							handleModel={handleModel}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

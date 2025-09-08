@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useCreateCentroTrabajo'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -35,30 +37,40 @@ export default function FormCentroTrabajo() {
 
 	return (
 		<Suspense fallback={<FormSkeletonLayout />}>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/centrotrabajo/add"
-				border
-				lastUpdated={formData.updatedAt}
-				searchInput={<CentroTrabajoSearch />}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
+					/>
+				)}
 			>
-				<CentroTrabajoInputs
-					isLoading={isLoading}
-					required={required}
-					formData={formData}
-					disabled={disabled}
-					handleChange={handleChange}
-					errors={errors}
-					mode={mode}
-				/>
-			</FormLayout>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/centrotrabajo/add"
+					border
+					lastUpdated={formData.updatedAt}
+					searchInput={<CentroTrabajoSearch />}
+				>
+					<CentroTrabajoInputs
+						isLoading={isLoading}
+						required={required}
+						formData={formData}
+						disabled={disabled}
+						handleChange={handleChange}
+						errors={errors}
+						mode={mode}
+					/>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

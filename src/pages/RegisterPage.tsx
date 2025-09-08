@@ -4,14 +4,29 @@ import { FormComponent } from '@/widgets/FormContainer/FormComponent'
 import { Input } from '@/shared/ui/Input/Input'
 import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
 import { RoleCombobox } from '@/entities/role/infra/ui/RoleComboBox'
+import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+
+// Un esqueleto de carga simple para el formulario
+const RegisterFormSkeleton = () => (
+	<div className="w-full max-w-lg space-y-6">
+		<Skeleton className="h-8 w-1/3" />
+		<div className="space-y-4">
+			<Skeleton className="h-10 w-full" />
+			<Skeleton className="h-10 w-full" />
+			<Skeleton className="h-10 w-full" />
+		</div>
+		<Skeleton className="h-10 w-24 self-end" />
+	</div>
+)
 
 export default function RegisterPage() {
 	const { formData, key, errors, required, handleChange, handleSubmit } = useCreateUser()
 
 	return (
-		<Suspense>
+		<Suspense fallback={<RegisterFormSkeleton />}>
 			<DetailsBoxWrapper position="center">
-				<Suspense>
+				<ErrorBoundary>
 					<FormComponent
 						id={key}
 						key={key}
@@ -59,16 +74,15 @@ export default function RegisterPage() {
 							errorMessage={errors?.email}
 							required={required.email}
 						/>
-						<Suspense>
-							<RoleCombobox
-								value={formData.roleId}
-								handleChange={(_name, value) => handleChange('roleId', value)}
-								name="roleId"
-								required={required.roleId}
-							/>
-						</Suspense>
+
+						<RoleCombobox
+							value={formData.roleId}
+							handleChange={(_name, value) => handleChange('roleId', value)}
+							name="roleId"
+							required={required.roleId}
+						/>
 					</FormComponent>
-				</Suspense>
+				</ErrorBoundary>
 			</DetailsBoxWrapper>
 		</Suspense>
 	)

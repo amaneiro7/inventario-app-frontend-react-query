@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateLocation } from '@/entities/locations/locations/infra/hook/useCreateLocation'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { LocationFormSkeletonLayout } from '@/entities/locations/locations/infra/ui/LocationFormSkeletonLayout'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const LocationInputs = lazy(() =>
 	import('@/entities/locations/locations/infra/ui/LocationInputs').then(m => ({
@@ -44,33 +46,43 @@ export default function FormLocation() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos de la ubicación el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/location/add"
-				border
-				lastUpdated={formData.updatedAt}
-				searchInput={<LocationSearch />}
-			>
-				<Suspense fallback={<LocationFormSkeletonLayout />}>
-					<LocationInputs
-						required={required}
-						formData={formData}
-						disabled={disabled}
-						handleChange={handleChange}
-						handleSite={handleSite}
-						errors={errors}
-						mode={mode}
-						isLoading={isLoading}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos de la ubicación el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/location/add"
+					border
+					lastUpdated={formData.updatedAt}
+					searchInput={<LocationSearch />}
+				>
+					<Suspense fallback={<LocationFormSkeletonLayout />}>
+						<LocationInputs
+							required={required}
+							formData={formData}
+							disabled={disabled}
+							handleChange={handleChange}
+							handleSite={handleSite}
+							errors={errors}
+							mode={mode}
+							isLoading={isLoading}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

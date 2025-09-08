@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { useCreateCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useCreateCentroCosto'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -35,30 +37,40 @@ export default function FormCentroCosto() {
 
 	return (
 		<Suspense fallback={<FormSkeletonLayout />}>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos del cenrto de costo el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/centrocosto/add"
-				border
-				lastUpdated={formData.updatedAt}
-				searchInput={<CentroCostoSearch />}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
+					/>
+				)}
 			>
-				<CentroCostoInputs
-					isLoading={isLoading}
-					required={required}
-					formData={formData}
-					disabled={disabled}
-					handleChange={handleChange}
-					errors={errors}
-					mode={mode}
-				/>
-			</FormLayout>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos del cenrto de costo el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/centrocosto/add"
+					border
+					lastUpdated={formData.updatedAt}
+					searchInput={<CentroCostoSearch />}
+				>
+					<CentroCostoInputs
+						isLoading={isLoading}
+						required={required}
+						formData={formData}
+						disabled={disabled}
+						handleChange={handleChange}
+						errors={errors}
+						mode={mode}
+					/>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

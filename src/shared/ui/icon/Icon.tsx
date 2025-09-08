@@ -48,7 +48,9 @@ import {
 	CircleSlash,
 	TriangleAlert,
 	Wifi,
-	WifiOff
+	WifiOff,
+	Activity,
+	AlertTriangle
 } from 'lucide-react'
 
 const iconMap = {
@@ -100,7 +102,9 @@ const iconMap = {
 	circleSlash: CircleSlash,
 	triangleAlert: TriangleAlert,
 	wifi: Wifi,
-	wifiOff: WifiOff
+	wifiOff: WifiOff,
+	activity: Activity,
+	alertTriangle: AlertTriangle
 }
 
 export type IconName = keyof typeof iconMap

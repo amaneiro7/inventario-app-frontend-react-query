@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateDirectiva } from '@/entities/employee/directiva/infra/hook/useCreateDirectiva'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { DirectivaFormSkeletonLayout } from '@/entities/employee/directiva/infra/ui/DirectivaFormLayoutSkeleton.tsx'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -41,29 +43,39 @@ export default function FormDirectiva() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos de la directiva el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/directiva/add"
-				border
-				searchInput={<DirectivaSearch />}
-			>
-				<Suspense fallback={<DirectivaFormSkeletonLayout />}>
-					<DirectivaInputs
-						required={required}
-						isLoading={isLoading}
-						formData={formData}
-						handleChange={handleChange}
-						errors={errors}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos de la directiva el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/directiva/add"
+					border
+					searchInput={<DirectivaSearch />}
+				>
+					<Suspense fallback={<DirectivaFormSkeletonLayout />}>
+						<DirectivaInputs
+							required={required}
+							isLoading={isLoading}
+							formData={formData}
+							handleChange={handleChange}
+							errors={errors}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }

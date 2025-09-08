@@ -6,6 +6,8 @@ import { useModelsFilter } from '@/entities/model/models/infra/hook/useModelsFil
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const TableModelWrapper = lazy(() =>
 	import('@/widgets/tables/ModelTable').then(m => ({ default: m.TableModelWrapper }))
@@ -42,37 +44,57 @@ export default function ListModel() {
 
 	return (
 		<>
-			<DetailsBoxWrapper>
-				<FilterSection>
-					<Suspense fallback={<PrimaryFilterSkeleton />}>
-						<ModelPrimaryFilter
-							handleChange={handleChange}
-							categoryId={query.categoryId}
-							mainCategoryId={query.mainCategoryId}
-							brandId={query.brandId}
-							id={query.id}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="Error al cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton />}>
+							<ModelPrimaryFilter
+								handleChange={handleChange}
+								categoryId={query.categoryId}
+								mainCategoryId={query.mainCategoryId}
+								brandId={query.brandId}
+								id={query.id}
+							/>
+						</Suspense>
+					</FilterSection>
+					<Suspense fallback={<ButtonSectionSkeleton />}>
+						<ButtonSection
+							handleExportToExcel={handleDownloadToExcel}
+							loading={isDownloading}
+							handleClear={cleanFilters}
+							handleAdd={() => {
+								navigate('/form/model/add')
+							}}
 						/>
 					</Suspense>
-				</FilterSection>
-				<Suspense fallback={<ButtonSectionSkeleton />}>
-					<ButtonSection
-						handleExportToExcel={handleDownloadToExcel}
-						loading={isDownloading}
-						handleClear={cleanFilters}
-						handleAdd={() => {
-							navigate('/form/model/add')
-						}}
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar la tabla de datos."
+					/>
+				)}
+			>
+				<Suspense fallback={<TableSkeleton />}>
+					<TableModelWrapper
+						handlePageSize={handlePageSize}
+						handlePageClick={handlePageClick}
+						handleSort={handleSort}
+						query={query}
 					/>
 				</Suspense>
-			</DetailsBoxWrapper>
-			<Suspense fallback={<TableSkeleton />}>
-				<TableModelWrapper
-					handlePageSize={handlePageSize}
-					handlePageClick={handlePageClick}
-					handleSort={handleSort}
-					query={query}
-				/>
-			</Suspense>
+			</ErrorBoundary>
 		</>
 	)
 }

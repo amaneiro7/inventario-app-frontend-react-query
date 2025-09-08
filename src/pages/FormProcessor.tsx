@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import { useCreateProcessor } from '@/entities/devices/features/processor/infra/hooks/useCreateProcessor'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { ProcessorFormSkeletonLayout } from '@/entities/devices/features/processor/infra/ui/ProcessorFormLayoutSkeleton.tsx'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const ProcessorInputs = lazy(() =>
 	import('@/entities/devices/features/processor/infra/ui/ProcessorInputs').then(m => ({
@@ -41,28 +43,38 @@ export default function FormProcessor() {
 				</FormSkeletonLayout>
 			}
 		>
-			<FormLayout
-				id={key}
-				description="Ingrese los datos del procesador el cual desea registar."
-				isAddForm={mode === 'add'}
-				handleSubmit={handleSubmit}
-				isError={isError}
-				isNotFound={isNotFound}
-				onRetry={onRetry}
-				reset={mode === 'edit' ? resetForm : undefined}
-				url="/form/Processor/add"
-				border
-				searchInput={<ProcessorSearch />}
-			>
-				<Suspense fallback={<ProcessorFormSkeletonLayout />}>
-					<ProcessorInputs
-						isLoading={isLoading}
-						formData={formData}
-						handleChange={handleChange}
-						errors={errors}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudo cargar el formulario."
 					/>
-				</Suspense>
-			</FormLayout>
+				)}
+			>
+				<FormLayout
+					id={key}
+					description="Ingrese los datos del procesador el cual desea registar."
+					isAddForm={mode === 'add'}
+					handleSubmit={handleSubmit}
+					isError={isError}
+					isNotFound={isNotFound}
+					onRetry={onRetry}
+					reset={mode === 'edit' ? resetForm : undefined}
+					url="/form/Processor/add"
+					border
+					searchInput={<ProcessorSearch />}
+				>
+					<Suspense fallback={<ProcessorFormSkeletonLayout />}>
+						<ProcessorInputs
+							isLoading={isLoading}
+							formData={formData}
+							handleChange={handleChange}
+							errors={errors}
+						/>
+					</Suspense>
+				</FormLayout>
+			</ErrorBoundary>
 		</Suspense>
 	)
 }
