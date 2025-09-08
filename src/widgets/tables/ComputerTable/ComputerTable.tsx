@@ -215,10 +215,12 @@ export const TableWrapper = memo(
 											isError={isError}
 											devices={devices?.data}
 										>
-											<TableDeviceComputer
-												handleViewDetails={handleViewDetails}
-												devices={devices?.data}
-											/>
+											{devices !== undefined && (
+												<TableDeviceComputer
+													handleViewDetails={handleViewDetails}
+													devices={devices.data}
+												/>
+											)}
 										</TableGenericDeviceBody>
 									</Suspense>
 								}

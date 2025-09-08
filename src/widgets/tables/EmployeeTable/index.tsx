@@ -162,9 +162,11 @@ export const TableEmployeeWrapper = memo(function ({
 						<>
 							{isLoading && SkeletonFallback}
 
-							<Suspense fallback={SkeletonFallback}>
-								<TableEmployees isError={isError} employees={employees?.data} />
-							</Suspense>
+							{employees !== undefined && (
+								<Suspense fallback={SkeletonFallback}>
+									<TableEmployees isError={isError} employees={employees.data} />
+								</Suspense>
+							)}
 						</>
 					</TableBody>
 				</Table>

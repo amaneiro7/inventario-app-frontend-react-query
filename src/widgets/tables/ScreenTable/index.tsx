@@ -66,10 +66,12 @@ export const TableScreenWrapper = memo(
 					isError={isError}
 					devices={devices?.data}
 				>
-					<TableGenericDeviceCell
-						handleViewDetails={handleViewDetails}
-						devices={devices?.data}
-					/>
+					{devices !== undefined && (
+						<TableGenericDeviceCell
+							handleViewDetails={handleViewDetails}
+							devices={devices.data}
+						/>
+					)}
 				</TableGenericDeviceBody>
 			</TableLayout>
 		)

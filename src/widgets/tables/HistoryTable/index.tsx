@@ -122,9 +122,14 @@ export const TableHistoryWrapper = memo(
 						<TableBody>
 							<>
 								{isLoading && SkeletonFallback}
-								<Suspense fallback={SkeletonFallback}>
-									<TableHistory isError={isError} histories={histories?.data} />
-								</Suspense>
+								{histories !== undefined && (
+									<Suspense fallback={SkeletonFallback}>
+										<TableHistory
+											isError={isError}
+											histories={histories.data}
+										/>
+									</Suspense>
+								)}
 							</>
 						</TableBody>
 					</Table>

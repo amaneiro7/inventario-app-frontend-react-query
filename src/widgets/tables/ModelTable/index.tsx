@@ -127,9 +127,11 @@ export const TableModelWrapper = memo(
 						<TableBody>
 							<>
 								{isLoading && SkeletonFallback}
-								<Suspense fallback={SkeletonFallback}>
-									<TableModels isError={isError} models={models?.data} />
-								</Suspense>
+								{models !== undefined && (
+									<Suspense fallback={SkeletonFallback}>
+										<TableModels isError={isError} models={models.data} />
+									</Suspense>
+								)}
 							</>
 						</TableBody>
 					</Table>
