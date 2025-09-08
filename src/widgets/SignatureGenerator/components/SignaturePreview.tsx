@@ -4,7 +4,7 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { SignatureSocialMedia } from './SignatureSocialMedia'
 import { LazyLogoImage } from '@/shared/ui/Images/LazyLogoImage'
 import Typography from '@/shared/ui/Typography'
-import { type SignatureData } from '..'
+import { type SignatureData } from '../model/useSignatureData'
 
 interface SignaturePreviewProps {
 	data: SignatureData
