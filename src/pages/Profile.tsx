@@ -1,4 +1,4 @@
-import { Suspense, lazy, use } from 'react'
+import { lazy, use } from 'react'
 import { AuthContext } from '@/app/providers/AuthContext'
 import { PageTitle } from '@/shared/ui/PageTitle'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
@@ -80,9 +80,8 @@ export default function ProfilePage() {
 						<DescriptionDesc desc={user?.role?.name ?? ''} />
 					</DescriptionListElement>
 				</DetailsInfo>
-				<Suspense>
-					<ChangePassowrdForm userEmail={user?.email ?? ''} />
-				</Suspense>
+
+				<ChangePassowrdForm userEmail={user?.email ?? ''} />
 			</DetailsWrapper>
 
 			<StepsToFollow>
