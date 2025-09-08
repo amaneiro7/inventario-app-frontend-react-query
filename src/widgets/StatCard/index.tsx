@@ -4,7 +4,7 @@ import Typography from '@/shared/ui/Typography'
 
 interface StatCardProps {
 	title?: string
-	value?: string | number
+	value?: string | number | React.ReactNode
 	description?: string
 	icon: React.ElementType
 	color?:
