@@ -1,16 +1,27 @@
-import { lazy, memo, Suspense, useState } from 'react'
-import { useInventoryBrandTable } from '../useInventoryBrandTable'
+import { lazy, memo, Suspense, useMemo, useState } from 'react'
+import { useInventoryBrandTable } from '../model/useInventoryBrandTable'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 import { Input } from '@/shared/ui/Input/Input'
-import { Table } from '@/shared/ui/Table/Table'
-import { TableHeader } from '@/shared/ui/Table/TableHeader'
-import { TableRow } from '@/shared/ui/Table/TableRow'
-import { TableHead } from '@/shared/ui/Table/TableHead'
-import { TableBody } from '@/shared/ui/Table/TableBody'
-import { TableCell } from '@/shared/ui/Table/TableCell'
-import { LoadingTable } from '@/shared/ui/Table/LoadingTable'
+import { InventoryBrandTableLoading } from './InventoryBrandTableLoading'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
+
+const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
+const TableHeader = lazy(() =>
+	import('@/shared/ui/Table/TableHeader').then(m => ({ default: m.TableHeader }))
+)
+const TableRow = lazy(() =>
+	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
+)
+const TableHead = lazy(() =>
+	import('@/shared/ui/Table/TableHead').then(m => ({ default: m.TableHead }))
+)
+const TableBody = lazy(() =>
+	import('@/shared/ui/Table/TableBody').then(m => ({ default: m.TableBody }))
+)
+const TableCellEmpty = lazy(() =>
+	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
+)
 
 const InventoryBrandRow = lazy(() =>
 	import('./InventoryBrandRow').then(m => ({ default: m.InventoryBrandRow }))
@@ -29,6 +40,12 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 		filterCategory,
 		searchTerm
 	})
+
+	const SkeletonFallback = useMemo(() => {
+		return Array.from({
+			length: 25
+		}).map((_, index) => <InventoryBrandTableLoading key={`loader-${index}`} />)
+	}, [])
 
 	return (
 		<Card>
@@ -52,8 +69,11 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 							name="name"
 						/>
 					</div>
+					<label htmlFor="brand-filter" className="sr-only">
+						Filtrar por marca
+					</label>
 					<Select value={filterBrand} onValueChange={setFilterBrand}>
-						<SelectTrigger className="md:w-1/4">
+						<SelectTrigger id="brand-filter" className="md:w-1/4">
 							<SelectValue placeholder="Filtro por marca" />
 						</SelectTrigger>
 						<SelectContent>
@@ -65,8 +85,11 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 							))}
 						</SelectContent>
 					</Select>
+					<label htmlFor="category-filter" className="sr-only">
+						Filtrar por categoria
+					</label>
 					<Select value={filterCategory} onValueChange={setFilterCategory}>
-						<SelectTrigger className="md:w-1/4">
+						<SelectTrigger id="category-filter" className="md:w-1/4">
 							<SelectValue placeholder="Filtro por categoria" />
 						</SelectTrigger>
 						<SelectContent>
@@ -82,30 +105,37 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 				<Table className="table-fixed">
 					<TableHeader>
 						<TableRow>
-							<TableHead size="xxLarge" name="Modelo" />
-							<TableHead size="xLarge" name="Marca" />
-							<TableHead size="medium" name="Categoria" />
-							<TableHead size="small" className="text-center" name="Cantidad" />
-							<TableHead size="small" className="text-center" name="En uso" />
-							<TableHead size="small" className="text-center" name="En almacen" />
-							<TableHead size="medium" name="Estatus" />
+							<TableHead aria-colindex={1} size="xxLarge">
+								Modelo
+							</TableHead>
+							<TableHead aria-colindex={2} size="xLarge">
+								Marca
+							</TableHead>
+							<TableHead aria-colindex={3} size="medium">
+								Categoria
+							</TableHead>
+							<TableHead aria-colindex={4} size="small" className="text-center">
+								Cantidad
+							</TableHead>
+							<TableHead aria-colindex={5} size="small" className="text-center">
+								En uso
+							</TableHead>
+							<TableHead aria-colindex={6} size="small" className="text-center">
+								En almacen
+							</TableHead>
+							<TableHead aria-colindex={7} size="medium">
+								Estatus
+							</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>
-						<Suspense fallback={<LoadingTable colspan={7} />}>
+						<Suspense fallback={SkeletonFallback}>
 							{filteredData.length > 0 ? (
-								filteredData.map((item, index) => (
-									<InventoryBrandRow item={item} index={index} />
+								filteredData.map(item => (
+									<InventoryBrandRow key={item.id} item={item} />
 								))
 							) : (
-								<TableRow>
-									<TableCell
-										colSpan={7}
-										className="py-4 text-center"
-										size="medium"
-										value="No se encontraron resultados"
-									/>
-								</TableRow>
+								<TableCellEmpty />
 							)}
 						</Suspense>
 					</TableBody>

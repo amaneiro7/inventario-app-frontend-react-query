@@ -1,55 +1,47 @@
 import { memo } from 'react'
-import { TableCell } from '@/shared/ui/Table/TableCell'
 import { TableRow } from '@/shared/ui/Table/TableRow'
-import { type ModelData } from '../useInventoryBrandTable'
+import { TableCell } from '@/shared/ui/Table/TableCell'
+import { Tag } from '@/shared/ui/Tag'
+import { type ModelData } from '../model/useInventoryBrandTable'
+import {
+	getStatusTagBackGroundColor,
+	getStatusTagColor
+} from '../model/getInventaroyBrandStatusTag'
 
 interface InventoryBrandRowProps {
 	item: ModelData
-	index: number
 }
 
-const getStatusColor = (status: string) => {
-	switch (status) {
-		case 'In Stock':
-			return 'white'
-		case 'Low Stock':
-			return 'black'
-		case 'Out of Stock':
-			return 'white'
-		default:
-			return 'black'
-	}
-}
-const getStatusBackGroundColor = (status: string) => {
-	switch (status) {
-		case 'In Stock':
-			return 'verde'
-		case 'Low Stock':
-			return 'amarillo'
-		case 'Out of Stock':
-			return 'rojo'
-		default:
-			return 'gris'
-	}
-}
-
-export const InventoryBrandRow = memo(({ item, index }: InventoryBrandRowProps) => {
+export const InventoryBrandRow = memo(({ item }: InventoryBrandRowProps) => {
 	return (
-		<TableRow key={index}>
-			<TableCell value={item.name} size="xxLarge" />
-			<TableCell value={item.brand} size="xLarge" />
-			<TableCell value={item.category} size="medium" />
-			<TableCell value={item.count} size="small" align="center" />
-			<TableCell value={item.inUse} size="small" align="center" />
-			<TableCell value={item.inAlmacen} size="small" align="center" />
+		<TableRow>
+			<TableCell value={item.name} size="xxLarge">
+				{item.name}
+			</TableCell>
+			<TableCell value={item.brand} size="xLarge">
+				{item.brand}
+			</TableCell>
+			<TableCell value={item.category} size="medium">
+				{item.category}
+			</TableCell>
+			<TableCell value={item.count} size="small" align="center">
+				{item.count}
+			</TableCell>
+			<TableCell value={item.inUse} size="small" align="center">
+				{item.inUse}
+			</TableCell>
+			<TableCell value={item.inAlmacen} size="small" align="center">
+				{item.inAlmacen}
+			</TableCell>
 
-			<TableCell
-				size="medium"
-				tag
-				backgroundColor={getStatusBackGroundColor(item.status)}
-				color={getStatusColor(item.status)}
-				value={item.status}
-			/>
+			<TableCell size="medium">
+				<Tag
+					backgroundColor={getStatusTagBackGroundColor(item.status)}
+					color={getStatusTagColor(item.status)}
+					iconText={item.status}
+					option="tiny"
+				/>
+			</TableCell>
 		</TableRow>
 	)
 })

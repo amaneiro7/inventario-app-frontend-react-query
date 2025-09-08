@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { TypeOfSiteOptionsByName } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptionsByName'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface FilterProps {
 	data: ComputerDashboardDto['brand']
@@ -9,6 +9,7 @@ interface FilterProps {
 	searchTerm: string
 }
 export interface ModelData {
+	id: string
 	name: string
 	category: string
 	brand: string
@@ -23,7 +24,10 @@ export const useInventoryBrandTable = ({
 	filterCategory,
 	searchTerm
 }: FilterProps) => {
-	const uniqueBrands = [...Array.from(new Set(data.map(item => item.name)))]
+	const uniqueBrands = useMemo(
+		() => [...Array.from(new Set(data.map(item => item.name)))],
+		[data]
+	)
 
 	// Obtener categorías únicas de todos los modelos
 	const uniqueCategories = useMemo(() => {
@@ -73,6 +77,7 @@ function transformData(data: ComputerDashboardDto['brand']): ModelData[] {
 				0
 			)
 			result.push({
+				id: `${brand.name}-${brand.name}`,
 				name: model.name,
 				category: model.category,
 				brand: brand.name,

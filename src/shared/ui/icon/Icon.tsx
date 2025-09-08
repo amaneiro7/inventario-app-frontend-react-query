@@ -41,7 +41,10 @@ import {
 	Briefcase,
 	MapPin,
 	Cpu,
-	Sliders
+	Sliders,
+	Check,
+	ChevronDown,
+	ChevronUp
 } from 'lucide-react'
 
 const iconMap = {
@@ -86,7 +89,10 @@ const iconMap = {
 	briefcase: Briefcase,
 	mapPin: MapPin,
 	cpu: Cpu,
-	sliders: Sliders
+	sliders: Sliders,
+	check: Check,
+	chevronDown: ChevronDown,
+	chevronUp: ChevronUp
 }
 
 export type IconName = keyof typeof iconMap
