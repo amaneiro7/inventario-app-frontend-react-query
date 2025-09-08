@@ -101,7 +101,7 @@ export const TableDeviceComputer = memo(
 						<TableCell
 							aria-colindex={10}
 							className="3xl:table-cell hidden"
-							size="auto"
+							size="medium"
 							value={device.observation ?? ''}
 						/>
 						<TableCellOpenIcon index={11} onClick={() => handleViewDetails(device)} />

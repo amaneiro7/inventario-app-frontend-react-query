@@ -98,7 +98,7 @@ export const TableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="locationId"
-									size="large"
+									size="xLarge"
 									className="hidden xl:table-cell"
 								>
 									Ubicación
@@ -180,7 +180,7 @@ export const TableWrapper = memo(
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="operatingSystem"
+									orderByField="operatingSystemId"
 									size="medium"
 									className="hidden 2xl:table-cell"
 								>
@@ -193,7 +193,7 @@ export const TableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="observation"
-									size="auto"
+									size="medium"
 									className="3xl:table-cell hidden"
 								>
 									Observaciones

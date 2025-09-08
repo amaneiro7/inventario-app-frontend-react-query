@@ -32,7 +32,7 @@ export const LoadingComputerRow = () => (
 		<TableCell aria-colindex={9} size="medium" className="hidden 2xl:table-cell">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={10} size="auto" className="4xl:table-cell hidden">
+		<TableCell aria-colindex={10} size="medium" className="3xl:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCellOpenIcon index={11} />
