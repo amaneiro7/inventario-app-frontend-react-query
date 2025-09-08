@@ -5,6 +5,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
 import { StatusLegend } from '@/widgets/monitoring/AdmSiteChart/ui/StatusLegend'
 import Typography from '@/shared/ui/Typography'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const TowerVisualization = lazy(() =>
 	import('@/widgets/monitoring/AdmSiteChart/ui/TowerVisualization').then(m => ({
@@ -98,33 +100,53 @@ const MonitoringSiteMapChart = () => {
 								>
 									{site.name}
 								</Typography>
-								<Suspense
-									fallback={
-										<>
-											<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
-											<div className="animate-pulse-fast h-28 min-w-64 bg-slate-400" />
-											<div className="mt-1 h-4 rounded-b-lg bg-slate-700 shadow-md" />
-										</>
-									}
+								<ErrorBoundary
+									fallback={({ onReset }) => (
+										<WidgetErrorFallback
+											onReset={onReset}
+											variant="default"
+											message="No se pudo cargar el mapa de visualización de datos."
+										/>
+									)}
 								>
-									<TowerVisualization
-										locations={site.locations}
-										onLocationClick={handleFloorClick}
-										selectedLocationName={selectedFloor}
-									/>
-								</Suspense>
+									<Suspense
+										fallback={
+											<>
+												<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
+												<div className="animate-pulse-fast h-28 min-w-64 bg-slate-400" />
+												<div className="mt-1 h-4 rounded-b-lg bg-slate-700 shadow-md" />
+											</>
+										}
+									>
+										<TowerVisualization
+											locations={site.locations}
+											onLocationClick={handleFloorClick}
+											selectedLocationName={selectedFloor}
+										/>
+									</Suspense>
+								</ErrorBoundary>
 							</article>
 						))}
 					</section>
 
 					{/* Columna 2: Panel de Detalles. Crecerá para llenar el espacio sobrante y tiene un ancho mínimo. */}
 					<div className="max-w-xl min-w-md flex-1">
-						<Suspense>
-							<LocationDetailsPanel
-								locations={selectedRegionData}
-								selectedFloor={selectedFloor}
-							/>
-						</Suspense>
+						<ErrorBoundary
+							fallback={({ onReset }) => (
+								<WidgetErrorFallback
+									onReset={onReset}
+									variant="default"
+									message="No se pudo cargar los datos."
+								/>
+							)}
+						>
+							<Suspense>
+								<LocationDetailsPanel
+									locations={selectedRegionData}
+									selectedFloor={selectedFloor}
+								/>
+							</Suspense>
+						</ErrorBoundary>
 					</div>
 				</div>
 			</CardContent>

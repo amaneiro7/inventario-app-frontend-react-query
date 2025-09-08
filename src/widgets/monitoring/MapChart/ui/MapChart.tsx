@@ -4,6 +4,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/sha
 import { MapChartStates } from '@/widgets/monitoring/MapChart/ui/MapChartState'
 import { useVenezuelaTopoJson } from '../utils/useVenezuelaTopoJson'
 import { VenezuelaMap } from './VenezuelaMap'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 /**
  * Lazily loaded component for displaying details of a selected state.
@@ -83,13 +85,22 @@ export const MapChart = memo(() => {
 						)}
 					</MapChartStates>
 				</section>
-				{/* Panel de Información - Suspense boundary for the lazily loaded StateDetailsPanel component */}
-				<Suspense fallback={<div>Cargando detalles del estado...</div>}>
-					<StateDetailsPanel
-						selectedState={selectedState}
-						stateStats={processedStateData}
-					/>
-				</Suspense>
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							onReset={onReset}
+							variant="default"
+							message="No se pudo cargar los datos."
+						/>
+					)}
+				>
+					<Suspense fallback={<div>Cargando detalles del estado...</div>}>
+						<StateDetailsPanel
+							selectedState={selectedState}
+							stateStats={processedStateData}
+						/>
+					</Suspense>
+				</ErrorBoundary>
 			</CardContent>
 		</Card>
 	)

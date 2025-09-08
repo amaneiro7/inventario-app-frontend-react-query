@@ -2,6 +2,8 @@ import { lazy, memo, Suspense } from 'react'
 import { useGetAllDeviceMonitorings } from '@/entities/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
 import { TabsContent } from '@/shared/ui/Tabs'
 import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 const DeviceMonitoringContainer = lazy(() =>
 	import('./DeviceMonitoringContainer').then(m => ({
@@ -38,36 +40,66 @@ export const DeviceMonitoringTabsContent = memo(
 		return (
 			<>
 				<TabsContent value="table" className="mt-4">
-					<Suspense>
-						<DeviceMonitoringContainer
-							handlePageSize={handlePageSize}
-							handlePageClick={handlePageClick}
-							handleChange={handleChange}
-							handleSort={handleSort}
-							query={query}
-							deviceMonitorings={deviceMonitorings}
-							isError={isError}
-							isLoading={isLoading}
-						/>
-					</Suspense>
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								onReset={onReset}
+								variant="default"
+								message="No se pudo cargar el grafico de conectividad."
+							/>
+						)}
+					>
+						<Suspense>
+							<DeviceMonitoringContainer
+								handlePageSize={handlePageSize}
+								handlePageClick={handlePageClick}
+								handleChange={handleChange}
+								handleSort={handleSort}
+								query={query}
+								deviceMonitorings={deviceMonitorings}
+								isError={isError}
+								isLoading={isLoading}
+							/>
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="map" className="mt-4">
-					<Suspense>
-						<DeviceMonitoringMap
-							deviceMonitorings={deviceMonitorings}
-							pageSize={query.pageSize}
-							handlePageSize={handlePageSize}
-							handlePageClick={handlePageClick}
-							isError={isError}
-							isLoading={isLoading}
-							isFetching={isFetching}
-						/>
-					</Suspense>
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								onReset={onReset}
+								variant="default"
+								message="No se pudo cargar la tabla de datos."
+							/>
+						)}
+					>
+						<Suspense>
+							<DeviceMonitoringMap
+								deviceMonitorings={deviceMonitorings}
+								pageSize={query.pageSize}
+								handlePageSize={handlePageSize}
+								handlePageClick={handlePageClick}
+								isError={isError}
+								isLoading={isLoading}
+								isFetching={isFetching}
+							/>
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="chart" className="mt-4">
-					<Suspense>
-						<DeviceMonitoringChart query={query} />
-					</Suspense>
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								onReset={onReset}
+								variant="default"
+								message="No se pudo cargar el mapa de datos."
+							/>
+						)}
+					>
+						<Suspense>
+							<DeviceMonitoringChart query={query} />
+						</Suspense>
+					</ErrorBoundary>
 				</TabsContent>
 			</>
 		)
