@@ -103,7 +103,9 @@ export const TableDeviceComputer = memo(
 							className="3xl:table-cell hidden"
 							size="medium"
 							value={device.observation ?? ''}
-						/>
+						>
+							{device.observation ?? ''}
+						</TableCell>
 						<TableCellOpenIcon index={11} onClick={() => handleViewDetails(device)} />
 					</TableRow>
 				))}

@@ -20,6 +20,9 @@ const MonitorInformation = lazy(() =>
 const ComputerInformation = lazy(() =>
 	import('./ComputerInformation').then(m => ({ default: m.ComputerInformation }))
 )
+const SoftwareComputerInformation = lazy(() =>
+	import('./SoftwareComputerInformation').then(m => ({ default: m.SoftwareComputerInformation }))
+)
 
 interface DetailsModalProps {
 	device: DeviceDto
@@ -51,6 +54,8 @@ export const DetailsModal = ({ device, onCLose }: DetailsModalProps) => {
 				<BasicInformation device={device} />
 				{/* --- Computer --- */}
 				{computer && <ComputerInformation device={device} />}
+				{/* --- Software --- */}
+				{computer && <SoftwareComputerInformation device={device} />}
 				{/* Monitor */}
 				{model && model.modelMonitor && (
 					<MonitorInformation modelMonitor={model.modelMonitor} />

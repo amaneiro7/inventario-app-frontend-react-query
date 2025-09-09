@@ -52,12 +52,6 @@ export const ComputerInformation = ({ device }: { device: DeviceDto }) => {
 					<DetailItem label="Tipo de Disco" value={computer?.hardDriveType?.name} />
 				)}
 			</div>
-			{computer?.operatingSystem && (
-				<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-					<DetailItem label="Sistema Operativo" value={computer?.operatingSystem?.name} />
-					<DetailItem label="Arquitectura" value={computer?.operatingSystemArq?.name} />
-				</div>
-			)}
 			<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
 				{computer?.ipAddress && (
 					<DetailItem

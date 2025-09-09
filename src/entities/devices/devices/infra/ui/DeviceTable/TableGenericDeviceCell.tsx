@@ -73,7 +73,9 @@ export const TableGenericDeviceCell = memo(
 							className="hidden xl:table-cell"
 							size="medium"
 							value={device.observation ?? ''}
-						/>
+						>
+							{device.observation ?? ''}
+						</TableCell>
 						<TableCellOpenIcon index={8} onClick={() => handleViewDetails(device)} />
 					</TableRow>
 				))}
