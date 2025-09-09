@@ -37,6 +37,7 @@ export interface DeviceBaseFilters {
 	defaultQuery?: keyof typeof defaultQueries
 	// Campos específicos de computadora
 	computerName?: string
+	operatingSystem?: string
 	operatingSystemId?: string
 	operatingSystemArqId?: string
 	hardDriveTypeId?: string

@@ -133,6 +133,7 @@ export default function ListComputer() {
 									computerName={query.computerName}
 									memoryRamTypeId={query.memoryRamTypeId}
 									operatingSystemId={query.operatingSystemId}
+									operatingSystem={query.operatingSystem}
 									operatingSystemArqId={query.operatingSystemArqId}
 									hardDriveTypeId={query.hardDriveTypeId}
 									processor={query.processor}

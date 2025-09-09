@@ -34,6 +34,7 @@ export const OtherComputerFilter = memo(
 	({
 		computerName = '',
 		operatingSystemId = '',
+		operatingSystem = '',
 		operatingSystemArqId = '',
 		hardDriveTypeId = '',
 		memoryRamTypeId = '',
@@ -47,6 +48,7 @@ export const OtherComputerFilter = memo(
 	}: {
 		computerName?: string
 		operatingSystemId?: string
+		operatingSystem?: string
 		operatingSystemArqId?: string
 		memoryRamCapacity?: string
 		memoryRamCapacityOperator?: string
@@ -60,6 +62,7 @@ export const OtherComputerFilter = memo(
 	}) => {
 		const [localComputerName, setLocalComputerName] = useState(computerName ?? '')
 		const [localProcessor, setLocalProcessor] = useState(processor ?? '')
+		const [localOperatingSystem, setLocalOperatingSystem] = useState(operatingSystem ?? '')
 		const [localIPAddress, setLocalIPAddress] = useState(ipAddress ?? '')
 		const [localMemoryRamCapacity, setLocalMemoryRamCapacity] = useState(
 			memoryRamCapacity ?? ''
@@ -70,6 +73,7 @@ export const OtherComputerFilter = memo(
 
 		const [debounceComputerName] = useDebounce(localComputerName)
 		const [debounceProcessor] = useDebounce(localProcessor)
+		const [debounceOperatingSystem] = useDebounce(localOperatingSystem)
 		const [debounceIPAddress] = useDebounce(localIPAddress)
 		const [debounceMemoryRamCapacity] = useDebounce(localMemoryRamCapacity, 100)
 		const [debounceHardDriveCapacity] = useDebounce(localHardDriveCapacity, 100)
@@ -80,6 +84,9 @@ export const OtherComputerFilter = memo(
 		useEffectAfterMount(() => {
 			handleChange('processor', debounceProcessor)
 		}, [debounceProcessor])
+		useEffectAfterMount(() => {
+			handleChange('operatingSystem', debounceOperatingSystem)
+		}, [debounceOperatingSystem])
 		useEffectAfterMount(() => {
 			handleChange('ipAddress', debounceIPAddress)
 		}, [debounceIPAddress])
@@ -97,6 +104,9 @@ export const OtherComputerFilter = memo(
 			if (!processor) setLocalProcessor('')
 		}, [processor])
 		useEffectAfterMount(() => {
+			if (!operatingSystem) setLocalOperatingSystem('')
+		}, [operatingSystem])
+		useEffectAfterMount(() => {
 			if (!ipAddress) setLocalIPAddress('')
 		}, [ipAddress])
 		useEffectAfterMount(() => {
@@ -113,6 +123,10 @@ export const OtherComputerFilter = memo(
 		const handleProcessor = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalProcessor(value)
+		}, [])
+		const handleOperatingSystem = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value
+			setLocalOperatingSystem(value)
 		}, [])
 
 		const handleIPAddress = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,6 +169,14 @@ export const OtherComputerFilter = memo(
 						handleChange={handleChange}
 					/>
 				</Suspense>
+				<Input
+					id="operating-system-search"
+					value={localOperatingSystem}
+					label="Sistema Operativo por nombre"
+					name="operatingSystem"
+					type="search"
+					onChange={handleOperatingSystem}
+				/>
 				<Suspense fallback={<InputFallback />}>
 					<OperatingSystemArqCombobox
 						name="operatingSystemArqId"

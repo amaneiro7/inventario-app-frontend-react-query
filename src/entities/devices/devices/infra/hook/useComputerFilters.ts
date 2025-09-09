@@ -38,6 +38,7 @@ export function useComputerFilter() {
 			'regionId',
 			'computerName',
 			'operatingSystemId',
+			'operatingSystem',
 			'operatingSystemArqId',
 			'hardDriveTypeId',
 			'memoryRamTypeId',

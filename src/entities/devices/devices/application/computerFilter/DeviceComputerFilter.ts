@@ -16,17 +16,17 @@ export class DeviceComputerFilter {
 	 * Opciones de tamaño de página disponibles para la paginación.
 	 * @static
 	 * @type {number[]}
-	 */ static readonly pageSizeOptions = [10, 25, 50, 100]
+	 */ static readonly pageSizeOptions: number[] = [10, 25, 50, 100]
 	/**
 	 * Tamaño de página por defecto.
 	 * @static
 	 * @type {number}
-	 */ static readonly defaultPageSize = 25
+	 */ static readonly defaultPageSize: number = 25
 	/**
 	 * Campo de ordenación por defecto.
 	 * @static
 	 * @type {string}
-	 */ static readonly defaultOrderBy = 'employeeId'
+	 */ static readonly defaultOrderBy: string = 'employeeId'
 	private readonly getAll: DeviceGetAll
 
 	/**
@@ -56,7 +56,7 @@ export class DeviceComputerFilter {
 				orderType,
 				defaultQuery: 'computer'
 			},
-			['serial', 'activo', 'computerName', 'ipAddress', 'processor']
+			['serial', 'activo', 'computerName', 'ipAddress', 'processor', 'operatingSystem']
 		)
 
 		return this.getAll.execute(queryParams)
