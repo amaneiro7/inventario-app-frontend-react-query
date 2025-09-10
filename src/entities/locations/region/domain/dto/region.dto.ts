@@ -17,5 +17,5 @@ export type RegionParams = RegionPrimitives & {
 }
 
 export type RegionDto = Region & {
-	administratveRegion: AdministrativeRegionDto
+	administrativeRegion: AdministrativeRegionDto
 }

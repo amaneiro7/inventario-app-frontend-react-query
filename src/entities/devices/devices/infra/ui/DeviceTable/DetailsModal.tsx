@@ -55,7 +55,9 @@ export const DetailsModal = ({ device, onCLose }: DetailsModalProps) => {
 				{/* --- Computer --- */}
 				{computer && <ComputerInformation device={device} />}
 				{/* --- Software --- */}
-				{computer && <SoftwareComputerInformation device={device} />}
+				{computer && computer.operatingSystem && (
+					<SoftwareComputerInformation device={device} />
+				)}
 				{/* Monitor */}
 				{model && model.modelMonitor && (
 					<MonitorInformation modelMonitor={model.modelMonitor} />

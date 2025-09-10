@@ -10,7 +10,7 @@ export const LocationInformation = ({ location }: { location: DeviceDto['locatio
 			<div className="grid grid-cols-1 gap-2 md:grid-cols-2">
 				<DetailItem
 					label="Zona"
-					value={location?.site?.city?.state?.region?.administratveRegion?.name}
+					value={location?.site?.city?.state?.region?.administrativeRegion?.name}
 				/>
 				<DetailItem label="Región" value={location?.site?.city?.state?.region.name} />
 			</div>
