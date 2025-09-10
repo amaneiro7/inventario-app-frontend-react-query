@@ -1,28 +1,11 @@
-import { lazy, memo, Suspense, useMemo } from 'react'
-import { LoadingSpinner } from '../../../../shared/ui/Loading/LoadingSpinner'
+import { lazy, memo } from 'react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { useInfoMonitoringChart } from '../Model/useInfoMonitoringChart'
 import { type LocationMonitoringDashboardByStateDto } from '@/entities/locations/locationMonitoring/domain/dto/LocationMonitoringDashboardByState.dto'
 import { type DeviceMonitoringDashboardByStateDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoringDashboardByState.dto'
 
-const Card = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.Card })))
-const CardContent = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.CardContent })))
-const CardDescription = lazy(() =>
-	import('@/shared/ui/Card').then(m => ({ default: m.CardDescription }))
-)
-const CardHeader = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.CardHeader })))
-const CardTitle = lazy(() => import('@/shared/ui/Card').then(m => ({ default: m.CardTitle })))
-const StateMonitoringList = lazy(() =>
-	import('@/widgets/monitoring/StateMonitoringList/ui/StateMonitoringList').then(m => ({
-		default: m.StateMonitoringList
-	}))
-)
-const SummaryPieChart = lazy(() =>
-	import('@/widgets/monitoring/SummaryPieChart/ui/SummaryPieChart').then(m => ({
-		default: m.SummaryPieChart
-	}))
-)
-
-const ChartErrorMessage = lazy(() =>
-	import('@/shared/ui/ChartErrorMessage').then(m => ({ default: m.ChartErrorMessage }))
+const MonitoringCartContent = lazy(() =>
+	import('./MonitoringCartContent').then(m => ({ default: m.MonitoringCartContent }))
 )
 
 interface MonitoringChartProps {
@@ -43,45 +26,9 @@ export const MonitoringChart = memo(
 		monitoringDashboardByState,
 		chartType
 	}: MonitoringChartProps) => {
-		const cardTitleId = 'network-status-chart-title'
-		const cardDescriptionId = 'network-status-chart-description'
-
-		const { title, description } = useMemo(() => {
-			if (chartType === 'devices') {
-				return {
-					title: 'Estado de Conectividad de Equipos de Red',
-					description:
-						'Visión general del estado (activos/inactivos) de los equipos de red en toda la infraestructura, categorizados por estado geográfico.'
-				}
-			} else {
-				// chartType === 'locations'
-				return {
-					title: 'Estado de Conectividad de Enlaces y Agencias',
-					description:
-						'Visión general del estado (operativos/inoperativos) de los enlaces de red y la conectividad de las agencias, detallado por estado geográfico.'
-				}
-			}
-		}, [chartType]) // Re-compute if chartType changes
-
-		if (isLoading || !monitoringDashboardByState) {
-			return <LoadingSpinner />
-		}
-
-		if (isError) {
-			return (
-				<Suspense
-					fallback={
-						<div className="flex min-h-96 items-center justify-center">
-							Cargando mensaje de error...
-						</div>
-					}
-				>
-					<ChartErrorMessage error={error} />
-				</Suspense>
-			)
-		}
-
-		const { online, offline, total, byState } = monitoringDashboardByState
+		const { cardTitleId, cardDescriptionId, title, description } = useInfoMonitoringChart({
+			chartType
+		})
 
 		return (
 			<Card
@@ -95,15 +42,13 @@ export const MonitoringChart = memo(
 					<CardDescription id={cardDescriptionId}>{description}</CardDescription>
 				</CardHeader>
 				<CardContent className="grid grid-cols-1 gap-6 overflow-hidden lg:grid-cols-[1fr_400px]">
-					<Suspense fallback={<div className="min-h-96" />}>
-						<SummaryPieChart
-							onlineCount={online}
-							offlineCount={offline}
-							totalCount={total}
-						/>
-					</Suspense>
-
-					<StateMonitoringList statesData={byState} />
+					<MonitoringCartContent
+						chartType={chartType}
+						isError={isError}
+						isLoading={isLoading}
+						error={error}
+						monitoringDashboardByState={monitoringDashboardByState}
+					/>
 				</CardContent>
 			</Card>
 		)

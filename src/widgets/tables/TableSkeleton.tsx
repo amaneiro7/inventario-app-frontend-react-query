@@ -1,6 +1,12 @@
 import { cn } from '@/shared/lib/utils'
 
-export const TableSkeleton = ({ withTab = false }: { withTab?: boolean }) => {
+export const TableSkeleton = ({
+	withTab = false,
+	howManyTabs = 4
+}: {
+	withTab?: boolean
+	howManyTabs?: number
+}) => {
 	return (
 		<div className="flex w-full flex-col justify-center">
 			{/* Tab Skeleton */}
@@ -15,9 +21,22 @@ export const TableSkeleton = ({ withTab = false }: { withTab?: boolean }) => {
 						<div className="bg-azul flex h-7 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 p-4 px-4 text-center text-transparent last:border-r">
 							Todos
 						</div>
-						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
-						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
-						<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
+						{howManyTabs > 0 &&
+							Array.from({ length: howManyTabs - 1 }).map((_, index) => (
+								<div
+									key={index}
+									className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-slate-500 p-4 px-4 text-center text-transparent odd:bg-slate-300 even:bg-slate-300/70"
+									role="tab"
+									aria-selected="false"
+									tabIndex={-1}
+								></div>
+							))}
+						{
+							// Fallback for when there are no tabs
+							howManyTabs === 0 && (
+								<div className="flex h-7 w-28 animate-pulse items-center justify-center rounded-t-md border-t border-l border-slate-500 bg-slate-300 p-4 px-4 text-center last:border-r" />
+							)
+						}
 					</div>
 				)}
 				<div

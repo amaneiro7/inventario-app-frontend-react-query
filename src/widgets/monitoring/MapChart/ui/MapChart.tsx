@@ -3,32 +3,17 @@ import { useMapChart } from '@/widgets/monitoring/MapChart/Model/useMapChart'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { MapChartStates } from '@/widgets/monitoring/MapChart/ui/MapChartState'
 import { useVenezuelaTopoJson } from '../utils/useVenezuelaTopoJson'
-import { VenezuelaMap } from './VenezuelaMap'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { StateDetailsPanelSkeleton } from './StateDetailsPanelSkeleton'
+import { MapChartSkeleton } from './MapChartSkeleton'
 
-/**
- * Lazily loaded component for displaying details of a selected state.
- */
 const StateDetailsPanel = lazy(() =>
 	import('@/widgets/monitoring/MapChart/ui/StateDetailsPanel').then(m => ({
 		default: m.StateDetailsPanel
 	}))
 )
-
-/**
- * MonitoringAgencyMapChart Component
- *
- * This page component displays a geographical map of Venezuela, visualizing the status
- * of equipment across different states. It fetches monitoring data using the `useMapChart` hook
- * and presents it on an interactive map, along with a panel for detailed state statistics.
- *
- * Key Features:
- * - Displays equipment online percentage per state.
- * - Allows interaction (clicking) with states to view detailed information.
- * - Utilizes lazy loading for map and details panel components to optimize initial load times.
- * - Provides loading, error, and no-data states for a robust user experience.
- */
+const VenezuelaMap = lazy(() => import('./VenezuelaMap').then(m => ({ default: m.VenezuelaMap })))
 
 export const MapChart = memo(() => {
 	const {
@@ -73,15 +58,15 @@ export const MapChart = memo(() => {
 						error={error || topoJsonError}
 						hasNoData={hasNoData}
 					>
-						{/* Suspense boundary for the lazily loaded VenezuelaMap component */}
-
 						{venezuelaTopoJson && (
-							<VenezuelaMap
-								getColor={getColor}
-								handleStateClick={handleStateClick}
-								venezuelaGeo={venezuelaTopoJson}
-								processedStateData={processedStateData}
-							/>
+							<Suspense fallback={<MapChartSkeleton />}>
+								<VenezuelaMap
+									getColor={getColor}
+									handleStateClick={handleStateClick}
+									venezuelaGeo={venezuelaTopoJson}
+									processedStateData={processedStateData}
+								/>
+							</Suspense>
 						)}
 					</MapChartStates>
 				</section>
@@ -94,7 +79,7 @@ export const MapChart = memo(() => {
 						/>
 					)}
 				>
-					<Suspense fallback={<div>Cargando detalles del estado...</div>}>
+					<Suspense fallback={<StateDetailsPanelSkeleton />}>
 						<StateDetailsPanel
 							selectedState={selectedState}
 							stateStats={processedStateData}

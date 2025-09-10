@@ -186,3 +186,5 @@ export const LocationMonitoringContainer = memo(
 		prevProps.isError === nextProps.isError &&
 		prevProps.locationMonitorings === nextProps.locationMonitorings
 )
+
+LocationMonitoringContainer.displayName = 'LocationMonitoringContainer'

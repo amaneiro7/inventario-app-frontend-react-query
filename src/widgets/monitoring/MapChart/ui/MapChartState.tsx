@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { LoadingSpinner } from '../../../../shared/ui/Loading/LoadingSpinner'
+import { MapChartSkeleton } from './MapChartSkeleton'
 
 interface MapChartStatesProps {
 	isLoading: boolean
@@ -10,10 +10,24 @@ interface MapChartStatesProps {
 	children: React.ReactNode
 }
 
+/**
+ * Skeleton component for the map chart loading state.
+ * It's recommended to move this to its own file, for example: `src/shared/ui/skeletons/MapSkeleton.tsx`.
+ */
+
 export const MapChartStates = memo(
 	({ isLoading, isError, error, hasNoData, children }: MapChartStatesProps) => {
 		if (isLoading) {
-			return <LoadingSpinner />
+			return (
+				<MapChartStatesCard>
+					<div className="h-full w-full p-4">
+						<MapChartSkeleton />
+					</div>
+					<Typography variant="p" className="mt-4 text-slate-500">
+						Cargando mapa...
+					</Typography>
+				</MapChartStatesCard>
+			)
 		}
 
 		if (isError) {
@@ -51,21 +65,17 @@ export const MapChartStates = memo(
 
 MapChartStates.displayName = 'MapChartStates'
 
-const MapChartStatesCard = memo(
-	({
-		children,
-		...props
-	}: React.PropsWithChildren<
-		React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
-	>) => {
-		return (
-			<div
-				className="min-h-withoutHeader flex h-full flex-col items-center justify-center rounded-lg border bg-slate-50 p-8 text-center shadow-2xs"
-				{...props}
-			>
-				{children}
-			</div>
-		)
-	}
-)
+const MapChartStatesCard = memo((props: React.ComponentProps<'div'>) => {
+	const { className, children, ...rest } = props
+	return (
+		<div
+			className={`min-h-withoutHeader flex h-full flex-col items-center justify-center rounded-lg border bg-slate-50 p-8 text-center shadow-2xs ${
+				className ?? ''
+			}`}
+			{...rest}
+		>
+			{children}
+		</div>
+	)
+})
 MapChartStatesCard.displayName = 'MapChartStatesCard'

@@ -1,10 +1,11 @@
 import { lazy, memo, Suspense } from 'react'
 import { useGetAllDeviceMonitorings } from '@/entities/devices/deviceMonitoring/infra/hook/useGetAllDeviceMonitoring'
 import { TabsContent } from '@/shared/ui/Tabs'
-import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
-
+import { MonitoringMapSkeleton } from '../../Shared/ui/MonitoringMapSkeleton'
+import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+import { type DeviceMonitoringFilters } from '@/entities/devices/deviceMonitoring/application/createDeviceMonitoringQueryParams'
 const DeviceMonitoringContainer = lazy(() =>
 	import('./DeviceMonitoringContainer').then(m => ({
 		default: m.DeviceMonitoringContainer
@@ -49,7 +50,7 @@ export const DeviceMonitoringTabsContent = memo(
 							/>
 						)}
 					>
-						<Suspense>
+						<Suspense fallback={<TableSkeleton withTab howManyTabs={3} />}>
 							<DeviceMonitoringContainer
 								handlePageSize={handlePageSize}
 								handlePageClick={handlePageClick}
@@ -73,17 +74,21 @@ export const DeviceMonitoringTabsContent = memo(
 							/>
 						)}
 					>
-						<Suspense>
-							<DeviceMonitoringMap
-								deviceMonitorings={deviceMonitorings}
-								pageSize={query.pageSize}
-								handlePageSize={handlePageSize}
-								handlePageClick={handlePageClick}
-								isError={isError}
-								isLoading={isLoading}
-								isFetching={isFetching}
-							/>
-						</Suspense>
+						<section className="bg-muted/20 relative flex min-h-[400px] flex-col justify-between rounded-lg border p-4">
+							<Suspense
+								fallback={<MonitoringMapSkeleton pageSize={query.pageSize} />}
+							>
+								<DeviceMonitoringMap
+									deviceMonitorings={deviceMonitorings}
+									pageSize={query.pageSize}
+									handlePageSize={handlePageSize}
+									handlePageClick={handlePageClick}
+									isError={isError}
+									isLoading={isLoading}
+									isFetching={isFetching}
+								/>
+							</Suspense>
+						</section>
 					</ErrorBoundary>
 				</TabsContent>
 				<TabsContent value="chart" className="mt-4">
@@ -96,9 +101,7 @@ export const DeviceMonitoringTabsContent = memo(
 							/>
 						)}
 					>
-						<Suspense>
-							<DeviceMonitoringChart query={query} />
-						</Suspense>
+						<DeviceMonitoringChart query={query} />
 					</ErrorBoundary>
 				</TabsContent>
 			</>
