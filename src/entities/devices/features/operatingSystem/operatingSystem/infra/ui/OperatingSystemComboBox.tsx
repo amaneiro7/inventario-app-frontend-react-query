@@ -1,5 +1,6 @@
-import { memo, useMemo } from 'react'
+import { memo, useMemo, useState } from 'react'
 import { useGetAllOperatingSystem } from '@/entities/devices/features/operatingSystem/operatingSystem/infra/hook/useGetAllOperatingSystem'
+import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 
 /**
@@ -32,9 +33,12 @@ export const OperatingSystemCombobox = memo(function ({
 	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
+	const [inputValue, setInputValue] = useState('')
 	const { data, isLoading: loading } = useGetAllOperatingSystem({})
 
 	const options = useMemo(() => data?.data ?? [], [data])
+
+	const filteredOptions = useFilterOptions({ options, inputValue })
 
 	return (
 		<>
@@ -42,15 +46,16 @@ export const OperatingSystemCombobox = memo(function ({
 				id="operatingSystem"
 				label="Sistema Operativo"
 				value={value}
+				inputValue={inputValue}
 				name={name}
-				loading={loading}
-				isLoading={isLoading}
-				options={options}
 				required={required}
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
-				searchField={false}
+				isLoading={isLoading}
+				loading={loading}
+				options={filteredOptions}
+				onInputChange={setInputValue}
 				onChangeValue={handleChange}
 			/>
 		</>
