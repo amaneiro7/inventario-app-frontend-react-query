@@ -25,7 +25,7 @@
 		"@tanstack/react-query-devtools": "5.84.0",
 		"@types/react-simple-maps": "3.0.6",
 		"autosuggest-highlight": "3.3.4",
-		"axios": "1.11.0",
+		"axios": "^1.12.1",
 		"babel-plugin-react-compiler": "19.1.0-rc.1",
 		"class-variance-authority": "0.7.1",
 		"classnames": "2.5.1",
