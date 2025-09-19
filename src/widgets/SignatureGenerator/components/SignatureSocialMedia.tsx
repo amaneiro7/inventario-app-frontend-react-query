@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { SocialContainer } from './SocialContainer'
 import { IconContainer } from './IconContainer'
 import { GlobeIcon } from '@/shared/ui/icon/GlobeIcon'
@@ -6,7 +7,6 @@ import { FacebookIcon } from '@/shared/ui/icon/FacebookIcon'
 import { XImage } from '@/shared/ui/Images/LazyXImage'
 import { YoutubeImage } from '@/shared/ui/Images/LazyYoutubeImage'
 import { LinkedInIcon } from '@/shared/ui/icon/LinkedInIcon'
-import { memo } from 'react'
 
 export const SignatureSocialMedia = memo(() => {
 	return (
@@ -16,7 +16,7 @@ export const SignatureSocialMedia = memo(() => {
 				<IconContainer>
 					<GlobeIcon className="h-full w-full stroke-1 text-white" />
 				</IconContainer>
-				bncenlinea
+				bncenlinea.com
 			</SocialContainer>
 			{/* Redes sociales */}
 			<SocialContainer>
