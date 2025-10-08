@@ -39,8 +39,7 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 				case 403:
 					throw new Error(message ?? 'Acceso denegado.')
 				case 401:
-					// throw new Error(message ?? 'Acceso no autorizado.')
-					return
+					throw new Error(message ?? 'Acceso no autorizado.')
 				case 404:
 					throw new Error(`Recurso no encontrado. ${message}`)
 				case 422:

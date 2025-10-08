@@ -35,8 +35,12 @@ api.interceptors.response.use(
 	async error => {
 		const originalRequest = error.config
 
-		// Si el error es 401 y NO es un reintento
-		if (error.response.status === 401 && !originalRequest._retry) {
+		// Si el error es 401, NO es un reintento y NO es la propia petición de refresco
+		if (
+			error.response.status === 401 &&
+			!originalRequest._retry &&
+			originalRequest.url !== 'auth/refresh-token'
+		) {
 			originalRequest._retry = true // Marcar como reintento
 
 			try {
