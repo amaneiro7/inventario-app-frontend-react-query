@@ -30,6 +30,11 @@ const StatusCombobox = lazy(() =>
 		default: m.StatusCombobox
 	}))
 )
+const CargoCombobox = lazy(() =>
+	import('@/entities/employee/cargo/infra/ui/CargoComboBox').then(m => ({
+		default: m.CargoCombobox
+	}))
+)
 const DirectivaCombobox = lazy(() =>
 	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
 		default: m.DirectivaCombobox
@@ -60,6 +65,8 @@ export function DevicePrimaryFilter({
 	regionId,
 	administrativeRegionId,
 	directivaId,
+	departamentoId,
+	cargoId,
 	vicepresidenciaEjecutivaId,
 	vicepresidenciaId,
 	handleChange
@@ -69,6 +76,8 @@ export function DevicePrimaryFilter({
 	brandId?: string
 	modelId?: string
 	categoryId?: string
+	cargoId?: string
+	departamentoId?: string
 	mainCategoryId?: string
 	directivaId?: string
 	vicepresidenciaEjecutivaId?: string
@@ -175,6 +184,17 @@ export function DevicePrimaryFilter({
 					value={vicepresidenciaId}
 					directivaId={directivaId}
 					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+				/>
+			</Suspense>
+			<Suspense fallback={<InputFallback />}>
+				<CargoCombobox
+					name="cargoId"
+					handleChange={handleChange}
+					value={cargoId}
+					directivaId={directivaId}
+					departamentoId={departamentoId}
+					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+					vicepresidenciaId={vicepresidenciaId}
 				/>
 			</Suspense>
 		</>
