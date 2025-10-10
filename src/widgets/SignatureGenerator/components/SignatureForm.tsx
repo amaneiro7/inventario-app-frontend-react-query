@@ -132,7 +132,6 @@ export const SignatureForm = memo(
 						name="email"
 						required
 						transform
-						readOnly
 						value={data.email}
 						placeholder={placeHolder.email}
 						onChange={e => onChange('email', e.target.value)}
