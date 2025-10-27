@@ -26,7 +26,10 @@ export class EmployeeName extends AcceptedNullValueObject<string> {
 	 */
 	constructor(value: string | null, type: Primitives<EmployeeType>) {
 		super(value)
-		if (!EmployeeName.isValid({ value, type })) {
+		if (value) {
+			this.value = value.trim()
+		}
+		if (!EmployeeName.isValid({ value: this.value, type })) {
 			throw new Error(EmployeeName.invalidMessage())
 		}
 	}
