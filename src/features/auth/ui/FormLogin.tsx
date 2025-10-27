@@ -85,18 +85,18 @@ export const FormLogin = () => {
 						<form id="login" action="submit" onSubmit={handleSubmit}>
 							<div className="my-10 space-y-6 md:space-y-8">
 								<Input
-									id="login-email"
+									id="login-userNameOrEmail"
 									leftIcon={
 										<MailIcon className="aspect-square w-4 fill-black/60" />
 									}
 									label="Correo electrónico"
-									name="email"
-									type="email"
-									autoComplete="email"
+									name="userNameOrEmail"
+									type="userNameOrEmail"
+									autoComplete="userNameOrEmail"
 									onChange={handleChange}
-									value={formData.email}
-									errorMessage={errors.email}
-									error={!!errors.email}
+									value={formData.userNameOrEmail}
+									errorMessage={errors.userNameOrEmail}
+									error={!!errors.userNameOrEmail}
 									required
 								/>
 								<Input

@@ -9,13 +9,13 @@ export function useLogin() {
 		auth: { isLoginLoading, login }
 	} = use(AuthContext)
 	const [formData, setFormData] = useState<{
-		email: Primitives<UserEmail>
+		userNameOrEmail: Primitives<UserEmail>
 		password: Primitives<UserPassword>
 	}>({
-		email: '',
+		userNameOrEmail: '',
 		password: ''
 	})
-	const [errors, setErrors] = useState({ email: '', password: '' })
+	const [errors, setErrors] = useState({ userNameOrEmail: '', password: '' })
 	const [isPasswordVisible, setTogglePassword] = useState(false)
 	const isPasswordFirstInput = useRef(true)
 	const isEmailFirstInput = useRef(true)
@@ -34,33 +34,35 @@ export function useLogin() {
 	const handleSubmit = async (event: React.FormEvent) => {
 		event?.preventDefault()
 		event?.stopPropagation()
-		await login({ email: formData.email, password: formData.password })
+		await login({ userNameOrEmail: formData.userNameOrEmail, password: formData.password })
 	}
 
 	useEffect(() => {
-		if (isEmailFirstInput.current || formData.email === '') {
-			isEmailFirstInput.current = !formData.email.includes('@')
+		if (isEmailFirstInput.current || formData.userNameOrEmail === '') {
+			isEmailFirstInput.current = !formData.userNameOrEmail.includes('@')
 		}
 
 		if (isPasswordFirstInput.current || formData.password === '') {
 			isPasswordFirstInput.current = formData.password?.length <= UserPassword.HAS_MIN_LENGTH
 		}
 
-		const isEmailValid = isEmailFirstInput.current ? true : UserEmail.isValid(formData.email)
+		const isEmailValid = isEmailFirstInput.current
+			? true
+			: UserEmail.isValid(formData.userNameOrEmail)
 		const isPasswordValid = isPasswordFirstInput.current
 			? true
 			: UserPassword.isValid(formData.password)
 
 		setErrors(prev => ({
 			...prev,
-			email: isEmailValid ? '' : UserEmail.invalidMessage(formData.email),
+			email: isEmailValid ? '' : UserEmail.invalidMessage(formData.userNameOrEmail),
 			password: isPasswordValid ? '' : UserPassword.invalidMessage()
 		}))
 
 		return () => {
-			setErrors({ email: '', password: '' })
+			setErrors({ userNameOrEmail: '', password: '' })
 		}
-	}, [formData.email, formData.password])
+	}, [formData.userNameOrEmail, formData.password])
 
 	return {
 		isLoginLoading,

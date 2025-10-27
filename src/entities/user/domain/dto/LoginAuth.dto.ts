@@ -23,6 +23,6 @@ export interface UserAuthDTO {
  * Defines the parameters required for user login.
  */
 export interface LoginParams {
-	email: string
+	userNameOrEmail: string
 	password: string
 }

@@ -25,9 +25,9 @@ export class Login {
 	 * @param params.password - The user's password.
 	 * @returns A Promise that resolves to the result of the login operation, or undefined if an error occurs.
 	 */
-	async execute({ email, password }: LoginParams) {
+	async execute({ userNameOrEmail, password }: LoginParams) {
 		return await this.loginUserRepository
-			.run({ email, password })
+			.run({ userNameOrEmail, password })
 			.then(res => {
 				this.events.notify({ type: 'success', message: res.message })
 				return res
