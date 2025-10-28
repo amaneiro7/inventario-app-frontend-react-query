@@ -15,7 +15,8 @@ export const BasicInformation = ({ device }: { device: DeviceDto }) => {
 			return 'root'
 		}
 
-		const { name, lastName, email } = lastUpdater.user
+		const { employee } = lastUpdater.user
+		const { name, lastName, email } = employee
 
 		// Combine name and last name if available
 		const fullName = [name, lastName].filter(Boolean).join(' ')

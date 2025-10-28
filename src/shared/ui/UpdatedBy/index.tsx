@@ -6,7 +6,7 @@ export const UpdatedBy = memo(({ history }: { history: HistoryDto[] }) => {
 	const sortHistroy = useMemo(() => lastHistoryUpdated(history), [history])
 	return (
 		<span className="block">
-			Realizado por <strong>{sortHistroy?.user?.email ?? 'root'}</strong>{' '}
+			Realizado por <strong>{sortHistroy?.user?.employee?.userName ?? 'root'}</strong>{' '}
 		</span>
 	)
 })

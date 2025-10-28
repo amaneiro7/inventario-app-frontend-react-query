@@ -5,6 +5,9 @@ import { type UserLastName } from '../value-objects/UserLastName'
 import { type UserEmail } from '../value-objects/UserEmail'
 import { type RoleId } from '@/entities/role/domain/value-object/RoleId'
 import { type RoleDto } from '@/entities/role/domain/dto/Role.dto'
+import { type EmployeeId } from '@/entities/employee/employee/domain/value-object/EmployeeId'
+import { type UserStatus } from '../value-objects/UserStatus'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 /**
  * Represents the core properties of a User entity.
@@ -33,7 +36,13 @@ export type UserParams = UserPrimitives & {
 /**
  * Represents the Data Transfer Object (DTO) for a User entity, including full Role details and update timestamp.
  */
-export type LoginUserDto = User & {
-	role: RoleDto
+
+export type LoginUserDto = {
+	id: Primitives<UserId>
+	employeeId: Primitives<EmployeeId>
+	roleId: Primitives<RoleId>
+	status: Primitives<UserStatus>
 	updatedAt: string
+	role: RoleDto
+	employee: EmployeeDto
 }

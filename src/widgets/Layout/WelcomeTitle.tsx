@@ -22,7 +22,7 @@ export const WelcomeTitle = memo(({ user }: Props) => {
 			weight="light"
 		>
 			<span>Bienvenido, </span>
-			<span>{`${user?.name} ${user?.lastName}`}</span>
+			<span>{`${user?.employee?.name} ${user?.employee?.lastName}`}</span>
 			<span>{`${user?.role?.name}`}</span>
 		</Typography>
 	)

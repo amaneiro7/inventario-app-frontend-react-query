@@ -77,7 +77,7 @@ export const RecentActivities = memo(() => {
 											{`${history.device?.category?.name} ${history.device?.brand?.name} ${history.device?.model?.name} - Serial: ${history.device.serial}`}
 										</p>
 										<p className="truncate text-sm text-slate-500">
-											{`${action} por ${history.user?.name} ${history.user?.lastName}`}
+											{`${action} por ${history.user?.employee?.name} ${history.user?.employee?.lastName}`}
 										</p>
 									</div>
 									<Typography variant="span" option="tiny" color="gris">

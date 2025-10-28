@@ -11,5 +11,5 @@ export abstract class LoginUserRepository {
 	 * @param params.password - The user's password.
 	 * @returns A Promise that resolves to a UserAuthDTO upon successful login.
 	 */
-	abstract run({ email, password }: LoginParams): Promise<UserAuthDTO>
+	abstract run({ userNameOrEmail, password }: LoginParams): Promise<UserAuthDTO>
 }

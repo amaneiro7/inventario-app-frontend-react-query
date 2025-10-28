@@ -44,9 +44,10 @@ interface DetailHistoryModalProps {
  * It is typically used within a table row to show additional details when expanded, including changes made.
  */
 export const DetailHistoryModal = memo(({ history, onClose }: DetailHistoryModalProps) => {
-	const userName = history.user?.name
-		? `${history.user.name} ${history.user.lastName ?? ''}`.trim()
-		: 'Sistema'
+	const userName =
+		history.user?.employee?.name && history.user?.employee?.lastName
+			? `${history.user?.employee?.name} ${history.user?.employee?.lastName ?? ''}`.trim()
+			: 'Sistema'
 	const deviceIdentifier = history.device?.serial ?? history.deviceId
 	const actionName = getHistoryActionText(history.action)
 

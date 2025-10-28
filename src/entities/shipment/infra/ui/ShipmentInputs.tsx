@@ -66,7 +66,10 @@ export const ShipmentInputs = memo(
 			auth: { user }
 		} = use(AuthContext)
 		const sentBy = useMemo(
-			() => (mode === 'add' ? `${user?.name} ${user?.lastName}` : (formData?.sentBy ?? '')),
+			() =>
+				mode === 'add'
+					? `${user?.employee?.name} ${user?.employee?.lastName}`
+					: (formData?.sentBy ?? ''),
 			[mode, formData.sentBy]
 		)
 		return (

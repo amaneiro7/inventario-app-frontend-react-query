@@ -11,9 +11,9 @@ import { type LoginUserDto } from '../domain/dto/LoginUser.dto'
  */
 export interface UserFilters {
 	id?: LoginUserDto['id']
-	name?: LoginUserDto['name']
-	lastName?: LoginUserDto['lastName']
-	email?: LoginUserDto['email']
+	name?: LoginUserDto['employee']['name']
+	lastName?: LoginUserDto['employee']['lastName']
+	email?: LoginUserDto['employee']['email']
 	roleId?: LoginUserDto['roleId']
 	pageNumber?: number
 	pageSize?: number
@@ -51,9 +51,10 @@ export async function createUserParams({
 				query.filters.splice(index, 1)
 			}
 		} else {
-			const operator = (key === 'name' || key === 'lastName' || key === 'email')
-				? Operator.OR
-				: Operator.EQUAL
+			const operator =
+				key === 'name' || key === 'lastName' || key === 'email'
+					? Operator.OR
+					: Operator.EQUAL
 
 			if (index !== -1) {
 				query.filters[index].value = value
