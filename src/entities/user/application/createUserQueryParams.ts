@@ -53,8 +53,8 @@ export async function createUserParams({
 			}
 		} else {
 			const operator =
-				key === 'name' || key === 'lastName' || key === 'email'
-					? Operator.OR
+				key === 'name' || key === 'lastName' || key === 'email' || key === 'userName'
+					? Operator.CONTAINS
 					: Operator.EQUAL
 
 			if (index !== -1) {
