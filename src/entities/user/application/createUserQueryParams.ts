@@ -11,6 +11,7 @@ import { type LoginUserDto } from '../domain/dto/LoginUser.dto'
  */
 export interface UserFilters {
 	id?: LoginUserDto['id']
+	userName?: LoginUserDto['employee']['userName']
 	name?: LoginUserDto['employee']['name']
 	lastName?: LoginUserDto['employee']['lastName']
 	email?: LoginUserDto['employee']['email']

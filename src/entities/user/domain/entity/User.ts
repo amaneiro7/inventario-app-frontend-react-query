@@ -1,41 +1,20 @@
-import { UserPrimitives } from '../dto/LoginUser.dto'
-import { UserName } from '../value-objects/UserName'
-import { UserLastName } from '../value-objects/UserLastName'
-import { UserEmail } from '../value-objects/UserEmail'
+import { UserParams, UserPrimitives } from '../dto/LoginUser.dto'
 import { RoleId } from '@/entities/role/domain/value-object/RoleId'
-import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { RoleOptions } from '@/entities/role/domain/entity/RoleOptions'
+import { EmployeeId } from '@/entities/employee/employee/domain/value-object/EmployeeId'
+import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
 /**
  * Represents a User entity in the domain. Encapsulates user details and role information.
  */
 export class User {
-	/**
-	 * Constructs a new User instance.
-	 * @param name - The user's first name.
-	 * @param lastName - The user's last name.
-	 * @param email - The user's email address.
-	 * @param roleId - The ID of the user's role.
-	 */
 	constructor(
-		private readonly name: UserName,
-		private readonly lastName: UserLastName,
-		private readonly email: UserEmail,
+		private readonly employeeId: EmployeeId,
 		private readonly roleId: RoleId
 	) {}
 
-	/**
-	 * Creates a new User instance from primitive values.
-	 * @param params - The primitive values for creating a User.
-	 * @returns A new User instance.
-	 */
-	static create({ name, email, lastName, roleId }: UserPrimitives): User {
-		return new User(
-			new UserName(name),
-			new UserLastName(lastName),
-			new UserEmail(email),
-			new RoleId(roleId)
-		)
+	static create({ employeeId, roleId }: UserParams): User {
+		return new User(new EmployeeId(employeeId), new RoleId(roleId))
 	}
 
 	/**
@@ -54,22 +33,8 @@ export class User {
 	/**
 	 * Gets the primitive value of the user's first name.
 	 */
-	get nameValue(): Primitives<UserName> {
-		return this.name.value
-	}
-
-	/**
-	 * Gets the primitive value of the user's last name.
-	 */
-	get lastNameValue(): Primitives<UserLastName> {
-		return this.lastName.value
-	}
-
-	/**
-	 * Gets the primitive value of the user's email address.
-	 */
-	get emailValue(): Primitives<UserEmail> {
-		return this.email.value
+	get employeeValue(): Primitives<EmployeeId> {
+		return this.employeeId.value
 	}
 
 	/**
@@ -85,9 +50,7 @@ export class User {
 	 */
 	toPrimitives(): UserPrimitives {
 		return {
-			name: this.nameValue,
-			lastName: this.lastNameValue,
-			email: this.emailValue,
+			employeeId: this.employeeValue,
 			roleId: this.roleIdValue
 		}
 	}

@@ -9,6 +9,7 @@ import { StepsToFollow } from '@/widgets/StepsToFollow/StepsToFollow'
 import { ChangePasswordStepsToFollow } from '@/widgets/StepsToFollow/ChangePasswordStepsToFollow'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { Seo } from '@/shared/ui/Seo'
+import { formatDateTime } from '@/shared/lib/utils/formatDate'
 
 const LoadingSpinner = lazy(() =>
 	import('@/shared/ui/Loading/LoadingSpinner').then(m => ({ default: m.LoadingSpinner }))
@@ -67,21 +68,35 @@ export default function ProfilePage() {
 
 			<DetailsWrapper title="A continuación le indicamos los datos de contacto">
 				<DetailsInfo title="Datos de Contacto">
+					<DescriptionListElement title="Usuario">
+						<DescriptionDesc desc={user?.employee?.userName ?? ''} />
+					</DescriptionListElement>
 					<DescriptionListElement title="Nombre">
-						<DescriptionDesc desc={user?.name ?? ''} />
+						<DescriptionDesc desc={user?.employee?.name ?? ''} />
 					</DescriptionListElement>
 					<DescriptionListElement title="Apellido">
-						<DescriptionDesc desc={user?.lastName ?? ''} />
+						<DescriptionDesc desc={user?.employee?.lastName ?? ''} />
 					</DescriptionListElement>
 					<DescriptionListElement title="Correo">
-						<DescriptionDesc desc={user?.email ?? ''} />
+						<DescriptionDesc desc={user?.employee?.email ?? ''} />
 					</DescriptionListElement>
 					<DescriptionListElement title="Role">
 						<DescriptionDesc desc={user?.role?.name ?? ''} />
 					</DescriptionListElement>
+					<DescriptionListElement title="Estatus">
+						<DescriptionDesc desc={user?.status} />
+					</DescriptionListElement>
+					<DescriptionListElement title="Último inicio de sesión">
+						<DescriptionDesc
+							desc={user?.lastLoginAt ? formatDateTime(user?.lastLoginAt) : 'Nunca'}
+						/>
+					</DescriptionListElement>
+					<DescriptionListElement title="Último cambio de contraseña">
+						<DescriptionDesc desc={formatDateTime(user?.passwordChangeAt)} />
+					</DescriptionListElement>
 				</DetailsInfo>
 
-				<ChangePassowrdForm userEmail={user?.email ?? ''} />
+				<ChangePassowrdForm userEmail={user?.employee?.email ?? ''} />
 			</DetailsWrapper>
 
 			<StepsToFollow>

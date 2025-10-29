@@ -47,10 +47,12 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 	const mappedUserState = useCallback((user: LoginUserDto): void => {
 		setState({
 			id: user.id,
-			email: user.email,
-			lastName: user.lastName,
-			name: user.name,
+			userName: user?.employee?.userName,
+			email: user?.employee?.email ?? '',
+			lastName: user?.employee?.lastName ?? '',
+			name: user?.employee?.name ?? '',
 			roleId: user.roleId,
+			status: user.status,
 			role: user.role,
 			updatedAt: user.updatedAt
 		})

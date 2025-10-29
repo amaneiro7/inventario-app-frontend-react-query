@@ -2,12 +2,15 @@ import { LoginUserDto } from '../../domain/dto/LoginUser.dto'
 import { UserEmail } from '../../domain/value-objects/UserEmail'
 import { UserLastName } from '../../domain/value-objects/UserLastName'
 import { UserName } from '../../domain/value-objects/UserName'
+import { UserStatusEnum } from '../../domain/value-objects/UserStatus'
 
 export interface DefaultUsers {
 	id?: string
+	userName: string
 	name: string
 	lastName: string
 	email: string
+	status: LoginUserDto['status']
 	roleId: string
 	role?: LoginUserDto['role']
 	updatedAt?: string
@@ -43,10 +46,12 @@ export interface State {
 export const initialUserState: State = {
 	formData: {
 		id: undefined,
+		userName: '',
 		name: '',
 		lastName: '',
 		email: '',
-		roleId: ''
+		roleId: '',
+		status: UserStatusEnum.ACTIVE
 	},
 	errors: {
 		name: '',
