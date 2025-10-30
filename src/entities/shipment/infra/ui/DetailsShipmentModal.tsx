@@ -74,7 +74,7 @@ export const DetailsShipmentModal = ({ shipment, onClose }: DetailsShipmentModal
 					<div className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
 						<DetailItem
 							label="Enviado por"
-							value={`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
+							value={`${shipment?.fromUser?.employee?.name} ${shipment?.fromUser?.employee?.lastName}`}
 						/>
 						<DetailItem
 							label="Recibido por"

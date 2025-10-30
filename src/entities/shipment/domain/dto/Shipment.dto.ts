@@ -101,8 +101,13 @@ export type ShipmentDto = Shipment & {
 		name: string
 	}
 	fromUser: {
-		name: string
-		lastName: string
+		id: string
+		employeeId: string
+		employee: {
+			name: string
+			lastName: string
+			userName: string
+		}
 	}
 	toEmployee: {
 		name: string

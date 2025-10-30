@@ -47,7 +47,7 @@ export const ShipmentDetails = ({ data }: ShipmentDetailsProps) => {
 				/>
 				<DetailItem
 					label="Enviado por"
-					value={`${data?.fromUser?.name} ${data?.fromUser?.lastName}`}
+					value={`${data?.fromUser?.employee?.name} ${data?.fromUser?.employee?.lastName}`}
 				/>
 				<DetailItem
 					label="Recibido por"
