@@ -60,9 +60,9 @@ export const TableHistory = memo(({ histories, isError }: TableHistoryProps) => 
 						<TableCell
 							aria-colindex={1}
 							size="medium"
-							value={history.user?.employee?.email ?? ''}
+							value={history.user?.employee?.userName ?? ''}
 						>
-							{history.user?.employee?.email ?? ''}
+							{history.user?.employee?.userName ?? ''}
 						</TableCell>
 						<TableCell aria-colindex={2} size="small" className="hidden md:table-cell">
 							<Tag

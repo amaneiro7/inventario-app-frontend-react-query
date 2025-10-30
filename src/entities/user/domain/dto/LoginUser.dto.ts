@@ -13,6 +13,7 @@ import { type LastLoginAt } from '../value-objects/LastLoginAt'
  */
 export interface User {
 	id: Primitives<UserId>
+	userName: Primitives<EmployeeDto['userName']>
 	employeeId: Primitives<EmployeeId>
 	roleId: Primitives<RoleId> // Temporal
 	status: Primitives<UserStatus>

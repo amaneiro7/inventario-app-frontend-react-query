@@ -20,7 +20,7 @@ export const UserCombobox = memo(function ({
 
 	const options = useMemo(() => data?.data ?? [], [data])
 
-	const filteredOptions = useFilterOptions({ options, inputValue, filterProperty: 'email' })
+	const filteredOptions = useFilterOptions({ options, inputValue, filterProperty: 'userName' })
 
 	return (
 		<>
@@ -34,7 +34,7 @@ export const UserCombobox = memo(function ({
 				inputValue={inputValue}
 				onInputChange={setInputValue}
 				onChangeValue={handleChange}
-				displayAccessor="email"
+				displayAccessor="userName"
 			/>
 		</>
 	)
