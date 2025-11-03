@@ -41,13 +41,23 @@ export const Header = memo(() => {
 						</Link>
 					)}
 
-					{/* <Link to='/dashboard' className='text-white text-xs md:text-sm lg:text-base font-medium p-1 border-b hover:text-orange hover:border-orange transition-colors duration-200'>Dashboard</Link> */}
-					<Link
-						to="/profile"
-						className="hover:text-orange hover:border-orange border-b p-1 text-xs font-medium text-white transition-colors duration-200 md:text-sm lg:text-base"
-					>
-						Perfil
-					</Link>
+					{user?.roleId === RoleOptions.ADMIN && (
+						<Link
+							to="/settings"
+							className="hover:text-orange hover:border-orange border-b p-1 text-xs font-medium text-white transition-colors duration-200 md:text-sm lg:text-base"
+						>
+							Configuración
+						</Link>
+					)}
+
+					{user?.roleId !== RoleOptions.ADMIN && (
+						<Link
+							to="/profile"
+							className="hover:text-orange hover:border-orange border-b p-1 text-xs font-medium text-white transition-colors duration-200 md:text-sm lg:text-base"
+						>
+							Perfil
+						</Link>
+					)}
 
 					<Button
 						aria-label="Botón para cerrar sesión del usuario"

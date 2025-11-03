@@ -50,6 +50,7 @@ const AdministrativeSiteMapPage = lazy(() => import('@/pages/MonitoringSiteMapCh
 
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const List = lazy(() => import('@/pages/List'))
+const Settings = lazy(() => import('@/pages/Settings'))
 const Form = lazy(() => import('@/pages/Form'))
 const Monitoring = lazy(() => import('@/pages/Monitoring'))
 
@@ -70,6 +71,7 @@ export function AppRoutes(): JSX.Element {
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} /> {/* Ruta index para / */}
 					<Route path="profile" element={<Profile />} />
+					<Route path="settings" element={<Settings />} />
 					<Route path="user-management" element={<UserManagement />}>
 						<Route path="register" element={<RegisterPage />} />
 						<Route path="edit/:id" element={<RegisterPage />} />
