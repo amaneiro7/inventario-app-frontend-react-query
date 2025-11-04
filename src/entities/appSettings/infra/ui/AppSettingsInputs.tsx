@@ -4,6 +4,10 @@ import { type AppSettingsForm } from '../reducers/AppSettingsFormReducer'
 import Typography from '@/shared/ui/Typography'
 import { type SettingsTypeEnum } from '../../domain/value-object/AppSettingsType'
 import { Checkbox } from '@/shared/ui/Checkbox'
+import { groupBy } from '@/shared/lib/utils/groupBy'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import Button from '@/shared/ui/Button'
 
 interface AppSettingsInputsProps {
 	settings: AppSettingsForm[]
@@ -12,101 +16,65 @@ interface AppSettingsInputsProps {
 	handleChange: (key: string, value: string, type: SettingsTypeEnum) => void
 }
 
+const GROUP_LABELS = {
+	security: { label: 'Seguridad', icon: '🔒' },
+	location_monitoring: { label: 'Monitoreo de Ubicación', icon: '📍' },
+	device_monitoring: { label: 'Monitoreo de Dispositivos', icon: '📱' }
+}
+
 export const AppSettingsInputs = memo(
 	({ settings, errors, isLoading, handleChange }: AppSettingsInputsProps) => {
 		const groupedSettings = useMemo(() => {
 			const editableSettings = settings.filter(s => s.isEditable)
 
-			return editableSettings.reduce<Record<string, AppSettingsForm[]>>((acc, setting) => {
-				const group = setting.group
-				if (!acc[group]) {
-					acc[group] = []
-				}
-				acc[group].push(setting)
-				return acc
-			}, {})
+			return groupBy(editableSettings, setting => setting.group)
 		}, [settings])
-
-		const renderInput = (setting: AppSettingsForm) => {
-			switch (setting.type) {
-				case 'boolean':
-					return (
-						<div className="flex items-center space-x-2">
-							<Checkbox
-								id={`setting-${setting.key}`}
-								checked={setting.value === 'true'}
-								onChange={checked =>
-									handleChange(setting.key, String(checked), setting.type)
-								}
-								disabled={!setting.isEditable || isLoading}
-							/>
-							<label
-								htmlFor={`setting-${setting.key}`}
-								className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-							>
-								{setting.description}
-							</label>
-						</div>
-					)
-				// TODO: Consider creating a specific Textarea component for JSON
-				case 'json':
-				case 'string':
-				case 'number':
-				default:
-					return (
-						<Input
-							id={`setting-${setting.key}`}
-							value={setting.value}
-							name={setting.key}
-							label={setting.key
-								.replace(/_/g, ' ')
-								.replace(/([a-z])([A-Z])/g, '$1 $2')
-								.toLowerCase()}
-							type={
-								setting.isProtected
-									? 'password'
-									: setting.type === 'number'
-										? 'number'
-										: 'text'
-							}
-							isLoading={isLoading}
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								handleChange(setting.key, e.target.value, setting.type)
-							}
-							error={!!errors[setting.key]}
-							errormessage={errors[setting.key]}
-							disabled={!setting.isEditable || isLoading}
-						/>
-					)
-			}
-		}
-
 		return (
-			<div className="flex flex-col gap-8">
-				{Object.entries(groupedSettings).map(([group, settingsInGroup]) => (
-					<div key={group} className="flex flex-col gap-4">
-						<Typography variant="h3" weight="semibold" className="capitalize">
-							{group.replace(/_/g, ' ')}
-						</Typography>
-						<div className="grid gap-4 md:grid-cols-2">
-							{settingsInGroup.map(setting => (
-								<div key={setting.key} className="flex flex-col gap-1">
-									{renderInput(setting)}
-									{setting.type !== 'boolean' && (
-										<Typography
-											variant="p"
-											color="gris"
-											option="small"
-											className="pl-1"
-										>
-											{setting.description}
-										</Typography>
-									)}
-								</div>
-							))}
-						</div>
-					</div>
-				))}
+			<div className="px-6 py-8">
+				{/* Tabs Content */}
+				<Tabs defaultValue="security" className="w-full">
+					<TabsList className="grid w-full grid-cols-3">
+						{Object.entries(GROUP_LABELS).map(([groupKey, { label, icon }]) => (
+							<TabsTrigger key={groupKey} value={groupKey}>
+								<span className="mr-2">{icon}</span>
+								{label}
+							</TabsTrigger>
+						))}
+					</TabsList>
+					{/*  Tabs Content */}
+					{Object.entries(groupedSettings).map(([groupKey, settings]) => (
+						<TabsContent key={groupKey} value={groupKey} className="mt-6 space-y-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>
+										{GROUP_LABELS[groupKey as keyof typeof GROUP_LABELS]?.label}
+									</CardTitle>
+									<CardDescription>
+										Configura los parámetros para{' '}
+										{GROUP_LABELS[
+											groupKey as keyof typeof GROUP_LABELS
+										]?.label.toLowerCase()}
+									</CardDescription>
+								</CardHeader>
+								<CardContent></CardContent>
+							</Card>
+						</TabsContent>
+					))}
+				</Tabs>
+				<div className="mt-8 flex justify-end gap-3">
+					<Button
+						buttonSize="medium"
+						color="green"
+						size="content"
+						text="Guardar Cambios"
+					/>
+					<Button
+						buttonSize="medium"
+						color="red"
+						size="content"
+						text="Descartar Cambios"
+					/>
+				</div>
 			</div>
 		)
 	}

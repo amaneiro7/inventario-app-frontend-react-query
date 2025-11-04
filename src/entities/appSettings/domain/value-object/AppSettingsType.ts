@@ -5,7 +5,9 @@ export enum SettingsTypeEnum {
 	STRING = 'string',
 	NUMBER = 'number',
 	BOOLEAN = 'boolean',
-	JSON = 'json'
+	JSON = 'json',
+	ARRAY = 'array',
+	DAY_OF_WEEK = 'dayOfWeek'
 }
 
 export class AppSettingsType extends EnumValueObject<SettingsTypeEnum> {

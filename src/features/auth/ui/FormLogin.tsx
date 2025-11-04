@@ -76,7 +76,7 @@ export const FormLogin = () => {
 									leftIcon={
 										<MailIcon className="aspect-square w-4 fill-black/60" />
 									}
-									label="Correo electrónico"
+									label="Usuario o Correo electrónico"
 									name="userNameOrEmail"
 									type="userNameOrEmail"
 									autoComplete="userNameOrEmail"

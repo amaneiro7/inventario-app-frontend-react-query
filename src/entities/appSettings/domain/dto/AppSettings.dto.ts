@@ -6,12 +6,14 @@ import { type AppSettingsDescription } from '../value-object/AppSettingsDescript
 import { type AppSettingsKey } from '../value-object/AppSettingsKey'
 import { type AppSettingsValue } from '../value-object/AppSettingsValue'
 import { type AppSettingsIsProtected } from '../value-object/AppSettingsIsProtected'
+import { type AppSettingsName } from '../value-object/AppSettingsName'
 
 export interface AppSettings {
 	key: Primitives<AppSettingsKey>
 	value: Primitives<AppSettingsValue>
 	type: Primitives<AppSettingsType>
 	group: Primitives<AppSettingsGroup>
+	name: Primitives<AppSettingsName>
 	description: Primitives<AppSettingsDescription>
 	isEditable: Primitives<AppSettingsIsEditable>
 	isProtected: Primitives<AppSettingsIsProtected>
@@ -22,7 +24,7 @@ export interface AppSettings {
  */
 export type AppSettingsPrimitives = Omit<
 	AppSettings,
-	'key' | 'type' | 'group' | 'description' | 'isEditable' | 'isProtected'
+	'key' | 'type' | 'group' | 'name' | 'description' | 'isEditable' | 'isProtected'
 >
 
 /**
@@ -31,7 +33,7 @@ export type AppSettingsPrimitives = Omit<
  */
 export type AppSettingsParams = Omit<
 	AppSettings,
-	'key' | 'group' | 'description' | 'isEditable' | 'isProtected'
+	'key' | 'group' | 'name' | 'description' | 'isEditable' | 'isProtected'
 >
 
 /**
