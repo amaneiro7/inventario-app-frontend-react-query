@@ -7,6 +7,7 @@ import { type UserStatus } from '../value-objects/UserStatus'
 import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 import { type PasswordChangeAt } from '../value-objects/PasswordChangeAt'
 import { type LastLoginAt } from '../value-objects/LastLoginAt'
+import { type LastLoginIp } from '../value-objects/LastLoginIp'
 
 /**
  * Represents the core properties of a User entity.
@@ -19,12 +20,16 @@ export interface User {
 	status: Primitives<UserStatus>
 	passwordChangeAt: Primitives<PasswordChangeAt>
 	lastLoginAt: Primitives<LastLoginAt>
+	lastLoginIp: Primitives<LastLoginIp>
 }
 
 /**
  * Represents the primitive properties of a User entity, excluding the ID.
  */
-export type UserPrimitives = Omit<User, 'id' | 'passwordChangeAt' | 'lastLoginAt' | 'status'>
+export type UserPrimitives = Omit<
+	User,
+	'id' | 'passwordChangeAt' | 'lastLoginAt' | 'lastLoginIp' | 'status'
+>
 
 /**
  * Represents the parameters used for creating or updating a User entity.

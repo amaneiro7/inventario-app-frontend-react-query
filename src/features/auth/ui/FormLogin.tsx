@@ -1,14 +1,14 @@
+import { useLogin } from '@/features/auth/model/useLogin'
+import { useGreetings } from '@/shared/lib/hooks/useGreetings'
+import { titleLogo } from '@/shared/config'
+
 import Button from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input/Input'
-import { titleLogo } from '@/shared/config'
 import Typography from '@/shared/ui/Typography'
-import { useLogin } from '@/features/auth/model/useLogin'
 import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
 import { LockIcon } from '@/shared/ui/icon/LockIcon'
 import { MailIcon } from '@/shared/ui/icon/MailIcon'
 import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
-import { useMemo } from 'react'
-import { formatDateWithWeekday } from '@/shared/lib/utils/formatDate'
 import { LazyLogoImage } from '@/shared/ui/Images/LazyLogoImage'
 import './formLogin.css'
 
@@ -23,20 +23,7 @@ export const FormLogin = () => {
 		isLoginLoading
 	} = useLogin()
 
-	const currentDate = new Date()
-
-	const greeting = useMemo(() => {
-		const currentHour = currentDate.getHours()
-		if (currentHour >= 5 && currentHour < 12) {
-			return 'Buenos dias'
-		} else if (currentHour >= 12 && currentHour < 19) {
-			return 'Buenas tardes'
-		} else {
-			return 'Buenas noches'
-		}
-	}, [])
-
-	const date = formatDateWithWeekday(currentDate)
+	const { date, greeting, currentDate } = useGreetings()
 
 	return (
 		<main className="formLogin">

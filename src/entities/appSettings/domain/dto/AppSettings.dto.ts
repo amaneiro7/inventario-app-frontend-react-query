@@ -5,6 +5,7 @@ import { type AppSettingsGroup } from '../value-object/AppSettingsGroup'
 import { type AppSettingsDescription } from '../value-object/AppSettingsDescription'
 import { type AppSettingsKey } from '../value-object/AppSettingsKey'
 import { type AppSettingsValue } from '../value-object/AppSettingsValue'
+import { type AppSettingsIsProtected } from '../value-object/AppSettingsIsProtected'
 
 export interface AppSettings {
 	key: Primitives<AppSettingsKey>
@@ -13,6 +14,7 @@ export interface AppSettings {
 	group: Primitives<AppSettingsGroup>
 	description: Primitives<AppSettingsDescription>
 	isEditable: Primitives<AppSettingsIsEditable>
+	isProtected: Primitives<AppSettingsIsProtected>
 }
 
 /**
@@ -20,14 +22,17 @@ export interface AppSettings {
  */
 export type AppSettingsPrimitives = Omit<
 	AppSettings,
-	'key' | 'type' | 'group' | 'description' | 'isEditable'
+	'key' | 'type' | 'group' | 'description' | 'isEditable' | 'isProtected'
 >
 
 /**
  * Represents the parameters used for creating or updating a AppSettings entity.
  * It includes all primitive properties and an optional ID for update operations, along with associated cargo IDs.
  */
-export type AppSettingsParams = Omit<AppSettings, 'key' | 'group' | 'description' | 'isEditable'>
+export type AppSettingsParams = Omit<
+	AppSettings,
+	'key' | 'group' | 'description' | 'isEditable' | 'isProtected'
+>
 
 /**
  * Represents the Data Transfer Object (DTO) for a AppSettings entity, including full Cargo details and update timestamp.
