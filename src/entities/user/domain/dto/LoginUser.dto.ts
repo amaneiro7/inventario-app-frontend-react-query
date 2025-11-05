@@ -28,7 +28,7 @@ export interface User {
  */
 export type UserPrimitives = Omit<
 	User,
-	'id' | 'passwordChangeAt' | 'lastLoginAt' | 'lastLoginIp' | 'status'
+	'id' | 'passwordChangeAt' | 'lastLoginAt' | 'lastLoginIp' | 'status' | 'userName'
 >
 
 /**

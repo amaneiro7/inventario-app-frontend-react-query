@@ -76,7 +76,7 @@ export default function UserManagement() {
 							variant="span"
 							color="gris"
 							option="small"
-							className="text-gris"
+							className="text-gris flex items-center justify-center gap-2"
 						>
 							{`Ingrese el correo del usuario que desea visualizar,
 							editar, restablecer contraseña o eliminar ${pageInfo.desc}.`}
