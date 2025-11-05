@@ -35,12 +35,18 @@ api.interceptors.response.use(
 	async error => {
 		const originalRequest = error.config
 
+		// Define la ruta de login
+		const LOGIN_URL = 'auth/login/local'
+		const REFRESH_URL = 'auth/refresh-token'
+
+		console.log(originalRequest.url)
+
+		// Comprobar si la ruta original es la de Login, Refresh o ya es un reintento
+		const isExcludedUrl =
+			originalRequest.url === LOGIN_URL || originalRequest.url === REFRESH_URL
+
 		// Si el error es 401, NO es un reintento y NO es la propia petición de refresco
-		if (
-			error.response.status === 401 &&
-			!originalRequest._retry &&
-			originalRequest.url !== 'auth/refresh-token'
-		) {
+		if (error.response.status === 401 && !originalRequest._retry && !isExcludedUrl) {
 			originalRequest._retry = true // Marcar como reintento
 
 			try {
