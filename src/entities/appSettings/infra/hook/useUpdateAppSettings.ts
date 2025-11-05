@@ -1,18 +1,16 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import {
-	initialAppSettingsState,
-	appSettingsFormReducer
-} from '../reducers/AppSettingsFormReducer'
+import { queryClient } from '@/shared/lib/queryCliente'
+import { useGetAllAppSettings } from './useGetAllAppSettings'
+import { initialAppSettingsState, appSettingsFormReducer } from '../reducers/AppSettingsFormReducer'
 import { AppSettingsSaveService } from '../service/appSettingsSave.service'
 import { AppSettingsUpdater } from '../../application/AppSettingsUpdater'
-import { useGetAllAppSettings } from './useGetAllAppSettings'
-import { queryClient } from '@/shared/lib/queryCliente'
 import { type SettingsTypeEnum } from '../../domain/value-object/AppSettingsType'
 
 export function useUpdateAppSettings() {
 	const { events } = useAuthStore.getState()
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const updateSettings = useMemo(() => {
 		return new AppSettingsUpdater(new AppSettingsSaveService(), events)
@@ -34,6 +32,19 @@ export function useUpdateAppSettings() {
 		}
 	}, [initialSettings])
 
+	const hasChanges = useMemo(() => {
+		if (!initialSettings || !settings) {
+			return false
+		}
+
+		const originalSettingsMap = new Map(initialSettings.map(s => [s.key, s.value]))
+
+		return settings.some(currentSetting => {
+			const originalValue = originalSettingsMap.get(currentSetting.key)
+			return originalValue !== undefined && currentSetting.value !== originalValue
+		})
+	}, [settings, initialSettings])
+
 	const resetForm = useCallback(() => {
 		dispatch({
 			type: 'reset',
@@ -49,32 +60,52 @@ export function useUpdateAppSettings() {
 		async (event: React.FormEvent) => {
 			event.preventDefault()
 			event.stopPropagation()
+			setIsSubmitting(true)
 
 			const hasErrors = Object.values(errors).some(error => error !== '')
 			if (hasErrors) {
 				// Maybe notify user about errors
+				setIsSubmitting(false)
 				return
 			}
 
-			const settingsToUpdate = settings
-				.filter(s => s.isEditable)
-				.map(s => ({
-					key: s.key,
-					value: s.value,
-					type: s.type
-				}))
+			const originalSettingsMap = new Map(initialSettings?.map(s => [s.key, s.value]))
 
-			await updateSettings.updateMultiple(settingsToUpdate).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['appSettings'] })
+			const changedSettings = settings.filter(currentSetting => {
+				const originalValue = originalSettingsMap.get(currentSetting.key)
+				return (
+					currentSetting.isEditable &&
+					originalValue !== undefined &&
+					currentSetting.value !== originalValue
+				)
 			})
+
+			if (changedSettings.length === 0) {
+				setIsSubmitting(false)
+				return
+			}
+
+			await updateSettings
+				.updateMultiple(changedSettings)
+				.then(() => {
+					queryClient.invalidateQueries({ queryKey: ['appSettings'] })
+				})
+				.finally(() => {
+					setIsSubmitting(false)
+				})
 		},
-		[settings, errors, updateSettings]
+		[settings, errors, updateSettings, initialSettings]
 	)
+
+	const getGroupSettings = (group: string) => settings.filter(s => s.group === group)
 
 	return {
 		settings,
 		errors,
 		isLoading,
+		isSubmitting,
+		hasChanges,
+		getGroupSettings,
 		resetForm,
 		handleSubmit,
 		handleChange

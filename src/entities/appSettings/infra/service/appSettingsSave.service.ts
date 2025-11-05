@@ -39,10 +39,7 @@ export class AppSettingsSaveService implements AppSettingsSaveRepository {
 	async updateMultiple({
 		settings
 	}: {
-		settings: {
-			key: Primitives<AppSettingsKey>
-			payload: AppSettingsPrimitives
-		}[]
+		settings: AppSettingsPrimitives[]
 	}): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',

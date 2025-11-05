@@ -1,23 +1,12 @@
-'use client'
-
 import { useState } from 'react'
-import { Input } from '@/components/ui/input'
-import { Switch } from '@/components/ui/switch'
-import { Button } from '@/components/ui/button'
-import { SettingArrayField } from './setting-array-field'
-import { SettingNumberField } from './setting-number-field'
-
-interface Setting {
-	key: string
-	value: string
-	type: string
-	description: string
-	isEditable: boolean
-	isProtected?: boolean
-}
+import { SettingArrayField } from './SettingsArrayField'
+import { Switch } from '@/shared/ui/Switch'
+import Button from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input/Input'
+import { type AppSettingsDto } from '../../domain/dto/AppSettings.dto'
 
 interface SettingsFormProps {
-	settings: Setting[]
+	settings: AppSettingsDto[]
 	values: Record<string, string>
 	protectedValues: Record<string, string>
 	onSave: (key: string, value: string) => void
@@ -68,7 +57,7 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 					>
 						<div className="flex-1">
 							<label className="text-foreground text-sm font-semibold">
-								{setting.key}
+								{setting.name}
 							</label>
 							<p className="text-muted-foreground mt-1 text-sm">
 								{setting.description}
@@ -90,9 +79,16 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 										/>
 									)}
 									{setting.type === 'number' && (
-										<SettingNumberField
+										<Input
+											id={setting.key}
+											label={setting.name}
+											name={setting.key}
 											value={tempValues[setting.key]}
-											onChange={value => handleTempChange(setting.key, value)}
+											type="number"
+											onChange={e =>
+												handleTempChange(setting.key, e.target.value)
+											}
+											className="w-64"
 										/>
 									)}
 									{setting.type === 'array' && (
@@ -103,6 +99,9 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 									)}
 									{setting.type === 'string' && (
 										<Input
+											id={setting.key}
+											label={setting.name}
+											name={setting.key}
 											value={tempValues[setting.key]}
 											onChange={e =>
 												handleTempChange(setting.key, e.target.value)
@@ -112,15 +111,21 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 									)}
 
 									<Button
-										size="sm"
+										buttonSize="small"
+										size="content"
+										color="green"
 										onClick={() => handleConfirm(setting.key)}
 										className="bg-green-600 hover:bg-green-700"
-									>
-										✓
-									</Button>
-									<Button size="sm" variant="outline" onClick={handleCancel}>
-										✕
-									</Button>
+										text="✓"
+									/>
+
+									<Button
+										buttonSize="small"
+										size="content"
+										color="blanco"
+										onClick={handleCancel}
+										text="✕"
+									/>
 								</div>
 							) : (
 								<>
@@ -160,12 +165,12 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 									</div>
 
 									<Button
-										size="sm"
-										variant="outline"
+										buttonSize="small"
+										size="content"
+										color="blanco"
 										onClick={() => handleEdit(setting.key, currentValue)}
-									>
-										Editar
-									</Button>
+										text="Editar"
+									/>
 								</>
 							)}
 						</div>
@@ -203,8 +208,11 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 										{editingKey === setting.key ? (
 											<div className="flex items-center gap-2">
 												<Input
+													id=""
+													label=""
+													name=""
 													type="password"
-													value={tempValues[setting.key] || ''}
+													value={tempValues[setting.key] ?? ''}
 													onChange={e =>
 														handleTempChange(
 															setting.key,
@@ -215,19 +223,20 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 													className="w-64"
 												/>
 												<Button
-													size="sm"
+													buttonSize="small"
+													size="content"
+													color="green"
 													onClick={() => handleConfirm(setting.key)}
-													className="bg-green-600 hover:bg-green-700"
-												>
-													✓
-												</Button>
+													text="✓"
+												/>
+
 												<Button
-													size="sm"
-													variant="outline"
+													buttonSize="small"
+													size="content"
+													color="blanco"
 													onClick={handleCancel}
-												>
-													✕
-												</Button>
+													text="✕"
+												/>
 											</div>
 										) : (
 											<>
@@ -243,12 +252,12 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 													)}
 												</div>
 												<Button
-													size="sm"
-													variant="outline"
+													buttonSize="small"
+													color="blanco"
+													size="content"
 													onClick={() => handleEdit(setting.key, '')}
-												>
-													{hasValue ? 'Cambiar' : 'Establecer'}
-												</Button>
+													text={hasValue ? 'Cambiar' : 'Establecer'}
+												/>
 											</>
 										)}
 									</div>

@@ -24,7 +24,7 @@ export interface AppSettings {
  */
 export type AppSettingsPrimitives = Omit<
 	AppSettings,
-	'key' | 'type' | 'group' | 'name' | 'description' | 'isEditable' | 'isProtected'
+	'type' | 'group' | 'name' | 'description' | 'isEditable' | 'isProtected'
 >
 
 /**
@@ -33,7 +33,7 @@ export type AppSettingsPrimitives = Omit<
  */
 export type AppSettingsParams = Omit<
 	AppSettings,
-	'key' | 'group' | 'name' | 'description' | 'isEditable' | 'isProtected'
+	'group' | 'name' | 'description' | 'isEditable' | 'isProtected'
 >
 
 /**

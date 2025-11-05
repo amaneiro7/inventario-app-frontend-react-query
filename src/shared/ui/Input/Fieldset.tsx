@@ -44,9 +44,13 @@ export function Fieldset<T extends string | number | readonly string[]>({
 			{...(error ? { 'aria-invalid': true } : {})}
 			{...props}
 		>
-			<legend className={legendTransform ? 'transform' : ''}>
-				<span>{`${label} ${required ? '*' : ''}`}</span>
-			</legend>
+			<>
+				{label && (
+					<legend className={legendTransform ? 'transform' : ''}>
+						<span>{`${label} ${required ? '*' : ''}`}</span>
+					</legend>
+				)}
+			</>
 		</fieldset>
 	)
 }

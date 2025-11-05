@@ -54,18 +54,20 @@ export const InputBase = memo(
 				data-error={error ? errorMessage : undefined}
 				{...props}
 			>
-				<Label
-					id={id}
-					label={label}
-					value={value}
-					error={error}
-					required={required}
-					disabled={disabled}
-					type={type}
-					valid={valid}
-					leftIcon={leftIcon || selectInput ? true : false}
-					transform={transform}
-				/>
+				{label && (
+					<Label
+						id={id}
+						label={label}
+						value={value}
+						error={error}
+						required={required}
+						disabled={disabled}
+						type={type}
+						valid={valid}
+						leftIcon={leftIcon || selectInput ? true : false}
+						transform={transform}
+					/>
+				)}
 				<div className={`inputArea ${isLoading ? 'isLoading' : ''}`}>
 					{leftIcon ? <span className="leftIcon">{leftIcon}</span> : null}
 					{selectInput ? <>{selectInput}</> : null}

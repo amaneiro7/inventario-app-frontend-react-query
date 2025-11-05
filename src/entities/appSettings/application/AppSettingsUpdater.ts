@@ -45,15 +45,12 @@ export class AppSettingsUpdater {
 		}
 	}
 
-	async updateMultiple(
-		settings: (AppSettingsParams & { key: Primitives<AppSettingsKey> })[]
-	) {
+	async updateMultiple(settings: (AppSettingsParams & { key: Primitives<AppSettingsKey> })[]) {
 		this.events.notify({ type: 'loading' })
 		try {
-			const settingsToUpdate = settings.map(setting => ({
-				key: setting.key,
-				payload: AppSettings.create(setting).toPrimitives()
-			}))
+			const settingsToUpdate = settings.map(setting =>
+				AppSettings.create(setting).toPrimitives()
+			)
 			const result = await this.repository.updateMultiple({ settings: settingsToUpdate })
 			this.events.notify({ type: 'success', message: result.message })
 			return result

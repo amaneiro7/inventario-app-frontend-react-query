@@ -14,9 +14,6 @@ export abstract class AppSettingsSaveRepository {
 	abstract updateMultiple({
 		settings
 	}: {
-		settings: {
-			key: Primitives<AppSettingsKey>
-			payload: AppSettingsPrimitives
-		}[]
+		settings: AppSettingsPrimitives[]
 	}): Promise<{ message: string }>
 }
