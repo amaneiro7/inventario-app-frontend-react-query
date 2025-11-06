@@ -1,50 +1,49 @@
 import { memo, useRef } from 'react'
-
 import Button from '@/shared/ui/Button'
+import { Color } from '@/shared/ui/Button/styles'
 import { ConfirmationModal } from '@/shared/ui/Modal/ConfirmationModal'
 import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
 import { ResetIcon } from '@/shared/ui/icon/ResetIcon'
-import { ResetPasswordService } from '@/entities/user/infra/service/ResetPassword.service'
-import { ResetPassword } from '@/entities/user/application/ResetPassword'
-import { useAuthStore } from '@/features/auth/model/useAuthStore'
 
-export const ResetPasswordButton = memo(({ id }: { id: string }) => {
-	const dialogResetRef = useRef<ModalRef>(null)
-	const events = useAuthStore.getState().events
-	const resetUserPasswordService = new ResetPasswordService()
-	const resetUserPassword = new ResetPassword(resetUserPasswordService, events)
-	const handleReset = () => {
-		resetUserPassword.execute({ id })
-	}
-	const handleClose = () => {
-		dialogResetRef.current?.handleClose()
-	}
+interface ResetPasswordButtonProps {
+	handleActionClick: (action: 'reset' | 'disable' | 'unlock' | 'reactivate') => Promise<void>
+	color: keyof typeof Color
+}
 
-	const handleOpen = () => {
-		dialogResetRef.current?.handleOpen()
-	}
+export const ResetPasswordButton = memo(
+	({ handleActionClick, color }: ResetPasswordButtonProps) => {
+		const dialogResetRef = useRef<ModalRef>(null)
 
-	return (
-		<>
-			<Button
-				color="orange"
-				text="Restablecer Contraseña"
-				onClick={handleOpen}
-				buttonSize="medium"
-				size="content"
-				icon={<ResetIcon width={16} className="aspect-square" />}
-			/>
+		const handleClose = () => {
+			dialogResetRef.current?.handleClose()
+		}
 
-			<Dialog ref={dialogResetRef}>
-				<ConfirmationModal
-					handleClose={handleClose}
-					handle={handleReset}
-					text="¿Está seguro que desea "
-					strongText="Restablecer la Contraseña?"
+		const handleOpen = () => {
+			dialogResetRef.current?.handleOpen()
+		}
+
+		return (
+			<>
+				<Button
+					color={color}
+					text="Restablecer Contraseña"
+					onClick={handleOpen}
+					buttonSize="medium"
+					size="content"
+					icon={<ResetIcon width={16} className="aspect-square" />}
 				/>
-			</Dialog>
-		</>
-	)
-})
+
+				<Dialog ref={dialogResetRef}>
+					<ConfirmationModal
+						handleClose={handleClose}
+						handle={() => handleActionClick('reset')}
+						text="¿Está seguro que desea "
+						strongText="Restablecer la Contraseña?"
+					/>
+				</Dialog>
+			</>
+		)
+	}
+)
 
 ResetPasswordButton.displayName = 'ResetPasswordButton'

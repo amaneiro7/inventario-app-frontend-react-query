@@ -27,6 +27,7 @@ interface RoleComboboxProps {
 	 * Whether the input is read-only.
 	 */
 	readonly?: boolean
+	label?: string
 	/**
 	 * Callback function triggered when the selected value changes.
 	 * @param name - The name of the input field.
@@ -46,6 +47,7 @@ export function RoleCombobox({
 	required = false,
 	disabled = false,
 	readonly = false,
+	label = 'Roles',
 	handleChange
 }: RoleComboboxProps) {
 	const { data: roles, isLoading } = useGetAllRoles({})
@@ -56,7 +58,7 @@ export function RoleCombobox({
 		<>
 			<Combobox
 				id="role"
-				label="Roles"
+				label={label}
 				value={value}
 				name={name}
 				loading={isLoading}

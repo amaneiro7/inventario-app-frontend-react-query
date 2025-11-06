@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import { useUserInitialState } from './useUsersInitialState'
@@ -17,12 +17,16 @@ import { UnlockAccount } from '../../application/UnlockAccount'
 import { ResetPassword } from '../../application/ResetPassword'
 import { DisableAccount } from '../../application/DisableAccount'
 import { DisableAccountService } from '../service/DisableAccount.service'
+import { ReactivateAccount } from '../../application/ReactivateAccount'
+import { ReactivateAccountService } from '../service/ReactivateAccount.service'
 
 export function useCreateUser(defaultState?: DefaultUsers) {
 	const { events } = useAuthStore.getState()
 	const resetUserPassword = new ResetPassword(new ResetPasswordService(), events)
 	const unlockAccount = new UnlockAccount(new UnlockAccountService(), events)
 	const disableAccount = new DisableAccount(new DisableAccountService(), events)
+	const reactivateAccount = new ReactivateAccount(new ReactivateAccountService(), events)
+	const [isSaving, setIsSaving] = useState(false)
 
 	const create = useMemo(
 		() => async (formData: never) => {
@@ -72,15 +76,42 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		})
 	}
 
-	const handleResetPassword = (id: string) => {
-		resetUserPassword.execute({ id })
+	const handleActionClick = async (action: 'reset' | 'disable' | 'unlock' | 'reactivate') => {
+		if (!formData?.id) return
+		// Preparamos la ejecución que se repetirá en cada caso
+		const userId = formData.id
+		let executeAction: Promise<void>
+		try {
+			switch (action) {
+				case 'reset':
+					executeAction = resetUserPassword.execute({ id: userId })
+					break
+				case 'disable':
+					executeAction = disableAccount.execute({ id: userId })
+					break
+				case 'unlock':
+					executeAction = unlockAccount.execute({ id: userId })
+					break
+				case 'reactivate':
+					executeAction = reactivateAccount.execute({ id: userId })
+					break
+				default:
+					return // Ignorar si la acción no es válida
+			}
+
+			// Ejecutar la acción y esperar a que termine
+			await executeAction
+
+			// Lógica post-ejecución (invalida el caché y resetea el estado)
+			queryClient.invalidateQueries({ queryKey: ['users'] })
+			resetState()
+		} catch (error) {
+			// Manejo de errores centralizado (ej: notificaciones)
+			console.error(`Error ejecutando la acción ${action}:`, error)
+			// Opcional: Mostrar una notificación al usuario (toast)
+		}
 	}
-	const handleUnlockAccount = (id: string) => {
-		unlockAccount.execute({ id })
-	}
-	const handleDisableAccount = (id: string) => {
-		disableAccount.execute({ id })
-	}
+
 	return {
 		key,
 		formData,
@@ -91,12 +122,11 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		isError,
 		isLoading,
 		isNotFound,
+		isSaving,
 		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange,
-		handleResetPassword,
-		handleUnlockAccount,
-		handleDisableAccount
+		handleActionClick
 	}
 }

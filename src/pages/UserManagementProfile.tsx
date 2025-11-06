@@ -1,34 +1,85 @@
 import { lazy, Suspense, useState } from 'react'
 import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 
-import { Card } from '@/shared/ui/Card'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/shared/ui/Card'
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
+	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger
 } from '@/shared/ui/DropdownMenu'
-import { MoreVertical } from 'lucide-react'
+import { MoreVertical, UserCircle } from 'lucide-react'
 import { AuxiliarButton } from '@/shared/ui/Button/AuxiliarButton'
-import { Switch } from '@/shared/ui/Switch'
-import { Input } from '@/shared/ui/Input/Input'
+import Button from '@/shared/ui/Button'
 import { UserStatusEnum } from '@/entities/user/domain/value-objects/UserStatus'
+import { RoleCombobox } from '@/entities/role/infra/ui/RoleComboBox'
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+// import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+// import { ManagementProfileLoading } from '@/shared/ui/Loading/ProfileLoading'
+// import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+// import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+// import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
+// import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
+// import { DescriptionDesc } from '@/shared/ui/DetailsWrapper/DescriptionDesc'
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+// import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
+
+// import { EditUserButton } from '@/features/user-edit/ui/EditUserButton'
+
+const STATUS_MAP = {
+	[UserStatusEnum.ACTIVE]: {
+		label: 'Activo',
+		className: 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+	},
+	[UserStatusEnum.LOCKED]: {
+		label: 'Bloqueado',
+		className: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+	},
+	[UserStatusEnum.SUSPENDED]: {
+		label: 'Suspendido',
+		className: 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+	},
+	UNKNOWN: {
+		label: 'Desconocido',
+		className: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+	}
+	// Añade aquí cualquier otro estado (ej: 'INACTIVE', 'PENDING', etc.)
+}
+const Actions_MAP = {
+	update: 'Actualizar rol',
+	reset: 'Restablecer contraseña',
+	disabled: 'Deshabilitar usuario',
+	reactivate: 'Reactivar Usuario',
+	unlock: 'Desbloquear usuario'
+}
+
+// const ActionHandle = ({ action, id }: { action: keyof typeof Actions_MAP; id: string }) => {
+// 	switch (action) {
+// 		case 'update':
+// 			return <EditUserButton id={id} />
+// 		case 'reset':
+// 			return <ResetPasswordButton  id={id} />
+// 		case 'disabled':
+// 			return <DisableUserButton id={id} />
+// 		case 'reactivate':
+// 			return <ReactivateUserButton id={id} />
+// 		case 'unlock':
+// 			return <UnlockUserButton id={id} />
+// 		default:
+// 			return null
+// 	}
+// }
 
 // export default function ManagementProfile() {
-// 	const { formData, isLoading, isNotFound } = useCreateUser()
-// 	const [action, setAction] = useState<Actions>('editar')
+// 	const { formData, isLoading, isNotFound, handleChange, handleActionClick } = useCreateUser()
+// 	const [action, setAction] = useState<keyof typeof Actions_MAP>('update')
 
-// 	const title = `${
-// 		action === 'editar'
-// 			? 'Editar'
-// 			: action === 'reset'
-// 				? 'Restablecer contraseña'
-// 				: action === 'delete'
-// 					? 'Eliminar Usuario'
-// 					: 'Seleccione'
-// 	}`
+// 	const title = Actions_MAP[action] || Actions_MAP.update
+
+// 	const currentStatus = STATUS_MAP[formData.status] || STATUS_MAP.UNKNOWN
+
 // 	if (isLoading) {
 // 		return (
 // 			<DetailsBoxWrapper position="center">
@@ -84,33 +135,38 @@ import { UserStatusEnum } from '@/entities/user/domain/value-objects/UserStatus'
 // 				)}
 // 			>
 // 				<DetailsInfo title="Información del usuario">
-// 					<DescriptionListElement title="Nombre">
-// 						<DescriptionDesc desc={formData.name} />
-// 					</DescriptionListElement>
-// 					<DescriptionListElement title="Apellido">
-// 						<DescriptionDesc desc={formData.lastName} />
+// 					<DescriptionListElement title="Nombre y Apellido">
+// 						<DescriptionDesc desc={`${formData.name} ${formData.lastName}`} />
 // 					</DescriptionListElement>
 // 					<DescriptionListElement title="Correo">
 // 						<DescriptionDesc desc={formData.email} />
 // 					</DescriptionListElement>
 // 					<DescriptionListElement title="Role">
-// 						<DescriptionDesc desc={formData?.role?.name ?? ''} />
+// 						<RoleCombobox
+// 							value={formData.roleId}
+// 							handleChange={(_name, value) => handleChange('roleId', value)}
+// 							name=""
+// 							required
+// 						/>
 // 					</DescriptionListElement>
 // 					<DescriptionListElement title="Acciones">
-// 						<Select value={action} onValueChange={value => setAction(value as Actions)}>
+// 						<Select
+// 							value={action}
+// 							onValueChange={value => setAction(value as keyof typeof Actions_MAP)}
+// 						>
 // 							<SelectTrigger className="w-[180px]">
 // 								<SelectValue placeholder="Acciones" />
 // 							</SelectTrigger>
 // 							<SelectContent>
-// 								<SelectItem value="editar">Editar</SelectItem>
+// 								<SelectItem value="update">Editar</SelectItem>
 // 								<SelectItem value="reset">Restablecer contraseña</SelectItem>
-// 								<SelectItem value="delete">Eliminar Usuario</SelectItem>
+// 								<SelectItem value="disable">Deshabilitar usuario</SelectItem>
 // 							</SelectContent>
 // 						</Select>
 // 					</DescriptionListElement>
 // 					<DescriptionListElement title={title}>
 // 						<Suspense fallback={<Skeleton width={180} height={32} />}>
-// 							<ActionHandle action={action} id={formData?.id} />
+// 							{/* <ActionHandle action={action} id={formData?.id} /> */}
 // 						</Suspense>
 // 					</DescriptionListElement>
 // 				</DetailsInfo>
@@ -120,199 +176,109 @@ import { UserStatusEnum } from '@/entities/user/domain/value-objects/UserStatus'
 // }
 
 export default function ManagementProfile() {
-	const { formData, isLoading, handleResetPassword, handleUnlockAccount, handleDisableAccount } =
+	const { formData, isLoading, isSaving, handleActionClick, handleChange, handleSubmit } =
 		useCreateUser()
+
+	const currentStatus = STATUS_MAP[formData.status] || STATUS_MAP.UNKNOWN
+
 	return (
-		<div className="space-y-4">
-			{/* Información del empleado */}
-			<Card className="p-6">
-				<div className="mb-6 flex items-start justify-between">
-					<div>
-						<h2 className="text-foreground text-2xl font-bold">
-							{formData.name} {formData.lastName}
-						</h2>
-						<p className="text-muted-foreground">{formData.email}</p>
-					</div>
-					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<AuxiliarButton variant="ghost" size="icon">
-								<MoreVertical className="h-4 w-4" />
-							</AuxiliarButton>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent align="end" className="w-48">
-							<DropdownMenuItem onClick={() => handleResetPassword(formData?.id)}>
-								Reset Password
-							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => handleUnlockAccount(formData?.id)}>
-								Desbloquear
-							</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem
-								onClick={() => handleDisableAccount(formData?.id)}
-								className="text-red-600"
-							>
-								Deshabilitar
-							</DropdownMenuItem>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				</div>
-
-				{/* Estado Actual */}
-				<div className="bg-muted/50 mb-6 rounded-lg p-4">
-					<h3 className="text-foreground mb-3 font-semibold">Estado Actual</h3>
-					<div className="grid grid-cols-2 gap-4">
-						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-sm">Estado:</span>
-							<span
-								className={`text-sm font-medium ${formData.status === UserStatusEnum.ACTIVE ? 'text-green-600' : 'text-red-600'}`}
-							>
-								{formData.status === UserStatusEnum.ACTIVE
-									? '✓ Activo'
-									: '✗ Deshabilitado'}
-							</span>
-						</div>
-						<div className="flex items-center justify-between">
-							<span className="text-muted-foreground text-sm">Bloqueado:</span>
-							<span
-								className={`text-sm font-medium ${formData.status === UserStatusEnum.LOCKED ? 'text-red-600' : 'text-green-600'}`}
-							>
-								{formData.status === UserStatusEnum.LOCKED ? 'Sí' : 'No'}
-							</span>
+		<DetailsBoxWrapper position="center">
+			<Card>
+				<CardHeader>
+					<div className="flex items-center gap-4">
+						<UserCircle className="h-16 w-16 text-gray-300 dark:text-gray-600" />
+						<div>
+							<CardTitle className="text-xl">
+								{formData.name} {formData.lastName}
+							</CardTitle>
+							<CardDescription>{formData.email}</CardDescription>
 						</div>
 					</div>
-				</div>
+				</CardHeader>
+				<CardContent>
+					<div className="mt-6 flex items-center gap-4">
+						<h3 className="text-muted-foreground text-sm font-medium">Estado</h3>
+						<span
+							className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-sm font-semibold ${currentStatus.className}`}
+						>
+							{currentStatus.label}
+						</span>
+					</div>
 
-				{/* Asignar Permisos */}
-				<div className="border-border border-t pt-6">
-					<h3 className="text-foreground mb-4 font-semibold">
-						Asignar Permisos de Servicio
-					</h3>
+					{/* Asignar Permisos */}
+					<div className="mt-6 flex items-center justify-center gap-4">
+						<h3 className="text-muted-foreground text-sm font-medium">Estado</h3>
+						<RoleCombobox
+							value={formData.roleId}
+							handleChange={(_name, value) => handleChange('roleId', value)}
+							name="roleId"
+							label=""
+							readonly
+							required
+						/>
+					</div>
 
-					<div className="space-y-4">
-						{/* <div className="bg-muted/30 flex items-center justify-between rounded-lg p-4">
-							<div>
-								<p className="text-foreground font-medium">
-									Habilitar acceso de servicio
-								</p>
-								<p className="text-muted-foreground text-sm">
-									Permitir que este empleado acceda al sistema
-								</p>
-							</div>
-							<Switch
+					{/* Botones de acción */}
+					<div className="mt-6 flex gap-3 p-6">
+						{formData.status !== UserStatusEnum.SUSPENDED ? (
+							<Button
+								color="blancoRed"
+								buttonSize="medium"
+								size="content"
+								hoverTranslation={false}
+								onClick={() => handleActionClick('disable')}
+								disabled={isSaving}
+								text="Deshabilitar"
+							/>
+						) : (
+							<Button
+								color="blue"
+								buttonSize="medium"
+								size="content"
+								hoverTranslation={false}
+								onClick={() => handleActionClick('reactivate')}
+								disabled={isSaving}
+								text="Reactivar"
+							/>
+						)}
+
+						{formData.status === UserStatusEnum.LOCKED && (
+							<Button
+								color="blancoRed"
+								buttonSize="medium"
+								size="content"
+								hoverTranslation={false}
+								onClick={() => handleActionClick('unlock')}
+								disabled={isSaving}
+								text="Desbloquear"
+							/>
+						)}
+
+						{formData.status !== UserStatusEnum.SUSPENDED && (
+							<Button
+								color="blanco"
+								buttonSize="medium"
+								size="content"
+								hoverTranslation={false}
+								onClick={() => handleActionClick('reset')}
+								disabled={isSaving}
+								text={isSaving ? 'Restableciendo...' : 'Restablecer contraseña'}
+							/>
+						)}
+						{formData.status !== UserStatusEnum.SUSPENDED && (
+							<Button
 								color="green"
-								checked={userStatus.hasServiceRole}
-								onCheckedChange={checked =>
-									setUserStatus({ ...userStatus, hasServiceRole: checked })
-								}
+								buttonSize="medium"
+								size="content"
+								hoverTranslation={false}
+								onClick={handleSubmit}
+								disabled={isSaving}
+								text={isSaving ? 'Guardando...' : 'Guardar Cambios'}
 							/>
-						</div> */}
-
-						{/* {userStatus.hasServiceRole && (
-							<div className="space-y-3">
-								<div>
-									<label className="text-foreground mb-2 block text-sm font-medium">
-										Rol de Servicio
-									</label>
-									<Select
-										value={userStatus.serviceRole}
-										onValueChange={value =>
-											setUserStatus({ ...userStatus, serviceRole: value })
-										}
-									>
-										<SelectTrigger>
-											<SelectValue />
-										</SelectTrigger>
-										<SelectContent>
-											<SelectItem value="user">Usuario Estándar</SelectItem>
-											<SelectItem value="admin">Administrador</SelectItem>
-											<SelectItem value="moderator">Moderador</SelectItem>
-										</SelectContent>
-									</Select>
-								</div>
-							</div>
-						)} */}
+						)}
 					</div>
-				</div>
-
-				{/* Gestión de Contraseña */}
-				{/* <div className="border-border mt-6 border-t pt-6">
-					<h3 className="text-foreground mb-4 font-semibold">Gestión de Contraseña</h3>
-
-					{!isChangingPassword ? (
-						<AuxiliarButton
-							variant="outline"
-							onClick={() => setIsChangingPassword(true)}
-							className="w-full"
-						>
-							Establecer Nueva Contraseña
-						</AuxiliarButton>
-					) : (
-						<div className="space-y-3">
-							<Input
-								type="password"
-								placeholder="Nueva contraseña"
-								value={newPassword}
-								onChange={e => setNewPassword(e.target.value)}
-							/>
-							<div className="flex gap-2">
-								<AuxiliarButton
-									onClick={handleSetPassword}
-									disabled={isSaving || !newPassword}
-									className="flex-1"
-								>
-									Guardar
-								</AuxiliarButton>
-								<AuxiliarButton
-									variant="outline"
-									onClick={() => {
-										setIsChangingPassword(false)
-										setNewPassword('')
-									}}
-									className="flex-1"
-								>
-									Cancelar
-								</AuxiliarButton>
-							</div>
-						</div>
-					)}
-				</div> */}
-
-				{/* Botones de acción */}
-				{/* <div className="border-border mt-6 flex gap-3 border-t pt-6">
-					{userStatus.isActive ? (
-						<Button
-							variant="outline"
-							onClick={() => handleActionClick('deshabilitar')}
-							disabled={isSaving}
-							className="flex-1 text-red-600 hover:text-red-700"
-						>
-							Deshabilitar
-						</Button>
-					) : (
-						<Button
-							variant="outline"
-							onClick={() => handleActionClick('reactivar')}
-							disabled={isSaving}
-							className="flex-1"
-						>
-							Reactivar
-						</Button>
-					)}
-
-					<Button
-						variant="outline"
-						onClick={() => handleActionClick('desbloquear')}
-						disabled={isSaving || !userStatus.isBlocked}
-						className="flex-1"
-					>
-						Desbloquear
-					</Button>
-
-					<Button onClick={handleSaveChanges} disabled={isSaving} className="flex-1">
-						{isSaving ? 'Guardando...' : 'Guardar Cambios'}
-					</Button>
-				</div> */}
+				</CardContent>
 			</Card>
-		</div>
+		</DetailsBoxWrapper>
 	)
 }
