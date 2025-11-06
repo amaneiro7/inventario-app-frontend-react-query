@@ -1,13 +1,7 @@
 import { lazy, Suspense, useState } from 'react'
 import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
-import { DescriptionDesc } from '@/shared/ui/DetailsWrapper/DescriptionDesc'
-import { DescriptionListElement } from '@/shared/ui/DetailsWrapper/DescriptionListElement'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { DetailsInfo } from '@/shared/ui/DetailsWrapper/DetailsInfo'
-import { Skeleton } from '@/shared/ui/skeletons/Skeleton'
-import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
-import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+
 import { Card } from '@/shared/ui/Card'
 import {
 	DropdownMenu,
@@ -19,40 +13,8 @@ import {
 import { MoreVertical } from 'lucide-react'
 import { AuxiliarButton } from '@/shared/ui/Button/AuxiliarButton'
 import { Switch } from '@/shared/ui/Switch'
-
-const ManagementProfileLoading = lazy(() =>
-	import('@/shared/ui/Loading/ProfileLoading').then(m => ({
-		default: m.ManagementProfileLoading
-	}))
-)
-const EditUserButton = lazy(() =>
-	import('@/features/user-edit/ui/EditUserButton').then(m => ({ default: m.EditUserButton }))
-)
-const ResetPasswordButton = lazy(() =>
-	import('@/features/user-reset-password/ui/ResetPasswordButton').then(m => ({
-		default: m.ResetPasswordButton
-	}))
-)
-const DeleteUserButton = lazy(() =>
-	import('@/features/user-delete/ui/DeleteUserButton').then(m => ({
-		default: m.DeleteUserButton
-	}))
-)
-
-type Actions = 'editar' | 'reset' | 'delete'
-
-const ActionHandle = ({ action, id }: { action: Actions; id: string }) => {
-	switch (action) {
-		case 'editar':
-			return <EditUserButton id={id} />
-		case 'reset':
-			return <ResetPasswordButton id={id} />
-		case 'delete':
-			return <DeleteUserButton id={id} />
-		default:
-			return null
-	}
-}
+import { Input } from '@/shared/ui/Input/Input'
+import { UserStatusEnum } from '@/entities/user/domain/value-objects/UserStatus'
 
 // export default function ManagementProfile() {
 // 	const { formData, isLoading, isNotFound } = useCreateUser()
@@ -158,7 +120,8 @@ const ActionHandle = ({ action, id }: { action: Actions; id: string }) => {
 // }
 
 export default function ManagementProfile() {
-	const { formData, isLoading, isNotFound } = useCreateUser()
+	const { formData, isLoading, handleResetPassword, handleUnlockAccount, handleDisableAccount } =
+		useCreateUser()
 	return (
 		<div className="space-y-4">
 			{/* Información del empleado */}
@@ -177,15 +140,15 @@ export default function ManagementProfile() {
 							</AuxiliarButton>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end" className="w-48">
-							<DropdownMenuItem onClick={() => handleActionClick('reset-password')}>
+							<DropdownMenuItem onClick={() => handleResetPassword(formData?.id)}>
 								Reset Password
 							</DropdownMenuItem>
-							<DropdownMenuItem onClick={() => handleActionClick('desbloquear')}>
+							<DropdownMenuItem onClick={() => handleUnlockAccount(formData?.id)}>
 								Desbloquear
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
-								onClick={() => handleActionClick('deshabilitar')}
+								onClick={() => handleDisableAccount(formData?.id)}
 								className="text-red-600"
 							>
 								Deshabilitar
@@ -201,17 +164,19 @@ export default function ManagementProfile() {
 						<div className="flex items-center justify-between">
 							<span className="text-muted-foreground text-sm">Estado:</span>
 							<span
-								className={`text-sm font-medium ${formData.status ? 'text-green-600' : 'text-red-600'}`}
+								className={`text-sm font-medium ${formData.status === UserStatusEnum.ACTIVE ? 'text-green-600' : 'text-red-600'}`}
 							>
-								{userStatus.isActive ? '✓ Activo' : '✗ Inactivo'}
+								{formData.status === UserStatusEnum.ACTIVE
+									? '✓ Activo'
+									: '✗ Deshabilitado'}
 							</span>
 						</div>
 						<div className="flex items-center justify-between">
 							<span className="text-muted-foreground text-sm">Bloqueado:</span>
 							<span
-								className={`text-sm font-medium ${userStatus.isBlocked ? 'text-red-600' : 'text-green-600'}`}
+								className={`text-sm font-medium ${formData.status === UserStatusEnum.LOCKED ? 'text-red-600' : 'text-green-600'}`}
 							>
-								{userStatus.isBlocked ? 'Sí' : 'No'}
+								{formData.status === UserStatusEnum.LOCKED ? 'Sí' : 'No'}
 							</span>
 						</div>
 					</div>
@@ -224,7 +189,7 @@ export default function ManagementProfile() {
 					</h3>
 
 					<div className="space-y-4">
-						<div className="bg-muted/30 flex items-center justify-between rounded-lg p-4">
+						{/* <div className="bg-muted/30 flex items-center justify-between rounded-lg p-4">
 							<div>
 								<p className="text-foreground font-medium">
 									Habilitar acceso de servicio
@@ -240,9 +205,9 @@ export default function ManagementProfile() {
 									setUserStatus({ ...userStatus, hasServiceRole: checked })
 								}
 							/>
-						</div>
+						</div> */}
 
-						{userStatus.hasServiceRole && (
+						{/* {userStatus.hasServiceRole && (
 							<div className="space-y-3">
 								<div>
 									<label className="text-foreground mb-2 block text-sm font-medium">
@@ -265,22 +230,22 @@ export default function ManagementProfile() {
 									</Select>
 								</div>
 							</div>
-						)}
+						)} */}
 					</div>
 				</div>
 
 				{/* Gestión de Contraseña */}
-				<div className="border-border mt-6 border-t pt-6">
+				{/* <div className="border-border mt-6 border-t pt-6">
 					<h3 className="text-foreground mb-4 font-semibold">Gestión de Contraseña</h3>
 
 					{!isChangingPassword ? (
-						<Button
+						<AuxiliarButton
 							variant="outline"
 							onClick={() => setIsChangingPassword(true)}
 							className="w-full"
 						>
 							Establecer Nueva Contraseña
-						</Button>
+						</AuxiliarButton>
 					) : (
 						<div className="space-y-3">
 							<Input
@@ -290,14 +255,14 @@ export default function ManagementProfile() {
 								onChange={e => setNewPassword(e.target.value)}
 							/>
 							<div className="flex gap-2">
-								<Button
+								<AuxiliarButton
 									onClick={handleSetPassword}
 									disabled={isSaving || !newPassword}
 									className="flex-1"
 								>
 									Guardar
-								</Button>
-								<Button
+								</AuxiliarButton>
+								<AuxiliarButton
 									variant="outline"
 									onClick={() => {
 										setIsChangingPassword(false)
@@ -306,14 +271,14 @@ export default function ManagementProfile() {
 									className="flex-1"
 								>
 									Cancelar
-								</Button>
+								</AuxiliarButton>
 							</div>
 						</div>
 					)}
-				</div>
+				</div> */}
 
 				{/* Botones de acción */}
-				<div className="border-border mt-6 flex gap-3 border-t pt-6">
+				{/* <div className="border-border mt-6 flex gap-3 border-t pt-6">
 					{userStatus.isActive ? (
 						<Button
 							variant="outline"
@@ -346,7 +311,7 @@ export default function ManagementProfile() {
 					<Button onClick={handleSaveChanges} disabled={isSaving} className="flex-1">
 						{isSaving ? 'Guardando...' : 'Guardar Cambios'}
 					</Button>
-				</div>
+				</div> */}
 			</Card>
 		</div>
 	)

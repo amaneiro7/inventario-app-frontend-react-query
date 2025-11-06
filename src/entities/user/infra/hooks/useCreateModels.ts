@@ -11,9 +11,18 @@ import {
 	userFormReducer
 } from '../reducers/usersFormReducer'
 import { queryClient } from '@/shared/lib/queryCliente'
+import { ResetPasswordService } from '../service/ResetPassword.service'
+import { UnlockAccountService } from '../service/UnlockAccount.service'
+import { UnlockAccount } from '../../application/UnlockAccount'
+import { ResetPassword } from '../../application/ResetPassword'
+import { DisableAccount } from '../../application/DisableAccount'
+import { DisableAccountService } from '../service/DisableAccount.service'
 
 export function useCreateUser(defaultState?: DefaultUsers) {
 	const { events } = useAuthStore.getState()
+	const resetUserPassword = new ResetPassword(new ResetPasswordService(), events)
+	const unlockAccount = new UnlockAccount(new UnlockAccountService(), events)
+	const disableAccount = new DisableAccount(new DisableAccountService(), events)
 
 	const create = useMemo(
 		() => async (formData: never) => {
@@ -62,6 +71,16 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 			resetState()
 		})
 	}
+
+	const handleResetPassword = (id: string) => {
+		resetUserPassword.execute({ id })
+	}
+	const handleUnlockAccount = (id: string) => {
+		unlockAccount.execute({ id })
+	}
+	const handleDisableAccount = (id: string) => {
+		disableAccount.execute({ id })
+	}
 	return {
 		key,
 		formData,
@@ -75,6 +94,9 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		onRetry,
 		resetForm,
 		handleSubmit,
-		handleChange
+		handleChange,
+		handleResetPassword,
+		handleUnlockAccount,
+		handleDisableAccount
 	}
 }
