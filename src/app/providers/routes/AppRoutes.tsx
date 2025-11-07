@@ -18,7 +18,7 @@ const DashboardWrapper = lazy(() => import('@/app/layouts/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const ManagementProfile = lazy(() => import('@/pages/UserManagementProfile'))
-const RegisterPage = lazy(() => import('@/pages/RegisterPage'))
+const UserManagementRegister = lazy(() => import('@/pages/UserManagementRegister'))
 const NotFound = lazy(() => import('@/pages/404'))
 const Home = lazy(() => import('@/pages/Home'))
 const Profile = lazy(() => import('@/pages/Profile'))
@@ -73,8 +73,7 @@ export function AppRoutes(): JSX.Element {
 					<Route path="profile" element={<Profile />} />
 					<Route path="settings" element={<Settings />} />
 					<Route path="user-management" element={<UserManagement />}>
-						<Route path="register" element={<RegisterPage />} />
-						<Route path="edit/:id" element={<RegisterPage />} />
+						<Route path="register" element={<UserManagementRegister />} />
 						<Route path="profile/:id" element={<ManagementProfile />} />
 					</Route>
 					<Route path="payment-schedules" element={<PaymentSchedules />} />

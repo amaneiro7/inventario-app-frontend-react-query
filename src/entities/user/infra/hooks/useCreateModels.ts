@@ -39,10 +39,7 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
 		useUserInitialState(defaultState ?? initialUserState.formData)
 	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		userFormReducer,
-		initialUserState
-	)
+	const [{ formData }, dispatch] = useReducer(userFormReducer, initialUserState)
 	const key = useMemo(
 		() => `User${initialUserState?.formData?.id ? initialUserState.formData.id : ''}`,
 		[formData?.id]
@@ -83,6 +80,16 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		resetForm()
 		setIsEditing(false)
 	}
+
+	const hasChanges = useMemo(() => {
+		if (!initialState || !formData) {
+			return false
+		}
+
+		return initialState.roleId === formData.roleId
+	}, [formData, initialState])
+
+	useLayoutEffect(() => {})
 
 	const handleActionClick = async (action: 'reset' | 'disable' | 'unlock' | 'reactivate') => {
 		if (!formData?.id) return
@@ -126,14 +133,12 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		key,
 		formData,
 		mode,
-		errors,
-		required,
-		disabled,
 		isError,
 		isLoading,
 		isNotFound,
 		isSaving,
 		isEditing,
+		hasChanges,
 		onRetry,
 		resetForm,
 		handleSubmit,

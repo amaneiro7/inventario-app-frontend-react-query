@@ -30,6 +30,7 @@ export class UserCreator {
 	 */
 	async create(params: UserParams) {
 		// Notificar que ha empezado el proceso de creación o actualización
+		console.log(params)
 		this.events.notify({ type: 'loading' })
 		try {
 			const payload = User.create(params).toPrimitives()

@@ -54,6 +54,7 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 			roleId: user.roleId,
 			status: user.status,
 			role: user.role,
+			employeeId: user.employeeId,
 			updatedAt: user.updatedAt,
 			lastLoginAt: user?.lastLoginAt,
 			lastLoginIp: user?.lastLoginIp,

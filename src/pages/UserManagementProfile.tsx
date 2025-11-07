@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/utils'
+import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
 import { UserStatusEnum } from '@/entities/user/domain/value-objects/UserStatus'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/shared/ui/Card'
 import {
@@ -14,8 +15,8 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import Typography from '@/shared/ui/Typography'
 import { Icon } from '@/shared/ui/icon/Icon'
 import { AuxiliarButton } from '@/shared/ui/Button/AuxiliarButton'
-import { useCreateUser } from '@/entities/user/infra/hooks/useCreateModels'
 import { Switch } from '@/shared/ui/Switch'
+import { formatDateTime } from '@/shared/lib/utils/formatDate'
 
 const STATUS_MAP = {
 	[UserStatusEnum.ACTIVE]: {
@@ -42,6 +43,7 @@ export default function ManagementProfile() {
 		isLoading,
 		isSaving,
 		isEditing,
+		hasChanges,
 		handleCancel,
 		handleActionClick,
 		handleChange,
@@ -53,7 +55,7 @@ export default function ManagementProfile() {
 
 	return (
 		<DetailsBoxWrapper position="center">
-			<Card>
+			<Card className="w-xl">
 				<CardHeader>
 					<div className="flex items-start justify-between">
 						<div className="flex items-center gap-4">
@@ -116,7 +118,7 @@ export default function ManagementProfile() {
 						</DropdownMenu>
 					</div>
 				</CardHeader>
-				<CardContent>
+				<CardContent className="space-y-4">
 					<CardUserProfile>
 						<Typography weight="medium" color="gray-600" variant="h6">
 							Nombre y Apellido
@@ -160,21 +162,24 @@ export default function ManagementProfile() {
 						<Typography weight="medium" color="gray-600" variant="h6" className="mb-5">
 							Rol
 						</Typography>
-						<div className="flex items-center gap-2">
-							<RoleCombobox
-								value={formData.roleId}
-								handleChange={(_name, value) => handleChange('roleId', value)}
-								name="roleId"
-								label=""
-								readonly={
-									!isEditing || formData.status === UserStatusEnum.SUSPENDED
-								}
-								required
-							/>
-							{formData.status !== UserStatusEnum.SUSPENDED && !isEditing && (
-								<div className="mb-5 flex items-center gap-2">
+						<div className="flex flex-1 flex-wrap items-center gap-2">
+							<div className="flex-1">
+								<RoleCombobox
+									value={formData.roleId}
+									handleChange={(_name, value) => handleChange('roleId', value)}
+									name="roleId"
+									label=""
+									readonly={
+										!isEditing || formData.status === UserStatusEnum.SUSPENDED
+									}
+									required
+								/>
+							</div>
+							{formData.status !== UserStatusEnum.SUSPENDED && (
+								<div className="mb-5 flex max-w-min items-center gap-2">
 									<Switch
 										checked={isEditing}
+										className="data-[state=checked]:bg-naranja"
 										onCheckedChange={handleEditToggle}
 									/>
 									<Typography
@@ -194,42 +199,42 @@ export default function ManagementProfile() {
 							Último inicio de sesión
 						</Typography>
 						<Typography variant="span" option="small" weight="semibold">
-							{formData?.lastLoginAt}
+							{formData?.lastLoginAt
+								? formatDateTime(formData?.lastLoginAt)
+								: 'Nunca ha iniciado sesión'}
 						</Typography>
 					</CardUserProfile>
 					<CardUserProfile>
 						<Typography weight="medium" color="gray-600" variant="h6">
-							Última dirección IP de inicio de sesión
+							Ip del último acceso
 						</Typography>
 						<Typography variant="span" option="small" weight="semibold">
-							{formData?.lastLoginIp}
+							{formData?.lastLoginIp ?? 'No registrado'}
 						</Typography>
 					</CardUserProfile>
 
 					{/* Botones de acción */}
-					{isEditing && (
-						<div className="mt-8 flex justify-end gap-3 p-6">
-							<Button
-								color="green"
-								buttonSize="medium"
-								size="content"
-								hoverTranslation={false}
-								onClick={handleSubmit}
-								disabled={isSaving || isLoading}
-								text={isSaving ? 'Guardando...' : 'Guardar Cambios'}
-								icon={<Icon name="save" className="h-4 w-4" />}
-							/>
-							<Button
-								color="red"
-								buttonSize="medium"
-								size="content"
-								onClick={handleCancel}
-								disabled={isSaving || isLoading}
-								text="Cancelar"
-								icon={<Icon name="xCircle" className="h-4 w-4" />}
-							/>
-						</div>
-					)}
+					<div className="mt-8 flex justify-end gap-3 p-6">
+						<Button
+							color="green"
+							buttonSize="medium"
+							size="content"
+							hoverTranslation={false}
+							onClick={handleSubmit}
+							disabled={isSaving || hasChanges || isLoading || !isEditing}
+							text={isSaving ? 'Guardando...' : 'Guardar Cambios'}
+							icon={<Icon name="save" className="h-4 w-4" />}
+						/>
+						<Button
+							color="red"
+							buttonSize="medium"
+							size="content"
+							onClick={handleCancel}
+							disabled={isSaving || isLoading || !isEditing}
+							text="Cancelar"
+							icon={<Icon name="xCircle" className="h-4 w-4" />}
+						/>
+					</div>
 				</CardContent>
 			</Card>
 		</DetailsBoxWrapper>
@@ -243,7 +248,7 @@ export const CardUserProfile = ({
 }: React.PropsWithChildren<
 	React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 >) => (
-	<div className={cn('mt-6 flex items-center gap-4', className)} {...props}>
+	<div className={cn('flex flex-wrap items-center gap-4', className)} {...props}>
 		{children}
 	</div>
 )

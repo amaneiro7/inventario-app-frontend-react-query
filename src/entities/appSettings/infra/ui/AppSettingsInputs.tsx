@@ -1,6 +1,5 @@
 import { memo } from 'react'
 import { useUpdateAppSettings } from '../hook/useUpdateAppSettings'
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { Input } from '@/shared/ui/Input/Input'
@@ -33,7 +32,6 @@ const groupConfigs: Record<string, { title: string; description: string; iconNam
 
 export const AppSettingsInputs = memo(() => {
 	const {
-		errors,
 		handleChange,
 		handleSubmit,
 		isLoading,

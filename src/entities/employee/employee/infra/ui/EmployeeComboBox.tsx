@@ -6,41 +6,17 @@ import { EmployeeRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/Em
 import { type EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
 
 interface EmployeeComboboxProps {
-	/**
-	 * The currently selected employee ID.
-	 */
 	value?: string
-	/**
-	 * The name of the input field.
-	 */
 	name: string
 	label?: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
 	readonly?: boolean
 	isLoading?: boolean
-	/**
-	 * Callback function triggered when the selected value changes.
-	 * @param name - The name of the input field.
-	 * @param value - The new selected value (employee ID).
-	 */
 	handleChange: (name: string, value: string | number) => void
 }
 
-/**
- * `EmployeeCombobox` is a memoized component that provides a searchable combobox for selecting employees.
- * It fetches employee data based on user input and displays it in a dropdown.
- */
 export const EmployeeCombobox = memo(function ({
 	value = '',
 	name,
