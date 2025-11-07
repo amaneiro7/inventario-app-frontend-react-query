@@ -16,5 +16,5 @@ export const Color = {
 	red: 'border-none text-white border-rojo bg-rojo hover:bg-rojo-500 disabled:bg-rojo-500 active:bg-rojo-rojo-700',
 	blue: 'border-none text-white border-azul bg-azul-800 hover:bg-azul-700 disabled:bg-azul-700 active:bg-azul-950',
 	blanco: `text-azul border border-azul bg-white hover:text-white hover:bg-azul disabled:bg-azul`,
-	blancoRed: `text-rojo border border-azul bg-white hover:text-white hover:bg-azul disabled:bg-azul`
+	blancoRed: `text-rojo-600 border bg-background hover:bg-accent hover:text-rojo-700 disabled:opacity-50 shadow-xs`
 } as const

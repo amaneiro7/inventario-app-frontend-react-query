@@ -27,6 +27,7 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 	const disableAccount = new DisableAccount(new DisableAccountService(), events)
 	const reactivateAccount = new ReactivateAccount(new ReactivateAccountService(), events)
 	const [isSaving, setIsSaving] = useState(false)
+	const [isEditing, setIsEditing] = useState(false)
 
 	const create = useMemo(
 		() => async (formData: never) => {
@@ -76,8 +77,16 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		})
 	}
 
+	const handleEditToggle = () => setIsEditing(!isEditing)
+
+	const handleCancel = () => {
+		resetForm()
+		setIsEditing(false)
+	}
+
 	const handleActionClick = async (action: 'reset' | 'disable' | 'unlock' | 'reactivate') => {
 		if (!formData?.id) return
+		setIsSaving(true)
 		// Preparamos la ejecución que se repetirá en cada caso
 		const userId = formData.id
 		let executeAction: Promise<void>
@@ -105,6 +114,7 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 			// Lógica post-ejecución (invalida el caché y resetea el estado)
 			queryClient.invalidateQueries({ queryKey: ['users'] })
 			resetState()
+			setIsSaving(false)
 		} catch (error) {
 			// Manejo de errores centralizado (ej: notificaciones)
 			console.error(`Error ejecutando la acción ${action}:`, error)
@@ -123,10 +133,13 @@ export function useCreateUser(defaultState?: DefaultUsers) {
 		isLoading,
 		isNotFound,
 		isSaving,
+		isEditing,
 		onRetry,
 		resetForm,
 		handleSubmit,
 		handleChange,
-		handleActionClick
+		handleActionClick,
+		handleEditToggle,
+		handleCancel
 	}
 }

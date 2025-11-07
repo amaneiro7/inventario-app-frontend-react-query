@@ -13,6 +13,9 @@ export interface DefaultUsers {
 	status: LoginUserDto['status']
 	roleId: string
 	role?: LoginUserDto['role']
+	lastLoginAt?: string
+	lastLoginIp?: string
+	lockoutUntil?: string
 	updatedAt?: string
 }
 
