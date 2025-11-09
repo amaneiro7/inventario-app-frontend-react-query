@@ -11,5 +11,5 @@ export abstract class DisableAccountRepository {
 	 * @param params.id - The primitive value of the UserId.
 	 * @returns A Promise that resolves when the password reset is complete.
 	 */
-	abstract run({ id }: { id: Primitives<UserId> }): Promise<void>
+	abstract run({ id }: { id: Primitives<UserId> }): Promise<{ message: string }>
 }

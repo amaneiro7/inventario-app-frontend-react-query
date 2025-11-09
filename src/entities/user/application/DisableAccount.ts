@@ -33,7 +33,7 @@ export class DisableAccount {
 			return await this.disableAccountRepository.run({ id }).then(res => {
 				this.events.notify({
 					type: 'success',
-					message: 'Opearción exitosa'
+					message: res.message ?? 'Operación realizada con éxito'
 				})
 				return res
 			})

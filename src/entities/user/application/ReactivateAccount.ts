@@ -33,7 +33,7 @@ export class ReactivateAccount {
 			return await this.reactivateAccountRepository.run({ id }).then(res => {
 				this.events.notify({
 					type: 'success',
-					message: 'Opearción exitosa'
+					message: res.message ?? 'Operación realizada con éxito'
 				})
 				return res
 			})
