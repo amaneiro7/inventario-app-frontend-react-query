@@ -23,6 +23,7 @@ export type ColorType =
 	| 'white'
 	| 'gris'
 	| 'amarillo'
+	| 'foreground'
 	| 'gray-600'
 export type BackgroundType =
 	| 'naranja'
