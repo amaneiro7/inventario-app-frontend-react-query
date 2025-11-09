@@ -17,6 +17,13 @@ export const Header = memo(() => {
 	const location = useLocation()
 	const dialogExitRef = useRef<ModalRef>(null)
 
+	const handleOpen = () => dialogExitRef.current?.handleOpen()
+	const handleClose = () => dialogExitRef.current?.handleClose()
+	const handleLogout = async () => {
+		logout()
+		handleClose()
+	}
+
 	const {
 		auth: { logout, user }
 	} = useContext(AuthContext)
@@ -64,7 +71,7 @@ export const Header = memo(() => {
 						color="orange"
 						size="content"
 						text="Salir"
-						onClick={() => dialogExitRef.current?.handleOpen()}
+						onClick={handleOpen}
 						type="button"
 						buttonSize="medium"
 						icon={<LogoutIcon width={20} className="aspect-square" aria-hidden />}
@@ -81,10 +88,11 @@ export const Header = memo(() => {
 			<Suspense>
 				<Dialog ref={dialogExitRef}>
 					<ConfirmationModal
-						handleClose={() => dialogExitRef.current?.handleClose()}
-						handle={logout}
-						text="¿Está seguro que desea "
-						strongText="Cerrar la Sesión?"
+						onCancel={handleClose}
+						onConfirm={handleLogout}
+						description={
+							<>¿Está seguro que desea {<strong>Cerrar la Sesión</strong>}?</>
+						}
 					/>
 				</Dialog>
 			</Suspense>

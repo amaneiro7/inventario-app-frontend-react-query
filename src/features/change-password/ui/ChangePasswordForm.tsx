@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { UserPassword } from '@/entities/user/domain/value-objects/UserPassword'
-import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type UserEmail } from '@/entities/user/domain/value-objects/UserEmail'
+import { useChangePassword } from '@/features/change-password/model/useChangePassword'
 import { Input } from '@/shared/ui/Input/Input'
 import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
 import { LockIcon } from '@/shared/ui/icon/LockIcon'
@@ -9,7 +8,8 @@ import Typography from '@/shared/ui/Typography'
 import Button from '@/shared/ui/Button'
 import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
 import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
-import { useChangePassword } from '@/features/change-password/model/useChangePassword'
+import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
+import { type UserEmail } from '@/entities/user/domain/value-objects/UserEmail'
 
 const Modal = lazy(async () => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
 const ConfirmationModal = lazy(async () =>
@@ -45,7 +45,7 @@ export function ChangePassowrdForm({ userEmail }: ChangePassowrdFormProps) {
 				method="post"
 				onSubmit={handleSubmit}
 			>
-				<div className="flex flex-col gap-4">
+				<div className="flex flex-col gap-1">
 					<div className="hidden">
 						<label htmlFor="email" className="sr-only">
 							Correo Electrónico
@@ -164,9 +164,11 @@ export function ChangePassowrdForm({ userEmail }: ChangePassowrdFormProps) {
 			<Suspense>
 				<Modal key="profilePageModal" ref={dialogRef}>
 					<ConfirmationModal
-						handleClose={handleCloseModal}
+						onCancel={handleCloseModal}
 						formId={formId}
-						text="¿Seguro que desea cambiar la contraseña?"
+						description={
+							<>¿Seguro que desea {<strong>cambiar la contraseña</strong>}?</>
+						}
 					/>
 				</Modal>
 			</Suspense>

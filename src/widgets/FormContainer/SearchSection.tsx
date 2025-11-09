@@ -7,9 +7,10 @@ interface Props {
 	searchInput?: React.ReactElement
 	url: string
 	isEdit?: boolean
+	text?: string
 }
 
-export const SearchSection = memo(({ isEdit, searchInput, url }: Props) => {
+export const SearchSection = memo(({ isEdit, searchInput, url, text = 'Agregar nuevo' }: Props) => {
 	return (
 		<div className="flex w-full flex-col items-center justify-start gap-3 md:flex-row md:justify-between">
 			<Suspense fallback={<InputFallback />}>{searchInput}</Suspense>
@@ -17,7 +18,7 @@ export const SearchSection = memo(({ isEdit, searchInput, url }: Props) => {
 				<LinkAsButton
 					color="orange"
 					className="justify-self-end"
-					text="Agregar nuevo"
+					text={text}
 					to={url}
 					hoverTranslate
 					size="content"

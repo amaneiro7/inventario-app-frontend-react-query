@@ -1,19 +1,30 @@
 import { lazy, Suspense, useMemo } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
-import { Tag } from '@/shared/ui/Tag'
-import Typography from '@/shared/ui/Typography'
-import { AddIcon } from '@/shared/ui/icon/AddIcon'
-import { PageTitle } from '@/shared/ui/PageTitle'
-import { Seo } from '@/shared/ui/Seo'
-import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
-import { StepsToFollow } from '@/widgets/StepsToFollow/StepsToFollow'
-import { ProfileStepsToFollow } from '@/widgets/StepsToFollow/ProfileStepsToFollow'
-import { RegisterEditStepsToFollow } from '@/widgets/StepsToFollow/RegisterEditStepsToFollow'
+
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+
+import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import Typography from '@/shared/ui/Typography'
+import { PageTitle } from '@/shared/ui/PageTitle'
+import { Seo } from '@/shared/ui/Seo'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+
+const ProfileStepsToFollow = lazy(() =>
+	import('@/widgets/StepsToFollow/ProfileStepsToFollow').then(m => ({
+		default: m.ProfileStepsToFollow
+	}))
+)
+const RegisterStepsToFollow = lazy(() =>
+	import('@/widgets/StepsToFollow/RegisterStepsToFollow').then(m => ({
+		default: m.RegisterStepsToFollow
+	}))
+)
+const StepsToFollow = lazy(() =>
+	import('@/widgets/StepsToFollow/StepsToFollow').then(m => ({ default: m.StepsToFollow }))
+)
 
 const SearchSection = lazy(() =>
 	import('@/widgets/FormContainer/SearchSection').then(m => ({ default: m.SearchSection }))
@@ -30,35 +41,23 @@ export default function UserManagement() {
 		const path = location.pathname
 		if (path.includes('register'))
 			return {
-				page: 'register',
-				subtitle: '- Registrar nuevo usuario',
-				desc: '',
+				page: 'register' as const,
+				subtitle: '- Registrar Usuario',
 				title: 'Registrar Nuevo Usuario | Gestión de Usuarios',
 				description:
 					'Formulario para registrar un nuevo usuario en el sistema de gestión. Ingrese los detalles del nuevo usuario.'
 			}
 		if (path.includes('profile'))
 			return {
-				page: 'profile',
-				subtitle: '- Información del usuario',
-				desc: ' o registre un nuevo usuario presionando el boton',
+				page: 'profile' as const,
+				subtitle: '- Perfil de Usuario',
 				title: 'Perfil de Usuario | Gestión de Usuarios',
 				description:
-					'Visualiza y gestiona la información del perfil de usuario. También puedes registrar un nuevo usuario desde esta sección.'
-			}
-		if (path.includes('edit'))
-			return {
-				page: 'edit',
-				subtitle: '- Editar usuario',
-				desc: ' o registre un nuevo usuario presionando el boton',
-				title: 'Editar Usuario | Gestión de Usuarios',
-				description:
-					'Formulario para editar la información de un usuario existente en el sistema de gestión. Realiza los cambios necesarios.'
+					'Visualiza y gestiona la información del perfil de un usuario. Desde aquí puedes editar su rol y realizar otras acciones administrativas.'
 			}
 		return {
-			page: null,
+			page: null as null,
 			subtitle: '',
-			desc: '',
 			title: 'Gestión de Usuarios',
 			description:
 				'Panel principal para la gestión de usuarios del sistema. Busca, edita, registra y administra cuentas de usuario.'
@@ -72,25 +71,13 @@ export default function UserManagement() {
 			<DetailsWrapper borderColor="blue">
 				<DetailsBoxWrapper>
 					<Typography variant="p" className="inline-flex items-center gap-1 text-center">
-						<Typography
-							variant="span"
-							color="gris"
-							option="small"
-							className="text-gris flex items-center justify-center gap-2"
-						>
-							{`Ingrese el correo del usuario que desea visualizar,
-							editar, restablecer contraseña o eliminar ${pageInfo.desc}.`}
-							{pageInfo.page !== 'register' && (
-								<Tag
-									color="white"
-									option="tiny"
-									backgroundColor="naranja"
-									icon={<AddIcon width={10} />}
-									iconText="Agregar Nuevo"
-								/>
-							)}
+						<Typography variant="span" color="gris" option="small">
+							{pageInfo.page === 'register'
+								? 'Complete el formulario para crear una nueva cuenta de usuario. Si el usuario ya existe, puede buscarlo aquí.'
+								: 'Busque un usuario por su correo para ver o editar su perfil, o registre uno nuevo.'}
 						</Typography>
 					</Typography>
+
 					<ErrorBoundary
 						fallback={({ onReset }) => (
 							<WidgetErrorFallback
@@ -100,13 +87,16 @@ export default function UserManagement() {
 							/>
 						)}
 					>
-						<Suspense fallback={<InputFallback />}>
-							<SearchSection
-								url="/user-management/register"
-								searchInput={<UserServiceSearch />}
-								isEdit={pageInfo.page !== 'register'}
-							/>
-						</Suspense>
+						<SearchSection
+							url="/user-management/register"
+							text="Registrar un nuevo usuario"
+							searchInput={
+								<Suspense fallback={<InputFallback />}>
+									<UserServiceSearch />
+								</Suspense>
+							}
+							isEdit={pageInfo.page !== 'register'}
+						/>
 					</ErrorBoundary>
 				</DetailsBoxWrapper>
 				<ErrorBoundary
@@ -120,14 +110,14 @@ export default function UserManagement() {
 					<Outlet />
 				</ErrorBoundary>
 			</DetailsWrapper>
-			{pageInfo.page ? (
-				<StepsToFollow>
-					{pageInfo.page === 'register' || pageInfo.page === 'edit' ? (
-						<RegisterEditStepsToFollow />
-					) : null}
-					{pageInfo.page === 'profile' ? <ProfileStepsToFollow /> : null}
-				</StepsToFollow>
-			) : null}
+			{pageInfo.page && (
+				<Suspense fallback={null}>
+					<StepsToFollow>
+						{pageInfo.page === 'register' && <RegisterStepsToFollow />}
+						{pageInfo.page === 'profile' && <ProfileStepsToFollow />}
+					</StepsToFollow>
+				</Suspense>
+			)}
 		</>
 	)
 }

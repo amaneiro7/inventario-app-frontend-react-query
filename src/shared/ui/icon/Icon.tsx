@@ -57,7 +57,11 @@ import {
 	Save,
 	UserCircle,
 	MoreVertical,
-	UserPlus
+	UserPlus,
+	Search,
+	UserCog,
+	KeyRound,
+	ShieldCheck
 } from 'lucide-react'
 
 const iconMap = {
@@ -118,7 +122,11 @@ const iconMap = {
 	save: Save,
 	userCircle: UserCircle,
 	moreVertical: MoreVertical,
-	userPlus: UserPlus
+	userPlus: UserPlus,
+	search: Search,
+	userCog: UserCog,
+	shieldCheck: ShieldCheck,
+	keyRound: KeyRound
 }
 
 export type IconName = keyof typeof iconMap

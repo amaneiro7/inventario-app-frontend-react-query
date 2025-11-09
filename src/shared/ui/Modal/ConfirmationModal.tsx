@@ -9,39 +9,41 @@ const CancelIcon = lazy(async () =>
 )
 
 interface ConfirmationModalProps {
-	text: React.ReactNode
-	strongText?: string
-	handle?: () => void
 	formId?: string
-	handleClose: () => void
+	title?: string
+	description?: React.ReactNode
+	confirmText?: string
+	cancelText?: string
+	handle?: () => void
+	onConfirm?: () => Promise<void>
+	onCancel: () => void
 }
 
 export function ConfirmationModal({
-	text,
-	strongText,
-	handle,
-	handleClose,
-	formId
+	onConfirm,
+	onCancel,
+	formId,
+	title = 'Confirmación',
+	description = '¿Estás seguro?',
+	confirmText = 'Sí',
+	cancelText = 'No'
 }: ConfirmationModalProps) {
 	return (
 		<>
 			<div className="bg-azul rounded-t p-4 text-white">
-				<Typography variant="p" color="white">
-					Confirmación
+				<Typography variant="h3" color="white">
+					{title}
 				</Typography>
 			</div>
 			<div className="p-4">
-				<Typography variant="p">
-					{text}
-					<strong>{strongText}</strong>
-				</Typography>
+				<Typography variant="p">{description}</Typography>
 				<div className="mt-6 flex justify-end gap-4">
 					<Button
 						form={formId}
 						color="blue"
-						type={!handle ? 'submit' : 'button'}
-						onClick={handle}
-						text="Si"
+						type={!onConfirm ? 'submit' : 'button'}
+						onClick={onConfirm}
+						text={confirmText}
 						buttonSize="large"
 						size="content"
 						hoverTranslation
@@ -58,10 +60,10 @@ export function ConfirmationModal({
 					<Button
 						type="button"
 						color="red"
-						text="No"
+						text={cancelText}
 						buttonSize="large"
 						size="content"
-						onClick={handleClose}
+						onClick={onCancel}
 						hoverTranslation
 						icon={
 							<Suspense
