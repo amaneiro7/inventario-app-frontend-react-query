@@ -63,7 +63,7 @@ export const ShipmentDescription = memo(
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 							<TableCellDescInfo
 								title="Enviado por"
-								text={`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
+								text={`${shipment?.fromUser?.employee?.name} ${shipment?.fromUser?.employee?.lastName}`}
 							/>
 							<TableCellDescInfo
 								title="Recibido por"

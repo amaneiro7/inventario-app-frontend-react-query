@@ -1,8 +1,8 @@
-import { useState } from 'react'
-import { SettingArrayField } from './SettingsArrayField'
+import { useSeetingForm } from '../hook/useSettingForm'
 import { Switch } from '@/shared/ui/Switch'
 import Button from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input/Input'
+import { SettingArrayInput } from './SettingArrayInput'
 import { type AppSettingsDto } from '../../domain/dto/AppSettings.dto'
 
 interface SettingsFormProps {
@@ -13,31 +13,8 @@ interface SettingsFormProps {
 }
 
 export function SettingsForm({ settings, values, protectedValues, onSave }: SettingsFormProps) {
-	const [editingKey, setEditingKey] = useState<string | null>(null)
-	const [tempValues, setTempValues] = useState<Record<string, string>>({})
-
-	const handleEdit = (key: string, value: string) => {
-		setEditingKey(key)
-		setTempValues({ [key]: value })
-	}
-
-	const handleCancel = () => {
-		setEditingKey(null)
-		setTempValues({})
-	}
-
-	const handleConfirm = (key: string) => {
-		const setting = settings.find(s => s.key === key)
-		const currentValues = setting?.isProtected ? protectedValues : values
-		const newValue = tempValues[key] ?? currentValues[key]
-		onSave(key, newValue)
-		setEditingKey(null)
-		setTempValues({})
-	}
-
-	const handleTempChange = (key: string, value: string) => {
-		setTempValues(prev => ({ ...prev, [key]: value }))
-	}
+	const { editingKey, tempValues, handleTempChange, handleEdit, handleConfirm, handleCancel } =
+		useSeetingForm({ onSave, values, protectedValues, settings })
 
 	return (
 		<div className="space-y-6">
@@ -92,7 +69,7 @@ export function SettingsForm({ settings, values, protectedValues, onSave }: Sett
 										/>
 									)}
 									{setting.type === 'array' && (
-										<SettingArrayField
+										<SettingArrayInput
 											value={tempValues[setting.key]}
 											onChange={value => handleTempChange(setting.key, value)}
 										/>

@@ -83,10 +83,10 @@ export const TableShipment = memo(({ shipments, isError }: TableShipmentProps) =
 						<TableCell
 							aria-colindex={3}
 							size="small"
-							value={`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
+							value={`${shipment?.fromUser?.employee?.name} ${shipment?.fromUser?.employee?.lastName}`}
 							className="hidden 2xl:table-cell"
 						>
-							{`${shipment?.fromUser?.name} ${shipment?.fromUser?.lastName}`}
+							{`${shipment?.fromUser?.employee?.name} ${shipment?.fromUser?.employee?.lastName}`}
 						</TableCell>
 
 						<TableCell
