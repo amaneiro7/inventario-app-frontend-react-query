@@ -27,13 +27,12 @@ export class ResetPassword {
 	 * @throws Error if the repository operation encounters an issue.
 	 */
 	async execute({ id }: { id: Primitives<UserId> }) {
+		this.events.notify({ type: 'loading', message: 'Procesando...' })
 		try {
-			this.events.notify({ type: 'loading', message: 'Procesando...' })
-
 			return await this.resetPasswordRepository.run({ id }).then(res => {
 				this.events.notify({
 					type: 'success',
-					message: 'Opearción exitosa'
+					message: res.message ?? 'Operación realizada con éxito'
 				})
 				return res
 			})

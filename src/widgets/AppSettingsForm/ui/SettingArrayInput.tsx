@@ -86,7 +86,7 @@ export const SettingArrayInput = memo(({ onChange, value }: SettingArrayInputPro
 					}}
 					placeholder="Agregar nuevo dominio..."
 				/>
-				<AuxiliarButton onClick={handleAddItem} size="icon" variant="outline">
+				<AuxiliarButton type="button" onClick={handleAddItem} size="icon" variant="outline">
 					<Plus className="h-4 w-4" />
 				</AuxiliarButton>
 			</div>

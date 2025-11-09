@@ -1,10 +1,16 @@
-import { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { PageTitle } from '@/shared/ui/PageTitle'
 import { Seo } from '@/shared/ui/Seo'
-import { AppSettingsInputs } from '@/entities/appSettings/infra/ui/AppSettingsInputs'
+import { AppSettingsSkeleton } from '@/widgets/AppSettingsForm/ui/AppSettingsSkeleton'
+
+const AppSettingsForm = lazy(() =>
+	import('@/widgets/AppSettingsForm/ui/AppSettingsForm').then(m => ({
+		default: m.AppSettingsForm
+	}))
+)
 
 export default function Settings() {
 	return (
@@ -24,8 +30,8 @@ export default function Settings() {
 					/>
 				)}
 			>
-				<Suspense>
-					<AppSettingsInputs />
+				<Suspense fallback={<AppSettingsSkeleton />}>
+					<AppSettingsForm />
 				</Suspense>
 			</ErrorBoundary>
 		</>

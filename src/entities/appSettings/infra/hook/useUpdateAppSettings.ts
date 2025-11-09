@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import { queryClient } from '@/shared/lib/queryCliente'
@@ -7,10 +7,22 @@ import { initialAppSettingsState, appSettingsFormReducer } from '../reducers/App
 import { AppSettingsSaveService } from '../service/appSettingsSave.service'
 import { AppSettingsUpdater } from '../../application/AppSettingsUpdater'
 import { type SettingsTypeEnum } from '../../domain/value-object/AppSettingsType'
+import { type ModalRef } from '@/shared/ui/Modal/Modal'
+
+const formId = 'app-settings-form'
 
 export function useUpdateAppSettings() {
 	const { events } = useAuthStore.getState()
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const saveDialogRef = useRef<ModalRef>(null)
+
+	const handleOpen = () => {
+		console.log('handleOpen')
+		saveDialogRef.current?.handleOpen()
+	}
+	const handleClose = () => {
+		saveDialogRef.current?.handleClose()
+	}
 
 	const updateSettings = useMemo(() => {
 		return new AppSettingsUpdater(new AppSettingsSaveService(), events)
@@ -92,6 +104,7 @@ export function useUpdateAppSettings() {
 				})
 				.finally(() => {
 					setIsSubmitting(false)
+					handleClose()
 				})
 		},
 		[settings, errors, updateSettings, initialSettings]
@@ -105,6 +118,10 @@ export function useUpdateAppSettings() {
 		isLoading,
 		isSubmitting,
 		hasChanges,
+		formId,
+		saveDialogRef,
+		handleOpen,
+		handleClose,
 		getGroupSettings,
 		resetForm,
 		handleSubmit,

@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { useUpdateAppSettings } from '../hook/useUpdateAppSettings'
+import { useUpdateAppSettings } from '../../../entities/appSettings/infra/hook/useUpdateAppSettings'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { Input } from '@/shared/ui/Input/Input'
@@ -10,7 +10,7 @@ import { Label } from '@/shared/ui/Label'
 import { SettingArrayInput } from './SettingArrayInput'
 import { SettingsDayOfWeekSelect } from './SettingsDayOfWeekSelect'
 import { Icon, type IconName } from '@/shared/ui/icon/Icon'
-import { type AppSettingsDto } from '../../domain/dto/AppSettings.dto'
+import { type AppSettingsDto } from '../../../entities/appSettings/domain/dto/AppSettings.dto'
 
 const groupConfigs: Record<string, { title: string; description: string; iconName: IconName }> = {
 	security: {
