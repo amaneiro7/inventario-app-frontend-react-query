@@ -1,9 +1,9 @@
 import { memo, useMemo, useState } from 'react'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { SearchInput } from '@/shared/ui/Input/Search'
 import { useGetAllUser } from '@/entities/user/infra/hooks/useGetAlUser'
-import { type UserFilters } from '@/entities/user/application/createUserQueryParams'
+import { SearchInput } from '@/shared/ui/Input/Search'
 import { UserRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/UserRenderOption'
+import { type UserFilters } from '@/entities/user/application/createUserQueryParams'
 
 export const UserServiceSearch = memo(() => {
 	const [searchValue, setSearchValue] = useState('')
@@ -19,7 +19,6 @@ export const UserServiceSearch = memo(() => {
 
 	const { data: users, isLoading } = useGetAllUser(query)
 
-	console.log('value', value)
 	const options = useMemo(() => users?.data ?? [], [users])
 	return (
 		<SearchInput

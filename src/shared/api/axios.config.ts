@@ -39,7 +39,7 @@ api.interceptors.response.use(
 		const LOGIN_URL = 'auth/login/local'
 		const REFRESH_URL = 'auth/refresh-token'
 
-		console.log(originalRequest.url)
+		//		console.log(originalRequest.url)
 
 		// Comprobar si la ruta original es la de Login, Refresh o ya es un reintento
 		const isExcludedUrl =

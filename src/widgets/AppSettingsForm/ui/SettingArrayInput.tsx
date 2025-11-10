@@ -78,7 +78,6 @@ export const SettingArrayInput = memo(({ onChange, value }: SettingArrayInputPro
 					value={newItem}
 					onChange={e => setNewItem(e.target.value)}
 					onKeyDown={e => {
-						console.log(e.key)
 						if (e.key === 'Enter') {
 							e.preventDefault()
 							handleAddItem()

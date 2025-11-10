@@ -17,7 +17,6 @@ export function useUpdateAppSettings() {
 	const saveDialogRef = useRef<ModalRef>(null)
 
 	const handleOpen = () => {
-		console.log('handleOpen')
 		saveDialogRef.current?.handleOpen()
 	}
 	const handleClose = () => {
