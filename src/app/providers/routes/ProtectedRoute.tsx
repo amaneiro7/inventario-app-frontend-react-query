@@ -14,7 +14,7 @@ import { AuthContext } from '@/app/providers/AuthContext'
  * @param {React.ComponentType} Component - El componente React que se desea proteger.
  * @returns {React.ComponentType} Un nuevo componente que envuelve al `Component` original con la lógica de protección.
  */
-export function ProtectedRoute(Component: React.ComponentType) {
+export function ProtectedRoute(Component: React.ComponentType): React.ComponentType {
 	return () => {
 		const {
 			auth: { isLogged }

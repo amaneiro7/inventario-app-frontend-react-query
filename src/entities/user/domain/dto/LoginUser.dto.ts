@@ -8,6 +8,7 @@ import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employ
 import { type PasswordChangeAt } from '../value-objects/PasswordChangeAt'
 import { type LastLoginAt } from '../value-objects/LastLoginAt'
 import { type LastLoginIp } from '../value-objects/LastLoginIp'
+import { PasswordExpired } from '../value-objects/PasswordExpired'
 
 /**
  * Represents the core properties of a User entity.
@@ -19,6 +20,7 @@ export interface User {
 	roleId: Primitives<RoleId> // Temporal
 	status: Primitives<UserStatus>
 	passwordChangeAt: Primitives<PasswordChangeAt>
+	passwordExpired?: Primitives<PasswordExpired>
 	lastLoginAt: Primitives<LastLoginAt>
 	lastLoginIp: Primitives<LastLoginIp>
 }
@@ -28,7 +30,13 @@ export interface User {
  */
 export type UserPrimitives = Omit<
 	User,
-	'id' | 'passwordChangeAt' | 'lastLoginAt' | 'lastLoginIp' | 'status' | 'userName'
+	| 'id'
+	| 'passwordChangeAt'
+	| 'lastLoginAt'
+	| 'lastLoginIp'
+	| 'status'
+	| 'userName'
+	| 'passwordExpired'
 >
 
 /**

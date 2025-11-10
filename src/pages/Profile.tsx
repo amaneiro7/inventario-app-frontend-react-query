@@ -10,6 +10,7 @@ import { StepsToFollow } from '@/widgets/StepsToFollow/StepsToFollow'
 import { ChangePasswordProfileStepsToFollow } from '@/widgets/StepsToFollow/ChangePasswordProfileStepsToFollow'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { UserLocalProfileDetails } from '@/features/user-profile-details/ui/UserLocalProfileDetails'
+import Typography from '@/shared/ui/Typography'
 
 const LoadingSpinner = lazy(
 	async () =>
@@ -72,6 +73,15 @@ export default function ProfilePage() {
 			/>
 			<DynamicBreadcrumb segments={['Perfil de usuario']} />
 			<PageTitle title="Perfil de usuario" />
+
+			{user.passwordExpired && (
+				<DetailsWrapper borderColor="red" title="Acción Requerida">
+					<Typography variant="p" color="rojo">
+						Tu contraseña ha expirado. Por favor, actualízala a continuación para
+						continuar usando el sistema.
+					</Typography>
+				</DetailsWrapper>
+			)}
 
 			<DetailsWrapper title="A continuación le indicamos los datos de contacto">
 				<ErrorBoundary
