@@ -11,12 +11,10 @@ import {
 
 export function useChangePassword() {
 	const { events } = useAuthStore.getState()
-	const repository = useMemo(() => {
-		return new ChangePasswordService()
-	}, [])
+
 	const changePasswordService = useMemo(() => {
-		return new ChangePassword(repository, events)
-	}, [repository, events])
+		return new ChangePassword(new ChangePasswordService(), events)
+	}, [events])
 	const dialogRef = useRef<ModalRef>(null)
 	const isPasswordFirstInput = useRef(true)
 	const isNewPasswordFirstInput = useRef(true)
