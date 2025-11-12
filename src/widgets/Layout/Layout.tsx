@@ -1,7 +1,6 @@
+import { Outlet } from 'react-router-dom'
 import { lazy, memo, Suspense } from 'react'
-
 import { ProtectedRoute } from '@/app/providers/routes/ProtectedRoute'
-import { PasswordExpiredRoute } from '@/app/providers/routes/PasswordExpiredRoute'
 
 const Header = lazy(() => import('./Header').then(m => ({ default: m.Header })))
 const Main = lazy(() => import('./Main').then(m => ({ default: m.Main })))
@@ -15,7 +14,7 @@ const Layout = memo(() => {
 			</Suspense>
 			<Suspense fallback={<main className="flex flex-1 bg-gray-100" />}>
 				<Main>
-					<PasswordExpiredRoute />
+					<Outlet />
 				</Main>
 			</Suspense>
 			<Suspense fallback={<footer className="h-8 min-h-8 bg-slate-700" />}>

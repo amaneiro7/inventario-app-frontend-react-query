@@ -6,11 +6,10 @@ import { logoutService } from './logoutService'
 import { events } from '../../../shared/lib/events'
 import { refreshTokenServcice } from './refreshTokenService'
 import { abortController } from '../../../shared/lib/abortController'
-
+import { PasswordExpiredError } from '@/entities/user/domain/errors/PasswordExpiredError'
 import { type LoginParams } from '@/entities/user/domain/dto/LoginAuth.dto'
 import { type LoginUserDto } from '@/entities/user/domain/dto/LoginUser.dto'
 import { type EventManager } from '@/entities/shared/domain/Observer/EventManager'
-import { PasswordExpiredError } from '@/entities/user/domain/errors/PasswordExpiredError'
 
 interface AuthState {
 	user: LoginUserDto | null
@@ -21,8 +20,8 @@ interface AuthState {
 	isRefreshing: boolean
 	// Almacena la promesa de la operación de refresco para que otras llamadas puedan esperar a que termine.
 	refreshTokenPromise: Promise<string | void> | null
-	abortController: AbortController
 	getToken: () => any
+	getTempToken: () => any
 	getUser: () => any
 	setLoading: (loading: boolean) => void
 	setRefreshing: (loading: boolean) => void
@@ -33,7 +32,6 @@ interface AuthState {
 	logout: () => Promise<void>
 	refreshTokenValidity: () => Promise<string | void>
 }
-
 const {
 	getItem: getToken,
 	removeItem: removeToken,
@@ -44,11 +42,16 @@ const {
 	removeItem: removeUser,
 	setItem: saveUser
 } = useLocalStorage<LoginUserDto>('user')
+const {
+	getItem: getTempToken,
+	removeItem: removeTempToken,
+	setItem: saveTempToken
+} = useLocalStorage<string>('tempToken')
 
 export const useAuthStore = create<AuthState>((set, get) => ({
 	user: getUser() ?? null,
 	token: getToken() ?? null,
-	tempToken: null,
+	tempToken: getTempToken() ?? null,
 	loading: false,
 	events: events,
 	isRefreshing: false,
@@ -56,6 +59,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 	abortController,
 	getUser,
 	getToken,
+	getTempToken,
 	setLoading: loading => set({ loading }),
 	setRefreshing: isRefreshing => set({ isRefreshing }),
 	setUser: user => set({ user }),
@@ -67,12 +71,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 			const response = await loginService.execute({ userNameOrEmail, password })
 			if (response) {
 				set({ user: response?.user, token: response?.accessToken })
+				removeTempToken()
 				saveToken(response?.accessToken)
 				saveUser(response.user)
 			}
 		} catch (error) {
+			console.log('AuthStore', error?.tempToken)
 			if (error instanceof PasswordExpiredError) {
 				set({ tempToken: error.tempToken })
+				saveTempToken(error.tempToken)
 			}
 			// Otros errores ya son notificados por el EventManager en la capa de aplicación
 		} finally {
@@ -86,8 +93,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 			console.error('Logout API call failed, but proceeding with client-side logout.', error)
 		} finally {
 			set({ user: null, token: null })
+			set({ user: null, token: null, tempToken: null })
 			removeToken()
 			removeUser()
+			removeTempToken()
 		}
 	},
 	refreshTokenValidity: () => {

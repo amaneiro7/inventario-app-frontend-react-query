@@ -10,7 +10,7 @@ const ExpiredPasswordForm = lazy(() =>
 	}))
 )
 
-export default function ExpiredPasswordPage() {
+export default function ExpiredPassword() {
 	return (
 		<>
 			<Seo

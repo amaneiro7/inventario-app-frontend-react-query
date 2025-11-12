@@ -1,22 +1,20 @@
 import { fetching } from '@/shared/api/api'
 import { ChangeExpiredPasswordParams } from '../../domain/dto/ChangePasword.dto'
+import { ForceChangePasswordRepository } from '../../domain/repository/ForceChangePasswordRepository'
 
-export class ExpiredPasswordChangeService {
+export class ExpiredPasswordChangeService implements ForceChangePasswordRepository {
 	async run({
-		newPassword,
 		tempToken,
+		newPassword,
 		reTypePassword
-	}: ChangeExpiredPasswordParams): Promise<void> {
-		await fetching(
-			{
-				method: 'POST',
-				url: 'auth/change-expired-password/local',
-				data: { newPassword, reTypePassword },
-				headers: {
-					Authorization: `Bearer ${tempToken}`
-				}
-			},
-			undefined
-		)
+	}: ChangeExpiredPasswordParams): Promise<{ message: string }> {
+		return await fetching({
+			method: 'POST',
+			url: 'users/change-expired-password',
+			data: { newPassword, reTypePassword },
+			headers: {
+				Authorization: `Bearer ${tempToken}`
+			}
+		})
 	}
 }

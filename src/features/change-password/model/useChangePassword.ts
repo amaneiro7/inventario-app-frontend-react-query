@@ -6,7 +6,7 @@ import { ChangePasswordService } from '@/entities/user/infra/service/ChangePassw
 import { type ModalRef } from '@/shared/ui/Modal/Modal'
 import {
 	changePasswordInitialState as initialState,
-	chanegPasswordReducer as reducer
+	changePasswordReducer as reducer
 } from '@/entities/user/infra/reducers/changePassword.reducers'
 
 export function useChangePassword() {

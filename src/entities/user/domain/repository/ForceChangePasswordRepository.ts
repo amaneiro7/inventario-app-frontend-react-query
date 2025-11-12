@@ -1,9 +1,9 @@
-import { type ChangePasswordParams } from '../dto/ChangePasword.dto'
+import { type ChangeExpiredPasswordParams } from '../dto/ChangePasword.dto'
 
 /**
  * Abstract class for a repository that provides methods for changing a user's password.
  */
-export abstract class ChangePasswordRepository {
+export abstract class ForceChangePasswordRepository {
 	/**
 	 * Abstract method to change a user's password.
 	 * @param params - An object containing the old password, new password, and re-typed new password.
@@ -13,8 +13,8 @@ export abstract class ChangePasswordRepository {
 	 * @returns A Promise that resolves to an object with a success message.
 	 */
 	abstract run({
-		password,
+		tempToken,
 		newPassword,
 		reTypePassword
-	}: ChangePasswordParams): Promise<{ message: string }>
+	}: ChangeExpiredPasswordParams): Promise<{ message: string }>
 }

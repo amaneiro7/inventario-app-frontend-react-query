@@ -1,17 +1,19 @@
 import { memo } from 'react'
-
 import { Input } from '@/shared/ui/Input/Input'
 import Button from '@/shared/ui/Button'
 import { Icon } from '@/shared/ui/icon/Icon'
 import { useExpiredPasswordChange } from '../model/useExpiredPasswordChange'
-import { FormComponent } from '@/widgets/FormContainer/FormComponent'
 
 export const ExpiredPasswordForm = memo(() => {
 	const { formData, errors, isSubmitting, handleChange, handleSubmit } =
 		useExpiredPasswordChange()
 
 	return (
-		<FormComponent onSubmit={handleSubmit}>
+		<form
+			className="grid gap-4 rounded-2xl bg-white p-4 shadow-sm md:grid-cols-2"
+			method="post"
+			onSubmit={handleSubmit}
+		>
 			<Input
 				id="new-password"
 				label="Nueva Contraseña"
@@ -20,19 +22,19 @@ export const ExpiredPasswordForm = memo(() => {
 				value={formData.newPassword}
 				onChange={e => handleChange('newPassword', e.target.value)}
 				error={!!errors.newPassword}
-				errormessage={errors.newPassword}
+				errorMessage={errors.newPassword}
 				required
 				autoComplete="new-password"
 			/>
 			<Input
 				id="confirm-password"
 				label="Confirmar Nueva Contraseña"
-				name="confirmPassword"
+				name="reTypePassword"
 				type="password"
-				value={formData.confirmPassword}
-				onChange={e => handleChange('confirmPassword', e.target.value)}
-				error={!!errors.confirmPassword}
-				errormessage={errors.confirmPassword}
+				value={formData.reTypePassword}
+				onChange={e => handleChange('.reTypePassword', e.target.value)}
+				error={!!errors.reTypePassword}
+				errorMessage={errors.reTypePassword}
 				required
 				autoComplete="new-password"
 			/>
@@ -47,7 +49,7 @@ export const ExpiredPasswordForm = memo(() => {
 					icon={<Icon name="keyRound" className="h-5 w-5" />}
 				/>
 			</div>
-		</FormComponent>
+		</form>
 	)
 })
 

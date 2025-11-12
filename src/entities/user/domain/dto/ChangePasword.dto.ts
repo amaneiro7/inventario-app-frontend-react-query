@@ -1,7 +1,7 @@
 /**
  * Defines the parameters required for changing a user's password.
  */
-export interface ChangePassordParams {
+export interface ChangePasswordParams {
 	/**
 	 * The user's current password.
 	 */

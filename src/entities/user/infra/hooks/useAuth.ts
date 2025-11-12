@@ -7,8 +7,17 @@ import { isTokenExpired } from '@/shared/lib/utils/isTokenExpired'
 // capa de application
 
 export function useAuth() {
-	const { user, login, loading, logout, token, refreshTokenValidity, getUser, setUser } =
-		useAuthStore()
+	const {
+		user,
+		login,
+		loading,
+		logout,
+		token,
+		refreshTokenValidity,
+		getUser,
+		setUser,
+		tempToken
+	} = useAuthStore()
 	const location = useLocation()
 
 	const checkTokenValidity = useCallback(async () => {
@@ -35,8 +44,10 @@ export function useAuth() {
 	return {
 		login,
 		logout,
+		tempToken,
 		user,
 		isLogged: Boolean(token),
+		isPasswordExpired: Boolean(tempToken),
 		isLoginLoading: loading,
 		refreshTokenValidity
 	}

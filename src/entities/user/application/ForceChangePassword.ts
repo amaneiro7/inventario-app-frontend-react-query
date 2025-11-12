@@ -1,19 +1,19 @@
 import { type EventManager } from '@/entities/shared/domain/Observer/EventManager'
-import { ChangePasswordRepository } from '../domain/repository/changePasswordRepository'
-import { ChangePasswordParams } from '../domain/dto/ChangePasword.dto'
+import { type ForceChangePasswordRepository } from '../domain/repository/ForceChangePasswordRepository'
+import { type ChangeExpiredPasswordParams } from '../domain/dto/ChangePasword.dto'
 
 /**
  * Service class responsible for handling user password changes.
- * It interacts with a ChangePasswordRepository to update the password and an EventManager to notify about operation status.
+ * It interacts with a forceChangePasswordRepository to update the password and an EventManager to notify about operation status.
  */
-export class ChangePassword {
+export class ForceChangePassword {
 	/**
 	 * Constructs a ChangePassword instance.
-	 * @param changePasswordRepository - The repository responsible for changing the user's password.
+	 * @param forceChangePasswordRepository - The repository responsible for changing the user's password.
 	 * @param events - The event manager to notify about the operation's progress (loading, success, error).
 	 */
 	constructor(
-		private readonly changePasswordRepository: ChangePasswordRepository,
+		private readonly forceChangePasswordRepository: ForceChangePasswordRepository,
 		private readonly events: EventManager
 	) {}
 
@@ -28,18 +28,14 @@ export class ChangePassword {
 	 * @returns A Promise that resolves to the result of the password change operation, or undefined if an error occurs.
 	 * @throws Error if validation fails or the repository operation encounters an issue.
 	 */
-	async execute({ password, newPassword, reTypePassword }: ChangePasswordParams) {
+	async execute({ tempToken, newPassword, reTypePassword }: ChangeExpiredPasswordParams) {
 		try {
 			this.events.notify({ type: 'loading', message: 'Procesando...' })
 			if (newPassword !== reTypePassword) {
 				throw new Error('Las contraseñas no coinciden')
 			}
-
-			if (password === newPassword) {
-				throw new Error('La nueva contraseña debe ser diferente a la actual')
-			}
-			return await this.changePasswordRepository
-				.run({ password, newPassword, reTypePassword })
+			return await this.forceChangePasswordRepository
+				.run({ tempToken, newPassword, reTypePassword })
 				.then(res => {
 					this.events.notify({
 						type: 'success',
