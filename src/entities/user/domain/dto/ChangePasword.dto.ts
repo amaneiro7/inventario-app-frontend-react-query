@@ -15,3 +15,9 @@ export interface ChangePassordParams {
 	 */
 	reTypePassword: string
 }
+
+export interface ChangeExpiredPasswordParams {
+	newPassword: string
+	reTypePassword: string
+	tempToken: string
+}

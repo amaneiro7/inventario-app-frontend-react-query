@@ -10,10 +10,12 @@ import { abortController } from '../../../shared/lib/abortController'
 import { type LoginParams } from '@/entities/user/domain/dto/LoginAuth.dto'
 import { type LoginUserDto } from '@/entities/user/domain/dto/LoginUser.dto'
 import { type EventManager } from '@/entities/shared/domain/Observer/EventManager'
+import { PasswordExpiredError } from '@/entities/user/domain/errors/PasswordExpiredError'
 
 interface AuthState {
 	user: LoginUserDto | null
 	token: string | null
+	tempToken: string | null
 	events: EventManager
 	loading: boolean
 	isRefreshing: boolean
@@ -26,6 +28,7 @@ interface AuthState {
 	setRefreshing: (loading: boolean) => void
 	setUser: (user: LoginUserDto | null) => void
 	setToken: (token: string | null) => void
+	setTempToken: (tempToken: string | null) => void
 	login: (params: LoginParams) => Promise<void>
 	logout: () => Promise<void>
 	refreshTokenValidity: () => Promise<string | void>
@@ -45,6 +48,7 @@ const {
 export const useAuthStore = create<AuthState>((set, get) => ({
 	user: getUser() ?? null,
 	token: getToken() ?? null,
+	tempToken: null,
 	loading: false,
 	events: events,
 	isRefreshing: false,
@@ -56,18 +60,24 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 	setRefreshing: isRefreshing => set({ isRefreshing }),
 	setUser: user => set({ user }),
 	setToken: token => set({ token }),
+	setTempToken: tempToken => set({ tempToken }),
 	login: async ({ userNameOrEmail, password }: LoginParams) => {
-		set({ loading: true })
-		return await loginService
-			.execute({ userNameOrEmail, password })
-			.then(response => {
-				if (response) {
-					set({ user: response?.user, token: response?.accessToken })
-					saveToken(response?.accessToken)
-					saveUser(response.user)
-				}
-			})
-			.finally(() => set({ loading: false }))
+		try {
+			set({ loading: true })
+			const response = await loginService.execute({ userNameOrEmail, password })
+			if (response) {
+				set({ user: response?.user, token: response?.accessToken })
+				saveToken(response?.accessToken)
+				saveUser(response.user)
+			}
+		} catch (error) {
+			if (error instanceof PasswordExpiredError) {
+				set({ tempToken: error.tempToken })
+			}
+			// Otros errores ya son notificados por el EventManager en la capa de aplicación
+		} finally {
+			set({ loading: false })
+		}
 	},
 	logout: async () => {
 		try {

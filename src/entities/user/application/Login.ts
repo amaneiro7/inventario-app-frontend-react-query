@@ -1,6 +1,7 @@
 import { type EventManager } from '@/entities/shared/domain/Observer/EventManager'
 import { type LoginParams } from '../domain/dto/LoginAuth.dto'
 import { type LoginUserRepository } from '../domain/repository/loginUserRepository'
+import { PasswordExpiredError } from '../domain/errors/PasswordExpiredError'
 
 /**
  * Service class responsible for handling user login operations.
@@ -25,15 +26,34 @@ export class Login {
 	 * @param params.password - The user's password.
 	 * @returns A Promise that resolves to the result of the login operation, or undefined if an error occurs.
 	 */
-	async execute({ userNameOrEmail, password }: LoginParams) {
-		return await this.loginUserRepository
-			.run({ userNameOrEmail, password })
-			.then(res => {
-				this.events.notify({ type: 'success', message: res.message })
-				return res
-			})
-			.catch(error => {
-				this.events.notify({ type: 'error', message: `${error}` })
-			})
+	async execute(params: LoginParams) {
+		try {
+			const res = await this.loginUserRepository.run(params)
+
+			// 1. Manejo de éxito
+			this.events.notify({ type: 'success', message: res.message })
+			return res
+		} catch (error) {
+			// 2. Manejo del flujo especial (Error de Dominio)
+			console.log('login', error)
+			if (error instanceof PasswordExpiredError) {
+				// Notificamos un error, pero lanzamos el error de dominio para que el
+				// caller (UI/Controller) pueda interceptarlo y manejar el flujo de "cambio de contraseña".
+				// Opcionalmente: No notificamos aquí para que la UI maneje el modal directamente
+
+				// NOTA: Si prefieres no notificar el toast para este error específico:
+				this.events.notify({
+					//type: 'special_flow',
+					type: 'error',
+					message: 'Contraseña expirada, redirigiendo.'
+				})
+
+				throw error
+			}
+			// 3. Manejo de errores genéricos (Otros errores de dominio o errores desconocidos)
+			this.events.notify({ type: 'error', message: `${error}` })
+
+			throw error
+		}
 	}
 }

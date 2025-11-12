@@ -193,12 +193,12 @@ export const navigation: Navigation[] = [
 				title: 'Historial de Modificaciones',
 				path: '/list/history',
 				desc: 'Revisa un registro detallado de todos los cambios y eventos ocurridos en el sistema.'
+			},
+			{
+				title: 'Actualizar Contraseña Expirada',
+				path: '/auth/expired-password',
+				desc: 'Página para que los usuarios con contraseña expirada puedan establecer una nueva.'
 			}
-			// {
-			// 	title: 'Actualizar Contraseña Expirada',
-			// 	path: '/auth/expired-password',
-			// 	desc: 'Página para que los usuarios con contraseña expirada puedan establecer una nueva.'
-			// }
 		]
 	}
 ]
