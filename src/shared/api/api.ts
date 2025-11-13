@@ -32,15 +32,14 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 	} catch (error) {
 		const axiosError = axios.isAxiosError(error)
 
-		console.log('axios', error)
 		// Manejo de otros errores
 		if (axiosError && error.response) {
 			const { status, data } = error.response
 			const message = data?.message ?? 'Error desconocido'
 
-			// -- ESTE ES EL PUNTO CLAVE DE LA TRADUCCIÓN --
 			if (status === 403 && data?.type === 'PasswordExpired') {
-				throw new PasswordExpiredError(data.tempToken)
+				const tempToken = data?.temporaryToken as string | undefined | null
+				throw new PasswordExpiredError(message, tempToken)
 			}
 
 			switch (status) {

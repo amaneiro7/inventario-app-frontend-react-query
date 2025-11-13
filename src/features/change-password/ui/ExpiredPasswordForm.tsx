@@ -32,7 +32,7 @@ export const ExpiredPasswordForm = memo(() => {
 				name="reTypePassword"
 				type="password"
 				value={formData.reTypePassword}
-				onChange={e => handleChange('.reTypePassword', e.target.value)}
+				onChange={e => handleChange('reTypePassword', e.target.value)}
 				error={!!errors.reTypePassword}
 				errorMessage={errors.reTypePassword}
 				required

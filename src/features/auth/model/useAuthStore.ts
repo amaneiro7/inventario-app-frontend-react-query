@@ -18,20 +18,21 @@ interface AuthState {
 	events: EventManager
 	loading: boolean
 	isRefreshing: boolean
-	// Almacena la promesa de la operación de refresco para que otras llamadas puedan esperar a que termine.
 	refreshTokenPromise: Promise<string | void> | null
+	getUser: () => any
 	getToken: () => any
 	getTempToken: () => any
-	getUser: () => any
 	setLoading: (loading: boolean) => void
 	setRefreshing: (loading: boolean) => void
 	setUser: (user: LoginUserDto | null) => void
 	setToken: (token: string | null) => void
-	setTempToken: (tempToken: string | null) => void
+	setTempToken: (tempToken?: string | null) => void
 	login: (params: LoginParams) => Promise<void>
 	logout: () => Promise<void>
 	refreshTokenValidity: () => Promise<string | void>
 }
+
+// Persistencia para TOKEN y USER
 const {
 	getItem: getToken,
 	removeItem: removeToken,
@@ -42,24 +43,22 @@ const {
 	removeItem: removeUser,
 	setItem: saveUser
 } = useLocalStorage<LoginUserDto>('user')
-const {
-	getItem: getTempToken,
-	removeItem: removeTempToken,
-	setItem: saveTempToken
-} = useLocalStorage<string>('tempToken')
 
 export const useAuthStore = create<AuthState>((set, get) => ({
 	user: getUser() ?? null,
 	token: getToken() ?? null,
-	tempToken: getTempToken() ?? null,
+	tempToken: null,
 	loading: false,
 	events: events,
 	isRefreshing: false,
 	refreshTokenPromise: null,
 	abortController,
+
+	// Los getters para user y token usando LocalStorage para la inicializacion
 	getUser,
 	getToken,
-	getTempToken,
+
+	getTempToken: () => get().tempToken,
 	setLoading: loading => set({ loading }),
 	setRefreshing: isRefreshing => set({ isRefreshing }),
 	setUser: user => set({ user }),
@@ -71,15 +70,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 			const response = await loginService.execute({ userNameOrEmail, password })
 			if (response) {
 				set({ user: response?.user, token: response?.accessToken })
-				removeTempToken()
 				saveToken(response?.accessToken)
 				saveUser(response.user)
 			}
 		} catch (error) {
-			console.log('AuthStore', error?.tempToken)
 			if (error instanceof PasswordExpiredError) {
-				set({ tempToken: error.tempToken })
-				saveTempToken(error.tempToken)
+				const tempToken = error?.tempToken
+				set({ tempToken })
 			}
 			// Otros errores ya son notificados por el EventManager en la capa de aplicación
 		} finally {
@@ -92,11 +89,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 		} catch (error) {
 			console.error('Logout API call failed, but proceeding with client-side logout.', error)
 		} finally {
-			set({ user: null, token: null })
 			set({ user: null, token: null, tempToken: null })
 			removeToken()
 			removeUser()
-			removeTempToken()
 		}
 	},
 	refreshTokenValidity: () => {

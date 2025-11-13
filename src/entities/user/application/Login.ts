@@ -35,7 +35,6 @@ export class Login {
 			return res
 		} catch (error) {
 			// 2. Manejo del flujo especial (Error de Dominio)
-			console.log('login', error)
 			if (error instanceof PasswordExpiredError) {
 				// Notificamos un error, pero lanzamos el error de dominio para que el
 				// caller (UI/Controller) pueda interceptarlo y manejar el flujo de "cambio de contraseña".
@@ -45,15 +44,12 @@ export class Login {
 				this.events.notify({
 					//type: 'special_flow',
 					type: 'error',
-					message: 'Contraseña expirada, redirigiendo.'
+					message: error.message ?? 'Contraseña expirada, redirigiendo.'
 				})
-
 				throw error
 			}
 			// 3. Manejo de errores genéricos (Otros errores de dominio o errores desconocidos)
 			this.events.notify({ type: 'error', message: `${error}` })
-
-			throw error
 		}
 	}
 }

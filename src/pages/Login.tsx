@@ -12,8 +12,6 @@ export default function Login() {
 		auth: { isLogged, tempToken }
 	} = useContext(AuthContext)
 
-	console.log(isLogged, tempToken)
-
 	if (isLogged) {
 		return <Navigate to={'/'} />
 	}

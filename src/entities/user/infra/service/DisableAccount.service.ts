@@ -5,7 +5,7 @@ import { type UserId } from '../../domain/value-objects/UserId'
 import { type DisableAccountRepository } from '../../domain/repository/DisableAccountRepository'
 
 export class DisableAccountService implements DisableAccountRepository {
-	async run({ id }: { id: Primitives<UserId> }): Promise<void> {
+	async run({ id }: { id: Primitives<UserId> }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
 			url: `${userURL}/disable`,

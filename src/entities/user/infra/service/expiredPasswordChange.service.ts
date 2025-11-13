@@ -9,7 +9,7 @@ export class ExpiredPasswordChangeService implements ForceChangePasswordReposito
 		reTypePassword
 	}: ChangeExpiredPasswordParams): Promise<{ message: string }> {
 		return await fetching({
-			method: 'POST',
+			method: 'PATCH',
 			url: 'users/change-expired-password',
 			data: { newPassword, reTypePassword },
 			headers: {

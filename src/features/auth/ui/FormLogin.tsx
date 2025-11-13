@@ -1,6 +1,5 @@
 import { useLogin } from '@/features/auth/model/useLogin'
 import { useGreetings } from '@/shared/lib/hooks/useGreetings'
-import { titleLogo } from '@/shared/config'
 
 import Button from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input/Input'
@@ -9,8 +8,10 @@ import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
 import { LockIcon } from '@/shared/ui/icon/LockIcon'
 import { MailIcon } from '@/shared/ui/icon/MailIcon'
 import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
-import { LazyLogoImage } from '@/shared/ui/Images/LazyLogoImage'
 import './formLogin.css'
+import { LoginFooter } from './LoginFooter'
+import { LoginHeader } from './LoginHeader'
+import { LoginLogoAndTitle } from './LoginLogoAndTitle'
 
 export const FormLogin = () => {
 	const {
@@ -28,38 +29,10 @@ export const FormLogin = () => {
 	return (
 		<main className="formLogin">
 			<section className="mx-auto flex h-screen w-11/12 flex-col items-center justify-center gap-2 px-6 py-8 sm:max-w-md lg:py-0">
-				<header className="flex w-full flex-row items-end-safe justify-end px-2">
-					<Typography
-						align="right"
-						transform="capitalize"
-						color="black"
-						weight="semibold"
-						variant="p"
-						// className="text-shadow-2xs text-shadow-black/1"
-					>
-						{date}
-					</Typography>
-				</header>
-				<div className="flex flex-col overflow-hidden rounded-lg bg-white shadow-lg shadow-black/60">
+				<LoginHeader date={date} />
+				<div className="animate-slide-in-left flex flex-col overflow-hidden rounded-lg bg-white shadow-lg shadow-black/60">
 					{/* logo y titulo */}
-					<header className="border-naranja grid h-fit w-full grid-cols-[auto_1fr] items-center gap-4 border-b-8 px-4 py-6">
-						<LazyLogoImage
-							className="h-auto w-12 flex-shrink-0"
-							width="44"
-							height="44"
-						/>
-						<Typography
-							align="center"
-							color="azul"
-							weight="semibold"
-							variant="h4"
-							className="text-pretty"
-						>
-							Sistema Gestión de Inventario
-							<br />
-							{titleLogo}
-						</Typography>
-					</header>
+					<LoginLogoAndTitle />
 					<div className="bg-azul space-y-4 p-6">
 						<Typography align="center" color="white" weight="semibold" variant="h2">
 							Iniciar Sesión
@@ -128,12 +101,7 @@ export const FormLogin = () => {
 						</form>
 					</div>
 				</div>
-				<footer>
-					<Typography variant="p" option="small">
-						Copyright © <strong>InventarioApp </strong>2024-
-						{`${currentDate.getFullYear()}`}
-					</Typography>
-				</footer>
+				<LoginFooter currentDate={currentDate} />
 			</section>
 		</main>
 	)

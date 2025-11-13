@@ -5,7 +5,7 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 import { type UserId } from '../../domain/value-objects/UserId'
 
 export class ResetPasswordService implements ResetUserPasswordRepository {
-	async run({ id }: { id: Primitives<UserId> }): Promise<void> {
+	async run({ id }: { id: Primitives<UserId> }): Promise<{ message: string }> {
 		return await fetching({
 			method: 'PATCH',
 			url: `${userURL}/reset-password`,
