@@ -9,15 +9,11 @@ const FormLogin = lazy(async () =>
 
 export default function Login() {
 	const {
-		auth: { isLogged, tempToken }
+		auth: { isLogged }
 	} = useContext(AuthContext)
 
 	if (isLogged) {
 		return <Navigate to={'/'} />
-	}
-
-	if (tempToken) {
-		return <Navigate to={'/auth/expired-password'} />
 	}
 
 	return (

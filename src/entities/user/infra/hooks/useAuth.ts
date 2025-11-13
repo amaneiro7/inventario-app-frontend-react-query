@@ -16,7 +16,8 @@ export function useAuth() {
 		refreshTokenValidity,
 		getUser,
 		setUser,
-		tempToken
+		tempToken,
+		deleteTempToken
 	} = useAuthStore()
 	const location = useLocation()
 
@@ -45,6 +46,7 @@ export function useAuth() {
 		login,
 		logout,
 		tempToken,
+		deleteTempToken,
 		user,
 		isLogged: Boolean(token),
 		isPasswordExpired: Boolean(tempToken),

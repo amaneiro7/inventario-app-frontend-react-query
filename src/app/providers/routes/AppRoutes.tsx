@@ -24,7 +24,6 @@ const Home = lazy(() => import('@/pages/Home'))
 const Profile = lazy(() => import('@/pages/Profile'))
 const Layout = lazy(() => import('@/widgets/Layout/Layout'))
 const Login = lazy(() => import('@/pages/Login'))
-const ExpiredPassword = lazy(() => import('@/pages/ExpiredPassword'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
 const FormShipment = lazy(() => import('@/pages/FormShipment'))
 const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
@@ -69,7 +68,6 @@ export function AppRoutes(): JSX.Element {
 			{/* Suspense global para todas las rutas */}
 			<Routes>
 				<Route path="/login" element={<Login />} />
-				<Route path="/auth/expired-password" element={<ExpiredPassword />} />
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} /> {/* Ruta index para / */}
 					<Route path="profile" element={<Profile />} />

@@ -10,6 +10,7 @@ import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
 import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type UserEmail } from '@/entities/user/domain/value-objects/UserEmail'
+import { PasswordPolicy } from './PasswordPolicy'
 
 const Modal = lazy(async () => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
 const ConfirmationModal = lazy(async () =>
@@ -122,20 +123,7 @@ export function ChangePassowrdForm({ userEmail }: ChangePassowrdFormProps) {
 						onRightIconClick={() => handleToggleInputs('reTypePassword')}
 					/>
 				</div>
-				<div className="rounded bg-gray-200 p-4 text-sm">
-					<Typography>
-						<strong>Nota:</strong> Su nueva clave debe cumplir las siguientes
-						condiciones:
-					</Typography>
-					<ol className="ml-2">
-						<li>1. Debe ser de mínimo {UserPassword.HAS_MIN_LENGTH} carácteres.</li>
-						<li>
-							2. Debe incluir caracteres alfabéticos (sensitivos a mayúsculas y
-							minúsculas), numéricos y especiales.
-						</li>
-						<li>3. Los caracteres especiales válidos son ! . @ # $ % ^ & *</li>
-					</ol>
-				</div>
+				<PasswordPolicy />
 				<div />
 				<div className="flex justify-center gap-4">
 					<Button

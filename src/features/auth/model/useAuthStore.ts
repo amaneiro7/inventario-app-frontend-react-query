@@ -22,6 +22,7 @@ interface AuthState {
 	getUser: () => any
 	getToken: () => any
 	getTempToken: () => any
+	deleteTempToken: () => void
 	setLoading: (loading: boolean) => void
 	setRefreshing: (loading: boolean) => void
 	setUser: (user: LoginUserDto | null) => void
@@ -64,6 +65,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 	setUser: user => set({ user }),
 	setToken: token => set({ token }),
 	setTempToken: tempToken => set({ tempToken }),
+	deleteTempToken: () => set({ tempToken: null }),
+
 	login: async ({ userNameOrEmail, password }: LoginParams) => {
 		try {
 			set({ loading: true })
@@ -111,12 +114,18 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 					return response.accessToken
 				})
 				.catch(refreshError => {
-					get().logout()
+					if (refreshError instanceof PasswordExpiredError) {
+						const tempToken = refreshError?.tempToken
+						set({ tempToken, user: null, token: null }) // Guardamos tempToken y limpiamos sesión
+						removeToken()
+						removeUser()
+					} else {
+						get().logout() // Para otros errores, cerramos sesión completamente
+					}
 					set({ isRefreshing: false, refreshTokenPromise: null })
-					return Promise.reject(refreshError)
+					throw refreshError
 				})
 
-			set({ refreshTokenPromise })
 			return refreshTokenPromise
 		}
 		return get().refreshTokenPromise as Promise<string | void>
@@ -131,5 +140,6 @@ export const getAuthState = () =>
 		setUser: state.setUser,
 		setToken: state.setToken,
 		logout: state.logout,
+		deleteTempToken: state.deleteTempToken,
 		refreshTokenValidity: state.refreshTokenValidity
 	}))

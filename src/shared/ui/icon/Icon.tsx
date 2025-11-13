@@ -61,7 +61,10 @@ import {
 	Search,
 	UserCog,
 	KeyRound,
-	ShieldCheck
+	ShieldCheck,
+	MailIcon,
+	LockIcon,
+	UnlockIcon
 } from 'lucide-react'
 
 const iconMap = {
@@ -126,7 +129,10 @@ const iconMap = {
 	search: Search,
 	userCog: UserCog,
 	shieldCheck: ShieldCheck,
-	keyRound: KeyRound
+	keyRound: KeyRound,
+	mailcon: MailIcon,
+	lockIcon: LockIcon,
+	unLockIcon: UnlockIcon
 }
 
 export type IconName = keyof typeof iconMap
