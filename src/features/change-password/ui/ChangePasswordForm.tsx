@@ -1,16 +1,14 @@
 import { lazy, Suspense } from 'react'
-import { UserPassword } from '@/entities/user/domain/value-objects/UserPassword'
 import { useChangePassword } from '@/features/change-password/model/useChangePassword'
 import { Input } from '@/shared/ui/Input/Input'
 import { UnlockIcon } from '@/shared/ui/icon/UnlockIcon'
 import { LockIcon } from '@/shared/ui/icon/LockIcon'
-import Typography from '@/shared/ui/Typography'
 import Button from '@/shared/ui/Button'
 import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
 import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type UserEmail } from '@/entities/user/domain/value-objects/UserEmail'
-import { PasswordPolicy } from './PasswordPolicy'
+import { PasswordPolicyWidget } from '@/widgets/PasswordPolicyWidget'
 
 const Modal = lazy(async () => import('@/shared/ui/Modal/Modal').then(m => ({ default: m.Dialog })))
 const ConfirmationModal = lazy(async () =>
@@ -123,7 +121,10 @@ export function ChangePassowrdForm({ userEmail }: ChangePassowrdFormProps) {
 						onRightIconClick={() => handleToggleInputs('reTypePassword')}
 					/>
 				</div>
-				<PasswordPolicy />
+				<PasswordPolicyWidget
+					passwordValue={formData.newPassword}
+					className="bg-slate-200"
+				/>
 				<div />
 				<div className="flex justify-center gap-4">
 					<Button

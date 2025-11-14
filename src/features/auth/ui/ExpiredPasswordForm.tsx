@@ -4,7 +4,7 @@ import { Input } from '@/shared/ui/Input/Input'
 import Button from '@/shared/ui/Button'
 import { Icon } from '@/shared/ui/icon/Icon'
 import Typography from '@/shared/ui/Typography'
-import { LoginPasswordPolicy } from './LoginPasswordPolicy'
+import { PasswordPolicyWidget } from '@/widgets/PasswordPolicyWidget'
 
 export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken: () => void }) => {
 	const { formData, errors, isSubmitting, handleChange, handleSubmit } =
@@ -53,7 +53,10 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 						placeholder="**********"
 						autoComplete="off"
 					/>
-					<LoginPasswordPolicy newPassword={formData.newPassword} />
+					<PasswordPolicyWidget
+						passwordValue={formData.newPassword}
+						className="bg-white"
+					/>
 				</div>
 				<div className="flex flex-col items-center justify-center gap-4">
 					<Button
