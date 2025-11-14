@@ -24,6 +24,16 @@ export class UserPassword extends StringValueObject {
 		return UserPassword.errors
 	}
 
+	public static checkPolicy(password: string) {
+		return {
+			hasMinLength: password.length >= this.HAS_MIN_LENGTH,
+			hasUppercase: this.hasUppercase.test(password),
+			hasLowercase: this.hasLowercase.test(password),
+			hasNumber: this.hasNumber.test(password),
+			hasSpecialCharacter: this.hasSpecialCharacter.test(password)
+		}
+	}
+
 	public static isValid(value: string): boolean {
 		// Create an empty array to store any validation errors
 		const errors: string[] = []

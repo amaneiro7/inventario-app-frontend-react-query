@@ -18,7 +18,12 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 			<Typography align="left" color="white" variant="p">
 				Tu contraseña ha expirado. Por favor, crea una nueva contraseña.
 			</Typography>
-			<form id="update-expired-password" action="submit" onSubmit={handleSubmit}>
+			<form
+				id="update-expired-password"
+				action="submit"
+				onSubmit={handleSubmit}
+				autoComplete="off"
+			>
 				<div className="my-10 space-y-6 md:space-y-8">
 					<Input
 						id="new-password"
@@ -30,7 +35,9 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 						error={!!errors.newPassword}
 						errorMessage={errors.newPassword}
 						required
-						autoComplete="new-password"
+						transform
+						placeholder="**********"
+						autoComplete="off"
 					/>
 					<Input
 						id="confirm-password"
@@ -42,16 +49,18 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 						error={!!errors.reTypePassword}
 						errorMessage={errors.reTypePassword}
 						required
-						autoComplete="new-password"
+						transform
+						placeholder="**********"
+						autoComplete="off"
 					/>
 					<LoginPasswordPolicy newPassword={formData.newPassword} />
 				</div>
-				<div className="space-y-4">
+				<div className="flex flex-col items-center justify-center gap-4">
 					<Button
 						form="update-expired-password"
 						buttonSize="medium"
 						color="blue"
-						size="full"
+						size="content"
 						disabled={isSubmitting}
 						text={isSubmitting ? 'Actualizando...' : 'Actualizar Contraseña'}
 						type="submit"
