@@ -6,6 +6,8 @@ import { EmployeeGetService } from '../service/employeeGet.service'
 import { EmployeeGetter } from '../../application/EmployeeGetter'
 import { type DefaultEmployee } from '../reducers/employeeFormReducer'
 import { type EmployeeDto } from '../../domain/dto/Employee.dto'
+import { useGetAllowedDomainsAppSettings } from '@/entities/appSettings/infra/hook/useGeAllowedDomainsAppSettings'
+import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
 
 const repository = new EmployeeGetService()
 const get = new EmployeeGetter(repository)
@@ -49,6 +51,8 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 		enabled: !!id && mode === 'edit' && !location?.state?.Employee,
 		retry: false
 	})
+	const { data: allowedDomainsRaw } = useGetAllowedDomainsAppSettings()
+	const allowedDomains = allowedDomainsRaw ? cleanStringToArray(allowedDomainsRaw?.value) : []
 
 	/**
 	 * Maps the fetched EmployeeDto to the DefaultEmployee form state.
@@ -77,6 +81,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 				cargoId: employee.cargoId ?? '',
 				extension: extension,
 				phone: phone,
+				allowedDomians: allowedDomains,
 				extensionSegments: extension?.map(ext => {
 					const match = ext.match(/(\d{4})(\d{7})/)
 					const operadora = match ? match?.[1] : ''
@@ -103,7 +108,7 @@ export function useEmployeeInitialState(defaultState: DefaultEmployee): {
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('employee')) {
-			setState(defaultState)
+			setState({ ...defaultState, allowedDomians: allowedDomains })
 			return
 		}
 

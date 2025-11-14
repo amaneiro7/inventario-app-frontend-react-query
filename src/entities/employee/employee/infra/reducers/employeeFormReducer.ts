@@ -34,6 +34,7 @@ export interface DefaultEmployee {
 	phoneSegments: { operadora: string; numero: string }[]
 	devices: EmployeeDto['devices']
 	updatedAt?: EmployeeDto['updatedAt']
+	allowedDomians?: string[]
 }
 
 /**
@@ -415,7 +416,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				errors: {
 					...state.errors,
 					email: EmployeeEmail.isValid({
-						value: email
+						value: email,
+						allowedDomains: state.formData.allowedDomians ?? []
 					})
 						? ''
 						: EmployeeEmail.invalidMessage()

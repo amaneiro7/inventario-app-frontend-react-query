@@ -22,7 +22,7 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 				id="update-expired-password"
 				action="submit"
 				onSubmit={handleSubmit}
-				autoComplete="off"
+				autoComplete="new-password"
 			>
 				<div className="my-10 space-y-6 md:space-y-8">
 					<Input
@@ -37,7 +37,7 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 						required
 						transform
 						placeholder="**********"
-						autoComplete="off"
+						autoComplete="new-password"
 					/>
 					<Input
 						id="confirm-password"
@@ -51,7 +51,7 @@ export const ExpiredPasswordForm = memo(({ deleteTempToken }: { deleteTempToken:
 						required
 						transform
 						placeholder="**********"
-						autoComplete="off"
+						autoComplete="new-password"
 					/>
 					<PasswordPolicyWidget
 						passwordValue={formData.newPassword}

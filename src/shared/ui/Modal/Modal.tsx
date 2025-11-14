@@ -26,6 +26,11 @@ export function Dialog({ children, ref }: React.PropsWithChildren<{ ref: React.R
 			{createPortal(
 				<dialog
 					ref={modalRef}
+					inert
+					tabIndex={-1}
+					aria-modal="true"
+					aria-hidden="true"
+					aria-label="Modal"
 					className="modalDialog w-1/2 rounded shadow-lg shadow-slate-500 backdrop:bg-black/35"
 				>
 					{children}

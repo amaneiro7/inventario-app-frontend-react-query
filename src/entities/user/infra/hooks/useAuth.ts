@@ -22,13 +22,9 @@ export function useAuth() {
 	const location = useLocation()
 
 	const checkTokenValidity = useCallback(async () => {
-		// Si no hay token, no hay nada que hacer. El usuario está deslogueado.
-		if (!token) {
-			return
-		}
-
+		const isTokenMissingOrExpired = !token || isTokenExpired(token)
 		// Si el token SÍ existe pero está expirado, entonces lo refrescamos.
-		if (isTokenExpired(token)) {
+		if (isTokenMissingOrExpired) {
 			await refreshTokenValidity()
 		} else if (!user) {
 			// Si el token es válido pero falta el objeto de usuario, lo restauramos

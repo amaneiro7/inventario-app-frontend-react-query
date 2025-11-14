@@ -11,24 +11,21 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
  */
 export class EmployeeEmail extends AcceptedNullValueObject<string> {
 	/**
-	 * Regular expression for validating employee email addresses.
-	 * It specifically checks for emails ending with '@bnc.com.ve'.
+	 * Base regular expression for a valid email format.
 	 */
-	static readonly regex =
-		/^(?=.*[@](?:bnc\.com\.ve)$)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9_-]*$/
+	private static readonly emailFormatRegex =
+		/^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[a-zA-Z0-9_-]*$/
 
 	private static error = ''
 
 	/**
 	 * Constructs an EmployeeEmail Value Object.
 	 * @param value - The primitive value of the email address, or null.
-	 * @throws Error if the provided value does not meet the validation criteria (and is not null).
 	 */
 	constructor(value: string | null) {
 		super(value)
-		if (!EmployeeEmail.isValid({ value: this.value })) {
-			throw new Error(EmployeeEmail.invalidMessage())
-		}
+		// The validation is now expected to be done externally before instantiation,
+		// for example, in the entity's factory method, because it needs external data (allowed domains).
 	}
 
 	/**
@@ -37,16 +34,33 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 	 * @param params.value - The primitive value of the email address, or null.
 	 * @returns True if the value is valid (null or matches the regex), false otherwise.
 	 */
-	public static isValid({ value }: { value: Primitives<EmployeeEmail> }): boolean {
+	public static isValid({
+		value,
+		allowedDomains
+	}: {
+		value: Primitives<EmployeeEmail>
+		allowedDomains: string[]
+	}): boolean {
 		EmployeeEmail.error = '' // Clear the error message
 
 		if (!value) {
 			return true // Null is accepted
 		}
 
-		if (!EmployeeEmail.regex.test(value)) {
+		if (!EmployeeEmail.emailFormatRegex.test(value)) {
+			EmployeeEmail.error = 'No es un formato de correo electrónico válido.'
+			return false
+		}
+
+		if (allowedDomains.length > 0) {
+			const domain = value.substring(value.lastIndexOf('@') + 1)
+			if (!allowedDomains.includes(domain)) {
+				EmployeeEmail.error = `El dominio del correo no es válido. Dominios permitidos: ${allowedDomains.join(', ')}.`
+				return false
+			}
+		} else {
 			EmployeeEmail.error =
-				'No es un formato de correo electrónico válido o no pertenece al dominio bnc.com.ve.'
+				'No se han podido cargar los dominios de correo permitidos para la validación.'
 			return false
 		}
 		return true
