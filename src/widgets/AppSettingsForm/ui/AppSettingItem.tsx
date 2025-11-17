@@ -26,6 +26,7 @@ const renderSettingInput = (
 			return (
 				<Switch
 					checked={setting.value === 'true'}
+					className="data-[state=checked]:bg-naranja"
 					onCheckedChange={checked =>
 						handleChange(setting.key, String(checked), setting.type)
 					}
