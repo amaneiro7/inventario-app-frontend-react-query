@@ -40,6 +40,19 @@ export const PermissionInputs = memo(
 					errorMessage={errors?.name}
 					required
 				/>
+				<Input
+					id="permission-description"
+					value={formData.description}
+					name="description"
+					label="Descripción del permiso"
+					isLoading={isLoading}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('description', e.target.value)
+					}
+					error={!!errors?.description}
+					errorMessage={errors?.description}
+					required
+				/>
 			</>
 		)
 	}

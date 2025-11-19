@@ -1,4 +1,5 @@
 import { type PermissionParams } from '../../domain/dto/Permission.dto'
+import { PermissionDescription } from '../../domain/value-object/PermissionDescription'
 import { PermissionName } from '../../domain/value-object/PermissionName'
 
 /**
@@ -18,6 +19,7 @@ export type DefaultPermission = PermissionParams & {
  */
 export interface PermissionErrors {
 	name: string
+	description: string
 }
 
 /**
@@ -38,11 +40,13 @@ export interface State {
 export const initialPermissionState: State = {
 	formData: {
 		id: undefined,
+		description: '',
 		name: '',
 		updatedAt: undefined
 	},
 	errors: {
-		name: ''
+		name: '',
+		description: ''
 	}
 }
 
@@ -51,6 +55,7 @@ export const initialPermissionState: State = {
  *   { type: 'init'; payload: { formData: PermissionParams } } |
  *   { type: 'reset'; payload: { formData: PermissionParams } } |
  *   { type: 'name'; payload: { value: PermissionParams['name'] } }
+ *  { type: 'description'; payload: { value: PermissionParams['description'] } }
  * )} Action
  * @description Tipos de acciones que puede manejar el reducer del formulario de `Permission`.
  */
@@ -58,6 +63,7 @@ export type Action =
 	| { type: 'init'; payload: { formData: PermissionParams } }
 	| { type: 'reset'; payload: { formData: PermissionParams } }
 	| { type: 'name'; payload: { value: PermissionParams['name'] } }
+	| { type: 'description'; payload: { value: PermissionParams['description'] } }
 
 /**
  * `PermissionFormReducer`
@@ -91,6 +97,19 @@ export const permissionFormReducer = (state: State, action: Action): State => {
 				errors: {
 					...state.errors,
 					name: PermissionName.isValid(name) ? '' : PermissionName.invalidMessage(name)
+				}
+			}
+		}
+		case 'description': {
+			const description = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, description },
+				errors: {
+					...state.errors,
+					description: PermissionDescription.isValid(description)
+						? ''
+						: PermissionDescription.invalidMessage(description)
 				}
 			}
 		}

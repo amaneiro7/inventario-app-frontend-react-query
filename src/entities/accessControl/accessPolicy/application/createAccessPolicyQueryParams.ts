@@ -4,23 +4,26 @@ import { OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/entities/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type PermissionDto } from '../domain/dto/Permission.dto'
+import { type AccessPolicyDto } from '../domain/dto/AccessPolicy.dto'
 
 /**
- * @interface PermissionFilters
- * @description Define la estructura de los filtros disponibles para buscar entidades `Permission`.
- * @property {PermissionDto['id']} [id] - ID de la marca.
- * @property {PermissionDto['name']} [name] - Nombre de la marca.
+ * @interface AccessPolicyFilters
+ * @description Define la estructura de los filtros disponibles para buscar entidades `AccessPolicy`.
+ * @property {AccessPolicyDto['id']} [id] - ID de la marca.
+ * @property {AccessPolicyDto['name']} [name] - Nombre de la marca.
  * @property {string} [categoryId] - ID de la categoría asociada a la marca.
  * @property {number} [pageNumber] - Número de página para la paginación.
  * @property {number} [pageSize] - Tamaño de página para la paginación.
  * @property {Primitives<OrderBy>} [orderBy] - Campo por el cual ordenar los resultados.
  * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
  */
-export interface PermissionFilters {
-	id?: PermissionDto['id']
-	name?: PermissionDto['name']
-	description?: PermissionDto['description']
+export interface AccessPolicyFilters {
+	id?: AccessPolicyDto['id']
+	name?: AccessPolicyDto['name']
+	priority?: AccessPolicyDto['priority']
+	cargoId?: AccessPolicyDto['cargoId']
+	departamentoId?: AccessPolicyDto['departamentoId']
+	permissionGroupId?: AccessPolicyDto['permissionGroupId']
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
@@ -28,20 +31,20 @@ export interface PermissionFilters {
 }
 
 /**
- * `createPermissionParams`
+ * `createAccessPolicyParams`
  * @function
- * @description Construye una cadena de parámetros de consulta (query string) a partir de un objeto `PermissionFilters`.
+ * @description Construye una cadena de parámetros de consulta (query string) a partir de un objeto `AccessPolicyFilters`.
  * Utiliza la clase `Criteria` para generar la consulta de forma estructurada.
- * @param {PermissionFilters} filters - El objeto de filtros para construir los parámetros de consulta.
+ * @param {AccessPolicyFilters} filters - El objeto de filtros para construir los parámetros de consulta.
  * @returns {Promise<string>} Una promesa que se resuelve con la cadena de parámetros de consulta.
  */
-export async function createPermissionParams({
+export async function createAccessPolicyParams({
 	pageNumber,
 	pageSize,
 	orderBy,
 	orderType,
 	...options
-}: PermissionFilters): Promise<string> {
+}: AccessPolicyFilters): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,
@@ -63,10 +66,7 @@ export async function createPermissionParams({
 			} else {
 				query.filters.push({
 					field: key,
-					operator:
-						key === 'name' || key === 'description'
-							? Operator.CONTAINS
-							: Operator.EQUAL,
+					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
 					value
 				})
 			}

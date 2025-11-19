@@ -213,6 +213,11 @@ export const navigation: Navigation[] = [
 				title: 'Agregar Nuevo Grupo de Permisos',
 				path: '/form/permission-groups/add',
 				desc: 'Crea un nuevo grupo de permisos para agrupar múltiples autorizaciones bajo un mismo conjunto.'
+			},
+			{
+				title: 'Agregar Nueva Política de Acceso',
+				path: '/form/access-policy/add',
+				desc: 'Define y registra una nueva política de acceso para gestionar las reglas de seguridad del sistema.'
 			}
 		]
 	}

@@ -27,6 +27,7 @@ const Login = lazy(() => import('@/pages/Login'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
 const FormPermission = lazy(() => import('@/pages/FormPermission'))
 const FormPermissionGroup = lazy(() => import('@/pages/FormPermissionGroup'))
+const FormAccessPolicy = lazy(() => import('@/pages/FormAccessPolicy'))
 const FormShipment = lazy(() => import('@/pages/FormShipment'))
 const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
 const FormModel = lazy(() => import('@/pages/FormModel'))
@@ -119,6 +120,8 @@ export function AppRoutes(): JSX.Element {
 						<Route path="permission/add" element={<FormPermission />} />
 						<Route path="permission/edit/:id" element={<FormPermission />} />
 						<Route path="permission-groups/add" element={<FormPermissionGroup />} />
+						<Route path="access-policy/add" element={<FormAccessPolicy />} />
+						<Route path="access-policy/edit/:id" element={<FormAccessPolicy />} />
 						<Route
 							path="permission-groups/edit/:id"
 							element={<FormPermissionGroup />}
