@@ -4,7 +4,6 @@ import { OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/entities/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type AccessPolicyDto } from '../domain/dto/AccessPolicy.dto'
 
 /**
  * @interface AccessPolicyFilters
@@ -18,12 +17,12 @@ import { type AccessPolicyDto } from '../domain/dto/AccessPolicy.dto'
  * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
  */
 export interface AccessPolicyFilters {
-	id?: AccessPolicyDto['id']
-	name?: AccessPolicyDto['name']
-	priority?: AccessPolicyDto['priority']
-	cargoId?: AccessPolicyDto['cargoId']
-	departamentoId?: AccessPolicyDto['departamentoId']
-	permissionGroupId?: AccessPolicyDto['permissionGroupId']
+	id?: string
+	name?: string
+	priority?: string
+	cargoId?: string
+	departamentoId?: string
+	permissionGroupId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>

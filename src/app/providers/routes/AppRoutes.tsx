@@ -12,6 +12,7 @@ const ListEmployee = lazy(() => import('@/pages/ListEmployee'))
 const ListSite = lazy(() => import('@/pages/ListSite'))
 const ListHistory = lazy(() => import('@/pages/ListHistory'))
 const ListShipment = lazy(() => import('@/pages/ListShipment'))
+const ListAccessControl = lazy(() => import('@/pages/ListAccessControl'))
 const MonitoringDevice = lazy(() => import('@/pages/MonitoringDevice'))
 const MonitoringLocation = lazy(() => import('@/pages/MonitoringLocation'))
 const DashboardWrapper = lazy(() => import('@/app/layouts/DashBoardWrapper'))
@@ -92,6 +93,7 @@ export function AppRoutes(): JSX.Element {
 						<Route path="location" element={<ListSite />} />
 						<Route path="history" element={<ListHistory />} />
 						<Route path="shipment" element={<ListShipment />} />
+						<Route path="access-control" element={<ListAccessControl />} />
 					</Route>
 					<Route path="monitoring" element={<MonitoringWrapper />}>
 						<Route index element={<Monitoring />} />

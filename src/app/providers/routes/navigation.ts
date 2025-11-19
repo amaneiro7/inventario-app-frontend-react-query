@@ -196,18 +196,13 @@ export const navigation: Navigation[] = [
 			},
 			{
 				title: 'Gestión de Permisos',
-				path: '/list/permission',
+				path: '/list/access-control',
 				desc: 'Administra los permisos de acceso y las autorizaciones para diferentes roles de usuario.'
 			},
 			{
 				title: 'Agregar Nuevo Permiso',
 				path: '/form/permission/add',
 				desc: 'Crea y define un nuevo permiso para controlar el acceso a funcionalidades del sistema.'
-			},
-			{
-				title: 'Gestión de Grupos de Permisos',
-				path: '/list/permission-groups',
-				desc: 'Organiza y administra grupos de permisos para facilitar la asignación a roles de usuario.'
 			},
 			{
 				title: 'Agregar Nuevo Grupo de Permisos',
