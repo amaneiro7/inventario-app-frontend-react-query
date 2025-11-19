@@ -25,6 +25,8 @@ const Profile = lazy(() => import('@/pages/Profile'))
 const Layout = lazy(() => import('@/widgets/Layout/Layout'))
 const Login = lazy(() => import('@/pages/Login'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
+const FormPermission = lazy(() => import('@/pages/FormPermission'))
+const FormPermissionGroup = lazy(() => import('@/pages/FormPermissionGroup'))
 const FormShipment = lazy(() => import('@/pages/FormShipment'))
 const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
 const FormModel = lazy(() => import('@/pages/FormModel'))
@@ -114,6 +116,13 @@ export function AppRoutes(): JSX.Element {
 						<Route path="employee/edit/:id" element={<FormEmployee />} />
 						<Route path="brand/add" element={<FormBrand />} />
 						<Route path="brand/edit/:id" element={<FormBrand />} />
+						<Route path="permission/add" element={<FormPermission />} />
+						<Route path="permission/edit/:id" element={<FormPermission />} />
+						<Route path="permission-groups/add" element={<FormPermissionGroup />} />
+						<Route
+							path="permission-groups/edit/:id"
+							element={<FormPermissionGroup />}
+						/>
 						<Route path="directiva/add" element={<FormDirectiva />} />
 						<Route path="directiva/edit/:id" element={<FormDirectiva />} />
 						<Route

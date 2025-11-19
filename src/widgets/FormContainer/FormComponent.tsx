@@ -108,7 +108,7 @@ export const FormComponent = memo(
 							size="full"
 							buttonSize="large"
 							text="Regresar"
-							onClick={handleCloseClick} // Se llama directamente a la nueva función
+							onClick={handleCloseClick}
 							disabled={status.pending}
 							hoverTranslation
 							icon={<CancelIcon width={20} className="aspect-square" />}

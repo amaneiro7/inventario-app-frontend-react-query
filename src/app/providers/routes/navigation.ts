@@ -193,12 +193,27 @@ export const navigation: Navigation[] = [
 				title: 'Historial de Modificaciones',
 				path: '/list/history',
 				desc: 'Revisa un registro detallado de todos los cambios y eventos ocurridos en el sistema.'
+			},
+			{
+				title: 'Gestión de Permisos',
+				path: '/list/permission',
+				desc: 'Administra los permisos de acceso y las autorizaciones para diferentes roles de usuario.'
+			},
+			{
+				title: 'Agregar Nuevo Permiso',
+				path: '/form/permission/add',
+				desc: 'Crea y define un nuevo permiso para controlar el acceso a funcionalidades del sistema.'
+			},
+			{
+				title: 'Gestión de Grupos de Permisos',
+				path: '/list/permission-groups',
+				desc: 'Organiza y administra grupos de permisos para facilitar la asignación a roles de usuario.'
+			},
+			{
+				title: 'Agregar Nuevo Grupo de Permisos',
+				path: '/form/permission-groups/add',
+				desc: 'Crea un nuevo grupo de permisos para agrupar múltiples autorizaciones bajo un mismo conjunto.'
 			}
-			// {
-			// 	title: 'Actualizar Contraseña Expirada',
-			// 	path: '/auth/expired-password',
-			// 	desc: 'Página para que los usuarios con contraseña expirada puedan establecer una nueva.'
-			// }
 		]
 	}
 ]
