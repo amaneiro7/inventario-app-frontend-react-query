@@ -59,6 +59,7 @@ export function usePermissionGroupInitialState(defaultState: DefaultPermissionGr
 		setState({
 			id: permissionGroup.id,
 			name: permissionGroup.name,
+			description: permissionGroup.description,
 			permissions,
 			updatedAt: permissionGroup?.updatedAt
 		})

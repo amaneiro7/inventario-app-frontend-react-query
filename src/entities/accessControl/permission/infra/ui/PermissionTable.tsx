@@ -48,10 +48,10 @@ export const PermissionTable = memo(({ isError, permissions }: PermissionTablePr
 			{permissions?.map(permission => {
 				return (
 					<TableRow key={permission.id}>
-						<TableCell aria-colindex={1} size="small" value={permission.name}>
+						<TableCell aria-colindex={1} size="xxLarge" value={permission.name}>
 							{permission.name}
 						</TableCell>
-						<TableCell aria-colindex={2} size="xLarge" value={permission.description}>
+						<TableCell aria-colindex={2} size="auto" value={permission.description}>
 							{permission.description}
 						</TableCell>
 						<TableCell aria-colindex={6} size="xSmall">

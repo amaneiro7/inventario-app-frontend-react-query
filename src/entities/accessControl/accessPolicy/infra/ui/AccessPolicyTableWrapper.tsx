@@ -85,7 +85,7 @@ export const AccessPolicyTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="departamentoId"
-									size="small"
+									size="large"
 								>
 									Departamento
 								</TableHead>
@@ -95,7 +95,7 @@ export const AccessPolicyTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="cargoId"
-									size="small"
+									size="large"
 								>
 									Cargo
 								</TableHead>
@@ -105,7 +105,7 @@ export const AccessPolicyTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="permissionGroupId"
-									size="small"
+									size="large"
 								>
 									Grupo de permisos
 								</TableHead>

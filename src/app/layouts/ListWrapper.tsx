@@ -76,6 +76,11 @@ const ListWrapper = memo(() => {
 				title: 'Historial de Cambios',
 				description:
 					'Revisa el registro completo del historial de cambios realizados en el sistema. Mantente al tanto de las modificaciones.'
+			},
+			'/list/access-control': {
+				title: 'Control de Acceso',
+				description:
+					'Gestiona los roles, permisos y grupos de permisos para controlar el acceso de los usuarios a las funcionalidades del sistema.'
 			}
 		}),
 		[]

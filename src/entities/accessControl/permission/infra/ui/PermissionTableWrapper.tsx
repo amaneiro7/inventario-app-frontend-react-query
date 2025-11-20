@@ -65,7 +65,7 @@ export const PermissionTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="name"
-									size="small"
+									size="xxLarge"
 								>
 									Nombre
 								</TableHead>
@@ -75,7 +75,7 @@ export const PermissionTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="description"
-									size="xxLarge"
+									size="auto"
 								>
 									Descripción
 								</TableHead>

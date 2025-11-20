@@ -56,17 +56,17 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 						</TableCell>
 						<TableCell
 							aria-colindex={3}
-							size="small"
+							size="large"
 							value={accessPolicy.departamento?.name}
 						>
 							{accessPolicy.departamento?.name}
 						</TableCell>
-						<TableCell aria-colindex={4} size="small" value={accessPolicy.cargo?.name}>
+						<TableCell aria-colindex={4} size="large" value={accessPolicy.cargo?.name}>
 							{accessPolicy.cargo?.name}
 						</TableCell>
 						<TableCell
 							aria-colindex={5}
-							size="small"
+							size="large"
 							value={accessPolicy.permissionGroup?.name}
 						>
 							{accessPolicy.permissionGroup?.name}

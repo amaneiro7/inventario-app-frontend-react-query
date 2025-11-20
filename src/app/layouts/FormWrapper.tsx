@@ -39,7 +39,10 @@ const FormWrapper = memo(() => {
 			'/form/location': 'Ubicación',
 			'/form/site': 'Sitio',
 			'/form/city': 'Ciudad',
-			'/form/region': 'Región'
+			'/form/region': 'Región',
+			'/form/permission-groups': 'Grupo de Permisos',
+			'/form/permission': 'Permiso',
+			'/form/access-policy': 'Política de Acceso'
 		}),
 		[]
 	)
