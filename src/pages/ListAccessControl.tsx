@@ -1,4 +1,5 @@
 import { AccessPolicyList } from '@/entities/accessControl/accessPolicy/infra/ui/AccessPolicyList'
+import { PermissionList } from '@/entities/accessControl/permission/infra/ui/PermissionList'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
@@ -51,7 +52,7 @@ export default function ListAccessControl() {
 						<DetailsBoxWrapper></DetailsBoxWrapper>
 					</TabsContent>
 					<TabsContent value="permissions">
-						<DetailsBoxWrapper></DetailsBoxWrapper>
+						<PermissionList />
 					</TabsContent>
 				</Tabs>
 			</ErrorBoundary>

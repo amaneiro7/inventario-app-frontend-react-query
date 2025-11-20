@@ -4,7 +4,6 @@ import { OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
 import { OrderType } from '@/entities/shared/domain/criteria/OrderType'
 import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/SearchByCriteriaQuery'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type PermissionGroupDto } from '../domain/dto/PermissionGroup.dto'
 
 /**
  * @interface PermissionGroupFilters
@@ -18,8 +17,9 @@ import { type PermissionGroupDto } from '../domain/dto/PermissionGroup.dto'
  * @property {Primitives<OrderType>} [orderType] - Tipo de ordenación (ascendente/descendente).
  */
 export interface PermissionGroupFilters {
-	id?: PermissionGroupDto['id']
-	name?: PermissionGroupDto['name']
+	id?: string
+	name?: string
+	description?: string
 	permissionId?: string
 	pageNumber?: number
 	pageSize?: number

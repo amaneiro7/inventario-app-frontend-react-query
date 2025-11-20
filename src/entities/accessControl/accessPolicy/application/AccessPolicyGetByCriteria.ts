@@ -26,7 +26,7 @@ export class AccessPolicyGetByCriteria {
 	 * @static
 	 * @type {string}
 	 */
-	static readonly defaultOrderBy: string = 'permissionGroupId'
+	static readonly defaultOrderBy: string = 'name'
 	private readonly getAll: AccessPolicyGetAll
 
 	/**

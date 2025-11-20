@@ -34,7 +34,7 @@ export const PermissionGroupInputs = memo(
 		return (
 			<>
 				<Input
-					id="permissionGroup-name"
+					id="permission-group-name"
 					value={formData.name}
 					name="name"
 					label="Nombre del grupo de permisos"
@@ -44,6 +44,19 @@ export const PermissionGroupInputs = memo(
 					}
 					error={!!errors?.name}
 					errorMessage={errors?.name}
+					required
+				/>
+				<Input
+					id="permission-group-description"
+					value={formData.description}
+					name="description"
+					label="Descripción del grupo de permisos"
+					isLoading={isLoading}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('description', e.target.value)
+					}
+					error={!!errors?.description}
+					errorMessage={errors?.description}
 					required
 				/>
 				<PermissionTransferList

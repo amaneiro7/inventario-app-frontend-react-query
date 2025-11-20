@@ -1,4 +1,5 @@
 import { type PermissionGroupParams } from '../../domain/dto/PermissionGroup.dto'
+import { PermissionGroupDescription } from '../../domain/value-object/PermissionGroupDescription'
 import { PermissionGroupName } from '../../domain/value-object/PermissionGroupName'
 
 /**
@@ -18,6 +19,7 @@ export type DefaultPermissionGroup = PermissionGroupParams & {
  */
 export interface PermissionGroupErrors {
 	name: string
+	description?: string
 }
 
 /**
@@ -39,6 +41,7 @@ export const initialPermissionGroupState: State = {
 	formData: {
 		id: undefined,
 		name: '',
+		description: '',
 		permissions: [],
 		updatedAt: undefined
 	},
@@ -51,7 +54,8 @@ export const initialPermissionGroupState: State = {
  * @typedef {(
  *   { type: 'init'; payload: { formData: PermissionGroupParams } } |
  *   { type: 'reset'; payload: { formData: PermissionGroupParams } } |
- *   { type: 'name'; payload: { value: PermissionGroupParams['name'] } }|
+ *   { type: 'name'; payload: { value: PermissionGroupParams['name'] } } |
+ *   { type: 'description'; payload: { value: PermissionGroupParams['description'] } } |
  *   { type: 'addPermission'; payload: { value: string } } |
  *   { type: 'removePermission'; payload: { value: string } }
  * )} Action
@@ -61,6 +65,7 @@ export type Action =
 	| { type: 'init'; payload: { formData: PermissionGroupParams } }
 	| { type: 'reset'; payload: { formData: PermissionGroupParams } }
 	| { type: 'name'; payload: { value: PermissionGroupParams['name'] } }
+	| { type: 'description'; payload: { value: PermissionGroupParams['description'] } }
 	| { type: 'addPermission'; payload: { value: string } }
 	| { type: 'removePermission'; payload: { value: string } }
 
@@ -98,6 +103,19 @@ export const permissionGroupFormReducer = (state: State, action: Action): State 
 					name: PermissionGroupName.isValid(name)
 						? ''
 						: PermissionGroupName.invalidMessage(name)
+				}
+			}
+		}
+		case 'description': {
+			const description = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, description },
+				errors: {
+					...state.errors,
+					description: PermissionGroupDescription.isValid(description)
+						? ''
+						: PermissionGroupDescription.invalidMessage(description)
 				}
 			}
 		}

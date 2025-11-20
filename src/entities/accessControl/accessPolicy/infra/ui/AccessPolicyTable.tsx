@@ -1,6 +1,9 @@
 import { lazy, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { ActionMenu } from '@/widgets/ActionMenu'
+import { AccessPolicyRemover } from '../../application/AccessPolicyRemover'
+import { AccessPolicyDeleteService } from '../service/accessPolicyDelete.service'
 import { type AccessPolicyDto } from '../../domain/dto/AccessPolicy.dto'
 
 const TableCell = lazy(() =>
@@ -22,10 +25,16 @@ interface AccessPolicyTableProps {
 }
 
 export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicyTableProps) => {
+	const { events } = useAuthStore.getState()
+	const remove = new AccessPolicyRemover(new AccessPolicyDeleteService(), events)
 	const navigate = useNavigate()
 
 	const handleEdit = (id: string) => {
 		navigate(`/form/access-policy/edit/${id}`)
+	}
+
+	const handleRemove = async (id: string) => {
+		await remove.execute({ id })
 	}
 
 	if (isError) {
@@ -63,7 +72,10 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 							{accessPolicy.permissionGroup?.name}
 						</TableCell>
 						<TableCell aria-colindex={6} size="xSmall">
-							<ActionMenu handleEdit={() => handleEdit(accessPolicy.id)} />
+							<ActionMenu
+								handleEdit={() => handleEdit(accessPolicy.id)}
+								handleDelete={() => handleRemove(accessPolicy.id)}
+							/>
 						</TableCell>
 					</TableRow>
 				)

@@ -1,7 +1,8 @@
 import { PermissionGroupName } from '../value-object/PermissionGroupName'
+import { PermissionGroupDescription } from '../value-object/PermissionGroupDescription'
+import { PermissionId } from '@/entities/accessControl/permission/domain/value-object/PermissionId'
 import { type PermissionGroupPrimitives } from '../dto/PermissionGroup.dto'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { PermissionId } from '@/entities/accessControl/permission/domain/value-object/PermissionId'
 
 /**
  * `PermissionGroup`
@@ -13,10 +14,12 @@ export class PermissionGroup {
 	/**
 	 * Crea una instancia de `PermissionGroup`.
 	 * @param {PermissionGroupName} name - El nombre de la marca como un Value Object.
+	 * @param {PermissionGroupDescription} description - El nombre de la marca como un Value Object.
 	 * @param {PermissionId[]} permissions - Un array de IDs de categorías como Value Objects.
 	 */
 	constructor(
 		private readonly name: PermissionGroupName,
+		private readonly description: PermissionGroupDescription,
 		private readonly permissions: PermissionId[]
 	) {}
 
@@ -28,6 +31,7 @@ export class PermissionGroup {
 	static create(params: PermissionGroupPrimitives): PermissionGroup {
 		return new PermissionGroup(
 			new PermissionGroupName(params.name),
+			new PermissionGroupDescription(params.description),
 			params.permissions.map(permissionId => new PermissionId(permissionId))
 		)
 	}
@@ -38,6 +42,13 @@ export class PermissionGroup {
 	 */
 	get nameValue(): Primitives<PermissionGroupName> {
 		return this.name.value
+	}
+	/**
+	 * Obtiene el valor primitivo del nombre de la marca.
+	 * @type {Primitives<PermissionGroupName>}
+	 */
+	get descriptionValue(): Primitives<PermissionGroupDescription> {
+		return this.description.value
 	}
 
 	/**
@@ -55,7 +66,8 @@ export class PermissionGroup {
 	toPrimitives(): PermissionGroupPrimitives {
 		return {
 			name: this.nameValue,
-			permissions: this.permissionsValue
+			permissions: this.permissionsValue,
+			description: this.descriptionValue
 		}
 	}
 }

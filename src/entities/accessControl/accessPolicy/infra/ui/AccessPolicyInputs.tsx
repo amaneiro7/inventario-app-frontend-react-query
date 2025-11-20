@@ -33,6 +33,19 @@ export const AccessPolicyInputs = memo(
 	({ errors, isLoading, formData, handleChange }: AccessPolicyInputsProps) => {
 		return (
 			<>
+				<Input
+					id="access-policy-name"
+					value={formData.name}
+					name="name"
+					label="Nombre de la política de acceso"
+					isLoading={isLoading}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+						handleChange('name', e.target.value)
+					}
+					error={!!errors?.name}
+					errorMessage={errors?.name}
+					required
+				/>
 				<DepartamentoCombobox
 					value={formData.departamentoId ?? ''}
 					handleChange={(_name, value) => handleChange('departamentoId', value as string)}

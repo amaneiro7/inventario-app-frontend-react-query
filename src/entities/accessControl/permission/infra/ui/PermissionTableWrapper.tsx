@@ -1,10 +1,10 @@
 import { lazy, memo, Suspense, useMemo } from 'react'
 import { eventManager } from '@/shared/lib/utils/eventManager'
-import { useGetAllAccessPolicies } from '../hooks/useGetAllAccessPolicy'
-import { AccessPolicyGetByCriteria } from '../../application/AccessPolicyGetByCriteria'
-import { AccessPolicyTableLoading } from './AccesspolicyTableLoading'
-import { AccessPolicyTable } from './AccessPolicyTable'
-import { type AccessPolicyFilters } from '../../application/createAccessPolicyQueryParams'
+import { useGetAllPermissions } from '../hooks/useGetAllPermission'
+import { PermissionGetByCriteria } from '../../application/PermissionGetByCriteria'
+import { PermissionTableLoading } from './PermissionTableLoading'
+import { PermissionTable } from './PermissionTable'
+import { type PermissionFilters } from '../../application/createPermissionQueryParams'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
 const TableBody = lazy(() =>
@@ -29,31 +29,31 @@ const PaginationBar = lazy(() =>
 	import('@/shared/ui/Pagination/PaginationBar').then(m => ({ default: m.PaginationBar }))
 )
 
-interface TableAccessPolicyWrapperProps {
-	query: AccessPolicyFilters
+interface TablePermissionWrapperProps {
+	query: PermissionFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
 }
 
-export const AccessPolicyTableWrapper = memo(
-	({ handlePageClick, handlePageSize, handleSort, query }: TableAccessPolicyWrapperProps) => {
-		const { data: accessPolicies, isError, isLoading } = useGetAllAccessPolicies(query)
+export const PermissionTableWrapper = memo(
+	({ handlePageClick, handlePageSize, handleSort, query }: TablePermissionWrapperProps) => {
+		const { data: permissions, isError, isLoading } = useGetAllPermissions(query)
 
 		const SkeletonFallback = useMemo(() => {
 			return Array.from({
-				length: query.pageSize ?? AccessPolicyGetByCriteria.defaultPageSize
-			}).map((_, index) => <AccessPolicyTableLoading key={`loader-${index}`} />)
-		}, [query.pageSize, AccessPolicyGetByCriteria.defaultPageSize])
+				length: query.pageSize ?? PermissionGetByCriteria.defaultPageSize
+			}).map((_, index) => <PermissionTableLoading key={`loader-${index}`} />)
+		}, [query.pageSize, PermissionGetByCriteria.defaultPageSize])
 		return (
 			<>
 				<TablePageWrapper>
 					<TabsNav
 						isLoading={isLoading}
-						total={accessPolicies?.info?.total}
+						total={permissions?.info?.total}
 						pageSize={query.pageSize}
 						pageNumber={query.pageNumber}
-						defaultPageSize={AccessPolicyGetByCriteria.defaultPageSize}
+						defaultPageSize={PermissionGetByCriteria.defaultPageSize}
 					/>
 
 					<Table>
@@ -74,41 +74,12 @@ export const AccessPolicyTableWrapper = memo(
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="priority"
-									size="small"
+									orderByField="description"
+									size="xxLarge"
 								>
-									Prioridad
+									Descripción
 								</TableHead>
-								<TableHead
-									aria-colindex={3}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="departamentoId"
-									size="small"
-								>
-									Departamento
-								</TableHead>
-								<TableHead
-									aria-colindex={4}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="cargoId"
-									size="small"
-								>
-									Cargo
-								</TableHead>
-								<TableHead
-									aria-colindex={5}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="permissionGroupId"
-									size="small"
-								>
-									Grupo de permisos
-								</TableHead>
+
 								<TableHead aria-colindex={6} size="xSmall">
 									{/* <span className="sr-only">Acciones</span> */}
 									Acciones
@@ -118,11 +89,11 @@ export const AccessPolicyTableWrapper = memo(
 						<TableBody>
 							<>
 								{isLoading && SkeletonFallback}
-								{accessPolicies !== undefined && (
+								{permissions !== undefined && (
 									<Suspense fallback={SkeletonFallback}>
-										<AccessPolicyTable
+										<PermissionTable
 											isError={isError}
-											accessPolicies={accessPolicies.data}
+											permissions={permissions.data}
 										/>
 									</Suspense>
 								)}
@@ -130,12 +101,12 @@ export const AccessPolicyTableWrapper = memo(
 						</TableBody>
 					</Table>
 				</TablePageWrapper>
-				{accessPolicies && !isLoading && !isError && (
+				{permissions && !isLoading && !isError && (
 					<PaginationBar
-						registerOptions={AccessPolicyGetByCriteria.pageSizeOptions}
-						totalPages={accessPolicies?.info?.totalPage}
-						total={accessPolicies?.info?.total}
-						currentPage={accessPolicies?.info?.page}
+						registerOptions={PermissionGetByCriteria.pageSizeOptions}
+						totalPages={permissions?.info?.totalPage}
+						total={permissions?.info?.total}
+						currentPage={permissions?.info?.page}
 						pageSize={query.pageSize}
 						handlePageClick={handlePageClick}
 						handlePageSize={handlePageSize}
@@ -146,4 +117,4 @@ export const AccessPolicyTableWrapper = memo(
 	}
 )
 
-AccessPolicyTableWrapper.displayName = 'AccessPolicyTableWrapper'
+PermissionTableWrapper.displayName = 'PermissionTableWrapper'
