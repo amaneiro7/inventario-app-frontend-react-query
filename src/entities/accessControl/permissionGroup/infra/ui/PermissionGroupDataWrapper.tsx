@@ -18,13 +18,7 @@ interface PermissionGroupDataWrapperProps {
 }
 
 export const PermissionGroupDataWrapper = memo(
-	({
-		handleChange,
-		handlePageClick,
-		handlePageSize,
-		handleSort,
-		query
-	}: PermissionGroupDataWrapperProps) => {
+	({ handlePageClick, handlePageSize, query }: PermissionGroupDataWrapperProps) => {
 		const { data: permissionGroups, isError, isLoading } = useGetAllPermissionGroups(query)
 		if (isError) {
 			return (
