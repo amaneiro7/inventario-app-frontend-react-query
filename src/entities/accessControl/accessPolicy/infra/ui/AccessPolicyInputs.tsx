@@ -26,7 +26,7 @@ interface AccessPolicyInputsProps {
 	formData: DefaultAccessPolicy
 	errors?: AccessPolicyErrors
 	isLoading: boolean
-	handleChange: (name: Action['type'], value: string) => void
+	handleChange: (name: Action['type'], value: string | number) => void
 }
 
 export const AccessPolicyInputs = memo(
@@ -75,7 +75,7 @@ export const AccessPolicyInputs = memo(
 					type="number"
 					isLoading={isLoading}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('priority', e.target.value)
+						handleChange('priority', Number(e.target.value))
 					}
 					error={!!errors?.priority}
 					errorMessage={errors?.priority}
