@@ -2,9 +2,7 @@ import { useCallback, useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { isTokenExpired } from '@/shared/lib/utils/isTokenExpired'
-// import { queryClient } from '@/lib/queryCliente'
-
-// capa de application
+import { type Permission } from '@/shared/config/permissions'
 
 export function useAuth() {
 	const {
@@ -17,7 +15,8 @@ export function useAuth() {
 		getUser,
 		setUser,
 		tempToken,
-		deleteTempToken
+		deleteTempToken,
+		permissions
 	} = useAuthStore()
 	const location = useLocation()
 
@@ -38,6 +37,15 @@ export function useAuth() {
 		checkTokenValidity()
 	}, [checkTokenValidity, location])
 
+	const hasPermission = useCallback(
+		(requiredPermission: Permission) => {
+			if (!permissions) {
+				return false
+			}
+			return permissions.includes(requiredPermission)
+		},
+		[permissions]
+	)
 	return {
 		login,
 		logout,
@@ -47,6 +55,7 @@ export function useAuth() {
 		isLogged: Boolean(token),
 		isPasswordExpired: Boolean(tempToken),
 		isLoginLoading: loading,
-		refreshTokenValidity
+		refreshTokenValidity,
+		hasPermission
 	}
 }

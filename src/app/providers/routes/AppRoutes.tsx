@@ -1,6 +1,8 @@
 import { type JSX, lazy, Suspense } from 'react'
 import { Loading } from '@/shared/ui/Loading'
 import { Routes, Route } from 'react-router-dom'
+import { ProtectedByPermissionRoute } from './ProtectedByPermissionRoute'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const ListComputer = lazy(() => import('@/pages/ListComputer'))
 const ListMonitor = lazy(() => import('@/pages/ListMonitor'))
@@ -20,6 +22,7 @@ const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const ManagementProfile = lazy(() => import('@/pages/UserManagementProfile'))
 const UserManagementRegister = lazy(() => import('@/pages/UserManagementRegister'))
+const UnauthorizedPage = lazy(() => import('@/pages/403'))
 const NotFound = lazy(() => import('@/pages/404'))
 const Home = lazy(() => import('@/pages/Home'))
 const Profile = lazy(() => import('@/pages/Profile'))
@@ -71,6 +74,7 @@ export function AppRoutes(): JSX.Element {
 			{' '}
 			{/* Suspense global para todas las rutas */}
 			<Routes>
+				<Route path="/403" element={<UnauthorizedPage />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} /> {/* Ruta index para / */}
@@ -111,14 +115,87 @@ export function AppRoutes(): JSX.Element {
 					</Route>
 					<Route path="form" element={<FormWrapper />}>
 						<Route index element={<Form />} />
-						<Route path="shipment/add" element={<FormShipment />} />
-						<Route path="shipment/edit/:id" element={<FormShipment />} />
-						<Route path="device/add" element={<FormDevice />} />
-						<Route path="device/edit/:id" element={<FormDevice />} />
-						<Route path="employee/add" element={<FormEmployee />} />
-						<Route path="employee/edit/:id" element={<FormEmployee />} />
-						<Route path="brand/add" element={<FormBrand />} />
-						<Route path="brand/edit/:id" element={<FormBrand />} />
+						{/* Ruta para actualizacion de envios */}
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.SHIPMENTS.CREATE}
+								/>
+							}
+						>
+							<Route path="shipment/add" element={<FormShipment />} />
+						</Route>
+						{/* Ruta para actualizacion de dispositivos */}
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.SHIPMENTS.UPDATE}
+								/>
+							}
+						>
+							<Route path="shipment/edit/:id" element={<FormShipment />} />
+						</Route>
+
+						{/* Ruta para actualizacion de dispositivos */}
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DEVICES.CREATE}
+								/>
+							}
+						>
+							<Route path="device/add" element={<FormDevice />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DEVICES.UPDATE}
+								/>
+							}
+						>
+							<Route path="device/edit/:id" element={<FormDevice />} />
+						</Route>
+
+						{/* Ruta para actualizacion de empleados */}
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.EMPLOYEES.CREATE}
+								/>
+							}
+						>
+							<Route path="employee/add" element={<FormEmployee />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.EMPLOYEES.UPDATE}
+								/>
+							}
+						>
+							<Route path="employee/edit/:id" element={<FormEmployee />} />
+						</Route>
+
+						{/* Ruta para actualizacion de Marca */}
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.BRANDS.CREATE}
+								/>
+							}
+						>
+							<Route path="brand/add" element={<FormBrand />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.BRANDS.UPDATE}
+								/>
+							}
+						>
+							<Route path="brand/edit/:id" element={<FormBrand />} />
+						</Route>
+
 						<Route path="permission/add" element={<FormPermission />} />
 						<Route path="permission/edit/:id" element={<FormPermission />} />
 						<Route path="permission-groups/add" element={<FormPermissionGroup />} />

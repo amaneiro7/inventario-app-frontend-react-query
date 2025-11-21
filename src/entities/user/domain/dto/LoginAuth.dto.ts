@@ -6,6 +6,7 @@ export interface UserAuthDTO {
 	user: LoginUserDto
 	accessToken: AccessToken
 	message: Message
+	permissions: string[]
 }
 
 export interface LoginParams {
