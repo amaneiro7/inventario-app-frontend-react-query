@@ -1,117 +1,38 @@
+import { useOutletContext } from 'react-router-dom'
 import { LinkCard } from '@/shared/ui/LinkCard'
-import {
-	Computer,
-	Factory,
-	Cpu,
-	UserPlus,
-	Scale,
-	Briefcase,
-	Layers,
-	Badge,
-	MapPin,
-	Package,
-	Truck
-} from 'lucide-react'
+import Typography from '@/shared/ui/Typography'
+import { type IconName } from '@/shared/ui/icon/Icon'
+import { type RouterMetadata } from '@/app/layouts/types/metaData'
 
 const Form = () => {
-	const form = [
-		{
-			title: 'Dispositivo',
-			description: 'Registrar un nuevo dispositivo en el sistema.',
-			icon: Computer,
-			to: 'device/add'
-		},
-		{
-			title: 'Relación de envio',
-			description: 'Crear una nueva relación de envío para el traslado de dispositivos.',
-			icon: Truck,
-			to: 'shipment/add'
-		},
-		{
-			title: 'Modelo',
-			description: 'Crear un nuevo modelo de equipo o dispositivo.',
-			icon: Package,
-			to: 'model/add'
-		},
-		{
-			title: 'Marca',
-			description: 'Añadir una nueva marca de fabricante.',
-			icon: Factory,
-			to: 'brand/add'
-		},
-		{
-			title: 'Procesador',
-			description: 'Registrar un nuevo tipo de procesador.',
-			icon: Cpu,
-			to: 'processors/add'
-		},
-		{
-			title: 'Empleado',
-			description: 'Dar de alta un nuevo empleado en el sistema.',
-			icon: UserPlus,
-			to: 'employee/add'
-		},
-		{
-			title: 'Directiva',
-			description: 'Crear una nueva directiva o vía de comunicación.',
-			icon: Scale,
-			to: 'directiva/add'
-		},
-		{
-			title: 'Vicepresidencia Ejecutiva',
-			description: 'Registrar una nueva vicepresidencia ejecutiva.',
-			icon: Briefcase,
-			to: 'vicepresidenciaejecutiva/add'
-		},
-		{
-			title: 'Vicepresidencia',
-			description: 'Crear una nueva vicepresidencia.',
-			icon: Briefcase,
-			to: 'vicepresidencia/add'
-		},
-		{
-			title: 'Departamento',
-			description: 'Añadir un nuevo departamento a la estructura organizacional.',
-			icon: Layers,
-			to: 'departamento/add'
-		},
-		{
-			title: 'Cargo',
-			description: 'Registrar un nuevo cargo o puesto de trabajo.',
-			icon: Badge,
-			to: 'cargo/add'
-		},
-		{
-			title: 'Ubicación',
-			description: 'Crear una nueva ubicación física.',
-			icon: MapPin,
-			to: 'location/add'
-		},
-		{
-			title: 'Sitio',
-			description: 'Registrar un nuevo sitio específico dentro de una ubicación.',
-			icon: MapPin,
-			to: 'site/add'
-		},
-		{
-			title: 'Ciudad',
-			description: 'Añadir una nueva ciudad al sistema.',
-			icon: MapPin,
-			to: 'city/add'
-		},
-		{
-			title: 'Región',
-			description: 'Crear una nueva región geográfica.',
-			icon: MapPin,
-			to: 'region'
-		}
-	]
+	const outletContext = useOutletContext<RouterMetadata[]>()
+
+	const forms: {
+		title: string
+		description: string
+		iconName: IconName
+		to: string
+	}[] = outletContext.map(metadata => ({
+		title: metadata.title.split(' | ')[0],
+		description: metadata.description.split('.')[0] + '.',
+		iconName: metadata?.iconName ?? 'box',
+		to: metadata.pathSegment ?? ''
+	}))
+	if (forms.length === 0) {
+		return (
+			<section className="rounded-lg border border-yellow-200 bg-yellow-50 p-8 text-center">
+				<Typography variant="p" color="amarillo">
+					No hay formularios disponibles para tu perfil de usuario.
+				</Typography>
+			</section>
+		)
+	}
 
 	return (
 		<>
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{form.map(dashboard => (
-					<LinkCard key={dashboard.title} {...dashboard} />
+				{forms.map(form => (
+					<LinkCard key={form.title} {...form} />
 				))}
 			</div>
 		</>

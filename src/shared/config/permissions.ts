@@ -41,7 +41,13 @@ export const PERMISSIONS = {
 		READ: 'categories:read'
 	},
 	DASHBOARD: {
-		READ: 'dashboard:read'
+		READ: 'dashboard:read',
+		READ_COMPUTER_DASHBOARD: 'dashboard:read-computer-dashboard',
+		READ_MONITOR_DASHBOARD: 'dashboard:read-monitor-dashboard',
+		READ_PRINTER_DASHBOARD: 'dashboard:read-printer-dashboard',
+		READ_PARTS_DASHBOARD: 'dashboard:read-parts-dashboard',
+		READ_FINANTIAL_PRINTER_DASHBOARD: 'dashboard:read-finantial-printer-dashboard',
+		READ_EMPLOYEE_DASHBOARD: 'dashboard:read-employee-dashboard'
 	},
 	DEVICES: {
 		READ_LIST: 'devices:read-list',

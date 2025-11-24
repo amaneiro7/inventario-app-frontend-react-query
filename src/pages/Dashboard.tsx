@@ -1,28 +1,34 @@
+import { useOutletContext } from 'react-router-dom'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { LinkCard } from '@/shared/ui/LinkCard'
-import { Computer } from 'lucide-react'
+import Typography from '@/shared/ui/Typography'
+import { type IconName } from '@/shared/ui/icon/Icon'
+import { type RouterMetadata } from '@/app/layouts/types/metaData'
 
 const Dashboards = () => {
-	const dashboards = [
-		// {
-		// 	title: 'Dashboard Principal',
-		// 	description: 'Vista general del sistema y métricas clave',
-		// 	icon: LayoutDashboard,
-		// 	to: '/dashboard'
-		// },
-		{
-			title: 'Computadoras',
-			description: 'Gestión y monitoreo de equipos de cómputo',
-			icon: Computer,
-			to: 'computer'
-		}
-		// {
-		// 	title: 'Monitores',
-		// 	description: 'Control y seguimiento de pantallas',
-		// 	icon: Monitor,
-		// 	to: '/monitors'
-		// }
-	]
+	const outletContext = useOutletContext<RouterMetadata[]>()
+	// Mapear los metadatos de las rutas permitidas al formato de LinkCard
+	const dashboards: {
+		title: string
+		description: string
+		iconName: IconName
+		to: string
+	}[] = outletContext.map(metadata => ({
+		title: metadata.title.split(' | ')[0], // Título limpio
+		description: metadata.description.split('.')[0] + '.', // Descripción limpia
+		iconName: metadata?.iconName ?? 'box',
+		to: metadata.pathSegment ?? '' // La ruta relativa
+	}))
+
+	if (dashboards.length === 0) {
+		return (
+			<div className="rounded-lg border border-yellow-200 bg-yellow-50 p-8 text-center">
+				<Typography variant="p" color="amarillo">
+					No hay dashboards disponibles para tu perfil de usuario.
+				</Typography>
+			</div>
+		)
+	}
 
 	return (
 		<DetailsWrapper>

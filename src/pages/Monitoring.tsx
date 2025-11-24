@@ -1,44 +1,39 @@
+import { useOutletContext } from 'react-router-dom'
 import { LinkCard } from '@/shared/ui/LinkCard'
-import { MonitorCheck, MapPinCheck } from 'lucide-react'
+import Typography from '@/shared/ui/Typography'
+import { type IconName } from '@/shared/ui/icon/Icon'
+import { type RouterMetadata } from '@/app/layouts/types/metaData'
 
 const Monitoring = () => {
-	const list = [
-		{
-			title: 'Monitoreo de Ubicaciones',
-			description:
-				'Accede al panel para ver el estado de conectividad en tiempo real de tus equipos.',
-			icon: MapPinCheck,
-			to: 'location'
-		},
-		{
-			title: 'Monitoreo de Dispositivos',
-			description:
-				'Accede al panel para ver el estado de conectividad en tiempo real de tus equipos.',
-			icon: MonitorCheck,
-			to: 'device'
-		},
-		{
-			title: 'Mapa de Conectividad de Agencias',
-			description:
-				'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.',
-			icon: MonitorCheck,
-			to: 'agencymap'
-		},
-		{
-			title: 'Mapa de Conectividad de Torres Administrativas',
-			description:
-				'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.',
+	const outletContext = useOutletContext<RouterMetadata[]>()
+	// Mapear los metadatos de las rutas permitidas al formato de LinkCard
+	const monitorings: {
+		title: string
+		description: string
+		iconName: IconName
+		to: string
+	}[] = outletContext.map(metadata => ({
+		title: metadata.title.split(' | ')[0], // Título limpio
+		description: metadata.description.split('.')[0] + '.', // Descripción limpia
+		iconName: metadata?.iconName ?? 'box',
+		to: metadata.pathSegment ?? '' // La ruta relativa
+	}))
 
-			icon: MonitorCheck,
-			to: 'administrativesitemap'
-		}
-	]
+	if (monitorings.length === 0) {
+		return (
+			<div className="rounded-lg border border-yellow-200 bg-yellow-50 p-8 text-center">
+				<Typography variant="p" color="amarillo">
+					No hay paneles de monitoreo disponibles para tu perfil de usuario.
+				</Typography>
+			</div>
+		)
+	}
 
 	return (
 		<>
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{list.map(dashboard => (
-					<LinkCard key={dashboard.title} {...dashboard} />
+				{monitorings.map(monitoring => (
+					<LinkCard key={monitoring.title} {...monitoring} />
 				))}
 			</div>
 		</>
