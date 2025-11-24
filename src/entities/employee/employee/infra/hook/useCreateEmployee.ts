@@ -50,7 +50,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	)
 	const key = useMemo(
 		() =>
-			`Employee${initialEmployeeState?.formData?.id ? initialEmployeeState.formData.id : ''}`,
+			`employee${initialEmployeeState?.formData?.id ? initialEmployeeState.formData.id : ''}`,
 		[formData?.id]
 	)
 

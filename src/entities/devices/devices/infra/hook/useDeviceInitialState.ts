@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { DeviceGetService } from '../service/deviceGet.service'
 import { DeviceGetter } from '../../application/DeviceGetter'
-import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultDevice } from '../reducers/devicesFormReducer'
 import { type DeviceDto } from '../../domain/dto/Device.dto'
 
@@ -19,7 +19,7 @@ const get = new DeviceGetter(repository) // Getter para obtener datos de un disp
 export function useDeviceInitialState(defaultState: DefaultDevice): {
 	initialState: DefaultDevice
 	resetState: () => void
-	mode: 'edit' | 'add'
+	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean

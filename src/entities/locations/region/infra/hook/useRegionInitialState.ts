@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { RegionGetService } from '../service/regionGet.service'
 import { RegionGetter } from '../../application/RegionGetter'
+import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultRegion } from '../reducers/regionFormReducer'
 import { type RegionDto } from '../../domain/dto/region.dto'
 
@@ -13,7 +13,7 @@ const get = new RegionGetter(repository)
 export function useRegionInitialState(defaultState: DefaultRegion): {
 	initialState: DefaultRegion
 	resetState: () => void
-	mode: 'edit' | 'add'
+	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
@@ -49,7 +49,7 @@ export function useRegionInitialState(defaultState: DefaultRegion): {
 	}, [])
 
 	useEffect(() => {
-		if (mode === 'add' || !location.pathname.includes('region')) {
+		if (mode !== 'edit' || !location.pathname.includes('region')) {
 			setState(defaultState)
 			return
 		}

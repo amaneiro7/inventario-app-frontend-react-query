@@ -31,7 +31,7 @@ export function useCreateRegion(defaultState?: DefaultRegion) {
 		initialRegionState
 	)
 	const key = useMemo(
-		() => `Region${initialRegionState?.formData?.id ? initialRegionState.formData.id : ''}`,
+		() => `region${initialRegionState?.formData?.id ? initialRegionState.formData.id : ''}`,
 		[formData?.id]
 	)
 
