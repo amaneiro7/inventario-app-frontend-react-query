@@ -64,7 +64,18 @@ import {
 	ShieldCheck,
 	MailIcon,
 	LockIcon,
-	UnlockIcon
+	UnlockIcon,
+	Badge,
+	Layers,
+	Scale,
+	Factory,
+	MapPinCheck,
+	MonitorCheck,
+	Building,
+	Building2,
+	Map,
+	Flag,
+	HomeIcon
 } from 'lucide-react'
 
 const iconMap = {
@@ -132,7 +143,18 @@ const iconMap = {
 	keyRound: KeyRound,
 	mailcon: MailIcon,
 	lockIcon: LockIcon,
-	unLockIcon: UnlockIcon
+	unLockIcon: UnlockIcon,
+	badge: Badge,
+	layers: Layers,
+	scale: Scale,
+	factory: Factory,
+	mapPinCheck: MapPinCheck,
+	monitorCheck: MonitorCheck,
+	building: Building,
+	building2: Building2,
+	map: Map,
+	flag: Flag,
+	home: HomeIcon
 }
 
 export type IconName = keyof typeof iconMap

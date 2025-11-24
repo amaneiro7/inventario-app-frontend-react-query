@@ -1,12 +1,13 @@
 import { cn } from '@/shared/lib/utils'
 import { memo } from 'react'
 import Typography from '@/shared/ui/Typography'
+import { type IconName, Icon } from '@/shared/ui/icon/Icon'
 
 interface StatCardProps {
 	title?: string
 	value?: string | number | React.ReactNode
 	description?: string
-	icon: React.ElementType
+	iconName: IconName
 	color?:
 		| 'blue'
 		| 'green'
@@ -27,7 +28,7 @@ export const StatCard = memo(
 		title,
 		value,
 		description,
-		icon: Icon,
+		iconName,
 		color = 'blue',
 		trend,
 		trendValue,
@@ -79,7 +80,7 @@ export const StatCard = memo(
 							iconColorVariants[color]
 						)}
 					>
-						<Icon className="h-5 w-5" />
+						<Icon name={iconName} className="h-5 w-5" />
 					</div>
 					{trend && (
 						<div
