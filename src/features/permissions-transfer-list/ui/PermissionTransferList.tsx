@@ -1,10 +1,10 @@
-import { useCallback, useMemo, useState } from 'react'
-import { useGetAllPermissions } from '../hooks/useGetAllPermission'
-import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
+import { memo } from 'react'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import Typography from '@/shared/ui/Typography'
 import { TransferListItem } from '@/shared/ui/TransferList/TransferListItem'
-import { type PermissionDto } from '../../domain/dto/Permission.dto'
+import { usePermissionTransferList } from '../model/usePermissionTransferList'
+import { type PermissionDto } from '../../../entities/accessControl/permission/domain/dto/Permission.dto'
+import { GroupedTransferList } from './GroupedTransferList'
 
 interface PermissionTransferListProps {
 	value?: PermissionDto['id'][]
@@ -33,7 +33,7 @@ interface PermissionTransferListProps {
  * @param {(name: 'addPermission', value: string) => void} props.onAddPermission - Función de callback para añadir una categoría.
  * @param {(name: 'removePermission', value: string) => void} props.onRemovePermission - Función de callback para eliminar una categoría.
  */
-export function PermissionTransferList({
+export const PermissionTransferList = memo(function PermissionTransferList({
 	value: permissions = [],
 	name,
 	error = '',
@@ -44,30 +44,21 @@ export function PermissionTransferList({
 	onAddPermission,
 	onRemovePermission
 }: PermissionTransferListProps) {
-	const [inputValue, setInputValue] = useState('')
-	const { data: allPermissions, isLoading: loading } = useGetAllPermissions({})
+	const {
+		filteredOptions,
+		groupedPermissions,
+		inputValue,
+		loading,
+		handleAddPermission,
+		handleRemovePermission,
+		setInputValue
+	} = usePermissionTransferList({
+		permissions,
+		onAddPermission,
+		onRemovePermission
+	})
 
-	const availableOptions = useMemo(
-		() =>
-			allPermissions?.data?.filter(Permission => !permissions.includes(Permission.id)) ?? [],
-		[allPermissions, permissions]
-	)
-
-	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
-
-	const handleAddPermission = useCallback(
-		(permissionId: string) => {
-			onAddPermission('addPermission', permissionId)
-		},
-		[onAddPermission]
-	)
-
-	const handleRemovePermission = useCallback(
-		(permissionId: string) => {
-			onRemovePermission('removePermission', permissionId)
-		},
-		[onRemovePermission]
-	)
+	console.log('Rendering PermissionTransferList', groupedPermissions)
 
 	return (
 		<div className="grid items-start justify-between gap-4 md:grid-cols-2">
@@ -78,7 +69,7 @@ export function PermissionTransferList({
 				inputValue={inputValue}
 				name={name}
 				required={required}
-				disabled={disabled}
+				disabled={disabled || readonly}
 				error={!!error}
 				errorMessage={error}
 				loading={loading}
@@ -93,20 +84,28 @@ export function PermissionTransferList({
 					Permisos Seleccionados
 				</Typography>
 				{permissions.length > 0 ? (
-					<ul role="options" className="flex w-full flex-col rounded">
-						{permissions.map(permissionId => {
-							const permiso = allPermissions?.data?.find(c => c.id === permissionId)
-							return (
-								<TransferListItem
-									key={permissionId}
-									isLoading={isLoading}
-									id={permissionId}
-									name={permiso?.name}
-									onRemove={handleRemovePermission}
-								/>
+					<div className="w-full rounded-b">
+						{Object.entries(groupedPermissions).map(
+							([groupName, permissionsInGroup]) => (
+								<GroupedTransferList
+									key={groupName}
+									title={`${groupName} (${permissionsInGroup.length})`}
+								>
+									{permissionsInGroup.map(permission => (
+										<TransferListItem
+											key={permission.id}
+											isLoading={isLoading}
+											id={permission.id}
+											name={permission.name}
+											description={permission.description}
+											onRemove={handleRemovePermission}
+											readOnly={readonly}
+										/>
+									))}
+								</GroupedTransferList>
 							)
-						})}
-					</ul>
+						)}
+					</div>
 				) : (
 					<Typography className="p-2" variant="p" color="gris">
 						No se han seleccionado permisos.
@@ -115,4 +114,4 @@ export function PermissionTransferList({
 			</div>
 		</div>
 	)
-}
+})

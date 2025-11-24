@@ -69,7 +69,7 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
 		// Si el modo es agregar o no estamos en la ruta de marcas, resetea el estado al estado por defecto.
-		if (mode === 'add' || !location.pathname.includes('access-policiy')) {
+		if (mode === 'add' || !location.pathname.includes('access-policy')) {
 			setState(defaultState)
 			return
 		}

@@ -85,19 +85,14 @@ export type Action =
  */
 export const accessPolicyFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
-		case 'init': {
+		case 'init':
+		case 'reset': {
 			return {
 				...state,
 				formData: { ...action.payload.formData },
 				errors: { ...initialAccessPolicyState.errors }
 			}
 		}
-		case 'reset':
-			return {
-				...state,
-				formData: { ...action.payload.formData },
-				errors: { ...initialAccessPolicyState.errors }
-			}
 		case 'name': {
 			const name = action.payload.value
 			return {

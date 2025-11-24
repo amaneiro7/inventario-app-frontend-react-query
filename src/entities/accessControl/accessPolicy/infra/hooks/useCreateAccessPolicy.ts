@@ -87,7 +87,7 @@ export function useCreateAccessPolicy(defaultState?: AccessPolicyParams) {
 	 */
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
+	const handleChange = useCallback((name: Action['type'], value: any): void => {
 		// 'init' and 'reset' actions are handled by useLayoutEffect and resetForm respectively,
 		// so they should not be dispatched via this handler.
 		if (name === 'init' || name === 'reset') {

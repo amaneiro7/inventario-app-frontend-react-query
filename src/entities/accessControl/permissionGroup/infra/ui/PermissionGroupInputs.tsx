@@ -7,7 +7,7 @@ import {
 } from '@/entities/accessControl/permissionGroup/infra/reducers/permissionGroupFormReducer'
 
 const PermissionTransferList = lazy(() =>
-	import('@/entities/accessControl/permission/infra/ui/PermissionTransferList').then(m => ({
+	import('@/features/permissions-transfer-list/ui/PermissionTransferList').then(m => ({
 		default: m.PermissionTransferList
 	}))
 )
