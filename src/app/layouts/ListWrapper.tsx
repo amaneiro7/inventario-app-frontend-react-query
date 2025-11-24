@@ -1,120 +1,58 @@
 import { memo, Suspense, useMemo } from 'react'
-import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useOutletContext } from 'react-router-dom'
+import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
+import { LIST_ROUTES_METADATA, listIndexPath } from './constants/LIST_ROUTES_METADATA'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { PageTitle } from '@/shared/ui/PageTitle'
 import { ListWrapperSkeleton } from './ListWrapperSkeleton'
+import { type RouterMetadata } from './types/metaData'
 /**
- * `ListWrapper`
- * @component
- * @description Componente de layout que envuelve las páginas de listados.
- * Proporciona un título de página dinámico, breadcrumbs, optimización SEO y un contenedor de estilo (`DetailsWrapper`).
- * @returns {JSX.Element} El layout de listados con el contenido de la ruta anidada.
+ * @component ListWrapper
+ * @description Layout principal que aplica control de acceso y pasa el contexto de rutas permitidas.
  */
 const ListWrapper = memo(() => {
 	const location = useLocation()
-	const isListIndex = location.pathname === '/list'
-	const outletTitle = useOutletContext<string>()
+	const isListIndex = location.pathname === listIndexPath
+	const availableSubRoutesMetadata = useOutletContext<RouterMetadata[]>()
 
-	/**
-	 * Metadata para las diferentes rutas de listados.
-	 * Contiene el título y la descripción para SEO y el título de la página.
-	 */ const routeMetadata = useMemo(
-		(): Record<string, { title: string; description: string }> => ({
-			'/list': {
-				title: 'Listados Generales',
-				description:
-					'Explora todas las listas de inventario disponibles. Encuentra y accede a la información organizada por categorías.'
-			},
-			'/list/computer': {
-				title: 'Equipos de Computación | Listado',
-				description:
-					'Consulta el listado completo de equipos de computación disponibles. Filtra, busca y gestiona la información detallada de cada equipo.'
-			},
-			'/list/shipment': {
-				title: 'Relaciones de Envío | Listado',
-				description:
-					'Consulta el listado completo de envíos de dispositivos. Filtra, busca y gestiona la información detallada de cada envío.'
-			},
-			'/list/monitor': {
-				title: 'Monitores | Listado',
-				description:
-					'Página con la lista de monitores. Explora especificaciones, estado y realiza acciones de gestión.'
-			},
-			'/list/finantialprinter': {
-				title: 'Impresoras Financieras | Listado',
-				description:
-					'Listado de impresoras financieras disponibles. Revisa detalles y gestiona su información.'
-			},
-			'/list/printer': {
-				title: 'Impresoras | Listado',
-				description:
-					'Explora la lista de impresoras. Accede a detalles técnicos y opciones de gestión.'
-			},
-			'/list/parts': {
-				title: 'Partes | Listado',
-				description:
-					'Dashboard que ofrece una visión general de las partes y componentes del sistema de inventario.'
-			},
-			'/list/usuarios': {
-				title: 'Gestión de Empleados',
-				description:
-					'Administra la información de los empleados. Crea, edita y gestiona los registros de personal de forma eficiente.'
-			},
-			'/list/model': {
-				title: 'Modelos | Listado',
-				description:
-					'Lista de modelos de equipos. Consulta detalles y gestiona la información de los modelos.'
-			},
-			'/list/location': {
-				title: 'Sitios | Listado',
-				description:
-					'Listado de sitios o ubicaciones. Gestiona la información de los diferentes sitios.'
-			},
-			'/list/history': {
-				title: 'Historial de Cambios',
-				description:
-					'Revisa el registro completo del historial de cambios realizados en el sistema. Mantente al tanto de las modificaciones.'
-			},
-			'/list/access-control': {
-				title: 'Control de Acceso',
-				description:
-					'Gestiona los roles, permisos y grupos de permisos para controlar el acceso de los usuarios a las funcionalidades del sistema.'
-			}
-		}),
-		[]
-	)
+	// 1. Calcular las rutas de sub-dashboard a las que el usuario tiene acceso
+	const { permittedSubRoutes } = usePermittedSubRoutes({
+		routerMetada: LIST_ROUTES_METADATA,
+		indexPath: listIndexPath
+	})
 
-	const currentMetadata = routeMetadata[location.pathname] || {
-		title: 'Listados Generales',
-		description: 'Explora todas las listas de inventario disponibles.'
+	if (isListIndex && availableSubRoutesMetadata?.length === 0) {
+		return <Navigate to="/403" replace />
 	}
-	const title = outletTitle || currentMetadata.title
-	const description = outletTitle
-		? `Página con la ${outletTitle}. Explora, filtra y gestiona la información de ${outletTitle.toLowerCase()}.`
-		: currentMetadata.description
+
+	const currentMetadata = useMemo(
+		() => LIST_ROUTES_METADATA[location.pathname] ?? LIST_ROUTES_METADATA[listIndexPath],
+		[location.pathname]
+	)
+	const title = currentMetadata?.title
+	const description = currentMetadata?.description
 
 	const breadcrumbSegments = useMemo(() => {
 		if (isListIndex) {
 			return ['Listas']
 		}
 		const segments: (string | { label: string; href?: string })[] = [
-			{ label: 'Listas', href: '/list' },
+			{ label: 'Listas', href: listIndexPath },
 			currentMetadata.title.split(' | ')[0] || currentMetadata.title // Toma la parte antes del '|' si existe, o el título completo
 		]
 		return segments
-	}, [isListIndex, currentMetadata.title])
+	}, [isListIndex, currentMetadata?.title])
 
 	return (
 		<>
 			<Seo title={title} description={description} />
-			{/* Breadcrumb Navigation */}
 			<DynamicBreadcrumb segments={breadcrumbSegments} />
 			<PageTitle title={title} />
 			<DetailsWrapper>
 				<Suspense fallback={<ListWrapperSkeleton />}>
-					<Outlet context={title} />
+					<Outlet context={permittedSubRoutes} />
 				</Suspense>
 			</DetailsWrapper>
 		</>

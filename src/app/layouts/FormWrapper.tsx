@@ -1,11 +1,16 @@
 import { memo, Suspense, useMemo } from 'react'
-import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useOutletContext } from 'react-router-dom'
 import { PageTitle } from '@/shared/ui/PageTitle'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 import { Seo } from '@/shared/ui/Seo'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { capitalizeFirstLetter } from '@/shared/lib/utils/capitalizeFirstLetter'
+import { FORM_ROUTES_METADATA, formIndexPath } from './constants/FORM_ROUTES_METADATA'
+import { type RouterMetadata } from './types/metaData'
+import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
+import { Loading } from '@/shared/ui/Loading'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
 /**
  * `FormWrapper`
@@ -17,88 +22,65 @@ import { capitalizeFirstLetter } from '@/shared/lib/utils/capitalizeFirstLetter'
  */
 const FormWrapper = memo(() => {
 	const location = useLocation()
-	const isFormIndex = location.pathname === '/form'
-	const outletTitle = useOutletContext<string>()
+	const isFormIndex = location.pathname === formIndexPath
+	const availableSubRoutesMetadata = useOutletContext<RouterMetadata[]>()
 	const mode = useGetFormMode()
 
-	/**
-	 * Mapeo de rutas de formulario a nombres de entidades para generar títulos dinámicos.
-	 */ const routeTitles = useMemo(
-		(): Record<string, string> => ({
-			'/form/device': 'Dispositivo',
-			'/form/shipment': 'Relación de Envio',
-			'/form/model': 'Modelo',
-			'/form/brand': 'Marca',
-			'/form/processor': 'Procesador',
-			'/form/employee': 'Empleado',
-			'/form/directvia': 'Directiva',
-			'/form/vicepresidenciaejecutiva': 'Vicepresidencia Ejecutiva',
-			'/form/vicepresidencia': 'Vicepresidencia',
-			'/form/departamento': 'Departamento',
-			'/form/cargo': 'Cargo',
-			'/form/location': 'Ubicación',
-			'/form/site': 'Sitio',
-			'/form/city': 'Ciudad',
-			'/form/region': 'Región',
-			'/form/permission-groups': 'Grupo de Permisos',
-			'/form/permission': 'Permiso',
-			'/form/access-policy': 'Política de Acceso'
-		}),
-		[]
+	const pathname = useMemo(() => {
+		const parts = location.pathname.split('/')
+		const form = parts[1]
+		const entity = parts[2] ? `/${parts[2]}` : ''
+		return `/${form}${entity}`
+	}, [location.pathname])
+
+	// 1. Calcular las rutas de sub-formularios a las que el usuario tiene acceso
+	const { permittedSubRoutes } = usePermittedSubRoutes({
+		routerMetada: FORM_ROUTES_METADATA,
+		indexPath: formIndexPath
+	})
+
+	// 2. Lógica de Redirección/Acceso Denegado
+	// Si está en /dashboard (índice) Y no tiene permisos para ninguna sub-ruta.
+	if (isFormIndex && availableSubRoutesMetadata?.length === 0) {
+		return <Navigate to="/403" replace />
+	}
+	const currentMetadata = useMemo(
+		() => FORM_ROUTES_METADATA[pathname] || FORM_ROUTES_METADATA[formIndexPath],
+
+		[pathname]
 	)
 
-	const defaultTitle = useMemo(() => {
-		if (isFormIndex) {
-			return 'Selección de Formularios | Gestión de Sistema'
-		}
-		for (const route in routeTitles) {
-			if (location.pathname.includes(route)) {
-				const entityName = routeTitles[route]
-				if (mode === 'add') {
-					return `Registrar ${capitalizeFirstLetter(entityName)} | Formulario`
-				} else if (mode === 'edit') {
-					return `Editar ${capitalizeFirstLetter(entityName)} | Formulario`
-				} else {
-					return `Formulario de ${capitalizeFirstLetter(entityName)}`
-				}
-			}
-		}
-		return 'Formulario General' // Fallback
-	}, [location.pathname, routeTitles, mode, isFormIndex])
-
-	const title = outletTitle || defaultTitle
-	const description = useMemo(() => {
-		if (isFormIndex) {
-			return 'Elige el formulario que deseas completar para registrar o modificar información del sistema.'
+	const title = useMemo(() => {
+		const entityName = currentMetadata?.title || ''
+		if (mode === 'add') {
+			return `Registrar ${capitalizeFirstLetter(entityName)} | Formulario`
+		} else if (mode === 'edit') {
+			return `Editar ${capitalizeFirstLetter(entityName)} | Formulario`
+		} else if (mode === 'unknown') {
+			return `Getsión de ${capitalizeFirstLetter(entityName)} | Formulario`
 		} else {
-			const action =
-				mode === 'add' ? 'registrar' : mode === 'edit' ? 'editar o modificar' : 'gestionar'
-			return `Página con el formulario para ${action} información relacionada con ${title.toLowerCase()}. Completa los campos requeridos y guarda los cambios.`
+			return entityName || 'Formulario'
 		}
-	}, [isFormIndex, title, mode])
+	}, [currentMetadata, mode])
+
+	const description = currentMetadata?.description
 
 	const breadcrumbSegments = useMemo(() => {
 		if (isFormIndex) {
 			return ['Formularios']
 		}
 		const segments: (string | { label: string; href?: string })[] = [
-			{ label: 'Formularios', href: '/form' }
+			{ label: 'Formularios', href: formIndexPath }
 		]
 
-		let entityLabel = ''
-		for (const route in routeTitles) {
-			if (location.pathname.includes(route)) {
-				entityLabel = routeTitles[route]
-				break
-			}
-		}
+		const entityLabel = currentMetadata?.title
 
 		if (title.includes('Registrar')) {
 			segments.push(`Registrar ${capitalizeFirstLetter(entityLabel)}`)
 		} else if (title.includes('Editar')) {
 			segments.push(`Editar ${capitalizeFirstLetter(entityLabel)}`)
 		} else if (entityLabel) {
-			segments.push(`Gestión ${capitalizeFirstLetter(entityLabel)}`)
+			segments.push(`Gestión de ${capitalizeFirstLetter(entityLabel)}`)
 		} else {
 			segments.push(title.split(' | ')[0] || title) // Fallback si no se encuentra la entidad
 		}
@@ -112,9 +94,11 @@ const FormWrapper = memo(() => {
 			<DynamicBreadcrumb segments={breadcrumbSegments} />
 			<PageTitle title={title} />
 			<DetailsWrapper>
-				<Suspense>
-					<Outlet context={title} />
-				</Suspense>
+				<ErrorBoundary>
+					<Suspense fallback={<Loading />}>
+						<Outlet context={permittedSubRoutes} />
+					</Suspense>
+				</ErrorBoundary>
 			</DetailsWrapper>
 		</>
 	)

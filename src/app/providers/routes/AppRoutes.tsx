@@ -3,6 +3,9 @@ import { Loading } from '@/shared/ui/Loading'
 import { Routes, Route } from 'react-router-dom'
 import { ProtectedByPermissionRoute } from './ProtectedByPermissionRoute'
 import { PERMISSIONS } from '@/shared/config/permissions'
+import UnauthorizedPage from '@/pages/403'
+import NotFound from '@/pages/404'
+import ErrorPage from '@/pages/500'
 
 const ListComputer = lazy(() => import('@/pages/ListComputer'))
 const ListMonitor = lazy(() => import('@/pages/ListMonitor'))
@@ -22,8 +25,6 @@ const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
 const UserManagement = lazy(() => import('@/pages/UserManagement'))
 const ManagementProfile = lazy(() => import('@/pages/UserManagementProfile'))
 const UserManagementRegister = lazy(() => import('@/pages/UserManagementRegister'))
-const UnauthorizedPage = lazy(() => import('@/pages/403'))
-const NotFound = lazy(() => import('@/pages/404'))
 const Home = lazy(() => import('@/pages/Home'))
 const Profile = lazy(() => import('@/pages/Profile'))
 const Layout = lazy(() => import('@/widgets/Layout/Layout'))
@@ -71,48 +72,158 @@ const Monitoring = lazy(() => import('@/pages/Monitoring'))
 export function AppRoutes(): JSX.Element {
 	return (
 		<Suspense fallback={<Loading />}>
-			{' '}
 			{/* Suspense global para todas las rutas */}
 			<Routes>
 				<Route path="/403" element={<UnauthorizedPage />} />
+				<Route path="/500" element={<ErrorPage onReset={() => {}} />} />
+				<Route path="/error" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} /> {/* Ruta index para / */}
 					<Route path="profile" element={<Profile />} />
-					<Route path="settings" element={<Settings />} />
-					<Route path="user-management" element={<UserManagement />}>
-						<Route path="register" element={<UserManagementRegister />} />
-						<Route path="profile/:id" element={<ManagementProfile />} />
+					<Route
+						element={
+							<ProtectedByPermissionRoute permission={PERMISSIONS.SETTINGS.UPDATE} />
+						}
+					>
+						<Route path="settings" element={<Settings />} />
+					</Route>
+					<Route
+						element={
+							<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.READ_LIST} />
+						}
+					>
+						<Route path="user-management" element={<UserManagement />}>
+							<Route
+								element={
+									<ProtectedByPermissionRoute
+										permission={PERMISSIONS.USERS.CREATE}
+									/>
+								}
+							>
+								<Route path="register" element={<UserManagementRegister />} />
+							</Route>
+							<Route
+								element={
+									<ProtectedByPermissionRoute
+										permission={PERMISSIONS.USERS.READ}
+									/>
+								}
+							>
+								<Route path="profile/:id" element={<ManagementProfile />} />
+							</Route>
+						</Route>
 					</Route>
 					<Route path="payment-schedules" element={<PaymentSchedules />} />
 					<Route path="list" element={<ListWrapper />}>
 						<Route index element={<List />} />
-						<Route path="usuarios" element={<ListEmployee />} />
-						<Route path="computer" element={<ListComputer />} />
-						<Route path="monitor" element={<ListMonitor />} />
-						<Route path="printer" element={<ListPrinter />} />
-						<Route path="finantialprinter" element={<ListFinantialPrinter />} />
-						<Route path="parts" element={<ListParts />} />
-						<Route path="model" element={<ListModels />} />
-						<Route path="location" element={<ListSite />} />
-						<Route path="history" element={<ListHistory />} />
-						<Route path="shipment" element={<ListShipment />} />
-						<Route path="access-control" element={<ListAccessControl />} />
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.EMPLOYEES.READ_LIST}
+								/>
+							}
+						>
+							<Route path="usuarios" element={<ListEmployee />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DEVICES.READ_LIST}
+								/>
+							}
+						>
+							<Route path="computer" element={<ListComputer />} />
+							<Route path="monitor" element={<ListMonitor />} />
+							<Route path="printer" element={<ListPrinter />} />
+							<Route path="finantialprinter" element={<ListFinantialPrinter />} />
+							<Route path="parts" element={<ListParts />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.MODELS.READ_LIST}
+								/>
+							}
+						>
+							<Route path="model" element={<ListModels />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.LOCATIONS.READ_LIST}
+								/>
+							}
+						>
+							<Route path="location" element={<ListSite />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.HISTORY.READ_LIST}
+								/>
+							}
+						>
+							<Route path="history" element={<ListHistory />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.SHIPMENTS.READ_LIST}
+								/>
+							}
+						>
+							<Route path="shipment" element={<ListShipment />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.ACCESS_POLICIES.READ_LIST}
+								/>
+							}
+						>
+							<Route path="access-control" element={<ListAccessControl />} />
+						</Route>
 					</Route>
 					<Route path="monitoring" element={<MonitoringWrapper />}>
 						<Route index element={<Monitoring />} />
-						<Route path="device" element={<MonitoringDevice />} />
-						<Route path="location" element={<MonitoringLocation />} />
-						<Route path="agencymap" element={<AgencyMapPage />} />
 						<Route
-							path="administrativesitemap"
-							element={<AdministrativeSiteMapPage />}
-						/>
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DEVICES.READ_MONITORING_DASHBOARD}
+								/>
+							}
+						>
+							<Route path="device" element={<MonitoringDevice />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD}
+								/>
+							}
+						>
+							<Route path="location" element={<MonitoringLocation />} />
+							<Route path="agencymap" element={<AgencyMapPage />} />
+							<Route
+								path="administrativesitemap"
+								element={<AdministrativeSiteMapPage />}
+							/>
+						</Route>
 					</Route>
 					<Route path="dashboard" element={<DashboardWrapper />}>
 						<Route index element={<Dashboards />} />
-						<Route path="computer" element={<DashboardComputer />} />
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DASHBOARD.READ}
+								/>
+							}
+						>
+							<Route path="computer" element={<DashboardComputer />} />
+						</Route>
 					</Route>
+					{/* Seccion de Formularios */}
 					<Route path="form" element={<FormWrapper />}>
 						<Route index element={<Form />} />
 						{/* Ruta para actualizacion de envios */}
@@ -125,11 +236,10 @@ export function AppRoutes(): JSX.Element {
 						>
 							<Route path="shipment/add" element={<FormShipment />} />
 						</Route>
-						{/* Ruta para actualizacion de dispositivos */}
 						<Route
 							element={
 								<ProtectedByPermissionRoute
-									permission={PERMISSIONS.SHIPMENTS.UPDATE}
+									permission={PERMISSIONS.SHIPMENTS.READ}
 								/>
 							}
 						>
@@ -148,9 +258,7 @@ export function AppRoutes(): JSX.Element {
 						</Route>
 						<Route
 							element={
-								<ProtectedByPermissionRoute
-									permission={PERMISSIONS.DEVICES.UPDATE}
-								/>
+								<ProtectedByPermissionRoute permission={PERMISSIONS.DEVICES.READ} />
 							}
 						>
 							<Route path="device/edit/:id" element={<FormDevice />} />
@@ -169,7 +277,7 @@ export function AppRoutes(): JSX.Element {
 						<Route
 							element={
 								<ProtectedByPermissionRoute
-									permission={PERMISSIONS.EMPLOYEES.UPDATE}
+									permission={PERMISSIONS.EMPLOYEES.READ}
 								/>
 							}
 						>
@@ -188,55 +296,270 @@ export function AppRoutes(): JSX.Element {
 						</Route>
 						<Route
 							element={
-								<ProtectedByPermissionRoute
-									permission={PERMISSIONS.BRANDS.UPDATE}
-								/>
+								<ProtectedByPermissionRoute permission={PERMISSIONS.BRANDS.READ} />
 							}
 						>
 							<Route path="brand/edit/:id" element={<FormBrand />} />
 						</Route>
 
-						<Route path="permission/add" element={<FormPermission />} />
-						<Route path="permission/edit/:id" element={<FormPermission />} />
-						<Route path="permission-groups/add" element={<FormPermissionGroup />} />
-						<Route path="access-policy/add" element={<FormAccessPolicy />} />
-						<Route path="access-policy/edit/:id" element={<FormAccessPolicy />} />
+						{/* Rutas para Access Control */}
 						<Route
-							path="permission-groups/edit/:id"
-							element={<FormPermissionGroup />}
-						/>
-						<Route path="directiva/add" element={<FormDirectiva />} />
-						<Route path="directiva/edit/:id" element={<FormDirectiva />} />
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.ACCESS_POLICIES.CREATE}
+								/>
+							}
+						>
+							<Route path="access-policy/add" element={<FormAccessPolicy />} />
+						</Route>
 						<Route
-							path="vicepresidenciaEjecutiva/add"
-							element={<FormVicepresidenciaEjecutivas />}
-						/>
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.ACCESS_POLICIES.READ}
+								/>
+							}
+						>
+							<Route path="access-policy/edit/:id" element={<FormAccessPolicy />} />
+						</Route>
+
 						<Route
-							path="vicepresidenciaEjecutiva/edit/:id"
-							element={<FormVicepresidenciaEjecutivas />}
-						/>
-						<Route path="vicepresidencia/add" element={<FormVicepresidencia />} />
-						<Route path="vicepresidencia/edit/:id" element={<FormVicepresidencia />} />
-						<Route path="model/add" element={<FormModel />} />
-						<Route path="model/edit/:id" element={<FormModel />} />
-						<Route path="region/" element={<FormRegion />} />
-						<Route path="region/edit/:id" element={<FormRegion />} />
-						<Route path="site/add" element={<FormSite />} />
-						<Route path="site/edit/:id" element={<FormSite />} />
-						<Route path="location/add" element={<FormLocation />} />
-						<Route path="location/edit/:id" element={<FormLocation />} />
-						<Route path="city/add" element={<FormCity />} />
-						<Route path="city/edit/:id" element={<FormCity />} />
-						{/* <Route path="centrocosto/add" element={<FormCentroCosto />} />
-							<Route path="centrocosto/edit/:id" element={<FormCentroCosto />} />
-							<Route path="centrotrabajo/add" element={<FormCentroTrabajo />} />
-							<Route path="centrotrabajo/edit/:id" element={<FormCentroTrabajo />} /> */}
-						<Route path="departamento/add" element={<FormDepartamento />} />
-						<Route path="departamento/edit/:id" element={<FormDepartamento />} />
-						<Route path="cargo/add" element={<FormCargo />} />
-						<Route path="cargo/edit/:id" element={<FormCargo />} />
-						<Route path="processors/add" element={<FormProcessor />} />
-						<Route path="processors/edit/:id" element={<FormProcessor />} />
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.PERMISSIONS.CREATE}
+								/>
+							}
+						>
+							<Route path="permission/add" element={<FormPermission />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.PERMISSIONS.READ}
+								/>
+							}
+						>
+							<Route path="permission/edit/:id" element={<FormPermission />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.PERMISSION_GROUPS.CREATE}
+								/>
+							}
+						>
+							<Route path="permission-groups/add" element={<FormPermissionGroup />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.PERMISSION_GROUPS.READ}
+								/>
+							}
+						>
+							<Route
+								path="permission-groups/edit/:id"
+								element={<FormPermissionGroup />}
+							/>
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DIRECTIVAS.CREATE}
+								/>
+							}
+						>
+							<Route path="directiva/add" element={<FormDirectiva />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DIRECTIVAS.READ}
+								/>
+							}
+						>
+							<Route path="directiva/edit/:id" element={<FormDirectiva />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.CREATE}
+								/>
+							}
+						>
+							<Route
+								path="vicepresidenciaEjecutiva/add"
+								element={<FormVicepresidenciaEjecutivas />}
+							/>
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.READ}
+								/>
+							}
+						>
+							<Route
+								path="vicepresidenciaEjecutiva/edit/:id"
+								element={<FormVicepresidenciaEjecutivas />}
+							/>
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.VICEPRESIDENCIAS.CREATE}
+								/>
+							}
+						>
+							<Route path="vicepresidencia/add" element={<FormVicepresidencia />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.VICEPRESIDENCIAS.READ}
+								/>
+							}
+						>
+							<Route
+								path="vicepresidencia/edit/:id"
+								element={<FormVicepresidencia />}
+							/>
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.MODELS.CREATE}
+								/>
+							}
+						>
+							<Route path="model/add" element={<FormModel />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute permission={PERMISSIONS.MODELS.READ} />
+							}
+						>
+							<Route path="model/edit/:id" element={<FormModel />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute permission={PERMISSIONS.REGIONS.READ} />
+							}
+						>
+							<Route path="region" element={<FormRegion />} />
+							<Route path="region/edit/:id" element={<FormRegion />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute permission={PERMISSIONS.SITES.CREATE} />
+							}
+						>
+							<Route path="site/add" element={<FormSite />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute permission={PERMISSIONS.SITES.READ} />
+							}
+						>
+							<Route path="site/edit/:id" element={<FormSite />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.LOCATIONS.CREATE}
+								/>
+							}
+						>
+							<Route path="location/add" element={<FormLocation />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.LOCATIONS.READ}
+								/>
+							}
+						>
+							<Route path="location/edit/:id" element={<FormLocation />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.CITIES.CREATE}
+								/>
+							}
+						>
+							<Route path="city/add" element={<FormCity />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute permission={PERMISSIONS.CITIES.READ} />
+							}
+						>
+							<Route path="city/edit/:id" element={<FormCity />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DEPARTAMENTOS.CREATE}
+								/>
+							}
+						>
+							<Route path="departamento/add" element={<FormDepartamento />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.DEPARTAMENTOS.READ}
+								/>
+							}
+						>
+							<Route path="departamento/edit/:id" element={<FormDepartamento />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.CARGOS.CREATE}
+								/>
+							}
+						>
+							<Route path="cargo/add" element={<FormCargo />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute permission={PERMISSIONS.CARGOS.READ} />
+							}
+						>
+							<Route path="cargo/edit/:id" element={<FormCargo />} />
+						</Route>
+
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.PROCESSORS.CREATE}
+								/>
+							}
+						>
+							<Route path="processor/add" element={<FormProcessor />} />
+						</Route>
+						<Route
+							element={
+								<ProtectedByPermissionRoute
+									permission={PERMISSIONS.PROCESSORS.READ}
+								/>
+							}
+						>
+							<Route path="processor/edit/:id" element={<FormProcessor />} />
+						</Route>
 					</Route>
 				</Route>
 				<Route path="*" element={<NotFound />} />

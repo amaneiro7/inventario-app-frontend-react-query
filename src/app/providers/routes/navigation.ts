@@ -1,3 +1,5 @@
+import { PERMISSIONS, type Permission } from '@/shared/config/permissions'
+
 interface Navigation {
 	label: string
 	navs: Navs[]
@@ -7,6 +9,7 @@ interface Navs {
 	title: string
 	path: string
 	desc: string
+	permission?: Permission
 }
 
 export const navigation: Navigation[] = [
@@ -17,27 +20,32 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Dashboard de Equipos',
 				path: '/dashboard/computer',
-				desc: 'Accede a un panel de control interactivo con métricas clave y gráficos sobre los equipos de computación.'
+				desc: 'Accede a un panel de control interactivo con métricas clave y gráficos sobre los equipos de computación.',
+				permission: PERMISSIONS.DASHBOARD.READ_COMPUTER_DASHBOARD
 			},
 			{
 				title: 'Monitoreo de Ubicaciones',
 				path: '/monitoring/location',
-				desc: 'Visualiza el estado en tiempo real de la conectividad de red en todas las ubicaciones registradas.'
+				desc: 'Visualiza el estado en tiempo real de la conectividad de red en todas las ubicaciones registradas.',
+				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
 			},
 			{
 				title: 'Monitoreo de Dispositivos',
 				path: '/monitoring/device',
-				desc: 'Visualiza el estado en tiempo real de todos los dispositivos, incluyendo su conectividad y disponibilidad.'
+				desc: 'Visualiza el estado en tiempo real de todos los dispositivos, incluyendo su conectividad y disponibilidad.',
+				permission: PERMISSIONS.DEVICES.READ_MONITORING_DASHBOARD
 			},
 			{
 				title: 'Mapa de Conectividad de Agencias',
 				path: '/monitoring/agencymap',
-				desc: 'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.'
+				desc: 'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.',
+				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
 			},
 			{
 				title: 'Mapa de Conectividad de Torres',
 				path: '/monitoring/administrativesitemap',
-				desc: 'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.'
+				desc: 'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.',
+				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
 			}
 		]
 	},
@@ -48,52 +56,62 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Lista de Equipos de Computación',
 				path: '/list/computer',
-				desc: 'Visualiza el inventario completo de equipos de computación y sus detalles.'
+				desc: 'Visualiza el inventario completo de equipos de computación y sus detalles.',
+				permission: PERMISSIONS.DEVICES.READ_LIST
 			},
 			{
 				title: 'Lista de Monitores',
 				path: '/list/monitor',
-				desc: 'Explora el inventario de todos los monitores registrados en el sistema.'
+				desc: 'Explora el inventario de todos los monitores registrados en el sistema.',
+				permission: PERMISSIONS.DEVICES.READ_LIST
 			},
 			{
 				title: 'Lista de Impresoras',
 				path: '/list/printer',
-				desc: 'Accede al listado de todas las impresoras disponibles y su información.'
+				desc: 'Accede al listado de todas las impresoras disponibles y su información.',
+				permission: PERMISSIONS.DEVICES.READ_LIST
 			},
 			{
 				title: 'Lista de Impresoras Financieras',
 				path: '/list/finantialprinter',
-				desc: 'Consulta la lista específica de impresoras financieras utilizadas en la organización.'
+				desc: 'Consulta la lista específica de impresoras financieras utilizadas en la organización.',
+				permission: PERMISSIONS.DEVICES.READ_LIST
 			},
 			{
 				title: 'Lista de Partes y Piezas',
 				path: '/list/parts',
-				desc: 'Gestiona y consulta el inventario detallado de partes y piezas de repuesto.'
+				desc: 'Gestiona y consulta el inventario detallado de partes y piezas de repuesto.',
+				permission: PERMISSIONS.DEVICES.READ_LIST
 			},
 			{
 				title: 'Agregar Nuevo Dispositivo',
 				path: '/form/device/add',
-				desc: 'Registra un nuevo dispositivo en el inventario, especificando sus características y ubicación.'
+				desc: 'Registra un nuevo dispositivo en el inventario, especificando sus características y ubicación.',
+				permission: PERMISSIONS.DEVICES.CREATE
 			},
 			{
 				title: 'Agregar Nuevo Modelo',
 				path: '/form/model/add',
-				desc: 'Crea un nuevo registro de modelo de dispositivo para categorizar el hardware.'
+				desc: 'Crea un nuevo registro de modelo de dispositivo para categorizar el hardware.',
+				permission: PERMISSIONS.MODELS.CREATE
 			},
 			{
 				title: 'Listado de Modelos',
 				path: '/list/model',
-				desc: 'Consulta todos los modelos de dispositivos disponibles, organizados por tipo y marca.'
+				desc: 'Consulta todos los modelos de dispositivos disponibles, organizados por tipo y marca.',
+				permission: PERMISSIONS.MODELS.READ_LIST
 			},
 			{
 				title: 'Agregar Nueva Marca',
 				path: '/form/brand/add',
-				desc: 'Introduce una nueva marca de dispositivos al catálogo del sistema.'
+				desc: 'Introduce una nueva marca de dispositivos al catálogo del sistema.',
+				permission: PERMISSIONS.BRANDS.CREATE
 			},
 			{
 				title: 'Agregar Nuevo Procesador',
-				path: '/form/processors/add',
-				desc: 'Define y registra nuevos tipos de procesadores utilizados en los equipos.'
+				path: '/form/processor/add',
+				desc: 'Define y registra nuevos tipos de procesadores utilizados en los equipos.',
+				permission: PERMISSIONS.PROCESSORS.CREATE
 			}
 		]
 	},
@@ -104,12 +122,14 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Lista de Envíos',
 				path: '/list/shipment',
-				desc: 'Explora el historial y el estado de todos los envíos de dispositivos registrados.'
+				desc: 'Explora el historial y el estado de todos los envíos de dispositivos registrados.',
+				permission: PERMISSIONS.SHIPMENTS.READ_LIST
 			},
 			{
 				title: 'Crear Relación de Envío',
 				path: '/form/shipment/add',
-				desc: 'Genera una nueva guía de envío para el traslado de dispositivos entre ubicaciones.'
+				desc: 'Genera una nueva guía de envío para el traslado de dispositivos entre ubicaciones.',
+				permission: PERMISSIONS.SHIPMENTS.CREATE
 			}
 		]
 	},
@@ -120,37 +140,44 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Listado de Usuarios',
 				path: '/list/usuarios?isStillWorking=true',
-				desc: 'Visualiza la lista completa de usuarios activos del sistema y su información relevante.'
+				desc: 'Visualiza la lista completa de usuarios activos del sistema y su información relevante.',
+				permission: PERMISSIONS.EMPLOYEES.READ_LIST
 			},
 			{
 				title: 'Agregar Nuevo Usuario',
 				path: '/form/employee/add',
-				desc: 'Registra a un nuevo empleado o usuario del sistema, asignando roles y datos personales.'
+				desc: 'Registra a un nuevo empleado o usuario del sistema, asignando roles y datos personales.',
+				permission: PERMISSIONS.EMPLOYEES.CREATE
 			},
 			{
 				title: 'Agregar Nueva Directiva',
 				path: '/form/directiva/add',
-				desc: 'Define y registra nuevas directivas organizacionales o equipos de gestión.'
+				desc: 'Define y registra nuevas directivas organizacionales o equipos de gestión.',
+				permission: PERMISSIONS.DIRECTIVAS.CREATE
 			},
 			{
 				title: 'Agregar Nueva V.P. Ejecutiva',
 				path: '/form/vicepresidenciaejecutiva/add',
-				desc: 'Crea un nuevo registro para una Vicepresidencia Ejecutiva dentro de la estructura de la empresa.'
+				desc: 'Crea un nuevo registro para una Vicepresidencia Ejecutiva dentro de la estructura de la empresa.',
+				permission: PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.CREATE
 			},
 			{
 				title: 'Agregar Nueva V.P.',
 				path: '/form/vicepresidencia/add',
-				desc: 'Registra una nueva Vicepresidencia en la jerarquía organizacional.'
+				desc: 'Registra una nueva Vicepresidencia en la jerarquía organizacional.',
+				permission: PERMISSIONS.VICEPRESIDENCIAS.CREATE
 			},
 			{
 				title: 'Agregar Nuevo Departamento',
 				path: '/form/departamento/add',
-				desc: 'Añade un nuevo departamento a la estructura de la organización.'
+				desc: 'Añade un nuevo departamento a la estructura de la organización.',
+				permission: PERMISSIONS.DEPARTAMENTOS.CREATE
 			},
 			{
 				title: 'Agregar Nuevo Cargo',
 				path: '/form/cargo/add',
-				desc: 'Define un nuevo cargo o puesto de trabajo dentro de la empresa.'
+				desc: 'Define un nuevo cargo o puesto de trabajo dentro de la empresa.',
+				permission: PERMISSIONS.CARGOS.CREATE
 			}
 		]
 	},
@@ -161,27 +188,32 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Listado de Sitios',
 				path: '/list/location',
-				desc: 'Explora la lista de todas las ubicaciones físicas o sucursales registradas.'
+				desc: 'Explora la lista de todas las ubicaciones físicas o sucursales registradas.',
+				permission: PERMISSIONS.LOCATIONS.READ_LIST
 			},
 			{
 				title: 'Agregar Nueva Ubicación',
 				path: '/form/location/add',
-				desc: 'Registra una nueva dirección o sede física de la organización.'
+				desc: 'Registra una nueva dirección o sede física de la organización.',
+				permission: PERMISSIONS.LOCATIONS.CREATE
 			},
 			{
 				title: 'Agregar Nuevo Sitio', // Distinción clara de Ubicación
 				path: '/form/site/add',
-				desc: 'Crea un nuevo sitio específico (ej. un piso, un área) dentro de una ubicación registrada.'
+				desc: 'Crea un nuevo sitio específico (ej. un piso, un área) dentro de una ubicación registrada.',
+				permission: PERMISSIONS.SITES.CREATE
 			},
 			{
 				title: 'Agregar Nueva Ciudad',
 				path: '/form/city/add',
-				desc: 'Añade una nueva ciudad al catálogo para usar en la gestión de ubicaciones.'
+				desc: 'Añade una nueva ciudad al catálogo para usar en la gestión de ubicaciones.',
+				permission: PERMISSIONS.CITIES.CREATE
 			},
 			{
 				title: 'Asignación de Regiones por Zona',
-				path: '/form/region/',
-				desc: 'Configura y gestiona cómo las regiones geográficas se asignan a zonas operativas.'
+				path: '/form/region',
+				desc: 'Configura y gestiona cómo las regiones geográficas se asignan a zonas operativas.',
+				permission: PERMISSIONS.REGIONS.READ
 			}
 		]
 	},
@@ -192,27 +224,32 @@ export const navigation: Navigation[] = [
 			{
 				title: 'Historial de Modificaciones',
 				path: '/list/history',
-				desc: 'Revisa un registro detallado de todos los cambios y eventos ocurridos en el sistema.'
+				desc: 'Revisa un registro detallado de todos los cambios y eventos ocurridos en el sistema.',
+				permission: PERMISSIONS.HISTORY.READ_LIST
 			},
 			{
 				title: 'Gestión de Permisos',
 				path: '/list/access-control',
-				desc: 'Administra los permisos de acceso y las autorizaciones para diferentes roles de usuario.'
+				desc: 'Administra los permisos de acceso y las autorizaciones para diferentes roles de usuario.',
+				permission: PERMISSIONS.ACCESS_POLICIES.READ_LIST
 			},
 			{
 				title: 'Agregar Nuevo Permiso',
 				path: '/form/permission/add',
-				desc: 'Crea y define un nuevo permiso para controlar el acceso a funcionalidades del sistema.'
+				desc: 'Crea y define un nuevo permiso para controlar el acceso a funcionalidades del sistema.',
+				permission: PERMISSIONS.PERMISSIONS.CREATE
 			},
 			{
 				title: 'Agregar Nuevo Grupo de Permisos',
 				path: '/form/permission-groups/add',
-				desc: 'Crea un nuevo grupo de permisos para agrupar múltiples autorizaciones bajo un mismo conjunto.'
+				desc: 'Crea un nuevo grupo de permisos para agrupar múltiples autorizaciones bajo un mismo conjunto.',
+				permission: PERMISSIONS.PERMISSION_GROUPS.CREATE
 			},
 			{
 				title: 'Agregar Nueva Política de Acceso',
 				path: '/form/access-policy/add',
-				desc: 'Define y registra una nueva política de acceso para gestionar las reglas de seguridad del sistema.'
+				desc: 'Define y registra una nueva política de acceso para gestionar las reglas de seguridad del sistema.',
+				permission: PERMISSIONS.ACCESS_POLICIES.CREATE
 			}
 		]
 	}

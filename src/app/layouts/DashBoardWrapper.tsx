@@ -1,91 +1,66 @@
 import { memo, Suspense, useMemo } from 'react'
-import { Outlet, useLocation, useOutletContext } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useOutletContext } from 'react-router-dom'
+import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
 import { PageTitle } from '@/shared/ui/PageTitle'
 import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { Seo } from '@/shared/ui/Seo'
+import {
+	DASHBOARD_ROUTES_METADATA,
+	dashboardIndexPath
+} from './constants/DASHBOARD_ROUTES_METADATA'
+import { type RouterMetadata } from './types/metaData'
 
 /**
- * `DashBoardWrapper`
- * @component
- * @description Componente de layout que envuelve las páginas del dashboard.
- * Proporciona un título de página dinámico, breadcrumbs y optimización SEO.
- * Utiliza `useOutletContext` para permitir que las rutas anidadas pasen un título al layout.
- * @returns {JSX.Element} El layout del dashboard con el contenido de la ruta anidada.
+ * @component DashBoardWrapper
+ * @description Layout principal que aplica control de acceso y pasa el contexto de rutas permitidas.
  */
 const DashboardWrapper = memo(() => {
 	const location = useLocation()
-	const isDashboardIndex = location.pathname === '/dashboard'
-	const outletTitle = useOutletContext<string>()
+	const isDashboardIndex = location.pathname === dashboardIndexPath
+	const availableSubRoutesMetadata = useOutletContext<RouterMetadata[]>()
 
-	/**
-	 * Metadata para las diferentes rutas del dashboard.
-	 * Contiene el título y la descripción para SEO y el título de la página.
-	 */
-	const routeMetadata = useMemo(
-		(): Record<string, { title: string; description: string }> => ({
-			'/dashboard': {
-				title: 'Dashboards | Visión General',
-				description:
-					'Selecciona el dashboard que necesitas para obtener una visión general del sistema. Accede a paneles de control de computadoras, monitores y más.'
-			},
-			'/dashboard/computer': {
-				title: 'Equipos de Computación | Dashboard',
-				description:
-					'Panel de control dedicado a los equipos de computación. Visualiza métricas clave, estado y tendencias de los equipos.'
-			},
-			'/dashboard/monitor': {
-				title: 'Monitores | Dashboard',
-				description:
-					'Dashboard para la visualización de información de monitores. Obtén detalles sobre el inventario y el estado.'
-			},
-			'/dashboard/printer': {
-				title: 'Impresoras | Dashboard',
-				description:
-					'Panel de control para la gestión de impresoras. Visualiza el estado y la información relevante.'
-			},
-			'/dashboard/parts': {
-				title: 'Partes | Dashboard',
-				description:
-					'Dashboard que ofrece una visión general de las partes y componentes del sistema de inventario.'
-			},
-			'/dashboard/finantialprinter': {
-				title: 'Impresoras Financieras | Dashboard',
-				description:
-					'Panel de control específico para la gestión de impresoras financieras. Visualiza información relevante.'
-			},
-			'/dashboard/usuarios': {
-				title: 'Gestión de Empleados | Dashboard',
-				description:
-					'Dashboard para la gestión de empleados. Visualiza información clave del personal y accede a herramientas de administración.'
-			}
-		}),
-		[]
+	// 1. Calcular las rutas de sub-dashboard a las que el usuario tiene acceso
+	const { permittedSubRoutes } = usePermittedSubRoutes({
+		routerMetada: DASHBOARD_ROUTES_METADATA,
+		indexPath: dashboardIndexPath
+	})
+
+	// 2. Lógica de Redirección/Acceso Denegado
+	// Si está en /dashboard (índice) Y no tiene permisos para ninguna sub-ruta.
+	if (isDashboardIndex && availableSubRoutesMetadata?.length === 0) {
+		return <Navigate to="/403" replace />
+	}
+	// 3. Determinar Metadatos para SEO y Título de Página
+	const currentMetadata = useMemo(
+		() =>
+			DASHBOARD_ROUTES_METADATA[location.pathname] ||
+			DASHBOARD_ROUTES_METADATA[dashboardIndexPath],
+		[location.pathname]
 	)
 
-	const currentMetadata = routeMetadata[location.pathname] || routeMetadata['/dashboard']
-	const title = outletTitle || currentMetadata.title
-	const description = outletTitle
-		? `Panel principal que ofrece una visión general y acceso a las funcionalidades de ${outletTitle.toLowerCase()}. Explora la información clave y las herramientas de gestión.`
-		: currentMetadata.description
+	const title = currentMetadata?.title
+	const description = currentMetadata?.description
 
+	// 4. Construir Breadcrumbs
 	const breadcrumbSegments = useMemo(() => {
 		if (isDashboardIndex) {
 			return ['Dashboard']
 		}
 		const segments: (string | { label: string; href?: string })[] = [
-			{ label: 'Dashboard', href: '/dashboard' },
+			{ label: 'Dashboard', href: dashboardIndexPath },
+			// Tomamos la primera parte del título ('Equipos de Computación')
 			currentMetadata.title.split(' | ')[0] || currentMetadata.title
 		]
 		return segments
-	}, [isDashboardIndex, currentMetadata.title])
+	}, [isDashboardIndex, currentMetadata?.title])
+	// 5. Renderizar Layout y Contenido Anidado
 	return (
 		<>
 			<Seo title={title} description={description} />
-			{/* Breadcrumb Navigation */}
 			<DynamicBreadcrumb segments={breadcrumbSegments} />
 			<PageTitle title={title} />
-			<Suspense>
-				<Outlet context={title} />
+			<Suspense fallback={<div>Cargando...</div>}>
+				<Outlet context={permittedSubRoutes} />
 			</Suspense>
 		</>
 	)
