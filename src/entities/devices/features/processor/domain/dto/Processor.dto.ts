@@ -56,4 +56,7 @@ export type ProcessorParams = Omit<Processor, 'id' | 'name'> & {
  * @description Data Transfer Object (DTO) para una entidad `Processor`.
  * @extends {Processor}
  */
-export type ProcessorDto = Processor
+export type ProcessorDto = Processor & {
+	createdAt: string
+	updatedAt: string
+}

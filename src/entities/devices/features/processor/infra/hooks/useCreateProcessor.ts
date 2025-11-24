@@ -1,4 +1,5 @@
-import { useLayoutEffect, useReducer } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
+import { queryClient } from '@/shared/lib/queryCliente'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import { useProcessorInitialState } from './useProcessorInitialState'
@@ -12,17 +13,12 @@ import {
 import { type ProcessorParams } from '../../domain/dto/Processor.dto'
 
 export function useCreateProcessor(defaultState?: ProcessorParams) {
-	const key = `processor${
-		initialProcessorState?.formData?.id ? initialProcessorState.formData.id : ''
-	}`
-	const { events } = useAuthStore.getState()
-
-	const create = async (formData: ProcessorParams) => {
-		return await new ProcessorCreator(new ProcessorSaveService(), events).create(formData)
-	}
-
 	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
 		useProcessorInitialState(defaultState ?? initialProcessorState.formData)
+	const key = `processor${initialState?.id ? initialState.id : 'new'}`
+
+	const { events } = useAuthStore.getState()
+	const [isSubmitting, setIsSubmitting] = useState(false)
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData }, dispatch] = useReducer(processorFormReducer, initialProcessorState)
 
@@ -32,6 +28,16 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 			payload: { formData: structuredClone(initialState) }
 		})
 	}, [initialState])
+
+	const hasChanges = useMemo(() => {
+		if (!initialState || !formData) {
+			return false
+		}
+
+		return Object.keys(initialState).some(key => {
+			return (initialState as any)[key] !== (formData as any)[key]
+		})
+	}, [formData, initialState])
 
 	const resetForm = () => {
 		dispatch({
@@ -46,13 +52,35 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 		dispatch({ type: name, payload: { value } })
 	}
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData).then(() => {
-			resetState()
-		})
-	}
+	const save = useCallback(
+		async (data: ProcessorParams): Promise<void> => {
+			await new ProcessorCreator(new ProcessorSaveService(), events).create(data)
+		},
+		[events]
+	)
+
+	const handleSubmit = useCallback(
+		async (event: React.FormEvent) => {
+			event.preventDefault()
+			event.stopPropagation()
+			setIsSubmitting(true)
+			const hasErrors = Object.values(errors).some(error => error !== '')
+			if (hasErrors || !hasChanges) {
+				setIsSubmitting(false)
+				return
+			}
+
+			await save(formData)
+				.then(() => {
+					queryClient.invalidateQueries({ queryKey: ['processors'] })
+					resetState()
+				})
+				.finally(() => {
+					setIsSubmitting(false)
+				})
+		},
+		[save, formData, resetState]
+	)
 
 	return {
 		key,
@@ -61,7 +89,9 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 		errors,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
 		resetForm,
 		handleSubmit,

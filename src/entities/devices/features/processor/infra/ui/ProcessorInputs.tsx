@@ -14,11 +14,12 @@ interface ProcessorInputsProps {
 	errors?: ProcessorsErrors
 	formData: ProcessorParams
 	isLoading: boolean
+	canEdit?: boolean
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
 export const ProcessorInputs = memo(
-	({ errors, formData, isLoading, handleChange }: ProcessorInputsProps) => {
+	({ errors, formData, isLoading, canEdit, handleChange }: ProcessorInputsProps) => {
 		const { data: processor } = useGetAllProcessor({})
 
 		const productOptions = useMemo(() => {
@@ -43,6 +44,8 @@ export const ProcessorInputs = memo(
 					error={!!errors?.productCollection}
 					errorMessage={errors?.productCollection}
 					required
+					autoComplete="off"
+					readOnly={!canEdit}
 					list="productCollection"
 				/>
 				<datalist id="productCollection">
@@ -61,6 +64,7 @@ export const ProcessorInputs = memo(
 					}
 					error={!!errors?.numberModel}
 					errorMessage={errors?.numberModel}
+					readOnly={!canEdit}
 					required
 				/>
 				<div className="flex gap-4">
@@ -77,6 +81,7 @@ export const ProcessorInputs = memo(
 						error={!!errors?.cores}
 						errorMessage={errors?.cores}
 						required
+						readOnly={!canEdit}
 						min={ProcessorCores.MIN}
 						max={ProcessorCores.MAX}
 					/>
@@ -94,6 +99,7 @@ export const ProcessorInputs = memo(
 						error={!!errors?.frequency}
 						errorMessage={errors?.frequency}
 						required
+						readOnly={!canEdit}
 						min={ProcessorFrequency.MIN}
 						max={ProcessorFrequency.MAX}
 						step={0.01}
@@ -103,6 +109,7 @@ export const ProcessorInputs = memo(
 						text="¿Tiene threads?"
 						name="threads"
 						value={formData.threads}
+						readOnly={!canEdit}
 						onChange={e => {
 							handleChange('threads', e.target.checked)
 						}}

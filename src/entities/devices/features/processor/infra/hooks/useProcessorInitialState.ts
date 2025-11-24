@@ -3,29 +3,31 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { ProcessorGetService } from '../service/processorGet.service'
 import { ProcessorGetter } from '../../application/ProcessorGetter'
-import { ProcessorFrequency } from '../../domain/value-object/ProcessorFrequency'
-import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
-import { type ProcessorParams } from '../../domain/dto/Processor.dto'
+import { adaptProcessorData } from './adaptProcessorData'
+import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type DefaultProcessor } from '../reducers/processorFormReducer'
+import { type ProcessorDto } from '../../domain/dto/Processor.dto'
 
-const repository = new ProcessorGetService()
-const get = new ProcessorGetter(repository)
+const get = new ProcessorGetter(new ProcessorGetService())
 
-export function useProcessorInitialState(defaultState: ProcessorParams): {
-	initialState: ProcessorParams
-	resetState: () => void
-	mode: 'edit' | 'add'
+export function useProcessorInitialState(defaultState: DefaultProcessor): {
+	initialState: DefaultProcessor
+	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
+	resetState: () => void
 	onRetry: () => void
 } {
 	const { id } = useParams()
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [state, setState] = useState<ProcessorParams>(defaultState)
-	const [isNotFound, setIsNotFound] = useState<boolean>(false)
-
 	const mode = useGetFormMode()
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
+	const initialDataFromState = location.state?.processor
+		? adaptProcessorData(location.state.processor)
+		: undefined
 
 	const {
 		data: processorData,
@@ -33,12 +35,22 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 		error,
 		isError,
 		isLoading
-	} = useQuery({
+	} = useQuery<ProcessorDto, Error, DefaultProcessor>({
 		queryKey: ['processor', id],
-		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')),
-		enabled: !!id && mode === 'edit' && !location?.state?.processor,
-		retry: false
+		queryFn: () => {
+			if (!id) {
+				throw new Error('ID is missing in edit mode.')
+			}
+			return get.execute({ id })
+		},
+		enabled: mode === 'edit' && !!id,
+		retry: false,
+		select: data => adaptProcessorData(data)
 	})
+
+	// 💡 OPTIMIZACIÓN 4: Sincronizar el estado local (state) con los datos de RQ
+	// Esta es la única razón por la que necesitamos un estado local después de la carga inicial
+	const [state, setState] = useState<DefaultProcessor>(initialDataFromState || defaultState)
 
 	useEffect(() => {
 		if (mode === 'add' || !location.pathname.includes('processor')) {
@@ -47,23 +59,20 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 		}
 
 		if (!id) {
-			navigate('/error')
+			navigate('/error', { replace: true })
 			return
 		}
-		if (error?.message.includes('Recurso no encontrado.')) {
+
+		if (error instanceof NotFoundError && error.statusCode === 404) {
 			setIsNotFound(true)
 		} else {
 			setIsNotFound(false)
 		}
-		if (location.state?.processor) {
-			setState(location.state.processor)
-		} else if (processorData) {
-			setState({
-				...processorData,
-				frequency: ProcessorFrequency.convertToNumber(processorData.frequency)
-			})
+
+		if (processorData) {
+			setState(processorData)
 		}
-	}, [mode, processorData, location.state, defaultState, navigate])
+	}, [mode, error, processorData, location.state, defaultState, navigate])
 
 	const resetState = useCallback(async () => {
 		if (!location.pathname.includes('processor')) return
@@ -73,15 +82,15 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 				...defaultState
 			})
 		} else if (id) {
-			const { data } = await refetch()
-			if (data) {
-				setState({
-					...data,
-					frequency: ProcessorFrequency.convertToNumber(data.frequency)
-				})
-			}
+			await refetch()
 		}
-	}, [defaultState, location.pathname, mode, refetch, id])
+	}, [defaultState, mode, refetch, id])
+
+	// Aseguramos que isNotFound se resetee cuando se intente recargar
+	const onRetry = useCallback(() => {
+		setIsNotFound(false)
+		refetch()
+	}, [refetch, setIsNotFound])
 
 	return {
 		mode,
@@ -90,6 +99,6 @@ export function useProcessorInitialState(defaultState: ProcessorParams): {
 		isError,
 		isNotFound,
 		resetState,
-		onRetry: refetch
+		onRetry
 	}
 }

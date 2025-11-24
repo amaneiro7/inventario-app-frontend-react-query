@@ -1,8 +1,19 @@
-import { type ProcessorParams } from '../../domain/dto/Processor.dto'
+import { type ProcessorDto } from '../../domain/dto/Processor.dto'
 import { ProcessorProductCollection } from '../../domain/value-object/ProcessorProductCollection'
 import { ProcessorCores } from '../../domain/value-object/ProcessorCores'
 import { ProcessorFrequency } from '../../domain/value-object/ProcessorFrequency'
 import { ProcessorNumberModel } from '../../domain/value-object/ProcessorNumberModel'
+
+export interface DefaultProcessor {
+	id?: ProcessorDto['id']
+	productCollection: ProcessorDto['productCollection']
+	numberModel: ProcessorDto['numberModel']
+	cores: ProcessorDto['cores']
+	frequency: ProcessorDto['frequency']
+	threads: ProcessorDto['threads']
+	updatedAt?: ProcessorDto['updatedAt']
+}
+
 export interface ProcessorsErrors {
 	productCollection: string
 	numberModel: string
@@ -11,7 +22,7 @@ export interface ProcessorsErrors {
 }
 
 export interface State {
-	formData: ProcessorParams
+	formData: DefaultProcessor & {}
 	errors: ProcessorsErrors
 }
 
@@ -33,13 +44,13 @@ export const initialProcessorState: State = {
 }
 
 export type Action =
-	| { type: 'init'; payload: { formData: ProcessorParams } }
-	| { type: 'reset'; payload: { formData: ProcessorParams } }
-	| { type: 'productCollection'; payload: { value: ProcessorParams['productCollection'] } }
-	| { type: 'numberModel'; payload: { value: ProcessorParams['numberModel'] } }
-	| { type: 'cores'; payload: { value: ProcessorParams['cores'] } }
-	| { type: 'frequency'; payload: { value: ProcessorParams['frequency'] } }
-	| { type: 'threads'; payload: { value: ProcessorParams['threads'] } }
+	| { type: 'init'; payload: { formData: DefaultProcessor } }
+	| { type: 'reset'; payload: { formData: DefaultProcessor } }
+	| { type: 'productCollection'; payload: { value: DefaultProcessor['productCollection'] } }
+	| { type: 'numberModel'; payload: { value: DefaultProcessor['numberModel'] } }
+	| { type: 'cores'; payload: { value: DefaultProcessor['cores'] } }
+	| { type: 'frequency'; payload: { value: DefaultProcessor['frequency'] } }
+	| { type: 'threads'; payload: { value: DefaultProcessor['threads'] } }
 
 export const processorFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
