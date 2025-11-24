@@ -19,13 +19,19 @@ interface FormLayoutProps {
 	lastUpdated?: string
 	updatedBy?: HistoryDto[] | null
 	searchInput?: React.ReactElement
+	isLoading?: boolean
+	isError?: boolean
+	isNotFound?: boolean
+	isSubmitting?: boolean
+	canEdit?: boolean
+	isDirty?: boolean
+	title?: string
+	subtitle?: string
+	readOnlyMessage?: string
 	handleSubmit: (event: React.FormEvent) => Promise<void>
 	handleClose?: () => void
 	reset?: () => void
 	onRetry?: () => void
-	isLoading?: boolean
-	isError?: boolean
-	isNotFound?: boolean
 }
 
 export const FormLayout = memo(
@@ -43,11 +49,18 @@ export const FormLayout = memo(
 		isLoading,
 		isError,
 		isNotFound,
+		isSubmitting = false,
+		isDirty = false,
+		title,
+		subtitle,
+		canEdit,
+		readOnlyMessage,
 		handleSubmit,
 		handleClose,
 		onRetry,
 		reset
 	}: React.PropsWithChildren<FormLayoutProps>) => {
+		const isReadOnly = !isAddForm && !canEdit
 		return (
 			<>
 				<DetailsBoxWrapper>
@@ -64,26 +77,37 @@ export const FormLayout = memo(
 								backgroundColor="naranja"
 								icon={<AddIcon width={16} />}
 								iconText="Agregar nuevo"
-							></Tag>
+							/>
 						) : null}
 					</Typography>
 
 					<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 				</DetailsBoxWrapper>
+				{isReadOnly && (
+					<DetailsBoxWrapper position="center" className="bg-amarillo-100">
+						<Typography variant="h3" className="text-amarillo-800 text-center">
+							⚠️ {readOnlyMessage || 'No tienes permiso para editar este recurso.'}
+						</Typography>
+					</DetailsBoxWrapper>
+				)}
 				{!standBy && (
 					<DetailsBoxWrapper position="center">
 						<FormComponent
 							id={id}
+							border={border}
 							isLoading={isLoading}
 							isError={isError}
+							isSubmitting={isSubmitting}
+							isDirty={isDirty}
+							title={title}
+							subtitle={subtitle}
 							isNotFound={isNotFound}
+							updatedBy={updatedBy}
+							lastUpdated={lastUpdated}
 							handleSubmit={handleSubmit}
 							handleClose={handleClose}
 							reset={reset}
 							onRetry={onRetry}
-							border={border}
-							updatedBy={updatedBy}
-							lastUpdated={lastUpdated}
 						>
 							{children}
 						</FormComponent>
