@@ -38,7 +38,10 @@ export function useAuth() {
 	}, [checkTokenValidity, location])
 
 	const hasPermission = useCallback(
-		(requiredPermission: Permission) => {
+		(requiredPermission?: Permission): boolean => {
+			if (requiredPermission === undefined || requiredPermission === null) {
+				return true
+			}
 			if (!permissions) {
 				return false
 			}
