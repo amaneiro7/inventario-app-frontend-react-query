@@ -4,6 +4,7 @@ import { PasswordExpiredError } from '@/entities/user/domain/errors/PasswordExpi
 // import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { fileSaver } from '../lib/utils/filseServer'
 import { type Source } from '@/types/type'
+import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
 
 type ApiConfig = AxiosRequestConfig & { _retry?: boolean }
 
@@ -48,7 +49,7 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 				case 401:
 					throw new Error(message)
 				case 404:
-					throw new Error(`Recurso no encontrado. ${message}`)
+					throw new NotFoundError(`Recurso no encontrado. ${message}`)
 				case 422:
 					throw new Error(message)
 				case 429:
