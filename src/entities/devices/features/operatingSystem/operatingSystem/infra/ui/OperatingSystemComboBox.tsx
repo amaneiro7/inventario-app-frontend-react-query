@@ -23,6 +23,7 @@ export const OperatingSystemCombobox = memo(function ({
 	required = false,
 	disabled = false,
 	isLoading = false,
+	readonly,
 	handleChange
 }: {
 	value?: string
@@ -31,6 +32,7 @@ export const OperatingSystemCombobox = memo(function ({
 	required?: boolean
 	disabled?: boolean
 	isLoading?: boolean
+	readonly?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
@@ -51,6 +53,7 @@ export const OperatingSystemCombobox = memo(function ({
 				required={required}
 				disabled={disabled}
 				error={!!error}
+				readOnly={readonly}
 				errorMessage={error}
 				isLoading={isLoading}
 				loading={loading}

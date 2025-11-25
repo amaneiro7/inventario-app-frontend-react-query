@@ -7,6 +7,7 @@ interface MemoryRamCapacitySlotInputProps {
 	value: Primitives<MemoryRamValues>
 	index: number
 	isLoading: boolean
+	readOnly: boolean
 	onChange: (value: string, index: number) => void
 }
 
@@ -14,6 +15,7 @@ export function MemoryRamCapacitySlotInput({
 	value,
 	index,
 	isLoading,
+	readOnly,
 	onChange
 }: MemoryRamCapacitySlotInputProps) {
 	const [errorMessage, setErrorMessage] = useState('')
@@ -37,6 +39,7 @@ export function MemoryRamCapacitySlotInput({
 			name="memoryRam"
 			label={`Memoria Ram Slot ${index}`}
 			type="number"
+			readOnly={readOnly}
 			value={value}
 			isLoading={isLoading}
 			transform

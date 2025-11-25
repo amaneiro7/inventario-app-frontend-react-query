@@ -22,6 +22,7 @@ export const HardDriveTypeCombobox = memo(function ({
 	required = false,
 	isLoading = false,
 	disabled = false,
+	readonly,
 	handleChange
 }: {
 	value?: string
@@ -29,6 +30,7 @@ export const HardDriveTypeCombobox = memo(function ({
 	error?: string
 	required?: boolean
 	isLoading?: boolean
+	readonly?: boolean
 	disabled?: boolean
 	handleChange: (name: string, value: string | number) => void
 }) {
@@ -48,6 +50,7 @@ export const HardDriveTypeCombobox = memo(function ({
 				options={options}
 				required={required}
 				disabled={disabled}
+				readOnly={readonly}
 				error={!!error}
 				errorMessage={error}
 				searchField={false}

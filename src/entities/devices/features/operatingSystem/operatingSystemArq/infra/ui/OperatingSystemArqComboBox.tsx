@@ -23,6 +23,7 @@ export const OperatingSystemArqCombobox = memo(
 		required = false,
 		disabled = false,
 		isLoading = false,
+		readonly,
 		handleChange
 	}: {
 		value?: string
@@ -31,6 +32,7 @@ export const OperatingSystemArqCombobox = memo(
 		required?: boolean
 		disabled?: boolean
 		isLoading?: boolean
+		readonly?: boolean
 		handleChange: (name: string, value: string | number) => void
 	}) => {
 		const { data, isLoading: loading } = useGetAllOperatingSystemArq({})
@@ -45,6 +47,7 @@ export const OperatingSystemArqCombobox = memo(
 					value={value}
 					name={name}
 					loading={loading}
+					readOnly={readonly}
 					isLoading={isLoading}
 					options={options}
 					required={required}
