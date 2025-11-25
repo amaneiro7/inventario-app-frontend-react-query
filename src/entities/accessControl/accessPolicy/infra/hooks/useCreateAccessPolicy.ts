@@ -1,18 +1,17 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
-
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { useAccessPolicyInitialState } from './useAccessPolicyInitialState'
-
+import { useCallback } from 'react'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+import { useAccessPolicyInitialData } from './useAccessPolicyInitialData'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
 import {
 	initialAccessPolicyState,
-	accessPolicyFormReducer,
-	type Action
+	accessPolicyFormReducer
 } from '../reducers/accessPolicyFormReducer'
-import { AccessPolicyParams } from '../../domain/dto/AccessPolicy.dto'
 import { AccessPolicySaveService } from '../service/accessPolicySave.service'
 import { AccessPolicyCreator } from '../../application/AccessPolicyCreator'
+import { type AccessPolicyParams } from '../../domain/dto/AccessPolicy.dto'
+
+const repository = new AccessPolicySaveService()
+const accessPolicyCreator = new AccessPolicyCreator(repository, useAuthStore.getState().events)
 
 /**
  * `useCreateAccessPolicy`
@@ -33,109 +32,32 @@ import { AccessPolicyCreator } from '../../application/AccessPolicyCreator'
  * @property {(name: Action['type'], value: string) => void} handleChange - Función para manejar los cambios en los campos del formulario.
  * @property {(formData: AccessPolicyParams) => Promise<void>} handleLoading - Función para manejar la lógica de creación/actualización del permiso.
  */
-
 export function useCreateAccessPolicy(defaultState?: AccessPolicyParams) {
-	// Derive a unique key for the form instance, useful for React's key prop
-	// Use initialState.id if available, otherwise 'new' for new forms.
-	const { initialState, mode, resetState, isError, isNotFound, isLoading, onRetry } =
-		useAccessPolicyInitialState(defaultState ?? initialAccessPolicyState.formData)
-	const key = `accessPolicy-${initialState.id ? initialState.id : 'new'}`
+	// 1. Obtener estado inicial y contexto de ruta
+	const { initialData, mode, refreshInitialData, isError, isNotFound, isLoading, onRetry } =
+		useAccessPolicyInitialData(defaultState ?? initialAccessPolicyState.formData)
 
-	const { events } = useAuthStore.getState()
-	const [isSubmitting, setIsSubmitting] = useState(false)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData }, dispatch] = useReducer(
-		accessPolicyFormReducer,
-		initialAccessPolicyState
-	)
-
-	// Initialize form data when initialState changes
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const hasChanges = useMemo(() => {
-		if (!initialState || !formData) {
-			return false
-		}
-
-		return Object.keys(initialState).some(key => {
-			return (initialState as any)[key] !== (formData as any)[key]
-		})
-	}, [formData, initialState])
-
-	/**
-	 * @description Resets the form to its initial state (either default or fetched).
-	 */
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialAccessPolicyState])
-
-	/**
-	 * @description Handles changes in form input fields.
-	 * @param {Action['type']} name - The type of action (corresponds to the field name).
-	 * @param {string} value - The new value of the field.
-	 */
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any): void => {
-		// 'init' and 'reset' actions are handled by useLayoutEffect and resetForm respectively,
-		// so they should not be dispatched via this handler.
-		if (name === 'init' || name === 'reset') {
-			console.warn(
-				`Attempted to dispatch '${name}' action via handleChange. This is not allowed.`
-			)
-			return
-		}
-		dispatch({ type: name, payload: { value } })
+	const accessPolicySaveFn = useCallback(async (data: AccessPolicyParams) => {
+		return await accessPolicyCreator.create(data)
 	}, [])
 
-	/**
-	 * @description Encapsulates the logic for creating/updating a AccessPolicy.
-	 * @param {AccessPolicyParams} data - The form data to be saved.
-	 * @returns {Promise<void>} A promise that resolves when the operation is complete.
-	 */
-	const save = useCallback(
-		async (data: AccessPolicyParams): Promise<void> => {
-			await new AccessPolicyCreator(new AccessPolicySaveService(), events).create(data)
-		},
-		[events]
-	) // Depend on events from auth store
-
-	/**
-	 * @description Handles the form submission.
-	 * @param {React.FormEvent} event - The form submission event.
-	 * @returns {Promise<void>} A promise that resolves after submission and state updates.
-	 */
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			setIsSubmitting(true)
-			const hasErrors = Object.values(errors).some(error => error !== '')
-			if (hasErrors || !hasChanges) {
-				// Maybe notify user about errors
-				setIsSubmitting(false)
-				return
-			}
-
-			await save(formData)
-				.then(() => {
-					queryClient.invalidateQueries({ queryKey: ['accessPolicies'] })
-					resetState()
-				})
-				.finally(() => {
-					setIsSubmitting(false)
-				})
-		},
-		[save, formData, resetState]
-	) // Depend on create, formData, and resetState
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting
+	} = useFormHandler({
+		entityName: 'accessPolicies',
+		initialState: initialAccessPolicyState,
+		reducer: accessPolicyFormReducer,
+		initialData,
+		saveFn: accessPolicySaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
@@ -148,7 +70,7 @@ export function useCreateAccessPolicy(defaultState?: AccessPolicyParams) {
 		isSubmitting,
 		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

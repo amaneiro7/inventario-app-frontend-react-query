@@ -1,39 +1,38 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { AccessPolicyGetter } from '../../application/AccessPolicyGetter'
 import { AccessPolicyGetService } from '../service/accessPolicyGet.service'
 import { mapAccessPolicyToState } from './mapAccessPolicyToState'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
-import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultAccessPolicy } from '../reducers/accessPolicyFormReducer'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
-const get = new AccessPolicyGetter(new AccessPolicyGetService())
+const repository = new AccessPolicyGetService()
+const get = new AccessPolicyGetter(repository)
 
 /**
- * `useAccessPolicyInitialState`
+ * `useAccessPolicyInitialData`
  * @function
  * @description Hook personalizado para manejar el estado inicial de una marca en un formulario (creación o edición).
  * Obtiene los datos de la marca desde la API si el formulario está en modo edición o desde el estado de la ubicación.
  * @param {DefaultAccessPolicy} defaultState - El estado inicial por defecto de la marca.
- * @returns {{ initialState: DefaultAccessPolicy; resetState: () => void; mode: 'edit' | 'add' }}
+ * @returns {{ initialData: DefaultAccessPolicy; refreshInitialData: () => void; mode: 'edit' | 'add' }}
  * Un objeto con el estado inicial de la marca, una función para resetear el estado y el modo actual del formulario.
  */
-export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): {
-	initialState: DefaultAccessPolicy
+export function useAccessPolicyInitialData(defaultState: DefaultAccessPolicy): {
+	initialData: DefaultAccessPolicy
 	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
-	resetState: () => void
+	refreshInitialData: () => void
 	onRetry: () => void
 } {
-	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
-	const location = useLocation() // Obtiene la ubicación actual de la URL.
-	const navigate = useNavigate() // Función para navegar a otras rutas.
-	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
-	const [isNotFound, setIsNotFound] = useState<boolean>(false)
+	const { id, location, navigate, mode, isNotFound, setNotFound, checkIsNotFound } =
+		useFormRoutingContext()
+
 	const initialDataFromState = location.state?.accessPolicy
 		? mapAccessPolicyToState(location.state.processor)
 		: undefined
@@ -73,11 +72,12 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 			return
 		}
 
-		if (error instanceof NotFoundError && error.statusCode === 404) {
-			setIsNotFound(true)
-		} else {
-			setIsNotFound(false)
+		// Si hay error (no 404), resetear el estado isNotFound
+		if (isError && !(error instanceof NotFoundError)) {
+			setNotFound(false)
 		}
+		checkIsNotFound(error)
+		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 
@@ -91,7 +91,7 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 	 * Resetea el estado del formulario a su valor inicial o a los datos obtenidos de la API en modo edición.
 	 * @returns {Promise<void>} Una promesa que se resuelve cuando el estado ha sido reseteado.
 	 */
-	const resetState = useCallback(async () => {
+	const refreshInitialData = useCallback(async () => {
 		// Si no estamos en la ruta de marcas, no hace nada.
 		if (!location.pathname.includes('access-policiy')) return
 		if (mode === 'add') {
@@ -107,18 +107,18 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 	}, [defaultState, location.pathname, mode, refetch, id])
 
 	const onRetry = useCallback(() => {
-		setIsNotFound(false)
+		setNotFound(false)
 		refetch()
-	}, [refetch, setIsNotFound])
+	}, [refetch, setNotFound])
 
 	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {
 		mode,
-		initialState: state,
+		initialData: state,
 		isLoading,
 		isError,
 		isNotFound,
-		resetState,
+		refreshInitialData,
 		onRetry
 	}
 }

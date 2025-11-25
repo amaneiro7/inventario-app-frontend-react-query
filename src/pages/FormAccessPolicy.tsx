@@ -37,7 +37,7 @@ export default function FormAccessPolicy() {
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateAccessPolicy()
 	const canEdit = useHasPermission(PERMISSIONS.ACCESS_POLICIES.UPDATE)
 
@@ -71,7 +71,7 @@ export default function FormAccessPolicy() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/access-policy/add"
 					border
 					searchInput={
