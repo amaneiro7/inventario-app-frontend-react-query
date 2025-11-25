@@ -31,32 +31,13 @@ const DirectivaCombobox = lazy(() =>
 )
 
 interface DepartamentoInputsProps {
-	/**
-	 * The current form data for the departamento.
-	 */
 	formData: DefaultDepartamento
-	/**
-	 * An object containing validation errors for each form field.
-	 */
 	errors: DepartamentoErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: DepartamentoRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: DepartamentoDisabled
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	isLoading: boolean
+	canEdit: boolean
 	mode: FormMode
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
@@ -73,6 +54,7 @@ export const DepartamentoInputs = memo(
 		disabled,
 		formData,
 		isLoading = false,
+		canEdit,
 		handleChange
 	}: DepartamentoInputsProps) => {
 		return (
@@ -83,7 +65,7 @@ export const DepartamentoInputs = memo(
 					name="directivaId"
 					required={required.directivaId}
 					disabled={disabled.directivaId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 					isLoading={isLoading}
 				/>
 				<div className="flex gap-4">
@@ -96,7 +78,7 @@ export const DepartamentoInputs = memo(
 						directivaId={formData.directivaId}
 						required={required.vicepresidenciaEjecutivaId}
 						disabled={disabled.vicepresidenciaEjecutivaId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 						isLoading={isLoading}
 					/>
 					<VicepresidenciaCombobox
@@ -106,7 +88,7 @@ export const DepartamentoInputs = memo(
 						vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId}
 						required={required.vicepresidenciaId}
 						disabled={disabled.vicepresidenciaId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 						isLoading={isLoading}
 					/>
 				</div>
@@ -118,6 +100,7 @@ export const DepartamentoInputs = memo(
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('name', e.target.value)
 					}
+					readOnly={!canEdit}
 					error={!!errors?.name}
 					errorMessage={errors?.name}
 					required={required.name}
@@ -127,6 +110,7 @@ export const DepartamentoInputs = memo(
 				<CargoTransferList
 					value={formData.cargos}
 					name="cargos"
+					readonly={!canEdit}
 					onAddCargo={handleChange}
 					onRemoveCargo={handleChange}
 					required={required.cargos}

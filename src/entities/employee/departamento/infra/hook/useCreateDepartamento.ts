@@ -1,17 +1,18 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import {
 	type DefaultDepartamento,
-	type Action,
 	initialDepartamentoState,
 	departamentoFormReducer
 } from '../reducers/departamentoFormReducer'
 import { type DepartamentoParams } from '../../domain/dto/Departamento.dto'
 import { DepartamentoSaveService } from '../service/departamentoSave.service'
 import { DepartamentoCreator } from '../../application/DepartamentoCreator'
-import { useDepartamentoInitialState } from './useDepartamentoInitialState'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useDepartamentoInitialData } from './useDepartamentoInitialData'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+
+const repository = new DepartamentoSaveService()
+const departamentoCreator = new DepartamentoCreator(repository, useAuthStore.getState().events)
 
 /**
  * A React hook for managing departamento creation and update forms.
@@ -20,95 +21,48 @@ import { queryClient } from '@/shared/lib/queryCliente'
  * @returns An object containing form data, mode, errors, required fields, disabled fields, and various handlers.
  */
 export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
-	const { events } = useAuthStore.getState()
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useDepartamentoInitialData(defaultState ?? initialDepartamentoState.formData)
 
-	/**
-	 * Memoized function to create or update a departamento.
-	 * It uses the DepartamentoCreator service to perform the operation.
-	 */
-	const create = useMemo(
-		() => async (formData: DepartamentoParams) => {
-			return await new DepartamentoCreator(new DepartamentoSaveService(), events).create(
-				formData
-			)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useDepartamentoInitialState(defaultState ?? initialDepartamentoState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		departamentoFormReducer,
-		initialDepartamentoState
-	)
-	const key = useMemo(
-		() =>
-			`departamento${
-				initialDepartamentoState?.formData?.id ? initialDepartamentoState.formData.id : ''
-			}`,
-		[formData?.id]
-	)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	/**
-	 * Resets the form to its initial state.
-	 */
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialState])
-
-	/**
-	 * Handles changes to form input fields.
-	 * @param name - The name of the action/field to update.
-	 * @param value - The new value for the field.
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
+	const departamentoSaveFn = useCallback(async (data: DepartamentoParams) => {
+		return await departamentoCreator.create(data)
 	}, [])
 
-	/**
-	 * Handles the form submission.
-	 * Prevents default form submission and calls the `create` function with the current form data.
-	 * Resets the form state after successful submission.
-	 * @param event - The React form event.
-	 */
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['departamentos'] })
-				resetState()
-			})
-		},
-		[formData, create, resetState]
-	)
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		required,
+		disabled
+	} = useFormHandler({
+		entityName: 'departamentos',
+		initialState: initialDepartamentoState,
+		reducer: departamentoFormReducer,
+		initialData,
+		saveFn: departamentoSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		required,
-		disabled,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
-		handleChange
+		handleChange,
+		required,
+		disabled
 	}
 }

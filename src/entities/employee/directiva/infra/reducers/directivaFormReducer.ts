@@ -11,14 +11,18 @@ export type DefaultDirectiva = DirectivaParams & {
 /**
  * Defines the structure for validation errors in the directiva form.
  */
-export interface DirectivaErrors {
+export interface DirectivaErrors extends Record<string, string> {
 	name: DirectivaDto['name']
 }
 
 /**
  * Defines which fields in the directiva form are required based on current state.
  */
-export interface DirectivaRequired {
+export interface DirectivaRequired extends Record<string, boolean> {
+	name: boolean
+	cargos: boolean
+}
+export interface DirectivaDisabled extends Record<string, boolean> {
 	name: boolean
 	cargos: boolean
 }
@@ -27,6 +31,7 @@ export interface State {
 	formData: DefaultDirectiva
 	errors: DirectivaErrors
 	required: DirectivaRequired
+	disabled: DirectivaDisabled
 }
 
 /**
@@ -44,6 +49,10 @@ export const initialDirectivaState: State = {
 	},
 	required: {
 		name: true,
+		cargos: false
+	},
+	disabled: {
+		name: false,
 		cargos: false
 	}
 }

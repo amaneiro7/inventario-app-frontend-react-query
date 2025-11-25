@@ -7,10 +7,16 @@ export interface DefaultCity extends CityParams {
 	updatedAt?: string
 }
 
-export interface CityErrors {
+export interface CityErrors extends Record<string, string> {
 	name: string
 }
-export interface CityRequired {
+export interface CityRequired extends Record<string, boolean> {
+	name: boolean
+	stateId: boolean
+	regionId: boolean
+	administrativeRegionId: boolean
+}
+export interface CityDisabled extends Record<string, boolean> {
 	name: boolean
 	stateId: boolean
 	regionId: boolean
@@ -20,7 +26,8 @@ export interface CityRequired {
 export interface State {
 	formData: DefaultCity
 	errors: CityErrors
-	required?: CityRequired
+	required: CityRequired
+	disabled: CityDisabled
 }
 
 export const initialCityState: State = {
@@ -36,6 +43,12 @@ export const initialCityState: State = {
 		name: ''
 	},
 	required: {
+		name: true,
+		stateId: true,
+		regionId: false,
+		administrativeRegionId: false
+	},
+	disabled: {
 		name: true,
 		stateId: true,
 		regionId: false,

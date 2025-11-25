@@ -60,6 +60,11 @@ export default function FormVicepresidenciaEjecutiva() {
 					id={key}
 					description="Ingrese los datos de la vicepresidencia ejecutiva el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -76,6 +81,7 @@ export default function FormVicepresidenciaEjecutiva() {
 					<Suspense fallback={<VicepresidenciaEjecutivaFormSkeletonLayout />}>
 						<VicepresidenciaEjecutivasInputs
 							isLoading={isLoading}
+							canEdit={canEdit}
 							required={required}
 							formData={formData}
 							handleChange={handleChange}

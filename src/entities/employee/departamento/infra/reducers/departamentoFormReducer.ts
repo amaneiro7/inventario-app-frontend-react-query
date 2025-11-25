@@ -13,14 +13,14 @@ export type DefaultDepartamento = DepartamentoParams & {
 /**
  * Defines the structure for validation errors in the departamento form.
  */
-export interface DepartamentoErrors {
+export interface DepartamentoErrors extends Record<string, string> {
 	name: string
 }
 
 /**
  * Defines which fields in the departamento form are required based on current state.
  */
-export interface DepartamentoRequired {
+export interface DepartamentoRequired extends Record<string, boolean> {
 	name: boolean
 	directivaId: boolean
 	vicepresidenciaEjecutivaId: boolean
@@ -31,7 +31,7 @@ export interface DepartamentoRequired {
 /**
  * Defines which fields in the departamento form are disabled based on current state.
  */
-export interface DepartamentoDisabled {
+export interface DepartamentoDisabled extends Record<string, boolean> {
 	name: boolean
 	directivaId: boolean
 	vicepresidenciaEjecutivaId: boolean

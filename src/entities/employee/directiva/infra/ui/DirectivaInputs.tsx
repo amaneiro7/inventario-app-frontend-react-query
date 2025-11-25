@@ -28,6 +28,7 @@ interface DirectivaInputsProps {
 	required: DirectivaRequired
 
 	isLoading: boolean
+	canEdit: boolean
 	/**
 	 * Callback function to handle changes in form input fields.
 	 * @param name - The name of the field being changed.
@@ -41,7 +42,7 @@ interface DirectivaInputsProps {
  * for directiva information. It includes a text input for the directiva name and a transfer list for cargos.
  */
 export const DirectivaInputs = memo(
-	({ errors, required, formData, isLoading, handleChange }: DirectivaInputsProps) => {
+	({ errors, required, formData, isLoading, canEdit, handleChange }: DirectivaInputsProps) => {
 		return (
 			<>
 				<Input
@@ -54,12 +55,14 @@ export const DirectivaInputs = memo(
 						handleChange('name', e.target.value)
 					}
 					error={!!errors?.name}
+					readOnly={!canEdit}
 					errorMessage={errors?.name}
 					required={required.name}
 				/>
 				<CargoTransferList
 					value={formData.cargos}
 					name="cargos"
+					readonly={!canEdit}
 					isLoading={isLoading}
 					onAddCargo={handleChange}
 					onRemoveCargo={handleChange}
