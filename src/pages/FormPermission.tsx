@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { PermissionFormSkeletonLayout } from '@/entities/accessControl/permission/infra/ui/PermissionFormLayoutSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -35,6 +38,7 @@ export default function FormPermission() {
 		handleSubmit,
 		resetForm
 	} = useCreatePermission()
+	const canEdit = useHasPermission(PERMISSIONS.PERMISSIONS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -56,6 +60,11 @@ export default function FormPermission() {
 					id={key}
 					description="Ingrese los datos del permiso el cual desea registar."
 					isAddForm={mode === 'add'}
+					canEdit={canEdit}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -63,11 +72,16 @@ export default function FormPermission() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/permission/add"
 					border
-					searchInput={<PermissionSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<PermissionSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<PermissionFormSkeletonLayout />}>
 						<PermissionInputs
 							formData={formData}
+							canEdit={canEdit}
 							isLoading={isLoading}
 							handleChange={handleChange}
 							errors={errors}

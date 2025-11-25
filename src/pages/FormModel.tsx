@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { ModelSkeleton } from '@/entities/model/models/infra/ui/ModelSkeletons/ModelFormLayoutSkeleton.tsx'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const ModelInputs = lazy(() =>
 	import('@/entities/model/models/infra/ui/ModelForm/ModelInputs').then(m => ({
@@ -35,7 +38,7 @@ export default function FormModel() {
 		handleSubmit,
 		resetForm
 	} = useCreateModel()
-
+	const canEdit = useHasPermission(PERMISSIONS.MODELS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -57,6 +60,11 @@ export default function FormModel() {
 					id={key}
 					description="Ingrese los datos del modelo el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -64,10 +72,15 @@ export default function FormModel() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/model/add"
 					lastUpdated={formData.updatedAt}
-					searchInput={<ModelSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<ModelSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<ModelSkeleton type="form" />}>
 						<ModelInputs
+							canEdit={canEdit}
 							required={required}
 							disabled={disabled}
 							formData={formData}

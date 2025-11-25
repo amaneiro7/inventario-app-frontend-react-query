@@ -6,6 +6,9 @@ import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/compone
 import { EmployeeFormSkeletonLayout } from '@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeFormLayoutSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -59,11 +62,7 @@ export default function FormEmployee() {
 		handlePhoneChange,
 		handleRemovePhones
 	} = useCreateEmployee()
-
-	const updatedAt = useMemo(() => {
-		return formData.updatedAt
-	}, [formData.updatedAt])
-
+	const canEdit = useHasPermission(PERMISSIONS.EMPLOYEES.UPDATE)
 	return (
 		<>
 			<Tabs defaultValue="form" className="h-full space-y-4">
@@ -104,17 +103,26 @@ export default function FormEmployee() {
 								id={key}
 								description="Ingrese los datos del usuario el cual desea registar."
 								isAddForm={mode === 'add'}
+								isSubmitting={isSubmitting}
+								isDirty={hasChanges}
+								isLoading={isLoading}
+								lastUpdated={formData?.updatedAt}
+								canEdit={canEdit}
 								handleSubmit={handleSubmit}
 								isError={isError}
 								isNotFound={isNotFound}
 								onRetry={onRetry}
-								searchInput={<EmployeeSearch />}
+								searchInput={
+									<Suspense fallback={<InputFallback />}>
+										<EmployeeSearch />
+									</Suspense>
+								}
 								reset={mode === 'edit' ? resetForm : undefined}
-								lastUpdated={updatedAt}
 								url="/form/employee/add"
 							>
 								<Suspense fallback={<EmployeeFormSkeletonLayout />}>
 									<EmployeeInputs
+										canEdit={canEdit}
 										formData={formData}
 										errors={errors}
 										required={required}

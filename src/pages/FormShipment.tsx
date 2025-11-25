@@ -7,6 +7,9 @@ import { ShipmentDetailsSkeletonLayout } from '@/entities/shipment/infra/ui/Ship
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const ShipmentDetails = lazy(() =>
 	import('@/widgets/ShipmentDetails').then(m => ({ default: m.ShipmentDetails }))
@@ -41,6 +44,7 @@ export default function FormShipment() {
 		handleSubmit,
 		resetForm
 	} = useCreateShipment()
+	const canEdit = useHasPermission(PERMISSIONS.SHIPMENTS.UPDATE)
 	return (
 		<>
 			<Tabs defaultValue="form" className="h-full space-y-4">
@@ -73,6 +77,11 @@ export default function FormShipment() {
 								id={key}
 								description="Ingrese los datos de la relación de envios el cual desea registar."
 								isAddForm={mode === 'add'}
+								isSubmitting={isSubmitting}
+								isDirty={hasChanges}
+								isLoading={isLoading}
+								lastUpdated={formData?.updatedAt}
+								canEdit={canEdit}
 								handleSubmit={handleSubmit}
 								isError={isError}
 								isNotFound={isNotFound}
@@ -80,10 +89,15 @@ export default function FormShipment() {
 								reset={mode === 'edit' ? resetForm : undefined}
 								url="/form/shipment/add"
 								border
-								searchInput={<ShipmentSearch />}
+								searchInput={
+									<Suspense fallback={<InputFallback />}>
+										<ShipmentSearch />
+									</Suspense>
+								}
 							>
 								<Suspense fallback={<ShipmentFormSkeletonLayout />}>
 									<ShipmentInputs
+										canEdit={canEdit}
 										formData={formData}
 										isLoading={isLoading}
 										mode={mode}

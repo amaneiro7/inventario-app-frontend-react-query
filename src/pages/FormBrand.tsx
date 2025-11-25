@@ -59,8 +59,8 @@ export default function FormBrand() {
 					canEdit={canEdit}
 					isSubmitting={isSubmitting}
 					isDirty={hasChanges}
-					lastUpdated={formData?.updatedAt}
 					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}

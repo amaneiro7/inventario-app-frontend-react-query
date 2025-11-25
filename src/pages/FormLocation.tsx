@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { LocationFormSkeletonLayout } from '@/entities/locations/locations/infra/ui/LocationFormSkeletonLayout'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const LocationInputs = lazy(() =>
 	import('@/entities/locations/locations/infra/ui/LocationInputs').then(m => ({
@@ -37,7 +40,7 @@ export default function FormLocation() {
 		handleSubmit,
 		resetForm
 	} = useCreateLocation()
-
+	const canEdit = useHasPermission(PERMISSIONS.LOCATIONS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -59,6 +62,11 @@ export default function FormLocation() {
 					id={key}
 					description="Ingrese los datos de la ubicación el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -66,11 +74,15 @@ export default function FormLocation() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/location/add"
 					border
-					lastUpdated={formData.updatedAt}
-					searchInput={<LocationSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<LocationSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<LocationFormSkeletonLayout />}>
 						<LocationInputs
+							canEdit={canEdit}
 							required={required}
 							formData={formData}
 							disabled={disabled}

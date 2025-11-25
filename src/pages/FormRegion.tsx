@@ -4,6 +4,9 @@ import { RegionFormLayoutSkeleton } from '@/entities/locations/region/infra/ui/R
 import { RegionFormInputSkeleton } from '@/entities/locations/region/infra/ui/RegionFormInputSkeleton'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const RegionInputs = lazy(() =>
 	import('@/entities/locations/region/infra/ui/RegionInputs').then(m => ({
@@ -34,7 +37,7 @@ export default function FormRegion() {
 		handleSubmit,
 		resetForm
 	} = useCreateRegion()
-
+	const canEdit = useHasPermission(PERMISSIONS.REGIONS.UPDATE)
 	return (
 		<Suspense fallback={<RegionFormLayoutSkeleton />}>
 			<ErrorBoundary
@@ -50,6 +53,11 @@ export default function FormRegion() {
 					id={key}
 					description="Busque la región el cual desea registrar en una de las zonas administrativas"
 					isAddForm
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -58,11 +66,16 @@ export default function FormRegion() {
 					url="/form/region/"
 					border
 					standBy={mode !== 'edit'}
-					searchInput={<RegionSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<RegionSearch />
+						</Suspense>
+					}
 				>
 					{mode === 'edit' && (
 						<Suspense fallback={<RegionFormInputSkeleton />}>
 							<RegionInputs
+								canEdit={canEdit}
 								required={required}
 								isLoading={isLoading}
 								formData={formData}

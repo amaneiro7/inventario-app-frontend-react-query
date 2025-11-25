@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { PermissionGroupFormSkeletonLayout } from '@/entities/accessControl/permissionGroup/infra/ui/PermissionGroupFormLayoutSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -35,6 +38,7 @@ export default function FormPermissionGroup() {
 		handleSubmit,
 		resetForm
 	} = useCreatePermissionGroup()
+	const canEdit = useHasPermission(PERMISSIONS.PERMISSION_GROUPS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -56,6 +60,11 @@ export default function FormPermissionGroup() {
 					id={key}
 					description="Ingrese los datos del grupo de permisos el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -63,10 +72,15 @@ export default function FormPermissionGroup() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/permission-groups/add"
 					border
-					searchInput={<PermissionGroupSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<PermissionGroupSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<PermissionGroupFormSkeletonLayout />}>
 						<PermissionGroupInputs
+							canEdit={canEdit}
 							formData={formData}
 							isLoading={isLoading}
 							handleChange={handleChange}

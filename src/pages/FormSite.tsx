@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { SiteFormSkeletonLayout } from '@/entities/locations/site/infra/ui/SiteFormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const SiteInputs = lazy(() =>
 	import('@/entities/locations/site/infra/ui/SiteInputs').then(m => ({ default: m.SiteInputs }))
@@ -31,6 +34,7 @@ export default function FormSite() {
 		handleSubmit,
 		resetForm
 	} = useCreateSite()
+	const canEdit = useHasPermission(PERMISSIONS.SITES.UPDATE)
 
 	return (
 		<Suspense
@@ -53,6 +57,11 @@ export default function FormSite() {
 					id={key}
 					description="Ingrese los datos del sitio el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -60,12 +69,17 @@ export default function FormSite() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/site/add"
 					border
-					searchInput={<SiteSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<SiteSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<SiteFormSkeletonLayout />}>
 						<SiteInputs
 							required={required}
 							formData={formData}
+							canEdit={canEdit}
 							handleChange={handleChange}
 							errors={errors}
 							mode={mode}

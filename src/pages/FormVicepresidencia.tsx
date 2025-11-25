@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { VicepresidenciaFormSkeletonLayout } from '@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaFormLayoutSkeleton.tsx'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const VicepresidenciasInputs = lazy(() =>
 	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaInputs').then(m => ({
@@ -36,7 +39,7 @@ export default function FormVicepresidencia() {
 		handleSubmit,
 		resetForm
 	} = useCreateVicepresidencia()
-
+	const canEdit = useHasPermission(PERMISSIONS.VICEPRESIDENCIAS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -58,6 +61,11 @@ export default function FormVicepresidencia() {
 					id={key}
 					description="Ingrese los datos de la vicepresidencia el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -65,11 +73,16 @@ export default function FormVicepresidencia() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/vicepresidencia/add"
 					border
-					searchInput={<VicepresidenciaSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<VicepresidenciaSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<VicepresidenciaFormSkeletonLayout />}>
 						<VicepresidenciasInputs
 							required={required}
+							canEdit={canEdit}
 							formData={formData}
 							disabled={disabled}
 							handleChange={handleChange}

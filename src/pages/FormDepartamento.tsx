@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { DepartamentoFormSkeletonLayout } from '@/entities/employee/departamento/infra/ui/DepartamentoFormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -22,19 +25,22 @@ const DepartamentoSearch = lazy(() =>
 export default function FormDepartamento() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
-		required,
-		disabled,
 		isError,
 		isLoading,
 		isNotFound,
+		required,
+		disabled,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateDepartamento()
+	const canEdit = useHasPermission(PERMISSIONS.DEPARTAMENTOS.UPDATE)
 
 	return (
 		<Suspense
@@ -57,18 +63,27 @@ export default function FormDepartamento() {
 					id={key}
 					description="Ingrese los datos del departamento el cual desea registar."
 					isAddForm={mode === 'add'}
+					canEdit={canEdit}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/departamento/add"
 					border
 					lastUpdated={formData.updatedAt}
-					searchInput={<DepartamentoSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<DepartamentoSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<DepartamentoFormSkeletonLayout />}>
 						<DepartamentoInputs
+							canEdit={canEdit}
 							isLoading={isLoading}
 							required={required}
 							formData={formData}

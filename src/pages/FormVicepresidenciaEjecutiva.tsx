@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { VicepresidenciaEjecutivaFormSkeletonLayout } from '@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaFormLayoutSkeleton.tsx'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const VicepresidenciaEjecutivasInputs = lazy(() =>
 	import(
@@ -35,7 +38,7 @@ export default function FormVicepresidenciaEjecutiva() {
 		handleSubmit,
 		resetForm
 	} = useCreateVicepresidenciaEjecutiva()
-
+	const canEdit = useHasPermission(PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -64,7 +67,11 @@ export default function FormVicepresidenciaEjecutiva() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/vicepresidenciaEjecutiva/add"
 					border
-					searchInput={<VicepresidenciaEjecutivaSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<VicepresidenciaEjecutivaSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<VicepresidenciaEjecutivaFormSkeletonLayout />}>
 						<VicepresidenciaEjecutivasInputs
