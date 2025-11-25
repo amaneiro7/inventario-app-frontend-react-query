@@ -77,7 +77,6 @@ export function useBrandInitialData(defaultState: DefaultBrand): {
 			setNotFound(false)
 		}
 		checkIsNotFound(error)
-		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 
 		if (brandData) {
 			// Si hay datos de la API, actualiza el estado con esos datos.

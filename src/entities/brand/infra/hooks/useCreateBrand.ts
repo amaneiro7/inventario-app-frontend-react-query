@@ -3,13 +3,17 @@ import { BrandCreator } from '@/entities/brand/application/BrandCreator'
 import { BrandSaveService } from '@/entities/brand/infra/service/brandSave.service'
 import {
 	initialBrandState,
-	brandFormReducer
+	brandFormReducer,
+	type DefaultBrand
 } from '@/entities/brand/infra/reducers/brandFormReducer'
 
 import { useBrandInitialData } from './useBrandInitialData'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
 import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
+
+const repository = new BrandSaveService()
+const brandCreator = new BrandCreator(repository, useAuthStore.getState().events)
 
 /**
  * `useCreateBrand`
@@ -26,11 +30,7 @@ import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
  * @property {(event: React.FormEvent) => Promise<void>} handleSubmit - Función para manejar el envío del formulario.
  * @property {(name: Action['type'], value: string) => void} handleChange - Función para manejar los cambios en los campos del formulario.
  */
-
-const repository = new BrandSaveService()
-const brandCreator = new BrandCreator(repository, useAuthStore.getState().events)
-
-export function useCreateBrand(defaultState?: BrandParams) {
+export function useCreateBrand(defaultState?: DefaultBrand) {
 	// 1. Obtener estado inicial y contexto de ruta
 	const { initialData, mode, refreshInitialData, isError, isNotFound, isLoading, onRetry } =
 		useBrandInitialData(defaultState ?? initialBrandState.formData)
@@ -49,10 +49,10 @@ export function useCreateBrand(defaultState?: BrandParams) {
 		hasChanges,
 		isSubmitting
 	} = useFormHandler({
-		entityName: 'brand',
+		entityName: 'brands',
 		initialState: initialBrandState,
 		reducer: brandFormReducer,
-		initialData: initialData,
+		initialData,
 		saveFn: brandSaveFn,
 		refreshInitialData
 	})
