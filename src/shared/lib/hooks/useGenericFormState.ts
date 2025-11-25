@@ -4,12 +4,12 @@ import { isDeepEqual } from '../utils/isDeepEqual'
 
 export type TStateWithId = { id?: string | number; [key: string]: any }
 
-export type InitialFormState<TState> = {
+export type InitialFormState<TState, TErrors, TRequired, TDisabled> = {
 	// Propiedades requeridas y fuertemente tipadas
 	formData: TState
-	errors: any // o un tipo de errores más específico, si lo tienes
-	required?: any
-	disabled?: any
+	errors: TErrors
+	required: TRequired
+	disabled: TDisabled
 	// 💡 Propiedad índice para permitir CUALQUIER otra propiedad
 	// Esto le dice a TypeScript que cualquier clave de cadena adicional es válida,
 	// pero no perderá la tipificación estricta de formData y errors.
@@ -23,13 +23,16 @@ export type InitialFormState<TState> = {
  */
 export function useGenericFormState<
 	TState extends TStateWithId,
-	TAction extends { type: string; payload: any }
+	TAction extends { type: string; payload: any },
+	TErrors,
+	TRequired,
+	TDisabled
 >({
 	initialState,
 	reducer,
 	initialData
 }: {
-	initialState: InitialFormState<TState>
+	initialState: InitialFormState<TState, TErrors, TRequired, TDisabled>
 	reducer: (state: typeof initialState, action: TAction) => typeof initialState
 	initialData: TState
 }) {
@@ -50,7 +53,7 @@ export function useGenericFormState<
 		if (!initialData || !formData) {
 			return false
 		}
-		return !isDeepEqual(formData, initialData)
+		return isDeepEqual(formData, initialData)
 	}, [formData, initialData, isDeepEqual])
 
 	// 3. Función Reset

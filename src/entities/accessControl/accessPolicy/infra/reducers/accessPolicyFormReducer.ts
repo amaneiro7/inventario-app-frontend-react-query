@@ -2,35 +2,29 @@ import { type AccessPolicyParams } from '../../domain/dto/AccessPolicy.dto'
 import { AccessPolicyPriority } from '../../domain/value-object/AccessPolicyPriority'
 import { AccessPolicyName } from '../../domain/value-object/AceessPolicyName'
 
-/**
- * @typedef {Object} DefaultAccessPolicy
- * @description Tipo que extiende `AccessPolicyParams` para incluir una propiedad `updatedAt` opcional.
- * Representa el estado por defecto de una marca en el formulario.
- * @property {string} [updatedAt] - Fecha de la última actualización de la marca (opcional).
- */
 export type DefaultAccessPolicy = AccessPolicyParams & {
 	updatedAt?: string
 }
 
-/**
- * @interface AccessPolicyErrors
- * @description Define la estructura de los errores de validación para el formulario de `AccessPolicy`.
- * @property {string} name - Mensaje de error para el campo `name`.
- */
-export interface AccessPolicyErrors {
+export interface AccessPolicyErrors extends Record<string, string> {
 	name: string
 	priority: string
 }
 
-/**
- * @interface State
- * @description Define la estructura del estado para el reducer del formulario de `AccessPolicy`.
- * @property {DefaultAccessPolicy} formData - Los datos del formulario de la marca.
- * @property {AccessPolicyErrors} errors - Los errores de validación asociados a los campos del formulario.
- */
+export interface AccessPolicyRequired extends Record<string, boolean> {
+	name: boolean
+	priority: boolean
+}
+export interface AccessPolicyDisabled extends Record<string, boolean> {
+	name: boolean
+	priority: boolean
+}
+
 export interface State {
 	formData: DefaultAccessPolicy
 	errors: AccessPolicyErrors
+	required: AccessPolicyRequired
+	disabled: AccessPolicyDisabled
 }
 
 /**
@@ -50,6 +44,14 @@ export const initialAccessPolicyState: State = {
 	errors: {
 		name: '',
 		priority: ''
+	},
+	required: {
+		name: true,
+		priority: true
+	},
+	disabled: {
+		name: false,
+		priority: false
 	}
 }
 

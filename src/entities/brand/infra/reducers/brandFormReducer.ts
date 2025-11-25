@@ -1,34 +1,25 @@
 import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
 import { BrandName } from '@/entities/brand/domain/value-object/BrandName'
 
-/**
- * @typedef {Object} DefaultBrand
- * @description Tipo que extiende `BrandParams` para incluir una propiedad `updatedAt` opcional.
- * Representa el estado por defecto de una marca en el formulario.
- * @property {string} [updatedAt] - Fecha de la última actualización de la marca (opcional).
- */
 export type DefaultBrand = BrandParams & {
 	updatedAt?: string
 }
 
-/**
- * @interface BrandErrors
- * @description Define la estructura de los errores de validación para el formulario de `Brand`.
- * @property {string} name - Mensaje de error para el campo `name`.
- */
-export interface BrandErrors {
+export interface BrandErrors extends Record<string, string> {
 	name: string
 }
+export interface BrandRequired extends Record<string, boolean> {
+	name: boolean
+}
+export interface BrandDisabled extends Record<string, boolean> {
+	name: boolean
+}
 
-/**
- * @interface State
- * @description Define la estructura del estado para el reducer del formulario de `Brand`.
- * @property {DefaultBrand} formData - Los datos del formulario de la marca.
- * @property {BrandErrors} errors - Los errores de validación asociados a los campos del formulario.
- */
 export interface State {
 	formData: DefaultBrand
 	errors: BrandErrors
+	required: BrandRequired
+	disabled: BrandDisabled
 }
 
 /**
@@ -44,6 +35,12 @@ export const initialBrandState: State = {
 	},
 	errors: {
 		name: ''
+	},
+	disabled: {
+		name: false
+	},
+	required: {
+		name: true
 	}
 }
 

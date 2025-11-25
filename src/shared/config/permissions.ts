@@ -24,6 +24,7 @@ export const PERMISSIONS = {
 		CREATE: 'permissions:create',
 		READ_LIST: 'permissions:read-list',
 		READ: 'permissions:read',
+		UPDATE: 'permissions:update',
 		DELETE: 'permissions:delete'
 	},
 	BRANDS: {

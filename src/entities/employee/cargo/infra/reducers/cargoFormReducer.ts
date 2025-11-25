@@ -5,16 +5,16 @@ export type DefaultCargo = CargoParams & {
 	updatedAt?: string
 }
 
-export interface CargoErrors {
+export interface CargoErrors extends Record<string, string> {
 	name: string
 }
 
-export interface CargoRequired {
+export interface CargoRequired extends Record<string, boolean> {
 	name: boolean
 	departamentos: boolean
 }
 
-export interface CargoDisabled {
+export interface CargoDisabled extends Record<string, boolean> {
 	name: boolean
 	departamentos: boolean
 }
@@ -22,8 +22,8 @@ export interface CargoDisabled {
 export interface State {
 	formData: DefaultCargo
 	errors: CargoErrors
-	required?: CargoRequired
-	disabled?: CargoDisabled
+	required: CargoRequired
+	disabled: CargoDisabled
 }
 
 export const initialCargoState: State = {

@@ -8,7 +8,10 @@ import {
 
 export function useFormHandler<
 	TState extends TStateWithId,
-	TAction extends { type: string; payload: any }
+	TAction extends { type: string; payload: any },
+	TErrors extends Record<string, string>,
+	TRequired,
+	TDisabled
 >({
 	entityName,
 	initialState,
@@ -18,7 +21,7 @@ export function useFormHandler<
 	refreshInitialData
 }: {
 	entityName: string
-	initialState: InitialFormState<TState>
+	initialState: InitialFormState<TState, TErrors, TRequired, TDisabled>
 	initialData: TState // Datos iniciales de la API
 	reducer: (state: typeof initialState, action: TAction) => typeof initialState
 
@@ -41,7 +44,11 @@ export function useFormHandler<
 		handleChange,
 		dispatch,
 		discardChanges
-	} = useGenericFormState<TState, TAction>({ initialState, reducer, initialData })
+	} = useGenericFormState<TState, TAction, TErrors, TRequired, TDisabled>({
+		initialState,
+		reducer,
+		initialData
+	})
 
 	// 💡 3. Función Submit (Reutilizable)
 	const handleSubmit = useCallback(
