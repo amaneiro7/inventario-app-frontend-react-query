@@ -9,8 +9,19 @@ import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode
 import { type DefaultProcessor } from '../reducers/processorFormReducer'
 import { type ProcessorDto } from '../../domain/dto/Processor.dto'
 
-const get = new ProcessorGetter(new ProcessorGetService())
+// Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
+const repository = new ProcessorGetService()
+const get = new ProcessorGetter(repository)
 
+/**
+ * `useProcessorInitialState`
+ * @function
+ * @description Hook personalizado para manejar el estado inicial de una marca en un formulario (creación o edición).
+ * Obtiene los datos de la marca desde la API si el formulario está en modo edición o desde el estado de la ubicación.
+ * @param {DefaultProcessor} defaultState - El estado inicial por defecto de la marca.
+ * @returns {{ initialState: DefaultProcessor; resetState: () => void; mode: 'edit' | 'add' }}
+ * Un objeto con el estado inicial de la marca, una función para resetear el estado y el modo actual del formulario.
+ */
 export function useProcessorInitialState(defaultState: DefaultProcessor): {
 	initialState: DefaultProcessor
 	mode: FormMode
@@ -20,10 +31,10 @@ export function useProcessorInitialState(defaultState: DefaultProcessor): {
 	resetState: () => void
 	onRetry: () => void
 } {
-	const { id } = useParams()
-	const location = useLocation()
-	const navigate = useNavigate()
-	const mode = useGetFormMode()
+	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
+	const location = useLocation() // Obtiene la ubicación actual de la URL.
+	const navigate = useNavigate() // Función para navegar a otras rutas.
+	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
 	const [isNotFound, setIsNotFound] = useState<boolean>(false)
 	const initialDataFromState = location.state?.processor
 		? adaptProcessorData(location.state.processor)
@@ -78,13 +89,13 @@ export function useProcessorInitialState(defaultState: DefaultProcessor): {
 		if (!location.pathname.includes('processor')) return
 		if (mode === 'add') {
 			setState({
-				id: undefined,
-				...defaultState
+				...defaultState,
+				id: undefined
 			})
 		} else if (id) {
 			await refetch()
 		}
-	}, [defaultState, mode, refetch, id])
+	}, [defaultState, location.pathname, mode, refetch, id])
 
 	// Aseguramos que isNotFound se resetee cuando se intente recargar
 	const onRetry = useCallback(() => {

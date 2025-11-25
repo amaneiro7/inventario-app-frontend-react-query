@@ -1,16 +1,15 @@
-import { useCallback, useLayoutEffect, useReducer } from 'react'
+import { useCallback } from 'react'
 import { BrandCreator } from '@/entities/brand/application/BrandCreator'
 import { BrandSaveService } from '@/entities/brand/infra/service/brandSave.service'
 import {
-	type Action,
 	initialBrandState,
 	brandFormReducer
 } from '@/entities/brand/infra/reducers/brandFormReducer'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { useBrandInitialState } from './useBrandInitialState'
-import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
+
+import { useBrandInitialData } from './useBrandInitialData'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+import { type BrandParams } from '@/entities/brand/domain/dto/Brand.dto'
 
 /**
  * `useCreateBrand`
@@ -23,61 +22,53 @@ import { queryClient } from '@/shared/lib/queryCliente'
  * @property {DefaultBrand} formData - Los datos actuales del formulario.
  * @property {'edit' | 'add'} mode - El modo actual del formulario (edición o adición).
  * @property {BrandErrors} errors - Los errores de validación del formulario.
- * @property {() => void} resetForm - Función para resetear el formulario a su estado inicial.
+ * @property {() => void} discardChanges - Función para resetear el formulario a su estado inicial.
  * @property {(event: React.FormEvent) => Promise<void>} handleSubmit - Función para manejar el envío del formulario.
  * @property {(name: Action['type'], value: string) => void} handleChange - Función para manejar los cambios en los campos del formulario.
  */
+
+const repository = new BrandSaveService()
+const brandCreator = new BrandCreator(repository, useAuthStore.getState().events)
+
 export function useCreateBrand(defaultState?: BrandParams) {
-	const key = `brand${initialBrandState?.formData?.id ? initialBrandState.formData.id : ''}`
-	const { events } = useAuthStore.getState()
+	// 1. Obtener estado inicial y contexto de ruta
+	const { initialData, mode, refreshInitialData, isError, isNotFound, isLoading, onRetry } =
+		useBrandInitialData(defaultState ?? initialBrandState.formData)
 
-	const create = async (formData: BrandParams) => {
-		return await new BrandCreator(new BrandSaveService(), events).create(formData)
-	}
+	const brandSaveFn = useCallback(async (data: BrandParams) => {
+		return await brandCreator.create(data)
+	}, [])
 
-	const { initialState, mode, resetState, isError, isNotFound, isLoading, onRetry } =
-		useBrandInitialState(defaultState ?? initialBrandState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData }, dispatch] = useReducer(brandFormReducer, initialBrandState)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialBrandState])
-
-	const handleChange = (name: Action['type'], value: string) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
-	}
-
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData).then(() => {
-			queryClient.invalidateQueries({ queryKey: ['brands'] })
-			resetState()
-		})
-	}
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting
+	} = useFormHandler({
+		entityName: 'brand',
+		initialState: initialBrandState,
+		reducer: brandFormReducer,
+		initialData: initialData,
+		saveFn: brandSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		isNotFound,
 		isError,
 		isLoading,
+		isSubmitting,
+		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

@@ -39,13 +39,10 @@ export function useCreateAccessPolicy(defaultState?: AccessPolicyParams) {
 	// Use initialState.id if available, otherwise 'new' for new forms.
 	const { initialState, mode, resetState, isError, isNotFound, isLoading, onRetry } =
 		useAccessPolicyInitialState(defaultState ?? initialAccessPolicyState.formData)
-
 	const key = `accessPolicy-${initialState.id ? initialState.id : 'new'}`
 
 	const { events } = useAuthStore.getState()
 	const [isSubmitting, setIsSubmitting] = useState(false)
-
-	// Reducer for form state management
 	const prevState = usePrevious(initialState)
 	const [{ errors, formData }, dispatch] = useReducer(
 		accessPolicyFormReducer,

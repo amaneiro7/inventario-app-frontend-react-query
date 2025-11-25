@@ -26,11 +26,12 @@ interface AccessPolicyInputsProps {
 	formData: DefaultAccessPolicy
 	errors?: AccessPolicyErrors
 	isLoading: boolean
+	canEdit?: boolean
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
 export const AccessPolicyInputs = memo(
-	({ errors, isLoading, formData, handleChange }: AccessPolicyInputsProps) => {
+	({ errors, canEdit, isLoading, formData, handleChange }: AccessPolicyInputsProps) => {
 		return (
 			<>
 				<Input
@@ -45,12 +46,14 @@ export const AccessPolicyInputs = memo(
 					error={!!errors?.name}
 					errorMessage={errors?.name}
 					required
+					readOnly={!canEdit}
 				/>
 				<DepartamentoCombobox
 					value={formData.departamentoId ?? ''}
 					handleChange={(_name, value) => handleChange('departamentoId', value as string)}
 					name="departamentoId"
 					isLoading={isLoading}
+					readonly={!canEdit}
 				/>
 				<CargoCombobox
 					value={formData.cargoId ?? ''}
@@ -58,6 +61,7 @@ export const AccessPolicyInputs = memo(
 					name="cargoId"
 					departamentoId={formData.departamentoId ?? ''}
 					isLoading={isLoading}
+					readonly={!canEdit}
 				/>
 				<PermissionGroupCombobox
 					value={formData.permissionGroupId ?? ''}
@@ -66,6 +70,7 @@ export const AccessPolicyInputs = memo(
 					}
 					name="permissionGroupId"
 					isLoading={isLoading}
+					readonly={!canEdit}
 				/>
 				<Input
 					id="access-policy-priority"
@@ -80,6 +85,7 @@ export const AccessPolicyInputs = memo(
 					error={!!errors?.priority}
 					errorMessage={errors?.priority}
 					required
+					readOnly={!canEdit}
 				/>
 			</>
 		)

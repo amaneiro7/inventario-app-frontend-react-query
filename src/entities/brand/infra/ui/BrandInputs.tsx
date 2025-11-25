@@ -15,6 +15,7 @@ interface BrandInputsProps {
 	formData: DefaultBrand
 	errors?: BrandErrors
 	isLoading: boolean
+	canEdit?: boolean
 	handleChange: (name: Action['type'], value: string) => void
 }
 
@@ -29,7 +30,7 @@ interface BrandInputsProps {
  * @param {(name: Action['type'], value: string) => void} props.handleChange - Función de callback para manejar los cambios en los campos de entrada.
  */
 export const BrandInputs = memo(
-	({ errors, isLoading, formData, handleChange }: BrandInputsProps) => {
+	({ errors, isLoading, canEdit, formData, handleChange }: BrandInputsProps) => {
 		return (
 			<>
 				<Input
@@ -43,12 +44,14 @@ export const BrandInputs = memo(
 					}
 					error={!!errors?.name}
 					errorMessage={errors?.name}
+					readOnly={!canEdit}
 					required
 				/>
 				<CategoryTransferList
 					isLoading={isLoading}
 					value={formData.categories}
 					name="categories"
+					readonly={!canEdit}
 					onAddCategory={handleChange}
 					onRemoveCategory={handleChange}
 				/>

@@ -1,0 +1,78 @@
+import { useCallback, useState } from 'react'
+import {
+	type InitialFormState,
+	type TStateWithId,
+	useGenericFormState
+} from './useGenericFormState' // Asume que este hook ya existe
+import { queryClient } from '../queryCliente'
+
+export function useFormHandler<
+	TState extends TStateWithId,
+	TAction extends { type: string; payload: any }
+>({
+	entityName,
+	initialState,
+	reducer,
+	initialData,
+	saveFn,
+	refreshInitialData
+}: {
+	entityName: string
+	initialState: InitialFormState<TState>
+	initialData: TState // Datos iniciales de la API
+	reducer: (state: typeof initialState, action: TAction) => typeof initialState
+
+	// Funciones inyectables (Específicas de la entidad)
+	saveFn: (data: TState) => Promise<any>
+	refreshInitialData: () => void
+}) {
+	const [isSubmitting, setIsSubmitting] = useState(false)
+
+	// 💡 1. Generación de la Key (Reutilizable)
+	const key = `${entityName}-${initialData?.id ? initialData.id : 'new'}`
+
+	// 2. Lógica Genérica de Estado (isDirty, resetForm, handleChange, formData, errors)
+	const { formData, errors, hasChanges, handleChange, dispatch, discardChanges } =
+		useGenericFormState<TState, TAction>({ initialState, reducer, initialData })
+
+	// 💡 3. Función Submit (Reutilizable)
+	const handleSubmit = useCallback(
+		async (event: React.FormEvent) => {
+			event.preventDefault()
+			event.stopPropagation()
+
+			setIsSubmitting(true)
+
+			const hasValidationErrors = Object.values(errors).some(error => error !== '')
+
+			// Chequeo de errores de validación O falta de cambios
+			if (hasValidationErrors || !hasChanges) {
+				setIsSubmitting(false)
+				return
+			}
+
+			try {
+				// Llama a la función de guardado específica inyectada
+				await saveFn(formData)
+				queryClient.invalidateQueries({ queryKey: [entityName] })
+				refreshInitialData()
+			} finally {
+				setIsSubmitting(false)
+			}
+		},
+		[saveFn, formData, errors, hasChanges]
+	)
+
+	return {
+		key,
+		isSubmitting,
+		formData,
+		errors,
+		hasChanges,
+		// Funciones
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		dispatch
+	}
+}

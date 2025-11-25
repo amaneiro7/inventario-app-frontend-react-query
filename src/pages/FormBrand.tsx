@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { BrandFormSkeletonLayout } from '@/entities/brand/infra/ui/BrandFormLayoutSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -18,17 +21,20 @@ const BrandSearch = lazy(() =>
 export default function FormBrand() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateBrand()
+	const canEdit = useHasPermission(PERMISSIONS.BRANDS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -50,17 +56,27 @@ export default function FormBrand() {
 					id={key}
 					description="Ingrese los datos de la marca el cual desea registar."
 					isAddForm={mode === 'add'}
+					canEdit={canEdit}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					lastUpdated={formData?.updatedAt}
+					isLoading={isLoading}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/brand/add"
 					border
-					searchInput={<BrandSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<BrandSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<BrandFormSkeletonLayout />}>
 						<BrandInputs
+							canEdit={canEdit}
 							formData={formData}
 							isLoading={isLoading}
 							handleChange={handleChange}

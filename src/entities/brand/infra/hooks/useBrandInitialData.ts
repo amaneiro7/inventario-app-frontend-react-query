@@ -1,42 +1,42 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { BrandGetter } from '@/entities/brand/application/BrandGetter'
 import { BrandGetService } from '@/entities/brand/infra/service/brandGet.service'
-import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { mapBrandToState } from '../../lib/mapBrandToState'
+import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultBrand } from '../reducers/brandFormReducer'
-import { type BrandDto } from '../../domain/dto/Brand.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new BrandGetService()
 const get = new BrandGetter(repository)
 
 /**
- * `useBrandInitialState`
+ * `useBrandInitialData`
  * @function
  * @description Hook personalizado para manejar el estado inicial de una marca en un formulario (creación o edición).
  * Obtiene los datos de la marca desde la API si el formulario está en modo edición o desde el estado de la ubicación.
  * @param {DefaultBrand} defaultState - El estado inicial por defecto de la marca.
- * @returns {{ initialState: DefaultBrand; resetState: () => void; mode: 'edit' | 'add' }}
+ * @returns {{ initialData: DefaultBrand; refreshInitialData: () => void; mode: 'edit' | 'add' }}
  * Un objeto con el estado inicial de la marca, una función para resetear el estado y el modo actual del formulario.
  */
-export function useBrandInitialState(defaultState: DefaultBrand): {
-	initialState: DefaultBrand
-	resetState: () => void
-	mode: 'edit' | 'add'
+export function useBrandInitialData(defaultState: DefaultBrand): {
+	initialData: DefaultBrand
+	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
+	refreshInitialData: () => void
 	onRetry: () => void
 } {
-	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
-	const location = useLocation() // Obtiene la ubicación actual de la URL.
-	const navigate = useNavigate() // Función para navegar a otras rutas.
-	const [state, setState] = useState<DefaultBrand>(defaultState) // Estado local de la marca.
-	const [isNotFound, setIsNotFound] = useState<boolean>(false)
+	const { id, location, navigate, mode, isNotFound, setNotFound, checkIsNotFound } =
+		useFormRoutingContext()
 
-	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
-
+	// 1. Datos iniciales del estado de la ruta (si existen)
+	const initialDataFromState = location.state?.brand
+		? mapBrandToState(location.state.brand)
+		: undefined
 	// Consulta para obtener los datos de la marca si el modo es editar y no hay datos en el estado de la ubicación.
 	const {
 		data: brandData,
@@ -45,78 +45,79 @@ export function useBrandInitialState(defaultState: DefaultBrand): {
 		isError,
 		isLoading
 	} = useQuery({
-		queryKey: ['brand', id], // Clave de la consulta para la caché.
-		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos de la marca.
-		enabled: !!id && mode === 'edit' && !location?.state?.brand, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
-		retry: false // Deshabilita los reintentos automáticos en caso de error.
+		queryKey: ['brand', id],
+		queryFn: () => {
+			if (!id) {
+				// El chequeo de !id es crucial aquí si quieres tipar el error.
+				throw new Error('ID is missing in edit mode.')
+			}
+			return get.execute({ id })
+		},
+		enabled: mode === 'edit' && !!id && !initialDataFromState, // No habilitar si ya tenemos datos iniciales
+		retry: false,
+		select: data => mapBrandToState(data)
 	})
 
-	/**
-	 * Mapea un objeto `BrandDto` a la estructura `DefaultBrand` para el estado del formulario.
-	 * @param {BrandDto} brand - El objeto `BrandDto` a mapear.
-	 */ const mapBrandToState = useCallback((brand: BrandDto): void => {
-		const categories = [...brand?.categories.map(category => category.id)]
-		setState({
-			id: brand.id,
-			name: brand.name,
-			categories,
-			updatedAt: brand?.updatedAt
-		})
-	}, [])
-
+	const [state, setState] = useState<DefaultBrand>(initialDataFromState || defaultState)
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
+		// Redireccionar si falta ID en modo edición
+		if (mode === 'edit' && !id) {
+			navigate('/error', { replace: true })
+			return
+		}
 		// Si el modo es agregar o no estamos en la ruta de marcas, resetea el estado al estado por defecto.
 		if (mode === 'add' || !location.pathname.includes('brand')) {
 			setState(defaultState)
 			return
 		}
 
-		if (error?.message.includes('Recurso no encontrado.')) {
-			setIsNotFound(true)
-		} else {
-			setIsNotFound(false)
+		// Si hay error (no 404), resetear el estado isNotFound
+		if (isError && !(error instanceof NotFoundError)) {
+			setNotFound(false)
 		}
-
+		checkIsNotFound(error)
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 
-		if (location?.state?.brand) {
-			setState(location.state.brand)
-		} else if (brandData) {
+		if (brandData) {
 			// Si hay datos de la API, actualiza el estado con esos datos.
-			mapBrandToState(brandData)
+			setState(brandData)
 		}
-	}, [mode, brandData, location.state, defaultState, navigate, id, error])
+	}, [mode, id, brandData, location.pathname, defaultState, navigate, isError, error])
 
 	/**
 	 * Resetea el estado del formulario a su valor inicial o a los datos obtenidos de la API en modo edición.
 	 * @returns {Promise<void>} Una promesa que se resuelve cuando el estado ha sido reseteado.
-	 */ const resetState = useCallback(async () => {
+	 */
+	const refreshInitialData = useCallback(async () => {
 		// Si no estamos en la ruta de marcas, no hace nada.
 		if (!location.pathname.includes('brand')) return
 		if (mode === 'add') {
 			setState({
-				id: undefined,
-				...defaultState
+				...defaultState,
+				id: undefined
 			})
 			// Si el modo es agregar, resetea el estado al estado por defecto creando un nuevo objeto.
 		} else if (id) {
 			// Si el modo es editar, vuelve a obtener los datos de la marca de la API y actualiza el estado.
-			const { data } = await refetch()
-			if (data) {
-				mapBrandToState(data)
-			}
+			await refetch()
 		}
 	}, [defaultState, location.pathname, mode, refetch, id])
+
+	// 6. Función de Reintento
+	const onRetry = useCallback(() => {
+		setNotFound(false) // Limpiamos el error 404 antes de reintentar
+		refetch()
+	}, [refetch, setNotFound])
 
 	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {
 		mode,
-		initialState: state,
+		initialData: state,
 		isLoading,
 		isError,
 		isNotFound,
-		resetState,
-		onRetry: refetch
+		refreshInitialData,
+		onRetry
 	}
 }

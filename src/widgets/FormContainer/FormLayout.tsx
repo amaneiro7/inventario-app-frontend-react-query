@@ -104,6 +104,7 @@ export const FormLayout = memo(
 							isNotFound={isNotFound}
 							updatedBy={updatedBy}
 							lastUpdated={lastUpdated}
+							isReadOnly={isReadOnly}
 							handleSubmit={handleSubmit}
 							handleClose={handleClose}
 							reset={reset}

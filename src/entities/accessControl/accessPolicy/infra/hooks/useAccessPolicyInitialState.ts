@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { AccessPolicyGetter } from '../../application/AccessPolicyGetter'
 import { AccessPolicyGetService } from '../service/accessPolicyGet.service'
+import { mapAccessPolicyToState } from './mapAccessPolicyToState'
+import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultAccessPolicy } from '../reducers/accessPolicyFormReducer'
-import { type AccessPolicyDto } from '../../domain/dto/AccessPolicy.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const get = new AccessPolicyGetter(new AccessPolicyGetService())
@@ -21,20 +22,21 @@ const get = new AccessPolicyGetter(new AccessPolicyGetService())
  */
 export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): {
 	initialState: DefaultAccessPolicy
-	resetState: () => void
-	mode: 'edit' | 'add'
+	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
+	resetState: () => void
 	onRetry: () => void
 } {
 	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
 	const location = useLocation() // Obtiene la ubicación actual de la URL.
 	const navigate = useNavigate() // Función para navegar a otras rutas.
-	const [state, setState] = useState<DefaultAccessPolicy>(defaultState) // Estado local de la marca.
-	const [isNotFound, setIsNotFound] = useState<boolean>(false)
-
 	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
+	const [isNotFound, setIsNotFound] = useState<boolean>(false)
+	const initialDataFromState = location.state?.accessPolicy
+		? mapAccessPolicyToState(location.state.processor)
+		: undefined
 
 	// Consulta para obtener los datos de la marca si el modo es editar y no hay datos en el estado de la ubicación.
 	const {
@@ -45,26 +47,18 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 		isLoading
 	} = useQuery({
 		queryKey: ['accessPolicy', id], // Clave de la consulta para la caché.
-		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos de la marca.
-		enabled: !!id && mode === 'edit' && !location?.state?.AccessPolicy, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
-		retry: false // Deshabilita los reintentos automáticos en caso de error.
+		queryFn: () => {
+			if (!id) {
+				throw new Error('ID is missing in edit mode.')
+			}
+			return get.execute({ id })
+		},
+		enabled: mode === 'edit' && !!id,
+		retry: false,
+		select: data => mapAccessPolicyToState(data)
 	})
 
-	/**
-	 * Mapea un objeto `AccessPolicyDto` a la estructura `DefaultAccessPolicy` para el estado del formulario.
-	 * @param {AccessPolicyDto} AccessPolicy - El objeto `AccessPolicyDto` a mapear.
-	 */
-	const mapAccessPolicyToState = useCallback((accessPolicy: AccessPolicyDto): void => {
-		setState({
-			id: accessPolicy.id,
-			name: accessPolicy.name,
-			cargoId: accessPolicy.cargoId ?? '',
-			departamentoId: accessPolicy.departamentoId ?? '',
-			permissionGroupId: accessPolicy.permissionGroupId,
-			priority: accessPolicy.priority,
-			updatedAt: accessPolicy?.updatedAt
-		})
-	}, [])
+	const [state, setState] = useState<DefaultAccessPolicy>(initialDataFromState || defaultState) // Estado local de la marca.
 
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
@@ -74,7 +68,12 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 			return
 		}
 
-		if (error?.message.includes('Recurso no encontrado.')) {
+		if (!id) {
+			navigate('/error', { replace: true })
+			return
+		}
+
+		if (error instanceof NotFoundError && error.statusCode === 404) {
 			setIsNotFound(true)
 		} else {
 			setIsNotFound(false)
@@ -82,13 +81,11 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 
-		if (location?.state?.accessPolicy) {
-			setState(location.state.accessPolicy)
-		} else if (accessPolicyData) {
+		if (accessPolicyData) {
 			// Si hay datos de la API, actualiza el estado con esos datos.
-			mapAccessPolicyToState(accessPolicyData)
+			setState(accessPolicyData)
 		}
-	}, [mode, accessPolicyData, location.state, defaultState, navigate, id, error])
+	}, [mode, error, accessPolicyData, location.state, defaultState, navigate, id])
 
 	/**
 	 * Resetea el estado del formulario a su valor inicial o a los datos obtenidos de la API en modo edición.
@@ -99,18 +96,20 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 		if (!location.pathname.includes('access-policiy')) return
 		if (mode === 'add') {
 			setState({
-				id: undefined,
-				...defaultState
+				...defaultState,
+				id: undefined
 			})
 			// Si el modo es agregar, resetea el estado al estado por defecto creando un nuevo objeto.
 		} else if (id) {
 			// Si el modo es editar, vuelve a obtener los datos de la marca de la API y actualiza el estado.
-			const { data } = await refetch()
-			if (data) {
-				mapAccessPolicyToState(data)
-			}
+			await refetch()
 		}
 	}, [defaultState, location.pathname, mode, refetch, id])
+
+	const onRetry = useCallback(() => {
+		setIsNotFound(false)
+		refetch()
+	}, [refetch, setIsNotFound])
 
 	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {
@@ -120,6 +119,6 @@ export function useAccessPolicyInitialState(defaultState: DefaultAccessPolicy): 
 		isError,
 		isNotFound,
 		resetState,
-		onRetry: refetch
+		onRetry
 	}
 }

@@ -6,10 +6,8 @@ import { ResetIcon } from '@/shared/ui/icon/ResetIcon'
 import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
 import { RightArrowIcon } from '@/shared/ui/icon/RightArrowIcon'
 import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
-import { FormSkeleton } from './FormSkeleton'
 import { FormFooter } from './FormFooter'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
-
 import { NotFoundState } from './NotFoundState'
 import { FormErrorState } from './FormErrorState'
 
@@ -53,8 +51,8 @@ export const FormComponent = memo(
 		isError,
 		isNotFound,
 		isSubmitting = false,
-		isDirty = false,
-		isReadOnly = true,
+		isDirty,
+		isReadOnly,
 		title,
 		subtitle,
 		...props
@@ -106,7 +104,7 @@ export const FormComponent = memo(
 					</header>
 				)}
 				<fieldset className="relative grid min-h-64 w-full gap-5">
-					{isLoading ? <FormSkeleton /> : children}
+					{children}
 					<div className="mt-8 flex flex-col justify-end gap-5 justify-self-end md:w-1/3 md:flex-row">
 						<Button
 							color={method === 'form' ? 'green' : 'blue'}

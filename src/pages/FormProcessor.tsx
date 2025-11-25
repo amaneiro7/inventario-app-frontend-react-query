@@ -6,6 +6,7 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { ProcessorFormSkeletonLayout } from '@/entities/devices/features/processor/infra/ui/ProcessorFormLayoutSkeleton.tsx'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const ProcessorInputs = lazy(() =>
 	import('@/entities/devices/features/processor/infra/ui/ProcessorInputs').then(m => ({
@@ -65,6 +66,7 @@ export default function FormProcessor() {
 					isSubmitting={isSubmitting}
 					isDirty={hasChanges}
 					lastUpdated={formData?.updatedAt}
+					isLoading={isLoading}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
@@ -72,7 +74,11 @@ export default function FormProcessor() {
 					reset={mode === 'edit' ? resetForm : undefined}
 					url="/form/processor/add"
 					border
-					searchInput={<ProcessorSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<ProcessorSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<ProcessorFormSkeletonLayout />}>
 						<ProcessorInputs

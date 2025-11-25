@@ -105,8 +105,7 @@ export const ProcessorInputs = memo(
 						step={0.01}
 					/>
 					<Checkbox
-						label="Tiene threads"
-						text="¿Tiene threads?"
+						text="Multihilo (Threads)"
 						name="threads"
 						value={formData.threads}
 						readOnly={!canEdit}
