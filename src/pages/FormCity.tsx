@@ -4,6 +4,8 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { CityFormSkeletonLayout } from '@/entities/locations/city/infra/ui/CityFormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -18,18 +20,21 @@ const CitySearch = lazy(() =>
 export default function FormCity() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
-		required,
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
+		required,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateCity()
+	const canEdit = useHasPermission(PERMISSIONS.CITIES.UPDATE)
 
 	return (
 		<Suspense
@@ -53,10 +58,15 @@ export default function FormCity() {
 					description="Ingrese los datos de la ciudad el cual desea registar."
 					isAddForm={mode === 'add'}
 					handleSubmit={handleSubmit}
+					canEdit={canEdit}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					lastUpdated={formData?.updatedAt}
+					isLoading={isLoading}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/city/add"
 					border
 					searchInput={<CitySearch />}
@@ -65,6 +75,7 @@ export default function FormCity() {
 						<CityInputs
 							isLoading={isLoading}
 							required={required}
+							canEdit={canEdit}
 							formData={formData}
 							handleChange={handleChange}
 							errors={errors}

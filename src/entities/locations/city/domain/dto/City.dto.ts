@@ -18,4 +18,5 @@ export type CityParams = CityPrimitives & {
 
 export type CityDto = City & {
 	state: StateDto
+	updatedAt?: string
 }

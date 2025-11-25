@@ -27,12 +27,13 @@ interface CityInputsProps {
 	formData: DefaultCity
 	errors: CityErrors
 	isLoading: boolean
+	canEdit: boolean
 	required: CityRequired
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
 export const CityInputs = memo(
-	({ errors, required, formData, handleChange, isLoading = false }: CityInputsProps) => {
+	({ errors, required, formData, canEdit, handleChange, isLoading = false }: CityInputsProps) => {
 		return (
 			<>
 				<AdministrativeRegionCombobox
@@ -41,6 +42,7 @@ export const CityInputs = memo(
 					name="administrativeRegionId"
 					isLoading={isLoading}
 					required={required.administrativeRegionId}
+					readonly={!canEdit}
 				/>
 
 				<RegionCombobox
@@ -50,6 +52,7 @@ export const CityInputs = memo(
 					administrativeRegionId={formData.administrativeRegionId}
 					isLoading={isLoading}
 					required={required.regionId}
+					readonly={!canEdit}
 				/>
 
 				<StateCombobox
@@ -59,6 +62,7 @@ export const CityInputs = memo(
 					name="stateId"
 					regionId={formData.regionId}
 					required={required.stateId}
+					readonly={!canEdit}
 				/>
 
 				<Input
@@ -73,6 +77,7 @@ export const CityInputs = memo(
 					error={!!errors?.name}
 					errorMessage={errors?.name}
 					required={required.name}
+					readOnly={!canEdit}
 				/>
 			</>
 		)

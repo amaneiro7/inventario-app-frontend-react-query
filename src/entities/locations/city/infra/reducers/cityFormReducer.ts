@@ -4,6 +4,7 @@ import { CityName } from '../../domain/value-object/CityName'
 export interface DefaultCity extends CityParams {
 	regionId: CityDto['state']['regionId']
 	administrativeRegionId: CityDto['state']['region']['administrativeRegionId']
+	updatedAt?: string
 }
 
 export interface CityErrors {
@@ -19,7 +20,7 @@ export interface CityRequired {
 export interface State {
 	formData: DefaultCity
 	errors: CityErrors
-	required: CityRequired
+	required?: CityRequired
 }
 
 export const initialCityState: State = {
@@ -28,7 +29,8 @@ export const initialCityState: State = {
 		name: '',
 		stateId: '',
 		regionId: '',
-		administrativeRegionId: ''
+		administrativeRegionId: '',
+		updatedAt: undefined
 	},
 	errors: {
 		name: ''
