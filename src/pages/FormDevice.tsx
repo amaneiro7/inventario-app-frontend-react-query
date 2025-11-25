@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { DeviceFormSkeletonLayout } from '@/entities/devices/devices/infra/ui/DeviceForm/DeviceFormLayoutSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -31,14 +34,17 @@ export default function FormDevice() {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleLocation,
 		handleMemory,
 		handleModel,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateDevice()
+	const canEdit = useHasPermission(PERMISSIONS.DEVICES.UPDATE)
 
 	return (
 		<Suspense
@@ -61,18 +67,27 @@ export default function FormDevice() {
 					id={key}
 					description="Ingrese los datos del dispositivo el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					searchInput={<SerialSearch />}
-					reset={mode === 'edit' ? resetForm : undefined}
-					lastUpdated={formData.updatedAt}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					updatedBy={formData.history}
 					url="/form/device/add"
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<SerialSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<DeviceFormSkeletonLayout />}>
 						<DeviceInputs
+							canEdit={canEdit}
 							formData={formData}
 							errors={errors}
 							required={required}

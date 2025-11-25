@@ -1,7 +1,8 @@
-import { useQueryClient } from '@tanstack/react-query'
-import { useCallback, useLayoutEffect, useReducer } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
+import { isDeepEqual } from '@/shared/lib/utils/isDeepEqual'
+import { queryClient } from '@/shared/lib/queryCliente'
 import {
 	type Action,
 	type DefaultDevice,
@@ -10,8 +11,10 @@ import {
 } from '../reducers/devicesFormReducer'
 import { DeviceCreator } from '../../application/DeviceCreator'
 import { DeviceSaveService } from '../service/deviceSave.service'
-import { useDeviceInitialState } from './useDeviceInitialState'
-import { type Params } from '../../domain/dto/Device.dto'
+import { useDeviceInitialData } from './useDeviceInitialData'
+
+const repository = new DeviceSaveService()
+const deviceCreator = new DeviceCreator(repository, useAuthStore.getState().events)
 
 /**
  * `useCreateDevice`
@@ -26,7 +29,7 @@ import { type Params } from '../../domain/dto/Device.dto'
  * @property {DevicesErrors} errors - Los errores de validación del formulario.
  * @property {DeviceRequired} required - Indica qué campos son requeridos.
  * @property {DevicesDisabled} disabled - Indica qué campos están deshabilitados.
- * @property {() => void} resetForm - Función para resetear el formulario a su estado inicial.
+ * @property {() => void} discardChanges - Función para resetear el formulario a su estado inicial.
  * @property {(event: React.FormEvent) => Promise<void>} handleSubmit - Función para manejar el envío del formulario.
  * @property {(name: Action['type'], value: string | number | boolean) => void} handleChange - Función para manejar los cambios en los campos del formulario.
  * @property {(props: { value: string; memoryRamSlotQuantity?: number; memoryRamType?: string; generic?: boolean }) => Promise<void>} handleModel - Función para manejar cambios en el modelo del dispositivo.
@@ -34,20 +37,12 @@ import { type Params } from '../../domain/dto/Device.dto'
  * @property {(value: string, index: number) => Promise<void>} handleMemory - Función para manejar cambios en la memoria RAM.
  */
 export function useCreateDevice(defaultState?: DefaultDevice) {
-	const queryClient = useQueryClient()
-	const key = `device${initialDeviceState?.formData?.id ? initialDeviceState.formData.id : ''}`
-	const { events } = useAuthStore.getState()
+	const [isSubmitting, setIsSubmitting] = useState(false)
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useDeviceInitialData(defaultState ?? initialDeviceState.formData)
 
-	const create = useCallback(
-		async (formData: Params) => {
-			return await new DeviceCreator(new DeviceSaveService(), events).create(formData)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useDeviceInitialState(defaultState ?? initialDeviceState.formData)
-	const prevState = usePrevious(initialState)
+	const key = `device-${initialData?.id ? initialData.id : 'new'}`
+	const prevState = usePrevious(initialData)
 
 	const [{ errors, required, disabled, formData }, dispatch] = useReducer(
 		devicesFormReducer,
@@ -57,16 +52,24 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 	useLayoutEffect(() => {
 		dispatch({
 			type: 'init',
-			payload: { formData: structuredClone(initialState) }
+			payload: { formData: structuredClone(initialData) }
 		})
-	}, [initialState])
+	}, [initialData])
 
-	const resetForm = useCallback(() => {
+	const discardChanges = useCallback(() => {
 		dispatch({
 			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
+			payload: { formData: structuredClone(prevState ?? initialData) }
 		})
-	}, [prevState, initialState])
+	}, [prevState, initialData])
+
+	const hasChanges: boolean = useMemo(() => {
+		if (!initialData || !formData) {
+			return false
+		}
+
+		return !isDeepEqual(formData, initialData)
+	}, [formData, initialData, isDeepEqual])
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback(async (name: Action['type'], value: any) => {
@@ -122,14 +125,26 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		dispatch({ type: 'memoryRam', payload: { value, index } })
 	}, [])
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData as never).then(() => {
-			queryClient.invalidateQueries({ queryKey: ['devices'] })
-			resetState()
-		})
-	}
+	const handleSubmit = useCallback(
+		async (event: React.FormEvent) => {
+			event.preventDefault()
+			event.stopPropagation()
+			setIsSubmitting(true)
+			const hasValidationErrors = Object.values(errors).some(error => error !== '')
+			if (hasValidationErrors || !hasChanges) {
+				setIsSubmitting(false)
+				return
+			}
+			try {
+				await deviceCreator.create(formData as never)
+				queryClient.invalidateQueries({ queryKey: ['devices'] })
+				refreshInitialData()
+			} finally {
+				setIsSubmitting(false)
+			}
+		},
+		[formData, errors, hasChanges, refreshInitialData, deviceCreator]
+	)
 
 	return {
 		key,
@@ -141,8 +156,10 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		isError,
 		isLoading,
 		isNotFound,
+		isSubmitting,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange,
 		handleModel,

@@ -10,11 +10,12 @@ interface AddMFPFeaturesProps {
 	error: DevicesErrors['ipAddress']
 	ipAddress: DefaultDevice['ipAddress']
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
 export const AddMFPFeatures = memo(
-	({ ipAddress, error, isLoading, handleChange }: AddMFPFeaturesProps) => {
+	({ ipAddress, error, isLoading, canEdit, handleChange }: AddMFPFeaturesProps) => {
 		return (
 			<Input
 				id="mfp-ipaddress"
@@ -22,6 +23,8 @@ export const AddMFPFeatures = memo(
 				name="ipAddress"
 				isLoading={isLoading}
 				label="Dirección IP"
+				readOnly={!canEdit}
+				type="text"
 				onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 					handleChange('ipAddress', e.target.value)
 				}

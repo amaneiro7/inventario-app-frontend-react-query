@@ -29,6 +29,7 @@ interface DeviceInputsProps {
 	disabled: DevicesDisabled
 	mode: FormMode
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: any) => Promise<void>
 	handleLocation: ({
 		value,
@@ -59,6 +60,7 @@ export function DeviceInputs({
 	disabled,
 	required,
 	mode,
+	canEdit,
 	isLoading,
 	handleChange,
 	handleLocation,
@@ -78,6 +80,7 @@ export function DeviceInputs({
 						handleChange={handleChange}
 						handleLocation={handleLocation}
 						mode={mode}
+						canEdit={canEdit}
 						isLoading={isLoading}
 						statusId={formData.statusId}
 						locationId={formData.locationId}
@@ -117,6 +120,7 @@ export function DeviceInputs({
 						handleChange={handleChange}
 						handleModel={handleModel}
 						mode={mode}
+						canEdit={canEdit}
 						isLoading={isLoading}
 						statusId={formData.statusId}
 						mainCategoryId={formData.mainCategoryId}
@@ -146,6 +150,7 @@ export function DeviceInputs({
 			<AddtionalFeatures
 				formData={formData}
 				errors={errors}
+				canEdit={canEdit}
 				required={required}
 				disabled={disabled}
 				handleChange={handleChange}

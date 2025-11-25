@@ -54,7 +54,7 @@ export interface DefaultDevice {
 	updatedAt?: DeviceDto['updatedAt']
 }
 
-export interface DevicesErrors {
+export interface DevicesErrors extends Record<string, string> {
 	statusId: string
 	categoryId: string
 	mainCategoryId: string
@@ -79,7 +79,7 @@ export interface DevicesErrors {
 	health: string
 }
 
-export interface DevicesDisabled {
+export interface DevicesDisabled extends Record<string, boolean> {
 	statusId: boolean
 	mainCategoryId: boolean
 	categoryId: boolean
@@ -104,7 +104,7 @@ export interface DevicesDisabled {
 	health: boolean
 }
 
-export interface DeviceRequired {
+export interface DeviceRequired extends Record<string, boolean> {
 	statusId: boolean
 	mainCategoryId: boolean
 	categoryId: boolean

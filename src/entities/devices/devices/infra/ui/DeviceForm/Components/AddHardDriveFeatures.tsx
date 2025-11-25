@@ -15,6 +15,7 @@ interface AddHardDriveFeaturesProps {
 	health: DefaultDevice['health']
 	errorsHealth: DevicesErrors['health']
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
@@ -25,6 +26,7 @@ export const AddHardDriveFeatures = memo(
 		hardDriveTypeId,
 		health,
 		isLoading,
+		canEdit,
 		handleChange
 	}: AddHardDriveFeaturesProps) => {
 		return (
@@ -42,6 +44,7 @@ export const AddHardDriveFeatures = memo(
 					error={!!errorsHealth}
 					errorMessage={errorsHealth}
 					required
+					readOnly={!canEdit}
 					min={HardDriveHealth.MIN}
 					max={HardDriveHealth.MAX}
 				/>
@@ -52,6 +55,7 @@ export const AddHardDriveFeatures = memo(
 					name="hardDriveCapacityId"
 					isLoading={isLoading}
 					required
+					readonly={!canEdit}
 				/>
 
 				<HardDriveTypeCombobox
@@ -60,6 +64,7 @@ export const AddHardDriveFeatures = memo(
 					name="hardDriveTypeId"
 					isLoading={isLoading}
 					required
+					readonly={!canEdit}
 				/>
 			</div>
 		)

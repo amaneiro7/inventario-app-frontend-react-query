@@ -28,6 +28,7 @@ interface AddtionalFeaturesProps {
 	required: DeviceRequired
 	disabled: DevicesDisabled
 	isLoading: boolean
+	canEdit: boolean
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	handleChange: (name: Action['type'], value: any) => Promise<void>
 	handleMemory: (value: string, index: number) => Promise<void>
@@ -37,6 +38,7 @@ export function AddtionalFeatures({
 	formData,
 	disabled,
 	errors,
+	canEdit,
 	required,
 	isLoading,
 	handleChange,
@@ -55,6 +57,7 @@ export function AddtionalFeatures({
 							processorId={formData.processorId}
 							modelId={formData.modelId}
 							isLoading={isLoading}
+							canEdit={canEdit}
 							memoryRam={formData.memoryRam}
 							memoryRamCapacity={formData.memoryRamCapacity}
 							memoryRamType={formData.memoryRamType}
@@ -104,6 +107,7 @@ export function AddtionalFeatures({
 					<Suspense fallback={<AddMFPFeaturesSkeleton />}>
 						<AddMFPFeatures
 							ipAddress={formData.ipAddress}
+							canEdit={canEdit}
 							handleChange={handleChange}
 							error={errors.ipAddress}
 							isLoading={isLoading}
@@ -120,6 +124,7 @@ export function AddtionalFeatures({
 							errorsHealth={errors.health}
 							handleChange={handleChange}
 							isLoading={isLoading}
+							canEdit={canEdit}
 						/>
 					</Suspense>
 				)

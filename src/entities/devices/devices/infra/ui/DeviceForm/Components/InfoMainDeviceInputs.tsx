@@ -23,6 +23,7 @@ const LocationCombobox = lazy(() =>
 // import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip'
 interface InfoMainDeviceInputsProps {
 	isLoading: boolean
+	canEdit: boolean
 	mode: FormMode
 	serial: DefaultDevice['serial']
 	activo: DefaultDevice['activo']
@@ -91,6 +92,7 @@ export const InfoMainDeviceInputs = memo(
 		requiredStockNumber,
 		requiredObservation,
 		mode,
+		canEdit,
 		isLoading,
 		handleLocation,
 		handleChange
@@ -107,7 +109,7 @@ export const InfoMainDeviceInputs = memo(
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('serial', e.target.value)
 						}
-						readOnly={mode === 'edit'}
+						readOnly={mode === 'edit' || !canEdit}
 						error={!!errorSerial}
 						errorMessage={errorSerial}
 						required={requiredSerial}
@@ -135,6 +137,7 @@ export const InfoMainDeviceInputs = memo(
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('activo', e.target.value)
 					}
+					readOnly={!canEdit}
 					error={!!errorActivo}
 					errorMessage={errorActivo}
 					required={requiredActivo}
@@ -146,6 +149,7 @@ export const InfoMainDeviceInputs = memo(
 					handleChange={(_name, value) => handleChange('employeeId', value)}
 					name="employeeId"
 					isLoading={isLoading}
+					readonly={!canEdit}
 					error={errorEmployeeId}
 					required={requiredEmployeeId}
 					disabled={disabledEmployeeId}
@@ -156,6 +160,7 @@ export const InfoMainDeviceInputs = memo(
 					statusId={statusId}
 					handleFormChange={handleLocation}
 					name="locationId"
+					readonly={!canEdit}
 					isLoading={isLoading}
 					method="form"
 					error={errorLocationId}
@@ -170,6 +175,7 @@ export const InfoMainDeviceInputs = memo(
 						name="stockNumber"
 						isLoading={isLoading}
 						label="N° de Stock"
+						readOnly={!canEdit}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('stockNumber', e.target.value)
 						}
@@ -184,6 +190,7 @@ export const InfoMainDeviceInputs = memo(
 					value={observation ?? ''}
 					name="observation"
 					isLoading={isLoading}
+					readOnly={!canEdit}
 					label="Observación"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('observation', e.target.value)

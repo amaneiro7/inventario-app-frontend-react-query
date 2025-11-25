@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { DirectivaFormSkeletonLayout } from '@/entities/employee/directiva/infra/ui/DirectivaFormLayoutSkeleton.tsx'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -22,18 +25,21 @@ const DirectivaSearch = lazy(() =>
 export default function FormDirectiva() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
 		isError,
 		isLoading,
 		isNotFound,
-		onRetry,
+		hasChanges,
 		required,
+		isSubmitting,
+		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateDirectiva()
+	const canEdit = useHasPermission(PERMISSIONS.DIRECTIVAS.UPDATE)
 
 	return (
 		<Suspense
@@ -56,17 +62,27 @@ export default function FormDirectiva() {
 					id={key}
 					description="Ingrese los datos de la directiva el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
+					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/directiva/add"
 					border
-					searchInput={<DirectivaSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<DirectivaSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<DirectivaFormSkeletonLayout />}>
 						<DirectivaInputs
+							canEdit={canEdit}
 							required={required}
 							isLoading={isLoading}
 							formData={formData}

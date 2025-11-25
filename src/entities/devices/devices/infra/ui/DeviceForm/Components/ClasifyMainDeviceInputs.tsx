@@ -34,6 +34,7 @@ const ModelCombobox = lazy(() =>
 interface ClasifyMainDeviceInputsProps {
 	mode: FormMode
 	isLoading: boolean
+	canEdit: boolean
 	statusId: DefaultDevice['statusId']
 	mainCategoryId: DefaultDevice['mainCategoryId']
 	categoryId: DefaultDevice['categoryId']
@@ -72,6 +73,7 @@ export const ClasifyMainDeviceInputs = memo(
 	({
 		mode,
 		isLoading,
+		canEdit,
 		statusId,
 		mainCategoryId,
 		categoryId,
@@ -105,6 +107,7 @@ export const ClasifyMainDeviceInputs = memo(
 					error={errorStatusId}
 					required={requiredStatusId}
 					disabled={disabledStatusId}
+					readonly={!canEdit}
 				/>
 
 				<MainCategoryCombobox
@@ -115,7 +118,7 @@ export const ClasifyMainDeviceInputs = memo(
 					error={errorMainCategoryId}
 					required={requiredMainCategoryId}
 					disabled={disabledMainCategoryId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 				/>
 
 				<CategoryCombobox
@@ -127,7 +130,7 @@ export const ClasifyMainDeviceInputs = memo(
 					error={errorCategoryId}
 					required={requiredCategoryId}
 					disabled={disabledCategoryId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 				/>
 
 				<BrandCombobox
@@ -139,7 +142,7 @@ export const ClasifyMainDeviceInputs = memo(
 					required={requiredBrandId}
 					disabled={disabledBrandId}
 					categoryId={categoryId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 				/>
 
 				<ModelCombobox
@@ -150,7 +153,7 @@ export const ClasifyMainDeviceInputs = memo(
 					name="modelId"
 					isLoading={isLoading}
 					method="form"
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 					error={errorModelId}
 					required={requiredModelId}
 					disabled={disabledModelId}

@@ -80,12 +80,13 @@ interface AddComputerFeaturesProps {
 	requiredIpAddress: DeviceRequired['ipAddress']
 	requiredMacAddress: DeviceRequired['macAddress']
 	isLoading: boolean
+	canEdit: boolean
 	handleMemory: (value: string, index: number) => void
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
 export const AddComputerFeatures = memo(
-	({ handleChange, handleMemory, isLoading, ...props }: AddComputerFeaturesProps) => {
+	({ handleChange, handleMemory, canEdit, isLoading, ...props }: AddComputerFeaturesProps) => {
 		return (
 			<>
 				<Input
@@ -94,6 +95,7 @@ export const AddComputerFeatures = memo(
 					name="computerName"
 					isLoading={isLoading}
 					label="Nombre de equipo"
+					readOnly={!canEdit}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('computerName', e.target.value)
 					}
@@ -109,6 +111,7 @@ export const AddComputerFeatures = memo(
 						name="ipAddress"
 						isLoading={isLoading}
 						label="Dirección IP"
+						readOnly={!canEdit}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('ipAddress', e.target.value)
 						}
@@ -123,6 +126,7 @@ export const AddComputerFeatures = memo(
 						name="macAddress"
 						isLoading={isLoading}
 						label="Dirección MAC"
+						readOnly={!canEdit}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('macAddress', e.target.value)
 						}
@@ -139,6 +143,7 @@ export const AddComputerFeatures = memo(
 					name="processorId"
 					isLoading={isLoading}
 					modelId={props.modelId}
+					readonly={!canEdit}
 					error={props.errorsProcessorId}
 					required={props.requiredProcessorId}
 					disabled={props.disabledProcessorId}
@@ -151,6 +156,7 @@ export const AddComputerFeatures = memo(
 									<MemoryRamCapacitySlotInput
 										key={`memRam-${index}`}
 										index={index}
+										readOnly={!canEdit}
 										onChange={handleMemory}
 										value={props.memoryRam[index]}
 										isLoading={isLoading}
@@ -200,6 +206,7 @@ export const AddComputerFeatures = memo(
 							}
 							name="hardDriveCapacityId"
 							isLoading={isLoading}
+							readonly={!canEdit}
 							error={props.errorsHardDriveCapacityId}
 							required={props.requiredHardDriveCapacityId}
 							disabled={props.disabledHardDriveCapacityId}
@@ -211,6 +218,7 @@ export const AddComputerFeatures = memo(
 							handleChange={(_name, value) => handleChange('hardDriveTypeId', value)}
 							name="hardDriveTypeId"
 							isLoading={isLoading}
+							readonly={!canEdit}
 							error={props.errorsHardDriveTypeId}
 							required={props.requiredHardDriveTypeId}
 							disabled={props.disabledHardDriveTypeId}
@@ -226,6 +234,7 @@ export const AddComputerFeatures = memo(
 							}
 							name="operatingSystemId"
 							isLoading={isLoading}
+							readonly={!canEdit}
 							error={props.errorsOperatingSystemId}
 							required={props.requiredOperatingSystemId}
 							disabled={props.disabledOperatingSystemId}
@@ -239,6 +248,7 @@ export const AddComputerFeatures = memo(
 							}
 							name="operatingSystemArqId"
 							isLoading={isLoading}
+							readonly={!canEdit}
 							error={props.errorsOperatingSystemArqId}
 							required={props.requiredOperatingSystemArqId}
 							disabled={props.disabledOperatingSystemArqId}
