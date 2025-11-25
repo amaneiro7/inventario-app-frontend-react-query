@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react'
+import { queryClient } from '../queryCliente'
 import {
 	type InitialFormState,
 	type TStateWithId,
 	useGenericFormState
 } from './useGenericFormState' // Asume que este hook ya existe
-import { queryClient } from '../queryCliente'
 
 export function useFormHandler<
 	TState extends TStateWithId,
@@ -32,8 +32,16 @@ export function useFormHandler<
 	const key = `${entityName}-${initialData?.id ? initialData.id : 'new'}`
 
 	// 2. Lógica Genérica de Estado (isDirty, resetForm, handleChange, formData, errors)
-	const { formData, errors, hasChanges, handleChange, dispatch, discardChanges } =
-		useGenericFormState<TState, TAction>({ initialState, reducer, initialData })
+	const {
+		formData,
+		errors,
+		hasChanges,
+		disabled,
+		required,
+		handleChange,
+		dispatch,
+		discardChanges
+	} = useGenericFormState<TState, TAction>({ initialState, reducer, initialData })
 
 	// 💡 3. Función Submit (Reutilizable)
 	const handleSubmit = useCallback(
@@ -67,6 +75,8 @@ export function useFormHandler<
 		key,
 		isSubmitting,
 		formData,
+		disabled,
+		required,
 		errors,
 		hasChanges,
 		// Funciones

@@ -1,5 +1,6 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
 import { usePrevious } from './usePrevious'
+import { isDeepEqual } from '../utils/isDeepEqual'
 
 export type TStateWithId = { id?: string | number; [key: string]: any }
 
@@ -7,11 +8,11 @@ export type InitialFormState<TState> = {
 	// Propiedades requeridas y fuertemente tipadas
 	formData: TState
 	errors: any // o un tipo de errores más específico, si lo tienes
-
+	required?: any
+	disabled?: any
 	// 💡 Propiedad índice para permitir CUALQUIER otra propiedad
 	// Esto le dice a TypeScript que cualquier clave de cadena adicional es válida,
 	// pero no perderá la tipificación estricta de formData y errors.
-	[key: string]: any
 }
 
 /**
@@ -33,8 +34,7 @@ export function useGenericFormState<
 	initialData: TState
 }) {
 	const prevState = usePrevious(initialData)
-	const [isSubmitting, setIsSubmitting] = useState(false)
-	const [{ errors, formData }, dispatch] = useReducer(reducer, initialState)
+	const [{ errors, formData, disabled, required }, dispatch] = useReducer(reducer, initialState)
 
 	// 1. Sincronización del estado de la API (initialData) con el estado local del reducer
 	useLayoutEffect(() => {
@@ -46,17 +46,12 @@ export function useGenericFormState<
 	}, [initialData, reducer]) // Depende de initialData
 
 	// 2. Lógica hasChanges (isDirty)
-	const hasChanges = useMemo(() => {
+	const hasChanges: boolean = useMemo(() => {
 		if (!initialData || !formData) {
 			return false
 		}
-
-		// Comparamos las claves para ver si hay diferencias.
-		return Object.keys(initialData).some(key => {
-			// Se requiere tipado genérico y manejo de la aserción de tipos
-			return (initialData as any)[key] !== (formData as any)[key]
-		})
-	}, [formData, initialData])
+		return !isDeepEqual(formData, initialData)
+	}, [formData, initialData, isDeepEqual])
 
 	// 3. Función Reset
 	const discardChanges = useCallback(() => {
@@ -79,8 +74,8 @@ export function useGenericFormState<
 		formData,
 		errors,
 		hasChanges,
-		isSubmitting,
-		setIsSubmitting,
+		disabled,
+		required,
 		discardChanges,
 		handleChange,
 		dispatch // Permitimos la acción directa para casos complejos
