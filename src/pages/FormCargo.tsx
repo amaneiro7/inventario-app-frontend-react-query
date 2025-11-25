@@ -4,6 +4,9 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { CargoFormSkeletonLayout } from '@/entities/employee/cargo/infra/ui/CargoFormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -18,20 +21,22 @@ const CargoSearch = lazy(() =>
 export default function FormCargo() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
-		required,
 		disabled,
+		required,
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateCargo()
-
+	const canEdit = useHasPermission(PERMISSIONS.CARGOS.UPDATE)
 	return (
 		<Suspense
 			fallback={
@@ -53,20 +58,29 @@ export default function FormCargo() {
 					id={key}
 					description="Ingrese los datos del Cargo el cual desea registar."
 					isAddForm={mode === 'add'}
+					canEdit={canEdit}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					lastUpdated={formData?.updatedAt}
+					isLoading={isLoading}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/cargo/add"
 					border
-					lastUpdated={formData.updatedAt}
-					searchInput={<CargoSearch />}
+					searchInput={
+						<Suspense fallback={<InputFallback />}>
+							<CargoSearch />
+						</Suspense>
+					}
 				>
 					<Suspense fallback={<CargoFormSkeletonLayout />}>
 						<CargoInputs
 							isLoading={isLoading}
 							required={required}
+							canEdit={canEdit}
 							formData={formData}
 							disabled={disabled}
 							handleChange={handleChange}

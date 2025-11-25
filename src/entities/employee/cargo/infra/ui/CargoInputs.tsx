@@ -9,28 +9,12 @@ import {
 } from '@/entities/employee/cargo/infra/reducers/cargoFormReducer'
 
 interface CargoInputsProps {
-	/**
-	 * The current form data for the cargo.
-	 */
 	formData: DefaultCargo
 	isLoading: boolean
-	/**
-	 * An object containing validation errors for each form field.
-	 */
+	canEdit: boolean
 	errors: CargoErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: CargoRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: CargoDisabled
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
@@ -46,6 +30,7 @@ export const CargoInputs = memo(
 		disabled,
 		formData,
 		isLoading = false,
+		canEdit,
 		handleChange
 	}: CargoInputsProps) => {
 		return (
@@ -63,6 +48,7 @@ export const CargoInputs = memo(
 					errorMessage={errors?.name}
 					required={required.name}
 					disabled={disabled.name}
+					readOnly={!canEdit}
 				/>
 			</>
 		)
