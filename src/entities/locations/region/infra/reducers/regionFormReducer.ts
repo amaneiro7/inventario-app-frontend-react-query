@@ -2,16 +2,17 @@ import { type RegionDto, type RegionParams } from '../../domain/dto/region.dto'
 
 export interface DefaultRegion extends RegionParams {
 	administrativeRegionId: RegionDto['administrativeRegionId']
+	updatedAt?: string
 }
 
-export interface RegionErrors {
+export interface RegionErrors extends Record<string, string> {
 	name: string
 }
-export interface RegionRequired {
+export interface RegionRequired extends Record<string, boolean> {
 	name: boolean
 	administrativeRegionId: boolean
 }
-export interface RegionDisabled {
+export interface RegionDisabled extends Record<string, boolean> {
 	name: boolean
 	administrativeRegionId: boolean
 }
@@ -27,7 +28,8 @@ export const initialRegionState: State = {
 	formData: {
 		id: undefined,
 		name: '',
-		administrativeRegionId: ''
+		administrativeRegionId: '',
+		updatedAt: undefined
 	},
 	errors: {
 		name: ''

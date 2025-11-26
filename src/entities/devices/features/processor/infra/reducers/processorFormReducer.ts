@@ -14,16 +14,30 @@ export interface DefaultProcessor {
 	updatedAt?: ProcessorDto['updatedAt']
 }
 
-export interface ProcessorsErrors {
+export interface ProcessorsErrors extends Record<string, string> {
 	productCollection: string
 	numberModel: string
 	cores: string
 	frequency: string
 }
+export interface ProcessorsRequired extends Record<string, boolean> {
+	productCollection: boolean
+	numberModel: boolean
+	cores: boolean
+	frequency: boolean
+}
+export interface ProcessorsDisabled extends Record<string, boolean> {
+	productCollection: boolean
+	numberModel: boolean
+	cores: boolean
+	frequency: boolean
+}
 
 export interface State {
-	formData: DefaultProcessor & {}
+	formData: DefaultProcessor
 	errors: ProcessorsErrors
+	required: ProcessorsRequired
+	disabled: ProcessorsDisabled
 }
 
 export const initialProcessorState: State = {
@@ -40,6 +54,18 @@ export const initialProcessorState: State = {
 		numberModel: '',
 		cores: '',
 		frequency: ''
+	},
+	disabled: {
+		productCollection: false,
+		numberModel: false,
+		cores: false,
+		frequency: false
+	},
+	required: {
+		productCollection: true,
+		numberModel: true,
+		cores: true,
+		frequency: true
 	}
 }
 

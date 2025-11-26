@@ -30,13 +30,15 @@ export default function FormPermission() {
 		errors,
 		isError,
 		isLoading,
-		// hasChanges,
-		// isSubmitting,
+		hasChanges,
+		isSubmitting,
 		isNotFound,
+		required,
+		disabled,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreatePermission()
 	const canEdit = useHasPermission(PERMISSIONS.PERMISSIONS.UPDATE)
 	return (
@@ -69,7 +71,7 @@ export default function FormPermission() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/permission/add"
 					border
 					searchInput={
@@ -82,6 +84,8 @@ export default function FormPermission() {
 						<PermissionInputs
 							formData={formData}
 							canEdit={canEdit}
+							required={required}
+							disabled={disabled}
 							isLoading={isLoading}
 							handleChange={handleChange}
 							errors={errors}

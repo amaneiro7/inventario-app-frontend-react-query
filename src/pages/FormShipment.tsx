@@ -42,7 +42,9 @@ export default function FormShipment() {
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges,
+		hasChanges,
+		isSubmitting
 	} = useCreateShipment()
 	const canEdit = useHasPermission(PERMISSIONS.SHIPMENTS.UPDATE)
 	return (
@@ -86,7 +88,7 @@ export default function FormShipment() {
 								isError={isError}
 								isNotFound={isNotFound}
 								onRetry={onRetry}
-								reset={mode === 'edit' ? resetForm : undefined}
+								reset={mode === 'edit' ? discardChanges : undefined}
 								url="/form/shipment/add"
 								border
 								searchInput={

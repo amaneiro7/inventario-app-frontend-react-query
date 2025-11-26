@@ -18,4 +18,5 @@ export type RegionParams = RegionPrimitives & {
 
 export type RegionDto = Region & {
 	administrativeRegion: AdministrativeRegionDto
+	updatedAt?: string
 }

@@ -29,10 +29,12 @@ export default function FormSite() {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateSite()
 	const canEdit = useHasPermission(PERMISSIONS.SITES.UPDATE)
 
@@ -66,7 +68,7 @@ export default function FormSite() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/site/add"
 					border
 					searchInput={

@@ -20,11 +20,20 @@ interface RegionInputsProps {
 	required: RegionRequired
 	disabled: RegionDisabled
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
 export const RegionInputs = memo(
-	({ errors, required, disabled, formData, isLoading, handleChange }: RegionInputsProps) => {
+	({
+		errors,
+		required,
+		disabled,
+		formData,
+		canEdit,
+		isLoading,
+		handleChange
+	}: RegionInputsProps) => {
 		return (
 			<>
 				<AdministrativeRegionCombobox
@@ -32,6 +41,7 @@ export const RegionInputs = memo(
 					handleChange={(_name, value) => handleChange('administrativeRegionId', value)}
 					name="administrativeRegionId"
 					isLoading={isLoading}
+					readonly={!canEdit}
 					required={required.administrativeRegionId}
 					disabled={disabled.administrativeRegionId}
 				/>
@@ -42,6 +52,7 @@ export const RegionInputs = memo(
 					isLoading={isLoading}
 					label="Nombre de la region"
 					error={!!errors?.name}
+					readOnly={!canEdit}
 					errorMessage={errors?.name}
 					required={required.name}
 					disabled={disabled.name}

@@ -30,11 +30,12 @@ interface SiteInputsProps {
 	required: SiteRequired
 	mode: FormMode
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string | number) => void
 }
 
 export const SiteInputs = memo(
-	({ errors, mode, required, formData, isLoading, handleChange }: SiteInputsProps) => {
+	({ errors, mode, required, canEdit, formData, isLoading, handleChange }: SiteInputsProps) => {
 		return (
 			<>
 				<RegionCombobox
@@ -43,7 +44,7 @@ export const SiteInputs = memo(
 					name="regionId"
 					isLoading={isLoading}
 					required={required.regionId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 				/>
 				<StateCombobox
 					value={formData.stateId}
@@ -52,7 +53,7 @@ export const SiteInputs = memo(
 					isLoading={isLoading}
 					regionId={formData.regionId}
 					required={required.stateId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 				/>
 				<CityCombobox
 					value={formData.cityId}
@@ -62,7 +63,7 @@ export const SiteInputs = memo(
 					regionId={formData.regionId}
 					stateId={formData.stateId}
 					required={required.stateId}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 				/>
 				<Input
 					id="site-address"
@@ -76,6 +77,7 @@ export const SiteInputs = memo(
 					error={!!errors?.address}
 					errorMessage={errors?.address}
 					required={required.address}
+					readOnly={!canEdit}
 				/>
 				<Input
 					id="site-name"
@@ -89,6 +91,7 @@ export const SiteInputs = memo(
 					error={!!errors?.name}
 					errorMessage={errors?.name}
 					required={required.name}
+					readOnly={!canEdit}
 				/>
 			</>
 		)

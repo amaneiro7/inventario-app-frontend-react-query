@@ -20,4 +20,5 @@ export type SiteParams = SitePrimitives & {
 
 export type SiteDto = Site & {
 	city: CityDto
+	updatedAt?: string
 }

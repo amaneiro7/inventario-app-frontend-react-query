@@ -30,13 +30,13 @@ export default function FormPermissionGroup() {
 		errors,
 		isError,
 		isLoading,
-		// hasChanges,
-		// isSubmitting,
+		hasChanges,
+		isSubmitting,
 		isNotFound,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreatePermissionGroup()
 	const canEdit = useHasPermission(PERMISSIONS.PERMISSION_GROUPS.UPDATE)
 	return (
@@ -69,7 +69,7 @@ export default function FormPermissionGroup() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/permission-groups/add"
 					border
 					searchInput={

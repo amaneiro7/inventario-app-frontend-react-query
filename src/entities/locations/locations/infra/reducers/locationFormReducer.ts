@@ -12,12 +12,12 @@ export interface DefaultLocation extends LocationParams {
 	updatedAt?: LocationDto['updatedAt']
 }
 
-export interface LocationErrors {
+export interface LocationErrors extends Record<string, string> {
 	subnet: string
 	name: string
 	codeAgency: string
 }
-export interface LocationRequired {
+export interface LocationRequired extends Record<string, boolean> {
 	typeOfSiteId: boolean
 	locationStatusId: boolean
 	regionId: boolean
@@ -25,12 +25,12 @@ export interface LocationRequired {
 	cityId: boolean
 	siteId: boolean
 	siteName: boolean
-	codeAgency?: boolean
+	codeAgency: boolean
 	name: boolean
 	subnet: boolean
 }
 
-export interface LocationDisabled {
+export interface LocationDisabled extends Record<string, boolean> {
 	typeOfSiteId: boolean
 	locationStatusId: boolean
 	regionId: boolean
@@ -38,7 +38,7 @@ export interface LocationDisabled {
 	cityId: boolean
 	siteId: boolean
 	siteName: boolean
-	codeAgency?: boolean
+	codeAgency: boolean
 	name: boolean
 	subnet: boolean
 }

@@ -5,13 +5,21 @@ import { SiteName } from '../../domain/value-object/SiteName'
 export interface DefaultSite extends SiteParams {
 	stateId: SiteDto['city']['stateId']
 	regionId: SiteDto['city']['state']['regionId']
+	updatedAt?: string
 }
 
-export interface SiteErrors {
+export interface SiteErrors extends Record<string, string> {
 	address: string
 	name: string
 }
-export interface SiteRequired {
+export interface SiteRequired extends Record<string, boolean> {
+	regionId: boolean
+	stateId: boolean
+	cityId: boolean
+	address: boolean
+	name: boolean
+}
+export interface SiteDisabled extends Record<string, boolean> {
 	regionId: boolean
 	stateId: boolean
 	cityId: boolean
@@ -23,6 +31,7 @@ export interface State {
 	formData: DefaultSite
 	errors: SiteErrors
 	required: SiteRequired
+	disabled: SiteDisabled
 }
 
 export const initialSiteState: State = {
@@ -32,7 +41,8 @@ export const initialSiteState: State = {
 		stateId: '',
 		cityId: '',
 		address: '',
-		name: ''
+		name: '',
+		updatedAt: undefined
 	},
 	errors: {
 		name: '',
@@ -44,6 +54,13 @@ export const initialSiteState: State = {
 		cityId: true,
 		address: true,
 		name: true
+	},
+	disabled: {
+		regionId: false,
+		stateId: false,
+		cityId: false,
+		address: false,
+		name: false
 	}
 }
 
@@ -56,7 +73,7 @@ export type Action =
 	| { type: 'address'; payload: { value: DefaultSite['address'] } }
 	| { type: 'name'; payload: { value: DefaultSite['name'] } }
 
-export const SiteFormReducer = (state: State, action: Action): State => {
+export const siteFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'reset':
 		case 'init': {

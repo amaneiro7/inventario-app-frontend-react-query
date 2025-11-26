@@ -1,17 +1,18 @@
-import { useCallback, useLayoutEffect, useReducer } from 'react'
+import { useCallback } from 'react'
 import { ShipmentCreator } from '@/entities/shipment/application/ShipmentCreator'
 import { ShipmentSaveService } from '@/entities/shipment/infra/service/shipmentSave.service'
 import {
-	type Action,
 	type DefaultShipment,
 	initialShipmentState,
-	ShipmentFormReducer
+	shipmentFormReducer
 } from '@/entities/shipment/infra/reducers/shipmentFormReducers'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { useShipmentInitialState } from './useShipmentInitialState'
+import { useShipmentInitialData } from './useShipmentInitialData'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
 import { type ShipmentParams } from '@/entities/shipment/domain/dto/Shipment.dto'
+
+const repository = new ShipmentSaveService()
+const shipmentCreator = new ShipmentCreator(repository, useAuthStore.getState().events)
 
 /**
  * `useCreateShipment`
@@ -29,56 +30,40 @@ import { type ShipmentParams } from '@/entities/shipment/domain/dto/Shipment.dto
  * @property {(name: Action['type'], value: string) => void} handleChange - Función para manejar los cambios en los campos del formulario.
  */
 export function useCreateShipment(defaultState?: DefaultShipment) {
-	const key = `shipment${initialShipmentState?.formData?.id ? initialShipmentState.formData.id : ''}`
-	const { events } = useAuthStore.getState()
-
-	const create = async (formData: ShipmentParams) => {
-		return await new ShipmentCreator(new ShipmentSaveService(), events).create(formData)
-	}
-
 	const {
-		initialState,
+		initialData,
 		shipmentData,
 		mode,
-		resetState,
+		refreshInitialData,
 		isError,
 		isNotFound,
 		isLoading,
 		onRetry
-	} = useShipmentInitialState(defaultState ?? initialShipmentState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		ShipmentFormReducer,
-		initialShipmentState
-	)
+	} = useShipmentInitialData(defaultState ?? initialShipmentState.formData)
 
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
+	const shipmentSaveFn = useCallback(async (data: ShipmentParams) => {
+		return await shipmentCreator.create(data)
+	}, [])
 
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialShipmentState])
-
-	const handleChange = (name: Action['type'], value: string) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
-	}
-
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData as never).then(() => {
-			queryClient.invalidateQueries({ queryKey: ['shipments'] })
-			resetState()
-		})
-	}
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'shipments',
+		initialState: initialShipmentState,
+		reducer: shipmentFormReducer,
+		initialData,
+		saveFn: shipmentSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
@@ -88,11 +73,13 @@ export function useCreateShipment(defaultState?: DefaultShipment) {
 		errors,
 		disabled,
 		required,
-		isNotFound,
 		isError,
 		isLoading,
+		isSubmitting,
+		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

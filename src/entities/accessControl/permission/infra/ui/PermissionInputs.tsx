@@ -3,12 +3,17 @@ import { Input } from '@/shared/ui/Input/Input'
 import {
 	type PermissionErrors,
 	type Action,
-	type DefaultPermission
+	type DefaultPermission,
+	PermissionRequired,
+	PermissionDisaled
 } from '@/entities/accessControl/permission/infra/reducers/permissionFormReducer'
 
 interface PermissionInputsProps {
 	formData: DefaultPermission
 	errors?: PermissionErrors
+	required?: PermissionRequired
+	disabled?: PermissionDisaled
+	canEdit?: boolean
 	isLoading: boolean
 	handleChange: (name: Action['type'], value: string) => void
 }
@@ -24,7 +29,15 @@ interface PermissionInputsProps {
  * @param {(name: Action['type'], value: string) => void} props.handleChange - Función de callback para manejar los cambios en los campos de entrada.
  */
 export const PermissionInputs = memo(
-	({ errors, isLoading, formData, handleChange }: PermissionInputsProps) => {
+	({
+		errors,
+		isLoading,
+		formData,
+		canEdit,
+		disabled,
+		required,
+		handleChange
+	}: PermissionInputsProps) => {
 		return (
 			<>
 				<Input
@@ -38,7 +51,9 @@ export const PermissionInputs = memo(
 					}
 					error={!!errors?.name}
 					errorMessage={errors?.name}
-					required
+					required={required?.name}
+					disabled={disabled?.name || !canEdit}
+					readOnly={!canEdit}
 				/>
 				<Input
 					id="permission-description"
@@ -51,7 +66,9 @@ export const PermissionInputs = memo(
 					}
 					error={!!errors?.description}
 					errorMessage={errors?.description}
-					required
+					required={required?.description}
+					disabled={disabled?.description || !canEdit}
+					readOnly={!canEdit}
 				/>
 			</>
 		)

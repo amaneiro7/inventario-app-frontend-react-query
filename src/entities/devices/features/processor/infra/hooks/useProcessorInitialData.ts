@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { ProcessorGetService } from '../service/processorGet.service'
 import { ProcessorGetter } from '../../application/ProcessorGetter'
-import { adaptProcessorData } from './adaptProcessorData'
+import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
+import { adaptProcessorData } from '../../lib/adaptProcessorData'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
-import { type FormMode, useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultProcessor } from '../reducers/processorFormReducer'
 import { type ProcessorDto } from '../../domain/dto/Processor.dto'
 
@@ -14,28 +14,25 @@ const repository = new ProcessorGetService()
 const get = new ProcessorGetter(repository)
 
 /**
- * `useProcessorInitialState`
+ * `useProcessorInitialData`
  * @function
  * @description Hook personalizado para manejar el estado inicial de una marca en un formulario (creación o edición).
  * Obtiene los datos de la marca desde la API si el formulario está en modo edición o desde el estado de la ubicación.
  * @param {DefaultProcessor} defaultState - El estado inicial por defecto de la marca.
- * @returns {{ initialState: DefaultProcessor; resetState: () => void; mode: 'edit' | 'add' }}
+ * @returns {{ initialData: DefaultProcessor; refreshInitialData: () => void; mode: 'edit' | 'add' }}
  * Un objeto con el estado inicial de la marca, una función para resetear el estado y el modo actual del formulario.
  */
-export function useProcessorInitialState(defaultState: DefaultProcessor): {
-	initialState: DefaultProcessor
+export function useProcessorInitialData(defaultState: DefaultProcessor): {
+	initialData: DefaultProcessor
 	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
-	resetState: () => void
+	refreshInitialData: () => void
 	onRetry: () => void
 } {
-	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
-	const location = useLocation() // Obtiene la ubicación actual de la URL.
-	const navigate = useNavigate() // Función para navegar a otras rutas.
-	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
-	const [isNotFound, setIsNotFound] = useState<boolean>(false)
+	const { id, location, navigate, mode, isNotFound, setNotFound, checkIsNotFound } =
+		useFormRoutingContext()
 	const initialDataFromState = location.state?.processor
 		? adaptProcessorData(location.state.processor)
 		: undefined
@@ -50,11 +47,12 @@ export function useProcessorInitialState(defaultState: DefaultProcessor): {
 		queryKey: ['processor', id],
 		queryFn: () => {
 			if (!id) {
+				// El chequeo de !id es crucial aquí si quieres tipar el error.
 				throw new Error('ID is missing in edit mode.')
 			}
 			return get.execute({ id })
 		},
-		enabled: mode === 'edit' && !!id,
+		enabled: mode === 'edit' && !!id && !initialDataFromState, // No habilitar si ya tenemos datos iniciales
 		retry: false,
 		select: data => adaptProcessorData(data)
 	})
@@ -74,18 +72,18 @@ export function useProcessorInitialState(defaultState: DefaultProcessor): {
 			return
 		}
 
-		if (error instanceof NotFoundError && error.statusCode === 404) {
-			setIsNotFound(true)
-		} else {
-			setIsNotFound(false)
+		// Si hay error (no 404), resetear el estado isNotFound
+		if (isError && !(error instanceof NotFoundError)) {
+			setNotFound(false)
 		}
+		checkIsNotFound(error)
 
 		if (processorData) {
 			setState(processorData)
 		}
 	}, [mode, error, processorData, location.state, defaultState, navigate])
 
-	const resetState = useCallback(async () => {
+	const refreshInitialData = useCallback(async () => {
 		if (!location.pathname.includes('processor')) return
 		if (mode === 'add') {
 			setState({
@@ -99,17 +97,16 @@ export function useProcessorInitialState(defaultState: DefaultProcessor): {
 
 	// Aseguramos que isNotFound se resetee cuando se intente recargar
 	const onRetry = useCallback(() => {
-		setIsNotFound(false)
+		setNotFound(false) // Limpiamos el error 404 antes de reintentar
 		refetch()
-	}, [refetch, setIsNotFound])
-
+	}, [refetch, setNotFound])
 	return {
 		mode,
-		initialState: state,
+		initialData: state,
 		isLoading,
 		isError,
 		isNotFound,
-		resetState,
+		refreshInitialData,
 		onRetry
 	}
 }

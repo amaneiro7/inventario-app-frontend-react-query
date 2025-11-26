@@ -47,7 +47,9 @@ export function useCreateBrand(defaultState?: DefaultBrand) {
 		formData,
 		errors,
 		hasChanges,
-		isSubmitting
+		isSubmitting,
+		disabled,
+		required
 	} = useFormHandler({
 		entityName: 'brands',
 		initialState: initialBrandState,
@@ -62,6 +64,8 @@ export function useCreateBrand(defaultState?: DefaultBrand) {
 		formData,
 		mode,
 		errors,
+		disabled,
+		required,
 		isError,
 		isLoading,
 		isSubmitting,

@@ -48,6 +48,7 @@ interface LocationInputsProps {
 	disabled: LocationDisabled
 	mode: FormMode
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string | number) => void
 	handleSite: ({ value, siteName }: { value: string; siteName: string }) => void
 }
@@ -60,6 +61,7 @@ export const LocationInputs = memo(
 		disabled,
 		isLoading,
 		formData,
+		canEdit,
 		handleChange,
 		handleSite
 	}: LocationInputsProps) => {
@@ -73,7 +75,7 @@ export const LocationInputs = memo(
 						isLoading={isLoading}
 						required={required.typeOfSiteId}
 						disabled={disabled.typeOfSiteId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 					/>
 					<LocationStatusCombobox
 						value={formData.locationStatusId}
@@ -82,6 +84,7 @@ export const LocationInputs = memo(
 						isLoading={isLoading}
 						required={required.locationStatusId}
 						disabled={disabled.locationStatusId}
+						readonly={!canEdit}
 					/>
 				</div>
 				<div className="flex gap-4">
@@ -92,7 +95,7 @@ export const LocationInputs = memo(
 						isLoading={isLoading}
 						required={required.regionId}
 						disabled={disabled.regionId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 					/>
 					<StateCombobox
 						value={formData.stateId}
@@ -102,7 +105,7 @@ export const LocationInputs = memo(
 						regionId={formData.regionId}
 						required={required.stateId}
 						disabled={disabled.stateId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 					/>
 				</div>
 				<div className="flex gap-4">
@@ -115,7 +118,7 @@ export const LocationInputs = memo(
 						stateId={formData.stateId}
 						required={required.cityId}
 						disabled={disabled.cityId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 					/>
 					<SiteCombobox
 						value={formData.siteId}
@@ -128,7 +131,7 @@ export const LocationInputs = memo(
 						cityId={formData.cityId}
 						required={required.siteId}
 						disabled={disabled.siteId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 					/>
 				</div>
 				<div className="flex gap-4">
@@ -143,6 +146,7 @@ export const LocationInputs = memo(
 								handleChange('codeAgency', e.target.value)
 							}
 							type="number"
+							readOnly={!canEdit}
 							max={599}
 							min={1}
 							error={!!errors?.codeAgency}
@@ -157,6 +161,7 @@ export const LocationInputs = memo(
 						name="name"
 						isLoading={isLoading}
 						label="Nombre de la ubicación"
+						readOnly={!canEdit}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('name', e.target.value)
 						}
@@ -172,6 +177,7 @@ export const LocationInputs = memo(
 					name="subnet"
 					isLoading={isLoading}
 					label="Subnet"
+					readOnly={!canEdit}
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('subnet', e.target.value)
 					}

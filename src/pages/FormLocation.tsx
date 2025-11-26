@@ -34,11 +34,13 @@ export default function FormLocation() {
 		isError,
 		isLoading,
 		isNotFound,
+		isSubmitting,
+		hasChanges,
 		onRetry,
 		handleChange,
 		handleSite,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateLocation()
 	const canEdit = useHasPermission(PERMISSIONS.LOCATIONS.UPDATE)
 	return (
@@ -71,7 +73,7 @@ export default function FormLocation() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/location/add"
 					border
 					searchInput={

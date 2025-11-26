@@ -14,7 +14,7 @@ export type DefaultShipment = {
 	destination: string
 	shipmentDate: string
 	deliveryDate: string
-	sentBy?: string
+	sentBy: string
 	receivedBy: string
 	trackingNumber: string
 	observation: string
@@ -29,7 +29,7 @@ export type DefaultShipment = {
  * @description Define la estructura de los errores de validación para el formulario de `Shipment`.
  * @property {string} name - Mensaje de error para el campo `name`.
  */
-export interface ShipmentErrors {
+export interface ShipmentErrors extends Record<string, string> {
 	origin: string
 	destination: string
 	shipmentDate: string
@@ -41,7 +41,7 @@ export interface ShipmentErrors {
 	status: string
 	reason: string
 }
-export interface ShipmentRequired {
+export interface ShipmentRequired extends Record<string, boolean> {
 	status: boolean
 	reason: boolean
 	origin: boolean
@@ -53,7 +53,7 @@ export interface ShipmentRequired {
 	trackingNumber: boolean
 	observation: boolean
 }
-export interface ShipmentDisabled {
+export interface ShipmentDisabled extends Record<string, boolean> {
 	status: boolean
 	reason: boolean
 	origin: boolean
@@ -172,7 +172,7 @@ export type Action =
  * @param {Action} action - La acción a despachar.
  * @returns {State} El nuevo estado después de aplicar la acción.
  */
-export const ShipmentFormReducer = (state: State, action: Action): State => {
+export const shipmentFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'init':
 		case 'reset': {

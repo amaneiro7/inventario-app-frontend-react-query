@@ -17,9 +17,17 @@ export type DefaultPermission = PermissionParams & {
  * @description Define la estructura de los errores de validación para el formulario de `Permission`.
  * @property {string} name - Mensaje de error para el campo `name`.
  */
-export interface PermissionErrors {
+export interface PermissionErrors extends Record<string, string> {
 	name: string
 	description: string
+}
+export interface PermissionRequired extends Record<string, boolean> {
+	name: boolean
+	description: boolean
+}
+export interface PermissionDisaled extends Record<string, boolean> {
+	name: boolean
+	description: boolean
 }
 
 /**
@@ -31,6 +39,8 @@ export interface PermissionErrors {
 export interface State {
 	formData: DefaultPermission
 	errors: PermissionErrors
+	required: PermissionRequired
+	disabled: PermissionDisaled
 }
 
 /**
@@ -47,6 +57,14 @@ export const initialPermissionState: State = {
 	errors: {
 		name: '',
 		description: ''
+	},
+	required: {
+		name: true,
+		description: true
+	},
+	disabled: {
+		name: false,
+		description: false
 	}
 }
 

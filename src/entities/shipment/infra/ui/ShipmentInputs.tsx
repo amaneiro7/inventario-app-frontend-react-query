@@ -39,6 +39,7 @@ interface ShipmentInputsProps {
 	disabled?: ShipmentDisabled
 	mode: FormMode
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string) => void
 }
 
@@ -60,6 +61,7 @@ export const ShipmentInputs = memo(
 		mode,
 		isLoading,
 		formData,
+		canEdit,
 		handleChange
 	}: ShipmentInputsProps) => {
 		const {
@@ -79,7 +81,7 @@ export const ShipmentInputs = memo(
 					handleChange={(_name, value) => handleChange('status', value as string)}
 					name="status"
 					mode={mode}
-					readonly={disabled?.status}
+					readonly={disabled?.status || !canEdit}
 					required={required?.status}
 					error={errors?.status}
 				/>
@@ -89,7 +91,7 @@ export const ShipmentInputs = memo(
 					name="reason"
 					required={required?.reason}
 					error={errors?.reason}
-					readonly={mode === 'edit' || disabled?.reason}
+					readonly={mode === 'edit' || disabled?.reason || !canEdit}
 				/>
 
 				<SiteCombobox
@@ -101,7 +103,7 @@ export const ShipmentInputs = memo(
 					method="search"
 					required={required?.origin}
 					error={errors?.origin}
-					readonly={mode === 'edit' || disabled?.origin}
+					readonly={mode === 'edit' || disabled?.origin || !canEdit}
 				/>
 				<SiteCombobox
 					handleChange={(_name, value) => handleChange('destination', value as string)}
@@ -112,7 +114,7 @@ export const ShipmentInputs = memo(
 					required={required?.destination}
 					error={errors?.destination}
 					method="search"
-					readonly={mode === 'edit' || disabled?.destination}
+					readonly={mode === 'edit' || disabled?.destination || !canEdit}
 				/>
 				<Input
 					value={sentBy}
@@ -128,7 +130,7 @@ export const ShipmentInputs = memo(
 					name="receivedBy"
 					label="Recibido por"
 					isLoading={isLoading}
-					readonly={disabled?.receivedBy}
+					readonly={disabled?.receivedBy || !canEdit}
 					value={formData.receivedBy}
 					required={required?.receivedBy}
 					error={errors?.receivedBy}
@@ -141,7 +143,7 @@ export const ShipmentInputs = memo(
 					value={formData.shipmentDate}
 					transform
 					type="date"
-					readOnly={mode === 'edit' || disabled?.shipmentDate}
+					readOnly={mode === 'edit' || disabled?.shipmentDate || !canEdit}
 					required={required?.shipmentDate}
 					errorMessage={errors?.shipmentDate}
 					onChange={e => handleChange('shipmentDate', e.target.value)}
@@ -164,7 +166,7 @@ export const ShipmentInputs = memo(
 					name="trackingNumber"
 					value={formData.trackingNumber}
 					required={required?.trackingNumber}
-					readOnly={disabled?.trackingNumber}
+					readOnly={disabled?.trackingNumber || !canEdit}
 					errorMessage={errors?.trackingNumber}
 					onChange={e => handleChange('trackingNumber', e.target.value)}
 				/>
@@ -175,7 +177,7 @@ export const ShipmentInputs = memo(
 					required={required?.observation}
 					errorMessage={errors?.observation}
 					value={formData.observation}
-					readOnly={disabled?.observation}
+					readOnly={disabled?.observation || !canEdit}
 					onChange={e => handleChange('observation', e.target.value)}
 				/>
 				<div className="col-span-2">
@@ -184,7 +186,7 @@ export const ShipmentInputs = memo(
 						onAddDevice={handleChange}
 						onRemoveDevice={handleChange}
 						isLoading={isLoading}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 						value={formData.deviceIds}
 					/>
 				</div>

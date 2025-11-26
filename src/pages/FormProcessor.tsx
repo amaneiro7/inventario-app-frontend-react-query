@@ -37,7 +37,7 @@ export default function FormProcessor() {
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateProcessor()
 	const canEdit = useHasPermission(PERMISSIONS.PROCESSORS.UPDATE)
 
@@ -71,7 +71,7 @@ export default function FormProcessor() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/processor/add"
 					border
 					searchInput={

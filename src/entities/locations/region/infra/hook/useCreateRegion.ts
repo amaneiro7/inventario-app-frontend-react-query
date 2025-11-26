@@ -1,84 +1,60 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import {
 	type DefaultRegion,
-	type Action,
 	initialRegionState,
 	regionFormReducer
 } from '../reducers/regionFormReducer'
 import { type RegionParams } from '../../domain/dto/region.dto'
 import { RegionSaveService } from '../service/regionSave.service'
 import { RegionCreator } from '../../application/RegionCreator'
-import { useRegionInitialState } from './useRegionInitialState'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useRegionInitialData } from './useRegionInitialData'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+
+const repository = new RegionSaveService()
+const regionCreator = new RegionCreator(repository, useAuthStore.getState().events)
 
 export function useCreateRegion(defaultState?: DefaultRegion) {
-	const { events } = useAuthStore.getState()
-
-	const create = useMemo(
-		() => async (formData: RegionParams) => {
-			return await new RegionCreator(new RegionSaveService(), events).create(formData)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useRegionInitialState(defaultState ?? initialRegionState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		regionFormReducer,
-		initialRegionState
-	)
-	const key = useMemo(
-		() => `region${initialRegionState?.formData?.id ? initialRegionState.formData.id : ''}`,
-		[formData?.id]
-	)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialState])
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useRegionInitialData(defaultState ?? initialRegionState.formData)
+	const regionSaveFn = useCallback(async (data: RegionParams) => {
+		return await regionCreator.create(data)
 	}, [])
 
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['regions'] })
-				resetState()
-			})
-		},
-		[formData, create, resetState]
-	)
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'regions',
+		initialState: initialRegionState,
+		reducer: regionFormReducer,
+		initialData,
+		saveFn: regionSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		required,
 		disabled,
+		required,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

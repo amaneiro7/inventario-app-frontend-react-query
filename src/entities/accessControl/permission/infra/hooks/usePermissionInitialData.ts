@@ -1,40 +1,42 @@
 import { useCallback, useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { PermissionGetter } from '../../application/PermissionGetter'
 import { PermissionGetService } from '../service/permissionGet.service'
+import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
+import { mapPermissionToState } from '../../lib/mapPermissionToState'
+import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultPermission } from '../reducers/permissionFormReducer'
-import { type PermissionDto } from '../../domain/dto/Permission.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
-const get = new PermissionGetter(new PermissionGetService())
+const repository = new PermissionGetService()
+const get = new PermissionGetter(repository)
 
 /**
- * `usePermissionInitialState`
+ * `usePermissionInitialData`
  * @function
  * @description Hook personalizado para manejar el estado inicial de una marca en un formulario (creación o edición).
  * Obtiene los datos de la marca desde la API si el formulario está en modo edición o desde el estado de la ubicación.
  * @param {DefaultPermission} defaultState - El estado inicial por defecto de la marca.
- * @returns {{ initialState: DefaultPermission; resetState: () => void; mode: 'edit' | 'add' }}
+ * @returns {{ initialState: DefaultPermission; resetInitialData: () => void; mode: 'edit' | 'add' }}
  * Un objeto con el estado inicial de la marca, una función para resetear el estado y el modo actual del formulario.
  */
-export function usePermissionInitialState(defaultState: DefaultPermission): {
-	initialState: DefaultPermission
-	resetState: () => void
-	mode: 'edit' | 'add'
+export function usePermissionInitialData(defaultState: DefaultPermission): {
+	initialData: DefaultPermission
+	mode: FormMode
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
+	refreshInitialData: () => void
 	onRetry: () => void
 } {
-	const { id } = useParams() // Obtiene el ID de la marca de los parámetros de la URL.
-	const location = useLocation() // Obtiene la ubicación actual de la URL.
-	const navigate = useNavigate() // Función para navegar a otras rutas.
-	const [state, setState] = useState<DefaultPermission>(defaultState) // Estado local de la marca.
-	const [isNotFound, setIsNotFound] = useState<boolean>(false)
+	const { id, location, navigate, mode, isNotFound, setNotFound, checkIsNotFound } =
+		useFormRoutingContext()
 
-	const mode = useGetFormMode() // Obtiene el modo del formulario (editar o agregar).
+	// 1. Datos iniciales del estado de la ruta (si existen)
+	const initialDataFromState = location.state?.permission
+		? mapPermissionToState(location.state.permission)
+		: undefined
 
 	// Consulta para obtener los datos de la marca si el modo es editar y no hay datos en el estado de la ubicación.
 	const {
@@ -45,45 +47,40 @@ export function usePermissionInitialState(defaultState: DefaultPermission): {
 		isLoading
 	} = useQuery({
 		queryKey: ['permission', id], // Clave de la consulta para la caché.
-		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos de la marca.
-		enabled: !!id && mode === 'edit' && !location?.state?.permission, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
-		retry: false // Deshabilita los reintentos automáticos en caso de error.
+		queryFn: () => {
+			if (!id) {
+				// El chequeo de !id es crucial aquí si quieres tipar el error.
+				throw new Error('ID is missing in edit mode.')
+			}
+			return get.execute({ id })
+		},
+		enabled: mode === 'edit' && !!id && !initialDataFromState, // No habilitar si ya tenemos datos iniciales
+		retry: false,
+		select: data => mapPermissionToState(data)
 	})
 
-	/**
-	 * Mapea un objeto `PermissionDto` a la estructura `DefaultPermission` para el estado del formulario.
-	 * @param {PermissionDto} permission - El objeto `PermissionDto` a mapear.
-	 */
-	const mapPermissionToState = useCallback((permission: PermissionDto): void => {
-		setState({
-			id: permission.id,
-			name: permission.name,
-			description: permission.description,
-			updatedAt: permission?.updatedAt
-		})
-	}, [])
+	const [initialData, setInitialData] = useState<DefaultPermission>(
+		initialDataFromState || defaultState
+	) // Estado local de la marca.
 
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
 		// Si el modo es agregar o no estamos en la ruta de marcas, resetea el estado al estado por defecto.
 		if (mode === 'add' || !location.pathname.includes('permission')) {
-			setState(defaultState)
+			setInitialData(defaultState)
 			return
 		}
 
-		if (error?.message.includes('Recurso no encontrado.')) {
-			setIsNotFound(true)
-		} else {
-			setIsNotFound(false)
+		// Si hay error (no 404), resetear el estado isNotFound
+		if (isError && !(error instanceof NotFoundError)) {
+			setNotFound(false)
 		}
+		checkIsNotFound(error)
 
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
-
-		if (location?.state?.permission) {
-			setState(location.state.permission)
-		} else if (permissionData) {
+		if (permissionData) {
 			// Si hay datos de la API, actualiza el estado con esos datos.
-			mapPermissionToState(permissionData)
+			setInitialData(permissionData)
 		}
 	}, [mode, permissionData, location.state, defaultState, navigate, id, error])
 
@@ -91,32 +88,35 @@ export function usePermissionInitialState(defaultState: DefaultPermission): {
 	 * Resetea el estado del formulario a su valor inicial o a los datos obtenidos de la API en modo edición.
 	 * @returns {Promise<void>} Una promesa que se resuelve cuando el estado ha sido reseteado.
 	 */
-	const resetState = useCallback(async () => {
+	const refreshInitialData = useCallback(async () => {
 		// Si no estamos en la ruta de marcas, no hace nada.
 		if (!location.pathname.includes('permission')) return
 		if (mode === 'add') {
-			setState({
+			setInitialData({
 				id: undefined,
 				...defaultState
 			})
 			// Si el modo es agregar, resetea el estado al estado por defecto creando un nuevo objeto.
 		} else if (id) {
 			// Si el modo es editar, vuelve a obtener los datos de la marca de la API y actualiza el estado.
-			const { data } = await refetch()
-			if (data) {
-				mapPermissionToState(data)
-			}
+			await refetch()
 		}
 	}, [defaultState, location.pathname, mode, refetch, id])
+
+	// 6. Función de Reintento
+	const onRetry = useCallback(() => {
+		setNotFound(false) // Limpiamos el error 404 antes de reintentar
+		refetch()
+	}, [refetch, setNotFound])
 
 	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {
 		mode,
-		initialState: state,
+		initialData,
 		isLoading,
 		isError,
 		isNotFound,
-		resetState,
-		onRetry: refetch
+		refreshInitialData,
+		onRetry
 	}
 }

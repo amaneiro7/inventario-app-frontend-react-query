@@ -32,10 +32,12 @@ export default function FormRegion() {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateRegion()
 	const canEdit = useHasPermission(PERMISSIONS.REGIONS.UPDATE)
 	return (
@@ -62,7 +64,7 @@ export default function FormRegion() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/region/"
 					border
 					standBy={mode !== 'edit'}
