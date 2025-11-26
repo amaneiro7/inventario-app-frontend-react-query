@@ -4,22 +4,10 @@ import { Input } from '@/shared/ui/Input/Input'
 import { PhoneNumberAreaCode } from '@/entities/employee/employee/domain/value-object/EmployeePhoneNumber'
 
 interface PhoneInputProps {
-	/**
-	 * The operator (area code) of the phone number.
-	 */
 	operadora: string
-	/**
-	 * The numeric part of the phone number.
-	 */
 	numero: string
-	/**
-	 * The index of this phone input in a list of phone numbers.
-	 */
 	index: number
-	/**
-	 * Callback function to handle changes in phone number or extension segments.
-	 * @param params - An object specifying the type, index, and new value of the segment.
-	 */
+	readonly?: boolean
 	handlePhoneChange: ({
 		type,
 		index,
@@ -40,7 +28,7 @@ const operadoras = Object.values(PhoneNumberAreaCode).map(phone => ({ id: phone 
  * It integrates with the `usePhone` hook for validation and change handling.
  */
 export const PhoneInput = memo(
-	({ operadora, numero, index, isLoading, handlePhoneChange }: PhoneInputProps) => {
+	({ operadora, numero, index, readonly, isLoading, handlePhoneChange }: PhoneInputProps) => {
 		const { errorMessage, handleOperadoraChange, handleNumeroChange, isError } = usePhone({
 			handlePhoneChange,
 			index,
@@ -61,6 +49,7 @@ export const PhoneInput = memo(
 				error={isError}
 				errorMessage={errorMessage}
 				isLoading={isLoading}
+				readOnly={readonly}
 				selectInput={
 					<select
 						value={operadora}

@@ -15,6 +15,7 @@ interface EmployeeInputsProps {
 	errors: EmployeeErrors
 	required: EmployeeRequired
 	isLoading: boolean
+	canEdit: boolean
 	disabled: EmployeeDisabled
 	mode: FormMode
 	handleChange: (name: Action['type'], value: any) => void
@@ -52,6 +53,7 @@ export const EmployeeInputs = memo(
 		formData,
 		mode,
 		isLoading,
+		canEdit,
 		handleChange,
 		handleAddPhones,
 		handleClearFirstPhone,
@@ -72,6 +74,7 @@ export const EmployeeInputs = memo(
 						cedula={formData.cedula}
 						nationality={formData.nationality}
 						mode={mode}
+						canEdit={canEdit}
 						isLoading={isLoading}
 						userNameRequired={required.userName}
 						typeRequired={required.type}
@@ -103,6 +106,7 @@ export const EmployeeInputs = memo(
 						handleClearFirstPhone={handleClearFirstPhone}
 						handleRemovePhones={handleRemovePhones}
 						handlePhoneChange={handlePhoneChange}
+						canEdit={canEdit}
 						isLoading={isLoading}
 						locationId={formData.locationId}
 						directivaId={formData.directivaId}

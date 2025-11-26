@@ -40,7 +40,7 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		disabled,
 		isSubmitting
 	} = useFormHandler({
-		entityName: 'directvias',
+		entityName: 'directivas',
 		initialState: initialDirectivaState,
 		reducer: directivaFormReducer,
 		initialData,

@@ -58,7 +58,9 @@ export function useBrandInitialData(defaultState: DefaultBrand): {
 		select: data => mapBrandToState(data)
 	})
 
-	const [state, setState] = useState<DefaultBrand>(initialDataFromState || defaultState)
+	const [initialData, setInitialData] = useState<DefaultBrand>(
+		initialDataFromState || defaultState
+	)
 	// Efecto secundario para manejar el estado inicial y la actualización del estado cuando cambian las dependencias.
 	useEffect(() => {
 		// Redireccionar si falta ID en modo edición
@@ -68,7 +70,7 @@ export function useBrandInitialData(defaultState: DefaultBrand): {
 		}
 		// Si el modo es agregar o no estamos en la ruta de marcas, resetea el estado al estado por defecto.
 		if (mode === 'add' || !location.pathname.includes('brand')) {
-			setState(defaultState)
+			setInitialData(defaultState)
 			return
 		}
 
@@ -80,7 +82,7 @@ export function useBrandInitialData(defaultState: DefaultBrand): {
 
 		if (brandData) {
 			// Si hay datos de la API, actualiza el estado con esos datos.
-			setState(brandData)
+			setInitialData(brandData)
 		}
 	}, [mode, id, brandData, location.pathname, defaultState, navigate, isError, error])
 
@@ -92,7 +94,7 @@ export function useBrandInitialData(defaultState: DefaultBrand): {
 		// Si no estamos en la ruta de marcas, no hace nada.
 		if (!location.pathname.includes('brand')) return
 		if (mode === 'add') {
-			setState({
+			setInitialData({
 				...defaultState,
 				id: undefined
 			})
@@ -112,7 +114,7 @@ export function useBrandInitialData(defaultState: DefaultBrand): {
 	// Retorna el modo del formulario, el estado inicial y la función para resetear el estado.
 	return {
 		mode,
-		initialData: state,
+		initialData,
 		isLoading,
 		isError,
 		isNotFound,

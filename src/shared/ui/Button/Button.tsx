@@ -33,7 +33,7 @@ function Button({
 	return (
 		<button
 			className={cn(
-				'text-b flex cursor-pointer items-center justify-center gap-2 rounded-md border border-solid font-medium transition-all duration-200 ease-in disabled:cursor-not-allowed disabled:opacity-70',
+				'flex cursor-pointer items-center justify-center gap-2 rounded-md border border-solid font-medium transition-all duration-200 ease-in disabled:cursor-not-allowed disabled:opacity-70',
 				{
 					[`${Color[color]}`]: color,
 					[`${ButtonSize[buttonSize]}`]: buttonSize,

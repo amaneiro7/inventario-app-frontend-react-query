@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo } from 'react'
+import { lazy, Suspense } from 'react'
 import { useCreateEmployee } from '@/entities/employee/employee/infra/hook/useCreateEmployee'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { AsignDevicesSkeleton } from '@/widgets/AsignDevices/AsignDevicesSkeleton'
@@ -53,10 +53,12 @@ export default function FormEmployee() {
 		isLoading,
 		isNotFound,
 		employeeData,
+		isSubmitting,
+		hasChanges,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm,
+		discardChanges,
 		handleAddPhones,
 		handleClearFirstPhone,
 		handlePhoneChange,
@@ -117,7 +119,7 @@ export default function FormEmployee() {
 										<EmployeeSearch />
 									</Suspense>
 								}
-								reset={mode === 'edit' ? resetForm : undefined}
+								reset={mode === 'edit' ? discardChanges : undefined}
 								url="/form/employee/add"
 							>
 								<Suspense fallback={<EmployeeFormSkeletonLayout />}>

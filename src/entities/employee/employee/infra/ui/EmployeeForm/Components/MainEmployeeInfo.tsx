@@ -20,141 +20,41 @@ const EmployeeTypeCombobox = lazy(() =>
 )
 
 interface MainEmployeeInfoProps {
-	/**
-	 * The username of the employee.
-	 */
 	userName: DefaultEmployee['userName']
-	/**
-	 * The type of the employee.
-	 */
 	type: DefaultEmployee['type']
-	/**
-	 * Indicates if the employee is still working.
-	 */
 	isStillWorking: DefaultEmployee['isStillWorking']
-	/**
-	 * The first name of the employee.
-	 */
 	name: DefaultEmployee['name']
-	/**
-	 * The last name of the employee.
-	 */
 	lastName: DefaultEmployee['lastName']
-	/**
-	 * The email of the employee.
-	 */
 	email: DefaultEmployee['email']
-	/**
-	 * The employee code.
-	 */
 	employeeCode: DefaultEmployee['employeeCode']
-	/**
-	 * The national identification number (cedula) of the employee.
-	 */
 	cedula: DefaultEmployee['cedula']
-	/**
-	 * The nationality of the employee.
-	 */
 	nationality: DefaultEmployee['nationality']
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	mode: FormMode
-	/**
-	 * Indicates if the userName field is required.
-	 */
 	userNameRequired: EmployeeRequired['userName']
-	/**
-	 * Indicates if the type field is required.
-	 */
 	typeRequired: EmployeeRequired['type']
-	/**
-	 * Indicates if the name field is required.
-	 */
 	nameRequired: EmployeeRequired['name']
-	/**
-	 * Indicates if the lastName field is required.
-	 */
 	lastNameRequired: EmployeeRequired['lastName']
-	/**
-	 * Indicates if the email field is required.
-	 */
 	emailRequired: EmployeeRequired['email']
-	/**
-	 * Indicates if the employeeCode field is required.
-	 */
 	employeeCodeRequired: EmployeeRequired['employeeCode']
-	/**
-	 * Indicates if the cedula field is required.
-	 */
 	cedulaRequired: EmployeeRequired['cedula']
-	/**
-	 * Indicates if the userName field is disabled.
-	 */
 	userNameDisabled: EmployeeDisabled['userName']
-	/**
-	 * Indicates if the type field is disabled.
-	 */
 	typeDisabled: EmployeeDisabled['type']
-	/**
-	 * Indicates if the name field is disabled.
-	 */
 	nameDisabled: EmployeeDisabled['name']
-	/**
-	 * Indicates if the lastName field is disabled.
-	 */
 	lastNameDisabled: EmployeeDisabled['lastName']
-	/**
-	 * Indicates if the email field is disabled.
-	 */
 	emailDisabled: EmployeeDisabled['email']
-	/**
-	 * Indicates if the employeeCode field is disabled.
-	 */
 	employeeCodeDisabled: EmployeeDisabled['employeeCode']
-	/**
-	 * Indicates if the cedula field is disabled.
-	 */
 	cedulaDisabled: EmployeeDisabled['cedula']
-	/**
-	 * Indicates if the nationality field is disabled.
-	 */
 	nationalityDisabled: EmployeeDisabled['nationality']
-	/**
-	 * Error message for the userName field.
-	 */
 	userNameError: EmployeeErrors['userName']
-	/**
-	 * Error message for the name field.
-	 */
 	nameError: EmployeeErrors['name']
-	/**
-	 * Error message for the lastName field.
-	 */
 	lastNameError: EmployeeErrors['lastName']
-	/**
-	 * Error message for the email field.
-	 */
 	emailError: EmployeeErrors['email']
-	/**
-	 * Error message for the employeeCode field.
-	 */
 	employeeCodeError: EmployeeErrors['employeeCode']
-	/**
-	 * Error message for the cedula field.
-	 */
 	cedulaError: EmployeeErrors['cedula']
-	/**
-	 * Error message for the type field.
-	 */
 	typeError: EmployeeErrors['type']
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: any) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -197,6 +97,7 @@ export const MainEmployeeInfo = memo(
 		cedulaError,
 		typeError,
 		isLoading,
+		canEdit,
 		handleChange
 	}: MainEmployeeInfoProps) => {
 		const nacionalities = useMemo(() => {
@@ -216,7 +117,7 @@ export const MainEmployeeInfo = memo(
 						handleChange('userName', e.target.value)
 					}
 					isLoading={isLoading}
-					readOnly={mode === 'edit'}
+					readOnly={mode === 'edit' || !canEdit}
 					error={!!userNameError}
 					errorMessage={userNameError}
 					required={userNameRequired}
@@ -229,13 +130,13 @@ export const MainEmployeeInfo = memo(
 					required={typeRequired}
 					disabled={typeDisabled}
 					error={typeError}
-					readonly={mode === 'edit'}
+					readonly={mode === 'edit' || !canEdit}
 					isLoading={isLoading}
 				/>
 				<Checkbox
 					value={isStillWorking}
 					name="isStillWorking"
-					label="isStillWorking"
+					readOnly={!canEdit}
 					text="¿Esta trabajando actualmente?"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('isStillWorking', e.target.checked)
@@ -250,6 +151,7 @@ export const MainEmployeeInfo = memo(
 						value={name ?? ''}
 						name="name"
 						isLoading={isLoading}
+						readOnly={!canEdit}
 						label="Nombres"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('name', e.target.value)
@@ -263,6 +165,7 @@ export const MainEmployeeInfo = memo(
 						id="employee-lastName"
 						value={lastName ?? ''}
 						isLoading={isLoading}
+						readOnly={!canEdit}
 						name="lastName"
 						label="Apellidos"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -279,6 +182,7 @@ export const MainEmployeeInfo = memo(
 					value={email ?? ''}
 					name="email"
 					isLoading={isLoading}
+					readOnly={!canEdit}
 					label="Correo electrónico"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('email', e.target.value)
@@ -300,7 +204,7 @@ export const MainEmployeeInfo = memo(
 							handleChange('employeeCode', e.target.value)
 						}
 						min={1}
-						readOnly={mode === 'edit'}
+						readOnly={mode === 'edit' || !canEdit}
 						error={!!employeeCodeError}
 						errorMessage={employeeCodeError}
 						required={employeeCodeRequired}
@@ -323,7 +227,7 @@ export const MainEmployeeInfo = memo(
 						disabled={cedulaDisabled}
 						min={EmployeeCedula.MIN}
 						max={EmployeeCedula.MAX}
-						readOnly={mode === 'edit'}
+						readOnly={mode === 'edit' || !canEdit}
 						selectInput={
 							<select
 								value={nationality ?? ''}
@@ -331,7 +235,7 @@ export const MainEmployeeInfo = memo(
 									handleChange('nationality', e.target.value)
 								}
 								className="leftIcon appearance-none focus:outline-hidden"
-								disabled={nationalityDisabled || mode === 'edit'}
+								disabled={nationalityDisabled || mode === 'edit' || !canEdit}
 							>
 								<option hidden value="default"></option>
 								{nacionalities.map(op => (

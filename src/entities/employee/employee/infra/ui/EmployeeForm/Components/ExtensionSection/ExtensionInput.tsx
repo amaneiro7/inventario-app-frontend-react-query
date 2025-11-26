@@ -3,22 +3,10 @@ import { useExtension } from './useExtension'
 import { Input } from '@/shared/ui/Input/Input'
 
 interface ExtensionInputProps {
-	/**
-	 * The operator (area code) of the extension.
-	 */
 	operadora: string
-	/**
-	 * The numeric part of the extension.
-	 */
 	numero: string
-	/**
-	 * The index of this extension input in a list of extensions.
-	 */
 	index: number
-	/**
-	 * Callback function to handle changes in phone number or extension segments.
-	 * @param params - An object specifying the type, index, and new value of the segment.
-	 */
+	readonly?: boolean
 	handlePhoneChange: ({
 		type,
 		index,
@@ -37,7 +25,7 @@ interface ExtensionInputProps {
  * It integrates with the `useExtension` hook for validation and change handling.
  */
 export const ExtensionInput = memo(
-	({ operadora, numero, index, isLoading, handlePhoneChange }: ExtensionInputProps) => {
+	({ operadora, numero, index, isLoading, readonly, handlePhoneChange }: ExtensionInputProps) => {
 		const { codAreaGroupBy, errorMessage, handleNumeroChange, handleOperadoraChange, isError } =
 			useExtension({ operadora, numero, index, handlePhoneChange })
 
@@ -45,6 +33,7 @@ export const ExtensionInput = memo(
 			<Input
 				id={`Extension-${index + 1}`}
 				value={numero}
+				readOnly={readonly}
 				label={`Extension #${index + 1}`}
 				name={`extension-#${index + 1}`}
 				type="tel"

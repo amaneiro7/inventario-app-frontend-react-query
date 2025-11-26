@@ -44,6 +44,7 @@ const ExtensionSection = lazy(() =>
 )
 interface AdditionalEmployeeInfoProps {
 	isLoading: boolean
+	canEdit: boolean
 	locationId: DefaultEmployee['locationId']
 	directivaId: DefaultEmployee['directivaId']
 	vicepresidenciaEjecutivaId: DefaultEmployee['vicepresidenciaEjecutivaId']
@@ -101,6 +102,7 @@ export const AdditionalEmployeeInfo = memo(
 		handlePhoneChange,
 		handleRemovePhones,
 		isLoading,
+		canEdit,
 		cargoId,
 		departamentoId,
 		directivaId,
@@ -139,6 +141,7 @@ export const AdditionalEmployeeInfo = memo(
 					statusId={StatusOptions.INUSE} // se coloca asi para que solo aparaceran las ubicaciones de agencia y torres
 					required={locationIdRequired}
 					disabled={locationIdDisabled}
+					readonly={!canEdit}
 				/>
 				<DirectivaCombobox
 					value={directivaId ?? ''}
@@ -147,6 +150,7 @@ export const AdditionalEmployeeInfo = memo(
 					isLoading={isLoading}
 					required={directivaIdRequired}
 					disabled={directivaIdDisabled}
+					readonly={!canEdit}
 				/>
 				<VicepresidenciaEjecutivaCombobox
 					value={vicepresidenciaEjecutivaId ?? ''}
@@ -158,6 +162,7 @@ export const AdditionalEmployeeInfo = memo(
 					directivaId={directivaId ?? ''}
 					required={vicepresidenciaEjecutivaIdRequired}
 					disabled={vicepresidenciaEjecutivaIdDisabled}
+					readonly={!canEdit}
 				/>
 				<VicepresidenciaCombobox
 					value={vicepresidenciaId ?? ''}
@@ -166,6 +171,7 @@ export const AdditionalEmployeeInfo = memo(
 					name="vicepresidenciaId"
 					required={vicepresidenciaIdRequired}
 					disabled={vicepresidenciaIdDisabled}
+					readonly={!canEdit}
 					isLoading={isLoading}
 				/>
 				<DepartamentoCombobox
@@ -176,6 +182,7 @@ export const AdditionalEmployeeInfo = memo(
 					required={departamentoIdRequired}
 					disabled={departamentoIdDisabled}
 					isLoading={isLoading}
+					readonly={!canEdit}
 				/>
 				<CargoCombobox
 					value={cargoId ?? ''}
@@ -188,6 +195,7 @@ export const AdditionalEmployeeInfo = memo(
 					required={cargoIdRequired}
 					disabled={cargoIdDisabled}
 					isLoading={isLoading}
+					readonly={!canEdit}
 				/>
 
 				<PhoneSection
@@ -198,6 +206,7 @@ export const AdditionalEmployeeInfo = memo(
 					phones={phone}
 					phoneSegments={phoneSegments}
 					isLoading={isLoading}
+					readOnly={!canEdit}
 				/>
 				<ExtensionSection
 					handleAddPhones={handleAddPhones}
@@ -207,6 +216,7 @@ export const AdditionalEmployeeInfo = memo(
 					extension={extension}
 					extensionSegments={extensionSegments}
 					isLoading={isLoading}
+					readOnly={!canEdit}
 				/>
 			</div>
 		)

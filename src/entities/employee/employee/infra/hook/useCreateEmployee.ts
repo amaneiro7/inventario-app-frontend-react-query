@@ -1,8 +1,8 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
 import { queryClient } from '@/shared/lib/queryCliente'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { useEmployeeInitialState } from './useEmployeeInitialState'
+import { useEmployeeInitialData } from './useEmployeeInitialData'
 import {
 	type DefaultEmployee,
 	type Action,
@@ -11,7 +11,10 @@ import {
 } from '../reducers/employeeFormReducer'
 import { EmployeeSaveService } from '../service/employeeSave.service'
 import { EmployeeCreator } from '../../application/EmployeeCreator'
-import { type EmployeeParams } from '../../domain/dto/Employee.dto'
+import { isDeepEqual } from '@/shared/lib/utils/isDeepEqual'
+
+const repository = new EmployeeSaveService()
+const employeeCreator = new EmployeeCreator(repository, useAuthStore.getState().events)
 
 /**
  * A React hook for managing employee creation and update forms.
@@ -20,56 +23,53 @@ import { type EmployeeParams } from '../../domain/dto/Employee.dto'
  * @returns An object containing form data, mode, errors, required fields, disabled fields, and various handlers.
  */
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
+	const [isSubmitting, setIsSubmitting] = useState(false)
 	const {
-		initialState,
+		initialData,
 		mode,
-		resetState,
+		refreshInitialData,
 		employeeData,
 		isError,
 		isLoading,
 		isNotFound,
 		onRetry
-	} = useEmployeeInitialState(defaultState ?? initialEmployeeState.formData)
-	const { events } = useAuthStore.getState()
+	} = useEmployeeInitialData(defaultState ?? initialEmployeeState.formData)
 
-	/**
-	 * Memoized function to create or update an employee.
-	 * It uses the EmployeeCreator service to perform the operation.
-	 */
-	const create = useMemo(
-		() => async (formData: EmployeeParams) => {
-			return await new EmployeeCreator(new EmployeeSaveService(), events).create(formData)
-		},
-		[events]
-	)
-
-	const prevState = usePrevious(initialState)
+	const prevState = usePrevious(initialData)
 	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
 		employeeFormReducer,
 		initialEmployeeState
 	)
 	const key = useMemo(
 		() =>
-			`employee${initialEmployeeState?.formData?.id ? initialEmployeeState.formData.id : ''}`,
+			`employee-${initialEmployeeState?.formData?.id ? initialEmployeeState.formData.id : ''}`,
 		[formData?.id]
 	)
 
 	useLayoutEffect(() => {
 		dispatch({
 			type: 'init',
-			payload: { formData: structuredClone(initialState) }
+			payload: { formData: structuredClone(initialData) }
 		})
-	}, [initialState])
+	}, [initialData])
+
+	// 2. Lógica hasChanges (isDirty)
+	const hasChanges: boolean = useMemo(() => {
+		if (!initialData || !formData) {
+			return false
+		}
+		return isDeepEqual(formData, initialData)
+	}, [formData, initialData, isDeepEqual])
 
 	/**
 	 * Resets the form to its initial state.
 	 */
-	const resetForm = useCallback(() => {
+	const discardChanges = useCallback(() => {
 		dispatch({
 			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
+			payload: { formData: structuredClone(prevState ?? initialData) }
 		})
-	}, [prevState, initialState])
+	}, [prevState, initialData])
 
 	/**
 	 * Handles changes to form input fields.
@@ -165,12 +165,23 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		async (event: React.FormEvent) => {
 			event.preventDefault()
 			event.stopPropagation()
-			await create(formData as never).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['employees'] })
-				resetState()
-			})
+			setIsSubmitting(true)
+			const hasValidationErrors = Object.values(errors).some(error => error !== '')
+
+			// Chequeo de errores de validación O falta de cambios
+			if (hasValidationErrors || !hasChanges) {
+				setIsSubmitting(false)
+				return
+			}
+			try {
+				await employeeCreator.create(formData as never)
+				await queryClient.invalidateQueries({ queryKey: ['employees'] })
+				refreshInitialData()
+			} finally {
+				setIsSubmitting(false)
+			}
 		},
-		[create, formData, resetState]
+		[formData, refreshInitialData]
 	)
 
 	return {
@@ -184,12 +195,14 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handlePhoneChange,
 		handleAddPhones,
 		handleRemovePhones,
 		handleClearFirstPhone,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}
