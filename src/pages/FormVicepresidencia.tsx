@@ -34,10 +34,12 @@ export default function FormVicepresidencia() {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateVicepresidencia()
 	const canEdit = useHasPermission(PERMISSIONS.VICEPRESIDENCIAS.UPDATE)
 	return (
@@ -70,7 +72,7 @@ export default function FormVicepresidencia() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/vicepresidencia/add"
 					border
 					searchInput={

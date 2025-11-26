@@ -53,6 +53,7 @@ interface Props {
 	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -66,6 +67,7 @@ export const VicepresidenciasInputs = memo(function ({
 	formData,
 	disabled,
 	mode,
+	canEdit,
 	isLoading,
 	handleChange
 }: Props) {
@@ -77,14 +79,14 @@ export const VicepresidenciasInputs = memo(function ({
 				name="directivaId"
 				required={required.directivaId}
 				disabled={disabled.directivaId}
-				readonly={mode === 'edit'}
+				readonly={mode === 'edit' || !canEdit}
 				isLoading={isLoading}
 			/>
 			<VicepresidenciaEjecutivaCombobox
 				value={formData.vicepresidenciaEjecutivaId}
 				handleChange={(_name, value) => handleChange('vicepresidenciaEjecutivaId', value)}
 				name="vicepresidenciaEjecutivaId"
-				readonly={mode === 'edit'}
+				readonly={mode === 'edit' || !canEdit}
 				required={required.vicepresidenciaEjecutivaId}
 				directivaId={formData.directivaId}
 				isLoading={isLoading}
@@ -101,6 +103,7 @@ export const VicepresidenciasInputs = memo(function ({
 				error={!!errors?.name}
 				errorMessage={errors?.name}
 				required={required.name}
+				readOnly={!canEdit}
 			/>
 			<CargoTransferList
 				value={formData.cargos}
@@ -110,6 +113,7 @@ export const VicepresidenciasInputs = memo(function ({
 				onRemoveCargo={handleChange}
 				required={required.cargos}
 				disabled={disabled.cargos}
+				readonly={!canEdit}
 			/>
 		</>
 	)

@@ -11,7 +11,7 @@ export type DefaultVicepresidenciaEjecutiva = VicepresidenciaEjecutivaParams & {
 /**
  * Defines the structure for validation errors in the executive vicepresidencia form.
  */
-export interface VicepresidenciaEjecutivaErrors {
+export interface VicepresidenciaEjecutivaErrors extends Record<string, string> {
 	name: string
 	directivaId: string
 }
@@ -19,7 +19,12 @@ export interface VicepresidenciaEjecutivaErrors {
 /**
  * Defines which fields in the executive vicepresidencia form are required based on current state.
  */
-export interface VicepresidenciaEjecutivaRequired {
+export interface VicepresidenciaEjecutivaRequired extends Record<string, boolean> {
+	name: boolean
+	directivaId: boolean
+	cargos: boolean
+}
+export interface VicepresidenciaEjecutivaDisabled extends Record<string, boolean> {
 	name: boolean
 	directivaId: boolean
 	cargos: boolean
@@ -29,6 +34,7 @@ export interface State {
 	formData: DefaultVicepresidenciaEjecutiva
 	errors: VicepresidenciaEjecutivaErrors
 	required: VicepresidenciaEjecutivaRequired
+	disabled: VicepresidenciaEjecutivaDisabled
 }
 
 /**
@@ -49,6 +55,11 @@ export const initialVicepresidenciaEjecutivaState: State = {
 	required: {
 		name: true,
 		directivaId: true,
+		cargos: false
+	},
+	disabled: {
+		directivaId: false,
+		name: false,
 		cargos: false
 	}
 }

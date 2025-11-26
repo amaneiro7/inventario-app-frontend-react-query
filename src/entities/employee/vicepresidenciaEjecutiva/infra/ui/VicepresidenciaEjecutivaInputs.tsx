@@ -39,6 +39,7 @@ interface Props {
 	 */
 	handleChange: (name: Action['type'], value: string | number) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -51,6 +52,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 	required,
 	formData,
 	isLoading,
+	canEdit,
 	handleChange
 }: Props) {
 	return (
@@ -61,6 +63,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 				name="directivaId"
 				isLoading={isLoading}
 				required={required.directivaId}
+				readonly={!canEdit}
 			/>
 			<Input
 				id="vicepresidencia-ejecutiva-search-name"
@@ -74,6 +77,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 				error={!!errors?.name}
 				errorMessage={errors?.name}
 				required={required.name}
+				readOnly={!canEdit}
 			/>
 			<CargoTransferList
 				value={formData.cargos}
@@ -82,6 +86,7 @@ export const VicepresidenciaEjecutivasInputs = memo(function ({
 				onAddCargo={handleChange}
 				onRemoveCargo={handleChange}
 				required={required.cargos}
+				readonly={!canEdit}
 			/>
 		</>
 	)

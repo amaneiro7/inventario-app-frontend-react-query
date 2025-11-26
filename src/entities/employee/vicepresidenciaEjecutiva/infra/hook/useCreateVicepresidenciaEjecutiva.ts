@@ -1,18 +1,21 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import {
 	type DefaultVicepresidenciaEjecutiva,
-	type Action,
 	initialVicepresidenciaEjecutivaState,
 	vicepresidenciaEjecutivaFormReducer
 } from '../reducers/vicepresidenciaEjecutivaFormReducer'
 import { type VicepresidenciaEjecutivaParams } from '../../domain/dto/VicepresidenciaEjecutiva.dto'
 import { VicepresidenciaEjecutivaSaveService } from '../service/vicepresidenciaEjecutivaSave.service'
 import { VicepresidenciaEjecutivaCreator } from '../../application/VicepresidenciaEjecutivaCreator'
-import { useVicepresidenciaEjecutivaInitialState } from './useVicepresidenciaEjecutivaInitialState'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useVicepresidenciaEjecutivaInitialData } from './useVicepresidenciaEjecutivaInitialData'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
 
+const repository = new VicepresidenciaEjecutivaSaveService()
+const vicepresidenciaEjecutivaCreator = new VicepresidenciaEjecutivaCreator(
+	repository,
+	useAuthStore.getState().events
+)
 /**
  * A React hook for managing vicepresidencia ejecutiva creation and update forms.
  * It handles form state, validation errors, and interactions with the VicepresidenciaEjecutivaCreator service.
@@ -20,98 +23,50 @@ import { queryClient } from '@/shared/lib/queryCliente'
  * @returns An object containing form data, mode, errors, required fields, and various handlers.
  */
 export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepresidenciaEjecutiva) {
-	const { events } = useAuthStore.getState()
-
-	/**
-	 * Memoized function to create or update a vicepresidencia ejecutiva.
-	 * It uses the VicepresidenciaEjecutivaCreator service to perform the operation.
-	 */
-	const create = useMemo(
-		() => async (formData: VicepresidenciaEjecutivaParams) => {
-			return await new VicepresidenciaEjecutivaCreator(
-				new VicepresidenciaEjecutivaSaveService(),
-				events
-			).create(formData)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useVicepresidenciaEjecutivaInitialState(
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useVicepresidenciaEjecutivaInitialData(
 			defaultState ?? initialVicepresidenciaEjecutivaState.formData
 		)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required }, dispatch] = useReducer(
-		vicepresidenciaEjecutivaFormReducer,
-		initialVicepresidenciaEjecutivaState
-	)
-	const key = useMemo(
-		() =>
-			`vicepresidenciaEjecutiva${
-				initialVicepresidenciaEjecutivaState?.formData?.id
-					? initialVicepresidenciaEjecutivaState.formData.id
-					: ''
-			}`,
-		[formData?.id]
-	)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	/**
-	 * Resets the form to its initial state.
-	 */
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialState])
-
-	/**
-	 * Handles changes to form input fields.
-	 * @param name - The name of the action/field to update.
-	 * @param value - The new value for the field.
-	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
-	}, [])
-
-	/**
-	 * Handles the form submission.
-	 * Prevents default form submission and calls the `create` function with the current form data.
-	 * Resets the form state after successful submission.
-	 * @param event - The React form event.
-	 */
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['vicepresidenciaEjecutivas'] })
-				resetState()
-			})
+	const vicepresidenciaEjecutivaSaveFn = useCallback(
+		async (data: VicepresidenciaEjecutivaParams) => {
+			return await vicepresidenciaEjecutivaCreator.create(data)
 		},
-		[formData, create, resetState]
+		[]
 	)
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'vicepresidenciaEjecutivas',
+		initialState: initialVicepresidenciaEjecutivaState,
+		reducer: vicepresidenciaEjecutivaFormReducer,
+		initialData,
+		saveFn: vicepresidenciaEjecutivaSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
+		disabled,
 		required,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

@@ -15,14 +15,14 @@ export type DefaultVicepresidencia = VicepresidenciaParams & {
 /**
  * Defines the structure for validation errors in the vicepresidencia form.
  */
-export interface VicepresidenciaErrors {
+export interface VicepresidenciaErrors extends Record<string, string> {
 	name: string
 }
 
 /**
  * Defines which fields in the vicepresidencia form are required based on current state.
  */
-export interface VicepresidenciaRequired {
+export interface VicepresidenciaRequired extends Record<string, boolean> {
 	name: boolean
 	directivaId: boolean
 	vicepresidenciaEjecutivaId: boolean
@@ -32,7 +32,7 @@ export interface VicepresidenciaRequired {
 /**
  * Defines which fields in the vicepresidencia form are disabled based on current state.
  */
-export interface VicepresidenciaDisabled {
+export interface VicepresidenciaDisabled extends Record<string, boolean> {
 	name: boolean
 	directivaId: boolean
 	vicepresidenciaEjecutivaId: boolean

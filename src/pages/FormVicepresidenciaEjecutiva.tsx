@@ -33,10 +33,12 @@ export default function FormVicepresidenciaEjecutiva() {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateVicepresidenciaEjecutiva()
 	const canEdit = useHasPermission(PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.UPDATE)
 	return (
@@ -69,7 +71,7 @@ export default function FormVicepresidenciaEjecutiva() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/vicepresidenciaEjecutiva/add"
 					border
 					searchInput={
