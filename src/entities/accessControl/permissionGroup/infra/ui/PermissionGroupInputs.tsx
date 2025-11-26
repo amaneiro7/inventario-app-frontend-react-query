@@ -16,6 +16,7 @@ interface PermissionGroupInputsProps {
 	formData: DefaultPermissionGroup
 	errors?: PermissionGroupErrors
 	isLoading: boolean
+	canEdit: boolean
 	handleChange: (name: Action['type'], value: string) => void
 }
 
@@ -30,7 +31,7 @@ interface PermissionGroupInputsProps {
  * @param {(name: Action['type'], value: string) => void} props.handleChange - Función de callback para manejar los cambios en los campos de entrada.
  */
 export const PermissionGroupInputs = memo(
-	({ errors, isLoading, formData, handleChange }: PermissionGroupInputsProps) => {
+	({ errors, isLoading, formData, canEdit, handleChange }: PermissionGroupInputsProps) => {
 		return (
 			<>
 				<Input
@@ -45,6 +46,7 @@ export const PermissionGroupInputs = memo(
 					error={!!errors?.name}
 					errorMessage={errors?.name}
 					required
+					readOnly={!canEdit}
 				/>
 				<Input
 					id="permission-group-description"
@@ -58,11 +60,13 @@ export const PermissionGroupInputs = memo(
 					error={!!errors?.description}
 					errorMessage={errors?.description}
 					required
+					readOnly={!canEdit}
 				/>
 				<PermissionTransferList
 					isLoading={isLoading}
 					value={formData.permissions}
 					name="permissions"
+					readonly={!canEdit}
 					onAddPermission={handleChange}
 					onRemovePermission={handleChange}
 				/>

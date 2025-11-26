@@ -1,18 +1,20 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
-
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { usePermissionGroupInitialState } from './usePermissionGroupInitialState'
-
+import { useCallback } from 'react'
+import { usePermissionGroupInitialData } from './usePermissionGroupInitialData'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
 import {
 	initialPermissionGroupState,
-	permissionGroupFormReducer,
-	type Action
+	permissionGroupFormReducer
 } from '../reducers/permissionGroupFormReducer'
 import { PermissionGroupParams } from '../../domain/dto/PermissionGroup.dto'
 import { PermissionGroupSaveService } from '../service/permissionGroupSave.service'
 import { PermissionGroupCreator } from '../../application/PermissionGroupCreator'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+
+const repository = new PermissionGroupSaveService()
+const permissionGroupCreator = new PermissionGroupCreator(
+	repository,
+	useAuthStore.getState().events
+)
 
 /**
  * `useCreatePermissionGroup`
@@ -36,121 +38,48 @@ import { PermissionGroupCreator } from '../../application/PermissionGroupCreator
 
 export function useCreatePermissionGroup(defaultState?: PermissionGroupParams) {
 	// Derive a unique key for the form instance, useful for React's key prop
-	// Use initialState.id if available, otherwise 'new' for new forms.
-	const { initialState, mode, resetState, isError, isNotFound, isLoading, onRetry } =
-		usePermissionGroupInitialState(defaultState ?? initialPermissionGroupState.formData)
+	// Use initialData.id if available, otherwise 'new' for new forms.
+	const { initialData, mode, refreshInitialData, isError, isNotFound, isLoading, onRetry } =
+		usePermissionGroupInitialData(defaultState ?? initialPermissionGroupState.formData)
 
-	const key = `permissionGroup-${initialState.id ? initialState.id : 'new'}`
-
-	const { events } = useAuthStore.getState()
-	const [isSubmitting, setIsSubmitting] = useState(false)
-
-	// Reducer for form state management
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData }, dispatch] = useReducer(
-		permissionGroupFormReducer,
-		initialPermissionGroupState
-	)
-
-	// Initialize form data when initialState changes
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const hasChanges = useMemo(() => {
-		if (!initialState || !formData) {
-			return false
-		}
-
-		return Object.keys(initialState).some(key => {
-			return (initialState as any)[key] !== (formData as any)[key]
-		})
-	}, [formData, initialState])
-
-	/**
-	 * @description Resets the form to its initial state (either default or fetched).
-	 */
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialPermissionGroupState])
-
-	/**
-	 * @description Handles changes in form input fields.
-	 * @param {Action['type']} name - The type of action (corresponds to the field name).
-	 * @param {string} value - The new value of the field.
-	 */
-
-	const handleChange = useCallback((name: Action['type'], value: string) => {
-		// 'init' and 'reset' actions are handled by useLayoutEffect and resetForm respectively,
-		// so they should not be dispatched via this handler.
-		if (name === 'init' || name === 'reset') {
-			console.warn(
-				`Attempted to dispatch '${name}' action via handleChange. This is not allowed.`
-			)
-			return
-		}
-		dispatch({ type: name, payload: { value } })
+	const permissionGroupSaveFn = useCallback(async (data: PermissionGroupParams) => {
+		return await permissionGroupCreator.create(data)
 	}, [])
 
-	/**
-	 * @description Encapsulates the logic for creating/updating a permissionGroup.
-	 * @param {PermissionGroupParams} data - The form data to be saved.
-	 * @returns {Promise<void>} A promise that resolves when the operation is complete.
-	 */
-	const save = useCallback(
-		async (data: PermissionGroupParams): Promise<void> => {
-			await new PermissionGroupCreator(new PermissionGroupSaveService(), events).create(data)
-		},
-		[events]
-	) // Depend on events from auth store
-
-	/**
-	 * @description Handles the form submission.
-	 * @param {React.FormEvent} event - The form submission event.
-	 * @returns {Promise<void>} A promise that resolves after submission and state updates.
-	 */
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			setIsSubmitting(true)
-			const hasErrors = Object.values(errors).some(error => error !== '')
-			if (hasErrors || !hasChanges) {
-				// Maybe notify user about errors
-				setIsSubmitting(false)
-				return
-			}
-
-			await save(formData)
-				.then(() => {
-					queryClient.invalidateQueries({ queryKey: ['permissionGroups'] })
-					resetState()
-				})
-				.finally(() => {
-					setIsSubmitting(false)
-				})
-		},
-		[save, formData, resetState]
-	) // Depend on create, formData, and resetState
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'permissionGroups',
+		initialState: initialPermissionGroupState,
+		reducer: permissionGroupFormReducer,
+		initialData,
+		saveFn: permissionGroupSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		isNotFound,
+		disabled,
+		required,
 		isError,
 		isLoading,
 		isSubmitting,
+		isNotFound,
 		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

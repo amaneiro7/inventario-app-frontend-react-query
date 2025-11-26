@@ -17,9 +17,17 @@ export type DefaultPermissionGroup = PermissionGroupParams & {
  * @description Define la estructura de los errores de validación para el formulario de `Permission`.
  * @property {string} name - Mensaje de error para el campo `name`.
  */
-export interface PermissionGroupErrors {
+export interface PermissionGroupErrors extends Record<string, string> {
 	name: string
-	description?: string
+	description: string
+}
+export interface PermissionGroupRequired extends Record<string, boolean> {
+	name: boolean
+	description: boolean
+}
+export interface PermissionGroupDisabled extends Record<string, boolean> {
+	name: boolean
+	description: boolean
 }
 
 /**
@@ -31,6 +39,8 @@ export interface PermissionGroupErrors {
 export interface State {
 	formData: DefaultPermissionGroup
 	errors: PermissionGroupErrors
+	required: PermissionGroupRequired
+	disabled: PermissionGroupDisabled
 }
 
 /**
@@ -46,7 +56,16 @@ export const initialPermissionGroupState: State = {
 		updatedAt: undefined
 	},
 	errors: {
-		name: ''
+		name: '',
+		description: ''
+	},
+	disabled: {
+		name: false,
+		description: false
+	},
+	required: {
+		name: true,
+		description: true
 	}
 }
 
