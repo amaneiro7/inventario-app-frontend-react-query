@@ -10,7 +10,7 @@ import { ShipmentReason } from '../value-object/ShipmentReason'
 import { DeviceId } from '@/entities/devices/devices/domain/value-object/DeviceId'
 import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/InvalidArgumentError'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type ShipmentPrimitives } from '../dto/Shipment.dto'
+import { ShipmentParams, type ShipmentPrimitives } from '../dto/Shipment.dto'
 
 /**
  * `Shipment`
@@ -49,10 +49,10 @@ export class Shipment {
 	/**
 	 * Crea una instancia de `Shipment` a partir de datos existentes (p. ej., desde la base de datos o API).
 	 * Este método se utiliza para reconstruir una entidad y solo valida invariantes que siempre deben cumplirse.
-	 * @param {ShipmentPrimitives} params - Las propiedades primitivas del envío.
+	 * @param {ShipmentParams} params - Las propiedades primitivas del envío.
 	 * @returns {Shipment} Una instancia de `Shipment`.
 	 */
-	static fromPrimitives(params: ShipmentPrimitives): Shipment {
+	static fromPrimitives(params: ShipmentParams): Shipment {
 		// Invariant rule: origin and destination cannot be the same.
 		if (params.origin === params.destination) {
 			throw new InvalidArgumentError('El origen y el destino no pueden ser el mismo.')
@@ -91,10 +91,10 @@ export class Shipment {
 	/**
 	 * Crea una **nueva** instancia de `Shipment` a partir de sus propiedades primitivas,
 	 * aplicando las reglas de negocio para la creación.
-	 * @param {ShipmentPrimitives} params - Las propiedades primitivas del envío.
+	 * @param {ShipmentParams} params - Las propiedades primitivas del envío.
 	 * @returns {Shipment} Una nueva instancia de `Shipment`.
 	 */
-	static create(params: ShipmentPrimitives): Shipment {
+	static create(params: ShipmentParams): Shipment {
 		// --- Business Rules for Creation ---
 		if (params.status !== StatusEnum.PENDING && params.status !== StatusEnum.IN_TRANSIT) {
 			throw new InvalidArgumentError(
