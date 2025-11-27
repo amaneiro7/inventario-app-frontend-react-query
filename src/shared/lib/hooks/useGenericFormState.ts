@@ -53,7 +53,7 @@ export function useGenericFormState<
 		if (!initialData || !formData) {
 			return false
 		}
-		return isDeepEqual(formData, initialData)
+		return !isDeepEqual(formData, initialData)
 	}, [formData, initialData, isDeepEqual])
 
 	// 3. Función Reset

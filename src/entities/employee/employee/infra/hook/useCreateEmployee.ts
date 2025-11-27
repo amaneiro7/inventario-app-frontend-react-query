@@ -58,7 +58,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		if (!initialData || !formData) {
 			return false
 		}
-		return isDeepEqual(formData, initialData)
+		return !isDeepEqual(formData, initialData)
 	}, [formData, initialData, isDeepEqual])
 
 	/**

@@ -71,12 +71,14 @@ export class Shipment {
 		}
 
 		const deviceIds = params.deviceIds.map(device => new DeviceId(device))
+		const shipmentDate = new Date(params.shipmentDate)
+		const deliveryDate = params.deliveryDate ? new Date(params.deliveryDate) : null
 
 		return new Shipment(
 			new Origin(params.origin),
 			new Destination(params.destination),
-			new ShipmentDate(params.shipmentDate),
-			new DeliveryDate(params.deliveryDate),
+			new ShipmentDate(shipmentDate),
+			new DeliveryDate(deliveryDate),
 			new ReceivedBy(params.receivedBy),
 			new TrackingNumber(params.trackingNumber),
 			new Observation(params.observation),

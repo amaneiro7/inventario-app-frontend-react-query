@@ -19,33 +19,14 @@ const InputTypeCombobox = lazy(() =>
 )
 
 interface AddModelKeyboardFeaturesProps {
-	/**
-	 * The current form data for the model.
-	 */
 	formData: DefaultModel
-	/**
-	 * An object containing validation errors for each form field.
-	 */
 	errors: ModelErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: ModelRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: ModelDisabled
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	mode?: FormMode
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: any) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -59,6 +40,7 @@ export const AddModelKeyboardFeatures = memo(
 		errors,
 		formData,
 		isLoading,
+		canEdit,
 		required
 	}: AddModelKeyboardFeaturesProps) => {
 		return (
@@ -69,19 +51,21 @@ export const AddModelKeyboardFeatures = memo(
 						handleChange={(_name, value) => handleChange('inputTypeId', value)}
 						name="inputTypeId"
 						isLoading={isLoading}
+						readonly={!canEdit}
 						error={errors.inputTypeId}
 						required={required.inputTypeId}
 						disabled={disabled.inputTypeId}
 					/>
 
 					<Checkbox
-						label="Tiene lector de huella"
 						text="¿Tiene lector de huella?"
 						value={formData.hasFingerPrintReader}
 						name="hasFingerPrintReader"
 						onChange={e => {
 							handleChange('hasFingerPrintReader', e.target.checked)
 						}}
+						disabled={disabled.hasFingerPrintReader}
+						readOnly={!canEdit}
 					/>
 				</div>
 			</>

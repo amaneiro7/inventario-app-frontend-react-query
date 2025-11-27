@@ -94,7 +94,6 @@ export const ShipmentPrimaryFilter = memo(
 					</Suspense>
 				) : (
 					<Checkbox
-						label="Mostrar solo mis envíos"
 						name="sentBy"
 						text="Mostrar solo mis envios"
 						value={isFilteringByMe}

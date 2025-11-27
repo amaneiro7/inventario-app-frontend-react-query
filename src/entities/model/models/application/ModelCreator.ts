@@ -14,7 +14,7 @@ import { ModelMonitor } from '../domain/entity/ModelMonitor'
 import { ModelPrinter } from '../domain/entity/ModelPrinter'
 import { ModelKeyboard } from '../domain/entity/ModelKeyboard'
 
-type Params =
+export type Params =
 	| ModelComputerParams
 	| ModelLaptopParams
 	| ModelKeyboardParams

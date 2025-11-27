@@ -1,80 +1,61 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import {
 	type DefaultModel,
-	type Action,
 	initialModelState,
 	modelFormReducer
 } from '../reducers/modelFormReducer'
-
 import { ModelSaveService } from '../service/modelSave.service'
-import { ModelCreator } from '../../application/ModelCreator'
-import { useModelInitialState } from './useModelsInitialState'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useModelInitialData } from './useModelsInitialData'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+import { type Params, ModelCreator } from '../../application/ModelCreator'
+import { type ModelParams } from '../../domain/dto/Model.dto'
+
+const repository = new ModelSaveService()
+const modelCreator = new ModelCreator(repository, useAuthStore.getState().events)
 
 export function useCreateModel(defaultState?: DefaultModel) {
-	const { events } = useAuthStore.getState()
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useModelInitialData(defaultState ?? initialModelState.formData)
 
-	const create = useMemo(
-		() => async (formData: never) => {
-			return await new ModelCreator(new ModelSaveService(), events).create(formData)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useModelInitialState(defaultState ?? initialModelState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		modelFormReducer,
-		initialModelState
-	)
-	const key = useMemo(
-		() => `Model${initialModelState?.formData?.id ? initialModelState.formData.id : ''}`,
-		[formData?.id]
-	)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialState])
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
+	const modelSaveFn = useCallback(async (data: ModelParams) => {
+		return await modelCreator.create(data as Params)
 	}, [])
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault()
-		event.stopPropagation()
-		await create(formData as never).then(() => {
-			queryClient.invalidateQueries({ queryKey: ['models'] })
-			resetState()
-		})
-	}
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'models',
+		initialState: initialModelState,
+		reducer: modelFormReducer,
+		initialData,
+		saveFn: modelSaveFn,
+		refreshInitialData
+	})
+
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		required,
 		disabled,
+		required,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

@@ -64,7 +64,11 @@ export default function FormEmployee() {
 		handlePhoneChange,
 		handleRemovePhones
 	} = useCreateEmployee()
-	const canEdit = useHasPermission(PERMISSIONS.EMPLOYEES.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.EMPLOYEES.UPDATE)
+
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<>
 			<Tabs defaultValue="form" className="h-full space-y-4">

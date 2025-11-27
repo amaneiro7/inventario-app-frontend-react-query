@@ -40,8 +40,11 @@ export default function FormDepartamento() {
 		handleSubmit,
 		discardChanges
 	} = useCreateDepartamento()
-	const canEdit = useHasPermission(PERMISSIONS.DEPARTAMENTOS.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.DEPARTAMENTOS.UPDATE)
 
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={

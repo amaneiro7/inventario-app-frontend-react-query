@@ -32,33 +32,14 @@ const AddtionalModelFeatures = lazy(() =>
 )
 
 interface ModelInputsProps {
-	/**
-	 * The current form data for the model.
-	 */
 	formData: DefaultModel
-	/**
-	 * An object containing validation errors for each form field.
-	 */
 	errors: ModelErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: ModelRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: ModelDisabled
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	mode?: FormMode
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: any) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -74,6 +55,7 @@ export const ModelInputs = memo(function ({
 	formData,
 	mode,
 	isLoading,
+	canEdit,
 	handleChange
 }: ModelInputsProps) {
 	return (
@@ -91,7 +73,7 @@ export const ModelInputs = memo(function ({
 						error={errors.mainCategoryId}
 						required={required.mainCategoryId}
 						disabled={disabled.mainCategoryId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 						isLoading={isLoading}
 					/>
 					<CategoryCombobox
@@ -102,7 +84,7 @@ export const ModelInputs = memo(function ({
 						error={errors.categoryId}
 						required={required.categoryId}
 						disabled={disabled.categoryId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 						isLoading={isLoading}
 					/>
 					<BrandCombobox
@@ -112,7 +94,7 @@ export const ModelInputs = memo(function ({
 						error={errors.brandId}
 						required={required.brandId}
 						disabled={disabled.brandId}
-						readonly={mode === 'edit'}
+						readonly={mode === 'edit' || !canEdit}
 						isLoading={isLoading}
 					/>
 				</div>
@@ -133,12 +115,14 @@ export const ModelInputs = memo(function ({
 						errorMessage={errors?.name}
 						required={required.name}
 						disabled={disabled.name}
+						readOnly={!canEdit}
 					/>
 					<Checkbox
-						label="modelo genérico"
 						text="¿Es un modelo genérico?"
 						name="generic"
 						value={formData.generic}
+						readOnly={!canEdit}
+						disabled={disabled.generic}
 						onChange={e => {
 							handleChange('generic', e.target.checked)
 						}}
@@ -151,6 +135,7 @@ export const ModelInputs = memo(function ({
 			<AddtionalModelFeatures
 				formData={formData}
 				errors={errors}
+				canEdit={canEdit}
 				required={required}
 				disabled={disabled}
 				handleChange={handleChange}

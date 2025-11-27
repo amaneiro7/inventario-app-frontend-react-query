@@ -12,33 +12,14 @@ import {
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface AddModelPrinterFeaturesProps {
-	/**
-	 * The current form data for the model.
-	 */
 	formData: DefaultModel
-	/**
-	 * An object containing validation errors for each form field.
-	 */
 	errors: ModelErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: ModelRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: ModelDisabled
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	mode?: FormMode
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: any) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -52,6 +33,7 @@ export const AddModelPrinterFeatures = memo(
 		formData,
 		disabled,
 		isLoading,
+		canEdit,
 		required
 	}: AddModelPrinterFeaturesProps) => {
 		return (
@@ -62,6 +44,7 @@ export const AddModelPrinterFeatures = memo(
 						value={formData.cartridgeModel}
 						name="cartridgeModel"
 						isLoading={isLoading}
+						readOnly={!canEdit}
 						label="Número de modelo del cartucho"
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('cartridgeModel', e.target.value)

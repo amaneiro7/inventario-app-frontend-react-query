@@ -39,8 +39,11 @@ export default function FormDirectiva() {
 		handleSubmit,
 		discardChanges
 	} = useCreateDirectiva()
-	const canEdit = useHasPermission(PERMISSIONS.DIRECTIVAS.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.DIRECTIVAS.UPDATE)
 
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={

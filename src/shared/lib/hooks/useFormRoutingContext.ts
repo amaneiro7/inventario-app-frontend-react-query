@@ -39,6 +39,7 @@ export function useFormRoutingContext(): FormRoutingContext {
 		} else {
 			setIsNotFound(false)
 		}
+		console.log(error)
 	}, [])
 
 	// El id de la ruta siempre será una cadena o undefined

@@ -42,7 +42,11 @@ export default function FormLocation() {
 		handleSubmit,
 		discardChanges
 	} = useCreateLocation()
-	const canEdit = useHasPermission(PERMISSIONS.LOCATIONS.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.LOCATIONS.UPDATE)
+
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={

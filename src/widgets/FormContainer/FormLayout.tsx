@@ -8,6 +8,7 @@ import { Tag } from '@/shared/ui/Tag'
 import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { SearchSection } from './SearchSection'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
+import { FormPermissionBanner } from './FormPermissionBanner'
 
 interface FormLayoutProps {
 	id: string
@@ -83,13 +84,7 @@ export const FormLayout = memo(
 
 					<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 				</DetailsBoxWrapper>
-				{isReadOnly && (
-					<DetailsBoxWrapper position="center" className="bg-amarillo-100">
-						<Typography variant="h3" className="text-amarillo-800 text-center">
-							⚠️ {readOnlyMessage || 'No tienes permiso para editar este recurso.'}
-						</Typography>
-					</DetailsBoxWrapper>
-				)}
+				{isReadOnly && <FormPermissionBanner readOnlyMessage={readOnlyMessage} />}
 				{!standBy && (
 					<DetailsBoxWrapper position="center">
 						<FormComponent

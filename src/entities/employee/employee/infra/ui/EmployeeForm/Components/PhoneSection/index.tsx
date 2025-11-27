@@ -84,7 +84,7 @@ export const PhoneSection = ({
 						<Button
 							className="mb-3 aspect-square rounded-full pr-0.5 font-black"
 							buttonSize="medium"
-							disabled={!readOnly || phones[index] === ''}
+							disabled={readOnly || phones[index] === ''}
 							text=""
 							icon={<BrushIcon className="h-4 w-4 fill-white text-white" />}
 							size="content"

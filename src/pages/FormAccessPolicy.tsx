@@ -39,8 +39,11 @@ export default function FormAccessPolicy() {
 		handleSubmit,
 		discardChanges
 	} = useCreateAccessPolicy()
-	const canEdit = useHasPermission(PERMISSIONS.ACCESS_POLICIES.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.ACCESS_POLICIES.UPDATE)
 
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={

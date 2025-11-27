@@ -24,7 +24,7 @@ export interface DefaultModel extends ModelParams {
 /**
  * Defines the structure for validation errors in the model form.
  */
-export interface ModelErrors {
+export interface ModelErrors extends Record<string, string> {
 	name: string
 	mainCategoryId: string
 	categoryId: string
@@ -40,7 +40,7 @@ export interface ModelErrors {
 /**
  * Defines which fields in the model form are required based on current state.
  */
-export interface ModelRequired {
+export interface ModelRequired extends Record<string, boolean> {
 	name: boolean
 	mainCategoryId: boolean
 	categoryId: boolean
@@ -56,7 +56,7 @@ export interface ModelRequired {
 /**
  * Defines which fields in the model form are disabled based on current state.
  */
-export interface ModelDisabled {
+export interface ModelDisabled extends Record<string, boolean> {
 	name: boolean
 	mainCategoryId: boolean
 	categoryId: boolean

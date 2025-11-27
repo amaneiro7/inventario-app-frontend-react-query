@@ -33,12 +33,18 @@ export default function FormModel() {
 		isError,
 		isLoading,
 		isNotFound,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateModel()
-	const canEdit = useHasPermission(PERMISSIONS.MODELS.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.MODELS.UPDATE)
+
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={
@@ -69,9 +75,8 @@ export default function FormModel() {
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/model/add"
-					lastUpdated={formData.updatedAt}
 					searchInput={
 						<Suspense fallback={<InputFallback />}>
 							<ModelSearch />

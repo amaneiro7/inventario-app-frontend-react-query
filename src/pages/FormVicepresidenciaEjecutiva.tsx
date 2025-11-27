@@ -40,7 +40,11 @@ export default function FormVicepresidenciaEjecutiva() {
 		handleSubmit,
 		discardChanges
 	} = useCreateVicepresidenciaEjecutiva()
-	const canEdit = useHasPermission(PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.UPDATE)
+
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={

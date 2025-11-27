@@ -1,6 +1,6 @@
-import { ProcessorFrequency } from '../../domain/value-object/ProcessorFrequency'
-import { type ProcessorDto } from '../../domain/dto/Processor.dto'
-import { type DefaultProcessor } from '../reducers/processorFormReducer'
+import { type ProcessorDto } from '../domain/dto/Processor.dto'
+import { type DefaultProcessor } from '../infra/reducers/processorFormReducer'
+import { ProcessorFrequency } from '../domain/value-object/ProcessorFrequency'
 
 export const adaptProcessorData = (data: ProcessorDto): DefaultProcessor => ({
 	id: data.id,

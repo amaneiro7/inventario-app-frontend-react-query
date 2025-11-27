@@ -64,7 +64,7 @@ export interface Shipment {
  * @description Representa los parámetros para crear o actualizar una entidad `Shipment`.
  * Incluye todas las propiedades de `ShipmentPrimitives` y opcionalmente el `id`.
  */
-export type ShipmentParams = ShipmentPrimitives & {
+export type ShipmentParams = Omit<ShipmentPrimitives, 'shipmentDate' | 'deliveryDate'> & {
 	id?: Primitives<ShipmentId> | undefined
 	shipmentDate: string
 	deliveryDate: string
@@ -75,10 +75,7 @@ export type ShipmentParams = ShipmentPrimitives & {
  * @description Representa la forma primitiva de una entidad `Shipment` para la persistencia.
  * Excluye el `id` ya que puede ser generado por el sistema de persistencia.
  */
-export type ShipmentPrimitives = Omit<Shipment, 'id' | 'shipmentDate' | 'deliveryDate'> & {
-	shipmentDate: string
-	deliveryDate: string
-}
+export type ShipmentPrimitives = Omit<Shipment, 'id'>
 
 /**
  * @interface ShipmentDto

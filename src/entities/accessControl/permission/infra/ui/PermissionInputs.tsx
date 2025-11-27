@@ -49,11 +49,13 @@ export const PermissionInputs = memo(
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('name', e.target.value)
 					}
+					placeholder="resource:action (e.g. posts:edit)"
 					error={!!errors?.name}
 					errorMessage={errors?.name}
 					required={required?.name}
 					disabled={disabled?.name || !canEdit}
 					readOnly={!canEdit}
+					transform
 				/>
 				<Input
 					id="permission-description"

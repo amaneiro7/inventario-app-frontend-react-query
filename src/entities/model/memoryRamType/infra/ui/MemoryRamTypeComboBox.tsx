@@ -30,6 +30,7 @@ interface MemoryRamTypeComboboxProps {
 	 */
 	handleChange: (name: string, value: string | number) => void
 	isLoading?: boolean
+	readonly?: boolean
 }
 
 /**
@@ -44,6 +45,7 @@ export const MemoryRamTypeCombobox = memo(
 		required = false,
 		disabled = false,
 		isLoading = false,
+		readonly = false,
 		handleChange
 	}: MemoryRamTypeComboboxProps) => {
 		const { data: memoryRamTypes, isLoading: loading } = useGetAllMemoryRamType({})
@@ -62,6 +64,7 @@ export const MemoryRamTypeCombobox = memo(
 					options={options}
 					required={required}
 					disabled={disabled}
+					readOnly={readonly}
 					error={!!error}
 					errorMessage={error}
 					searchField={false}

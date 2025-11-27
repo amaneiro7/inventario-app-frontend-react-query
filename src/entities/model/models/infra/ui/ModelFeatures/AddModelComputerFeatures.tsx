@@ -26,33 +26,14 @@ const ProcessorTransferList = lazy(() =>
 )
 
 interface AddModelComputerFeaturesProps {
-	/**
-	 * The current form data for the model.
-	 */
 	formData: DefaultModel
-	/**
-	 * An object containing validation errors for each form field.
-	 */
 	errors: ModelErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: ModelRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: ModelDisabled
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	mode?: FormMode
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: any) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -68,6 +49,7 @@ export const AddModelComputerFeatures = memo(
 		errors,
 		formData,
 		isLoading,
+		canEdit,
 		required
 	}: AddModelComputerFeaturesProps) => {
 		return (
@@ -81,6 +63,7 @@ export const AddModelComputerFeatures = memo(
 						required={required.memoryRamTypeId}
 						disabled={disabled.memoryRamTypeId}
 						isLoading={isLoading}
+						readonly={!canEdit}
 					/>
 
 					<Input
@@ -90,6 +73,7 @@ export const AddModelComputerFeatures = memo(
 						isLoading={isLoading}
 						type="number"
 						label="Cantidad de ranuras"
+						readOnly={!canEdit}
 						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 							handleChange('memoryRamSlotQuantity', Number(e.target.value))
 						}
@@ -102,46 +86,46 @@ export const AddModelComputerFeatures = memo(
 				</div>
 				<div className="grid grid-flow-row gap-4 md:grid-cols-3">
 					<Checkbox
-						label="Tiene puerto VGA"
 						text="¿Tiene puerto VGA?"
 						value={formData.hasVGA}
 						name="hasVGA"
+						readOnly={!canEdit}
 						onChange={e => {
 							handleChange('hasVGA', e.target.checked)
 						}}
 					/>
 					<Checkbox
-						label="Tiene puerto DVI"
 						text="¿Tiene puerto DVI?"
 						value={formData.hasDVI}
 						name="hasDVI"
+						readOnly={!canEdit}
 						onChange={e => {
 							handleChange('hasDVI', e.target.checked)
 						}}
 					/>
 					<Checkbox
-						label="Tiene puerto HDMI"
 						text="¿Tiene puerto HDMI?"
 						value={formData.hasHDMI}
 						name="hasHDMI"
+						readOnly={!canEdit}
 						onChange={e => {
 							handleChange('hasHDMI', e.target.checked)
 						}}
 					/>
 					<Checkbox
-						label="Tiene Bluetooth"
 						text="¿Tiene Bluetooth?"
 						value={formData.hasBluetooth}
 						name="hasBluetooth"
+						readOnly={!canEdit}
 						onChange={e => {
 							handleChange('hasBluetooth', e.target.checked)
 						}}
 					/>
 					<Checkbox
-						label="Tiene Wifi"
 						text="¿Tiene Adaptador Wifi?"
 						value={formData.hasWifiAdapter}
 						name="hasWifiAdapter"
+						readOnly={!canEdit}
 						onChange={e => {
 							handleChange('hasWifiAdapter', e.target.checked)
 						}}
@@ -158,6 +142,7 @@ export const AddModelComputerFeatures = memo(
 							handleChange('batteryModel', e.target.value)
 						}
 						error={!!errors?.batteryModel}
+						readOnly={!canEdit}
 						errorMessage={errors?.batteryModel}
 						required={required.batteryModel}
 						disabled={disabled.batteryModel}
@@ -166,6 +151,7 @@ export const AddModelComputerFeatures = memo(
 				<ProcessorTransferList
 					value={formData.processors}
 					name="processors"
+					readonly={!canEdit}
 					isLoading={isLoading}
 					onAddProcessor={handleChange}
 					onRemoveProcessor={handleChange}

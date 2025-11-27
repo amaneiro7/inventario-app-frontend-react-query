@@ -13,33 +13,14 @@ import {
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface AddModelMonitorFeaturesProps {
-	/**
-	 * The current form data for the model.
-	 */
 	formData: DefaultModel
-	/**
-	 * An object containing validation errors for each form field.
-	 */
 	errors: ModelErrors
-	/**
-	 * An object indicating which form fields are required.
-	 */
 	required: ModelRequired
-	/**
-	 * An object indicating which form fields are disabled.
-	 */
 	disabled: ModelDisabled
-	/**
-	 * The current mode of the form (e.g., 'add' or 'edit').
-	 */
 	mode?: FormMode
-	/**
-	 * Callback function to handle changes in form input fields.
-	 * @param name - The name of the field being changed.
-	 * @param value - The new value of the field.
-	 */
 	handleChange: (name: Action['type'], value: any) => void
 	isLoading: boolean
+	canEdit: boolean
 }
 
 /**
@@ -47,7 +28,14 @@ interface AddModelMonitorFeaturesProps {
  * specific to monitor models. It includes fields for screen size and various ports (VGA, DVI, HDMI).
  */
 export const AddModelMonitorFeatures = memo(
-	({ handleChange, errors, formData, isLoading, required }: AddModelMonitorFeaturesProps) => {
+	({
+		handleChange,
+		errors,
+		formData,
+		canEdit,
+		isLoading,
+		required
+	}: AddModelMonitorFeaturesProps) => {
 		return (
 			<>
 				<div className="grid gap-4 md:grid-cols-2">
@@ -64,6 +52,7 @@ export const AddModelMonitorFeatures = memo(
 						error={!!errors?.screenSize}
 						errorMessage={errors?.screenSize}
 						required={required.screenSize}
+						readOnly={!canEdit}
 						rightAdorment={<span className="text-[8px]">Pulgadas</span>}
 						min={ScreenSize.MIN}
 						max={ScreenSize.MAX}
@@ -71,28 +60,28 @@ export const AddModelMonitorFeatures = memo(
 					/>
 					<div className="grid grid-flow-row gap-4 md:grid-cols-2">
 						<Checkbox
-							label="Tiene puerto VGA"
 							text="¿Tiene puerto VGA?"
 							value={formData.hasVGA}
 							name="hasVGA"
+							readOnly={!canEdit}
 							onChange={e => {
 								handleChange('hasVGA', e.target.checked)
 							}}
 						/>
 						<Checkbox
-							label="Tiene puerto DVI"
 							text="¿Tiene puerto DVI?"
 							value={formData.hasDVI}
 							name="hasDVI"
+							readOnly={!canEdit}
 							onChange={e => {
 								handleChange('hasDVI', e.target.checked)
 							}}
 						/>
 						<Checkbox
-							label="Tiene puerto HDMI"
 							text="¿Tiene puerto HDMI?"
 							value={formData.hasHDMI}
 							name="hasHDMI"
+							readOnly={!canEdit}
 							onChange={e => {
 								handleChange('hasHDMI', e.target.checked)
 							}}

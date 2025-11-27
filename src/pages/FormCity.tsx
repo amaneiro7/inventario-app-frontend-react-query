@@ -34,8 +34,11 @@ export default function FormCity() {
 		handleSubmit,
 		discardChanges
 	} = useCreateCity()
-	const canEdit = useHasPermission(PERMISSIONS.CITIES.UPDATE)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.CITIES.UPDATE)
 
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
 		<Suspense
 			fallback={
