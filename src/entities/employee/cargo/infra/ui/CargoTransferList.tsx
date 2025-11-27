@@ -7,48 +7,16 @@ import { TransferListItem } from '../../../../../shared/ui/TransferList/Transfer
 import { type CargoDto } from '@/entities/employee/cargo/domain/dto/Cargo.dto'
 
 interface CargoTransferListProps {
-	/**
-	 * An array of selected cargo IDs.
-	 */
 	value?: CargoDto['id'][]
-	/**
-	 * The name of the input field.
-	 */
 	name: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	isLoading?: boolean
-	/**
-	 * Whether the input is loading.
-	 */
 	readonly?: boolean
-	/**
-	 * Callback function triggered when a cargo is added to the list.
-	 * @param name - The name of the action ('addCargo').
-	 * @param value - The ID of the cargo to add.
-	 */
 	onAddCargo: (name: 'addCargo', value: string) => void
-	/**
-	 * Callback function triggered when a cargo is removed from the list.
-	 * @param name - The name of the action ('removeCargo').
-	 * @param value - The ID of the cargo to remove.
-	 */
 	onRemoveCargo: (name: 'removeCargo', value: string) => void
 }
-
 /**
  * `CargoTransferList` is a functional component that provides a dual-list interface
  * for selecting and managing cargos. It allows users to search for available cargos
@@ -122,6 +90,7 @@ export function CargoTransferList({
 									key={cargoId}
 									id={cargoId}
 									name={cargo?.name}
+									readOnly={readonly}
 									onRemove={handleRemoveCargo}
 								/>
 							)

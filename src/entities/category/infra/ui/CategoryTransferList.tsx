@@ -101,6 +101,7 @@ export function CategoryTransferList({
 									isLoading={isLoading}
 									id={categoryId}
 									name={cargo?.name}
+									readOnly={readonly}
 									onRemove={handleRemoveCategory}
 								/>
 							)

@@ -33,8 +33,7 @@ export const TransferListItem = memo(
 				</Typography>
 				<button
 					className={cn(
-						'cursor-pointer rounded-full p-1 text-black transition-colors hover:bg-slate-300 focus:outline-hidden',
-						readOnly && 'cursor-not-allowed text-slate-400 hover:bg-transparent'
+						'cursor-pointer rounded-full p-1 text-black transition-colors hover:bg-slate-300 focus:outline-hidden disabled:cursor-not-allowed disabled:text-slate-400 disabled:hover:bg-transparent'
 					)}
 					type="button"
 					onClick={() => onRemove(id)}

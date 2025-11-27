@@ -120,6 +120,7 @@ export function DepartamentoTransferList({
 									key={departamentoId}
 									id={departamentoId}
 									name={Departamento?.name}
+									readOnly={readonly}
 									onRemove={handleRemoveDepartamento}
 								/>
 							)

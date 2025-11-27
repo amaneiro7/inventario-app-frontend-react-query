@@ -14,9 +14,9 @@ export function Nav() {
 			id="main-navigation"
 			aria-label="Main navigation"
 			style={{
-				height: 'calc(100vh - 64px)'
+				height: 'calc(100vh - 104px)'
 			}}
-			className="nav-content bg-azul-950/95 fixed top-16 -right-96 z-40 w-96 max-w-2/3 transform-gpu overflow-auto px-8 py-4 text-white transition-transform duration-300 ease-in-out will-change-transform"
+			className="nav-content bg-azul-950/95 fixed top-[104px] -right-96 z-40 w-96 max-w-2/3 transform-gpu overflow-auto px-8 py-4 text-white transition-transform duration-300 ease-in-out will-change-transform"
 		>
 			<ul className="space-y-2">
 				{/* Home Link */}

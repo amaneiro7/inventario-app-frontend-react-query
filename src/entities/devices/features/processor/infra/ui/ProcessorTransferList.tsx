@@ -86,6 +86,7 @@ export function ProcessorTransferList({
 									id={processorId}
 									name={cargo?.name}
 									isLoading={isLoading}
+									readOnly={readonly}
 									onRemove={handleRemoveProcessor}
 								/>
 							)

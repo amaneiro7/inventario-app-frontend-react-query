@@ -96,6 +96,7 @@ export function DeviceTransferList({
 										key={deviceId}
 										isLoading={isLoading}
 										id={deviceId}
+										readOnly={readonly}
 										name={`${device.category.name} - ${device.model.name} - ${device.serial ? device.serial : 'Sin serial'}`}
 										onRemove={handleRemoveDevice}
 									/>

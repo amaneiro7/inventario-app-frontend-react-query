@@ -56,6 +56,25 @@
 .checkbox-wrapper-4 .cbx:hover span:first-child {
 	border-color: #07f;
 }
+
+.checkbox-wrapper-4[data-readonly='true'] .cbx {
+	cursor: not-allowed;
+	opacity: 0.7;
+}
+
+.checkbox-wrapper-4 .inp-cbx:disabled + .cbx {
+	cursor: not-allowed;
+	opacity: 0.7;
+}
+
+.checkbox-wrapper-4 .inp-cbx:disabled + .cbx span:first-child {
+	border-color: #cccfdb; /* Lighter grey for disabled border */
+}
+
+.checkbox-wrapper-4 .inp-cbx:disabled + .cbx:hover {
+	background: none; /* Remove hover effect for disabled */
+}
+
 .checkbox-wrapper-4 .inp-cbx {
 	position: absolute;
 	visibility: hidden;
