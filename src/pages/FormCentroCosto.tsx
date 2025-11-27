@@ -21,18 +21,20 @@ const CentroCostoSearch = lazy(() =>
 export default function FormCentroCosto() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
-		disabled,
-		required,
 		isError,
 		isLoading,
 		isNotFound,
+		required,
+		disabled,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateCentroCosto()
 
 	return (
@@ -50,14 +52,17 @@ export default function FormCentroCosto() {
 					id={key}
 					description="Ingrese los datos del cenrto de costo el cual desea registar."
 					isAddForm={mode === 'add'}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/centrocosto/add"
 					border
-					lastUpdated={formData.updatedAt}
 					searchInput={<CentroCostoSearch />}
 				>
 					<CentroCostoInputs

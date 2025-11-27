@@ -1,89 +1,61 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
+import { useCallback } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import {
 	type DefaultCentroTrabajo,
-	type Action,
 	initialCentroTrabajoState,
 	centroTrabajoFormReducer
 } from '../reducers/centroTrabajoFormReducer'
 import { type CentroTrabajoParams } from '../../domain/dto/CentroTrabajo.dto'
 import { CentroTrabajoSaveService } from '../service/centroTrabajoSave.service'
 import { CentroTrabajoCreator } from '../../application/CentroTrabajoCreator'
-import { useCentroTrabajoInitialState } from './useCentroTrabajoInitialState'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useCentroTrabajoInitialData } from './useCentroTrabajoInitialData'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+
+const repository = new CentroTrabajoSaveService()
+const centroTrabajoCreator = new CentroTrabajoCreator(repository, useAuthStore.getState().events)
 
 export function useCreateCentroTrabajo(defaultState?: DefaultCentroTrabajo) {
-	const { events } = useAuthStore.getState()
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useCentroTrabajoInitialData(defaultState ?? initialCentroTrabajoState.formData)
 
-	const create = useMemo(
-		() => async (formData: CentroTrabajoParams) => {
-			return await new CentroTrabajoCreator(new CentroTrabajoSaveService(), events).create(
-				formData
-			)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useCentroTrabajoInitialState(defaultState ?? initialCentroTrabajoState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		centroTrabajoFormReducer,
-		initialCentroTrabajoState
-	)
-	const key = useMemo(
-		() =>
-			`centroTrabajo${
-				initialCentroTrabajoState?.formData?.id ? initialCentroTrabajoState.formData.id : ''
-			}`,
-		[formData?.id]
-	)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialState])
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
+	const centroTrabajoSaveFn = useCallback(async (data: CentroTrabajoParams) => {
+		return await centroTrabajoCreator.create(data)
 	}, [])
 
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['centroTrabajos'] })
-				resetState()
-			})
-		},
-		[formData, create, resetState]
-	)
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'centroTrabajos',
+		initialState: initialCentroTrabajoState,
+		reducer: centroTrabajoFormReducer,
+		initialData,
+		saveFn: centroTrabajoSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		required,
 		disabled,
+		required,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

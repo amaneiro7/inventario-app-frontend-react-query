@@ -6,16 +6,16 @@ export type DefaultCentroTrabajo = CentroTrabajoParams & {
 	updatedAt?: string
 }
 
-export interface CentroTrabajoErrors {
+export interface CentroTrabajoErrors extends Record<string, string> {
 	id: string
 	name: string
 }
-export interface CentroTrabajoRequired {
+export interface CentroTrabajoRequired extends Record<string, boolean> {
 	id: boolean
 	name: boolean
 	centroCostoId: boolean
 }
-export interface CentroTrabajoDisabled {
+export interface CentroTrabajoDisabled extends Record<string, boolean> {
 	id: boolean
 	name: boolean
 	centroCostoId: boolean

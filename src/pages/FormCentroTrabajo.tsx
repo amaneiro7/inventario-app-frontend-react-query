@@ -3,6 +3,8 @@ import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>
 	import('@/widgets/FormContainer/FormLayout').then(m => ({ default: m.FormLayout }))
@@ -21,19 +23,26 @@ const CentroTrabajoSearch = lazy(() =>
 export default function FormCentroTrabajo() {
 	const {
 		formData,
-		mode,
 		key,
+		mode,
 		errors,
-		disabled,
-		required,
 		isError,
 		isLoading,
 		isNotFound,
+		required,
+		disabled,
+		hasChanges,
+		isSubmitting,
 		onRetry,
 		handleChange,
 		handleSubmit,
-		resetForm
+		discardChanges
 	} = useCreateCentroTrabajo()
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.CENTRO_TRABAJOS.UPDATE)
+
+	// Si estamos en modo 'add', siempre se puede editar.
+	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
+	const canEdit = mode === 'add' || hasUpdatePermission
 
 	return (
 		<Suspense fallback={<FormSkeletonLayout />}>
@@ -50,14 +59,18 @@ export default function FormCentroTrabajo() {
 					id={key}
 					description="Ingrese los datos del cenrto de Trabajo el cual desea registar."
 					isAddForm={mode === 'add'}
+					canEdit={canEdit}
+					isSubmitting={isSubmitting}
+					isDirty={hasChanges}
+					isLoading={isLoading}
+					lastUpdated={formData?.updatedAt}
 					handleSubmit={handleSubmit}
 					isError={isError}
 					isNotFound={isNotFound}
 					onRetry={onRetry}
-					reset={mode === 'edit' ? resetForm : undefined}
+					reset={mode === 'edit' ? discardChanges : undefined}
 					url="/form/centrotrabajo/add"
 					border
-					lastUpdated={formData.updatedAt}
 					searchInput={<CentroTrabajoSearch />}
 				>
 					<CentroTrabajoInputs

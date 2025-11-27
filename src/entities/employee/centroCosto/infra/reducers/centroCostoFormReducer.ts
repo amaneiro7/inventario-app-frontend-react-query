@@ -6,15 +6,15 @@ export type DefaultCentroCosto = CentroCostoParams & {
 	updatedAt?: string
 }
 
-export interface CentroCostoErrors {
+export interface CentroCostoErrors extends Record<string, string> {
 	id: string
 	name: string
 }
-export interface CentroCostoRequired {
+export interface CentroCostoRequired extends Record<string, boolean> {
 	id: boolean
 	name: boolean
 }
-export interface CentroCostoDisabled {
+export interface CentroCostoDisabled extends Record<string, boolean> {
 	id: boolean
 	name: boolean
 }

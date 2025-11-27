@@ -1,89 +1,61 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer } from 'react'
-import { usePrevious } from '@/shared/lib/hooks/usePrevious'
+import { useCallback } from 'react'
+import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import {
 	type DefaultCentroCosto,
-	type Action,
 	initialCentroCostoState,
 	centroCostoFormReducer
 } from '../reducers/centroCostoFormReducer'
 import { type CentroCostoParams } from '../../domain/dto/CentroCosto.dto'
 import { CentroCostoSaveService } from '../service/centroCostoSave.service'
 import { CentroCostoCreator } from '../../application/CentroCostoCreator'
-import { useCentroCostoInitialState } from './useCentroCostoInitialState'
-import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { useCentroCostoInitialData } from './useCentroCostoInitialData'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+
+const repository = new CentroCostoSaveService()
+const centroCostoCreator = new CentroCostoCreator(repository, useAuthStore.getState().events)
 
 export function useCreateCentroCosto(defaultState?: DefaultCentroCosto) {
-	const { events } = useAuthStore.getState()
+	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
+		useCentroCostoInitialData(defaultState ?? initialCentroCostoState.formData)
 
-	const create = useMemo(
-		() => async (formData: CentroCostoParams) => {
-			return await new CentroCostoCreator(new CentroCostoSaveService(), events).create(
-				formData
-			)
-		},
-		[events]
-	)
-
-	const { initialState, mode, resetState, isError, isLoading, isNotFound, onRetry } =
-		useCentroCostoInitialState(defaultState ?? initialCentroCostoState.formData)
-	const prevState = usePrevious(initialState)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
-		centroCostoFormReducer,
-		initialCentroCostoState
-	)
-	const key = useMemo(
-		() =>
-			`centroCosto${
-				initialCentroCostoState?.formData?.id ? initialCentroCostoState.formData.id : ''
-			}`,
-		[formData?.id]
-	)
-
-	useLayoutEffect(() => {
-		dispatch({
-			type: 'init',
-			payload: { formData: structuredClone(initialState) }
-		})
-	}, [initialState])
-
-	const resetForm = useCallback(() => {
-		dispatch({
-			type: 'reset',
-			payload: { formData: structuredClone(prevState ?? initialState) }
-		})
-	}, [prevState, initialState])
-
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = useCallback((name: Action['type'], value: any) => {
-		if (name === 'init' || name === 'reset') return
-		dispatch({ type: name, payload: { value } })
+	const centroCostoSaveFn = useCallback(async (data: CentroCostoParams) => {
+		return await centroCostoCreator.create(data)
 	}, [])
 
-	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
-			event.preventDefault()
-			event.stopPropagation()
-			await create(formData).then(() => {
-				queryClient.invalidateQueries({ queryKey: ['centroCostos'] })
-				resetState()
-			})
-		},
-		[formData, create, resetState]
-	)
+	const {
+		discardChanges,
+		handleSubmit,
+		handleChange,
+		key,
+		formData,
+		errors,
+		hasChanges,
+		isSubmitting,
+		disabled,
+		required
+	} = useFormHandler({
+		entityName: 'centroCostos',
+		initialState: initialCentroCostoState,
+		reducer: centroCostoFormReducer,
+		initialData,
+		saveFn: centroCostoSaveFn,
+		refreshInitialData
+	})
 
 	return {
 		key,
 		formData,
 		mode,
 		errors,
-		required,
 		disabled,
+		required,
 		isError,
 		isLoading,
+		isSubmitting,
 		isNotFound,
+		hasChanges,
 		onRetry,
-		resetForm,
+		discardChanges,
 		handleSubmit,
 		handleChange
 	}

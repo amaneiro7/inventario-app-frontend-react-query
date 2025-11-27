@@ -62,6 +62,20 @@ export const PERMISSIONS = {
 		UPDATE: 'devices:update',
 		DELETE: 'devices:delete'
 	},
+	CENTRO_TRABAJOS: {
+		READ_LIST: 'centro-trabajos:read-list',
+		READ: 'centro-trabajos:read',
+		CREATE: 'centro-trabajos:create',
+		UPDATE: 'centro-trabajos:update',
+		DELETE: 'centro-trabajos:delete'
+	},
+	CENTRO_COSTOS: {
+		READ_LIST: 'centro-costos:read-list',
+		READ: 'centro-costos:read',
+		CREATE: 'centro-costos:create',
+		UPDATE: 'centro-costos:update',
+		DELETE: 'centro-costos:delete'
+	},
 	EMPLOYEES: {
 		READ_LIST: 'employees:read-list',
 		READ: 'employees:read',
