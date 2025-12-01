@@ -5,6 +5,7 @@ import {
 	type Action,
 	type DefaultAccessPolicy
 } from '@/entities/accessControl/accessPolicy/infra/reducers/accessPolicyFormReducer'
+import { PermissionGroupTrasnferList } from '@/features/permissions-group-transfer-list/ui/PermissionGroupTrasnferList'
 
 const CargoCombobox = lazy(() =>
 	import('@/entities/employee/cargo/infra/ui/CargoComboBox').then(m => ({
@@ -14,11 +15,6 @@ const CargoCombobox = lazy(() =>
 const DepartamentoCombobox = lazy(() =>
 	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
 		default: m.DepartamentoCombobox
-	}))
-)
-const PermissionGroupCombobox = lazy(() =>
-	import('@/entities/accessControl/permissionGroup/infra/ui/PermissionGroupComboBox').then(m => ({
-		default: m.PermissionGroupCombobox
 	}))
 )
 
@@ -63,15 +59,6 @@ export const AccessPolicyInputs = memo(
 					isLoading={isLoading}
 					readonly={!canEdit}
 				/>
-				<PermissionGroupCombobox
-					value={formData.permissionGroupId ?? ''}
-					handleChange={(_name, value) =>
-						handleChange('permissionGroupId', value as string)
-					}
-					name="permissionGroupId"
-					isLoading={isLoading}
-					readonly={!canEdit}
-				/>
 				<Input
 					id="access-policy-priority"
 					value={formData.priority}
@@ -86,6 +73,14 @@ export const AccessPolicyInputs = memo(
 					errorMessage={errors?.priority}
 					required
 					readOnly={!canEdit}
+				/>
+				<PermissionGroupTrasnferList
+					isLoading={isLoading}
+					value={formData.permissionGroupIds}
+					name="permissions"
+					readonly={!canEdit}
+					onAddPermissionGroup={handleChange}
+					onRemovePermissionGroup={handleChange}
 				/>
 			</>
 		)

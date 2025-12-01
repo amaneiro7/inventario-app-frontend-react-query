@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { AccessPolicyGetter } from '../../application/AccessPolicyGetter'
 import { AccessPolicyGetService } from '../service/accessPolicyGet.service'
-import { mapAccessPolicyToState } from './mapAccessPolicyToState'
+import { mapAccessPolicyToState } from '../../lib/mapAccessPolicyToState'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultAccessPolicy } from '../reducers/accessPolicyFormReducer'
@@ -93,7 +93,7 @@ export function useAccessPolicyInitialData(defaultState: DefaultAccessPolicy): {
 	 */
 	const refreshInitialData = useCallback(async () => {
 		// Si no estamos en la ruta de marcas, no hace nada.
-		if (!location.pathname.includes('access-policiy')) return
+		if (!location.pathname.includes('access-policy')) return
 		if (mode === 'add') {
 			setState({
 				...defaultState,

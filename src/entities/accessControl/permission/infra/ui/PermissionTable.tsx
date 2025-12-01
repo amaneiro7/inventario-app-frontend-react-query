@@ -1,9 +1,7 @@
 import { lazy, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { ActionMenu } from '@/widgets/ActionMenu'
-import { PermissionRemover } from '../../application/PermissionRemover'
-import { PermissionDeleteService } from '../service/permissionDelete.service'
+import { useDeletePermission } from '../hooks/useDeletePermission'
 import { type PermissionDto } from '../../domain/dto/Permission.dto'
 
 const TableCell = lazy(() =>
@@ -25,16 +23,11 @@ interface PermissionTableProps {
 }
 
 export const PermissionTable = memo(({ isError, permissions }: PermissionTableProps) => {
-	const { events } = useAuthStore.getState()
-	const remove = new PermissionRemover(new PermissionDeleteService(), events)
+	const { handleRemove } = useDeletePermission()
 	const navigate = useNavigate()
 
 	const handleEdit = (id: string) => {
 		navigate(`/form/permission/edit/${id}`)
-	}
-
-	const handleRemove = async (id: string) => {
-		await remove.execute({ id })
 	}
 
 	if (isError) {
@@ -54,7 +47,11 @@ export const PermissionTable = memo(({ isError, permissions }: PermissionTablePr
 						<TableCell aria-colindex={2} size="auto" value={permission.description}>
 							{permission.description}
 						</TableCell>
-						<TableCell aria-colindex={6} size="xSmall">
+						<TableCell
+							aria-colindex={6}
+							size="xSmall"
+							className="flex justify-end pt-1 pr-2"
+						>
 							<ActionMenu
 								handleEdit={() => handleEdit(permission.id)}
 								handleDelete={() => handleRemove(permission.id)}

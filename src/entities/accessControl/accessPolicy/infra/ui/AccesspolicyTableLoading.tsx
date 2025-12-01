@@ -4,22 +4,22 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 
 export const AccessPolicyTableLoading = () => (
 	<TableRow>
-		<TableCell aria-colindex={1} size="small">
+		<TableCell aria-colindex={1} size="medium">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={2} size="small" className="xs:table-cell hidden">
+		<TableCell aria-colindex={2} size="small">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={3} size="large" className="hidden 2xl:table-cell">
+		<TableCell aria-colindex={3} size="auto">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={4} size="large" className="1xl:table-cell hidden">
+		<TableCell aria-colindex={4} size="large">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={5} size="large" className="2md:table-cell hidden">
+		<TableCell aria-colindex={5} size="xxLarge">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={6} size="xSmall" className="hidden lg:table-cell">
+		<TableCell aria-colindex={6} size="xSmall">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 	</TableRow>

@@ -9,13 +9,15 @@ import {
 	DropdownMenuTrigger
 } from '@/shared/ui/DropdownMenu'
 import { Icon } from '@/shared/ui/icon/Icon'
+import { cn } from '@/shared/lib/utils'
 
 interface ActionMenuProps {
+	className?: string
 	handleEdit?: () => void
-	handleDelete?: () => void
+	handleDelete?: () => Promise<void>
 }
 
-export const ActionMenu = memo(({ handleDelete, handleEdit }: ActionMenuProps) => {
+export const ActionMenu = memo(({ handleDelete, handleEdit, className }: ActionMenuProps) => {
 	if (!handleDelete && !handleEdit) {
 		return null
 	}
@@ -25,10 +27,13 @@ export const ActionMenu = memo(({ handleDelete, handleEdit }: ActionMenuProps) =
 				<AuxiliarButton
 					variant="ghost"
 					size="icon"
-					className="hover:bg-azul data-[state=open]:bg-azul h-8 w-8 cursor-pointer rounded-full p-0 text-gray-500 transition-colors hover:text-white data-[state=open]:text-white"
+					className={cn(
+						'hover:bg-azul data-[state=open]:bg-azul h-4 w-4 cursor-pointer rounded-full p-3 text-gray-500 transition-colors hover:text-white data-[state=open]:text-white',
+						className
+					)}
 				>
 					<span className="sr-only">Open menu</span>
-					<Icon name="moreVertical" className="h-4 w-4" />
+					<Icon name="moreVertical" className="h-3 w-3" />
 				</AuxiliarButton>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-40 border-gray-200 bg-white shadow-lg">

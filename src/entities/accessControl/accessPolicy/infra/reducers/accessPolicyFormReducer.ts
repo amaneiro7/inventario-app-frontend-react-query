@@ -37,7 +37,7 @@ export const initialAccessPolicyState: State = {
 		name: '',
 		cargoId: '',
 		departamentoId: '',
-		permissionGroupId: '',
+		permissionGroupIds: [],
 		priority: 1,
 		updatedAt: undefined
 	},
@@ -62,7 +62,8 @@ export const initialAccessPolicyState: State = {
  *	 { type: 'name'; payload: { value: AccessPolicyParams['name'] } } |
  *	 { type: 'cargoId'; payload: { value: AccessPolicyParams['cargoId'] } } |
  *	 { type: 'departamentoId'; payload: { value: AccessPolicyParams['departamentoId'] } } |
- *	 { type: 'permissionGroupId'; payload: { value: AccessPolicyParams['permissionGroupId'] } } |
+ *   { type: 'addPermissionGroup'; payload: { value: string } } |
+ *   { type: 'removePermissionGroup'; payload: { value: string } } |
  *	 { type: 'priority'; payload: { value: AccessPolicyParams['priority'] } }
  * )} Action
  * @description Tipos de acciones que puede manejar el reducer del formulario de `AccessPolicy`.
@@ -73,8 +74,9 @@ export type Action =
 	| { type: 'name'; payload: { value: AccessPolicyParams['name'] } }
 	| { type: 'cargoId'; payload: { value: AccessPolicyParams['cargoId'] } }
 	| { type: 'departamentoId'; payload: { value: AccessPolicyParams['departamentoId'] } }
-	| { type: 'permissionGroupId'; payload: { value: AccessPolicyParams['permissionGroupId'] } }
 	| { type: 'priority'; payload: { value: AccessPolicyParams['priority'] } }
+	| { type: 'addPermissionGroup'; payload: { value: string } }
+	| { type: 'removePermissionGroup'; payload: { value: string } }
 
 /**
  * `AccessPolicyFormReducer`
@@ -135,11 +137,26 @@ export const accessPolicyFormReducer = (state: State, action: Action): State => 
 				formData: { ...state.formData, departamentoId }
 			}
 		}
-		case 'permissionGroupId': {
-			const permissionGroupId = action.payload.value
+		case 'addPermissionGroup': {
+			const permissionsGroups = action.payload.value
 			return {
 				...state,
-				formData: { ...state.formData, permissionGroupId }
+				formData: {
+					...state.formData,
+					permissionGroupIds: [...state.formData.permissionGroupIds, permissionsGroups]
+				}
+			}
+		}
+		case 'removePermissionGroup': {
+			const permissionsGroups = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					permissionGroupIds: state.formData.permissionGroupIds.filter(
+						c => c !== permissionsGroups
+					)
+				}
 			}
 		}
 		default:

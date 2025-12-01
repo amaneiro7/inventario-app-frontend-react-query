@@ -58,7 +58,7 @@ export const PermissionGroupDataWrapper = memo(
 					defaultPageSize={PermissionGroupGetByCriteria.defaultPageSize}
 				/>
 
-				<section className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8">
+				<section className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-8">
 					{permissionGroups?.data.map(group => (
 						<PermissionGroupCard key={group.id} permissionGroup={group} />
 					))}

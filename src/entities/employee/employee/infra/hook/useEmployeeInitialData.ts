@@ -87,7 +87,7 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 	 */
 	const refreshInitialData = useCallback(async () => {
 		// Si no estamos en la ruta de marcas, no hace nada.
-		if (!location.pathname.includes('brand')) return
+		if (!location.pathname.includes('employee')) return
 		if (mode === 'add') {
 			setInitialData({
 				...defaultState,

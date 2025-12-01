@@ -5,15 +5,13 @@ import { type DefaultPermissionGroup } from '../infra/reducers/permissionGroupFo
  * Mapea un objeto `PermissionGroupDto` a la estructura `DefaultPermissionGroup` para el estado del formulario.
  * @param {PermissionGroupDto} permissionGroup - El objeto `PermissionGroupDto` a mapear.
  */
-export const mapPermissionGroupToState = (
-	permissionGroup: PermissionGroupDto
-): DefaultPermissionGroup => {
-	const permissions = [...permissionGroup?.permissions.map(p => p.id)]
+export const mapPermissionGroupToState = (data: PermissionGroupDto): DefaultPermissionGroup => {
+	const permissions = data?.permissions.map(p => p.id)
 	return {
-		id: permissionGroup.id,
-		name: permissionGroup.name,
-		description: permissionGroup.description,
+		id: data.id,
+		name: data.name,
+		description: data.description,
 		permissions,
-		updatedAt: permissionGroup?.updatedAt
+		updatedAt: data?.updatedAt
 	}
 }

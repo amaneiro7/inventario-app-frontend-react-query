@@ -17,13 +17,16 @@ export class AccessPolicy {
 	 * Crea una instancia de `AccessPolicy`.
 	 * @param {AccessPolicyPriority} priority - El nombre de la marca como un Value Object.
 	 */
+	private permissionGroupIds: Set<PermissionGroupId>
 	constructor(
 		private readonly name: AccessPolicyName,
 		private readonly cargoId: CargoId | null,
 		private readonly departamentoId: DepartamentoId | null,
-		private readonly permissionGroupId: PermissionGroupId,
+		permissionGroupIds: Set<PermissionGroupId>,
 		private readonly priority: AccessPolicyPriority
-	) {}
+	) {
+		this.permissionGroupIds = permissionGroupIds
+	}
 
 	/**
 	 * Crea una nueva instancia de `AccessPolicy` a partir de sus propiedades primitivas.
@@ -31,11 +34,17 @@ export class AccessPolicy {
 	 * @returns {AccessPolicy} Una nueva instancia de `AccessPolicy`.
 	 */
 	static create(params: AccessPolicyPrimitives): AccessPolicy {
+		const permissionGroupIds = new Set(
+			params.permissionGroupIds.map(
+				permissionGroupId => new PermissionGroupId(permissionGroupId)
+			)
+		)
+
 		return new AccessPolicy(
 			new AccessPolicyName(params.name),
 			params.cargoId ? new CargoId(params.cargoId) : null,
 			params.departamentoId ? new DepartamentoId(params.departamentoId) : null,
-			new PermissionGroupId(params.permissionGroupId),
+			permissionGroupIds,
 			new AccessPolicyPriority(params.priority)
 		)
 	}
@@ -49,7 +58,7 @@ export class AccessPolicy {
 			name: this.nameValue,
 			cargoId: this.cargoValue,
 			departamentoId: this.departamentoValue,
-			permissionGroupId: this.permissionGroupValue,
+			permissionGroupIds: this.permissionGroupValue,
 			priority: this.priorityValue
 		}
 	}
@@ -66,8 +75,8 @@ export class AccessPolicy {
 		return this.departamentoId?.value ?? null
 	}
 
-	get permissionGroupValue(): Primitives<PermissionGroupId> {
-		return this.permissionGroupId.value
+	get permissionGroupValue(): Primitives<PermissionGroupId>[] {
+		return Array.from(this.permissionGroupIds).map(p => p.value)
 	}
 
 	get priorityValue(): Primitives<AccessPolicyPriority> {

@@ -65,7 +65,7 @@ export const AccessPolicyTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="name"
-									size="small"
+									size="medium"
 								>
 									Nombre
 								</TableHead>
@@ -85,7 +85,7 @@ export const AccessPolicyTableWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="departamentoId"
-									size="large"
+									size="auto"
 								>
 									Departamento
 								</TableHead>
@@ -99,14 +99,7 @@ export const AccessPolicyTableWrapper = memo(
 								>
 									Cargo
 								</TableHead>
-								<TableHead
-									aria-colindex={5}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="permissionGroupId"
-									size="large"
-								>
+								<TableHead aria-colindex={5} size="xxLarge">
 									Grupo de permisos
 								</TableHead>
 								<TableHead aria-colindex={6} size="xSmall">

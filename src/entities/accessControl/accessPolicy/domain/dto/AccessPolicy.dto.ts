@@ -14,19 +14,21 @@ export interface AccessPolicy {
 	name: Primitives<AccessPolicyName>
 	cargoId: Primitives<CargoId> | null
 	departamentoId: Primitives<DepartamentoId> | null
-	permissionGroupId: Primitives<PermissionGroupId>
 	priority: Primitives<AccessPolicyPriority>
 }
 
 export type AccessPolicyParams = AccessPolicyPrimitives & {
 	id?: Primitives<AccessPolicyId> | undefined
+	permissionGroupIds: Primitives<PermissionGroupId>[]
 }
 
-export type AccessPolicyPrimitives = Omit<AccessPolicy, 'id'>
+export type AccessPolicyPrimitives = Omit<AccessPolicy, 'id'> & {
+	permissionGroupIds: Primitives<PermissionGroupId>[]
+}
 
 export type AccessPolicyDto = AccessPolicy & {
 	cargo: CargoDto | null
 	departamento: DepartamentoDto | null
-	permissionGroup: PermissionGroupDto
+	permissionsGroups: PermissionGroupDto[]
 	updatedAt: string
 }

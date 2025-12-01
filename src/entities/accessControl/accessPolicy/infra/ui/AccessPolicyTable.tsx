@@ -1,10 +1,9 @@
 import { lazy, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { useDeleteAccessPolicy } from '../hooks/useDeleteAccessPolicy'
 import { ActionMenu } from '@/widgets/ActionMenu'
-import { AccessPolicyRemover } from '../../application/AccessPolicyRemover'
-import { AccessPolicyDeleteService } from '../service/accessPolicyDelete.service'
 import { type AccessPolicyDto } from '../../domain/dto/AccessPolicy.dto'
+import { Badge } from '@/shared/ui/Badge'
 
 const TableCell = lazy(() =>
 	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))
@@ -25,16 +24,11 @@ interface AccessPolicyTableProps {
 }
 
 export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicyTableProps) => {
-	const { events } = useAuthStore.getState()
-	const remove = new AccessPolicyRemover(new AccessPolicyDeleteService(), events)
+	const { handleRemove } = useDeleteAccessPolicy()
 	const navigate = useNavigate()
 
 	const handleEdit = (id: string) => {
 		navigate(`/form/access-policy/edit/${id}`)
-	}
-
-	const handleRemove = async (id: string) => {
-		await remove.execute({ id })
 	}
 
 	if (isError) {
@@ -46,9 +40,16 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 	return (
 		<>
 			{accessPolicies?.map(accessPolicy => {
+				const MAX_DISPLAYED_GROUPS = 2
+				const displayedGroups = accessPolicy.permissionsGroups.slice(
+					0,
+					MAX_DISPLAYED_GROUPS
+				)
+				const remainingGroupsCount =
+					accessPolicy.permissionsGroups.length - MAX_DISPLAYED_GROUPS
 				return (
 					<TableRow key={accessPolicy.id}>
-						<TableCell aria-colindex={1} size="small" value={accessPolicy.name}>
+						<TableCell aria-colindex={1} size="medium" value={accessPolicy.name}>
 							{accessPolicy.name}
 						</TableCell>
 						<TableCell aria-colindex={2} size="small" value={accessPolicy.priority}>
@@ -56,7 +57,7 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 						</TableCell>
 						<TableCell
 							aria-colindex={3}
-							size="large"
+							size="auto"
 							value={accessPolicy.departamento?.name}
 						>
 							{accessPolicy.departamento?.name}
@@ -66,16 +67,36 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 						</TableCell>
 						<TableCell
 							aria-colindex={5}
-							size="large"
-							value={accessPolicy.permissionGroup?.name}
+							size="xxLarge"
+							value={accessPolicy.permissionsGroups.map(pg => pg.name).join(', ')}
 						>
-							{accessPolicy.permissionGroup?.name}
+							<div className="flex flex-wrap gap-1 py-1">
+								{displayedGroups.map(permissionGroup => (
+									<Badge key={permissionGroup.id} variant="verde">
+										{permissionGroup.name}
+									</Badge>
+								))}
+								{remainingGroupsCount > 0 && (
+									<Badge
+										variant="secondary"
+										className="cursor-default border-0 bg-gray-200 text-[10px] text-gray-700"
+										title={accessPolicy.permissionsGroups
+											.slice(MAX_DISPLAYED_GROUPS)
+											.map(p => p.name)
+											.join(', ')}
+									>
+										+{remainingGroupsCount} más
+									</Badge>
+								)}
+							</div>
 						</TableCell>
 						<TableCell aria-colindex={6} size="xSmall">
-							<ActionMenu
-								handleEdit={() => handleEdit(accessPolicy.id)}
-								handleDelete={() => handleRemove(accessPolicy.id)}
-							/>
+							<div className="flex justify-end pt-1 pr-2">
+								<ActionMenu
+									handleEdit={() => handleEdit(accessPolicy.id)}
+									handleDelete={() => handleRemove(accessPolicy.id)}
+								/>
+							</div>
 						</TableCell>
 					</TableRow>
 				)
