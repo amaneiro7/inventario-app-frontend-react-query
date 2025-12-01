@@ -74,7 +74,7 @@ export const TableModelWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="mainCategoryId"
-									size="small"
+									size="large"
 								>
 									Categoria
 								</TableHead>
@@ -84,7 +84,7 @@ export const TableModelWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="categoryId"
-									size="small"
+									size="medium"
 								>
 									SubCategoria
 								</TableHead>
@@ -94,7 +94,7 @@ export const TableModelWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="brandId"
-									size="small"
+									size="medium"
 								>
 									Marca
 								</TableHead>
@@ -104,7 +104,7 @@ export const TableModelWrapper = memo(
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="name"
-									size="large"
+									size="auto"
 								>
 									Modelo
 								</TableHead>

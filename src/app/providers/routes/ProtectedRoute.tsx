@@ -17,11 +17,17 @@ import { AuthContext } from '@/app/providers/AuthContext'
 export function ProtectedRoute(Component: React.ComponentType): React.ComponentType {
 	return () => {
 		const {
-			auth: { isLogged }
+			auth: { isLogged, permissions }
 		} = use(AuthContext)
+
+		console.log(isLogged)
 
 		if (!isLogged) {
 			return <Navigate to="/login" replace={true} />
+		}
+
+		if (isLogged && (!permissions || permissions.length === 0)) {
+			return <Navigate to="/no-permissions" replace={true} />
 		}
 
 		return (

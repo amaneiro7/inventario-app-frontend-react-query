@@ -5,48 +5,16 @@ import { useGetAllDepartamento } from '@/entities/employee/departamento/infra/ho
 import { type DepartamentoFilters } from '@/entities/employee/departamento/application/createDepartamentoQueryParams'
 
 interface DepartamentoComboboxProps {
-	/**
-	 * The currently selected departamento ID.
-	 */
 	value?: string
-	/**
-	 * The ID of the associated vicepresidencia, used for filtering departamentos.
-	 */
 	vicepresidenciaId?: string
-	/**
-	 * The ID of the associated executive vicepresidencia, used for filtering departamentos.
-	 */
 	vicepresidenciaEjecutivaId?: string
-	/**
-	 * The ID of the associated directiva, used for filtering departamentos.
-	 */
 	directivaId?: string
-	/**
-	 * The name of the input field.
-	 */
 	name: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	readonly?: boolean
 	isLoading?: boolean
-	/**
-	 * Callback function triggered when the selected value changes.
-	 * @param name - The name of the input field.
-	 * @param value - The new selected value (departamento ID).
-	 */
 	handleChange: (name: string, value: string | number) => void
 }
 

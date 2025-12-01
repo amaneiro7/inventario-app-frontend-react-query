@@ -48,7 +48,7 @@ export const PermissionTable = memo(({ isError, permissions }: PermissionTablePr
 							{permission.description}
 						</TableCell>
 						<TableCell
-							aria-colindex={6}
+							aria-colindex={3}
 							size="xSmall"
 							className="flex justify-end pt-1 pr-2"
 						>

@@ -5,6 +5,10 @@ import { PermissionGroupId } from '@/entities/accessControl/permissionGroup/doma
 import { AccessPolicyPriority } from '../value-object/AccessPolicyPriority'
 import { type AccessPolicyPrimitives } from '../dto/AccessPolicy.dto'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
+import { RoleId } from '@/entities/role/domain/value-object/RoleId'
+import { VicepresidenciaId } from '@/entities/employee/vicepresidencia/domain/value-object/VicepresidenciaId'
+import { VicepresidenciaEjecutivaId } from '@/entities/employee/vicepresidenciaEjecutiva/domain/value-object/VicepresidenciaEjecutivaId'
+import { DirectivaId } from '@/entities/employee/directiva/domain/value-object/DirectivaId'
 
 /**
  * `AccessPolicy`
@@ -20,8 +24,12 @@ export class AccessPolicy {
 	private permissionGroupIds: Set<PermissionGroupId>
 	constructor(
 		private readonly name: AccessPolicyName,
+		private readonly roleId: RoleId | null,
 		private readonly cargoId: CargoId | null,
 		private readonly departamentoId: DepartamentoId | null,
+		private readonly vicepresidenciaId: VicepresidenciaId | null,
+		private readonly vicepresidenciaEjecutivaId: VicepresidenciaEjecutivaId | null,
+		private readonly directivaId: DirectivaId | null,
 		permissionGroupIds: Set<PermissionGroupId>,
 		private readonly priority: AccessPolicyPriority
 	) {
@@ -42,8 +50,14 @@ export class AccessPolicy {
 
 		return new AccessPolicy(
 			new AccessPolicyName(params.name),
+			params.roleId ? new RoleId(params.roleId) : null,
 			params.cargoId ? new CargoId(params.cargoId) : null,
 			params.departamentoId ? new DepartamentoId(params.departamentoId) : null,
+			params.vicepresidenciaId ? new VicepresidenciaId(params.vicepresidenciaId) : null,
+			params.vicepresidenciaEjecutivaId
+				? new VicepresidenciaEjecutivaId(params.vicepresidenciaEjecutivaId)
+				: null,
+			params.directivaId ? new DirectivaId(params.directivaId) : null,
 			permissionGroupIds,
 			new AccessPolicyPriority(params.priority)
 		)
@@ -56,8 +70,12 @@ export class AccessPolicy {
 	toPrimitives(): AccessPolicyPrimitives {
 		return {
 			name: this.nameValue,
+			roleId: this.roleValue,
 			cargoId: this.cargoValue,
 			departamentoId: this.departamentoValue,
+			vicepresidenciaId: this.vicepresidenciaValue,
+			vicepresidenciaEjecutivaId: this.vicepresidenciaEjecutivaValue,
+			directivaId: this.directivaValue,
 			permissionGroupIds: this.permissionGroupValue,
 			priority: this.priorityValue
 		}
@@ -71,8 +89,24 @@ export class AccessPolicy {
 		return this.cargoId?.value ?? null
 	}
 
+	get roleValue(): Primitives<RoleId> | null {
+		return this.roleId?.value ?? null
+	}
+
 	get departamentoValue(): Primitives<DepartamentoId> | null {
 		return this.departamentoId?.value ?? null
+	}
+
+	get vicepresidenciaValue(): Primitives<VicepresidenciaId> | null {
+		return this.vicepresidenciaId?.value ?? null
+	}
+
+	get vicepresidenciaEjecutivaValue(): Primitives<VicepresidenciaEjecutivaId> | null {
+		return this.vicepresidenciaEjecutivaId?.value ?? null
+	}
+
+	get directivaValue(): Primitives<DirectivaId> | null {
+		return this.directivaId?.value ?? null
 	}
 
 	get permissionGroupValue(): Primitives<PermissionGroupId>[] {

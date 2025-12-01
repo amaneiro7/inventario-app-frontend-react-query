@@ -48,21 +48,21 @@ export const TableModels = memo(({ models, isError }: TableModelsProps) => {
 				<TableRow key={model.id}>
 					<TableCell
 						aria-colindex={1}
-						size="small"
+						size="large"
 						value={model?.category?.mainCategory?.name}
 					>
 						{model?.category?.mainCategory?.name}
 					</TableCell>
 
-					<TableCell aria-colindex={2} size="small" value={model?.category?.name}>
+					<TableCell aria-colindex={2} size="medium" value={model?.category?.name}>
 						{model?.category?.name}
 					</TableCell>
 
-					<TableCell aria-colindex={3} size="small" value={model?.brand?.name}>
+					<TableCell aria-colindex={3} size="medium" value={model?.brand?.name}>
 						{model?.brand?.name}
 					</TableCell>
 
-					<TableCell aria-colindex={4} size="large" value={model?.name}>
+					<TableCell aria-colindex={4} size="auto" value={model?.name}>
 						{model?.name}
 					</TableCell>
 

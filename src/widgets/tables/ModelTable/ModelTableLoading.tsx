@@ -5,16 +5,16 @@ import { TableRow } from '@/shared/ui/Table/TableRow'
 
 export const ModelTableLoading = () => (
 	<TableRow>
-		<TableCell aria-colindex={1} size="small">
+		<TableCell aria-colindex={1} size="large">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={2} size="small">
+		<TableCell aria-colindex={2} size="medium">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={3} size="small">
+		<TableCell aria-colindex={3} size="medium">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={4} size="large">
+		<TableCell aria-colindex={4} size="auto">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell aria-colindex={5} size="small" className="hidden md:table-cell">

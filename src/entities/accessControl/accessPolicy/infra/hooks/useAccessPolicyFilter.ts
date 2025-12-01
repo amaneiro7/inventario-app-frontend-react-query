@@ -11,9 +11,13 @@ export function useAccessPolicyFilter() {
 	return useGenericFilter<AccessPolicyFilters>({
 		defaultPageSize: AccessPolicyGetByCriteria.defaultPageSize,
 		filterKeys: [
+			'name',
+			'roleId',
 			'cargoId',
 			'departamentoId',
-			'name',
+			'vicepresidenciaId',
+			'vicepresidenciaEjecutivaId',
+			'directivaId',
 			'priority',
 			'permissionGroupId',
 			'orderBy',

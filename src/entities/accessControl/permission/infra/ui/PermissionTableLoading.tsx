@@ -7,10 +7,10 @@ export const PermissionTableLoading = () => (
 		<TableCell aria-colindex={1} size="xxLarge">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={2} size="auto" className="xs:table-cell hidden">
+		<TableCell aria-colindex={2} size="auto">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={3} size="small" className="hidden 2xl:table-cell">
+		<TableCell aria-colindex={3} size="xSmall">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 	</TableRow>

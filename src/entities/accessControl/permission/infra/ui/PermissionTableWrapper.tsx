@@ -80,7 +80,7 @@ export const PermissionTableWrapper = memo(
 									Descripción
 								</TableHead>
 
-								<TableHead aria-colindex={6} size="xSmall">
+								<TableHead aria-colindex={3} size="xSmall">
 									{/* <span className="sr-only">Acciones</span> */}
 									Acciones
 								</TableHead>

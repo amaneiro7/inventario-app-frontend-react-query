@@ -41,13 +41,7 @@ export const AccessPolicyList = () => {
 			>
 				<DetailsBoxWrapper>
 					<FilterSection>
-						<AccessPolicyFilter
-							handleChange={handleChange}
-							name={query.name}
-							cargoId={query.cargoId}
-							departamentoId={query.departamentoId}
-							priority={query.priority}
-						/>
+						<AccessPolicyFilter handleChange={handleChange} {...query} />
 					</FilterSection>
 					<Suspense fallback={<ButtonSectionSkeleton />}>
 						<ButtonSection

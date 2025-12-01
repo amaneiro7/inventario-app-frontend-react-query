@@ -21,7 +21,11 @@ export interface AccessPolicyFilters {
 	name?: string
 	priority?: string
 	cargoId?: string
+	roleId?: string
 	departamentoId?: string
+	vicepresidenciaId?: string
+	vicepresidenciaEjecutivaId?: string
+	directivaId?: string
 	permissionGroupId?: string
 	pageNumber?: number
 	pageSize?: number

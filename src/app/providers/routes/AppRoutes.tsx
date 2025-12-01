@@ -29,6 +29,7 @@ const Home = lazy(() => import('@/pages/Home'))
 const Profile = lazy(() => import('@/pages/Profile'))
 const Layout = lazy(() => import('@/widgets/Layout/Layout'))
 const Login = lazy(() => import('@/pages/Login'))
+const NoPermissionsPage = lazy(() => import('@/pages/NoPermissionsPage'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
 const FormPermission = lazy(() => import('@/pages/FormPermission'))
 const FormPermissionGroup = lazy(() => import('@/pages/FormPermissionGroup'))
@@ -78,6 +79,7 @@ export function AppRoutes(): JSX.Element {
 				<Route path="/500" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/error" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/no-permissions" element={<NoPermissionsPage />} />
 				<Route path="/" element={<Layout />}>
 					<Route index element={<Home />} /> {/* Ruta index para / */}
 					<Route path="profile" element={<Profile />} />

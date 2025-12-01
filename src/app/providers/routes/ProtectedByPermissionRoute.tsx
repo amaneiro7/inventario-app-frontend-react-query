@@ -9,12 +9,7 @@ interface Props {
 }
 
 export const ProtectedByPermissionRoute = ({ permission, redirectTo = '/403' }: Props) => {
-	const { hasPermission, isLogged } = useAuth()
-
-	if (!isLogged) {
-		// Si no está logueado, lo mandamos al login
-		return <Navigate to="/login" replace />
-	}
+	const { hasPermission } = useAuth()
 
 	if (!hasPermission(permission)) {
 		// Si está logueado pero no tiene el permiso, a la página de no autorizado

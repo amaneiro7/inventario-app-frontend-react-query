@@ -53,6 +53,7 @@ export function useAuth() {
 		login,
 		logout,
 		tempToken,
+		permissions,
 		deleteTempToken,
 		user,
 		isLogged: Boolean(token),

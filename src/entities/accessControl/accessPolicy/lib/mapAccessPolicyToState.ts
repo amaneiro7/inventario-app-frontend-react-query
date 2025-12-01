@@ -11,8 +11,12 @@ export const mapAccessPolicyToState = (data: AccessPolicyDto): DefaultAccessPoli
 	return {
 		id: data.id,
 		name: data.name,
+		roleId: data.roleId ?? '',
 		cargoId: data.cargoId ?? '',
 		departamentoId: data.departamentoId ?? '',
+		vicepresidenciaId: data.vicepresidenciaId ?? '',
+		vicepresidenciaEjecutivaId: data.vicepresidenciaEjecutivaId ?? '',
+		directivaId: data.directivaId ?? '',
 		permissionGroupIds,
 		priority: data.priority,
 		updatedAt: data?.updatedAt

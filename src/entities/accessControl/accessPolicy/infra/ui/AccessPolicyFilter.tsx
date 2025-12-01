@@ -3,6 +3,11 @@ import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
 import { Input } from '@/shared/ui/Input/Input'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
+const RoleCombobox = lazy(() =>
+	import('@/entities/role/infra/ui/RoleComboBox').then(m => ({
+		default: m.RoleCombobox
+	}))
+)
 const CargoCombobox = lazy(() =>
 	import('@/entities/employee/cargo/infra/ui/CargoComboBox').then(m => ({
 		default: m.CargoCombobox
@@ -14,17 +19,48 @@ const DepartamentoCombobox = lazy(() =>
 		default: m.DepartamentoCombobox
 	}))
 )
+const VicepresidenciaCombobox = lazy(() =>
+	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
+		default: m.VicepresidenciaCombobox
+	}))
+)
+const VicepresidenciaEjecutivaCombobox = lazy(() =>
+	import(
+		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
+	).then(m => ({
+		default: m.VicepresidenciaEjecutivaCombobox
+	}))
+)
+const DirectivaCombobox = lazy(() =>
+	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
+		default: m.DirectivaCombobox
+	}))
+)
 
 interface AccessPolicyFilterProps {
 	name?: string
+	roleId?: string
 	cargoId?: string
 	departamentoId?: string
+	vicepresidenciaId?: string
+	vicepresidenciaEjecutivaId?: string
+	directivaId?: string
 	priority?: string
 	handleChange: (name: string, value: string | number) => void
 }
 
 export const AccessPolicyFilter = memo(
-	({ handleChange, cargoId, departamentoId, name, priority }: AccessPolicyFilterProps) => {
+	({
+		handleChange,
+		roleId,
+		cargoId,
+		departamentoId,
+		directivaId,
+		vicepresidenciaEjecutivaId,
+		vicepresidenciaId,
+		name,
+		priority
+	}: AccessPolicyFilterProps) => {
 		const [localNameDate, setLocalNameDate] = useState(name ?? '')
 		const [localPriorityDate, setLocalPriorityDate] = useState(priority ?? '')
 
@@ -59,14 +95,44 @@ export const AccessPolicyFilter = memo(
 					onChange={e => setLocalNameDate(e.target.value)}
 				/>
 				<Suspense fallback={<InputFallback />}>
+					<RoleCombobox name="roleId" handleChange={handleChange} value={roleId} />
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<CargoCombobox name="cargoId" handleChange={handleChange} value={cargoId} />
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
 					<DepartamentoCombobox
 						name="departamentoId"
+						directivaId={directivaId}
+						vicepresidenciaId={vicepresidenciaId}
+						vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
 						handleChange={handleChange}
 						value={departamentoId}
 					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>
-					<CargoCombobox name="cargoId" handleChange={handleChange} value={cargoId} />
+					<VicepresidenciaCombobox
+						name="vicepresidenciaId"
+						directivaId={directivaId}
+						vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+						handleChange={handleChange}
+						value={vicepresidenciaId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<VicepresidenciaEjecutivaCombobox
+						name="vicepresidenciaEjecutivaId"
+						directivaId={directivaId}
+						handleChange={handleChange}
+						value={vicepresidenciaEjecutivaId}
+					/>
+				</Suspense>
+				<Suspense fallback={<InputFallback />}>
+					<DirectivaCombobox
+						name="directivaId"
+						handleChange={handleChange}
+						value={directivaId}
+					/>
 				</Suspense>
 				<Input
 					id="access-policy-priority-search"
