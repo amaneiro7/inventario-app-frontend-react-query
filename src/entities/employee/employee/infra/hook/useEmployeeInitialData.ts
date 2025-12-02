@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { EmployeeGetService } from '../service/employeeGet.service'
 import { EmployeeGetter } from '../../application/EmployeeGetter'
@@ -27,6 +27,7 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 	initialData: DefaultEmployee
 	employeeData: EmployeeDto | undefined
 	mode: FormMode
+	allowedDomains: string[]
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
@@ -34,13 +35,20 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 	onRetry: () => void
 } {
 	const { data: allowedDomainsRaw } = useGetAllowedDomainsAppSettings()
-	const allowedDomains = allowedDomainsRaw ? cleanStringToArray(allowedDomainsRaw?.value) : []
+	const allowedDomains = useMemo(
+		() => (allowedDomainsRaw ? cleanStringToArray(allowedDomainsRaw?.value) : []),
+		[allowedDomainsRaw, cleanStringToArray]
+	)
 	const { id, location, navigate, mode, isNotFound, setNotFound, checkIsNotFound } =
 		useFormRoutingContext()
 
-	const initialDataFromState = location.state?.employee
-		? mapEmployeeToState(location.state.employee, allowedDomains).mappedData
-		: undefined
+	const initialDataFromState = useMemo(
+		() =>
+			location.state?.employee
+				? mapEmployeeToState(location.state.employee, allowedDomains).mappedData
+				: undefined,
+		[location.state?.employee, mapEmployeeToState, allowedDomains]
+	)
 
 	const { data, refetch, error, isError, isLoading } = useQuery({
 		queryKey: ['employee', id],
@@ -124,6 +132,7 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 		initialData,
 		employeeData: data?.originalData,
 		isLoading,
+		allowedDomains,
 		isError,
 		isNotFound,
 		refreshInitialData,
