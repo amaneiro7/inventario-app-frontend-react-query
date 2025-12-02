@@ -5,9 +5,9 @@ import { ProcessorGetter } from '../../application/ProcessorGetter'
 import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { adaptProcessorData } from '../../lib/adaptProcessorData'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type AxiosError } from 'axios'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultProcessor } from '../reducers/processorFormReducer'
-import { type ProcessorDto } from '../../domain/dto/Processor.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new ProcessorGetService()
@@ -43,7 +43,7 @@ export function useProcessorInitialData(defaultState: DefaultProcessor): {
 		error,
 		isError,
 		isLoading
-	} = useQuery<ProcessorDto, Error, DefaultProcessor>({
+	} = useQuery({
 		queryKey: ['processor', id],
 		queryFn: () => {
 			if (!id) {

@@ -5,6 +5,7 @@ import { PermissionGetService } from '../service/permissionGet.service'
 import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { mapPermissionToState } from '../../lib/mapPermissionToState'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type AxiosError } from 'axios'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultPermission } from '../reducers/permissionFormReducer'
 

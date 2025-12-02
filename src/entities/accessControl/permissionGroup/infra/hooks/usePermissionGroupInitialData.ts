@@ -5,6 +5,7 @@ import { PermissionGroupGetService } from '../service/permissionGroupGet.service
 import { mapPermissionGroupToState } from '../../lib/mapPermissionGroupToState'
 import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type AxiosError } from 'axios'
 import { type DefaultPermissionGroup } from '../reducers/permissionGroupFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 

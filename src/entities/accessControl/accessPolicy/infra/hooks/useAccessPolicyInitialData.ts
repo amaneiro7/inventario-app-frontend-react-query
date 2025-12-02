@@ -5,6 +5,7 @@ import { AccessPolicyGetter } from '../../application/AccessPolicyGetter'
 import { AccessPolicyGetService } from '../service/accessPolicyGet.service'
 import { mapAccessPolicyToState } from '../../lib/mapAccessPolicyToState'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
+import { type AxiosError } from 'axios'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultAccessPolicy } from '../reducers/accessPolicyFormReducer'
 
