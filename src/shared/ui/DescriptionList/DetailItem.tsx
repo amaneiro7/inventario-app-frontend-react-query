@@ -33,7 +33,7 @@ const DetailText = ({
 	value: string | React.ReactNode
 	className?: string
 }) => (
-	<Typography variant="p" color="gris" option="tiny" className={cn('ml-2', className)}>
+	<Typography variant="p" color="gris" option="tiny" className={cn('ml-2 select-all', className)}>
 		{value || '--'}
 	</Typography>
 )

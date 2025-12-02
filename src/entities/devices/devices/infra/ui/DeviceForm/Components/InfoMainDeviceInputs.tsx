@@ -20,7 +20,9 @@ const LocationCombobox = lazy(() =>
 		default: m.LocationCombobox
 	}))
 )
-// import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip'
+const HelpTooltip = lazy(() =>
+	import('@/shared/ui/HelpTooltip').then(m => ({ default: m.HelpTooltip }))
+)
 interface InfoMainDeviceInputsProps {
 	isLoading: boolean
 	canEdit: boolean
@@ -99,7 +101,7 @@ export const InfoMainDeviceInputs = memo(
 	}: InfoMainDeviceInputsProps) => {
 		return (
 			<>
-				<div className="flex items-center justify-center gap-2">
+				<div className="flex items-start gap-2">
 					<Input
 						id="device-serial"
 						value={serial ?? ''}
@@ -115,91 +117,95 @@ export const InfoMainDeviceInputs = memo(
 						required={requiredSerial}
 						disabled={disabledSerial}
 					/>
-					{/* <Tooltip>
-					<TooltipTrigger>
-						<div className="relative h-16 w-[30px]">
-							<span className="bg-azul border-azul-900 absolute top-0.5 left-0 mb-10 rounded-full border px-2.5 py-1.5 text-white">
-							?
-							</span>
-							</div>
-					</TooltipTrigger>
-					<TooltipContent side="right" align="center" sideOffset={10}>
-						<p>This tooltip appears on the right</p>
-					</TooltipContent>
-				</Tooltip> */}
+					<HelpTooltip text="Número de serie único del fabricante, también conocido como S/N." />
 				</div>
-				<Input
-					id="device-activo"
-					value={activo ?? ''}
-					name="activo"
-					isLoading={isLoading}
-					label="Activo"
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('activo', e.target.value)
-					}
-					readOnly={!canEdit}
-					error={!!errorActivo}
-					errorMessage={errorActivo}
-					required={requiredActivo}
-					disabled={disabledActivo}
-				/>
+				<div className="flex items-start gap-2">
+					<Input
+						id="device-activo"
+						value={activo ?? ''}
+						name="activo"
+						isLoading={isLoading}
+						label="Activo"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('activo', e.target.value)
+						}
+						readOnly={!canEdit}
+						error={!!errorActivo}
+						errorMessage={errorActivo}
+						required={requiredActivo}
+						disabled={disabledActivo}
+					/>
+					<HelpTooltip text="Número de activo fijo asignado por la empresa para el seguimiento del equipo." />
+				</div>
 
-				<EmployeeCombobox
-					value={employeeId ?? ''}
-					handleChange={(_name, value) => handleChange('employeeId', value)}
-					name="employeeId"
-					isLoading={isLoading}
-					readonly={!canEdit}
-					error={errorEmployeeId}
-					required={requiredEmployeeId}
-					disabled={disabledEmployeeId}
-				/>
+				<div className="flex items-start gap-2">
+					<EmployeeCombobox
+						value={employeeId ?? ''}
+						handleChange={(_name, value) => handleChange('employeeId', value)}
+						name="employeeId"
+						isLoading={isLoading}
+						readonly={!canEdit}
+						error={errorEmployeeId}
+						required={requiredEmployeeId}
+						disabled={disabledEmployeeId}
+					/>
+					<HelpTooltip text="Empleado al que se le asigna el dispositivo. Si no se asigna, el equipo se considera en stock." />
+				</div>
 
-				<LocationCombobox
-					value={locationId ?? ''}
-					statusId={statusId}
-					handleFormChange={handleLocation}
-					name="locationId"
-					readonly={!canEdit}
-					isLoading={isLoading}
-					method="form"
-					error={errorLocationId}
-					required={requiredLocationId}
-					disabled={disabledLocationId}
-				/>
+				<div className="flex items-start gap-2">
+					<LocationCombobox
+						value={locationId ?? ''}
+						statusId={statusId}
+						handleFormChange={handleLocation}
+						name="locationId"
+						readonly={!canEdit}
+						isLoading={isLoading}
+						method="form"
+						error={errorLocationId}
+						required={requiredLocationId}
+						disabled={disabledLocationId}
+					/>
+					<HelpTooltip text="Ubicación física donde se encuentra el dispositivo (oficina, almacén, etc.)." />
+				</div>
 
 				{typeOfSiteId === TypeOfSiteOptions.ALMACEN ? (
-					<Input
-						id="device-stocknumber"
-						value={stockNumber ?? ''}
-						name="stockNumber"
-						isLoading={isLoading}
-						label="N° de Stock"
-						readOnly={!canEdit}
-						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-							handleChange('stockNumber', e.target.value)
-						}
-						error={!!errorStockNumber}
-						errorMessage={errorStockNumber}
-						required={requiredStockNumber}
-						disabled={disabledStockNumber}
-					/>
+					<div className="flex items-start gap-2">
+						<Input
+							id="device-stocknumber"
+							value={stockNumber ?? ''}
+							name="stockNumber"
+							isLoading={isLoading}
+							label="N° de Stock"
+							readOnly={!canEdit}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+								handleChange('stockNumber', e.target.value)
+							}
+							error={!!errorStockNumber}
+							errorMessage={errorStockNumber}
+							required={requiredStockNumber}
+							disabled={disabledStockNumber}
+						/>
+						<HelpTooltip text="Número de puesto o ubicación específica dentro del almacén." />
+					</div>
 				) : null}
-				<Input
-					id="device-observation"
-					value={observation ?? ''}
-					name="observation"
-					isLoading={isLoading}
-					readOnly={!canEdit}
-					label="Observación"
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('observation', e.target.value)
-					}
-					error={!!errorObservation}
-					errorMessage={errorObservation}
-					required={requiredObservation}
-					disabled={disabledObservation}
-				/>
+				<div className="flex items-start gap-2">
+					<Input
+						id="device-observation"
+						value={observation ?? ''}
+						name="observation"
+						isLoading={isLoading}
+						readOnly={!canEdit}
+						label="Observación"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('observation', e.target.value)
+						}
+						error={!!errorObservation}
+						errorMessage={errorObservation}
+						required={requiredObservation}
+						disabled={disabledObservation}
+					/>
+					<HelpTooltip text="Cualquier información adicional relevante sobre el estado o historial del dispositivo." />
+				</div>
 			</>
 		)
 	}
