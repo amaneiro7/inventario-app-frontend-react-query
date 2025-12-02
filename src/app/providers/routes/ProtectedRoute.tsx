@@ -20,8 +20,6 @@ export function ProtectedRoute(Component: React.ComponentType): React.ComponentT
 			auth: { isLogged, permissions }
 		} = use(AuthContext)
 
-		console.log(isLogged)
-
 		if (!isLogged) {
 			return <Navigate to="/login" replace={true} />
 		}

@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { UserGetService } from '../service/userGet.service'
 import { UserGetter } from '../../application/UserGetter'
+import { type AxiosError } from 'axios'
 import { type DefaultUsers } from '../reducers/usersFormReducer'
 import { type LoginUserDto } from '../../domain/dto/LoginUser.dto'
 
@@ -37,7 +38,19 @@ export function useUserInitialState(defaultState: DefaultUsers): {
 		queryKey: ['users', id], // Clave de la consulta para la caché.
 		queryFn: () => (id ? get.execute({ id }) : Promise.reject('ID is missing')), // Función para obtener los datos del usuario.
 		enabled: !!id && !location?.state?.user, // Habilita la consulta solo si hay un ID, el modo es editar y no hay datos en el estado de la ubicación.
-		retry: false // Deshabilita los reintentos automáticos en caso de error.
+		retry: (failureCount, error: AxiosError) => {
+			// No reintentar si es un error 404
+			if (error.response?.status === 404) {
+				return false
+			}
+			// No reintentar si es un error 401 (el interceptor ya lo maneja, pero un reintento de RQ no haría daño)
+			// O si el interceptor falla, permitir que RQ lo intente de nuevo.
+			if (error.response?.status === 401) {
+				return failureCount < 2 // Intentar solo una vez más, por ejemplo
+			}
+			// Para otros errores, usar el comportamiento por defecto (hasta 3 reintentos)
+			return failureCount < 3
+		} // Deshabilita los reintentos automáticos en caso de error.
 	})
 
 	/**

@@ -7,6 +7,7 @@ import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
 import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
 import { mapEmployeeToState } from '../../lib/mapEmployeeToState'
+import { type AxiosError } from 'axios'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultEmployee } from '../reducers/employeeFormReducer'
 import { type EmployeeDto } from '../../domain/dto/Employee.dto'
@@ -51,7 +52,19 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 			return get.execute({ id })
 		},
 		enabled: mode === 'edit' && !!id && !initialDataFromState, // No habilitar si ya tenemos datos iniciales
-		retry: false,
+		retry: (failureCount, error: AxiosError) => {
+			// No reintentar si es un error 404
+			if (error.response?.status === 404) {
+				return false
+			}
+			// No reintentar si es un error 401 (el interceptor ya lo maneja, pero un reintento de RQ no haría daño)
+			// O si el interceptor falla, permitir que RQ lo intente de nuevo.
+			if (error.response?.status === 401) {
+				return failureCount < 2 // Intentar solo una vez más, por ejemplo
+			}
+			// Para otros errores, usar el comportamiento por defecto (hasta 3 reintentos)
+			return failureCount < 3
+		},
 		select: data => mapEmployeeToState(data, allowedDomains)
 	})
 
