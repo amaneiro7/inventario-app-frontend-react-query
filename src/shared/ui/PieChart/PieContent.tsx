@@ -1,10 +1,10 @@
 import { memo } from 'react'
 import { Cell, Pie, PieChart, type PieProps, ResponsiveContainer, Tooltip } from 'recharts'
 import { PieChartLegend } from './PieChartLegend'
-import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
+import { type PieChartData } from './PieChart'
 
 interface PieContentProps {
-	data: PieProps['data']
+	data: PieChartData[] | undefined
 	dataKey?: PieProps['dataKey']
 	outerRadius?: PieProps['outerRadius']
 	total: number
@@ -20,19 +20,20 @@ export const PieContent = memo(
 		data,
 		total,
 		icon,
-		height = 320,
-		colors = BASIC_COLORS_MAP,
-		dataKey = 'value',
+		height = 320, // Altura por defecto del contenedor del gráfico
+		colors, // Los colores se obtienen del PieCard que usa BASIC_COLORS_MAP por defecto
+		dataKey = 'count', // Coincide con la propiedad 'count' de los datos
 		outerRadius = 100,
 		chartTitleId = 'pie-chart-title',
 		chartDescriptionId = 'pie-chart-description'
 	}: PieContentProps) => {
 		const chartAccessibilityDescription = data
 			?.map(
-				(entry: any) =>
+				entry =>
 					`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`
 			)
 			.join(', ')
+
 		return (
 			<div className="flex h-full flex-col">
 				<div
@@ -41,7 +42,7 @@ export const PieContent = memo(
 						height
 					}}
 				>
-					{data && data?.length > 0 ? (
+					{data && data.length > 0 && colors ? (
 						<ResponsiveContainer width="100%" height="100%">
 							<PieChart
 								aria-labelledby={chartTitleId}
@@ -60,20 +61,28 @@ export const PieContent = memo(
 									cx="50%"
 									cy="50%"
 									labelLine={false}
-									label={({ name, percent }) => {
-										const minVisiblePercent = 0.05 // Only show label if slice is large enough
-										if (percent > minVisiblePercent)
+									label={({
+										name,
+										percent
+									}: {
+										name?: string
+										percent?: number
+									}) => {
+										const minVisiblePercent = 0.05 // Solo mostrar etiqueta si el trozo es suficientemente grande
+										if (name && percent && percent > minVisiblePercent) {
 											return `${name}: ${(percent * 100).toFixed(0)}%`
+										}
+										return null // No renderizar etiqueta si no cumple las condiciones
 									}}
 									outerRadius={outerRadius}
 									fill="#8884d8"
 									dataKey={dataKey}
 									tabIndex={0}
 								>
-									{data?.map((entry, index) => (
+									{data.map((entry, index) => (
 										<Cell
 											key={`cell-${index}`}
-											fill={colors[index % colors.length]}
+											fill={colors[index % colors.length] ?? '#cccccc'}
 											aria-label={`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`}
 										/>
 									))}
@@ -97,7 +106,7 @@ export const PieContent = memo(
 						</div>
 					)}
 				</div>
-				<PieChartLegend data={data} colors={colors} total={total} dataKey={dataKey} />
+				{colors && <PieChartLegend data={data} colors={colors} total={total} />}
 			</div>
 		)
 	}

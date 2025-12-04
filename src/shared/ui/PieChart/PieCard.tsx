@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/sha
 import { PieContentFallback } from './PieContentFallback'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { type PieProps } from 'recharts'
+import { type PieChartData } from './PieChart'
 
 interface PieCardProps {
-	data: PieProps['data']
+	data: PieChartData[] | undefined
 	dataKey?: PieProps['dataKey']
 	title: string
 	desc: string

@@ -1,6 +1,6 @@
 import { type LabelListProps } from 'recharts'
 
-interface CustomLabelListProps<T extends Record<string, any>> extends LabelListProps<T> {
+interface CustomLabelListProps extends LabelListProps {
 	value?: number | string
 	x?: number
 	y?: number
@@ -9,7 +9,7 @@ interface CustomLabelListProps<T extends Record<string, any>> extends LabelListP
 	dataKey: string
 }
 
-export const CustomLabelList: React.FC<CustomLabelListProps<any>> = ({
+export const CustomLabelList: React.FC<CustomLabelListProps> = ({
 	value,
 	x,
 	y,

@@ -16,12 +16,7 @@ function App() {
 	return (
 		<ErrorBoundary>
 			<TooltipProvider>
-				<BrowserRouter
-					future={{
-						v7_startTransition: true,
-						v7_relativeSplatPath: true
-					}}
-				>
+				<BrowserRouter>
 					<AuthContextProvider>
 						<Suspense fallback={<Loading />}>
 							<AppRoutes />
