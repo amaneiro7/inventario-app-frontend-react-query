@@ -1,4 +1,5 @@
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 import { ComputerHDDCapacity } from '../../domain/value-object/ComputerHDDCapacity'
 import { ComputerHDDType } from '../../domain/value-object/ComputerHDDType'
 import { IPAddress } from '../../domain/value-object/IPAddress'
@@ -20,13 +21,20 @@ import {
 	type DevicesErrors,
 	type State
 } from './devicesFormReducer'
+import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
 
 export const updateValidation = (state: State): State => {
-	const { formData } = state
-	//const status = formData.statusId as (typeof StatusOptions)[keyof typeof StatusOptions]
-	const status = formData.statusId
-		? (formData.statusId as (typeof StatusOptions)[keyof typeof StatusOptions])
-		: undefined
+	const { formData, errors: prevErrors, disabled: prevDisabled, required: prevRequired } = state
+	const status = formData.statusId as (typeof StatusOptions)[keyof typeof StatusOptions]
+
+	const isComputer = formData.mainCategoryId === MainCategoryOptions.COMPUTER
+	const isHardDrive = formData.categoryId === CategoryOptions.HARDDRIVE
+
+	// Limpiar campos que no aplican a la categoría para evitar validaciones incorrectas
+	if (!isComputer) {
+		formData.computerName = ''
+		// ... limpiar otros campos específicos de computadora
+	}
 
 	const errors: DevicesErrors = {
 		statusId: '',
@@ -34,7 +42,7 @@ export const updateValidation = (state: State): State => {
 		categoryId: '',
 		brandId: '',
 		modelId: '',
-		memoryRam: '',
+		memoryRam: prevErrors.memoryRam,
 		observation: '',
 		serial: DeviceSerial.isValid({ serial: formData.serial })
 			? ''
@@ -60,71 +68,98 @@ export const updateValidation = (state: State): State => {
 		})
 			? ''
 			: DeviceStockNumber.invalidMessage(),
-		computerName: ComputerName.isValid({ value: formData.computerName, status })
-			? ''
-			: ComputerName.invalidMessage(),
-		ipAddress: IPAddress.isValid({ value: formData.ipAddress, status })
-			? ''
-			: IPAddress.invalidMessage(),
-		memoryRamCapacity: MemoryRam.isValid({
-			value: formData.memoryRam,
-			status
-		})
-			? ''
-			: MemoryRam.invalidMessage(),
-		processorId: ComputerProcessor.isValid({
-			value: formData.processorId,
-			status
-		})
-			? ''
-			: ComputerProcessor.invalidMessage(),
-		hardDriveCapacityId: ComputerHDDCapacity.isValid({
-			value: formData.hardDriveCapacityId,
-			status
-		})
-			? ''
-			: ComputerHDDCapacity.invalidMessage(),
-		hardDriveTypeId: ComputerHDDType.isValid({
-			value: formData.hardDriveTypeId,
-			hardDriveCapacity: formData.hardDriveCapacityId
-		})
-			? ''
-			: ComputerHDDType.invalidMessage(),
-		operatingSystemId: ComputerOs.isValid({
-			value: formData.operatingSystemId,
-			status,
-			hardDriveCapacity: formData.hardDriveCapacityId
-		})
-			? ''
-			: ComputerOs.invalidMessage(),
-		operatingSystemArqId: ComputerOsArq.isValid({
-			value: formData.operatingSystemArqId,
-			operatingSystem: formData.operatingSystemId
-		})
-			? ''
-			: ComputerOsArq.invalidMessage(),
-		macAddress: MACAddress.isValid({ value: formData.macAddress })
-			? ''
-			: MACAddress.invalidMessage(formData.macAddress),
-		health: HardDriveHealth.isValid({ value: formData.health })
-			? ''
-			: HardDriveHealth.invalidMessage()
+		computerName:
+			isComputer && ComputerName.isValid({ value: formData.computerName, status })
+				? ''
+				: isComputer
+				? ComputerName.invalidMessage()
+				: '',
+		ipAddress: IPAddress.isValid({ value: formData.ipAddress, status }) ? '' : IPAddress.invalidMessage(),
+		memoryRamCapacity:
+			isComputer && MemoryRam.isValid({ value: formData.memoryRam, status })
+				? ''
+				: isComputer
+				? MemoryRam.invalidMessage()
+				: '',
+		processorId:
+			isComputer && ComputerProcessor.isValid({ value: formData.processorId, status })
+				? ''
+				: isComputer
+				? ComputerProcessor.invalidMessage()
+				: '',
+		hardDriveCapacityId:
+			(isComputer || isHardDrive) &&
+			ComputerHDDCapacity.isValid({
+				value: formData.hardDriveCapacityId,
+				status
+			})
+				? ''
+				: isComputer || isHardDrive
+				? ComputerHDDCapacity.invalidMessage()
+				: '',
+		hardDriveTypeId:
+			(isComputer || isHardDrive) &&
+			ComputerHDDType.isValid({
+				value: formData.hardDriveTypeId,
+				hardDriveCapacity: formData.hardDriveCapacityId
+			})
+				? ''
+				: isComputer || isHardDrive
+				? ComputerHDDType.invalidMessage()
+				-				: '',
+		operatingSystemId:
+			isComputer &&
+			ComputerOs.isValid({
+				value: formData.operatingSystemId,
+				status,
+				hardDriveCapacity: formData.hardDriveCapacityId
+			})
+				? ''
+				: isComputer
+				? ComputerOs.invalidMessage()
+				: '',
+		operatingSystemArqId:
+			isComputer &&
+			ComputerOsArq.isValid({
+				value: formData.operatingSystemArqId,
+				operatingSystem: formData.operatingSystemId
+			})
+				? ''
+				: isComputer
+				? ComputerOsArq.invalidMessage()
+				: '',
+		macAddress:
+			isComputer && MACAddress.isValid({ value: formData.macAddress })
+				? ''
+				: isComputer
+				? MACAddress.invalidMessage(formData.macAddress)
+				: '',
+		health:
+			isHardDrive && HardDriveHealth.isValid({ value: formData.health })
+				? ''
+				: isHardDrive
+				? HardDriveHealth.invalidMessage()
+				: ''
 	}
 
 	const disabled: DevicesDisabled = {
-		...state.disabled,
+		...prevDisabled,
 		categoryId: !formData.mainCategoryId,
 		brandId: !formData.categoryId,
 		modelId: !formData.brandId,
 		locationId: !status || status === StatusOptions.DESINCORPORADO,
 		stockNumber:
 			!status ||
-			!(status === StatusOptions.INALMACEN || status === StatusOptions.PORDESINCORPORAR),
+			!(
+				status === StatusOptions.INALMACEN ||
+				status === StatusOptions.PORDESINCORPORAR
+			),
 		employeeId:
 			!status ||
 			status === StatusOptions.INALMACEN ||
 			status === StatusOptions.PORDESINCORPORAR ||
 			status === StatusOptions.DESINCORPORADO ||
+			status === StatusOptions.JORNADA ||
 			status === StatusOptions.DISPONIBLE,
 
 		computerName:
@@ -135,7 +170,7 @@ export const updateValidation = (state: State): State => {
 			status === StatusOptions.INALMACEN ||
 			status === StatusOptions.PORDESINCORPORAR ||
 			status === StatusOptions.DESINCORPORADO,
-		hardDriveTypeId: !formData.hardDriveCapacityId,
+		hardDriveTypeId: !formData.hardDriveCapacityId || !isComputer,
 		operatingSystemId:
 			status === StatusOptions.INALMACEN ||
 			status === StatusOptions.PORDESINCORPORAR ||
@@ -145,7 +180,7 @@ export const updateValidation = (state: State): State => {
 	}
 
 	const required: DeviceRequired = {
-		...state.required,
+		...prevRequired,
 		serial: !formData.genericModel,
 		employeeId:
 			status === StatusOptions.PRESTAMO ||
@@ -153,34 +188,41 @@ export const updateValidation = (state: State): State => {
 			status === StatusOptions.GUARDIA,
 		locationId: status !== StatusOptions.DESINCORPORADO,
 		computerName: !(
+			!isComputer ||
 			status === StatusOptions.INALMACEN ||
 			status === StatusOptions.PORDESINCORPORAR ||
 			status === StatusOptions.DESINCORPORADO
 		),
-		ipAddress: status === StatusOptions.INUSE,
+		ipAddress:
+			status === StatusOptions.INUSE &&
+			(isComputer || formData.categoryId === CategoryOptions.PRINTERS),
 		memoryRamCapacity:
-			status === StatusOptions.INUSE ||
-			status === StatusOptions.PRESTAMO ||
-			status === StatusOptions.CONTINGENCIA ||
-			status === StatusOptions.GUARDIA,
+			isComputer &&
+			(status === StatusOptions.INUSE ||
+				status === StatusOptions.PRESTAMO ||
+				status === StatusOptions.CONTINGENCIA ||
+				status === StatusOptions.GUARDIA),
 		processorId:
-			status === StatusOptions.INUSE ||
-			status === StatusOptions.INALMACEN ||
-			status === StatusOptions.PRESTAMO ||
-			status === StatusOptions.GUARDIA ||
-			status === StatusOptions.CONTINGENCIA,
+			isComputer &&
+			(status === StatusOptions.INUSE ||
+				status === StatusOptions.INALMACEN ||
+				status === StatusOptions.PRESTAMO ||
+				status === StatusOptions.GUARDIA ||
+				status === StatusOptions.CONTINGENCIA),
 		hardDriveCapacityId:
-			status === StatusOptions.INUSE ||
-			status === StatusOptions.PRESTAMO ||
-			status === StatusOptions.CONTINGENCIA ||
-			status === StatusOptions.GUARDIA,
-		hardDriveTypeId: !!formData.hardDriveCapacityId,
+			(isComputer || isHardDrive) &&
+			(status === StatusOptions.INUSE ||
+				status === StatusOptions.PRESTAMO ||
+				status === StatusOptions.CONTINGENCIA ||
+				status === StatusOptions.GUARDIA),
+		hardDriveTypeId: !!formData.hardDriveCapacityId && (isComputer || isHardDrive),
 		operatingSystemId:
+			isComputer &&
 			status === StatusOptions.INUSE ||
-			status === StatusOptions.PRESTAMO ||
-			status === StatusOptions.CONTINGENCIA ||
-			status === StatusOptions.GUARDIA,
-		operatingSystemArqId: !!formData.operatingSystemId
+				status === StatusOptions.PRESTAMO ||
+				status === StatusOptions.CONTINGENCIA ||
+				status === StatusOptions.GUARDIA),
+		operatingSystemArqId: !!formData.operatingSystemId && isComputer
 	}
 	return {
 		formData,

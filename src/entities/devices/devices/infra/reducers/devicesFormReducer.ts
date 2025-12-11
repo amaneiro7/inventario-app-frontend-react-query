@@ -19,6 +19,9 @@ import { ComputerName } from '../../domain/value-object/ComputerName'
 import { ComputerProcessor } from '../../domain/value-object/ComputerProcessor'
 import { MACAddress } from '../../domain/value-object/MACAddress'
 import { HardDriveHealth } from '../../domain/value-object/HardDriveHealth'
+import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
+import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
+import { IPAddressMFP } from '../../domain/value-object/IPAddressMFP'
 
 export interface DefaultDevice {
 	id?: DeviceDto['id']
@@ -409,6 +412,17 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					: state.formData.ipAddress
 			const stockNumber = ''
 
+			const additionalErrors = updateAddionalErrors({
+				state,
+				categoryId: state.formData.categoryId,
+				mainCategoryId: state.formData.mainCategoryId,
+				computerName,
+				operatingSystemId,
+				operatingSystemArqId,
+				ipAddress,
+				statusId
+			})
+
 			return {
 				...state,
 				formData: {
@@ -497,6 +511,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				},
 				errors: {
 					...state.errors,
+					...additionalErrors,
 					locationId: DeviceLocation.isValid({
 						typeOfSite: state.formData.typeOfSiteId,
 						status: statusId
@@ -514,56 +529,23 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 						status: statusId
 					})
 						? ''
-						: DeviceStockNumber.invalidMessage(),
-					computerName: ComputerName.isValid({
-						value: computerName,
-						status: statusId
-					})
-						? ''
-						: ComputerName.invalidMessage(),
-					ipAddress: IPAddress.isValid({
-						value: ipAddress,
-						status: statusId
-					})
-						? ''
-						: IPAddress.invalidMessage(),
-					memoryRamCapacity: MemoryRam.isValid({
-						value: state.formData.memoryRam,
-						status: statusId
-					})
-						? ''
-						: MemoryRam.invalidMessage(),
-					processorId: ComputerProcessor.isValid({
-						value: state.formData.processorId,
-						status: statusId
-					})
-						? ''
-						: ComputerProcessor.invalidMessage(),
-					hardDriveCapacityId: ComputerHDDCapacity.isValid({
-						value: state.formData.hardDriveCapacityId,
-						status: statusId
-					})
-						? ''
-						: ComputerHDDCapacity.invalidMessage(),
-					operatingSystemId: ComputerOs.isValid({
-						value: operatingSystemId,
-						status: statusId,
-						hardDriveCapacity: state.formData.hardDriveCapacityId
-					})
-						? ''
-						: ComputerOs.invalidMessage(),
-					operatingSystemArqId: ComputerOsArq.isValid({
-						value: operatingSystemArqId,
-						operatingSystem: operatingSystemId
-					})
-						? ''
-						: ComputerOsArq.invalidMessage()
+						: DeviceStockNumber.invalidMessage()
 				}
 			}
 		}
 
 		case 'categoryId': {
 			const categoryId = action.payload.value
+			const additionalErrors = updateAddionalErrors({
+				state,
+				categoryId,
+				mainCategoryId: state.formData.mainCategoryId,
+				computerName: state.formData.computerName,
+				operatingSystemId: state.formData.operatingSystemId,
+				operatingSystemArqId: state.formData.operatingSystemArqId,
+				ipAddress: state.formData.ipAddress,
+				statusId: state.formData.statusId
+			})
 			return {
 				...state,
 				formData: {
@@ -588,11 +570,25 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				disabled: {
 					...state.disabled,
 					brandId: !categoryId
+				},
+				errors: {
+					...state.errors,
+					...additionalErrors
 				}
 			}
 		}
 		case 'mainCategoryId': {
 			const mainCategoryId = action.payload.value
+			const additionalErrors = updateAddionalErrors({
+				state,
+				mainCategoryId,
+				categoryId: state.formData.categoryId,
+				computerName: state.formData.computerName,
+				operatingSystemId: state.formData.operatingSystemId,
+				operatingSystemArqId: state.formData.operatingSystemArqId,
+				ipAddress: state.formData.ipAddress,
+				statusId: state.formData.statusId
+			})
 			return {
 				...state,
 				formData: {
@@ -618,6 +614,10 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				disabled: {
 					...state.disabled,
 					categoryId: !mainCategoryId
+				},
+				errors: {
+					...state.errors,
+					...additionalErrors
 				}
 			}
 		}
@@ -688,6 +688,8 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 		}
 		case 'locationId': {
 			const { value: locationId, typeOfSiteId, ipAddress } = action.payload
+			const isComputer = state.formData.mainCategoryId === MainCategoryOptions.COMPUTER
+			const isMFP = state.formData.categoryId === CategoryOptions.MFP
 			const newIpAddress = ipAddress ? ipAddress.split('.').slice(0, -1).join('.') + '.' : ''
 			const oldIpAddress = state.formData.ipAddress
 				? state.formData.ipAddress.split('.').slice(0, -1).join('.') + '.'
@@ -711,12 +713,16 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					})
 						? ''
 						: DeviceLocation.invalidMessage(),
-					ipAddress: IPAddress.isValid({
-						value: ipAddressValue,
-						status: state.formData.statusId
-					})
-						? ''
-						: IPAddress.invalidMessage()
+					ipAddress:
+						isComputer &&
+						!IPAddress.isValid({
+							value: ipAddressValue,
+							status: state.formData.statusId
+						})
+							? IPAddress.invalidMessage()
+							: isMFP && !IPAddressMFP.isValid(ipAddressValue)
+								? IPAddressMFP.invalidMessage()
+								: ''
 				}
 			}
 		}
@@ -1036,4 +1042,100 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 		default:
 			return state
 	}
+}
+
+const updateAddionalErrors = ({
+	state,
+	statusId,
+	computerName,
+	operatingSystemId,
+	operatingSystemArqId,
+	ipAddress,
+	mainCategoryId,
+	categoryId
+}: {
+	state: State
+	statusId: DefaultDevice['statusId']
+	categoryId: DefaultDevice['categoryId']
+	mainCategoryId: DefaultDevice['mainCategoryId']
+	computerName: DefaultDevice['computerName']
+	operatingSystemId: DefaultDevice['operatingSystemId']
+	operatingSystemArqId: DefaultDevice['operatingSystemArqId']
+	ipAddress: DefaultDevice['ipAddress']
+}) => {
+	const isComputer = mainCategoryId === MainCategoryOptions.COMPUTER
+	const isMFP = categoryId === CategoryOptions.MFP
+
+	const additionalErrores: Pick<
+		DevicesErrors,
+		| 'computerName'
+		| 'memoryRamCapacity'
+		| 'processorId'
+		| 'ipAddress'
+		| 'operatingSystemId'
+		| 'operatingSystemArqId'
+		| 'hardDriveCapacityId'
+	> = {
+		computerName:
+			isComputer &&
+			!ComputerName.isValid({
+				value: computerName,
+				status: statusId
+			})
+				? ComputerName.invalidMessage()
+				: '',
+		memoryRamCapacity:
+			isComputer &&
+			!MemoryRam.isValid({
+				value: state.formData.memoryRam,
+				status: statusId
+			})
+				? MemoryRam.invalidMessage()
+				: '',
+		processorId:
+			isComputer &&
+			!ComputerProcessor.isValid({
+				value: state.formData.processorId,
+				status: statusId
+			})
+				? ComputerProcessor.invalidMessage()
+				: '',
+		hardDriveCapacityId:
+			isComputer &&
+			!ComputerHDDCapacity.isValid({
+				value: state.formData.hardDriveCapacityId,
+				status: statusId
+			})
+				? ComputerHDDCapacity.invalidMessage()
+				: '',
+		operatingSystemId:
+			isComputer &&
+			!ComputerOs.isValid({
+				value: operatingSystemId,
+				status: statusId,
+				hardDriveCapacity: state.formData.hardDriveCapacityId
+			})
+				? ComputerOs.invalidMessage()
+				: '',
+		operatingSystemArqId:
+			isComputer &&
+			!ComputerOsArq.isValid({
+				value: operatingSystemArqId,
+				operatingSystem: operatingSystemId
+			})
+				? ComputerOsArq.invalidMessage()
+				: '',
+		ipAddress:
+			isComputer &&
+			!IPAddress.isValid({
+				value: ipAddress,
+				status: statusId
+			})
+				? IPAddress.invalidMessage()
+				: isMFP && !IPAddressMFP.isValid(ipAddress)
+					? IPAddressMFP.invalidMessage()
+					: ''
+	}
+
+	return additionalErrores
 }
