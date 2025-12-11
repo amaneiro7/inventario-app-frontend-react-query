@@ -59,7 +59,6 @@ export const SignatureForm = memo(
 						name="cargo"
 						required
 						transform
-						readOnly
 						value={data.cargo}
 						placeholder={placeHolder.cargo}
 						onChange={e => onChange('cargo', e.target.value)}
@@ -73,7 +72,6 @@ export const SignatureForm = memo(
 						name="vicepresidenciaEjecutiva"
 						required
 						transform
-						readOnly
 						value={data.vicepresidenciaEjecutiva}
 						placeholder={placeHolder.vicepresidenciaEjecutiva}
 						onChange={e => onChange('vicepresidenciaEjecutiva', e.target.value)}
@@ -86,7 +84,6 @@ export const SignatureForm = memo(
 						name="vicepresidencia"
 						required
 						transform
-						readOnly
 						value={data.vicepresidencia}
 						placeholder={placeHolder.vicepresidencia}
 						onChange={e => onChange('vicepresidencia', e.target.value)}

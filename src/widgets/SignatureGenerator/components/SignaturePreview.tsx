@@ -71,13 +71,23 @@ export const SignaturePreview = memo(({ data, placeHolder, ref }: SignaturePrevi
 										</p>
 									</>
 								) : (
-									<p
-										className={
-											!data?.vicepresidencia ? 'text-gray-400 italic' : ''
-										}
-									>
-										{data?.vicepresidencia || placeHolder.vicepresidencia}
-									</p>
+									<>
+										<p
+											className={
+												!data?.vicepresidencia ? 'text-gray-400 italic' : ''
+											}
+										>
+											{data?.vicepresidencia || placeHolder.vicepresidencia}
+										</p>
+										<p
+											className={
+												!data?.siteName ? 'text-gray-400 italic' : ''
+											}
+										>
+											{data?.vicepresidenciaEjecutiva ||
+												placeHolder.vicepresidenciaEjecutiva}
+										</p>
+									</>
 								)}
 								<p className={!data?.numbers ? 'text-gray-400 italic' : ''}>
 									{data?.numbers || placeHolder.numbers}
