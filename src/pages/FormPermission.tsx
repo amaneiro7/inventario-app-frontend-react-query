@@ -5,7 +5,7 @@ import { PermissionFormSkeletonLayout } from '@/entities/accessControl/permissio
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>

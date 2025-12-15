@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useAuth } from '@/entities/user/infra/hooks/useAuth'
+import { usePermissionCheck } from '@/features/auth/hook/usePermissionCheck'
 import { type RouterMetadata } from '../types/metaData'
 
 export const usePermittedSubRoutes = ({
@@ -9,13 +9,14 @@ export const usePermittedSubRoutes = ({
 	routerMetada: Record<string, RouterMetadata>
 	indexPath: string
 }) => {
-	const { hasPermission } = useAuth()
+	const { hasPermission, isLoadingPermissions } = usePermissionCheck()
+
 	const permittedSubRoutes = useMemo(() => {
 		return Object.entries(routerMetada)
 			.filter(([path]) => path !== indexPath) // Excluir la ruta índice
 			.map(([, metadata]) => metadata)
-			.filter(metadata => hasPermission(metadata?.permission))!
+			.filter(metadata => hasPermission(metadata?.permission))
 	}, [hasPermission])
 
-	return { permittedSubRoutes }
+	return { permittedSubRoutes, isLoadingPermissions }
 }

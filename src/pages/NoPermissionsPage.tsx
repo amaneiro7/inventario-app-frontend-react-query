@@ -1,11 +1,12 @@
 import { Suspense, use, useRef, type JSX } from 'react'
+import { Navigate } from 'react-router-dom'
+import { AuthContext } from '@/app/providers/AuthContext'
+import { useUserPermissions } from '@/features/auth/hook/useUserPermissions'
 import { Seo } from '@/shared/ui/Seo'
 import Button from '@/shared/ui/Button'
 import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
 import { ConfirmationModal } from '@/shared/ui/Modal/ConfirmationModal'
 import { LogoutIcon } from '@/shared/ui/icon/LogoutIcon'
-import { AuthContext } from '@/app/providers/AuthContext'
-import { Navigate } from 'react-router-dom'
 
 /**
  * `NoPermissionsPage`
@@ -15,8 +16,9 @@ import { Navigate } from 'react-router-dom'
 const NoPermissionsPage = (): JSX.Element => {
 	const dialogExitRef = useRef<ModalRef>(null)
 	const {
-		auth: { logout, user, isLogged, permissions }
+		auth: { logout, user, isLogged }
 	} = use(AuthContext)
+	const { data } = useUserPermissions()
 	const handleOpen = () => dialogExitRef.current?.handleOpen()
 	const handleClose = () => dialogExitRef.current?.handleClose()
 	const handleLogout = async () => {
@@ -28,7 +30,7 @@ const NoPermissionsPage = (): JSX.Element => {
 		return <Navigate to={'/login'} />
 	}
 
-	if (isLogged && permissions && permissions.length > 0) {
+	if (isLogged && data && data.permissions.length > 0) {
 		return <Navigate to={'/'} />
 	}
 

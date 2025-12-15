@@ -4,7 +4,7 @@ import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { CargoFormSkeletonLayout } from '@/entities/employee/cargo/infra/ui/CargoFormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 

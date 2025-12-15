@@ -6,6 +6,7 @@ import { HamburgerMenu } from './HamburgerMenu'
 import { Icon } from '@/shared/ui/icon/Icon'
 import { PERMISSIONS } from '@/shared/config/permissions'
 import { WelcomeBanner } from './WelcomeBanner'
+import { usePermissionCheck } from '@/features/auth/hook/usePermissionCheck'
 
 const WrapperBox = lazy(() => import('./WrapperBox').then(m => ({ default: m.WrapperBox })))
 const Nav = lazy(() => import('./Nav').then(m => ({ default: m.Nav })))
@@ -13,8 +14,10 @@ const Nav = lazy(() => import('./Nav').then(m => ({ default: m.Nav })))
 export const Header = memo(() => {
 	const location = useLocation()
 	const {
-		auth: { user, hasPermission }
+		auth: { user }
 	} = useContext(AuthContext)
+
+	const { hasPermission } = usePermissionCheck()
 
 	return (
 		<header className="z-50 md:sticky md:top-0">

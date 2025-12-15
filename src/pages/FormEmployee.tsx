@@ -7,7 +7,7 @@ import { EmployeeFormSkeletonLayout } from '@/entities/employee/employee/infra/u
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))

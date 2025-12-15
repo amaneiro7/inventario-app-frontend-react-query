@@ -5,13 +5,13 @@ import { VicepresidenciaEjecutivaFormSkeletonLayout } from '@/entities/employee/
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
 const VicepresidenciaEjecutivasInputs = lazy(() =>
-	import(
-		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaInputs'
-	).then(m => ({ default: m.VicepresidenciaEjecutivasInputs }))
+	import('@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaInputs').then(
+		m => ({ default: m.VicepresidenciaEjecutivasInputs })
+	)
 )
 const VicepresidenciaEjecutivaSearch = lazy(() =>
 	import('@/features/vicepresidencia-ejecutiva-search/ui/VicepresidenciaEjecutivaSearch').then(

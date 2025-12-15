@@ -5,7 +5,7 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { useCreateAccessPolicy } from '@/entities/accessControl/accessPolicy/infra/hooks/useCreateAccessPolicy'
 import { AccessPolicyFormSkeletonLayout } from '@/entities/accessControl/accessPolicy/infra/ui/AccessPolicyFormLayoutSkeleton'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
 const AccessPolicySearch = lazy(() =>

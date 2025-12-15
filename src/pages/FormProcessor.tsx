@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { useCreateProcessor } from '@/entities/devices/features/processor/infra/hooks/useCreateProcessor'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { ProcessorFormSkeletonLayout } from '@/entities/devices/features/processor/infra/ui/ProcessorFormLayoutSkeleton.tsx'

@@ -1,6 +1,6 @@
 // src/app/providers/router/ProtectedRoute.tsx (o una ruta similar)
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAuth } from '@/entities/user/infra/hooks/useAuth'
+import { usePermissionCheck } from '@/features/auth/hook/usePermissionCheck'
 import { type Permission } from '@/shared/config/permissions'
 
 interface Props {
@@ -9,8 +9,9 @@ interface Props {
 }
 
 export const ProtectedByPermissionRoute = ({ permission, redirectTo = '/403' }: Props) => {
-	const { hasPermission } = useAuth()
+	const { hasPermission } = usePermissionCheck()
 
+	// 1. Una vez que la carga ha terminado, verificar el permiso.
 	if (!hasPermission(permission)) {
 		// Si está logueado pero no tiene el permiso, a la página de no autorizado
 		return <Navigate to={redirectTo} replace />

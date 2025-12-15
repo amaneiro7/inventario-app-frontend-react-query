@@ -3,7 +3,7 @@ import { useCreateCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
-import { useHasPermission } from '@/shared/lib/hooks/useHasPermission'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
 const FormLayout = lazy(() =>

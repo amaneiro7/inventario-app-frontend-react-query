@@ -1,9 +1,9 @@
 import { use } from 'react'
 import { Navigate } from 'react-router-dom'
-import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { queryClient } from '@/shared/lib/queryCliente'
 import { AuthContext } from '@/app/providers/AuthContext'
+import { useUserPermissions } from '@/features/auth/hook/useUserPermissions'
+import { LoadingSpinner } from '@/shared/ui/Loading/LoadingSpinner'
 
 /**
  * `ProtectedRoute`
@@ -17,22 +17,31 @@ import { AuthContext } from '@/app/providers/AuthContext'
 export function ProtectedRoute(Component: React.ComponentType): React.ComponentType {
 	return () => {
 		const {
-			auth: { isLogged, permissions }
+			auth: { isLogged }
 		} = use(AuthContext)
+
+		const { data, isLoading } = useUserPermissions()
 
 		if (!isLogged) {
 			return <Navigate to="/login" replace={true} />
 		}
 
-		if (isLogged && (!permissions || permissions.length === 0)) {
+		console.log(data?.permissions)
+
+		// 1. Manejar el estado de carga primero.
+		if (isLoading) {
+			return <LoadingSpinner />
+		}
+
+		if (isLogged && (!data || data.permissions.length === 0)) {
 			return <Navigate to="/no-permissions" replace={true} />
 		}
 
 		return (
-			<QueryClientProvider client={queryClient}>
+			<>
 				<Component />
 				<ReactQueryDevtools />
-			</QueryClientProvider>
+			</>
 		)
 	}
 }
