@@ -1,0 +1,64 @@
+{
+    "d": {
+        "results": [
+            {
+                "__metadata": {
+                    "id": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3812)",
+                    "uri": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3812)",
+                    "type": "SP.Group"
+                },
+                "Owner": {
+                    "__deferred": {
+                        "uri": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3812)/Owner"
+                    }
+                },
+                "Users": {
+                    "__deferred": {
+                        "uri": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3812)/Users"
+                    }
+                },
+                "Id": 3812,
+                "IsHiddenInUI": false,
+                "LoginName": "Control de Casos",
+                "Title": "Control de Casos",
+                "PrincipalType": 8,
+                "AllowMembersEditMembership": false,
+                "AllowRequestToJoinLeave": false,
+                "AutoAcceptRequestToJoinLeave": false,
+                "Description": "",
+                "OnlyAllowMembersViewMembership": true,
+                "OwnerTitle": "sp farm",
+                "RequestToJoinLeaveEmailSetting": null
+            },
+            {
+                "__metadata": {
+                    "id": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3576)",
+                    "uri": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3576)",
+                    "type": "SP.Group"
+                },
+                "Owner": {
+                    "__deferred": {
+                        "uri": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3576)/Owner"
+                    }
+                },
+                "Users": {
+                    "__deferred": {
+                        "uri": "https://shp.bnc.net/_api/Web/SiteGroups/GetById(3576)/Users"
+                    }
+                },
+                "Id": 3576,
+                "IsHiddenInUI": false,
+                "LoginName": "Soporte",
+                "Title": "Soporte",
+                "PrincipalType": 8,
+                "AllowMembersEditMembership": false,
+                "AllowRequestToJoinLeave": false,
+                "AutoAcceptRequestToJoinLeave": false,
+                "Description": "",
+                "OnlyAllowMembersViewMembership": true,
+                "OwnerTitle": "System Account",
+                "RequestToJoinLeaveEmailSetting": null
+            }
+        ]
+    }
+}

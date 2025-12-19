@@ -1,0 +1,897 @@
+{
+  "d": {
+    "results": [
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1422)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1422)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1422)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1422)/Groups"
+          }
+        },
+        "Id": 1422,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\amaneiro",
+        "Title": "Andres Eduardo Maneiro Antunez",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43930",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2371)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2371)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2371)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2371)/Groups"
+          }
+        },
+        "Id": 2371,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\apatino",
+        "Title": "Anggie Chiquinquira Patiño Bracho",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43929",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(875)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(875)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(875)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(875)/Groups"
+          }
+        },
+        "Id": 875,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\abestgalue",
+        "Title": "Arturo Enrique Bestgalue",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43944",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(205)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(205)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(205)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(205)/Groups"
+          }
+        },
+        "Id": 205,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\cortega",
+        "Title": "Carlos Emilio Ortega Romero",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43921",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(111)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(111)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(111)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(111)/Groups"
+          }
+        },
+        "Id": 111,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\cfernandez",
+        "Title": "Carly J. Fernandez C.",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-10749",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2344)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2344)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2344)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2344)/Groups"
+          }
+        },
+        "Id": 2344,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\dmolina",
+        "Title": "Daniel Jose Molina Lugo",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-44139",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2605)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2605)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2605)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2605)/Groups"
+          }
+        },
+        "Id": 2605,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\enava",
+        "Title": "Emily Chiquinquira Nava Barrios",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-53721",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2672)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2672)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2672)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2672)/Groups"
+          }
+        },
+        "Id": 2672,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\jperez",
+        "Title": "Jhosender Ernesto Perez Villa",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43946",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1179)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1179)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1179)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1179)/Groups"
+          }
+        },
+        "Id": 1179,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\jodiaz",
+        "Title": "Jose Alberto Diaz Aranguren",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43941",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2191)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2191)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2191)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2191)/Groups"
+          }
+        },
+        "Id": 2191,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\kfarias",
+        "Title": "Keiny Bryant Farias Hernandez",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43948",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1119)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1119)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1119)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1119)/Groups"
+          }
+        },
+        "Id": 1119,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\krincon",
+        "Title": "Kristabel Edilia Rincon Mosquera",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43937",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(109)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(109)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(109)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(109)/Groups"
+          }
+        },
+        "Id": 109,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\lquero",
+        "Title": "Lismel Coromoto Quero Bello",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-40972",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1745)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1745)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1745)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1745)/Groups"
+          }
+        },
+        "Id": 1745,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\luferrer",
+        "Title": "Luis Emmanuel Ferrer Termine",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43934",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2065)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2065)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2065)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2065)/Groups"
+          }
+        },
+        "Id": 2065,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\lurbina",
+        "Title": "Luis Gilberto Urbina Bastidas",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-27453",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1424)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1424)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1424)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1424)/Groups"
+          }
+        },
+        "Id": 1424,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\lbrinez",
+        "Title": "Luis Mario Briñez Cardozo",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-53797",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1435)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1435)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1435)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1435)/Groups"
+          }
+        },
+        "Id": 1435,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\ljaimes",
+        "Title": "Luis Miguel Jaimes Herrera",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-28994",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1434)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1434)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1434)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1434)/Groups"
+          }
+        },
+        "Id": 1434,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\mguilarte",
+        "Title": "Maikel Javier Guilarte España",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-30526",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2550)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2550)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2550)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2550)/Groups"
+          }
+        },
+        "Id": 2550,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\mdominguez",
+        "Title": "Maria Dominguez",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-8708",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1952)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1952)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1952)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1952)/Groups"
+          }
+        },
+        "Id": 1952,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\ncubillan",
+        "Title": "Norybeth Del Pilar Cubillan Molina",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-52579",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1550)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1550)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1550)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1550)/Groups"
+          }
+        },
+        "Id": 1550,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\ppaz",
+        "Title": "Patricia Milagros Paz Lameda",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-53841",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2210)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2210)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2210)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2210)/Groups"
+          }
+        },
+        "Id": 2210,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\rcolina",
+        "Title": "Rene Antonio Colina Cruz",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43945",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2237)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2237)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2237)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2237)/Groups"
+          }
+        },
+        "Id": 2237,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\ricgonzalez",
+        "Title": "Richard Jose Gonzalez Adames",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-52498",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(10)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(10)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(10)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(10)/Groups"
+          }
+        },
+        "Id": 10,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\spapppool",
+        "Title": "sp apppool",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-26156",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2545)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2545)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2545)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2545)/Groups"
+          }
+        },
+        "Id": 2545,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\soropeza",
+        "Title": "Starlyn Yojan Oropeza Ovalles",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-33995",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(1073741823)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(1073741823)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1073741823)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(1073741823)/Groups"
+          }
+        },
+        "Id": 1073741823,
+        "IsHiddenInUI": false,
+        "LoginName": "SHAREPOINT\\system",
+        "Title": "System Account",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "S-1-0-0",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(2268)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(2268)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2268)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(2268)/Groups"
+          }
+        },
+        "Id": 2268,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\wiherrera",
+        "Title": "Wilmer Ali Herrera Rivas",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-53776",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      },
+      {
+        "__metadata": {
+          "id": "https://shp.bnc.net/_api/Web/GetUserById(946)",
+          "uri": "https://shp.bnc.net/_api/Web/GetUserById(946)",
+          "type": "SP.User"
+        },
+        "Alerts": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(946)/Alerts"
+          }
+        },
+        "Groups": {
+          "__deferred": {
+            "uri": "https://shp.bnc.net/_api/Web/GetUserById(946)/Groups"
+          }
+        },
+        "Id": 946,
+        "IsHiddenInUI": false,
+        "LoginName": "i:0#.w|bnc\\yemonsalve",
+        "Title": "Yenifer Carolina Monsalve Prada",
+        "PrincipalType": 1,
+        "Email": "",
+        "IsEmailAuthenticationGuestUser": false,
+        "IsShareByEmailGuestUser": false,
+        "IsSiteAdmin": false,
+        "UserId": {
+          "__metadata": {
+            "type": "SP.UserIdInfo"
+          },
+          "NameId": "s-1-5-21-448539723-1390067357-839522115-43949",
+          "NameIdIssuer": "urn:office:idp:activedirectory"
+        }
+      }
+    ]
+  }
+}
