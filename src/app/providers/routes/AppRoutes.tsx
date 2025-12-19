@@ -63,6 +63,12 @@ const Settings = lazy(() => import('@/pages/Settings'))
 const Form = lazy(() => import('@/pages/Form'))
 const Monitoring = lazy(() => import('@/pages/Monitoring'))
 
+const suspended = (Component: React.ElementType) => (
+	<Suspense fallback={<Loading />}>
+		<Component />
+	</Suspense>
+)
+
 /**
  * `AppRoutes`
  * @component
@@ -78,24 +84,24 @@ export function AppRoutes(): JSX.Element {
 				<Route path="/403" element={<UnauthorizedPage />} />
 				<Route path="/500" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/error" element={<ErrorPage onReset={() => {}} />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/no-permissions" element={<NoPermissionsPage />} />
-				<Route path="/" element={<Layout />}>
-					<Route index element={<Home />} /> {/* Ruta index para / */}
-					<Route path="profile" element={<Profile />} />
+				<Route path="/login" element={suspended(Login)} />
+				<Route path="/no-permissions" element={suspended(NoPermissionsPage)} />
+				<Route path="/" element={suspended(Layout)}>
+					<Route index element={suspended(Home)} /> {/* Ruta index para / */}
+					<Route path="profile" element={suspended(Profile)} />
 					<Route
 						element={
 							<ProtectedByPermissionRoute permission={PERMISSIONS.SETTINGS.UPDATE} />
 						}
 					>
-						<Route path="settings" element={<Settings />} />
+						<Route path="settings" element={suspended(Settings)} />
 					</Route>
 					<Route
 						element={
 							<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.READ_LIST} />
 						}
 					>
-						<Route path="user-management" element={<UserManagement />}>
+						<Route path="user-management" element={suspended(UserManagement)}>
 							<Route
 								element={
 									<ProtectedByPermissionRoute
@@ -103,7 +109,10 @@ export function AppRoutes(): JSX.Element {
 									/>
 								}
 							>
-								<Route path="register" element={<UserManagementRegister />} />
+								<Route
+									path="register"
+									element={suspended(UserManagementRegister)}
+								/>
 							</Route>
 							<Route
 								element={
@@ -112,13 +121,13 @@ export function AppRoutes(): JSX.Element {
 									/>
 								}
 							>
-								<Route path="profile/:id" element={<ManagementProfile />} />
+								<Route path="profile/:id" element={suspended(ManagementProfile)} />
 							</Route>
 						</Route>
 					</Route>
-					<Route path="payment-schedules" element={<PaymentSchedules />} />
-					<Route path="list" element={<ListWrapper />}>
-						<Route index element={<List />} />
+					<Route path="payment-schedules" element={suspended(PaymentSchedules)} />
+					<Route path="list" element={suspended(ListWrapper)}>
+						<Route index element={suspended(List)} />
 						<Route
 							element={
 								<ProtectedByPermissionRoute
@@ -126,7 +135,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="usuarios" element={<ListEmployee />} />
+							<Route path="usuarios" element={suspended(ListEmployee)} />
 						</Route>
 						<Route
 							element={
@@ -135,11 +144,14 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="computer" element={<ListComputer />} />
-							<Route path="monitor" element={<ListMonitor />} />
-							<Route path="printer" element={<ListPrinter />} />
-							<Route path="finantialprinter" element={<ListFinantialPrinter />} />
-							<Route path="parts" element={<ListParts />} />
+							<Route path="computer" element={suspended(ListComputer)} />
+							<Route path="monitor" element={suspended(ListMonitor)} />
+							<Route path="printer" element={suspended(ListPrinter)} />
+							<Route
+								path="finantialprinter"
+								element={suspended(ListFinantialPrinter)}
+							/>
+							<Route path="parts" element={suspended(ListParts)} />
 						</Route>
 						<Route
 							element={
@@ -148,7 +160,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="model" element={<ListModels />} />
+							<Route path="model" element={suspended(ListModels)} />
 						</Route>
 						<Route
 							element={
@@ -157,7 +169,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="location" element={<ListSite />} />
+							<Route path="location" element={suspended(ListSite)} />
 						</Route>
 						<Route
 							element={
@@ -166,7 +178,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="history" element={<ListHistory />} />
+							<Route path="history" element={suspended(ListHistory)} />
 						</Route>
 						<Route
 							element={
@@ -175,7 +187,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="shipment" element={<ListShipment />} />
+							<Route path="shipment" element={suspended(ListShipment)} />
 						</Route>
 						<Route
 							element={
@@ -184,11 +196,11 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="access-control" element={<ListAccessControl />} />
+							<Route path="access-control" element={suspended(ListAccessControl)} />
 						</Route>
 					</Route>
-					<Route path="monitoring" element={<MonitoringWrapper />}>
-						<Route index element={<Monitoring />} />
+					<Route path="monitoring" element={suspended(MonitoringWrapper)}>
+						<Route index element={suspended(Monitoring)} />
 						<Route
 							element={
 								<ProtectedByPermissionRoute
@@ -196,7 +208,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="device" element={<MonitoringDevice />} />
+							<Route path="device" element={suspended(MonitoringDevice)} />
 						</Route>
 						<Route
 							element={
@@ -205,16 +217,16 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="location" element={<MonitoringLocation />} />
-							<Route path="agencymap" element={<AgencyMapPage />} />
+							<Route path="location" element={suspended(MonitoringLocation)} />
+							<Route path="agencymap" element={suspended(AgencyMapPage)} />
 							<Route
 								path="administrativesitemap"
-								element={<AdministrativeSiteMapPage />}
+								element={suspended(AdministrativeSiteMapPage)}
 							/>
 						</Route>
 					</Route>
-					<Route path="dashboard" element={<DashboardWrapper />}>
-						<Route index element={<Dashboards />} />
+					<Route path="dashboard" element={suspended(DashboardWrapper)}>
+						<Route index element={suspended(Dashboards)} />
 						<Route
 							element={
 								<ProtectedByPermissionRoute
@@ -222,12 +234,12 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="computer" element={<DashboardComputer />} />
+							<Route path="computer" element={suspended(DashboardComputer)} />
 						</Route>
 					</Route>
 					{/* Seccion de Formularios */}
-					<Route path="form" element={<FormWrapper />}>
-						<Route index element={<Form />} />
+					<Route path="form" element={suspended(FormWrapper)}>
+						<Route index element={suspended(Form)} />
 						{/* Ruta para actualizacion de envios */}
 						<Route
 							element={
@@ -236,7 +248,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="shipment/add" element={<FormShipment />} />
+							<Route path="shipment/add" element={suspended(FormShipment)} />
 						</Route>
 						<Route
 							element={
@@ -245,7 +257,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="shipment/edit/:id" element={<FormShipment />} />
+							<Route path="shipment/edit/:id" element={suspended(FormShipment)} />
 						</Route>
 
 						{/* Ruta para actualizacion de dispositivos */}
@@ -256,14 +268,14 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="device/add" element={<FormDevice />} />
+							<Route path="device/add" element={suspended(FormDevice)} />
 						</Route>
 						<Route
 							element={
 								<ProtectedByPermissionRoute permission={PERMISSIONS.DEVICES.READ} />
 							}
 						>
-							<Route path="device/edit/:id" element={<FormDevice />} />
+							<Route path="device/edit/:id" element={suspended(FormDevice)} />
 						</Route>
 
 						{/* Ruta para actualizacion de empleados */}
@@ -274,7 +286,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="employee/add" element={<FormEmployee />} />
+							<Route path="employee/add" element={suspended(FormEmployee)} />
 						</Route>
 						<Route
 							element={
@@ -283,7 +295,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="employee/edit/:id" element={<FormEmployee />} />
+							<Route path="employee/edit/:id" element={suspended(FormEmployee)} />
 						</Route>
 
 						{/* Ruta para actualizacion de Marca */}
@@ -294,14 +306,14 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="brand/add" element={<FormBrand />} />
+							<Route path="brand/add" element={suspended(FormBrand)} />
 						</Route>
 						<Route
 							element={
 								<ProtectedByPermissionRoute permission={PERMISSIONS.BRANDS.READ} />
 							}
 						>
-							<Route path="brand/edit/:id" element={<FormBrand />} />
+							<Route path="brand/edit/:id" element={suspended(FormBrand)} />
 						</Route>
 
 						{/* Rutas para Access Control */}
@@ -312,7 +324,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="access-policy/add" element={<FormAccessPolicy />} />
+							<Route path="access-policy/add" element={suspended(FormAccessPolicy)} />
 						</Route>
 						<Route
 							element={
@@ -321,7 +333,10 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="access-policy/edit/:id" element={<FormAccessPolicy />} />
+							<Route
+								path="access-policy/edit/:id"
+								element={suspended(FormAccessPolicy)}
+							/>
 						</Route>
 
 						<Route
@@ -331,7 +346,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="permission/add" element={<FormPermission />} />
+							<Route path="permission/add" element={suspended(FormPermission)} />
 						</Route>
 						<Route
 							element={
@@ -340,7 +355,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="permission/edit/:id" element={<FormPermission />} />
+							<Route path="permission/edit/:id" element={suspended(FormPermission)} />
 						</Route>
 
 						<Route
@@ -350,7 +365,10 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="permission-groups/add" element={<FormPermissionGroup />} />
+							<Route
+								path="permission-groups/add"
+								element={suspended(FormPermissionGroup)}
+							/>
 						</Route>
 						<Route
 							element={
@@ -361,7 +379,7 @@ export function AppRoutes(): JSX.Element {
 						>
 							<Route
 								path="permission-groups/edit/:id"
-								element={<FormPermissionGroup />}
+								element={suspended(FormPermissionGroup)}
 							/>
 						</Route>
 
@@ -372,7 +390,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="directiva/add" element={<FormDirectiva />} />
+							<Route path="directiva/add" element={suspended(FormDirectiva)} />
 						</Route>
 						<Route
 							element={
@@ -381,7 +399,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="directiva/edit/:id" element={<FormDirectiva />} />
+							<Route path="directiva/edit/:id" element={suspended(FormDirectiva)} />
 						</Route>
 
 						<Route
@@ -393,7 +411,7 @@ export function AppRoutes(): JSX.Element {
 						>
 							<Route
 								path="vicepresidenciaEjecutiva/add"
-								element={<FormVicepresidenciaEjecutivas />}
+								element={suspended(FormVicepresidenciaEjecutivas)}
 							/>
 						</Route>
 						<Route
@@ -405,7 +423,7 @@ export function AppRoutes(): JSX.Element {
 						>
 							<Route
 								path="vicepresidenciaEjecutiva/edit/:id"
-								element={<FormVicepresidenciaEjecutivas />}
+								element={suspended(FormVicepresidenciaEjecutivas)}
 							/>
 						</Route>
 
@@ -416,7 +434,10 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="vicepresidencia/add" element={<FormVicepresidencia />} />
+							<Route
+								path="vicepresidencia/add"
+								element={suspended(FormVicepresidencia)}
+							/>
 						</Route>
 						<Route
 							element={
@@ -427,7 +448,7 @@ export function AppRoutes(): JSX.Element {
 						>
 							<Route
 								path="vicepresidencia/edit/:id"
-								element={<FormVicepresidencia />}
+								element={suspended(FormVicepresidencia)}
 							/>
 						</Route>
 
@@ -438,14 +459,14 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="model/add" element={<FormModel />} />
+							<Route path="model/add" element={suspended(FormModel)} />
 						</Route>
 						<Route
 							element={
 								<ProtectedByPermissionRoute permission={PERMISSIONS.MODELS.READ} />
 							}
 						>
-							<Route path="model/edit/:id" element={<FormModel />} />
+							<Route path="model/edit/:id" element={suspended(FormModel)} />
 						</Route>
 
 						<Route
@@ -453,8 +474,8 @@ export function AppRoutes(): JSX.Element {
 								<ProtectedByPermissionRoute permission={PERMISSIONS.REGIONS.READ} />
 							}
 						>
-							<Route path="region" element={<FormRegion />} />
-							<Route path="region/edit/:id" element={<FormRegion />} />
+							<Route path="region" element={suspended(FormRegion)} />
+							<Route path="region/edit/:id" element={suspended(FormRegion)} />
 						</Route>
 
 						<Route
@@ -462,14 +483,14 @@ export function AppRoutes(): JSX.Element {
 								<ProtectedByPermissionRoute permission={PERMISSIONS.SITES.CREATE} />
 							}
 						>
-							<Route path="site/add" element={<FormSite />} />
+							<Route path="site/add" element={suspended(FormSite)} />
 						</Route>
 						<Route
 							element={
 								<ProtectedByPermissionRoute permission={PERMISSIONS.SITES.READ} />
 							}
 						>
-							<Route path="site/edit/:id" element={<FormSite />} />
+							<Route path="site/edit/:id" element={suspended(FormSite)} />
 						</Route>
 
 						<Route
@@ -479,7 +500,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="location/add" element={<FormLocation />} />
+							<Route path="location/add" element={suspended(FormLocation)} />
 						</Route>
 						<Route
 							element={
@@ -488,7 +509,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="location/edit/:id" element={<FormLocation />} />
+							<Route path="location/edit/:id" element={suspended(FormLocation)} />
 						</Route>
 
 						<Route
@@ -498,14 +519,14 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="city/add" element={<FormCity />} />
+							<Route path="city/add" element={suspended(FormCity)} />
 						</Route>
 						<Route
 							element={
 								<ProtectedByPermissionRoute permission={PERMISSIONS.CITIES.READ} />
 							}
 						>
-							<Route path="city/edit/:id" element={<FormCity />} />
+							<Route path="city/edit/:id" element={suspended(FormCity)} />
 						</Route>
 
 						<Route
@@ -515,7 +536,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="departamento/add" element={<FormDepartamento />} />
+							<Route path="departamento/add" element={suspended(FormDepartamento)} />
 						</Route>
 						<Route
 							element={
@@ -524,7 +545,10 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="departamento/edit/:id" element={<FormDepartamento />} />
+							<Route
+								path="departamento/edit/:id"
+								element={suspended(FormDepartamento)}
+							/>
 						</Route>
 
 						<Route
@@ -534,14 +558,14 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="cargo/add" element={<FormCargo />} />
+							<Route path="cargo/add" element={suspended(FormCargo)} />
 						</Route>
 						<Route
 							element={
 								<ProtectedByPermissionRoute permission={PERMISSIONS.CARGOS.READ} />
 							}
 						>
-							<Route path="cargo/edit/:id" element={<FormCargo />} />
+							<Route path="cargo/edit/:id" element={suspended(FormCargo)} />
 						</Route>
 
 						<Route
@@ -551,7 +575,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="processor/add" element={<FormProcessor />} />
+							<Route path="processor/add" element={suspended(FormProcessor)} />
 						</Route>
 						<Route
 							element={
@@ -560,7 +584,7 @@ export function AppRoutes(): JSX.Element {
 								/>
 							}
 						>
-							<Route path="processor/edit/:id" element={<FormProcessor />} />
+							<Route path="processor/edit/:id" element={suspended(FormProcessor)} />
 						</Route>
 					</Route>
 				</Route>

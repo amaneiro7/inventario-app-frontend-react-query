@@ -21,7 +21,7 @@ function App() {
 				<QueryClientProvider client={queryClient}>
 					<BrowserRouter
 						future={{
-							v7_startTransition: true,
+							v7_startTransition: false,
 							v7_relativeSplatPath: true
 						}}
 					>
