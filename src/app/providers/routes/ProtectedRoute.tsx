@@ -26,8 +26,6 @@ export function ProtectedRoute(Component: React.ComponentType): React.ComponentT
 			return <Navigate to="/login" replace={true} />
 		}
 
-		console.log(data?.permissions)
-
 		// 1. Manejar el estado de carga primero.
 		if (isLoading) {
 			return <LoadingSpinner />

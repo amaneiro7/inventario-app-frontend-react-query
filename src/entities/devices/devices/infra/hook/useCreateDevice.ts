@@ -131,8 +131,7 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 			event.stopPropagation()
 			setIsSubmitting(true)
 			const hasValidationErrors = Object.values(errors).some(error => error !== '')
-			console.log(hasValidationErrors)
-			console.log(errors)
+
 			if (hasValidationErrors || !hasChanges) {
 				setIsSubmitting(false)
 				return
