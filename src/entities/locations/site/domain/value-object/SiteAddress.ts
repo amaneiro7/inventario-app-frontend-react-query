@@ -3,7 +3,7 @@ import { StringValueObject } from '@/entities/shared/domain/value-objects/String
 export class SiteAddress extends StringValueObject {
 	static readonly NAME_MIN_LENGTH = 3
 	static readonly NAME_MAX_LENGTH = 200
-	static readonly regex = /^[a-zA-Z0-9()\-.,\s]*$/
+	static readonly regex = /^[a-zA-ZÀ-ÿ0-9()\-.,\s]*$/
 
 	private static error = ''
 
