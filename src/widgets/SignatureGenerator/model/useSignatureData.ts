@@ -16,9 +16,10 @@ export interface SignatureData {
 	email: string
 	address: string
 	isHasPhoneNumber: boolean
+	isHasEmail: boolean
 }
 
-export type SignaturePlaceHolders = Omit<SignatureData, 'isHasPhoneNumber'>
+export type SignaturePlaceHolders = Omit<SignatureData, 'isHasPhoneNumber' | 'isHasEmail'>
 
 export type SignatureErrors = Partial<Record<keyof SignatureData, string>>
 export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto | undefined }) => {
@@ -37,7 +38,8 @@ export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto |
 			email: employeeData?.email ?? '',
 			address: employeeData?.location?.site?.address ?? '',
 			numbers: phoneNumberText ?? '',
-			isHasPhoneNumber: true
+			isHasPhoneNumber: true,
+			isHasEmail: true
 		}
 	})
 

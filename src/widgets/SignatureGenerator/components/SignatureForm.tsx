@@ -116,7 +116,7 @@ export const SignatureForm = memo(
 					<Typography color="azul" variant="h5">
 						Información de contacto
 					</Typography>
-					<>
+					<div className="flex flex-row gap-4">
 						<Input
 							id="signature-numbers"
 							label="Teléfono"
@@ -134,19 +134,26 @@ export const SignatureForm = memo(
 							className="data-[state=checked]:bg-naranja"
 							onCheckedChange={checked => onChange('isHasPhoneNumber', checked)}
 						/>
-					</>
-					<Input
-						id="signature-email"
-						label="Correo electrónico"
-						name="email"
-						required
-						transform
-						value={data.email}
-						placeholder={placeHolder.email}
-						onChange={e => onChange('email', e.target.value)}
-						error={!!errors.email}
-						errorMessage={errors.email}
-					/>
+					</div>
+					<div className="flex flex-row gap-4">
+						<Input
+							id="signature-email"
+							label="Correo electrónico"
+							name="email"
+							required
+							transform
+							value={data.email}
+							placeholder={placeHolder.email}
+							onChange={e => onChange('email', e.target.value)}
+							error={!!errors.email}
+							errorMessage={errors.email}
+						/>
+						<Switch
+							checked={data.isHasEmail}
+							className="data-[state=checked]:bg-naranja"
+							onCheckedChange={checked => onChange('isHasEmail', checked)}
+						/>
+					</div>
 					<Input
 						id="signature-address"
 						label="Dirección"
