@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
-import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
+import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
 
 export interface SignatureData {
 	userName: string
@@ -15,7 +15,11 @@ export interface SignatureData {
 	numbers: string
 	email: string
 	address: string
+	isHasPhoneNumber: boolean
 }
+
+export type SignaturePlaceHolders = Omit<SignatureData, 'isHasPhoneNumber'>
+
 export type SignatureErrors = Partial<Record<keyof SignatureData, string>>
 export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto | undefined }) => {
 	const [signatureData, setSignatureData] = useState<SignatureData>(() => {
@@ -32,11 +36,12 @@ export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto |
 			typeOfSite: employeeData?.location?.typeOfSiteId ?? '',
 			email: employeeData?.email ?? '',
 			address: employeeData?.location?.site?.address ?? '',
-			numbers: phoneNumberText ?? ''
+			numbers: phoneNumberText ?? '',
+			isHasPhoneNumber: true
 		}
 	})
 
-	const placeHolder: SignatureData = useMemo(
+	const placeHolder: SignaturePlaceHolders = useMemo(
 		() => ({
 			userName: 'mfernandez',
 			name: 'María',
@@ -53,7 +58,7 @@ export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto |
 		[]
 	)
 
-	const handleChange = useCallback((field: keyof SignatureData, value: string) => {
+	const handleChange = useCallback((field: keyof SignatureData, value: string | boolean) => {
 		setSignatureData(prevData => ({ ...prevData, [field]: value }))
 	}, [])
 

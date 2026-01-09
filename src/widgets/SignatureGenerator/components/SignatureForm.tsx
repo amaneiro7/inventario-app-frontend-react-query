@@ -4,14 +4,19 @@ import { AlertCircle } from 'lucide-react'
 import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import Typography from '@/shared/ui/Typography'
 import { Input } from '@/shared/ui/Input/Input'
-import { type SignatureData, type SignatureErrors } from '../model/useSignatureData'
+import { Switch } from '@/shared/ui/Switch'
+import {
+	type SignaturePlaceHolders,
+	type SignatureData,
+	type SignatureErrors
+} from '../model/useSignatureData'
 
 interface SignatureFormProps {
 	data: SignatureData
 	errors: SignatureErrors
-	placeHolder: SignatureData
+	placeHolder: SignaturePlaceHolders
 	isFormValid: boolean
-	onChange: (field: keyof SignatureData, value: string) => void
+	onChange: (field: keyof SignatureData, value: string | boolean) => void
 }
 
 export const SignatureForm = memo(
@@ -111,18 +116,25 @@ export const SignatureForm = memo(
 					<Typography color="azul" variant="h5">
 						Información de contacto
 					</Typography>
-					<Input
-						id="signature-numbers"
-						label="Teléfono"
-						name="numbers"
-						required
-						transform
-						value={data.numbers}
-						placeholder={placeHolder.numbers}
-						onChange={e => onChange('numbers', e.target.value)}
-						error={!!errors.numbers}
-						errorMessage={errors.numbers}
-					/>
+					<>
+						<Input
+							id="signature-numbers"
+							label="Teléfono"
+							name="numbers"
+							required
+							transform
+							value={data.numbers}
+							placeholder={placeHolder.numbers}
+							onChange={e => onChange('numbers', e.target.value)}
+							error={!!errors.numbers}
+							errorMessage={errors.numbers}
+						/>
+						<Switch
+							checked={data.isHasPhoneNumber}
+							className="data-[state=checked]:bg-naranja"
+							onCheckedChange={checked => onChange('isHasPhoneNumber', checked)}
+						/>
+					</>
 					<Input
 						id="signature-email"
 						label="Correo electrónico"
