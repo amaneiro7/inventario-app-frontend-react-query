@@ -94,11 +94,13 @@ export const SignaturePreview = memo(({ data, placeHolder, ref }: SignaturePrevi
 										{data?.numbers || placeHolder.numbers}
 									</p>
 								)}
-								<p
-									className={`underline underline-offset-1 ${!data?.email ? 'text-gray-400 italic' : ''}`}
-								>
-									{data?.email || placeHolder.email}
-								</p>
+								{data.isHasPhoneNumber && (
+									<p
+										className={`underline underline-offset-1 ${!data?.email ? 'text-gray-400 italic' : ''}`}
+									>
+										{data?.email || placeHolder.email}
+									</p>
+								)}
 								<p className={!data?.address ? 'text-gray-400 italic' : ''}>
 									{data?.address || placeHolder.address}
 								</p>
