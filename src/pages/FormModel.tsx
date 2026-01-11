@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react'
 import { useCreateModel } from '@/entities/model/models/infra/hook/useCreateModels'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { FormSkeletonLayout } from '@/widgets/FormContainer/FormSkeletonLayout'
 import { ModelSkeleton } from '@/entities/model/models/infra/ui/ModelSkeletons/ModelFormLayoutSkeleton.tsx'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
 const ModelInputs = lazy(() =>

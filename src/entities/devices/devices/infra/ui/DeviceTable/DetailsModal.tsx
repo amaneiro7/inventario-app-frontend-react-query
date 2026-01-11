@@ -23,6 +23,12 @@ const ComputerInformation = lazy(() =>
 const SoftwareComputerInformation = lazy(() =>
 	import('./SoftwareComputerInformation').then(m => ({ default: m.SoftwareComputerInformation }))
 )
+const MFPInformation = lazy(() =>
+	import('./MFPInformation').then(m => ({ default: m.MFPInformation }))
+)
+const HardDriveInformation = lazy(() =>
+	import('./HardDriveInformation').then(m => ({ default: m.HardDriveInformation }))
+)
 
 interface DetailsModalProps {
 	device: DeviceDto
@@ -32,7 +38,7 @@ interface DetailsModalProps {
 export const DetailsModal = ({ device, onCLose }: DetailsModalProps) => {
 	if (!device) return null
 
-	const { computer, employee, location, model } = device
+	const { computer, employee, location, model, mfp, hardDrive } = device
 
 	return (
 		<DetailModalWrapper>
@@ -64,6 +70,10 @@ export const DetailsModal = ({ device, onCLose }: DetailsModalProps) => {
 				)}
 				{/* --- UBICACIÓN --- */}
 				<LocationInformation location={location} />
+				{/* --- MFP --- */}
+				{mfp && <MFPInformation device={device} />}
+				{/* --- Disco Duro --- */}
+				{hardDrive && <HardDriveInformation hardDrive={hardDrive} />}
 				{/* --- Employee --- */}
 				{employee && <EmployeeInformation employee={employee} />}
 			</DetailModalContent>

@@ -2,14 +2,14 @@ import { lazy, Suspense, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { usePrinterFilter } from '@/entities/devices/devices/infra/hook/usePrinterFilters'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 //components
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 // Types
 import { type FilterAsideRef } from '@/widgets/FilterAside'
-import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
-import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 
 const DetailsBoxWrapper = lazy(() =>
 	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
@@ -28,7 +28,9 @@ const FilterAside = lazy(() =>
 )
 
 const TablePrinterWrapper = lazy(() =>
-	import('@/widgets/tables/PrinterTable').then(m => ({ default: m.TablePrinterWrapper }))
+	import('@/widgets/tables/PrinterTable/PrinterTable').then(m => ({
+		default: m.TablePrinterWrapper
+	}))
 )
 
 const DevicePrimaryFilter = lazy(() =>

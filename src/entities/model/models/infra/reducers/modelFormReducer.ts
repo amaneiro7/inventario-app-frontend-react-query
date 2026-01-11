@@ -126,7 +126,7 @@ export const initialModelState: State = {
 		memoryRamSlotQuantity: true,
 		batteryModel: true,
 		screenSize: true,
-		cartridgeModel: true,
+		cartridgeModel: false,
 		inputTypeId: true
 	},
 	disabled: {

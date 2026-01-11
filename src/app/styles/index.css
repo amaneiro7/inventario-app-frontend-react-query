@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin "@midudev/tailwind-animations";
+@plugin '@midudev/tailwind-animations';
 @plugin 'tailwindcss-animate';
 @custom-variant dark (&:is(class *));
 
@@ -152,7 +152,9 @@
 	--height-withoutHeader: calc(100vh - 10rem);
 
 	--breakpoint-xs: 475px;
-	--breakpoint-2md: 896px;
+	--breakpoint-1sm: 704px;
+	--breakpoint-1md: 896px;
+	--breakpoint-1lg: 1088px;
 	--breakpoint-2lg: 1152px;
 	--breakpoint-1xl: 1360px;
 	--breakpoint-3xl: 1620px;

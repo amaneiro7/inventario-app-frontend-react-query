@@ -89,6 +89,8 @@ export const ModelInputs = memo(function ({
 					/>
 					<BrandCombobox
 						value={formData.brandId}
+						mainCategoryId={formData.mainCategoryId}
+						categoryId={formData.categoryId}
 						handleChange={(_name, value) => handleChange('brandId', value)}
 						name="brandId"
 						error={errors.brandId}
