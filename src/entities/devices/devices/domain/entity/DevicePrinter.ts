@@ -13,17 +13,17 @@ import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptio
 import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/InvalidArgumentError'
 import { IPAddressMFP } from '../value-object/IPAddressMFP'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { type DeviceMFPParams, type DeviceMFPPrimitives } from '../dto/DeviceMFPParams'
+import { type DevicePrinterParams, type DevicePrinterPrimitives } from '../dto/DevicePrinterParams'
 
 /**
- * @class DeviceMFP
+ * @class DevicePrinter
  * @extends {Device}
  * @description Entidad de dominio que representa un dispositivo de tipo MFP (impresora multifuncional).
  * Extiende la entidad `Device` base y añade propiedades específicas de MFP.
  */
-export class DeviceMFP extends Device {
+export class DevicePrinter extends Device {
 	/**
-	 * Crea una instancia de `DeviceMFP`.
+	 * Crea una instancia de `DevicePrinter`.
 	 * @param {DeviceSerial} serial - El número de serie del dispositivo.
 	 * @param {DeviceActivo} activo - El número de activo del dispositivo.
 	 * @param {StatusId} statusId - El ID del estado del dispositivo.
@@ -35,7 +35,8 @@ export class DeviceMFP extends Device {
 	 * @param {DeviceObservation} observation - Observaciones sobre el dispositivo.
 	 * @param {DeviceStockNumber} stockNumber - El número de stock del dispositivo.
 	 * @param {IPAddressMFP} ipAddress - La dirección IP de la MFP.
-	 */ constructor(
+	 */
+	constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -67,24 +68,30 @@ export class DeviceMFP extends Device {
 	 * @static
 	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
 	 * @returns {boolean} `true` si la categoría es MFP, `false` en caso contrario.
-	 */ static isMFPCategory(
+	 */
+	static isPrinterCategory(
 		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
 	): boolean {
-		const allowedComputerCategories = [CategoryOptions.MFP]
+		const allowedComputerCategories = [
+			CategoryOptions.MFP,
+			CategoryOptions.INKPRINTER,
+			CategoryOptions.LASERPRINTER
+		]
 		return allowedComputerCategories.includes(categoryId)
 	}
 
 	/**
-	 * Crea una nueva instancia de `DeviceMFP` a partir de sus propiedades primitivas.
+	 * Crea una nueva instancia de `DevicePrinter` a partir de sus propiedades primitivas.
 	 * @static
-	 * @param {DeviceMFPParams} params - Los parámetros del dispositivo MFP.
-	 * @returns {DeviceMFP} Una nueva instancia de `DeviceMFP`.
+	 * @param {DevicePrinterParams} params - Los parámetros del dispositivo MFP.
+	 * @returns {DevicePrinter} Una nueva instancia de `DevicePrinter`.
 	 * @throws {InvalidArgumentError} Si la categoría no pertenece a un tipo de MFP.
-	 */ public static create(params: DeviceMFPParams) {
-		if (!DeviceMFP.isMFPCategory(params.categoryId)) {
+	 */
+	public static create(params: DevicePrinterParams): DevicePrinter {
+		if (!DevicePrinter.isPrinterCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
-		return new DeviceMFP(
+		return new DevicePrinter(
 			new DeviceSerial(params.serial, params.genericModel),
 			new DeviceActivo(params.activo),
 			new StatusId(params.statusId),
@@ -102,14 +109,16 @@ export class DeviceMFP extends Device {
 	/**
 	 * Obtiene el valor primitivo de la dirección IP de la MFP.
 	 * @type {Primitives<IPAddressMFP>}
-	 */ get ipAddressValue(): Primitives<IPAddressMFP> {
+	 */
+	get ipAddressValue(): Primitives<IPAddressMFP> {
 		return this.ipAddress.value
 	}
 
 	/**
-	 * Convierte la entidad `DeviceMFP` a su representación primitiva.
-	 * @returns {DeviceMFPPrimitives} La representación primitiva del dispositivo MFP.
-	 */ toPrimitives(): DeviceMFPPrimitives {
+	 * Convierte la entidad `DevicePrinter` a su representación primitiva.
+	 * @returns {DevicePrinterPrimitives} La representación primitiva del dispositivo MFP.
+	 */
+	toPrimitives(): DevicePrinterPrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

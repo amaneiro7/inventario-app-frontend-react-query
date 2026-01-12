@@ -41,9 +41,9 @@ export const TableDevicePrinter = memo(
 						<TableCell
 							aria-colindex={3}
 							size="small"
-							value={device.mfp?.ipAddress ?? ''}
+							value={device.printer?.ipAddress ?? ''}
 						>
-							{device.mfp?.ipAddress ?? ''}
+							{device.printer?.ipAddress ?? ''}
 						</TableCell>
 
 						<TableCell

@@ -29,7 +29,8 @@ export class Device {
 	 * @param {DeviceLocation} locationId - El ID de la ubicación del dispositivo.
 	 * @param {DeviceObservation} observation - Observaciones sobre el dispositivo.
 	 * @param {DeviceStockNumber} stockNumber - El número de stock del dispositivo.
-	 */	constructor(
+	 */
+	constructor(
 		private readonly serial: DeviceSerial,
 		private readonly activo: DeviceActivo,
 		private readonly statusId: StatusId,
@@ -46,7 +47,8 @@ export class Device {
 	 * Crea una nueva instancia de `Device` a partir de sus propiedades primitivas.
 	 * @param {DeviceParams} params - Los parámetros del dispositivo.
 	 * @returns {Device} Una nueva instancia de `Device`.
-	 */	public static create(params: DeviceParams): Device {
+	 */
+	public static create(params: DeviceParams): Device {
 		return new Device(
 			new DeviceSerial(params.serial, params.genericModel),
 			new DeviceActivo(params.activo),
@@ -64,77 +66,88 @@ export class Device {
 	/**
 	 * Obtiene el valor primitivo del número de serie del dispositivo.
 	 * @type {Primitives<DeviceSerial>}
-	 */	get serialValue(): Primitives<DeviceSerial> {
+	 */
+	get serialValue(): Primitives<DeviceSerial> {
 		return this.serial.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del número de activo del dispositivo.
 	 * @type {Primitives<DeviceActivo> | null}
-	 */	get activoValue(): Primitives<DeviceActivo> | null {
+	 */
+	get activoValue(): Primitives<DeviceActivo> | null {
 		return this.activo.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de estado del dispositivo.
 	 * @type {Primitives<StatusId>}
-	 */	get statusValue(): Primitives<StatusId> {
+	 */
+	get statusValue(): Primitives<StatusId> {
 		return this.statusId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de categoría del dispositivo.
 	 * @type {Primitives<CategoryId>}
-	 */	get categoryValue(): Primitives<CategoryId> {
+	 */
+	get categoryValue(): Primitives<CategoryId> {
 		return this.categoryId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de marca del dispositivo.
 	 * @type {Primitives<BrandId>}
-	 */	get brandValue(): Primitives<BrandId> {
+	 */
+	get brandValue(): Primitives<BrandId> {
 		return this.brandId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de modelo del dispositivo.
 	 * @type {Primitives<ModelId>}
-	 */	get modelValue(): Primitives<ModelId> {
+	 */
+	get modelValue(): Primitives<ModelId> {
 		return this.modelId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de empleado asignado al dispositivo.
 	 * @type {Primitives<DeviceEmployee>}
-	 */	get employeeValue(): Primitives<DeviceEmployee> {
+	 */
+	get employeeValue(): Primitives<DeviceEmployee> {
 		return this.employeeId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de ubicación del dispositivo.
 	 * @type {Primitives<DeviceLocation>}
-	 */	get locationValue(): Primitives<DeviceLocation> {
+	 */
+	get locationValue(): Primitives<DeviceLocation> {
 		return this.locationId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo de las observaciones del dispositivo.
 	 * @type {Primitives<DeviceObservation>}
-	 */	get observationValue(): Primitives<DeviceObservation> {
+	 */
+	get observationValue(): Primitives<DeviceObservation> {
 		return this.observation.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del número de stock del dispositivo.
 	 * @type {Primitives<DeviceStockNumber>}
-	 */	get stockNumberValue(): Primitives<DeviceStockNumber> {
+	 */
+	get stockNumberValue(): Primitives<DeviceStockNumber> {
 		return this.stockNumber.value
 	}
 
 	/**
 	 * Convierte la entidad `Device` a su representación primitiva.
 	 * @returns {DevicePrimitives} La representación primitiva del dispositivo.
-	 */	toPrimitives(): DevicePrimitives {
+	 */
+	toPrimitives(): DevicePrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

@@ -6,7 +6,7 @@ import {
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 
-interface AddMFPFeaturesProps {
+interface AddPrinterFeaturesProps {
 	error: DevicesErrors['ipAddress']
 	ipAddress: DefaultDevice['ipAddress']
 	isLoading: boolean
@@ -14,8 +14,8 @@ interface AddMFPFeaturesProps {
 	handleChange: (name: Action['type'], value: string | number | boolean) => void
 }
 
-export const AddMFPFeatures = memo(
-	({ ipAddress, error, isLoading, canEdit, handleChange }: AddMFPFeaturesProps) => {
+export const AddPrinterFeatures = memo(
+	({ ipAddress, error, isLoading, canEdit, handleChange }: AddPrinterFeaturesProps) => {
 		return (
 			<Input
 				id="mfp-ipaddress"
@@ -35,4 +35,4 @@ export const AddMFPFeatures = memo(
 	}
 )
 
-AddMFPFeatures.displayName = 'AddMFPFeatures'
+AddPrinterFeatures.displayName = 'AddPrinterFeatures'

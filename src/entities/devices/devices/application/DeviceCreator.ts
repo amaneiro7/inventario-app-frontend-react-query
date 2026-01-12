@@ -5,7 +5,7 @@ import { type DeviceSaveRepository } from '../domain/repository/DeviceSaveReposi
 import { type Params } from '../domain/dto/Device.dto'
 import { DeviceComputer } from '../domain/entity/DeviceComputer'
 import { DeviceHardDrive } from '../domain/entity/DeviceHardDrive'
-import { DeviceMFP } from '../domain/entity/DeviceMFP'
+import { DevicePrinter } from '../domain/entity/DevicePrinter'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
 
 /**
@@ -27,10 +27,10 @@ export class DeviceCreator {
 	 * @param {Params} params - The device data.
 	 * @returns {Promise<{ message: string }>} A promise that resolves with a success message.
 	 * @throws {Error} Throws an error if the creation/update process fails.
-	 */ async create(params: Params) {
+	 */ async create(params: Params): Promise<{ message: string }> {
 		this.events.notify({ type: 'loading' })
 		try {
-			let device: Device | DeviceComputer | DeviceHardDrive | DeviceMFP
+			let device: Device | DeviceComputer | DeviceHardDrive | DevicePrinter
 
 			switch (params.categoryId) {
 				// Logica cuando es computadora, laptop, servidor o all in one
@@ -44,9 +44,11 @@ export class DeviceCreator {
 				case CategoryOptions.HARDDRIVE:
 					device = DeviceHardDrive.create(params)
 					break
-				// logica cuando esimMpresora multifuncional
+				// logica cuando es imMpresora laser, de tinta o multofuncional
 				case CategoryOptions.MFP:
-					device = DeviceMFP.create(params)
+				case CategoryOptions.LASERPRINTER:
+				case CategoryOptions.INKPRINTER:
+					device = DevicePrinter.create(params)
 					break
 				default:
 					device = Device.create(params)
@@ -65,7 +67,7 @@ export class DeviceCreator {
 			// Notifica el error y lanza una excepción.
 			const errorMessage = `${error}`
 			this.events.notify({ type: 'error', message: errorMessage })
-			return { message: errorMessage }
+			throw error
 		}
 	}
 }

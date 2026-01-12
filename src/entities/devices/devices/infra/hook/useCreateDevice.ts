@@ -38,6 +38,7 @@ const deviceCreator = new DeviceCreator(repository, useAuthStore.getState().even
  */
 export function useCreateDevice(defaultState?: DefaultDevice) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [submitError, setSubmitError] = useState<string | null>(null)
 	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
 		useDeviceInitialData(defaultState ?? initialDeviceState.formData)
 
@@ -130,9 +131,19 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 			event.preventDefault()
 			event.stopPropagation()
 			setIsSubmitting(true)
+			setSubmitError(null)
+
 			const hasValidationErrors = Object.values(errors).some(error => error !== '')
 
-			if (hasValidationErrors || !hasChanges) {
+			if (hasValidationErrors) {
+				setIsSubmitting(false)
+				setSubmitError(
+					'El formulario contiene errores. Por favor, revísalos antes de guardar.'
+				)
+				return
+			}
+
+			if (!hasChanges) {
 				setIsSubmitting(false)
 				return
 			}
@@ -140,6 +151,10 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 				await deviceCreator.create(formData as never)
 				queryClient.invalidateQueries({ queryKey: ['devices'] })
 				refreshInitialData()
+			} catch (error) {
+				const message =
+					error instanceof Error ? error.message : 'Ha ocurrido un error inesperado.'
+				setSubmitError(message)
 			} finally {
 				setIsSubmitting(false)
 			}
@@ -159,6 +174,7 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		isNotFound,
 		isSubmitting,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

@@ -3,7 +3,7 @@ import { type DefaultDevice } from '../infra/reducers/devicesFormReducer'
 import { setMemoryRamValues } from './setMemoryRamValues'
 
 export const mapDeviceToState = (device: DeviceDto): DefaultDevice => {
-	const { computer, model, hardDrive, mfp } = device
+	const { computer, model, hardDrive, printer } = device
 	const memoryRamSlotQuantity =
 		model?.modelComputer?.memoryRamSlotQuantity || model?.modelLaptop?.memoryRamSlotQuantity
 	const memoryRamType =
@@ -41,7 +41,7 @@ export const mapDeviceToState = (device: DeviceDto): DefaultDevice => {
 		hardDriveTypeId: computer?.hardDriveTypeId || hardDrive?.hardDriveTypeId || '',
 		operatingSystemArqId: computer?.operatingSystemArqId ?? '',
 		operatingSystemId: computer?.operatingSystemId ?? '',
-		ipAddress: computer?.ipAddress || mfp?.ipAddress || '',
+		ipAddress: computer?.ipAddress || printer?.ipAddress || '',
 		macAddress: computer?.macAddress ?? '',
 		health: hardDrive?.health ?? 100,
 		memoryRam: memoryRam,

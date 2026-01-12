@@ -8,15 +8,15 @@ import {
 	type DevicesDisabled,
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
-import { AddMFPFeaturesSkeleton } from '../AddMFPFeaturesSkeleton'
+import { AddPrinterFeaturesSkeleton } from '../AddPrinterFeaturesSkeleton'
 import { AddHardDriveFeaturesSkeleton } from '../AddHardDriveFeaturesSkeleton'
 import { AddComputerFeaturesSkeleton } from '../AddComputerFeaturesSkeleton'
 
 const AddComputerFeatures = lazy(() =>
 	import('./AddComputerFeatures').then(m => ({ default: m.AddComputerFeatures }))
 )
-const AddMFPFeatures = lazy(() =>
-	import('./AddMFPFeatures').then(m => ({ default: m.AddMFPFeatures }))
+const AddPrinterFeatures = lazy(() =>
+	import('./AddPrinterFeatures').then(m => ({ default: m.AddPrinterFeatures }))
 )
 const AddHardDriveFeatures = lazy(() =>
 	import('./AddHardDriveFeatures').then(m => ({ default: m.AddHardDriveFeatures }))
@@ -103,9 +103,11 @@ export function AddtionalFeatures({
 					</Suspense>
 				)
 			case CategoryOptions.MFP:
+			case CategoryOptions.INKPRINTER:
+			case CategoryOptions.LASERPRINTER:
 				return (
-					<Suspense fallback={<AddMFPFeaturesSkeleton />}>
-						<AddMFPFeatures
+					<Suspense fallback={<AddPrinterFeaturesSkeleton />}>
+						<AddPrinterFeatures
 							ipAddress={formData.ipAddress}
 							canEdit={canEdit}
 							handleChange={handleChange}

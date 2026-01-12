@@ -36,6 +36,7 @@ export default function FormDevice() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleLocation,
@@ -81,6 +82,7 @@ export default function FormDevice() {
 					onRetry={onRetry}
 					reset={mode === 'edit' ? discardChanges : undefined}
 					updatedBy={formData.history}
+					submitError={submitError}
 					url="/form/device/add"
 					searchInput={
 						<Suspense fallback={<InputFallback />}>

@@ -19,7 +19,7 @@ import { type StatusId } from '@/entities/status/status/domain/value-object/Stat
 import { type GenericModel } from '@/entities/model/models/domain/value-object/GenericModel'
 import { type DeviceComputerParams, type DeviceComputerDto } from './DeviceComputer.dto'
 import { type DeviceHardDriveParams, type DeviceHardDriveDto } from './DeviceHardDrive.dto'
-import { type DeviceMFPParams, type DeviceMFPDto } from './DeviceMFPParams'
+import { type DevicePrinterParams, type DevicePrinterDto } from './DevicePrinterParams'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 import { TypeOfSiteId } from '@/entities/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 
@@ -65,10 +65,10 @@ export type DeviceParams = DevicePrimitives & {
 }
 
 /**
- * @typedef {DeviceComputerParams | DeviceHardDriveParams | DeviceMFPParams} Params
+ * @typedef {DeviceComputerParams | DeviceHardDriveParams | DevicePrinterParams} Params
  * @description Tipo de unión que representa los parámetros de creación/actualización para cualquier tipo específico de dispositivo.
  */
-export type Params = DeviceComputerParams | DeviceHardDriveParams | DeviceMFPParams
+export type Params = DeviceComputerParams | DeviceHardDriveParams | DevicePrinterParams
 
 /**
  * @interface DeviceDto
@@ -84,7 +84,7 @@ export type Params = DeviceComputerParams | DeviceHardDriveParams | DeviceMFPPar
  * @property {LocationDto} location - El objeto `Location` completo asociado al dispositivo.
  * @property {DeviceComputerDto | null} computer - Datos específicos de computadora si el dispositivo es de este tipo, o `null`.
  * @property {DeviceHardDriveDto | null} hardDrive - Datos específicos de disco duro si el dispositivo es de este tipo, o `null`.
- * @property {DeviceMFPDto | null} mfp - Datos específicos de MFP si el dispositivo es de este tipo, o `null`.
+ * @property {DevicePrinterDto | null} mfp - Datos específicos de MFP si el dispositivo es de este tipo, o `null`.
  * @property {HistoryDto[] | null} history - Historial de cambios del dispositivo, o `null`.
  * @property {string} createdAt - Fecha de creación del dispositivo.
  * @property {string} updatedAt - Fecha de última actualización del dispositivo.
@@ -98,7 +98,7 @@ export type DeviceDto = Device & {
 	location: LocationDto
 	computer: DeviceComputerDto | null
 	hardDrive: DeviceHardDriveDto | null
-	mfp: DeviceMFPDto | null
+	printer: DevicePrinterDto | null
 	history: HistoryDto[] | null
 	createdAt: string
 	updatedAt: string

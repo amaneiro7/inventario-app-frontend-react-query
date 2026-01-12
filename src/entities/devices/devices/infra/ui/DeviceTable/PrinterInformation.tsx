@@ -3,12 +3,16 @@ import { DetailItem } from '@/shared/ui/DescriptionList/DetailItem'
 import { Icon } from '@/shared/ui/icon/Icon'
 import { type DeviceDto } from '../../../domain/dto/Device.dto'
 
-export const MFPInformation = ({ device }: { device: DeviceDto }) => {
-	const { mfp, model } = device
+export const PrinterInformation = ({ device }: { device: DeviceDto }) => {
+	const { printer, model } = device
 	return (
-		<CardDetail title="Especificaciones del MFP" icon={<Icon name="printer" />}>
-			{mfp?.ipAddress && (
-				<DetailItem classNameText="font-mono" label="Dirección IP" value={mfp?.ipAddress} />
+		<CardDetail title="Especificaciones de la Impresora" icon={<Icon name="printer" />}>
+			{printer?.ipAddress && (
+				<DetailItem
+					classNameText="font-mono"
+					label="Dirección IP"
+					value={printer?.ipAddress}
+				/>
 			)}
 			{model?.modelPrinter && (
 				<DetailItem

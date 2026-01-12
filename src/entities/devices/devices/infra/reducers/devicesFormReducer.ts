@@ -2,7 +2,7 @@ import { type ModelComputerDto } from '@/entities/model/models/domain/dto/ModelC
 import { type DeviceDto } from '../../domain/dto/Device.dto'
 import { type DeviceComputerDto } from '../../domain/dto/DeviceComputer.dto'
 import { type DeviceHardDriveDto } from '../../domain/dto/DeviceHardDrive.dto'
-import { type DeviceMFPDto } from '../../domain/dto/DeviceMFPParams'
+import { type DevicePrinterDto } from '../../domain/dto/DevicePrinterParams'
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import { MemoryRam } from '../../domain/value-object/MemoryRam'
 import { DeviceLocation } from '../../domain/value-object/DeviceLocation'
@@ -47,7 +47,7 @@ export interface DefaultDevice {
 	hardDriveTypeId: DeviceComputerDto['hardDriveTypeId'] | DeviceHardDriveDto['hardDriveTypeId']
 	operatingSystemArqId: DeviceComputerDto['operatingSystemArqId']
 	operatingSystemId: DeviceComputerDto['operatingSystemId']
-	ipAddress: DeviceComputerDto['ipAddress'] | DeviceMFPDto['ipAddress']
+	ipAddress: DeviceComputerDto['ipAddress'] | DevicePrinterDto['ipAddress']
 	macAddress: DeviceComputerDto['macAddress']
 	health: DeviceHardDriveDto['health']
 	memoryRam: DeviceComputerDto['memoryRam']

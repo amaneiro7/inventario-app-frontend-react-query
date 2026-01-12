@@ -9,6 +9,7 @@ import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { SearchSection } from './SearchSection'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 import { FormPermissionBanner } from './FormPermissionBanner'
+import { FormErrorBanner } from './FormErrorBanner'
 
 interface FormLayoutProps {
 	id: string
@@ -29,6 +30,7 @@ interface FormLayoutProps {
 	title?: string
 	subtitle?: string
 	readOnlyMessage?: string
+	submitError?: string | null
 	handleSubmit: (event: React.FormEvent) => Promise<void>
 	handleClose?: () => void
 	reset?: () => void
@@ -55,6 +57,7 @@ export const FormLayout = memo(
 		title,
 		subtitle,
 		canEdit,
+		submitError,
 		readOnlyMessage,
 		handleSubmit,
 		handleClose,
@@ -84,6 +87,7 @@ export const FormLayout = memo(
 
 					<SearchSection searchInput={searchInput} url={url} isEdit={!isAddForm} />
 				</DetailsBoxWrapper>
+				<FormErrorBanner message={submitError} />
 				{isReadOnly && <FormPermissionBanner readOnlyMessage={readOnlyMessage} />}
 				{!standBy && (
 					<DetailsBoxWrapper position="center">
