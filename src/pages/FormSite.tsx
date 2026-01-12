@@ -31,6 +31,7 @@ export default function FormSite() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -64,6 +65,7 @@ export default function FormSite() {
 					description="Ingrese los datos del sitio el cual desea registar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

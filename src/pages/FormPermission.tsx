@@ -35,6 +35,7 @@ export default function FormPermission() {
 		isNotFound,
 		required,
 		disabled,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -68,6 +69,7 @@ export default function FormPermission() {
 					isAddForm={mode === 'add'}
 					canEdit={canEdit}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

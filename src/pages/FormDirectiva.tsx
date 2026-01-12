@@ -34,6 +34,7 @@ export default function FormDirectiva() {
 		hasChanges,
 		required,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -66,6 +67,7 @@ export default function FormDirectiva() {
 					description="Ingrese los datos de la directiva el cual desea registar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

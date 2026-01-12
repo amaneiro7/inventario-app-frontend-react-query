@@ -14,6 +14,7 @@ const formId = 'app-settings-form'
 export function useUpdateAppSettings() {
 	const { events } = useAuthStore.getState()
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [submitError, setSubmitError] = useState<string | null>(null)
 	const saveDialogRef = useRef<ModalRef>(null)
 
 	const handleOpen = () => {
@@ -72,11 +73,14 @@ export function useUpdateAppSettings() {
 			event.preventDefault()
 			event.stopPropagation()
 			setIsSubmitting(true)
+			setSubmitError(null)
 
 			const hasErrors = Object.values(errors).some(error => error !== '')
 			if (hasErrors) {
-				// Maybe notify user about errors
 				setIsSubmitting(false)
+				setSubmitError(
+					'El formulario contiene errores. Por favor, revísalos antes de guardar.'
+				)
 				return
 			}
 
@@ -96,15 +100,17 @@ export function useUpdateAppSettings() {
 				return
 			}
 
-			await updateSettings
-				.updateMultiple(changedSettings)
-				.then(() => {
-					queryClient.invalidateQueries({ queryKey: ['appSettings'] })
-				})
-				.finally(() => {
-					setIsSubmitting(false)
-					handleClose()
-				})
+			try {
+				await updateSettings.updateMultiple(changedSettings)
+				queryClient.invalidateQueries({ queryKey: ['appSettings'] })
+			} catch (error) {
+				const message =
+					error instanceof Error ? error.message : 'Ha ocurrido un error inesperado.'
+				setSubmitError(message)
+			} finally {
+				setIsSubmitting(false)
+				handleClose()
+			}
 		},
 		[settings, errors, updateSettings, initialSettings]
 	)
@@ -119,6 +125,7 @@ export function useUpdateAppSettings() {
 		hasChanges,
 		formId,
 		saveDialogRef,
+		submitError,
 		handleOpen,
 		handleClose,
 		getGroupSettings,

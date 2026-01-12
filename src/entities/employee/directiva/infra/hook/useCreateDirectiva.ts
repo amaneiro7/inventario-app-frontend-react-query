@@ -38,7 +38,8 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		hasChanges,
 		required,
 		disabled,
-		isSubmitting
+		isSubmitting,
+		submitError
 	} = useFormHandler({
 		entityName: 'directivas',
 		initialState: initialDirectivaState,
@@ -60,6 +61,7 @@ export function useCreateDirectiva(defaultState?: DefaultDirectiva) {
 		hasChanges,
 		required,
 		disabled,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

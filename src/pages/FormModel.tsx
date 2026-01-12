@@ -35,6 +35,7 @@ export default function FormModel() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -67,6 +68,7 @@ export default function FormModel() {
 					description="Ingrese los datos del modelo el cual desea registar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

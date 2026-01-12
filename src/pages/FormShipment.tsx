@@ -39,6 +39,7 @@ export default function FormShipment() {
 		isError,
 		isLoading,
 		isNotFound,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -84,6 +85,7 @@ export default function FormShipment() {
 								description="Ingrese los datos de la relación de envios el cual desea registar."
 								isAddForm={mode === 'add'}
 								isSubmitting={isSubmitting}
+								submitError={submitError}
 								isDirty={hasChanges}
 								isLoading={isLoading}
 								lastUpdated={formData?.updatedAt}

@@ -37,7 +37,8 @@ export function useCreateCargo(defaultState?: DefaultCargo) {
 		required,
 		errors,
 		hasChanges,
-		isSubmitting
+		isSubmitting,
+		submitError
 	} = useFormHandler({
 		entityName: 'cargos',
 		initialState: initialCargoState,
@@ -59,6 +60,7 @@ export function useCreateCargo(defaultState?: DefaultCargo) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

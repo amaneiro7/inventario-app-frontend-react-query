@@ -36,6 +36,7 @@ export default function FormLocation() {
 		isNotFound,
 		isSubmitting,
 		hasChanges,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSite,
@@ -69,6 +70,7 @@ export default function FormLocation() {
 					description="Ingrese los datos de la ubicación el cual desea registar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

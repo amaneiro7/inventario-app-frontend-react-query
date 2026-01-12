@@ -43,7 +43,8 @@ export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepres
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'vicepresidenciaEjecutivas',
 		initialState: initialVicepresidenciaEjecutivaState,
@@ -65,6 +66,7 @@ export function useCreateVicepresidenciaEjecutiva(defaultState?: DefaultVicepres
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

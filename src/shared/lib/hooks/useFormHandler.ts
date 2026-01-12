@@ -30,6 +30,7 @@ export function useFormHandler<
 	refreshInitialData: () => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [submitError, setSubmitError] = useState<string | null>(null)
 
 	// 💡 1. Generación de la Key (Reutilizable)
 	const key = `${entityName}-${initialData?.id ? initialData.id : 'new'}`
@@ -57,11 +58,21 @@ export function useFormHandler<
 			event.stopPropagation()
 
 			setIsSubmitting(true)
+			setSubmitError(null)
 
+			// Chequeo de errores de validación
 			const hasValidationErrors = Object.values(errors).some(error => error !== '')
 
 			// Chequeo de errores de validación O falta de cambios
-			if (hasValidationErrors || !hasChanges) {
+			if (hasValidationErrors) {
+				setIsSubmitting(false)
+				setSubmitError(
+					'El formulario contiene errores. Por favor, revísalos antes de guardar.'
+				)
+				return
+			}
+
+			if (!hasChanges) {
 				setIsSubmitting(false)
 				return
 			}
@@ -71,6 +82,10 @@ export function useFormHandler<
 				await saveFn(formData)
 				queryClient.invalidateQueries({ queryKey: [entityName] })
 				refreshInitialData()
+			} catch (error) {
+				const message =
+					error instanceof Error ? error.message : 'Ha ocurrido un error inesperado.'
+				setSubmitError(message)
 			} finally {
 				setIsSubmitting(false)
 			}
@@ -86,6 +101,7 @@ export function useFormHandler<
 		required,
 		errors,
 		hasChanges,
+		submitError,
 		// Funciones
 		discardChanges,
 		handleSubmit,

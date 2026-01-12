@@ -33,6 +33,7 @@ export default function FormPermissionGroup() {
 		hasChanges,
 		isSubmitting,
 		isNotFound,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -65,6 +66,7 @@ export default function FormPermissionGroup() {
 					description="Ingrese los datos del grupo de permisos el cual desea registar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

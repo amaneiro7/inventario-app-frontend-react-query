@@ -35,6 +35,7 @@ export default function FormDepartamento() {
 		disabled,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -68,6 +69,7 @@ export default function FormDepartamento() {
 					isAddForm={mode === 'add'}
 					canEdit={canEdit}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					handleSubmit={handleSubmit}

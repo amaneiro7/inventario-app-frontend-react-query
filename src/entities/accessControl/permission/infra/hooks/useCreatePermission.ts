@@ -50,7 +50,8 @@ export function useCreatePermission(defaultState?: PermissionParams) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'permissions',
 		initialState: initialPermissionState,
@@ -72,6 +73,7 @@ export function useCreatePermission(defaultState?: PermissionParams) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

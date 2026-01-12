@@ -24,6 +24,7 @@ const employeeCreator = new EmployeeCreator(repository, useAuthStore.getState().
  */
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [submitError, setSubmitError] = useState<string | null>(null)
 	const {
 		initialData,
 		mode,
@@ -167,10 +168,19 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 			event.preventDefault()
 			event.stopPropagation()
 			setIsSubmitting(true)
+			setSubmitError(null)
 			const hasValidationErrors = Object.values(errors).some(error => error !== '')
 
 			// Chequeo de errores de validación O falta de cambios
-			if (hasValidationErrors || !hasChanges) {
+			if (hasValidationErrors) {
+				setIsSubmitting(false)
+				setSubmitError(
+					'El formulario contiene errores. Por favor, revísalos antes de guardar.'
+				)
+				return
+			}
+
+			if (!hasChanges) {
 				setIsSubmitting(false)
 				return
 			}
@@ -178,6 +188,10 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 				await employeeCreator.create(formData as never)
 				await queryClient.invalidateQueries({ queryKey: ['employees'] })
 				refreshInitialData()
+			} catch (error) {
+				const message =
+					error instanceof Error ? error.message : 'Ha ocurrido un error inesperado.'
+				setSubmitError(message)
 			} finally {
 				setIsSubmitting(false)
 			}
@@ -199,6 +213,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		hasChanges,
 		isSubmitting,
 		allowedDomains,
+		submitError,
 		onRetry,
 		handlePhoneChange,
 		handleAddPhones,

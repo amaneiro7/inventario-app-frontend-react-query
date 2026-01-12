@@ -56,7 +56,8 @@ export function useCreatePermissionGroup(defaultState?: PermissionGroupParams) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'permissionGroups',
 		initialState: initialPermissionGroupState,
@@ -78,6 +79,7 @@ export function useCreatePermissionGroup(defaultState?: PermissionGroupParams) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

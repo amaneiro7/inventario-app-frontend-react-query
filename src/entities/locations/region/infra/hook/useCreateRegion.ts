@@ -31,7 +31,8 @@ export function useCreateRegion(defaultState?: DefaultRegion) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'regions',
 		initialState: initialRegionState,
@@ -53,6 +54,7 @@ export function useCreateRegion(defaultState?: DefaultRegion) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

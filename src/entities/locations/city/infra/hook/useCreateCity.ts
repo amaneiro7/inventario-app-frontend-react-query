@@ -43,7 +43,8 @@ export function useCreateCity(defaultState?: DefaultCity) {
 		errors,
 		hasChanges,
 		isSubmitting,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'cities',
 		initialState: initialCityState,
@@ -64,6 +65,7 @@ export function useCreateCity(defaultState?: DefaultCity) {
 		isNotFound,
 		required,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

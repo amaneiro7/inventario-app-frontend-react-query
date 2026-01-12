@@ -28,7 +28,8 @@ export function useCreateSite(defaultState?: DefaultSite) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'sites',
 		initialState: initialSiteState,
@@ -50,6 +51,7 @@ export function useCreateSite(defaultState?: DefaultSite) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

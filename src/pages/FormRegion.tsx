@@ -34,6 +34,7 @@ export default function FormRegion() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -60,6 +61,7 @@ export default function FormRegion() {
 					description="Busque la región el cual desea registrar en una de las zonas administrativas"
 					isAddForm
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

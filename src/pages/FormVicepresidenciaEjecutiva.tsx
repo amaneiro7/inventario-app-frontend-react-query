@@ -35,6 +35,7 @@ export default function FormVicepresidenciaEjecutiva() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -70,6 +71,7 @@ export default function FormVicepresidenciaEjecutiva() {
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}
+					submitError={submitError}
 					canEdit={canEdit}
 					handleSubmit={handleSubmit}
 					isError={isError}

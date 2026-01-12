@@ -55,6 +55,7 @@ export default function FormEmployee() {
 		employeeData,
 		isSubmitting,
 		hasChanges,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -110,6 +111,7 @@ export default function FormEmployee() {
 								description="Ingrese los datos del usuario el cual desea registar."
 								isAddForm={mode === 'add'}
 								isSubmitting={isSubmitting}
+								submitError={submitError}
 								isDirty={hasChanges}
 								isLoading={isLoading}
 								lastUpdated={formData?.updatedAt}

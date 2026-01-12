@@ -29,6 +29,7 @@ export default function FormCity() {
 		hasChanges,
 		isSubmitting,
 		required,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -63,6 +64,7 @@ export default function FormCity() {
 					handleSubmit={handleSubmit}
 					canEdit={canEdit}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					lastUpdated={formData?.updatedAt}
 					isLoading={isLoading}

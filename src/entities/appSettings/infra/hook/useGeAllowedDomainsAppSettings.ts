@@ -13,16 +13,10 @@ const getAllowedDomains = new AppSettingsGetAllowedDomains(repository)
  * @returns An object containing the loading state, refetch function, error state, and the fetched data.
  */
 export const useGetAllowedDomainsAppSettings = () => {
-	const { isLoading, refetch, isError, data } = useQuery({
+	return useQuery({
 		queryKey: ['appSettingsAllowedDomains'],
 		queryFn: () => getAllowedDomains.execute(),
-		staleTime: Infinity
+		staleTime: Infinity,
+		retry: true
 	})
-
-	return {
-		isLoading,
-		refetch,
-		isError,
-		data
-	}
 }

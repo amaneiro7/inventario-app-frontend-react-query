@@ -32,7 +32,8 @@ export function useCreateModel(defaultState?: DefaultModel) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'models',
 		initialState: initialModelState,
@@ -54,6 +55,7 @@ export function useCreateModel(defaultState?: DefaultModel) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

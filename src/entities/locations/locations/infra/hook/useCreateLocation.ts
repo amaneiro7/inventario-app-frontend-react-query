@@ -33,7 +33,8 @@ export function useCreateLocation(defaultState?: DefaultLocation) {
 		isSubmitting,
 		required,
 		disabled,
-		dispatch
+		dispatch,
+		submitError
 	} = useFormHandler({
 		entityName: 'locations',
 		initialState: initialLocationState,
@@ -59,6 +60,7 @@ export function useCreateLocation(defaultState?: DefaultLocation) {
 		hasChanges,
 		required,
 		disabled,
+		submitError,
 		handleSite,
 		onRetry,
 		discardChanges,

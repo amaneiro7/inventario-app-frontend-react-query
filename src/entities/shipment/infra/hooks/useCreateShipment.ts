@@ -55,7 +55,8 @@ export function useCreateShipment(defaultState?: DefaultShipment) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'shipments',
 		initialState: initialShipmentState,
@@ -78,6 +79,7 @@ export function useCreateShipment(defaultState?: DefaultShipment) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

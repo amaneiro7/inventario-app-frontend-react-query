@@ -38,7 +38,8 @@ export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
 		hasChanges,
 		isSubmitting,
 		required,
-		disabled
+		disabled,
+		submitError
 	} = useFormHandler({
 		entityName: 'departamentos',
 		initialState: initialDepartamentoState,
@@ -58,6 +59,7 @@ export function useCreateDepartamento(defaultState?: DefaultDepartamento) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

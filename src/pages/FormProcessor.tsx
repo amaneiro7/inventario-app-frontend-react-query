@@ -34,6 +34,7 @@ export default function FormProcessor() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -67,6 +68,7 @@ export default function FormProcessor() {
 					isAddForm={mode === 'add'}
 					canEdit={canEdit}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					lastUpdated={formData?.updatedAt}
 					isLoading={isLoading}

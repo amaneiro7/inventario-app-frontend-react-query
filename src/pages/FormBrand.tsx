@@ -32,7 +32,8 @@ export default function FormBrand() {
 		onRetry,
 		handleChange,
 		handleSubmit,
-		discardChanges
+		discardChanges,
+		submitError
 	} = useCreateBrand()
 	const hasUpdatePermission = useHasPermission(PERMISSIONS.BRANDS.UPDATE)
 
@@ -62,6 +63,7 @@ export default function FormBrand() {
 					isAddForm={mode === 'add'}
 					canEdit={canEdit}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

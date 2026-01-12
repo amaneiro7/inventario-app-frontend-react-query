@@ -36,6 +36,7 @@ export default function FormVicepresidencia() {
 		isNotFound,
 		hasChanges,
 		isSubmitting,
+		submitError,
 		onRetry,
 		handleChange,
 		handleSubmit,
@@ -68,6 +69,7 @@ export default function FormVicepresidencia() {
 					description="Ingrese los datos de la vicepresidencia el cual desea registar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
+					submitError={submitError}
 					isDirty={hasChanges}
 					isLoading={isLoading}
 					lastUpdated={formData?.updatedAt}

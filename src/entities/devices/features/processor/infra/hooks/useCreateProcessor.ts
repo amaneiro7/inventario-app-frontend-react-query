@@ -36,7 +36,8 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 		hasChanges,
 		isSubmitting,
 		disabled,
-		required
+		required,
+		submitError
 	} = useFormHandler({
 		entityName: 'processors',
 		initialState: initialProcessorState,
@@ -58,6 +59,7 @@ export function useCreateProcessor(defaultState?: ProcessorParams) {
 		isSubmitting,
 		isNotFound,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,

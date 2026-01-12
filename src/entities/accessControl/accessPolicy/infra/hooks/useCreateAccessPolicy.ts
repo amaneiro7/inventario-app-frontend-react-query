@@ -49,7 +49,8 @@ export function useCreateAccessPolicy(defaultState?: AccessPolicyParams) {
 		formData,
 		errors,
 		hasChanges,
-		isSubmitting
+		isSubmitting,
+		submitError
 	} = useFormHandler({
 		entityName: 'accessPolicies',
 		initialState: initialAccessPolicyState,
@@ -69,6 +70,7 @@ export function useCreateAccessPolicy(defaultState?: AccessPolicyParams) {
 		isLoading,
 		isSubmitting,
 		hasChanges,
+		submitError,
 		onRetry,
 		discardChanges,
 		handleSubmit,
