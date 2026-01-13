@@ -45,7 +45,7 @@ export class VicepresidenciaEjecutivaCreator {
 			// Notifica el error y lanza una excepción.
 			const errorMessage = `${error}`
 			this.events.notify({ type: 'error', message: errorMessage })
-			return { message: errorMessage }
+			throw error
 		}
 	}
 }

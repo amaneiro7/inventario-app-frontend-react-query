@@ -44,7 +44,7 @@ export class EmployeeCreator {
 			// Notify the error and throw an exception.
 			const errorMessage = `${error}`
 			this.events.notify({ type: 'error', message: errorMessage })
-			return { message: errorMessage }
+			throw error
 		}
 	}
 }

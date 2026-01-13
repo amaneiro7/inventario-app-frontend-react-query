@@ -127,6 +127,7 @@ export const MainEmployeeInfo = memo(
 					value={type}
 					handleChange={(_name, value) => handleChange('type', value)}
 					name="type"
+					mode="form"
 					required={typeRequired}
 					disabled={typeDisabled}
 					error={typeError}
