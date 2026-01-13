@@ -101,7 +101,7 @@ export const DeviceMonitoringContainer = memo(
 									orderByField="locationId"
 									size="xxLarge"
 									isTab
-									className="2md:table-cell hidden"
+									className="1md:table-cell hidden"
 								>
 									Ubicación
 								</TableHead>

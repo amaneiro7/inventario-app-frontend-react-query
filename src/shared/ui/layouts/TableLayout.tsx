@@ -108,14 +108,14 @@ export function TableLayout<T>({
 								orderBy={orderBy}
 								orderType={orderType}
 								orderByField="locationId"
-								size="xLarge"
+								size="auto"
 								className="hidden md:table-cell"
 							>
 								Ubicación
 							</TableHead>
 							<TableHead
 								aria-colindex={3}
-								className="2md:table-cell hidden"
+								className="1md:table-cell hidden"
 								isTab
 								handleSort={eventManager(handleSort)}
 								orderBy={orderBy}
@@ -167,7 +167,7 @@ export function TableLayout<T>({
 								orderBy={orderBy}
 								orderType={orderType}
 								orderByField="observation"
-								size="medium"
+								size="auto"
 								className="hidden xl:table-cell"
 							>
 								Observaciones

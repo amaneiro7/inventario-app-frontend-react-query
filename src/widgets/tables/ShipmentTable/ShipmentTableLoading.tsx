@@ -17,7 +17,7 @@ export const ShipmentTableLoading = () => (
 		<TableCell aria-colindex={4} size="large" className="1xl:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={5} size="large" className="2md:table-cell hidden">
+		<TableCell aria-colindex={5} size="large" className="1md:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell aria-colindex={6} size="xSmall" className="hidden lg:table-cell">
@@ -29,7 +29,7 @@ export const ShipmentTableLoading = () => (
 		<TableCell aria-colindex={8} size="small" className="hidden md:table-cell">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={9} size="small" className="2md:table-cell hidden">
+		<TableCell aria-colindex={9} size="small" className="1md:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCellOpenIcon index={11} />

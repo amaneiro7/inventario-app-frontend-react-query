@@ -81,7 +81,7 @@ export const AccessPolicyTableWrapper = memo(
 									Prioridad
 								</TableHead>
 								<TableHead
-									className="2md:table-cell hidden"
+									className="1md:table-cell hidden"
 									aria-colindex={3}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}

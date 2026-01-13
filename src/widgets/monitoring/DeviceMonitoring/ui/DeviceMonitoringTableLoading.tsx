@@ -14,7 +14,7 @@ export const DeviceMonitoringTableLoading = () => (
 		<TableCell aria-colindex={3} size="small" className="hidden sm:table-cell">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={4} size="xxLarge" className="2md:table-cell hidden">
+		<TableCell aria-colindex={4} size="xxLarge" className="1md:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell aria-colindex={5} size="small" className="hidden lg:table-cell">

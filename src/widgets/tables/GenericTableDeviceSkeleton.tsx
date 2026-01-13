@@ -8,10 +8,10 @@ export const GenericTableDeviceSkeleton = () => (
 		<TableCell aria-colindex={1} size="small">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={2} size="xLarge" className="hidden md:table-cell">
+		<TableCell aria-colindex={2} size="auto" className="hidden md:table-cell">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={3} size="small" className="2md:table-cell hidden">
+		<TableCell aria-colindex={3} size="small" className="1md:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell aria-colindex={4} size="small" className="2lg:table-cell hidden">
@@ -23,7 +23,7 @@ export const GenericTableDeviceSkeleton = () => (
 		<TableCell aria-colindex={6} size="large">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={7} size="medium" className="hidden xl:table-cell">
+		<TableCell aria-colindex={7} size="auto" className="hidden xl:table-cell">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCellOpenIcon index={8} />

@@ -60,7 +60,7 @@ export const TableEmployees = memo(({ employees, isError }: TableEmployeesProps)
 					</TableCell>
 
 					<TableCell
-						className="2md:table-cell hidden"
+						className="1md:table-cell hidden"
 						aria-colindex={3}
 						size="small"
 						value={employee?.name ?? ''}
@@ -69,7 +69,7 @@ export const TableEmployees = memo(({ employees, isError }: TableEmployeesProps)
 					</TableCell>
 
 					<TableCell
-						className="2md:table-cell hidden"
+						className="1md:table-cell hidden"
 						aria-colindex={4}
 						size="small"
 						value={employee?.lastName ?? ''}

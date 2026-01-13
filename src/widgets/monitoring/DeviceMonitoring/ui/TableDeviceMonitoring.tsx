@@ -59,7 +59,7 @@ export const TableDeviceMonitoring = memo(({ devices, isError }: TableDeviceMoni
 						aria-colindex={4}
 						size="xxLarge"
 						value={device.location.name ?? ''}
-						className="2md:table-cell hidden"
+						className="1md:table-cell hidden"
 					>
 						{device.location.name ?? ''}
 					</TableCell>

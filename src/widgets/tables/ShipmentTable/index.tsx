@@ -113,7 +113,7 @@ export const TableShipmentWrapper = memo(
 									orderType={query.orderType}
 									orderByField="destination"
 									size="large"
-									className="2md:table-cell hidden"
+									className="1md:table-cell hidden"
 								>
 									Destino
 								</TableHead>
@@ -153,7 +153,7 @@ export const TableShipmentWrapper = memo(
 									orderType={query.orderType}
 									orderByField="deliveryDate"
 									size="small"
-									className="2md:table-cell hidden"
+									className="1md:table-cell hidden"
 								>
 									Fecha de Entrega
 								</TableHead>

@@ -96,7 +96,7 @@ export const TableEmployeeWrapper = memo(function ({
 								orderType={query.orderType}
 								orderByField="name"
 								size="small"
-								className="2md:table-cell hidden"
+								className="1md:table-cell hidden"
 							>
 								Nombres
 							</TableHead>
@@ -107,7 +107,7 @@ export const TableEmployeeWrapper = memo(function ({
 								orderType={query.orderType}
 								orderByField="lastName"
 								size="small"
-								className="2md:table-cell hidden"
+								className="1md:table-cell hidden"
 							>
 								Apellidos
 							</TableHead>

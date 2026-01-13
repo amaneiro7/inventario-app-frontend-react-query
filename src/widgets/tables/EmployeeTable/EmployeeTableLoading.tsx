@@ -11,10 +11,10 @@ export const EmployeeTableLoading = () => (
 		<TableCell aria-colindex={2} size="small">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={3} size="small" className="2md:table-cell hidden">
+		<TableCell aria-colindex={3} size="small" className="1md:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell aria-colindex={4} size="small" className="2md:table-cell hidden">
+		<TableCell aria-colindex={4} size="small" className="1md:table-cell hidden">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell aria-colindex={5} size="xLarge" className="hidden lg:table-cell">

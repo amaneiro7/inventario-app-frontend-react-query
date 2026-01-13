@@ -31,7 +31,7 @@ export const TableGenericDeviceCell = memo(
 						<TableCell
 							aria-colindex={2}
 							className="hidden md:table-cell"
-							size="xLarge"
+							size="auto"
 							value={device.location?.name}
 						>
 							{device.location?.name}
@@ -39,7 +39,7 @@ export const TableGenericDeviceCell = memo(
 
 						<TableCell
 							aria-colindex={3}
-							className="2md:table-cell hidden"
+							className="1md:table-cell hidden"
 							size="small"
 							value={device.serial ?? ''}
 						>
@@ -71,7 +71,7 @@ export const TableGenericDeviceCell = memo(
 						<TableCell
 							aria-colindex={7}
 							className="hidden xl:table-cell"
-							size="medium"
+							size="auto"
 							value={device.observation ?? ''}
 						>
 							{device.observation ?? ''}

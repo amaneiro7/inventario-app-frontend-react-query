@@ -61,7 +61,7 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 							{accessPolicy.priority}
 						</TableCell>
 						<TableCell
-							className="2md:table-cell hidden"
+							className="1md:table-cell hidden"
 							aria-colindex={3}
 							size="medium"
 							value={accessPolicy.role?.name}

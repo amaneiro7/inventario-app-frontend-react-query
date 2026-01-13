@@ -10,7 +10,7 @@ export const AccessPolicyTableLoading = () => (
 		<TableCell className="hidden lg:table-cell" aria-colindex={2} size="small">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell className="2md:table-cell hidden" aria-colindex={3} size="small">
+		<TableCell className="1md:table-cell hidden" aria-colindex={3} size="small">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell className="4xl:table-cell hidden" aria-colindex={4} size="small">

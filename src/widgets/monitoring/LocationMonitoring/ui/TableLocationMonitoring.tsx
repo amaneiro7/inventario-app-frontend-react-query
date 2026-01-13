@@ -59,7 +59,7 @@ export const TableLocationMonitoring = memo(
 							aria-colindex={4}
 							size="medium"
 							value={location.site?.city?.state?.name ?? ''}
-							className="2md:table-cell hidden"
+							className="1md:table-cell hidden"
 						>
 							{location.site?.city?.state?.name ?? ''}
 						</TableCell>

@@ -102,7 +102,7 @@ export const TableShipment = memo(({ shipments, isError }: TableShipmentProps) =
 							aria-colindex={5}
 							size="large"
 							value={shipment.destinationLocation?.name}
-							className="2md:table-cell hidden"
+							className="1md:table-cell hidden"
 						>
 							{shipment.destinationLocation?.name}
 						</TableCell>
@@ -138,7 +138,7 @@ export const TableShipment = memo(({ shipments, isError }: TableShipmentProps) =
 							aria-colindex={9}
 							size="small"
 							value={deliveryDate}
-							className="2md:table-cell hidden"
+							className="1md:table-cell hidden"
 						>
 							{deliveryDate}
 						</TableCell>

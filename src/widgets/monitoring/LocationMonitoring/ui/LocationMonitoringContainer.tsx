@@ -101,7 +101,7 @@ export const LocationMonitoringContainer = memo(
 									orderByField="stateId"
 									size="medium"
 									isTab
-									className="2md:table-cell hidden"
+									className="1md:table-cell hidden"
 								>
 									Estado
 								</TableHead>
