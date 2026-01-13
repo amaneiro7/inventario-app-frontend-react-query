@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import { EmployeeTypes } from '@/entities/employee/employee/domain/value-object/EmployeeType'
+import { employeeTypeTranslations } from './employeeTypeTranslations'
 
 interface EmployeeTypeComboboxProps {
 	mode?: 'form' | 'list'
@@ -12,14 +13,6 @@ interface EmployeeTypeComboboxProps {
 	readonly?: boolean
 	isLoading?: boolean
 	handleChange: (name: string, value: string | number) => void
-}
-
-const employeeTypeTranslations: Record<EmployeeTypes, string> = {
-	[EmployeeTypes.GENERIC]: 'Usuario Genérico',
-	[EmployeeTypes.REGULAR]: 'Empleado Regular',
-	[EmployeeTypes.SERVICE]: 'Usuario de Sistema',
-	[EmployeeTypes.APPRENTICE]: 'Aprendiz',
-	[EmployeeTypes.CONTRACTOR]: 'Contratado'
 }
 
 /**

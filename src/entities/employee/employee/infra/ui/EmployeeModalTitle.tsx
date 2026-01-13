@@ -6,6 +6,7 @@ import { type EmployeeIsStillWorking } from '../../domain/value-object/EmployeeI
 import { type EmployeeUserName } from '../../domain/value-object/EmployeeUsername'
 import { BackgroundType } from '@/shared/ui/Typography/types'
 import { EmployeeTypes } from '../../domain/value-object/EmployeeType'
+import { employeeTypeTranslations } from './employeeTypeTranslations'
 
 interface EmployeeModalTitleProps {
 	type: EmployeeTypes
@@ -13,22 +14,10 @@ interface EmployeeModalTitleProps {
 	isStillWorking: Primitives<EmployeeIsStillWorking>
 }
 
-const employeeTypeConfig: Record<EmployeeTypes, { name: string }> = {
-	[EmployeeTypes.GENERIC]: {
-		name: 'Usuario Genérico'
-	},
-	[EmployeeTypes.REGULAR]: {
-		name: 'Empleado Regular'
-	},
-	[EmployeeTypes.SERVICE]: {
-		name: 'Usuario de Sistema'
-	}
-}
-
 export const EmployeeModalTitle = ({ type, isStillWorking, userName }: EmployeeModalTitleProps) => {
 	const statusColor: BackgroundType = isStillWorking ? 'verde' : 'gris'
 	const statusText = isStillWorking ? 'Activo' : 'Inactivo'
-	const typeText = employeeTypeConfig[type]?.name ?? 'N/A'
+	const typeText = employeeTypeTranslations[type] ?? 'N/A'
 	return (
 		<div>
 			<Typography variant="h3" className="flex items-center gap-2">
