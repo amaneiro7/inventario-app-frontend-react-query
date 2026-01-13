@@ -45,14 +45,8 @@ export class EmployeeCode extends AcceptedNullValueObject<number> {
 	}): boolean {
 		EmployeeCode.error = '' // Clear the error message
 
-		if (type === EmployeeTypes.GENERIC) {
-			if (value) {
-				// If it's generic, employee code must be null
-				EmployeeCode.error = 'Si es genérico no puede tener un código de empleado.'
-				return false
-			}
-		} else {
-			// If it's not generic, employee code is mandatory and must be a number
+		if (type === EmployeeTypes.REGULAR) {
+			// If it's a regular, employee code is mandatory and must be a number
 			if (!value) {
 				EmployeeCode.error = 'El código del empleado es obligatorio.'
 				return false
@@ -60,6 +54,12 @@ export class EmployeeCode extends AcceptedNullValueObject<number> {
 
 			if (typeof value !== 'number') {
 				EmployeeCode.error = 'El código del empleado debe ser numérico.'
+				return false
+			}
+		} else {
+			if (value) {
+				// If it's generic, contractor, apprentice, employee code must be null
+				EmployeeCode.error = 'Si es genérico no puede tener un código de empleado.'
 				return false
 			}
 		}

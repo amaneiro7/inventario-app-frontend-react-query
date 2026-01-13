@@ -3,40 +3,23 @@ import { Combobox } from '@/shared/ui/Input/Combobox'
 import { EmployeeTypes } from '@/entities/employee/employee/domain/value-object/EmployeeType'
 
 interface EmployeeTypeComboboxProps {
-	/**
-	 * The currently selected employee type value.
-	 */
+	mode?: 'form' | 'list'
 	value?: string
-	/**
-	 * The name of the input field.
-	 */
 	name: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	readonly?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	isLoading?: boolean
-	/**
-	 * Callback function triggered when the selected value changes.
-	 * @param name - The name of the input field.
-	 * @param value - The new selected value (employee type).
-	 */
 	handleChange: (name: string, value: string | number) => void
+}
+
+const employeeTypeTranslations: Record<EmployeeTypes, string> = {
+	[EmployeeTypes.GENERIC]: 'Usuario Genérico',
+	[EmployeeTypes.REGULAR]: 'Empleado Regular',
+	[EmployeeTypes.SERVICE]: 'Usuario de Sistema',
+	[EmployeeTypes.APPRENTICE]: 'Aprendiz',
+	[EmployeeTypes.CONTRACTOR]: 'Contratado'
 }
 
 /**
@@ -45,6 +28,7 @@ interface EmployeeTypeComboboxProps {
  */
 export function EmployeeTypeCombobox({
 	value = '',
+	mode = 'form',
 	name,
 	error = '',
 	required = false,
@@ -54,8 +38,25 @@ export function EmployeeTypeCombobox({
 	handleChange
 }: EmployeeTypeComboboxProps) {
 	const options = useMemo(() => {
-		return Object.values(EmployeeTypes).flatMap(opt => ({ id: opt, name: opt.toUpperCase() }))
-	}, [])
+		// Obtenemos todos los estados posibles del Enum.
+		let availableTypes = Object.values(EmployeeTypes)
+
+		// Si el modo es 'form', filtramos para dejar solo las opciones permitidas.
+		if (mode === 'form') {
+			availableTypes = availableTypes.filter(types => types !== EmployeeTypes.SERVICE)
+		}
+
+		// El resto de la lógica para dar formato a los nombres se mantiene igual.
+		return availableTypes.map(type => {
+			const id = type as string
+			const name = employeeTypeTranslations[type] ?? id
+
+			return {
+				id,
+				name
+			}
+		})
+	}, [mode])
 	return (
 		<>
 			<Combobox

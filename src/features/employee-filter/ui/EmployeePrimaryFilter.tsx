@@ -99,7 +99,12 @@ export const EmployeePrimaryFilter = memo(
 				</Suspense>
 
 				<Suspense fallback={<InputFallback />}>
-					<EmployeeTypeCombobox name="type" handleChange={handleChange} value={type} />
+					<EmployeeTypeCombobox
+						name="type"
+						mode="list"
+						handleChange={handleChange}
+						value={type}
+					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>
 					<DepartamentoCombobox

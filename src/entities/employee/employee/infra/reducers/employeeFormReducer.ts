@@ -236,7 +236,11 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...action.payload.formData,
 					type,
 					employeeCode:
-						type === EmployeeTypes.GENERIC || !type
+						type === EmployeeTypes.GENERIC ||
+						type === EmployeeTypes.APPRENTICE ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.SERVICE ||
+						!type
 							? ''
 							: (action.payload.formData.employeeCode ?? 1),
 					nationality:
@@ -266,7 +270,12 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				},
 				disabled: {
 					...state.disabled,
-					employeeCode: !type || type === EmployeeTypes.GENERIC,
+					employeeCode:
+						type === EmployeeTypes.GENERIC ||
+						type === EmployeeTypes.APPRENTICE ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.SERVICE ||
+						!type,
 					nationality: !type || type === EmployeeTypes.GENERIC,
 					cedula: !type || type === EmployeeTypes.GENERIC,
 					locationId: !type || type === EmployeeTypes.GENERIC,
@@ -284,7 +293,12 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...state.required,
 					name: type !== EmployeeTypes.GENERIC,
 					lastName: type !== EmployeeTypes.GENERIC,
-					employeeCode: type !== EmployeeTypes.GENERIC,
+					employeeCode:
+						type === EmployeeTypes.GENERIC ||
+						type === EmployeeTypes.APPRENTICE ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.SERVICE ||
+						!type,
 					nationality: type !== EmployeeTypes.GENERIC,
 					cedula: type !== EmployeeTypes.GENERIC,
 					directivaId: type !== EmployeeTypes.GENERIC,
@@ -324,7 +338,14 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					name: '',
 					lastName: '',
 					email: '',
-					employeeCode: type === EmployeeTypes.GENERIC || !type ? '' : 1,
+					employeeCode:
+						type === EmployeeTypes.GENERIC ||
+						type === EmployeeTypes.APPRENTICE ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.SERVICE ||
+						!type
+							? ''
+							: 1,
 					nationality: type === EmployeeTypes.GENERIC || !type ? '' : Nationalities.V,
 					cedula: '',
 					locationId: '',
@@ -341,7 +362,12 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					name: !type,
 					lastName: !type,
 					email: !type,
-					employeeCode: !type || type === EmployeeTypes.GENERIC,
+					employeeCode:
+						type === EmployeeTypes.GENERIC ||
+						type === EmployeeTypes.APPRENTICE ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.SERVICE ||
+						!type,
 					nationality: !type || type === EmployeeTypes.GENERIC,
 					cedula: !type || type === EmployeeTypes.GENERIC,
 					locationId: !type || type === EmployeeTypes.GENERIC,
@@ -356,7 +382,12 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					name: type !== EmployeeTypes.GENERIC,
 					lastName: type !== EmployeeTypes.GENERIC,
 					email: type !== EmployeeTypes.GENERIC,
-					employeeCode: type !== EmployeeTypes.GENERIC,
+					employeeCode:
+						type === EmployeeTypes.GENERIC ||
+						type === EmployeeTypes.APPRENTICE ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.SERVICE ||
+						!type,
 					nationality: type !== EmployeeTypes.GENERIC,
 					cedula: type !== EmployeeTypes.GENERIC,
 					directivaId: type !== EmployeeTypes.GENERIC,
