@@ -37,6 +37,7 @@ export const SettingArrayInput = memo(({ onChange, value }: SettingArrayInputPro
 						<button
 							onClick={() => handleRemoveItem(index)}
 							className="hover:text-destructive ml-1 transition-colors"
+							type="button"
 						>
 							<X className="h-3 w-3" />
 						</button>
