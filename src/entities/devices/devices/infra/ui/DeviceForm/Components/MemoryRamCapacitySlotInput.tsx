@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type KeyboardEvent } from 'react'
 import { MemoryRamValues } from '../../../../domain/value-object/MemoryRamValues'
 import { Input } from '@/shared/ui/Input/Input'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
@@ -33,6 +33,32 @@ export function MemoryRamCapacitySlotInput({
 		}
 	}, [index, value])
 
+	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+			e.preventDefault()
+			const currentValue = Number(value)
+			const sequence = MemoryRamValues.generarSecuencia()
+
+			let newValue = currentValue
+
+			if (e.key === 'ArrowUp') {
+				const next = sequence.find(val => val > currentValue)
+				if (next !== undefined) {
+					newValue = next
+				}
+			} else {
+				const prev = [...sequence].reverse().find(val => val < currentValue)
+				if (prev !== undefined) {
+					newValue = prev
+				}
+			}
+
+			if (newValue !== currentValue) {
+				onChange(String(newValue), index)
+			}
+		}
+	}
+
 	return (
 		<Input
 			id={`MemoriaRamSlot-${index}`}
@@ -48,6 +74,7 @@ export function MemoryRamCapacitySlotInput({
 				onChange(value, index)
 			}}
 			max={MemoryRamValues.max}
+			onKeyDown={handleKeyDown}
 			min={MemoryRamValues.min}
 			step={MemoryRamValues.minStep * 2}
 			error={isError}

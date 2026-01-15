@@ -34,6 +34,13 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 	} catch (error) {
 		const axiosError = axios.isAxiosError(error)
 
+		// Manejo de Timeouts (El servidor tardó más de lo configurado en axios.config.ts)
+		if (axiosError && (error.code === 'ECONNABORTED' || error.message.includes('timeout'))) {
+			throw new Error(
+				'El servidor está tardando demasiado en responder. Por favor, intente nuevamente en unos momentos.'
+			)
+		}
+
 		// Manejo de otros errores
 		if (axiosError && error.response) {
 			const { status, data } = error.response
@@ -61,6 +68,8 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 					throw new Error(message)
 				case 500:
 					throw new Error(message)
+				case 504:
+					throw new Error('El servidor tardó demasiado en responder (Gateway Timeout).')
 				default:
 					throw new Error(`Error HTTP ${status}: ${message}`)
 			}
