@@ -12,6 +12,7 @@ import {
 	type DefaultEmployee
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { EmployeeUserEmailInput } from './EmployeeUserEmailInput'
 
 const EmployeeTypeCombobox = lazy(() =>
 	import('@/entities/employee/employee/infra/ui/EmployeeTypeComboBox').then(m => ({
@@ -26,6 +27,7 @@ interface MainEmployeeInfoProps {
 	name: DefaultEmployee['name']
 	lastName: DefaultEmployee['lastName']
 	email: DefaultEmployee['email']
+	allowedDomains?: string[]
 	employeeCode: DefaultEmployee['employeeCode']
 	cedula: DefaultEmployee['cedula']
 	nationality: DefaultEmployee['nationality']
@@ -70,6 +72,7 @@ export const MainEmployeeInfo = memo(
 		name,
 		lastName,
 		email,
+		allowedDomains = [],
 		employeeCode,
 		cedula,
 		nationality,
@@ -103,6 +106,7 @@ export const MainEmployeeInfo = memo(
 		const nacionalities = useMemo(() => {
 			return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
 		}, [])
+
 		return (
 			<div className="flex flex-col gap-2 rounded-lg border border-gray-400 p-8 pt-4">
 				<Typography color="azul" variant="h5">
@@ -178,20 +182,15 @@ export const MainEmployeeInfo = memo(
 						disabled={lastNameDisabled}
 					/>
 				</div>
-				<Input
-					id="employee-email"
-					value={email ?? ''}
-					name="email"
+				<EmployeeUserEmailInput
+					allowedDomains={allowedDomains}
+					email={email ?? ''}
 					isLoading={isLoading}
-					readOnly={!canEdit}
-					label="Correo electrónico"
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('email', e.target.value)
-					}
-					error={!!emailError}
-					errorMessage={emailError}
-					required={emailRequired}
-					disabled={emailDisabled}
+					canEdit={canEdit}
+					handleChange={(_name, value) => handleChange('email', value)}
+					emailRequired={emailRequired}
+					emailDisabled={emailDisabled}
+					emailError={emailError}
 				/>
 				<div className="gap-4 md:grid md:grid-cols-2">
 					<Input
