@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { AppSettingsGetAllowedDomainsService } from '../service/appSettingsGetAllowedDomains.service'
 import { AppSettingsGetAllowedDomains } from '../../application/AppSettingsGetAllowedDomains'
 
@@ -13,7 +13,7 @@ const getAllowedDomains = new AppSettingsGetAllowedDomains(repository)
  * @returns An object containing the loading state, refetch function, error state, and the fetched data.
  */
 export const useGetAllowedDomainsAppSettings = () => {
-	return useQuery({
+	return useSuspenseQuery({
 		queryKey: ['appSettingsAllowedDomains'],
 		queryFn: () => getAllowedDomains.execute(),
 		staleTime: Infinity,

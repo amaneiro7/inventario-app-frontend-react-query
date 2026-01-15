@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { EmployeeGetService } from '../service/employeeGet.service'
 import { EmployeeGetter } from '../../application/EmployeeGetter'
-import { useGetAllowedDomainsAppSettings } from '@/entities/appSettings/infra/hook/useGeAllowedDomainsAppSettings'
-import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
 import { useFormRoutingContext } from '@/shared/lib/hooks/useFormRoutingContext'
 import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
 import { mapEmployeeToState } from '../../lib/mapEmployeeToState'
@@ -27,27 +25,21 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 	initialData: DefaultEmployee
 	employeeData: EmployeeDto | undefined
 	mode: FormMode
-	allowedDomains: string[]
 	isLoading: boolean
 	isNotFound: boolean
 	isError: boolean
 	refreshInitialData: () => void
 	onRetry: () => void
 } {
-	const { data: allowedDomainsRaw } = useGetAllowedDomainsAppSettings()
-	const allowedDomains = useMemo(
-		() => (allowedDomainsRaw ? cleanStringToArray(allowedDomainsRaw?.value) : []),
-		[allowedDomainsRaw, cleanStringToArray]
-	)
 	const { id, location, navigate, mode, isNotFound, setNotFound, checkIsNotFound } =
 		useFormRoutingContext()
 
 	const initialDataFromState = useMemo(
 		() =>
 			location.state?.employee
-				? mapEmployeeToState(location.state.employee, allowedDomains).mappedData
+				? mapEmployeeToState(location.state.employee).mappedData
 				: undefined,
-		[location.state?.employee, mapEmployeeToState, allowedDomains]
+		[location.state?.employee, mapEmployeeToState]
 	)
 
 	const { data, refetch, error, isError, isLoading } = useQuery({
@@ -73,7 +65,7 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 			// Para otros errores, usar el comportamiento por defecto (hasta 3 reintentos)
 			return failureCount < 3
 		},
-		select: data => mapEmployeeToState(data, allowedDomains)
+		select: data => mapEmployeeToState(data)
 	})
 
 	const [initialData, setInitialData] = useState<DefaultEmployee>(
@@ -88,7 +80,7 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 		}
 		// Si el modo es agregar o no estamos en la ruta de marcas, resetea el estado al estado por defecto.
 		if (mode === 'add' || !location.pathname.includes('employee')) {
-			setInitialData({ ...defaultState, allowedDomians: allowedDomains })
+			setInitialData({ ...defaultState })
 			return
 		}
 
@@ -132,7 +124,6 @@ export function useEmployeeInitialData(defaultState: DefaultEmployee): {
 		initialData,
 		employeeData: data?.originalData,
 		isLoading,
-		allowedDomains,
 		isError,
 		isNotFound,
 		refreshInitialData,

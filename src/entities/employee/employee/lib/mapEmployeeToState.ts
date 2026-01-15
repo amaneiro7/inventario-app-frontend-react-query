@@ -6,8 +6,7 @@ import { type DefaultEmployee } from '../infra/reducers/employeeFormReducer'
  * @param employee - The EmployeeDto object fetched from the API.
  */
 export const mapEmployeeToState = (
-	employee: EmployeeDto,
-	allowedDomains: string[]
+	employee: EmployeeDto
 ): {
 	originalData: EmployeeDto
 	mappedData: DefaultEmployee
@@ -33,7 +32,6 @@ export const mapEmployeeToState = (
 		cargoId: employee.cargoId ?? '',
 		extension: extension,
 		phone: phone,
-		allowedDomians: allowedDomains,
 		extensionSegments: extension?.map(ext => {
 			const match = ext.match(/(\d{4})(\d{7})/)
 			const operadora = match ? match?.[1] : ''

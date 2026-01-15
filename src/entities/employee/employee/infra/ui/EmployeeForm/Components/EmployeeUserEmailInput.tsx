@@ -1,21 +1,23 @@
+import React, { useMemo } from 'react'
+import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { useGetAllowedDomainsAppSettings } from '@/entities/appSettings/infra/hook/useGeAllowedDomainsAppSettings'
+import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'
-import React, { useMemo } from 'react'
+import { type Action } from '../../../reducers/employeeFormReducer'
 
 interface EmployeeUserEmailInputProps {
 	email: string
-	allowedDomains: string[]
 	isLoading: boolean
 	canEdit: boolean
-	handleChange: (name: string, value: string) => void
 	emailRequired: boolean
 	emailDisabled: boolean
 	emailError: string
+	handleChange: (name: Action['type'], value: any) => void
 }
 
 export const EmployeeUserEmailInput = ({
 	email,
-	allowedDomains,
 	isLoading,
 	canEdit,
 	handleChange,
@@ -23,10 +25,21 @@ export const EmployeeUserEmailInput = ({
 	emailDisabled,
 	emailError
 }: EmployeeUserEmailInputProps) => {
+	const { data: allowedDomainsRaw } = useGetAllowedDomainsAppSettings()
+	const allowedDomains = useMemo(
+		() => (allowedDomainsRaw ? cleanStringToArray(allowedDomainsRaw?.value) : []),
+		[allowedDomainsRaw, cleanStringToArray]
+	)
 	const [emailUser, emailDomain] = useMemo(() => {
+		if (!email) return ['', '']
 		const parts = email?.split('@') ?? []
 		return [parts[0] ?? '', parts[1] ?? allowedDomains[0] ?? '']
 	}, [email, allowedDomains])
+
+	useEffectAfterMount(() => {
+		handleChange('allowedDomains', allowedDomains)
+	}, [allowedDomains])
+
 	return (
 		<div className="flex flex-row gap-2">
 			<div className="flex-1">
@@ -52,7 +65,7 @@ export const EmployeeUserEmailInput = ({
 			<div className="w-40">
 				<div className="relative">
 					<select
-						className="h-10 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
+						className="h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
 						value={emailDomain}
 						disabled={!canEdit || emailDisabled}
 						onChange={e => handleChange('email', `${emailUser}@${e.target.value}`)}

@@ -34,7 +34,7 @@ export interface DefaultEmployee {
 	phoneSegments: { operadora: string; numero: string }[]
 	devices: EmployeeDto['devices']
 	updatedAt?: EmployeeDto['updatedAt']
-	allowedDomians?: string[]
+	allowedDomains?: string[]
 }
 
 /**
@@ -185,6 +185,7 @@ export const initialEmployeeState: State = {
 export type Action =
 	| { type: 'init'; payload: { formData: DefaultEmployee } }
 	| { type: 'reset'; payload: { formData: DefaultEmployee } }
+	| { type: 'allowedDomains'; payload: { value: string[] | undefined } }
 	| { type: 'userName'; payload: { value: DefaultEmployee['userName'] } }
 	| { type: 'type'; payload: { value: DefaultEmployee['type'] } }
 	| { type: 'name'; payload: { value: DefaultEmployee['name'] } }
@@ -239,7 +240,6 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 						type === EmployeeTypes.GENERIC ||
 						type === EmployeeTypes.APPRENTICE ||
 						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.SERVICE ||
 						!type
 							? ''
 							: (action.payload.formData.employeeCode ?? 1),
@@ -302,6 +302,9 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					nationality: type !== EmployeeTypes.GENERIC,
 					cedula: type !== EmployeeTypes.GENERIC,
 					directivaId: type !== EmployeeTypes.GENERIC,
+					vicepresidenciaEjecutivaId: !!action.payload.formData.directivaId,
+					vicepresidenciaId: !!action.payload.formData.vicepresidenciaEjecutivaId,
+					departamentoId: !!action.payload.formData.vicepresidenciaId,
 					cargoId: type !== EmployeeTypes.GENERIC
 				}
 			}
@@ -321,6 +324,15 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 						? ''
 						: EmployeeUserName.invalidMessage()
 				}
+			}
+		}
+
+		case 'allowedDomains': {
+			const allowedDomains = action.payload.value ?? []
+
+			return {
+				...state,
+				formData: { ...state.formData, allowedDomains }
 			}
 		}
 
@@ -372,7 +384,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					cedula: !type || type === EmployeeTypes.GENERIC,
 					locationId: !type || type === EmployeeTypes.GENERIC,
 					directivaId: !type,
-					vicepresidenciaEjecutivaId: !type,
+					vicepresidenciaEjecutivaId:
+						!type ||
+						type === EmployeeTypes.CONTRACTOR ||
+						type === EmployeeTypes.REGULAR,
 					vicepresidenciaId: !type,
 					departamentoId: !type,
 					cargoId: !type || type === EmployeeTypes.GENERIC
@@ -381,7 +396,6 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...state.required,
 					name: type !== EmployeeTypes.GENERIC,
 					lastName: type !== EmployeeTypes.GENERIC,
-					email: type !== EmployeeTypes.GENERIC,
 					employeeCode:
 						type === EmployeeTypes.GENERIC ||
 						type === EmployeeTypes.APPRENTICE ||
@@ -390,11 +404,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 						!type,
 					nationality: type !== EmployeeTypes.GENERIC,
 					cedula: type !== EmployeeTypes.GENERIC,
-					directivaId: type !== EmployeeTypes.GENERIC,
-					vicepresidenciaEjecutivaId: type !== EmployeeTypes.GENERIC,
-					vicepresidenciaId: type !== EmployeeTypes.GENERIC,
-					departamentoId: type !== EmployeeTypes.GENERIC,
-					cargoId: type !== EmployeeTypes.GENERIC
+					directivaId:
+						type === EmployeeTypes.CONTRACTOR || type === EmployeeTypes.REGULAR,
+					vicepresidenciaEjecutivaId: !!state.formData.directivaId,
+					cargoId: type === EmployeeTypes.CONTRACTOR || type === EmployeeTypes.REGULAR
 				}
 			}
 		}
@@ -448,7 +461,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...state.errors,
 					email: EmployeeEmail.isValid({
 						value: email,
-						allowedDomains: state.formData.allowedDomians ?? []
+						allowedDomains: state.formData.allowedDomains ?? []
 					})
 						? ''
 						: EmployeeEmail.invalidMessage()

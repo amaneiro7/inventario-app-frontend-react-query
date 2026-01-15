@@ -1,4 +1,4 @@
-import { lazy, memo, useMemo } from 'react'
+import { lazy, memo, Suspense, useMemo } from 'react'
 import { EmployeeCedula } from '@/entities/employee/employee/domain/value-object/EmployeeCedula'
 import { Nationalities } from '@/entities/employee/employee/domain/value-object/EmployeeNationality'
 import Typography from '@/shared/ui/Typography'
@@ -13,6 +13,7 @@ import {
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { EmployeeUserEmailInput } from './EmployeeUserEmailInput'
+import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
 const EmployeeTypeCombobox = lazy(() =>
 	import('@/entities/employee/employee/infra/ui/EmployeeTypeComboBox').then(m => ({
@@ -72,7 +73,6 @@ export const MainEmployeeInfo = memo(
 		name,
 		lastName,
 		email,
-		allowedDomains = [],
 		employeeCode,
 		cedula,
 		nationality,
@@ -182,16 +182,17 @@ export const MainEmployeeInfo = memo(
 						disabled={lastNameDisabled}
 					/>
 				</div>
-				<EmployeeUserEmailInput
-					allowedDomains={allowedDomains}
-					email={email ?? ''}
-					isLoading={isLoading}
-					canEdit={canEdit}
-					handleChange={(_name, value) => handleChange('email', value)}
-					emailRequired={emailRequired}
-					emailDisabled={emailDisabled}
-					emailError={emailError}
-				/>
+				<Suspense fallback={<InputFallback />}>
+					<EmployeeUserEmailInput
+						email={email ?? ''}
+						isLoading={isLoading}
+						canEdit={canEdit}
+						handleChange={handleChange}
+						emailRequired={emailRequired}
+						emailDisabled={emailDisabled}
+						emailError={emailError}
+					/>
+				</Suspense>
 				<div className="gap-4 md:grid md:grid-cols-2">
 					<Input
 						id="employeeCode"
