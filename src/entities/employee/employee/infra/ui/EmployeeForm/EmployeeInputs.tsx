@@ -70,7 +70,6 @@ export const EmployeeInputs = memo(
 						name={formData.name}
 						lastName={formData.lastName}
 						email={formData.email}
-						allowedDomains={formData.allowedDomians}
 						employeeCode={formData.employeeCode}
 						cedula={formData.cedula}
 						nationality={formData.nationality}

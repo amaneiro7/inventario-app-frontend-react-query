@@ -28,7 +28,6 @@ interface MainEmployeeInfoProps {
 	name: DefaultEmployee['name']
 	lastName: DefaultEmployee['lastName']
 	email: DefaultEmployee['email']
-	allowedDomains?: string[]
 	employeeCode: DefaultEmployee['employeeCode']
 	cedula: DefaultEmployee['cedula']
 	nationality: DefaultEmployee['nationality']

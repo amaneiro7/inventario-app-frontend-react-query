@@ -230,82 +230,76 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		 */
 		case 'reset':
 		case 'init': {
-			const { type, phone, extension } = action.payload.formData
+			const { formData } = action.payload
+			const { type, phone, extension } = formData
+			const isGeneric = type === EmployeeTypes.GENERIC
+			const isRegular = type === EmployeeTypes.REGULAR
+			const isApprentice = type === EmployeeTypes.APPRENTICE
+			const isContractor = type === EmployeeTypes.CONTRACTOR
+			const isService = type === EmployeeTypes.SERVICE
+
+			const hasNoHierarchy = isGeneric || isApprentice
+			const hasEmployeeCode = isRegular || isService
+
+			// Helper para parsear segmentos de teléfono/extensión
+			const parseSegments = (list: string[]) =>
+				list.length > 0
+					? list.map(p => {
+							const match = p.match(/(\d{4})(\d{7})/)
+							return {
+								operadora: match ? match[1] : '',
+								numero: match ? match[2] : ''
+							}
+						})
+					: [{ numero: '', operadora: '' }]
+
 			return {
 				...state,
 				formData: {
-					...action.payload.formData,
+					...formData,
 					type,
 					employeeCode:
-						type === EmployeeTypes.GENERIC ||
-						type === EmployeeTypes.APPRENTICE ||
-						type === EmployeeTypes.CONTRACTOR ||
-						!type
-							? ''
-							: (action.payload.formData.employeeCode ?? 1),
-					nationality:
-						type === EmployeeTypes.GENERIC || !type
-							? ''
-							: action.payload.formData.nationality || Nationalities.V,
+						// Si es genérico, aprendiz, contratado o no hay un tipo seleccionado
+						// el código de empleado se mantiene vacio, sino el valor que viene
+						// en el initialState o 1 por defecto
+						!hasEmployeeCode || !type ? '' : (formData.employeeCode ?? 1),
+					nationality: isGeneric || !type ? '' : formData.nationality || Nationalities.V,
 					phone: phone.length > 0 ? phone : [''],
 					extension: extension.length > 0 ? extension : [''],
-					phoneSegments:
-						phone.length > 0
-							? phone.map(phone => {
-									const match = phone.match(/(\d{4})(\d{7})/)
-									const operadora = match ? match?.[1] : ''
-									const numero = match ? match?.[2] : ''
-									return { operadora, numero }
-								})
-							: [{ numero: '', operadora: '' }],
-					extensionSegments:
-						extension.length > 0
-							? extension.map(phone => {
-									const match = phone.match(/(\d{4})(\d{7})/)
-									const operadora = match ? match?.[1] : ''
-									const numero = match ? match?.[2] : ''
-									return { operadora, numero }
-								})
-							: [{ numero: '', operadora: '' }]
+					phoneSegments: parseSegments(phone),
+					extensionSegments: parseSegments(extension)
 				},
 				disabled: {
 					...state.disabled,
-					employeeCode:
-						type === EmployeeTypes.GENERIC ||
-						type === EmployeeTypes.APPRENTICE ||
-						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.SERVICE ||
-						!type,
-					nationality: !type || type === EmployeeTypes.GENERIC,
-					cedula: !type || type === EmployeeTypes.GENERIC,
-					locationId: !type || type === EmployeeTypes.GENERIC,
-					vicepresidenciaEjecutivaId: !action.payload.formData.directivaId,
+					name: !type,
+					lastName: !type,
+					email: !type,
+					employeeCode: !hasEmployeeCode || !type,
+					nationality: !type || isGeneric,
+					cedula: !type || isGeneric,
+					locationId: !type || isGeneric,
+					// Habilitación en cascada de la jerarquia
+					directivaId: !type || hasNoHierarchy,
+					vicepresidenciaEjecutivaId: !type || hasNoHierarchy || !formData.directivaId,
 					vicepresidenciaId:
-						!action.payload.formData.directivaId ||
-						!action.payload.formData.vicepresidenciaEjecutivaId,
-					departamentoId:
-						!action.payload.formData.directivaId ||
-						!action.payload.formData.vicepresidenciaEjecutivaId ||
-						!action.payload.formData.vicepresidenciaId,
-					cargoId: !type || type === EmployeeTypes.GENERIC
+						!type || hasNoHierarchy || !formData.vicepresidenciaEjecutivaId,
+					departamentoId: !type || hasNoHierarchy || !formData.vicepresidenciaId,
+					cargoId: !type || hasNoHierarchy
 				},
 				required: {
 					...state.required,
-					name: type !== EmployeeTypes.GENERIC,
-					lastName: type !== EmployeeTypes.GENERIC,
-					employeeCode:
-						type === EmployeeTypes.GENERIC ||
-						type === EmployeeTypes.APPRENTICE ||
-						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.SERVICE ||
-						!type,
-					nationality: type !== EmployeeTypes.GENERIC,
-					cedula: type !== EmployeeTypes.GENERIC,
-					directivaId: type !== EmployeeTypes.GENERIC,
-					vicepresidenciaEjecutivaId: !!action.payload.formData.directivaId,
-					vicepresidenciaId: !!action.payload.formData.vicepresidenciaEjecutivaId,
-					departamentoId: !!action.payload.formData.vicepresidenciaId,
-					cargoId: type !== EmployeeTypes.GENERIC
+					name: !isGeneric,
+					lastName: !isGeneric,
+					employeeCode: isRegular,
+					nationality: !isGeneric,
+					cedula: !isGeneric,
+					// Reglas organizacionales
+					directivaId: isRegular || isContractor,
+					cargoId: isRegular || isContractor,
+					// Requeridos dinámicos por dependencia de jerarquía
+					vicepresidenciaEjecutivaId: !hasNoHierarchy && !!formData.vicepresidenciaId,
+					vicepresidenciaId: !hasNoHierarchy && !!formData.departamentoId,
+					departamentoId: false
 				}
 			}
 		}
@@ -342,30 +336,37 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		 */
 		case 'type': {
 			const type = action.payload.value
+			// 1. Predicados de Tipo (legibilidad)
+			const isGeneric = type === EmployeeTypes.GENERIC
+			const isRegular = type === EmployeeTypes.REGULAR
+			const isApprentice = type === EmployeeTypes.APPRENTICE
+			const isContractor = type === EmployeeTypes.CONTRACTOR
+
+			// Tipos que NO manejan estructura organizacional (VP, Directiva, etc)
+			const hasNoHierarchy = isGeneric || isApprentice
+			// Tipos que si deberían tener código de empleado
+			const hasEmployeeCode = isRegular
+
 			return {
 				...state,
 				formData: {
 					...state.formData,
 					type,
-					name: '',
-					lastName: '',
-					email: '',
-					employeeCode:
-						type === EmployeeTypes.GENERIC ||
-						type === EmployeeTypes.APPRENTICE ||
-						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.SERVICE ||
-						!type
-							? ''
-							: 1,
-					nationality: type === EmployeeTypes.GENERIC || !type ? '' : Nationalities.V,
-					cedula: '',
-					locationId: '',
-					directivaId: '',
-					vicepresidenciaEjecutivaId: '',
-					vicepresidenciaId: '',
-					departamentoId: '',
-					cargoId: '',
+					name: isGeneric ? '' : state.formData.name,
+					lastName: isGeneric ? '' : state.formData.lastName,
+					email: isApprentice ? '' : state.formData.email,
+					employeeCode: !hasEmployeeCode ? '' : state.formData.employeeCode || 1,
+					nationality: isGeneric ? '' : state.formData.nationality || Nationalities.V,
+					cedula: isGeneric ? '' : state.formData.cedula,
+					locationId: isGeneric ? '' : state.formData.locationId,
+					directivaId: isGeneric || isApprentice ? '' : state.formData.directivaId,
+					// Si es genérico o aprendiz, limpieamos toda la jerarquia
+					vicepresidenciaEjecutivaId: hasNoHierarchy
+						? ''
+						: state.formData.vicepresidenciaEjecutivaId,
+					vicepresidenciaId: hasNoHierarchy ? '' : state.formData.vicepresidenciaId,
+					departamentoId: hasNoHierarchy ? '' : state.formData.departamentoId,
+					cargoId: hasNoHierarchy ? '' : state.formData.cargoId,
 					extension: [],
 					phone: []
 				},
@@ -374,40 +375,39 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					name: !type,
 					lastName: !type,
 					email: !type,
-					employeeCode:
-						type === EmployeeTypes.GENERIC ||
-						type === EmployeeTypes.APPRENTICE ||
-						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.SERVICE ||
-						!type,
-					nationality: !type || type === EmployeeTypes.GENERIC,
-					cedula: !type || type === EmployeeTypes.GENERIC,
-					locationId: !type || type === EmployeeTypes.GENERIC,
-					directivaId: !type,
+					employeeCode: !hasEmployeeCode || !type,
+					nationality: !type || isGeneric,
+					cedula: !type || isGeneric,
+					locationId: !type || isGeneric,
+					// Jerarquía: Se habilitan en cadena.
+					// Si no hay Directiva, no hay VP Ejecutiva, etc.
+					directivaId: !type || hasNoHierarchy,
 					vicepresidenciaEjecutivaId:
-						!type ||
-						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.REGULAR,
-					vicepresidenciaId: !type,
-					departamentoId: !type,
-					cargoId: !type || type === EmployeeTypes.GENERIC
+						!type || hasNoHierarchy || !!state.formData.directivaId,
+					vicepresidenciaId:
+						!type || hasNoHierarchy || !!state.formData.vicepresidenciaEjecutivaId,
+					departamentoId: !type || hasNoHierarchy || !!state.formData.vicepresidenciaId,
+					cargoId: !type || hasNoHierarchy
 				},
 				required: {
 					...state.required,
-					name: type !== EmployeeTypes.GENERIC,
-					lastName: type !== EmployeeTypes.GENERIC,
-					employeeCode:
-						type === EmployeeTypes.GENERIC ||
-						type === EmployeeTypes.APPRENTICE ||
-						type === EmployeeTypes.CONTRACTOR ||
-						type === EmployeeTypes.SERVICE ||
-						!type,
-					nationality: type !== EmployeeTypes.GENERIC,
-					cedula: type !== EmployeeTypes.GENERIC,
-					directivaId:
-						type === EmployeeTypes.CONTRACTOR || type === EmployeeTypes.REGULAR,
-					vicepresidenciaEjecutivaId: !!state.formData.directivaId,
-					cargoId: type === EmployeeTypes.CONTRACTOR || type === EmployeeTypes.REGULAR
+					name: !isGeneric,
+					lastName: !isGeneric,
+					employeeCode: isRegular,
+					nationality: !isGeneric,
+					cedula: !isGeneric,
+					// LOGICA DE REQUERIDOS:
+					// 1. Directiva y Cargo son base para empleados normales
+					directivaId: isContractor || isRegular,
+					cargoId: isContractor || isRegular,
+
+					// 2. VP Ejecutiva es requerida SOLO si no es restringido Y se seleccionó una VP (Hijo)
+					// Esto asegura integridad: No puedes tener VP sin tener VP Ejecutiva.
+					vicepresidenciaEjecutivaId:
+						!hasNoHierarchy && !!state.formData.vicepresidenciaId,
+
+					// 3. VP es requerida si hay un Departamento seleccionado
+					vicepresidenciaId: !hasNoHierarchy && !!state.formData.departamentoId
 				}
 			}
 		}

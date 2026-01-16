@@ -50,9 +50,11 @@ export const EmployeeUserEmailInput = ({
 					isLoading={isLoading}
 					readOnly={!canEdit}
 					label="Correo electrónico"
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-						handleChange('email', `${e.target.value}@${emailDomain}`)
-					}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+						const value = e.target.value
+						if (!value) return handleChange('email', '')
+						handleChange('email', `${value}@${emailDomain}`)
+					}}
 					error={!!emailError}
 					errorMessage={emailError}
 					required={emailRequired}
@@ -62,14 +64,19 @@ export const EmployeeUserEmailInput = ({
 			<Typography variant="p" className="mt-2">
 				@
 			</Typography>
-			<div className="w-40">
+			<div className="w-fit">
 				<div className="relative">
 					<select
 						className="h-10 w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
 						value={emailDomain}
 						disabled={!canEdit || emailDisabled}
-						onChange={e => handleChange('email', `${emailUser}@${e.target.value}`)}
+						onChange={e => {
+							const value = e.target.value
+							if (!emailUser && !value) return handleChange('email', '')
+							handleChange('email', `${emailUser}@${value}`)
+						}}
 					>
+						<option value="">Seleccione Dominio</option>
 						{allowedDomains.map(domain => (
 							<option key={domain} value={domain}>
 								{domain}
