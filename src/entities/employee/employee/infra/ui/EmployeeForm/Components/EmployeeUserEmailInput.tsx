@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react'
-import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import React, { useEffect, useMemo } from 'react'
 import { useGetAllowedDomainsAppSettings } from '@/entities/appSettings/infra/hook/useGeAllowedDomainsAppSettings'
 import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
 import { Input } from '@/shared/ui/Input/Input'
@@ -36,9 +35,9 @@ export const EmployeeUserEmailInput = ({
 		return [parts[0] ?? '', parts[1] ?? allowedDomains[0] ?? '']
 	}, [email, allowedDomains])
 
-	useEffectAfterMount(() => {
+	useEffect(() => {
 		handleChange('allowedDomains', allowedDomains)
-	}, [allowedDomains])
+	}, [allowedDomains, handleChange])
 
 	return (
 		<div className="flex flex-row gap-2">

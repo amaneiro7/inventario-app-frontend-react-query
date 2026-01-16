@@ -51,8 +51,6 @@ export async function fetching<T>(config: ApiConfig, source?: Source): Promise<T
 				throw new PasswordExpiredError(message, tempToken)
 			}
 
-			console.log('Fetchhing', status)
-
 			switch (status) {
 				case 401:
 					throw new Error(message)

@@ -44,8 +44,10 @@ export class EmployeeCode extends AcceptedNullValueObject<number> {
 		type: Primitives<EmployeeType>
 	}): boolean {
 		EmployeeCode.error = '' // Clear the error message
+		const isRegular = type === EmployeeTypes.REGULAR
+		const isService = type === EmployeeTypes.SERVICE
 
-		if (type === EmployeeTypes.REGULAR) {
+		if (isRegular || isService) {
 			// If it's a regular, employee code is mandatory and must be a number
 			if (!value) {
 				EmployeeCode.error = 'El código del empleado es obligatorio.'

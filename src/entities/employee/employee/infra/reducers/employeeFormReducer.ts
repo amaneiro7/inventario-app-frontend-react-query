@@ -383,10 +383,15 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					// Si no hay Directiva, no hay VP Ejecutiva, etc.
 					directivaId: !type || hasNoHierarchy,
 					vicepresidenciaEjecutivaId:
-						!type || hasNoHierarchy || !!state.formData.directivaId,
+						!type || hasNoHierarchy || (!hasNoHierarchy && !state.formData.directivaId),
 					vicepresidenciaId:
-						!type || hasNoHierarchy || !!state.formData.vicepresidenciaEjecutivaId,
-					departamentoId: !type || hasNoHierarchy || !!state.formData.vicepresidenciaId,
+						!type ||
+						hasNoHierarchy ||
+						(!hasNoHierarchy && !state.formData.vicepresidenciaEjecutivaId),
+					departamentoId:
+						!type ||
+						hasNoHierarchy ||
+						(!hasNoHierarchy && !state.formData.vicepresidenciaId),
 					cargoId: !type || hasNoHierarchy
 				},
 				required: {

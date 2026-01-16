@@ -131,6 +131,7 @@ export const MainEmployeeInfo = memo(
 					handleChange={(_name, value) => handleChange('type', value)}
 					name="type"
 					mode="form"
+					formMode={mode}
 					required={typeRequired}
 					disabled={typeDisabled}
 					error={typeError}
@@ -140,7 +141,7 @@ export const MainEmployeeInfo = memo(
 				<Checkbox
 					value={isStillWorking}
 					name="isStillWorking"
-					readOnly={!canEdit}
+					disabled={mode === 'add' || !canEdit}
 					text="¿Esta trabajando actualmente?"
 					onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 						handleChange('isStillWorking', e.target.checked)

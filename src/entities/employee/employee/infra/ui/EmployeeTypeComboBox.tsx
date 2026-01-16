@@ -2,9 +2,11 @@ import { useMemo } from 'react'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import { EmployeeTypes } from '@/entities/employee/employee/domain/value-object/EmployeeType'
 import { employeeTypeTranslations } from './employeeTypeTranslations'
+import { FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface EmployeeTypeComboboxProps {
 	mode?: 'form' | 'list'
+	formMode?: FormMode
 	value?: string
 	name: string
 	error?: string
@@ -22,6 +24,7 @@ interface EmployeeTypeComboboxProps {
 export function EmployeeTypeCombobox({
 	value = '',
 	mode = 'form',
+	formMode,
 	name,
 	error = '',
 	required = false,
@@ -30,13 +33,31 @@ export function EmployeeTypeCombobox({
 	isLoading = false,
 	handleChange
 }: EmployeeTypeComboboxProps) {
+	const isInputDisabled = useMemo(() => {
+		if (readonly) return true
+		if (mode === 'form' && formMode === 'edit') {
+			return [EmployeeTypes.SERVICE, EmployeeTypes.GENERIC, EmployeeTypes.REGULAR].includes(
+				value as EmployeeTypes
+			)
+		}
+		return false
+	}, [readonly, mode, formMode, value])
+
 	const options = useMemo(() => {
 		// Obtenemos todos los estados posibles del Enum.
 		let availableTypes = Object.values(EmployeeTypes)
 
 		// Si el modo es 'form', filtramos para dejar solo las opciones permitidas.
 		if (mode === 'form') {
-			availableTypes = availableTypes.filter(types => types !== EmployeeTypes.SERVICE)
+			if (formMode === 'add') {
+				availableTypes = availableTypes.filter(types => types !== EmployeeTypes.SERVICE)
+			} else if (formMode === 'edit') {
+				if (value === EmployeeTypes.CONTRACTOR || value === EmployeeTypes.APPRENTICE) {
+					availableTypes = availableTypes.filter(
+						types => types === value || types === EmployeeTypes.REGULAR
+					)
+				}
+			}
 		}
 
 		// El resto de la lógica para dar formato a los nombres se mantiene igual.
@@ -49,7 +70,7 @@ export function EmployeeTypeCombobox({
 				name
 			}
 		})
-	}, [mode])
+	}, [mode, formMode, value])
 	return (
 		<>
 			<Combobox
@@ -65,7 +86,7 @@ export function EmployeeTypeCombobox({
 				errorMessage={error}
 				searchField={false}
 				onChangeValue={handleChange}
-				readOnly={readonly}
+				readOnly={isInputDisabled}
 			/>
 		</>
 	)
