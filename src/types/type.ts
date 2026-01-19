@@ -1,1 +1,8 @@
-export type Source = 'computer' | 'model' | 'monitor' | 'printer' | 'finantialPrinter' | 'parts'
+export type Source =
+	| 'computer'
+	| 'model'
+	| 'monitor'
+	| 'printer'
+	| 'finantialPrinter'
+	| 'parts'
+	| 'employee'

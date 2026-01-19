@@ -10,7 +10,7 @@ export class ModelDownload {
 	) {}
 
 	async run({
-		orderBy = 'employeeId',
+		orderBy = 'categoryId',
 		orderType,
 		source,
 		...options

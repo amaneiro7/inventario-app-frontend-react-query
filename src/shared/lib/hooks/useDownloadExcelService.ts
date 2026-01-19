@@ -4,6 +4,8 @@ import { DeviceDownload } from '@/entities/devices/devices/application/DeviceDow
 import { DeviceDownloadService } from '@/entities/devices/devices/infra/service/deviceDownload.service'
 import { ModelDownload } from '@/entities/model/models/application/ModelDownload'
 import { ModelDownloadService } from '@/entities/model/models/infra/service/modelDownload.service'
+import { EmployeeDownload } from '@/entities/employee/employee/application/EmployeeDownload'
+import { EmployeeDownloadService } from '@/entities/employee/employee/infra/service/employeeDownload.service'
 import { type Source } from '@/types/type'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
@@ -16,6 +18,11 @@ export function useDownloadExcelService() {
 			try {
 				if (source === 'model') {
 					await new ModelDownload(new ModelDownloadService(), events).run({
+						...query,
+						source
+					})
+				} else if (source === 'employee') {
+					await new EmployeeDownload(new EmployeeDownloadService(), events).run({
 						...query,
 						source
 					})

@@ -4,6 +4,7 @@ import { useEmployeeFilter } from '@/entities/employee/employee/infra/hook/useEm
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { type FilterAsideRef } from '@/widgets/FilterAside'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
@@ -39,10 +40,16 @@ const TableEmployeeWrapper = lazy(() =>
 )
 
 export default function ListEmployee() {
-	const { handleChange, cleanFilters, handlePageSize, handlePageClick, handleSort, ...query } =
-		useEmployeeFilter()
 	const filterAsideRef = useRef<FilterAsideRef>(null)
 	const navigate = useNavigate()
+	const { handleChange, cleanFilters, handlePageSize, handlePageClick, handleSort, ...query } =
+		useEmployeeFilter()
+
+	const { download, isDownloading } = useDownloadExcelService()
+
+	const handleDownloadToExcel = async () => {
+		await download({ source: 'employee', query })
+	}
 
 	return (
 		<>
@@ -93,11 +100,13 @@ export default function ListEmployee() {
 					</FilterSection>
 					<Suspense fallback={<ButtonSectionSkeleton />}>
 						<ButtonSection
+							handleExportToExcel={handleDownloadToExcel}
+							loading={isDownloading}
+							filterButton
 							handleClear={cleanFilters}
 							handleAdd={() => {
 								navigate('/form/employee/add')
 							}}
-							filterButton
 							handleFilter={() => filterAsideRef.current?.handleOpen()}
 						/>
 					</Suspense>
