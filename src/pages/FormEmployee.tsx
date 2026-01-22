@@ -9,6 +9,7 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
+import { EmployeeHistorySkeleton } from '@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeHistorySkeleton'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -39,6 +40,11 @@ const AsignDevices = lazy(() =>
 )
 const SignatureGenerator = lazy(() =>
 	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
+)
+const EmployeeHistory = lazy(() =>
+	import('@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeHistory').then(m => ({
+		default: m.EmployeeHistory
+	}))
 )
 
 export default function FormEmployee() {
@@ -84,6 +90,7 @@ export default function FormEmployee() {
 								<TabsTrigger value="signatureGenerator">
 									Generador de firma
 								</TabsTrigger>
+								<TabsTrigger value="history">Historial</TabsTrigger>
 							</>
 						)}
 					</TabsList>
@@ -180,6 +187,23 @@ export default function FormEmployee() {
 							<SignatureGenerator employeeData={employeeData} />
 						</Suspense>
 					</ErrorBoundary>
+				</TabsContent>
+				<TabsContent value="history" className="space-y-4">
+					<DetailsBoxWrapper className="h-full">
+						<ErrorBoundary
+							fallback={({ onReset }) => (
+								<WidgetErrorFallback
+									onReset={onReset}
+									variant="default"
+									message="El historial no está disponible."
+								/>
+							)}
+						>
+							<Suspense fallback={<EmployeeHistorySkeleton />}>
+								<EmployeeHistory history={employeeData?.history} />
+							</Suspense>
+						</ErrorBoundary>
+					</DetailsBoxWrapper>
 				</TabsContent>
 			</Tabs>
 		</>

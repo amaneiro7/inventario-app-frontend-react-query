@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useState } from 'react'
 import { queryClient } from '@/shared/lib/queryCliente'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
@@ -12,6 +12,7 @@ import {
 import { EmployeeSaveService } from '../service/employeeSave.service'
 import { EmployeeCreator } from '../../application/EmployeeCreator'
 import { isDeepEqual } from '@/shared/lib/utils/isDeepEqual'
+import { useGetAllowedDomainsAppSettings } from '@/entities/appSettings/infra/hook/useGeAllowedDomainsAppSettings'
 
 const repository = new EmployeeSaveService()
 const employeeCreator = new EmployeeCreator(repository, useAuthStore.getState().events)
@@ -25,6 +26,8 @@ const employeeCreator = new EmployeeCreator(repository, useAuthStore.getState().
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [submitError, setSubmitError] = useState<string | null>(null)
+	const { data: allowedDomains } = useGetAllowedDomainsAppSettings()
+
 	const {
 		initialData,
 		mode,
@@ -53,6 +56,10 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 			payload: { formData: structuredClone(initialData) }
 		})
 	}, [initialData])
+
+	useEffect(() => {
+		dispatch({ type: 'allowedDomains', payload: { value: allowedDomains } })
+	}, [allowedDomains])
 
 	// 2. Lógica hasChanges (isDirty)
 	const hasChanges: boolean = useMemo(() => {

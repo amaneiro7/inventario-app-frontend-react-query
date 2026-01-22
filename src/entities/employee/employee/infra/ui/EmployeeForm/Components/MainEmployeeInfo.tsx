@@ -31,6 +31,7 @@ interface MainEmployeeInfoProps {
 	employeeCode: DefaultEmployee['employeeCode']
 	cedula: DefaultEmployee['cedula']
 	nationality: DefaultEmployee['nationality']
+	allowedDomains: DefaultEmployee['allowedDomains']
 	mode: FormMode
 	userNameRequired: EmployeeRequired['userName']
 	typeRequired: EmployeeRequired['type']
@@ -76,6 +77,7 @@ export const MainEmployeeInfo = memo(
 		cedula,
 		nationality,
 		mode,
+		allowedDomains = [],
 		userNameRequired,
 		typeRequired,
 		nameRequired,
@@ -186,6 +188,7 @@ export const MainEmployeeInfo = memo(
 					<EmployeeUserEmailInput
 						email={email ?? ''}
 						isLoading={isLoading}
+						allowedDomains={allowedDomains}
 						canEdit={canEdit}
 						handleChange={handleChange}
 						emailRequired={emailRequired}

@@ -1,6 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { AppSettingsGetAllowedDomainsService } from '../service/appSettingsGetAllowedDomains.service'
 import { AppSettingsGetAllowedDomains } from '../../application/AppSettingsGetAllowedDomains'
+import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
 
 const repository = new AppSettingsGetAllowedDomainsService()
 const getAllowedDomains = new AppSettingsGetAllowedDomains(repository)
@@ -17,6 +18,7 @@ export const useGetAllowedDomainsAppSettings = () => {
 		queryKey: ['appSettingsAllowedDomains'],
 		queryFn: () => getAllowedDomains.execute(),
 		staleTime: Infinity,
-		retry: true
+		retry: true,
+		select: data => cleanStringToArray(data.value)
 	})
 }

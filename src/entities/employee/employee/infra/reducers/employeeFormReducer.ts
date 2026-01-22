@@ -130,6 +130,7 @@ export const initialEmployeeState: State = {
 		phone: [''],
 		phoneSegments: [{ numero: '', operadora: '' }],
 		devices: [],
+		allowedDomains: [],
 		updatedAt: undefined
 	},
 	errors: {
@@ -267,7 +268,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					phone: phone.length > 0 ? phone : [''],
 					extension: extension.length > 0 ? extension : [''],
 					phoneSegments: parseSegments(phone),
-					extensionSegments: parseSegments(extension)
+					extensionSegments: parseSegments(extension),
+					allowedDomains: formData.allowedDomains ?? state.formData.allowedDomains ?? []
 				},
 				disabled: {
 					...state.disabled,

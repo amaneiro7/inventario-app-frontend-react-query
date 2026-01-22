@@ -64,6 +64,7 @@ export const EmployeeInputs = memo(
 			<div className="flex flex-col gap-4">
 				<div className="grid grid-cols-2 gap-5">
 					<MainEmployeeInfo
+						allowedDomains={formData.allowedDomains}
 						userName={formData.userName}
 						type={formData.type}
 						isStillWorking={formData.isStillWorking}

@@ -1,12 +1,11 @@
-import React, { useEffect, useMemo } from 'react'
-import { useGetAllowedDomainsAppSettings } from '@/entities/appSettings/infra/hook/useGeAllowedDomainsAppSettings'
-import { cleanStringToArray } from '@/shared/lib/utils/cleanStringToArray'
+import React, { useMemo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 import Typography from '@/shared/ui/Typography'
 import { type Action } from '../../../reducers/employeeFormReducer'
 
 interface EmployeeUserEmailInputProps {
 	email: string
+	allowedDomains: string[]
 	isLoading: boolean
 	canEdit: boolean
 	emailRequired: boolean
@@ -19,25 +18,17 @@ export const EmployeeUserEmailInput = ({
 	email,
 	isLoading,
 	canEdit,
+	allowedDomains,
 	handleChange,
 	emailRequired,
 	emailDisabled,
 	emailError
 }: EmployeeUserEmailInputProps) => {
-	const { data: allowedDomainsRaw } = useGetAllowedDomainsAppSettings()
-	const allowedDomains = useMemo(
-		() => (allowedDomainsRaw ? cleanStringToArray(allowedDomainsRaw?.value) : []),
-		[allowedDomainsRaw, cleanStringToArray]
-	)
 	const [emailUser, emailDomain] = useMemo(() => {
 		if (!email) return ['', '']
 		const parts = email?.split('@') ?? []
 		return [parts[0] ?? '', parts[1] ?? allowedDomains[0] ?? '']
 	}, [email, allowedDomains])
-
-	useEffect(() => {
-		handleChange('allowedDomains', allowedDomains)
-	}, [allowedDomains, handleChange])
 
 	return (
 		<div className="flex flex-row gap-2">
