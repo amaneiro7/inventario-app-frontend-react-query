@@ -23,6 +23,7 @@ import { type EmployeeVicepresidencia } from '../value-object/EmployeeVicepresid
 import { type EmployeeDepartamento } from '../value-object/EmployeeDepartamento'
 import { type EmployeeCargo } from '../value-object/EmployeeCargo'
 import { type EmployeeLocation } from '../value-object/EmployeeLocation'
+import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
 export interface Employee {
 	id: Primitives<EmployeeId>
@@ -59,5 +60,6 @@ export type EmployeeDto = Employee & {
 	departamento: DepartamentoDto | null
 	cargo: Cargo | null
 	devices: DeviceDto[]
+	history: HistoryDto[] | null
 	updatedAt: string
 }
