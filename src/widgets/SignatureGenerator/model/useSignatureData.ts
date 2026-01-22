@@ -73,8 +73,9 @@ export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto |
 		if (!signatureData.vicepresidenciaEjecutiva)
 			newErrors.vicepresidenciaEjecutiva = requiredFieldMessage
 		if (!signatureData.vicepresidencia) newErrors.vicepresidencia = requiredFieldMessage
-		if (!signatureData.numbers) newErrors.numbers = requiredFieldMessage
-		if (!signatureData.email) newErrors.email = requiredFieldMessage
+		if (!signatureData.numbers && signatureData.isHasPhoneNumber)
+			newErrors.numbers = requiredFieldMessage
+		if (!signatureData.email && signatureData.isHasEmail) newErrors.email = requiredFieldMessage
 		if (!signatureData.address) newErrors.address = requiredFieldMessage
 		// Validacion condicional para el campo 'Agencia'
 		if (signatureData.typeOfSite === TypeOfSiteOptions.AGENCY && !signatureData.siteName) {
