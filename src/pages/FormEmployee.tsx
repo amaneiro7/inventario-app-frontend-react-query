@@ -9,7 +9,7 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
-import { EmployeeHistorySkeleton } from '@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeHistorySkeleton'
+import { EmployeeHistoryTimelineSkeleton } from '@/widgets/EmployeeHistoryTimeline/EmployeeHistoryTimelineSkeleton'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -41,9 +41,9 @@ const AsignDevices = lazy(() =>
 const SignatureGenerator = lazy(() =>
 	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
 )
-const EmployeeHistory = lazy(() =>
-	import('@/entities/employee/employee/infra/ui/EmployeeForm/EmployeeHistory').then(m => ({
-		default: m.EmployeeHistory
+const EmployeeHistoryTimeline = lazy(() =>
+	import('@/widgets/EmployeeHistoryTimeline/EmployeeHistoryTimeline').then(m => ({
+		default: m.EmployeeHistoryTimeline
 	}))
 )
 
@@ -199,8 +199,11 @@ export default function FormEmployee() {
 								/>
 							)}
 						>
-							<Suspense fallback={<EmployeeHistorySkeleton />}>
-								<EmployeeHistory history={employeeData?.history} />
+							<Suspense fallback={<EmployeeHistoryTimelineSkeleton />}>
+								<EmployeeHistoryTimeline
+									history={employeeData?.history}
+									devices={employeeData?.devices}
+								/>
 							</Suspense>
 						</ErrorBoundary>
 					</DetailsBoxWrapper>

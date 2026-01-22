@@ -28,6 +28,7 @@ export interface History {
 	action: HistoryActionTypes
 	oldData: object
 	newData: object
+	formattedDate: string
 	createdAt: string
 	updatedAt: string
 }

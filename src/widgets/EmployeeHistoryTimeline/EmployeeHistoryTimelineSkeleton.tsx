@@ -1,6 +1,4 @@
-// c:\Users\amane\OneDrive\Escritorio\inventario\frontend\src\entities\employee\employee\infra\ui\EmployeeForm\EmployeeHistorySkeleton.tsx
-
-export const EmployeeHistorySkeleton = () => {
+export const EmployeeHistoryTimelineSkeleton = () => {
 	return (
 		<div className="space-y-4">
 			<div className="h-10 w-full animate-pulse rounded-md bg-gray-200" />

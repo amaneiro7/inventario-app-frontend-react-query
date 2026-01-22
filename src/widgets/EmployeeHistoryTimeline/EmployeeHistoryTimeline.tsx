@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { EmployeeDto } from '../../../domain/dto/Employee.dto'
+import { EmployeeDto } from '../../entities/employee/employee/domain/dto/Employee.dto'
 
 interface DeviceSnapshot {
 	id: string
@@ -26,23 +26,37 @@ export interface HistoryItem {
 
 interface EmployeeHistoryProps {
 	history?: EmployeeDto['history']
+	devices?: EmployeeDto['devices']
 }
 
-export const EmployeeHistory = ({ history = [] }: EmployeeHistoryProps) => {
+export const EmployeeHistoryTimeline = ({ history = [], devices = [] }: EmployeeHistoryProps) => {
 	if (history === null || (history && history.length === 0)) {
 		return (
 			<div className="flex h-40 flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
 				<Typography variant="p" className="text-gray-500">
-					No hay historial de dispositivos disponible para este empleado.
+					No hay historial de asigancionespara este usuario.
 				</Typography>
 			</div>
 		)
 	}
+	const historialProcesado = useMemo(() => {
+		return history.map(entry => {
+			const esEquipoActual = devices.some(d => d.id === entry.deviceId)
+
+			return {
+				...entry,
+				deviceStatus: esEquipoActual ? 'Asignado actualmente' : 'Retirado/Antiguo'
+			}
+		})
+	}, [history, devices])
+
+	console.log('historialProcesado', historialProcesado)
+
 	const sortedHistory = useMemo(() => {
-		return [...history].sort(
+		return [...historialProcesado].sort(
 			(a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 		)
-	}, [history])
+	}, [historialProcesado])
 
 	return (
 		<div className="overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
