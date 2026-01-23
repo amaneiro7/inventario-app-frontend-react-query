@@ -1,8 +1,9 @@
 import { lazy, memo, Suspense } from 'react'
 import { useTableGenericDeviceBody } from '@/entities/devices/devices/infra/ui/DeviceTable/useTableGenericDeviceBody'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
+import { getHistoryActionText } from './getHistoryActionText'
+import { getHistoryActionColor } from './getHistoryActionColor'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
-import { type BackgroundType } from '@/shared/ui/Typography/types'
 
 const DetailHistoryModal = lazy(() =>
 	import('./DetailHistoryModal').then(m => ({ default: m.DetailHistoryModal }))
@@ -52,9 +53,7 @@ export const TableHistory = memo(({ histories, isError }: TableHistoryProps) => 
 				const relativeTime = `${new Date(
 					history.updatedAt
 				).toLocaleDateString()} (${getRelativeTime(history.updatedAt)})`
-				const operation = history.action === 'UPDATE' ? 'Modificación' : 'Creación'
-				const backGroundColor: BackgroundType =
-					operation === 'Creación' ? 'naranja' : 'verde'
+
 				return (
 					<TableRow key={history.id}>
 						<TableCell
@@ -67,8 +66,8 @@ export const TableHistory = memo(({ histories, isError }: TableHistoryProps) => 
 						<TableCell aria-colindex={2} size="small" className="hidden md:table-cell">
 							<Tag
 								color="white"
-								iconText={operation}
-								backgroundColor={backGroundColor}
+								iconText={getHistoryActionText(history.action)}
+								backgroundColor={getHistoryActionColor(history.action)}
 								option="tiny"
 							/>
 						</TableCell>

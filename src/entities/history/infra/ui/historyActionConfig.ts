@@ -25,6 +25,18 @@ export const historyActionConfig: historyActionConfig = {
 		className: 'bg-verde-100 text-verde-800',
 		color: 'verde'
 	},
+	[HistoryActionTypes.ASSIGN]: {
+		text: 'Asignado',
+		icon: 'user',
+		className: 'bg-azul-100 text-azul-800',
+		color: 'azul'
+	},
+	[HistoryActionTypes.UNASSIGN]: {
+		text: 'Desasignado',
+		icon: 'userMinus',
+		className: 'bg-gris-100 text-gris-800',
+		color: 'gris'
+	},
 	[HistoryActionTypes.DELETE]: {
 		text: 'Eliminado',
 		icon: 'trash',

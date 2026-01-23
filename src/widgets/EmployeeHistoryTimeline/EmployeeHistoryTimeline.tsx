@@ -34,7 +34,7 @@ export const EmployeeHistoryTimeline = ({ history = [], devices = [] }: Employee
 		return (
 			<div className="flex h-40 flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
 				<Typography variant="p" className="text-gray-500">
-					No hay historial de asigancionespara este usuario.
+					No hay historial de asiganciones para este usuario.
 				</Typography>
 			</div>
 		)
@@ -72,7 +72,7 @@ export const EmployeeHistoryTimeline = ({ history = [], devices = [] }: Employee
 					</thead>
 					<tbody className="divide-y divide-gray-200">
 						{sortedHistory.map(item => {
-							const date = new Date(item.createdAt).toLocaleString('es-VE', {
+							const date = new Date(item.).toLocaleString('es-VE', {
 								day: '2-digit',
 								month: '2-digit',
 								year: 'numeric',
@@ -89,7 +89,7 @@ export const EmployeeHistoryTimeline = ({ history = [], devices = [] }: Employee
 
 							// Lógica simple para describir el cambio
 							const changes: string[] = []
-							if (item.action === 'CREATE')
+							if (item.action === '')
 								changes.push('Registro inicial del equipo')
 
 							if (item.action === 'UPDATE') {

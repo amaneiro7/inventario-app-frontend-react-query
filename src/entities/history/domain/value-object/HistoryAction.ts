@@ -7,7 +7,9 @@ import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/Inv
 export enum HistoryActionTypes {
 	CREATE = 'CREATE',
 	UPDATE = 'UPDATE',
-	DELETE = 'DELETE'
+	DELETE = 'DELETE',
+	ASSIGN = 'ASSIGN',
+	UNASSIGN = 'UNASSIGN'
 }
 
 /**
