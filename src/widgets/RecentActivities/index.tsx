@@ -43,7 +43,7 @@ const getActivityColor = (action: string) => {
 export const RecentActivities = memo(() => {
 	const { data: histories, isLoading } = useGetAllHistorys({ pageSize: 5 })
 	if (!histories || isLoading) {
-		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+		return <div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 	}
 	return (
 		<Card className="h-full">
@@ -125,9 +125,9 @@ export const categoryIconMap: Record<string, React.FC<React.SVGProps<SVGSVGEleme
 // Función para obtener el componente de icono basado en el categoryId
 export const getCategoryIcon = (
 	categoryId: string | undefined
-): React.FC<React.SVGProps<SVGSVGElement>> | undefined => {
+): React.FC<React.SVGProps<SVGSVGElement>> => {
 	if (!categoryId) {
-		return undefined // O podrías devolver un icono por defecto
+		return Computer // O podrías devolver un icono por defecto
 	}
-	return categoryIconMap[categoryId]
+	return categoryIconMap[categoryId] ?? Computer
 }

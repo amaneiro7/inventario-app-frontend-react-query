@@ -202,7 +202,7 @@ export default function FormEmployee() {
 							<Suspense fallback={<EmployeeHistoryTimelineSkeleton />}>
 								<EmployeeHistoryTimeline
 									history={employeeData?.history}
-									devices={employeeData?.devices}
+									currentDevices={employeeData?.devices}
 								/>
 							</Suspense>
 						</ErrorBoundary>

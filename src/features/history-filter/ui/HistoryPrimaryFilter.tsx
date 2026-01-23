@@ -11,7 +11,7 @@ const EmployeeCombobox = lazy(() =>
 	}))
 )
 const HistoryActionCombobox = lazy(() =>
-	import('@/entities/history/infra/ui/HistoryAction').then(m => ({
+	import('@/entities/history/infra/ui/HistoryActionCombobox').then(m => ({
 		default: m.HistoryActionCombobox
 	}))
 )
