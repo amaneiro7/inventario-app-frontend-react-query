@@ -3,13 +3,16 @@ import Typography from '@/shared/ui/Typography'
 import Button from '@/shared/ui/Button'
 import { CloseIcon } from '@/shared/ui/icon/CloseIcon'
 import { BrushIcon } from '@/shared/ui/icon/BrushIcon'
-import { type DefaultEmployee } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
+import {
+	type Helpers,
+	type DefaultEmployee
+} from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 
 interface PhoneSectionProps {
 	isLoading: boolean
 	readOnly: boolean
 	phones: DefaultEmployee['phone']
-	phoneSegments: DefaultEmployee['phoneSegments']
+	phoneSegments: Helpers['phoneSegments']
 	handleAddPhones: ({ type }: { type: 'addPhone' | 'addExtension' }) => void
 	handleClearFirstPhone: ({
 		type,

@@ -5,7 +5,8 @@ import {
 	type DefaultEmployee,
 	type EmployeeRequired,
 	type Action,
-	type EmployeeDisabled
+	type EmployeeDisabled,
+	type Helpers
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 
 const CargoCombobox = lazy(() =>
@@ -34,9 +35,9 @@ const VicepresidenciaCombobox = lazy(() =>
 	}))
 )
 const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import(
-		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-	).then(m => ({ default: m.VicepresidenciaEjecutivaCombobox }))
+	import('@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox').then(
+		m => ({ default: m.VicepresidenciaEjecutivaCombobox })
+	)
 )
 const PhoneSection = lazy(() => import('./PhoneSection').then(m => ({ default: m.PhoneSection })))
 const ExtensionSection = lazy(() =>
@@ -52,9 +53,9 @@ interface AdditionalEmployeeInfoProps {
 	departamentoId: DefaultEmployee['departamentoId']
 	cargoId: DefaultEmployee['cargoId']
 	phone: DefaultEmployee['phone']
-	phoneSegments: DefaultEmployee['phoneSegments']
+	phoneSegments: Helpers['phoneSegments']
 	extension: DefaultEmployee['extension']
-	extensionSegments: DefaultEmployee['extensionSegments']
+	extensionSegments: Helpers['extensionSegments']
 	locationIdRequired: EmployeeRequired['locationId']
 	directivaIdRequired: EmployeeRequired['directivaId']
 	vicepresidenciaEjecutivaIdRequired: EmployeeRequired['vicepresidenciaEjecutivaId']

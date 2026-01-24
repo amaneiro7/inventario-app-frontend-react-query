@@ -9,7 +9,8 @@ import {
 	type EmployeeErrors,
 	type EmployeeRequired,
 	type Action,
-	type DefaultEmployee
+	type DefaultEmployee,
+	type Helpers
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { EmployeeUserEmailInput } from './EmployeeUserEmailInput'
@@ -31,7 +32,7 @@ interface MainEmployeeInfoProps {
 	employeeCode: DefaultEmployee['employeeCode']
 	cedula: DefaultEmployee['cedula']
 	nationality: DefaultEmployee['nationality']
-	allowedDomains?: string[]
+	allowedDomains?: Helpers['allowedDomains']
 	mode: FormMode
 	userNameRequired: EmployeeRequired['userName']
 	typeRequired: EmployeeRequired['type']
