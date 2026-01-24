@@ -147,16 +147,16 @@ export const TableShipment = memo(({ shipments, isError }: TableShipmentProps) =
 					</TableRow>
 				)
 			})}
-			<Suspense>
-				<Dialog ref={dialogRef}>
-					{selectedDevice && (
+			<Dialog ref={dialogRef}>
+				{selectedDevice && (
+					<Suspense>
 						<DetailsShipmentModal
 							onClose={handleCloseModal}
 							shipment={selectedDevice}
 						/>
-					)}
-				</Dialog>
-			</Suspense>
+					</Suspense>
+				)}
+			</Dialog>
 		</>
 	)
 })

@@ -29,12 +29,9 @@ export interface DefaultEmployee {
 	departamentoId: EmployeeDto['departamentoId']
 	cargoId: EmployeeDto['cargoId']
 	extension: EmployeeDto['extension']
-	extensionSegments: { operadora: string; numero: string }[]
 	phone: EmployeeDto['phone']
-	phoneSegments: { operadora: string; numero: string }[]
 	devices: EmployeeDto['devices']
 	updatedAt?: EmployeeDto['updatedAt']
-	allowedDomains?: string[]
 }
 
 /**
@@ -94,6 +91,12 @@ export interface EmployeeDisabled {
 	cargoId: boolean
 }
 
+export interface Helpers {
+	allowedDomains?: string[]
+	extensionSegments: { operadora: string; numero: string }[]
+	phoneSegments: { operadora: string; numero: string }[]
+}
+
 /**
  * Represents the entire state managed by the employee form reducer.
  */
@@ -102,6 +105,7 @@ export interface State {
 	errors: EmployeeErrors
 	required: EmployeeRequired
 	disabled: EmployeeDisabled
+	helpers: Helpers
 }
 
 /**
@@ -126,11 +130,8 @@ export const initialEmployeeState: State = {
 		departamentoId: '',
 		cargoId: '',
 		extension: [''],
-		extensionSegments: [{ numero: '', operadora: '' }],
 		phone: [''],
-		phoneSegments: [{ numero: '', operadora: '' }],
 		devices: [],
-		allowedDomains: [],
 		updatedAt: undefined
 	},
 	errors: {
@@ -177,6 +178,10 @@ export const initialEmployeeState: State = {
 		vicepresidenciaEjecutivaId: false,
 		vicepresidenciaId: false,
 		cargoId: false
+	},
+	helpers: {
+		extensionSegments: [{ operadora: '', numero: '' }],
+		phoneSegments: [{ operadora: '', numero: '' }]
 	}
 }
 
@@ -266,10 +271,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 						!hasEmployeeCode || !type ? '' : (formData.employeeCode ?? 1),
 					nationality: isGeneric || !type ? '' : formData.nationality || Nationalities.V,
 					phone: phone.length > 0 ? phone : [''],
-					extension: extension.length > 0 ? extension : [''],
-					phoneSegments: parseSegments(phone),
-					extensionSegments: parseSegments(extension),
-					allowedDomains: formData.allowedDomains ?? state.formData.allowedDomains ?? []
+					extension: extension.length > 0 ? extension : ['']
 				},
 				disabled: {
 					...state.disabled,
@@ -302,6 +304,11 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					vicepresidenciaEjecutivaId: !hasNoHierarchy && !!formData.vicepresidenciaId,
 					vicepresidenciaId: !hasNoHierarchy && !!formData.departamentoId,
 					departamentoId: false
+				},
+				helpers: {
+					...state.helpers,
+					phoneSegments: parseSegments(phone),
+					extensionSegments: parseSegments(extension)
 				}
 			}
 		}
@@ -328,7 +335,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 
 			return {
 				...state,
-				formData: { ...state.formData, allowedDomains }
+				helpers: {
+					...state.helpers,
+					allowedDomains
+				}
 			}
 		}
 
@@ -468,7 +478,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...state.errors,
 					email: EmployeeEmail.isValid({
 						value: email,
-						allowedDomains: state.formData.allowedDomains ?? []
+						allowedDomains: state.helpers?.allowedDomains ?? []
 					})
 						? ''
 						: EmployeeEmail.invalidMessage()
@@ -646,7 +656,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		 */
 		case 'addPhone': {
 			const phone = [...state.formData.phone]
-			const phoneSegments = [...state.formData.phoneSegments]
+			const phoneSegments = [...state.helpers.phoneSegments]
 			if (phone[phone.length - 1] !== '') {
 				phone.push('')
 				phoneSegments.push({
@@ -655,7 +665,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				})
 				return {
 					...state,
-					formData: { ...state.formData, phone, phoneSegments }
+					formData: { ...state.formData, phone },
+					helpers: { ...state.helpers, phoneSegments }
 				}
 			}
 			return state
@@ -666,7 +677,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		 */
 		case 'addExtension': {
 			const extension = [...state.formData.extension]
-			const extensionSegments = [...state.formData.extensionSegments]
+			const extensionSegments = [...state.helpers.extensionSegments]
 			if (extension[extension.length - 1] !== '') {
 				extension.push('')
 				extensionSegments.push({
@@ -675,7 +686,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				})
 				return {
 					...state,
-					formData: { ...state.formData, extension, extensionSegments }
+					formData: { ...state.formData, extension },
+					helpers: { ...state.helpers, extensionSegments }
 				}
 			}
 			return state
@@ -687,7 +699,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		case 'removePhone': {
 			const index = action.payload.index
 			const phone = [...state.formData.phone]
-			const phoneSegments = [...state.formData.phoneSegments]
+			const phoneSegments = [...state.helpers.phoneSegments]
 			if (phone.length > 1) {
 				phone.splice(index, 1)
 				phoneSegments.splice(index, 1)
@@ -695,7 +707,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...state,
 					formData: {
 						...state.formData,
-						phone,
+						phone
+					},
+					helpers: {
+						...state.helpers,
 						phoneSegments
 					}
 				}
@@ -709,7 +724,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		case 'removeExtension': {
 			const index = action.payload.index
 			const extension = [...state.formData.extension]
-			const extensionSegments = [...state.formData.extensionSegments]
+			const extensionSegments = [...state.helpers.extensionSegments]
 			if (extension.length > 1) {
 				extension.splice(index, 1)
 				extensionSegments.splice(index, 1)
@@ -717,7 +732,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					...state,
 					formData: {
 						...state.formData,
-						extension,
+						extension
+					},
+					helpers: {
+						...state.helpers,
 						extensionSegments
 					}
 				}
@@ -731,7 +749,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		case 'clearPhone': {
 			const index = action.payload.index
 			const phone = [...state.formData.phone]
-			const phoneSegments = [...state.formData.phoneSegments]
+			const phoneSegments = [...state.helpers.phoneSegments]
 
 			phone[index] = ''
 			phoneSegments[index] = {
@@ -742,7 +760,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				...state,
 				formData: {
 					...state.formData,
-					phone,
+					phone
+				},
+				helpers: {
+					...state.helpers,
 					phoneSegments
 				}
 			}
@@ -754,7 +775,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		case 'clearExtension': {
 			const index = action.payload.index
 			const extension = [...state.formData.extension]
-			const extensionSegments = [...state.formData.extensionSegments]
+			const extensionSegments = [...state.helpers.extensionSegments]
 
 			extension[index] = ''
 			extensionSegments[index] = {
@@ -765,7 +786,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				...state,
 				formData: {
 					...state.formData,
-					extension,
+					extension
+				},
+				helpers: {
+					...state.helpers,
 					extensionSegments
 				}
 			}
@@ -778,7 +802,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			const { index, value } = action.payload
 
 			const extension = [...state.formData.extension]
-			const extensionSegments = [...state.formData.extensionSegments]
+			const extensionSegments = [...state.helpers.extensionSegments]
 			const maxLength = 7 // Define the character limit
 			const trucatedValue = value.trim().slice(0, maxLength)
 
@@ -792,7 +816,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				...state,
 				formData: {
 					...state.formData,
-					extension,
+					extension
+				},
+				helpers: {
+					...state.helpers,
 					extensionSegments
 				}
 			}
@@ -805,7 +832,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			const { index, value } = action.payload
 
 			const extension = [...state.formData.extension]
-			const extensionSegments = [...state.formData.extensionSegments]
+			const extensionSegments = [...state.helpers.extensionSegments]
 
 			extensionSegments[index] = {
 				...extensionSegments[index],
@@ -817,7 +844,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				...state,
 				formData: {
 					...state.formData,
-					extension,
+					extension
+				},
+				helpers: {
+					...state.helpers,
 					extensionSegments
 				}
 			}
@@ -830,7 +860,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			const { index, value } = action.payload
 
 			const phone = [...state.formData.phone]
-			const phoneSegments = [...state.formData.phoneSegments]
+			const phoneSegments = [...state.helpers.phoneSegments]
 			const maxLength = 7 // Define the character limit
 			const trucatedValue = value.trim().slice(0, maxLength)
 
@@ -844,7 +874,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				...state,
 				formData: {
 					...state.formData,
-					phone,
+					phone
+				},
+				helpers: {
+					...state.helpers,
 					phoneSegments
 				}
 			}
@@ -857,7 +890,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			const { index, value } = action.payload
 
 			const phone = [...state.formData.phone]
-			const phoneSegments = [...state.formData.phoneSegments]
+			const phoneSegments = [...state.helpers.phoneSegments]
 
 			phoneSegments[index] = {
 				...phoneSegments[index],
@@ -869,7 +902,10 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				...state,
 				formData: {
 					...state.formData,
-					phone,
+					phone
+				},
+				helpers: {
+					...state.helpers,
 					phoneSegments
 				}
 			}

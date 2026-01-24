@@ -8,6 +8,7 @@ import { NotFoundError } from '@/entities/shared/domain/errors/NotFoundError'
 import { type AxiosError } from 'axios'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { type DefaultDevice } from '../reducers/devicesFormReducer'
+import { type DeviceDto } from '../../domain/dto/Device.dto'
 
 // Instancias de los servicios y el getter fuera del componente para evitar recreaciones innecesarias.
 const repository = new DeviceGetService() // Servicio para obtener datos de dispositivos.
@@ -20,6 +21,7 @@ const get = new DeviceGetter(repository) // Getter para obtener datos de un disp
  */
 export function useDeviceInitialData(defaultState: DefaultDevice): {
 	initialData: DefaultDevice
+	deviceData: DeviceDto | undefined
 	refreshInitialData: () => void
 	mode: FormMode
 	isLoading: boolean
@@ -31,7 +33,7 @@ export function useDeviceInitialData(defaultState: DefaultDevice): {
 		useFormRoutingContext()
 
 	const initialDataFromState = location.state?.device
-		? mapDeviceToState(location.state.device)
+		? mapDeviceToState(location.state.device).mappedData
 		: undefined
 
 	// Consulta para obtener los datos del dispositivo si el modo es editar y no hay datos en el estado de la ubicación.
@@ -91,7 +93,7 @@ export function useDeviceInitialData(defaultState: DefaultDevice): {
 		// Si hay datos en el estado de la ubicación, actualiza el estado con esos datos.
 		if (deviceData) {
 			// Si hay datos de la API, mapea los datos al estado.
-			setState(deviceData)
+			setState(deviceData.mappedData)
 		}
 	}, [mode, deviceData, location.state, defaultState, navigate, id])
 
@@ -123,6 +125,7 @@ export function useDeviceInitialData(defaultState: DefaultDevice): {
 	return {
 		mode,
 		initialData: state,
+		deviceData: deviceData?.originalData,
 		isLoading,
 		isError,
 		isNotFound,

@@ -15,10 +15,11 @@ const getAllowedDomains = new AppSettingsGetAllowedDomains(repository)
  */
 export const useGetAllowedDomainsAppSettings = () => {
 	return useSuspenseQuery({
-		queryKey: ['appSettingsAllowedDomains'],
+		queryKey: ['appSettings, allowedDomains'],
 		queryFn: () => getAllowedDomains.execute(),
 		staleTime: Infinity,
-		retry: true,
+		retry: 3,
+		retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000), // Backoff exponencial
 		select: data => cleanStringToArray(data.value)
 	})
 }

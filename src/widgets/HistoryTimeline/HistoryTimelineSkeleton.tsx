@@ -1,4 +1,4 @@
-export const EmployeeHistoryTimelineSkeleton = () => {
+export const HistoryTimelineSkeleton = () => {
 	return (
 		<div className="space-y-4">
 			<div className="h-10 w-full animate-pulse rounded-md bg-gray-200" />

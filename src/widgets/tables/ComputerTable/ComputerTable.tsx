@@ -207,22 +207,22 @@ export const TableWrapper = memo(
 							<>
 								{isLoading && SkeletonFallback}
 								{
-									<Suspense fallback={SkeletonFallback}>
-										<TableGenericDeviceBody
-											dialogRef={dialogRef}
-											handleCloseModal={handleCloseModal}
-											selectedDevice={selectedDevice}
-											isError={isError}
-											devices={devices?.data}
-										>
-											{devices !== undefined && (
+									<TableGenericDeviceBody
+										dialogRef={dialogRef}
+										handleCloseModal={handleCloseModal}
+										selectedDevice={selectedDevice}
+										isError={isError}
+										devices={devices?.data}
+									>
+										{devices !== undefined && (
+											<Suspense fallback={SkeletonFallback}>
 												<TableDeviceComputer
 													handleViewDetails={handleViewDetails}
 													devices={devices.data}
 												/>
-											)}
-										</TableGenericDeviceBody>
-									</Suspense>
+											</Suspense>
+										)}
+									</TableGenericDeviceBody>
 								}
 							</>
 						</TableBody>

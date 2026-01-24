@@ -39,7 +39,7 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 		allowedDomains
 	}: {
 		value: Primitives<EmployeeEmail>
-		allowedDomains: string[]
+		allowedDomains?: string[]
 	}): boolean {
 		EmployeeEmail.error = '' // Clear the error message
 
@@ -47,22 +47,23 @@ export class EmployeeEmail extends AcceptedNullValueObject<string> {
 			return true // Null is accepted
 		}
 
+		// 1. Validación base de formato
 		if (!EmployeeEmail.emailFormatRegex.test(value)) {
 			EmployeeEmail.error = 'No es un formato de correo electrónico válido.'
 			return false
 		}
 
-		if (allowedDomains.length > 0) {
-			const domain = value.substring(value.lastIndexOf('@') + 1)
-			if (!allowedDomains.includes(domain)) {
-				EmployeeEmail.error = `El dominio del correo no es válido. Dominios permitidos: ${allowedDomains.join(', ')}.`
-				return false
-			}
-		} else {
-			EmployeeEmail.error =
-				'No se han podido cargar los dominios de correo permitidos para la validación.'
+		// 2. Si no hay dominios configurados o cargados, permitimos cualquier dominio (Fail Open)
+		if (!allowedDomains || allowedDomains.length === 0) {
+			return true // No domain restrictions
+		}
+
+		const domain = value.substring(value.lastIndexOf('@') + 1)
+		if (!allowedDomains.includes(domain)) {
+			EmployeeEmail.error = `El dominio del correo no es válido. Dominios permitidos: ${allowedDomains.join(', ')}.`
 			return false
 		}
+
 		return true
 	}
 

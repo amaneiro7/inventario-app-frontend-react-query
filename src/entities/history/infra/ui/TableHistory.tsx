@@ -98,13 +98,13 @@ export const TableHistory = memo(({ histories, isError }: TableHistoryProps) => 
 					</TableRow>
 				)
 			})}
-			<Suspense>
-				<Dialog ref={dialogRef}>
-					{selectedDevice && (
+			<Dialog ref={dialogRef}>
+				{selectedDevice && (
+					<Suspense>
 						<DetailHistoryModal onClose={handleCloseModal} history={selectedDevice} />
-					)}
-				</Dialog>
-			</Suspense>
+					</Suspense>
+				)}
+			</Dialog>
 		</>
 	)
 })

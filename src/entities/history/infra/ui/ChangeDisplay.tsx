@@ -5,21 +5,13 @@ import { memo } from 'react'
 import { cn } from '@/shared/lib/utils'
 import { ASSET_FIELD_LABELS } from '@/entities/devices/devices/domain/constants/assets-labels'
 import { HistoryActionTypes } from '../../domain/value-object/HistoryAction'
+import { formatDisplayValue } from '@/shared/lib/utils/formatDisplayValue'
 
 interface ChangeDisplayProps {
 	className?: HTMLElement['className']
 	changes: Record<string, { oldValue: Record<string, any>; newValue: Record<string, any> }>
 
 	action: History['action']
-}
-
-/**
- * Helper function to render a value, handling arrays by joining them with ' / '.
- * @param value - The value to render.
- * @returns A string representation of the value.
- */
-const renderValue = (value: any): string => {
-	return Array.isArray(value) ? value.join(' / ') : String(value ?? 'Sin asignar')
 }
 
 /**
@@ -44,12 +36,12 @@ export const ChangeDisplay = memo(({ changes, action, className }: ChangeDisplay
 					{hasChanged && (
 						<span className="block">
 							<strong>Antiguo: </strong>
-							{renderValue(oldValue)}
+							{formatDisplayValue(oldValue)}
 						</span>
 					)}
 					<span className="block">
 						{hasChanged && <strong>Nuevo: </strong>}
-						{renderValue(newValue)}
+						{formatDisplayValue(newValue)}
 					</span>
 				</Typography>
 			</div>

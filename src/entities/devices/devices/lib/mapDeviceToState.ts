@@ -2,7 +2,12 @@ import { type DeviceDto } from '../domain/dto/Device.dto'
 import { type DefaultDevice } from '../infra/reducers/devicesFormReducer'
 import { setMemoryRamValues } from './setMemoryRamValues'
 
-export const mapDeviceToState = (device: DeviceDto): DefaultDevice => {
+export const mapDeviceToState = (
+	device: DeviceDto
+): {
+	originalData: DeviceDto
+	mappedData: DefaultDevice
+} => {
 	const { computer, model, hardDrive, printer } = device
 	const memoryRamSlotQuantity =
 		model?.modelComputer?.memoryRamSlotQuantity || model?.modelLaptop?.memoryRamSlotQuantity
@@ -19,7 +24,7 @@ export const mapDeviceToState = (device: DeviceDto): DefaultDevice => {
 		memoryRam[0] = Number(computer.memoryRamCapacity)
 	}
 
-	return {
+	const mappedData: DefaultDevice = {
 		id: device.id,
 		statusId: device.statusId,
 		mainCategoryId: device.category.mainCategoryId,
@@ -49,5 +54,10 @@ export const mapDeviceToState = (device: DeviceDto): DefaultDevice => {
 		memoryRamType,
 		history: device.history,
 		updatedAt: device.updatedAt
+	}
+
+	return {
+		originalData: device,
+		mappedData
 	}
 }

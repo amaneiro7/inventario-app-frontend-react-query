@@ -39,8 +39,16 @@ const deviceCreator = new DeviceCreator(repository, useAuthStore.getState().even
 export function useCreateDevice(defaultState?: DefaultDevice) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [submitError, setSubmitError] = useState<string | null>(null)
-	const { initialData, mode, refreshInitialData, isError, isLoading, isNotFound, onRetry } =
-		useDeviceInitialData(defaultState ?? initialDeviceState.formData)
+	const {
+		initialData,
+		deviceData,
+		mode,
+		refreshInitialData,
+		isError,
+		isLoading,
+		isNotFound,
+		onRetry
+	} = useDeviceInitialData(defaultState ?? initialDeviceState.formData)
 
 	const key = `device-${initialData?.id ? initialData.id : 'new'}`
 	const prevState = usePrevious(initialData)
@@ -165,6 +173,7 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 	return {
 		key,
 		formData,
+		deviceData,
 		mode,
 		errors,
 		required,

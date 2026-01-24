@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { AuthContext } from '@/app/providers/AuthContext'
 import { useUserPermissions } from '@/features/auth/hook/useUserPermissions'
-import { LoadingSpinner } from '@/shared/ui/Loading/LoadingSpinner'
+import { Loading } from '@/shared/ui/Loading'
 
 /**
  * `ProtectedRoute`
@@ -28,7 +28,7 @@ export function ProtectedRoute(Component: React.ComponentType): React.ComponentT
 
 		// 1. Manejar el estado de carga primero.
 		if (isLoading) {
-			return <LoadingSpinner />
+			return <Loading />
 		}
 
 		if (isLogged && (!data || data.permissions.length === 0)) {

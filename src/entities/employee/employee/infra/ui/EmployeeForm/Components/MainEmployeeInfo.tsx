@@ -31,7 +31,7 @@ interface MainEmployeeInfoProps {
 	employeeCode: DefaultEmployee['employeeCode']
 	cedula: DefaultEmployee['cedula']
 	nationality: DefaultEmployee['nationality']
-	allowedDomains: DefaultEmployee['allowedDomains']
+	allowedDomains?: string[]
 	mode: FormMode
 	userNameRequired: EmployeeRequired['userName']
 	typeRequired: EmployeeRequired['type']
@@ -107,6 +107,11 @@ export const MainEmployeeInfo = memo(
 		const nacionalities = useMemo(() => {
 			return Object.values(Nationalities).flatMap(opt => ({ id: opt }))
 		}, [])
+
+		const hasDomains = useMemo(
+			() => allowedDomains && allowedDomains.length > 0,
+			[allowedDomains]
+		)
 
 		return (
 			<div className="flex flex-col gap-2 rounded-lg border border-gray-400 p-8 pt-4">
@@ -184,18 +189,36 @@ export const MainEmployeeInfo = memo(
 						disabled={lastNameDisabled}
 					/>
 				</div>
-				<Suspense fallback={<InputFallback />}>
-					<EmployeeUserEmailInput
-						email={email ?? ''}
+				{hasDomains ? (
+					<Suspense fallback={<InputFallback />}>
+						<EmployeeUserEmailInput
+							email={email ?? ''}
+							isLoading={isLoading}
+							allowedDomains={allowedDomains}
+							canEdit={canEdit}
+							handleChange={handleChange}
+							emailRequired={emailRequired}
+							emailDisabled={emailDisabled}
+							emailError={emailError}
+						/>
+					</Suspense>
+				) : (
+					<Input
+						id="employee-email"
+						value={email ?? ''}
+						name="email"
 						isLoading={isLoading}
-						allowedDomains={allowedDomains}
-						canEdit={canEdit}
-						handleChange={handleChange}
-						emailRequired={emailRequired}
-						emailDisabled={emailDisabled}
-						emailError={emailError}
+						readOnly={!canEdit}
+						label="Correo electrónico"
+						onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+							handleChange('email', e.target.value)
+						}
+						error={!!emailError}
+						errorMessage={emailError}
+						required={emailRequired}
+						disabled={emailDisabled}
 					/>
-				</Suspense>
+				)}
 				<div className="gap-4 md:grid md:grid-cols-2">
 					<Input
 						id="employeeCode"

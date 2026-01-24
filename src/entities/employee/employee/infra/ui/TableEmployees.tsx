@@ -114,16 +114,16 @@ export const TableEmployees = memo(({ employees, isError }: TableEmployeesProps)
 					<TableCellOpenIcon index={9} onClick={() => handleViewDetails(employee)} />
 				</TableRow>
 			))}
-			<Suspense>
-				<Dialog ref={dialogRef}>
-					{selectedDevice && (
+			<Dialog ref={dialogRef}>
+				{selectedDevice && (
+					<Suspense>
 						<DetailsEmployeeModal
 							onClose={handleCloseModal}
 							employee={selectedDevice}
 						/>
-					)}
-				</Dialog>
-			</Suspense>
+					</Suspense>
+				)}
+			</Dialog>
 		</>
 	)
 })

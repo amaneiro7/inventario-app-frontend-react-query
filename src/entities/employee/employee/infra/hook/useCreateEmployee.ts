@@ -26,7 +26,7 @@ const employeeCreator = new EmployeeCreator(repository, useAuthStore.getState().
 export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [submitError, setSubmitError] = useState<string | null>(null)
-	const { data: allowedDomains } = useGetAllowedDomainsAppSettings()
+	const { data: allowedDomains, isError: isDomainsError } = useGetAllowedDomainsAppSettings()
 
 	const {
 		initialData,
@@ -40,7 +40,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	} = useEmployeeInitialData(defaultState ?? initialEmployeeState.formData)
 
 	const prevState = usePrevious(initialData)
-	const [{ errors, formData, required, disabled }, dispatch] = useReducer(
+	const [{ errors, formData, helpers, required, disabled }, dispatch] = useReducer(
 		employeeFormReducer,
 		initialEmployeeState
 	)
@@ -60,6 +60,15 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	useEffect(() => {
 		dispatch({ type: 'allowedDomains', payload: { value: allowedDomains } })
 	}, [allowedDomains])
+
+	// Determinamos si debemos forzar la selección de dominio
+	const isStrictDomainMode = useMemo(() => {
+		// Si hay error, o la lista es vacía, desactivamos el modo estricto
+		if (isDomainsError || !allowedDomains || allowedDomains.length === 0) {
+			return false
+		}
+		return true
+	}, [allowedDomains, isDomainsError])
 
 	// 2. Lógica hasChanges (isDirty)
 	const hasChanges: boolean = useMemo(() => {
@@ -219,6 +228,8 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 		hasChanges,
 		isSubmitting,
 		submitError,
+		helpers,
+		isStrictDomainMode,
 		onRetry,
 		handlePhoneChange,
 		handleAddPhones,

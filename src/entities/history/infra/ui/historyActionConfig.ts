@@ -1,3 +1,4 @@
+import { BadgeProps } from '@/shared/ui/Badge'
 import { HistoryActionTypes } from '../../domain/value-object/HistoryAction'
 import { type BackgroundType } from '@/shared/ui/Typography/types'
 import { type IconName } from '@/shared/ui/icon/Icon'
@@ -9,6 +10,8 @@ type historyActionConfig = Record<
 		icon: IconName
 		className: HTMLElement['className']
 		color: BackgroundType
+		title: string
+		variant: BadgeProps['variant']
 	}
 >
 
@@ -16,31 +19,41 @@ export const historyActionConfig: historyActionConfig = {
 	[HistoryActionTypes.CREATE]: {
 		text: 'Creación',
 		icon: 'plusCircle',
-		className: 'bg-amarillo-100 text-amarillo-800',
-		color: 'verde'
+		className: 'bg-verde-100 text-verde-800',
+		color: 'verde',
+		title: 'Equipo Creado',
+		variant: 'verde'
 	},
 	[HistoryActionTypes.UPDATE]: {
 		text: 'Modificación',
-		icon: 'edit',
-		className: 'bg-verde-100 text-verde-800',
-		color: 'verde'
+		icon: 'clock',
+		className: 'bg-azul-100 text-azul-800',
+		color: 'azul',
+		title: 'Equipo Actualizado',
+		variant: 'azul'
 	},
 	[HistoryActionTypes.ASSIGN]: {
 		text: 'Asignado',
-		icon: 'user',
-		className: 'bg-azul-100 text-azul-800',
-		color: 'azul'
+		icon: 'checkCircle2',
+		className: 'bg-verde-100 text-verde-800',
+		color: 'verde',
+		title: 'Equipo Asignado',
+		variant: 'verde'
 	},
 	[HistoryActionTypes.UNASSIGN]: {
 		text: 'Desasignado',
-		icon: 'userMinus',
-		className: 'bg-gris-100 text-gris-800',
-		color: 'gris'
+		icon: 'logOut',
+		className: 'bg-naranja-100 text-naranja-800',
+		color: 'naranja',
+		title: 'Equipo Desasignado',
+		variant: 'naranja'
 	},
 	[HistoryActionTypes.DELETE]: {
 		text: 'Eliminado',
 		icon: 'trash',
 		className: 'bg-rojo-100 text-rojo-800',
-		color: 'rojo'
+		color: 'rojo',
+		title: 'Equipo Eliminado',
+		variant: 'rojo'
 	}
 }

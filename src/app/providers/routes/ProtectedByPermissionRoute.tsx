@@ -1,4 +1,3 @@
-// src/app/providers/router/ProtectedRoute.tsx (o una ruta similar)
 import { Navigate, Outlet } from 'react-router-dom'
 import { usePermissionCheck } from '@/features/auth/hook/usePermissionCheck'
 import { type Permission } from '@/shared/config/permissions'

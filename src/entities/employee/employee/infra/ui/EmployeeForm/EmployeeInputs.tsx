@@ -6,12 +6,14 @@ import {
 	type EmployeeErrors,
 	type DefaultEmployee,
 	type EmployeeRequired,
-	type EmployeeDisabled
+	type EmployeeDisabled,
+	type Helpers
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface EmployeeInputsProps {
 	formData: DefaultEmployee
+	helpers: Helpers
 	errors: EmployeeErrors
 	required: EmployeeRequired
 	isLoading: boolean
@@ -54,6 +56,7 @@ export const EmployeeInputs = memo(
 		mode,
 		isLoading,
 		canEdit,
+		helpers,
 		handleChange,
 		handleAddPhones,
 		handleClearFirstPhone,
@@ -64,7 +67,7 @@ export const EmployeeInputs = memo(
 			<div className="flex flex-col gap-4">
 				<div className="grid grid-cols-2 gap-5">
 					<MainEmployeeInfo
-						allowedDomains={formData.allowedDomains}
+						allowedDomains={helpers.allowedDomains}
 						userName={formData.userName}
 						type={formData.type}
 						isStillWorking={formData.isStillWorking}
@@ -116,9 +119,9 @@ export const EmployeeInputs = memo(
 						departamentoId={formData.departamentoId}
 						cargoId={formData.cargoId}
 						phone={formData.phone}
-						phoneSegments={formData.phoneSegments}
+						phoneSegments={helpers.phoneSegments}
 						extension={formData.extension}
-						extensionSegments={formData.extensionSegments}
+						extensionSegments={helpers.extensionSegments}
 						locationIdRequired={required.locationId}
 						directivaIdRequired={required.directivaId}
 						vicepresidenciaEjecutivaIdRequired={required.vicepresidenciaEjecutivaId}

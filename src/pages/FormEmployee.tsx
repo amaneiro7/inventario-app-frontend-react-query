@@ -9,7 +9,7 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
-import { EmployeeHistoryTimelineSkeleton } from '@/widgets/EmployeeHistoryTimeline/EmployeeHistoryTimelineSkeleton'
+import { HistoryTimelineSkeleton } from '@/widgets/HistoryTimeline/HistoryTimelineSkeleton'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -42,7 +42,7 @@ const SignatureGenerator = lazy(() =>
 	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
 )
 const EmployeeHistoryTimeline = lazy(() =>
-	import('@/widgets/EmployeeHistoryTimeline/EmployeeHistoryTimeline').then(m => ({
+	import('@/widgets/HistoryTimeline/EmployeeHistoryTimeline').then(m => ({
 		default: m.EmployeeHistoryTimeline
 	}))
 )
@@ -61,6 +61,7 @@ export default function FormEmployee() {
 		employeeData,
 		isSubmitting,
 		hasChanges,
+		helpers,
 		submitError,
 		onRetry,
 		handleChange,
@@ -77,138 +78,133 @@ export default function FormEmployee() {
 	// Si estamos en modo 'edit', solo se puede editar si tiene el permiso de UPDATE.
 	const canEdit = mode === 'add' || hasUpdatePermission
 	return (
-		<>
-			<Tabs defaultValue="form" className="h-full space-y-4">
-				<DetailsBoxWrapper position="start">
-					<TabsList className="w-fit">
-						<TabsTrigger value="form">Formulario</TabsTrigger>
-						{mode === 'edit' && (
-							<>
-								<TabsTrigger value="asignDevice">
-									Dispositivos asignados
-								</TabsTrigger>
-								<TabsTrigger value="signatureGenerator">
-									Generador de firma
-								</TabsTrigger>
-								<TabsTrigger value="history">Historial</TabsTrigger>
-							</>
-						)}
-					</TabsList>
-				</DetailsBoxWrapper>
+		<Tabs defaultValue="form" className="h-full space-y-4">
+			<DetailsBoxWrapper position="start">
+				<TabsList className="w-fit">
+					<TabsTrigger value="form">Formulario</TabsTrigger>
+					{mode === 'edit' && (
+						<>
+							<TabsTrigger value="asignDevice">Dispositivos asignados</TabsTrigger>
+							<TabsTrigger value="signatureGenerator">Generador de firma</TabsTrigger>
+							<TabsTrigger value="history">Historial</TabsTrigger>
+						</>
+					)}
+				</TabsList>
+			</DetailsBoxWrapper>
 
-				<TabsContent value="form" className="space-y-4">
-					<Suspense
-						fallback={
-							<FormSkeletonLayout>
-								<EmployeeFormSkeletonLayout />
-							</FormSkeletonLayout>
-						}
-					>
-						<ErrorBoundary
-							fallback={({ onReset }) => (
-								<WidgetErrorFallback
-									onReset={onReset}
-									variant="default"
-									message="No se pudo cargar el formulario."
-								/>
-							)}
-						>
-							<FormLayout
-								id={key}
-								description="Ingrese los datos del usuario el cual desea registar."
-								isAddForm={mode === 'add'}
-								isSubmitting={isSubmitting}
-								submitError={submitError}
-								isDirty={hasChanges}
-								isLoading={isLoading}
-								lastUpdated={formData?.updatedAt}
-								canEdit={canEdit}
-								handleSubmit={handleSubmit}
-								isError={isError}
-								isNotFound={isNotFound}
-								onRetry={onRetry}
-								searchInput={
-									<Suspense fallback={<InputFallback />}>
-										<EmployeeSearch />
-									</Suspense>
-								}
-								reset={mode === 'edit' ? discardChanges : undefined}
-								url="/form/employee/add"
-							>
-								<Suspense fallback={<EmployeeFormSkeletonLayout />}>
-									<EmployeeInputs
-										canEdit={canEdit}
-										formData={formData}
-										errors={errors}
-										required={required}
-										disabled={disabled}
-										isLoading={isLoading}
-										mode={mode}
-										handleChange={handleChange}
-										handleAddPhones={handleAddPhones}
-										handleClearFirstPhone={handleClearFirstPhone}
-										handlePhoneChange={handlePhoneChange}
-										handleRemovePhones={handleRemovePhones}
-									/>
-								</Suspense>
-							</FormLayout>
-						</ErrorBoundary>
-					</Suspense>
-				</TabsContent>
-
-				<TabsContent value="asignDevice" className="space-y-4">
-					<DetailsBoxWrapper className="h-full">
-						<ErrorBoundary
-							fallback={({ onReset }) => (
-								<WidgetErrorFallback
-									onReset={onReset}
-									variant="default"
-									message="La vista de dispositivos asigandos no esta disponible"
-								/>
-							)}
-						>
-							<Suspense fallback={<AsignDevicesSkeleton />}>
-								<AsignDevices data={employeeData} />
-							</Suspense>
-						</ErrorBoundary>
-					</DetailsBoxWrapper>
-				</TabsContent>
-				<TabsContent value="signatureGenerator" className="space-y-4">
+			<TabsContent value="form" className="space-y-4">
+				<Suspense
+					fallback={
+						<FormSkeletonLayout>
+							<EmployeeFormSkeletonLayout />
+						</FormSkeletonLayout>
+					}
+				>
 					<ErrorBoundary
 						fallback={({ onReset }) => (
 							<WidgetErrorFallback
 								onReset={onReset}
 								variant="default"
-								message="El generador de firmas no esta disponible."
+								message="No se pudo cargar el formulario."
 							/>
 						)}
 					>
-						<Suspense fallback={<SignatureGeneratorSkeleton />}>
-							<SignatureGenerator employeeData={employeeData} />
-						</Suspense>
-					</ErrorBoundary>
-				</TabsContent>
-				<TabsContent value="history" className="space-y-4">
-					<DetailsBoxWrapper className="h-full">
-						<ErrorBoundary
-							fallback={({ onReset }) => (
-								<WidgetErrorFallback
-									onReset={onReset}
-									variant="default"
-									message="El historial no está disponible."
-								/>
-							)}
+						<FormLayout
+							id={key}
+							description="Ingrese los datos del usuario el cual desea registar."
+							isAddForm={mode === 'add'}
+							isSubmitting={isSubmitting}
+							submitError={submitError}
+							isDirty={hasChanges}
+							isLoading={isLoading}
+							lastUpdated={formData?.updatedAt}
+							canEdit={canEdit}
+							handleSubmit={handleSubmit}
+							isError={isError}
+							isNotFound={isNotFound}
+							onRetry={onRetry}
+							searchInput={
+								<Suspense fallback={<InputFallback />}>
+									<EmployeeSearch />
+								</Suspense>
+							}
+							reset={mode === 'edit' ? discardChanges : undefined}
+							url="/form/employee/add"
 						>
-							<Suspense fallback={<EmployeeHistoryTimelineSkeleton />}>
-								<EmployeeHistoryTimeline
-									history={employeeData?.history}
-									currentDevices={employeeData?.devices}
+							<Suspense fallback={<EmployeeFormSkeletonLayout />}>
+								<EmployeeInputs
+									canEdit={canEdit}
+									formData={formData}
+									helpers={helpers}
+									errors={errors}
+									required={required}
+									disabled={disabled}
+									isLoading={isLoading}
+									mode={mode}
+									handleChange={handleChange}
+									handleAddPhones={handleAddPhones}
+									handleClearFirstPhone={handleClearFirstPhone}
+									handlePhoneChange={handlePhoneChange}
+									handleRemovePhones={handleRemovePhones}
 								/>
 							</Suspense>
-						</ErrorBoundary>
-					</DetailsBoxWrapper>
-				</TabsContent>
-			</Tabs>
-		</>
+						</FormLayout>
+					</ErrorBoundary>
+				</Suspense>
+			</TabsContent>
+
+			<TabsContent value="asignDevice" className="space-y-4">
+				<DetailsBoxWrapper className="h-full">
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								onReset={onReset}
+								variant="default"
+								message="La vista de dispositivos asigandos no esta disponible"
+							/>
+						)}
+					>
+						<Suspense fallback={<AsignDevicesSkeleton />}>
+							<AsignDevices data={employeeData} />
+						</Suspense>
+					</ErrorBoundary>
+				</DetailsBoxWrapper>
+			</TabsContent>
+			<TabsContent value="signatureGenerator" className="space-y-4">
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							onReset={onReset}
+							variant="default"
+							message="El generador de firmas no esta disponible."
+						/>
+					)}
+				>
+					<Suspense fallback={<SignatureGeneratorSkeleton />}>
+						<SignatureGenerator employeeData={employeeData} />
+					</Suspense>
+				</ErrorBoundary>
+			</TabsContent>
+			<TabsContent value="history" className="space-y-4">
+				<DetailsBoxWrapper className="h-full">
+					<ErrorBoundary
+						fallback={({ onReset }) => (
+							<WidgetErrorFallback
+								onReset={onReset}
+								variant="default"
+								message="El historial no está disponible."
+							/>
+						)}
+					>
+						<Suspense fallback={<HistoryTimelineSkeleton />}>
+							<EmployeeHistoryTimeline
+								history={employeeData?.history}
+								currentDevices={employeeData?.devices}
+							/>
+						</Suspense>
+					</ErrorBoundary>
+				</DetailsBoxWrapper>
+			</TabsContent>
+		</Tabs>
 	)
 }

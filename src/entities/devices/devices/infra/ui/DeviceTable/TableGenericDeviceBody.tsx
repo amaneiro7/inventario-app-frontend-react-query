@@ -1,4 +1,4 @@
-import { lazy, memo } from 'react'
+import { lazy, memo, Suspense } from 'react'
 import { DetailsModal } from './DetailsModal'
 import { Dialog, type ModalRef } from '@/shared/ui/Modal/Modal'
 import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
@@ -39,9 +39,11 @@ export const TableGenericDeviceBody = memo(
 				{children}
 
 				<Dialog ref={dialogRef}>
-					{selectedDevice && (
-						<DetailsModal device={selectedDevice} onCLose={handleCloseModal} />
-					)}
+					<Suspense fallback={null}>
+						{selectedDevice && (
+							<DetailsModal device={selectedDevice} onCLose={handleCloseModal} />
+						)}
+					</Suspense>
 				</Dialog>
 			</>
 		)
