@@ -26,8 +26,14 @@ export const DeviceDistributionByCategory = memo(
 					<CardTitle>Distribución por categoría de equipos</CardTitle>
 					<CardDescription>Cantidad de equipos por categoría</CardDescription>
 				</CardHeader>
-				<CardContent className="h-80">
-					<ResponsiveContainer width="100%" height="100%">
+				<CardContent className="h-96">
+					<ResponsiveContainer
+						width={500}
+						height={300}
+						minWidth={500}
+						minHeight={300}
+						aspect={1.5}
+					>
 						<BarChart
 							data={categoryData}
 							margin={{ top: 10, right: 30, left: 20, bottom: 5 }}

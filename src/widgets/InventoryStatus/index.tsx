@@ -9,12 +9,12 @@ export const InventoryStatus = memo(() => {
 	const [activeTab, setActiveTab] = useState('overall')
 
 	if (!statusDashboard || isLoading) {
-		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+		return <div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 	}
 	const currentData = statusDashboard.status[activeTab as keyof typeof statusDashboard.status]
 
 	return (
-		<Card className="h-full md:min-h-[560px]">
+		<Card className="h-full md:min-h-140">
 			<CardHeader>
 				<CardTitle>Estado de Equipos</CardTitle>
 				<CardDescription>Condición actual del inventario</CardDescription>

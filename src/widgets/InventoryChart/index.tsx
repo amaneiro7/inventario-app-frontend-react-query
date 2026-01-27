@@ -16,7 +16,7 @@ import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 export const InventoryChart = memo(() => {
 	const { historyDashboard, isLoading } = useGetHistoryDashboard()
 	if (!historyDashboard || isLoading) {
-		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+		return <div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 	}
 	return (
 		<Card className="w-full">
@@ -25,8 +25,14 @@ export const InventoryChart = memo(() => {
 				<CardDescription>Registro de modificaciones de equipos por mes</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<div className="h-[300px] w-full">
-					<ResponsiveContainer width="100%" height="100%">
+				<div className="h-96 w-full">
+					<ResponsiveContainer
+						width={500}
+						height={300}
+						minWidth={500}
+						minHeight={300}
+						aspect={2}
+					>
 						<BarChart
 							data={historyDashboard.lastThreeMonths}
 							margin={{ top: 5, right: 30, left: 0, bottom: 5 }}

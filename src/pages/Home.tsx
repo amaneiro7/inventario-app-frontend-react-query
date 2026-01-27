@@ -64,7 +64,7 @@ export default function Home() {
 				>
 					<Suspense
 						fallback={
-							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+							<div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 						}
 					>
 						<InventoryChart />
@@ -81,7 +81,7 @@ export default function Home() {
 				>
 					<Suspense
 						fallback={
-							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+							<div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 						}
 					>
 						<RecentActivities />
@@ -101,7 +101,7 @@ export default function Home() {
 				>
 					<Suspense
 						fallback={
-							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+							<div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 						}
 					>
 						<InventoryStatus />
@@ -118,7 +118,7 @@ export default function Home() {
 				>
 					<Suspense
 						fallback={
-							<div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+							<div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 						}
 					>
 						<InventoryDistribution />

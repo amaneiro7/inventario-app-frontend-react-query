@@ -49,7 +49,7 @@ export const DeviceByTypeOfSite = memo(
 							onValueChange={handleCategorySelect}
 							aria-label="Filtrar la gráfica de equipos por tipo de sitio por categoría" // Accesibilidad
 						>
-							<SelectTrigger className="mt-2 w-[180px] md:mt-0">
+							<SelectTrigger className="mt-2 w-45 md:mt-0">
 								<SelectValue placeholder="Seleccionar Categoría" />
 							</SelectTrigger>
 							<SelectContent>
@@ -65,8 +65,11 @@ export const DeviceByTypeOfSite = memo(
 				</CardHeader>
 				<CardContent className="h-96">
 					<ResponsiveContainer
-						width="100%"
-						height="100%"
+						width={500}
+						height={300}
+						minWidth={500}
+						minHeight={300}
+						aspect={1.25}
 						aria-label="Gráfica de barras de equipos por tipo de sitio"
 					>
 						<BarChart

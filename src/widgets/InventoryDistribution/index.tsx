@@ -6,7 +6,7 @@ export const InventoryDistribution = memo(() => {
 	const { generalDashboard, isLoading } = useGetGeneralDashboard()
 
 	if (!generalDashboard || isLoading) {
-		return <div className="animate-pulse-medium min-h-[560px] w-full bg-gray-200" />
+		return <div className="animate-pulse-medium min-h-140 w-full bg-gray-200" />
 	}
 
 	return (

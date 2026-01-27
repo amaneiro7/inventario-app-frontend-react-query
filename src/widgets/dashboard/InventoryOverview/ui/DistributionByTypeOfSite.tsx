@@ -28,8 +28,14 @@ export const DistributionByTypeOfSite = memo(
 						Cantidad de equipos por tipo de sitio, discriminados por ubicación.
 					</CardDescription>{' '}
 				</CardHeader>
-				<CardContent className="h-80">
-					<ResponsiveContainer width="100%" height="100%">
+				<CardContent className="h-96">
+					<ResponsiveContainer
+						width={500}
+						height={300}
+						minWidth={500}
+						minHeight={300}
+						aspect={1.25}
+					>
 						<BarChart
 							data={prepareGroupedBarData}
 							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}

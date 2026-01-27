@@ -37,13 +37,19 @@ export const PieContent = memo(
 		return (
 			<div className="flex h-full flex-col">
 				<div
-					className="flex min-h-0 flex-grow items-center justify-center"
+					className="flex min-h-0 grow items-center justify-center"
 					style={{
 						height
 					}}
 				>
 					{data && data.length > 0 && colors ? (
-						<ResponsiveContainer width="100%" height="100%">
+						<ResponsiveContainer
+							width={500}
+							height={300}
+							minWidth={500}
+							minHeight={300}
+							aspect={1}
+						>
 							<PieChart
 								aria-labelledby={chartTitleId}
 								aria-describedby={chartDescriptionId}
