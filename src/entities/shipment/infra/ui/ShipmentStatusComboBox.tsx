@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import { StatusEnum } from '../../domain/value-object/ShipmentStatus'
 import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { getShipmentsStatusOptions } from './getShipmentsStatusOptions'
 
 interface ShipmentStatusComboboxProps {
 	mode?: FormMode
@@ -30,28 +31,17 @@ export function ShipmentStatusCombobox({
 }: ShipmentStatusComboboxProps) {
 	const options = useMemo(() => {
 		// Obtenemos todos los estados posibles del Enum.
-		let availableStatuses = Object.values(StatusEnum)
+		let availableStatuses = getShipmentsStatusOptions()
 
 		// Si el modo es 'add', filtramos para dejar solo las opciones permitidas.
 		if (mode === 'add') {
 			availableStatuses = availableStatuses.filter(
-				status => status === StatusEnum.PENDING || status === StatusEnum.IN_TRANSIT
+				status => status.id === StatusEnum.PENDING || status.id === StatusEnum.IN_TRANSIT
 			)
 		}
 
 		// El resto de la lógica para dar formato a los nombres se mantiene igual.
-		return availableStatuses.map(stat => {
-			const id = stat as string
-			const name = id
-				.split('_')
-				.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-				.join(' ')
-
-			return {
-				id,
-				name
-			}
-		})
+		return availableStatuses
 	}, [mode])
 	return (
 		<>
