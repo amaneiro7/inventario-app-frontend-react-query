@@ -14,17 +14,17 @@ export class MemoryRamCapacity extends NumberValueObject {
 	 * Paso mínimo para la capacidad de memoria RAM.
 	 * @static
 	 * @type {number}
-	 */	static readonly minStep = 0.25
+	 */ static readonly minStep = 0.25
 	/**
 	 * Valor mínimo permitido para la capacidad de memoria RAM.
 	 * @static
 	 * @type {number}
-	 */	static readonly min = 0
+	 */ static readonly min = 0
 	/**
 	 * Valor máximo permitido para la capacidad de memoria RAM.
 	 * @static
 	 * @type {number}
-	 */	static readonly max = 32 * this.minStep
+	 */ static readonly max = 32 * this.minStep
 	private static errors = ''
 
 	/**
@@ -32,7 +32,7 @@ export class MemoryRamCapacity extends NumberValueObject {
 	 * @param {number} value - El valor de la capacidad de memoria RAM.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: number,
 		private readonly status: Primitives<StatusId>
 	) {
@@ -46,7 +46,7 @@ export class MemoryRamCapacity extends NumberValueObject {
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */	private static updateError(error: string): void {
+	 */ private static updateError(error: string): void {
 		MemoryRamCapacity.errors = error
 	}
 
@@ -54,7 +54,7 @@ export class MemoryRamCapacity extends NumberValueObject {
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return MemoryRamCapacity.errors
 	}
 
@@ -64,7 +64,7 @@ export class MemoryRamCapacity extends NumberValueObject {
 	 * @param {Primitives<MemoryRamCapacity>} value - El valor de la capacidad de memoria RAM a validar.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo.
 	 * @returns {boolean} `true` si la capacidad es válida, `false` en caso contrario.
-	 */	public static isValid(
+	 */ public static isValid(
 		value: Primitives<MemoryRamCapacity>,
 		status: Primitives<StatusId>
 	): boolean {
@@ -88,7 +88,7 @@ export class MemoryRamCapacity extends NumberValueObject {
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return MemoryRamCapacity.errorsValue
 	}
 }

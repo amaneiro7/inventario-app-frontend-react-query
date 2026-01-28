@@ -42,7 +42,7 @@ export class DeviceHardDrive extends Device {
 	 * @param {HardDriveHealth} health - El estado de salud del disco duro.
 	 * @param {HardDriveCapacityId} hardDriveCapacityId - El ID de la capacidad del disco duro.
 	 * @param {HardDriveTypeId} hardDriveTypeId - El ID del tipo de disco duro.
-	 */	constructor(
+	 */ constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -76,7 +76,7 @@ export class DeviceHardDrive extends Device {
 	 * @static
 	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
 	 * @returns {boolean} `true` si la categoría es de disco duro, `false` en caso contrario.
-	 */	static isHardDriveCategory(
+	 */ static isHardDriveCategory(
 		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
 	): boolean {
 		const allowedComputerCategories = [CategoryOptions.HARDDRIVE]
@@ -89,7 +89,7 @@ export class DeviceHardDrive extends Device {
 	 * @param {DeviceHardDriveParams} params - Los parámetros del dispositivo de disco duro.
 	 * @returns {DeviceHardDrive} Una nueva instancia de `DeviceHardDrive`.
 	 * @throws {InvalidArgumentError} Si la categoría no pertenece a un tipo de disco duro.
-	 */	public static create(params: DeviceHardDriveParams) {
+	 */ public static create(params: DeviceHardDriveParams) {
 		if (!DeviceHardDrive.isHardDriveCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
@@ -113,28 +113,28 @@ export class DeviceHardDrive extends Device {
 	/**
 	 * Obtiene el valor primitivo del estado de salud del disco duro.
 	 * @type {Primitives<HardDriveHealth>}
-	 */	get healthValue(): Primitives<HardDriveHealth> {
+	 */ get healthValue(): Primitives<HardDriveHealth> {
 		return this.health.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID de la capacidad del disco duro.
 	 * @type {Primitives<HardDriveCapacityId>}
-	 */	get hardDriveCapacityValue(): Primitives<HardDriveCapacityId> {
+	 */ get hardDriveCapacityValue(): Primitives<HardDriveCapacityId> {
 		return this.hardDriveCapacityId.value
 	}
 
 	/**
 	 * Obtiene el valor primitivo del ID del tipo de disco duro.
 	 * @type {Primitives<HardDriveTypeId>}
-	 */	get hardDriveTypeValue(): Primitives<HardDriveTypeId> {
+	 */ get hardDriveTypeValue(): Primitives<HardDriveTypeId> {
 		return this.hardDriveTypeId.value
 	}
 
 	/**
 	 * Convierte la entidad `DeviceHardDrive` a su representación primitiva.
 	 * @returns {DeviceHardDrivePrimitives} La representación primitiva del dispositivo de disco duro.
-	 */	toPrimitives(): DeviceHardDrivePrimitives {
+	 */ toPrimitives(): DeviceHardDrivePrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

@@ -11,18 +11,18 @@ export class ProcessorProductCollection extends StringValueObject {
 	 * Longitud mínima permitida para la colección de productos.
 	 * @static
 	 * @type {number}
-	 */	static readonly NAME_MIN_LENGTH = 3
+	 */ static readonly NAME_MIN_LENGTH = 3
 	/**
 	 * Longitud máxima permitida para la colección de productos.
 	 * @static
 	 * @type {number}
-	 */	static readonly NAME_MAX_LENGTH = 100
+	 */ static readonly NAME_MAX_LENGTH = 100
 
 	/**
 	 * Crea una instancia de `ProcessorProductCollection`.
 	 * @param {string} value - El valor de la colección de productos.
 	 * @throws {Error} Si el valor no es válido según las reglas definidas.
-	 */	constructor(value: string) {
+	 */ constructor(value: string) {
 		super(value)
 		if (!ProcessorProductCollection.isValid(value)) {
 			throw new Error(ProcessorProductCollection.invalidMessage(value))
@@ -34,7 +34,7 @@ export class ProcessorProductCollection extends StringValueObject {
 	 * @static
 	 * @param {string} value - El valor a validar.
 	 * @returns {boolean} `true` si el valor es válido, `false` en caso contrario.
-	 */	public static isValid(value: string): boolean {
+	 */ public static isValid(value: string): boolean {
 		return (
 			value?.length >= ProcessorProductCollection.NAME_MIN_LENGTH &&
 			value?.length <= ProcessorProductCollection.NAME_MAX_LENGTH
@@ -46,7 +46,7 @@ export class ProcessorProductCollection extends StringValueObject {
 	 * @static
 	 * @param {string} value - El valor inválido.
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(value: string): string {
+	 */ public static invalidMessage(value: string): string {
 		return `El nombre ${value} no es válido. Debe tener entre ${ProcessorProductCollection.NAME_MIN_LENGTH} y ${ProcessorProductCollection.NAME_MAX_LENGTH} caracteres`
 	}
 }

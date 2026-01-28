@@ -15,7 +15,7 @@ export class HardDriveCapacityGetAllService implements HardDriveCapacityGetAllRe
 	 * Obtiene todas las capacidades de disco duro, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} queryParams - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<HardDriveCapacityDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las capacidades de disco duro.
-	 */	async getAll(queryParams: string): Promise<Response<HardDriveCapacityDto>> {
+	 */ async getAll(queryParams: string): Promise<Response<HardDriveCapacityDto>> {
 		return await fetching({
 			url: `${hardDriveCapacityUrl}?${queryParams}`,
 			method: 'GET'

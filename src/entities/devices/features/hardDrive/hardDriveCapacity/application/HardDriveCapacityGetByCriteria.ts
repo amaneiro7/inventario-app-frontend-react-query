@@ -16,7 +16,7 @@ export class HardDriveCapacityGetByCriteria {
 	/**
 	 * Crea una instancia de `HardDriveCapacityGetByCriteria`.
 	 * @param {HardDriveCapacityGetAllRepository} repository - El repositorio para obtener todas las capacidades de disco duro.
-	 */	constructor(private readonly repository: HardDriveCapacityGetAllRepository) {
+	 */ constructor(private readonly repository: HardDriveCapacityGetAllRepository) {
 		this.getAll = new HardDriveCapacityGetAll(this.repository)
 	}
 
@@ -25,7 +25,7 @@ export class HardDriveCapacityGetByCriteria {
 	 * Construye los parámetros de la consulta y delega la ejecución a `HardDriveCapacityGetAll`.
 	 * @param {HardDriveCapacityFilters} filters - Los filtros a aplicar en la búsqueda.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<import('../domain/dto/HardDriveCapacity.dto').HardDriveCapacityDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */	async search({
+	 */ async search({
 		pageNumber,
 		pageSize,
 		orderBy,

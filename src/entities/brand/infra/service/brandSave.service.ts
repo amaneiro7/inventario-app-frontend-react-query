@@ -15,7 +15,7 @@ export class BrandSaveService implements BrandSaveRepository {
 	 * Guarda una nueva marca.
 	 * @param {{ payload: BrandPrimitives }} props - Objeto que contiene los datos primitivos de la marca a guardar.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
-	 */	async save({ payload }: { payload: BrandPrimitives }): Promise<{ message: string }> {
+	 */ async save({ payload }: { payload: BrandPrimitives }): Promise<{ message: string }> {
 		return await fetching({ method: 'POST', url: brandUrl, data: payload })
 	}
 
@@ -23,7 +23,7 @@ export class BrandSaveService implements BrandSaveRepository {
 	 * Actualiza una marca existente.
 	 * @param {{ id: string; payload: BrandPrimitives }} props - Objeto que contiene el ID de la marca a actualizar y sus nuevos datos primitivos.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
-	 */	async update({
+	 */ async update({
 		id,
 		payload
 	}: {

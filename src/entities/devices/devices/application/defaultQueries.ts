@@ -10,7 +10,7 @@ import { type SearchByCriteriaQuery } from '@/entities/shared/domain/criteria/Se
 export const defaultQueries: Record<string, SearchByCriteriaQuery['filters']> = {
 	/**
 	 * Filtros por defecto para dispositivos de tipo 'computadora'.
-	 */	computer: [
+	 */ computer: [
 		{
 			field: 'mainCategoryId',
 			operator: Operator.EQUAL,
@@ -19,7 +19,7 @@ export const defaultQueries: Record<string, SearchByCriteriaQuery['filters']> = 
 	],
 	/**
 	 * Filtros por defecto para dispositivos de tipo 'monitor'.
-	 */	monitor: [
+	 */ monitor: [
 		{
 			field: 'mainCategoryId',
 			operator: Operator.EQUAL,
@@ -28,7 +28,7 @@ export const defaultQueries: Record<string, SearchByCriteriaQuery['filters']> = 
 	],
 	/**
 	 * Filtros por defecto para dispositivos de tipo 'impresora'.
-	 */	printer: [
+	 */ printer: [
 		{
 			field: 'mainCategoryId',
 			operator: Operator.EQUAL,
@@ -37,7 +37,7 @@ export const defaultQueries: Record<string, SearchByCriteriaQuery['filters']> = 
 	],
 	/**
 	 * Filtros por defecto para dispositivos de tipo 'impresora financiera'.
-	 */	finantialPrinter: [
+	 */ finantialPrinter: [
 		{
 			field: 'mainCategoryId',
 			operator: Operator.EQUAL,
@@ -46,7 +46,7 @@ export const defaultQueries: Record<string, SearchByCriteriaQuery['filters']> = 
 	],
 	/**
 	 * Filtros por defecto para dispositivos de tipo 'partes y piezas'.
-	 */	parts: [
+	 */ parts: [
 		{
 			field: 'mainCategoryId',
 			operator: Operator.EQUAL,

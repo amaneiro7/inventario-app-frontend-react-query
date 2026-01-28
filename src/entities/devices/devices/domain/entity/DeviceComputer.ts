@@ -53,7 +53,7 @@ export class DeviceComputer extends Device {
 	 * @param {ComputerOsArq} operatingSystemArqId - El ID de la arquitectura del sistema operativo.
 	 * @param {MACAddress} macAddress - La dirección MAC.
 	 * @param {IPAddress} ipAddress - La dirección IP.
-	 */	constructor(
+	 */ constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -94,7 +94,9 @@ export class DeviceComputer extends Device {
 	 * @static
 	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
 	 * @returns {boolean} `true` si la categoría es de computadora, `false` en caso contrario.
-	 */	static isComputerCategory(categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]) {
+	 */ static isComputerCategory(
+		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
+	) {
 		return categoryId === CategoryOptions.COMPUTER ||
 			categoryId === CategoryOptions.ALLINONE ||
 			categoryId === CategoryOptions.LAPTOP ||
@@ -109,7 +111,7 @@ export class DeviceComputer extends Device {
 	 * @param {DeviceComputerParams} params - Los parámetros del dispositivo de computadora.
 	 * @returns {DeviceComputer} Una nueva instancia de `DeviceComputer`.
 	 * @throws {InvalidArgumentError} Si la categoría no pertenece a un tipo de computadora.
-	 */	public static create(params: DeviceComputerParams) {
+	 */ public static create(params: DeviceComputerParams) {
 		if (!DeviceComputer.isComputerCategory(params.categoryId)) {
 			throw new InvalidArgumentError('No pertenece a esta categoria')
 		}
@@ -141,68 +143,68 @@ export class DeviceComputer extends Device {
 	/**
 	 * Obtiene el valor primitivo del nombre del equipo.
 	 * @type {Primitives<ComputerName>}
-	 */	get computerNameValue(): Primitives<ComputerName> {
+	 */ get computerNameValue(): Primitives<ComputerName> {
 		return this.computerName.value
 	}
 	/**
 	 * Obtiene el valor primitivo de la capacidad de memoria RAM.
 	 * @type {Primitives<MemoryRamCapacity>}
-	 */	get memoryRamCapacityValue(): Primitives<MemoryRamCapacity> {
+	 */ get memoryRamCapacityValue(): Primitives<MemoryRamCapacity> {
 		return this.memoryRamCapacity.value
 	}
 	/**
 	 * Obtiene los valores primitivos de los módulos de memoria RAM.
 	 * @type {number[]}
-	 */	get memoryRamValue(): number[] {
+	 */ get memoryRamValue(): number[] {
 		return this.memoryRam.toPrimitives()
 	}
 	/**
 	 * Obtiene el valor primitivo del ID del procesador.
 	 * @type {Primitives<ComputerProcessor>}
-	 */	get processorValue(): Primitives<ComputerProcessor> {
+	 */ get processorValue(): Primitives<ComputerProcessor> {
 		return this.processorId.value
 	}
 	/**
 	 * Obtiene el valor primitivo del ID de la capacidad del disco duro.
 	 * @type {Primitives<ComputerHDDCapacity>}
-	 */	get hardDriveCapacityValue(): Primitives<ComputerHDDCapacity> {
+	 */ get hardDriveCapacityValue(): Primitives<ComputerHDDCapacity> {
 		return this.hardDriveCapacityId.value
 	}
 	/**
 	 * Obtiene el valor primitivo del ID del tipo de disco duro.
 	 * @type {Primitives<ComputerHDDType>}
-	 */	get hardDriveTypeValue(): Primitives<ComputerHDDType> {
+	 */ get hardDriveTypeValue(): Primitives<ComputerHDDType> {
 		return this.hardDriveTypeId.value
 	}
 	/**
 	 * Obtiene el valor primitivo del ID del sistema operativo.
 	 * @type {Primitives<ComputerOs>}
-	 */	get operatingSystemValue(): Primitives<ComputerOs> {
+	 */ get operatingSystemValue(): Primitives<ComputerOs> {
 		return this.operatingSystemId.value
 	}
 	/**
 	 * Obtiene el valor primitivo del ID de la arquitectura del sistema operativo.
 	 * @type {Primitives<ComputerOsArq>}
-	 */	get operatingSystemArqValue(): Primitives<ComputerOsArq> {
+	 */ get operatingSystemArqValue(): Primitives<ComputerOsArq> {
 		return this.operatingSystemArqId.value
 	}
 	/**
 	 * Obtiene el valor primitivo de la dirección MAC.
 	 * @type {Primitives<MACAddress>}
-	 */	get macAddressValue(): Primitives<MACAddress> {
+	 */ get macAddressValue(): Primitives<MACAddress> {
 		return this.macAddress.value
 	}
 	/**
 	 * Obtiene el valor primitivo de la dirección IP.
 	 * @type {Primitives<IPAddress>}
-	 */	get ipAddressValue(): Primitives<IPAddress> {
+	 */ get ipAddressValue(): Primitives<IPAddress> {
 		return this.ipAddress.value
 	}
 
 	/**
 	 * Convierte la entidad `DeviceComputer` a su representación primitiva.
 	 * @returns {DeviceComputerPrimitives} La representación primitiva del dispositivo de computadora.
-	 */	toPrimitives(): DeviceComputerPrimitives {
+	 */ toPrimitives(): DeviceComputerPrimitives {
 		return {
 			serial: this.serialValue,
 			activo: this.activoValue,

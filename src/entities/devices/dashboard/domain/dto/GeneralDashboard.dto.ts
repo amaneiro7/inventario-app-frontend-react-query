@@ -8,29 +8,29 @@ export interface GeneralDashboardDto {
 	 * Array de objetos que representan el total de equipos por categoría.
 	 * @property {string} name - Nombre de la categoría.
 	 * @property {number} count - Cantidad de equipos en esa categoría.
-	 */	totalByCategory: {
+	 */ totalByCategory: {
 		name: string
 		count: number
 	}[]
 	/**
 	 * Cantidad total de computadoras en el inventario.
-	 */	totalComputer: number
+	 */ totalComputer: number
 	/**
 	 * Cantidad total de pantallas (monitores) en el inventario.
-	 */	totalScreens: number
+	 */ totalScreens: number
 	/**
 	 * Cantidad total de impresoras en el inventario.
-	 */	totalPrinters: number
+	 */ totalPrinters: number
 	/**
 	 * Cantidad total de impresoras financieras en el inventario.
-	 */	totalFinantialPrinters: number
+	 */ totalFinantialPrinters: number
 	/**
 	 * Cantidad total de usuarios activos.
-	 */	totalActiveUsers: number
+	 */ totalActiveUsers: number
 	/**
 	 * Cantidad total de agencias registradas.
-	 */	totalAgencies: number
+	 */ totalAgencies: number
 	/**
 	 * Cantidad total de sitios administrativos (torres) registrados.
-	 */	totalAdministrativeSites: number
+	 */ totalAdministrativeSites: number
 }

@@ -8,9 +8,7 @@ import { vicepresidenciaEjecutivaUrl } from '../../domain/entity/baseUrl'
  * Implementation of the VicepresidenciaEjecutivaGetAllRepository interface using the fetching utility.
  * This service is responsible for retrieving all executive vicepresidencia data from the API, optionally with query parameters.
  */
-export class VicepresidenciaEjecutivaGetAllService
-	implements VicepresidenciaEjecutivaGetAllRepository
-{
+export class VicepresidenciaEjecutivaGetAllService implements VicepresidenciaEjecutivaGetAllRepository {
 	/**
 	 * Retrieves all executive vicepresidencias, optionally filtered by query parameters.
 	 * @param queryParams - A string containing URL query parameters for filtering and pagination.

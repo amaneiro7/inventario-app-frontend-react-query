@@ -20,7 +20,7 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @param {Primitives<ComputerHDDCapacity> | null} hardDriveCapacity - La capacidad del disco duro asociada.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: Primitives<OperatingSystemId> | null,
 		private readonly status: Primitives<StatusId>,
 		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity> | null
@@ -42,7 +42,7 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */	private static updateError(error: string): void {
+	 */ private static updateError(error: string): void {
 		ComputerOs.errors = error
 	}
 
@@ -50,7 +50,7 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return ComputerOs.errors
 	}
 
@@ -62,7 +62,7 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
 	 * @param {Primitives<ComputerHDDCapacity>} [props.hardDriveCapacity] - La capacidad del disco duro asociada.
 	 * @returns {boolean} `true` si el sistema operativo es válido, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		value,
 		status,
 		hardDriveCapacity
@@ -116,7 +116,7 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return ComputerOs.errorsValue
 	}
 }

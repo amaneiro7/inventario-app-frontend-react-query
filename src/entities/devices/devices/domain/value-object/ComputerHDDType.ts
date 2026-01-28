@@ -17,7 +17,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 	 * @param {Primitives<HardDriveTypeId> | null} value - El valor del tipo de disco duro.
 	 * @param {Primitives<ComputerHDDCapacity>} hardDriveCapacity - La capacidad del disco duro asociada.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: Primitives<HardDriveTypeId> | null,
 		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity>
 	) {
@@ -37,7 +37,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */	private static updateError(error: string): void {
+	 */ private static updateError(error: string): void {
 		ComputerHDDType.errors = error
 	}
 
@@ -45,7 +45,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return ComputerHDDType.errors
 	}
 
@@ -56,7 +56,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 	 * @param {Primitives<ComputerHDDType>} props.value - El valor del tipo de disco duro.
 	 * @param {Primitives<ComputerHDDCapacity>} [props.hardDriveCapacity] - La capacidad del disco duro asociada.
 	 * @returns {boolean} `true` si el tipo de disco duro es válido, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		value,
 		hardDriveCapacity
 	}: {
@@ -75,7 +75,7 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return ComputerHDDType.errorsValue
 	}
 }

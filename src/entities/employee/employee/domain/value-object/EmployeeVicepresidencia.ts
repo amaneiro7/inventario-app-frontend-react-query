@@ -55,12 +55,14 @@ export class EmployeeVicepresidencia extends AcceptedNullValueObject<
 
 		if (vicepresidenciaEjecutivaId === null) {
 			if (value !== null) {
-				EmployeeVicepresidencia.error = 'Si la vicepresidencia ejecutiva no ha sido asignada, la vicepresidencia debe ser nula.'
+				EmployeeVicepresidencia.error =
+					'Si la vicepresidencia ejecutiva no ha sido asignada, la vicepresidencia debe ser nula.'
 				return false
 			}
 		} else {
 			if (value === null) {
-				EmployeeVicepresidencia.error = 'Si la vicepresidencia ejecutiva ha sido asignada, la vicepresidencia es obligatoria.'
+				EmployeeVicepresidencia.error =
+					'Si la vicepresidencia ejecutiva ha sido asignada, la vicepresidencia es obligatoria.'
 				return false
 			}
 		}

@@ -12,5 +12,5 @@ export abstract class DeviceMonitoringDashboardByStateRepository {
 	 * @description Obtiene los datos del dashboard de monitoreo de dispositivos por estado.
 	 * @param {string} [queryParams] - Parámetros de consulta opcionales para filtrar los resultados.
 	 * @returns {Promise<DeviceMonitoringDashboardByStateDto>} Una promesa que se resuelve con el DTO del dashboard de monitoreo de dispositivos por estado.
-	 */	abstract get(queryParams?: string): Promise<DeviceMonitoringDashboardByStateDto>
+	 */ abstract get(queryParams?: string): Promise<DeviceMonitoringDashboardByStateDto>
 }

@@ -17,7 +17,7 @@ export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingS
 	 * @param {Primitives<OperatingSystemId> | null} value - El valor del ID de la arquitectura del sistema operativo.
 	 * @param {Primitives<OperatingSystemId> | null} operatingSystem - El ID del sistema operativo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: Primitives<OperatingSystemId> | null,
 		private readonly operatingSystem: Primitives<OperatingSystemId> | null
 	) {
@@ -32,7 +32,7 @@ export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingS
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */	private static updateError(error: string): void {
+	 */ private static updateError(error: string): void {
 		ComputerOsArq.errors = error
 	}
 
@@ -40,7 +40,7 @@ export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingS
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return ComputerOsArq.errors
 	}
 
@@ -51,7 +51,7 @@ export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingS
 	 * @param {Primitives<ComputerOsArq>} props.value - El valor de la arquitectura del sistema operativo.
 	 * @param {Primitives<OperatingSystemId> | null} props.operatingSystem - El ID del sistema operativo asociado.
 	 * @returns {boolean} `true` si la arquitectura es válida, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		value,
 		operatingSystem
 	}: {
@@ -77,7 +77,7 @@ export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingS
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return ComputerOsArq.errorsValue
 	}
 }

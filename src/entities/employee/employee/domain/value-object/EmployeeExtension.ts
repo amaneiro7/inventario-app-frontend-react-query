@@ -10,7 +10,9 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 export class EmployeeExtension extends StringValueObject {
 	private static readonly areaCodes = codigosAreaVenezuela.map(areaCode => areaCode.codigo)
 	private static readonly numberLength = 7
-	private static readonly extensionRegex = new RegExp(`^(${this.areaCodes.join('|')})\\d{${this.numberLength}}$`)
+	private static readonly extensionRegex = new RegExp(
+		`^(${this.areaCodes.join('|')})\\d{${this.numberLength}}$`
+	)
 	private static error = ''
 
 	/**

@@ -12,7 +12,7 @@ import {
 export class GetDeviceMonitoringDashboardByState {
 	/**
 	 * @param {DeviceMonitoringDashboardByStateRepository} deviceMonitoringDashboardByStateRepository - El repositorio para obtener los datos del dashboard de monitoreo de dispositivos por estado.
-	 */	constructor(
+	 */ constructor(
 		private readonly deviceMonitoringDashboardByStateRepository: DeviceMonitoringDashboardByStateRepository
 	) {}
 
@@ -21,7 +21,7 @@ export class GetDeviceMonitoringDashboardByState {
 	 * Construye los parámetros de la consulta y delega la ejecución al repositorio.
 	 * @param {DeviceMonitoringFilters} filters - Los filtros a aplicar en la consulta.
 	 * @returns {Promise<DeviceMonitoringDashboardByStateDto>} Una promesa que se resuelve con el DTO del dashboard de monitoreo de dispositivos por estado.
-	 */	async execute({
+	 */ async execute({
 		pageNumber,
 		pageSize,
 		orderBy,

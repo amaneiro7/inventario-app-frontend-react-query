@@ -12,12 +12,12 @@ export class MemoryRam {
 	/**
 	 * Crea una instancia de `MemoryRam`.
 	 * @param {MemoryRamValues[]} value - Un array de Value Objects `MemoryRamValues`.
-	 */	constructor(readonly value: MemoryRamValues[]) {}
+	 */ constructor(readonly value: MemoryRamValues[]) {}
 
 	/**
 	 * Convierte el array de Value Objects `MemoryRamValues` a un array de sus representaciones primitivas.
 	 * @returns {Primitives<MemoryRamValues>[]} Un array de valores primitivos de memoria RAM.
-	 */	public toPrimitives(): Primitives<MemoryRamValues>[] {
+	 */ public toPrimitives(): Primitives<MemoryRamValues>[] {
 		return this.value.map(memValue => memValue.value)
 	}
 
@@ -28,7 +28,7 @@ export class MemoryRam {
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @returns {MemoryRam} Una nueva instancia de `MemoryRam`.
 	 * @throws {Error} Si la validación falla.
-	 */	static fromPrimitives(
+	 */ static fromPrimitives(
 		memoryRamValues: Primitives<MemoryRamValues>[],
 		status: Primitives<StatusId>
 	) {
@@ -45,7 +45,7 @@ export class MemoryRam {
 	 * @param {Primitives<MemoryRamValues>[]} props.value - El array de valores de memoria RAM.
 	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
 	 * @returns {boolean} `true` si la configuración es válida, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		value,
 		status
 	}: {
@@ -75,7 +75,7 @@ export class MemoryRam {
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return 'La capacidad de la memoria Ram no puede ser 0 si el equipo está en uso.'
 	}
 
@@ -85,7 +85,7 @@ export class MemoryRam {
 	 * @static
 	 * @param {Primitives<MemoryRamValues>[] | null} [value] - El array de valores de memoria RAM.
 	 * @returns {boolean} `true` si el array está vacío o es nulo, `false` en caso contrario.
-	 */	private static isEmpty(value?: Primitives<MemoryRamValues>[] | null): boolean {
+	 */ private static isEmpty(value?: Primitives<MemoryRamValues>[] | null): boolean {
 		return !value || value.length === 0
 	}
 
@@ -94,7 +94,7 @@ export class MemoryRam {
 	 * @static
 	 * @param {Primitives<MemoryRamValues>[]} value - El array de valores primitivos de memoria RAM.
 	 * @returns {number} La cantidad total de memoria RAM.
-	 */	static totalAmount(value: Primitives<MemoryRamValues>[]): number {
+	 */ static totalAmount(value: Primitives<MemoryRamValues>[]): number {
 		return value.reduce((acc, val) => acc + Number(val), 0)
 	}
 
@@ -103,7 +103,7 @@ export class MemoryRam {
 	 * @static
 	 * @param {Primitives<MemoryRamValues>[]} value - El array de valores primitivos de memoria RAM.
 	 * @returns {boolean} `true` si la cantidad total es cero, `false` en caso contrario.
-	 */	public static isZeroTotalMemory(value: Primitives<MemoryRamValues>[]): boolean {
+	 */ public static isZeroTotalMemory(value: Primitives<MemoryRamValues>[]): boolean {
 		return this.totalAmount(value) === 0
 	}
 }

@@ -13,23 +13,23 @@ export class CategoryGetByCriteria {
 	 * Opciones de tamaño de página disponibles para la paginación.
 	 * @static
 	 * @type {number[]}
-	 */	static readonly pageSizeOptions = [10, 25, 50, 100]
+	 */ static readonly pageSizeOptions = [10, 25, 50, 100]
 	/**
 	 * Tamaño de página por defecto.
 	 * @static
 	 * @type {number}
-	 */	static readonly defaultPageSize = 25
+	 */ static readonly defaultPageSize = 25
 	/**
 	 * Campo de ordenación por defecto.
 	 * @static
 	 * @type {string}
-	 */	static readonly defaultOrderBy = 'name'
+	 */ static readonly defaultOrderBy = 'name'
 	private readonly getAll: CategoryGetAll
 
 	/**
 	 * Crea una instancia de `CategoryGetByCriteria`.
 	 * @param {CategoryGetAllRepository} repository - El repositorio para obtener todas las categorías.
-	 */	constructor(private readonly repository: CategoryGetAllRepository) {
+	 */ constructor(private readonly repository: CategoryGetAllRepository) {
 		this.getAll = new CategoryGetAll(this.repository)
 	}
 
@@ -43,7 +43,7 @@ export class CategoryGetByCriteria {
 	 * @param {import('@/entities/shared/domain/criteria/OrderType').Primitives<import('@/entities/shared/domain/criteria/OrderType').OrderType>} [filters.orderType] - El tipo de ordenación (ascendente/descendente).
 	 * @param {object} [filters.options] - Otros filtros específicos de la categoría.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<CategoryDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */	async search({
+	 */ async search({
 		pageNumber = 1,
 		pageSize = CategoryGetByCriteria.defaultPageSize,
 		orderBy,

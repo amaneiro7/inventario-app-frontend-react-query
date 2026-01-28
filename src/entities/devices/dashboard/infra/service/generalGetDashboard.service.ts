@@ -13,7 +13,7 @@ export class GeneralDashboardService implements GeneralDashboardRepository {
 	/**
 	 * Obtiene los datos del dashboard general.
 	 * @returns {Promise<GeneralDashboardDto>} Una promesa que se resuelve con el DTO del dashboard general.
-	 */	async get(): Promise<GeneralDashboardDto> {
+	 */ async get(): Promise<GeneralDashboardDto> {
 		return await fetching<GeneralDashboardDto>({
 			url: generalDashboardUrl,
 			method: 'GET'

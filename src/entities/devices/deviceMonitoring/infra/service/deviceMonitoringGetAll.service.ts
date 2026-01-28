@@ -15,7 +15,7 @@ export class DeviceMonitoringGetAllService implements DeviceMonitoringGetAllRepo
 	 * Obtiene todas las monitorizaciones de dispositivos, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<DeviceMonitoringDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las monitorizaciones de dispositivos.
-	 */	async getAll(queryParams?: string): Promise<Response<DeviceMonitoringDto>> {
+	 */ async getAll(queryParams?: string): Promise<Response<DeviceMonitoringDto>> {
 		return await fetching({ url: `${deviceMonitoringUrl}?${queryParams}`, method: 'GET' })
 	}
 }

@@ -11,5 +11,5 @@ export abstract class GeneralDashboardRepository {
 	 * @method get
 	 * @description Obtiene los datos del dashboard general.
 	 * @returns {Promise<GeneralDashboardDto>} Una promesa que se resuelve con el DTO del dashboard general.
-	 */	abstract get(): Promise<GeneralDashboardDto>
+	 */ abstract get(): Promise<GeneralDashboardDto>
 }

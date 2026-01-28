@@ -16,7 +16,7 @@ export class HardDriveTypeGetByCriteria {
 	/**
 	 * Crea una instancia de `HardDriveTypeGetByCriteria`.
 	 * @param {HardDriveTypeGetAllRepository} repository - El repositorio para obtener todos los tipos de disco duro.
-	 */	constructor(private readonly repository: HardDriveTypeGetAllRepository) {
+	 */ constructor(private readonly repository: HardDriveTypeGetAllRepository) {
 		this.getAll = new HardDriveTypeGetAll(this.repository)
 	}
 
@@ -25,7 +25,7 @@ export class HardDriveTypeGetByCriteria {
 	 * Construye los parámetros de la consulta y delega la ejecución a `HardDriveTypeGetAll`.
 	 * @param {HardDriveTypeFilters} filters - Los filtros a aplicar en la búsqueda.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<import('../domain/dto/HardDriveType.dto').HardDriveTypeDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */	async search({
+	 */ async search({
 		pageNumber,
 		pageSize,
 		orderBy,

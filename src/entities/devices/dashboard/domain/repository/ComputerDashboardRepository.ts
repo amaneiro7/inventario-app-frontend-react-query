@@ -11,5 +11,5 @@ export abstract class ComputerDashboardRepository {
 	 * @method get
 	 * @description Obtiene los datos del dashboard de computadoras.
 	 * @returns {Promise<ComputerDashboardDto>} Una promesa que se resuelve con el DTO del dashboard de computadoras.
-	 */	abstract get(): Promise<ComputerDashboardDto>
+	 */ abstract get(): Promise<ComputerDashboardDto>
 }

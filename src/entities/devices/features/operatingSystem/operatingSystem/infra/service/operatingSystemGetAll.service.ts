@@ -15,7 +15,7 @@ export class OperatingSystemGetAllService implements OperatingSystemGetAllReposi
 	 * Obtiene todos los sistemas operativos, opcionalmente filtrados por parámetros de consulta.
 	 * @param {string} queryParams - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<OperatingSystemDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene los sistemas operativos.
-	 */	async getAll(queryParams: string): Promise<Response<OperatingSystemDto>> {
+	 */ async getAll(queryParams: string): Promise<Response<OperatingSystemDto>> {
 		return await fetching({
 			url: `${operatingSystemUrl}?${queryParams}`,
 			method: 'GET'

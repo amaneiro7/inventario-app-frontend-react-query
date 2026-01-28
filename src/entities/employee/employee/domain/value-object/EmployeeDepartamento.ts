@@ -53,12 +53,14 @@ export class EmployeeDepartamento extends AcceptedNullValueObject<Primitives<Dep
 
 		if (vicepresidenciaId === null) {
 			if (value !== null) {
-				EmployeeDepartamento.error = 'Si la vicepresidencia no ha sido asignada, el departamento debe ser nulo.'
+				EmployeeDepartamento.error =
+					'Si la vicepresidencia no ha sido asignada, el departamento debe ser nulo.'
 				return false
 			}
 		} else {
 			if (value === null) {
-				EmployeeDepartamento.error = 'Si la vicepresidencia ha sido asignada, el departamento es obligatorio.'
+				EmployeeDepartamento.error =
+					'Si la vicepresidencia ha sido asignada, el departamento es obligatorio.'
 				return false
 			}
 		}

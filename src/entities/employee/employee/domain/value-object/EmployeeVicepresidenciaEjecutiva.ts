@@ -50,12 +50,14 @@ export class EmployeeVicepresidenciaEjecutiva extends AcceptedNullValueObject<
 
 		if (directivaId === null) {
 			if (value !== null) {
-				EmployeeVicepresidenciaEjecutiva.error = 'Si la directiva jerárquica no ha sido asignada, la vicepresidencia ejecutiva debe ser nula.'
+				EmployeeVicepresidenciaEjecutiva.error =
+					'Si la directiva jerárquica no ha sido asignada, la vicepresidencia ejecutiva debe ser nula.'
 				return false
 			}
 		} else {
 			if (value === null) {
-				EmployeeVicepresidenciaEjecutiva.error = 'Si la directiva jerárquica ha sido asignada, la vicepresidencia ejecutiva es obligatoria.'
+				EmployeeVicepresidenciaEjecutiva.error =
+					'Si la directiva jerárquica ha sido asignada, la vicepresidencia ejecutiva es obligatoria.'
 				return false
 			}
 		}

@@ -9,9 +9,8 @@ export function useVenezuelaTopoJson() {
 		const loadData = async () => {
 			try {
 				// Dynamic import
-				const topoJson = await import(
-					'@/widgets/monitoring/MapChart/Assets/venezuelaState.json'
-				)
+				const topoJson =
+					await import('@/widgets/monitoring/MapChart/Assets/venezuelaState.json')
 				setData(topoJson.default) // .default for JSON imports
 			} catch (err) {
 				setError(err as Error)

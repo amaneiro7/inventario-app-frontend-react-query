@@ -15,7 +15,7 @@ export class HardDriveTypeGetAllService implements HardDriveTypeGetAllRepository
 	 * Obtiene todos los tipos de disco duro, opcionalmente filtrados por parámetros de consulta.
 	 * @param {string} queryParams - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<HardDriveTypeDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene los tipos de disco duro.
-	 */	async getAll(queryParams: string): Promise<Response<HardDriveTypeDto>> {
+	 */ async getAll(queryParams: string): Promise<Response<HardDriveTypeDto>> {
 		return await fetching({
 			url: `${hardDriveTypeUrl}?${queryParams}`,
 			method: 'GET'

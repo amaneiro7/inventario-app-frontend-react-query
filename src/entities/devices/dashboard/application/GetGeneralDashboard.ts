@@ -8,12 +8,12 @@ import { type GeneralDashboardRepository } from '../domain/repository/GeneralDas
 export class GetGeneralDashboard {
 	/**
 	 * @param {GeneralDashboardRepository} generalDashboardRepository - The repository to fetch general dashboard data.
-	 */	constructor(private readonly generalDashboardRepository: GeneralDashboardRepository) {}
+	 */ constructor(private readonly generalDashboardRepository: GeneralDashboardRepository) {}
 
 	/**
 	 * @description Executes the data fetching process.
 	 * @returns {Promise<GeneralDashboardDto>} A promise that resolves to the general dashboard DTO.
-	 */	async execute(): Promise<GeneralDashboardDto> {
+	 */ async execute(): Promise<GeneralDashboardDto> {
 		return await this.generalDashboardRepository.get()
 	}
 }

@@ -17,7 +17,7 @@ export class BrandGetService implements BrandGetRepository {
 	 * Obtiene una marca por su ID.
 	 * @param {{ id: Primitives<BrandId> }} props - Objeto que contiene el ID de la marca.
 	 * @returns {Promise<BrandDto>} Una promesa que se resuelve con el DTO de la marca encontrada.
-	 */	async getById({ id }: { id: Primitives<BrandId> }): Promise<BrandDto> {
+	 */ async getById({ id }: { id: Primitives<BrandId> }): Promise<BrandDto> {
 		return await fetching<BrandDto>({
 			url: `${brandUrl}/${id}`,
 			method: 'GET'

@@ -13,7 +13,7 @@ export class ProcessorGetByCriteria {
 	/**
 	 * Crea una instancia de `ProcessorGetByCriteria`.
 	 * @param {ProcessorGetAllRepository} repository - El repositorio para obtener todos los procesadores.
-	 */	constructor(private readonly repository: ProcessorGetAllRepository) {
+	 */ constructor(private readonly repository: ProcessorGetAllRepository) {
 		this.getAll = new ProcessorGetAll(this.repository)
 	}
 
@@ -22,13 +22,7 @@ export class ProcessorGetByCriteria {
 	 * Construye los parámetros de la consulta y delega la ejecución a `ProcessorGetAll`.
 	 * @param {ProcessorFilters} filters - Los filtros a aplicar en la búsqueda.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<import('../domain/dto/Processor.dto').ProcessorDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */	async search({
-		pageNumber,
-		pageSize,
-		orderBy,
-		orderType,
-		...options
-	}: ProcessorFilters) {
+	 */ async search({ pageNumber, pageSize, orderBy, orderType, ...options }: ProcessorFilters) {
 		const queryParams = await createProcessorParams({
 			...options,
 			pageNumber,

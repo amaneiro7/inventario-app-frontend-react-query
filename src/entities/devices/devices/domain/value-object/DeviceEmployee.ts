@@ -18,7 +18,7 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 	 * @param {Primitives<EmployeeId> | null} value - El ID del empleado asignado.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: Primitives<EmployeeId> | null,
 		private readonly status: Primitives<StatusId>
 	) {
@@ -32,7 +32,7 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} value - El mensaje de error a establecer.
-	 */	private static updateError(value: string) {
+	 */ private static updateError(value: string) {
 		DeviceEmployee.errors = value
 	}
 
@@ -40,7 +40,7 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return DeviceEmployee.errors
 	}
 
@@ -51,7 +51,7 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 	 * @param {Primitives<DeviceEmployee>} props.value - El ID del empleado a validar.
 	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
 	 * @returns {boolean} `true` si el empleado es válido, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		status,
 		value
 	}: {
@@ -99,7 +99,7 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return DeviceEmployee.errorsValue
 	}
 }

@@ -13,7 +13,7 @@ export class ComputerDashboardService implements ComputerDashboardRepository {
 	/**
 	 * Obtiene los datos del dashboard de computadoras.
 	 * @returns {Promise<ComputerDashboardDto>} Una promesa que se resuelve con el DTO del dashboard de computadoras.
-	 */	async get(): Promise<ComputerDashboardDto> {
+	 */ async get(): Promise<ComputerDashboardDto> {
 		return await fetching<ComputerDashboardDto>({
 			url: computerDashboardUrl,
 			method: 'GET'

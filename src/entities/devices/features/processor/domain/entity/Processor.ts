@@ -19,7 +19,7 @@ export class Processor {
 	 * @param {ProcessorCores} cores - El número de núcleos del procesador.
 	 * @param {ProcessorHasThreads} threads - Indica si el procesador tiene hilos.
 	 * @param {ProcessorFrequency} frequency - La frecuencia del procesador.
-	 */	constructor(
+	 */ constructor(
 		private productCollection: ProcessorProductCollection,
 		private numberModel: ProcessorNumberModel,
 		private cores: ProcessorCores,
@@ -32,7 +32,7 @@ export class Processor {
 	 * @static
 	 * @param {ProcessorPrimitives} params - Las propiedades primitivas del procesador.
 	 * @returns {Processor} Una nueva instancia de `Processor`.
-	 */	static create(params: ProcessorPrimitives): Processor {
+	 */ static create(params: ProcessorPrimitives): Processor {
 		return new Processor(
 			new ProcessorProductCollection(params.productCollection),
 			new ProcessorNumberModel(params.numberModel),
@@ -45,38 +45,38 @@ export class Processor {
 	/**
 	 * Obtiene el valor primitivo de la colección de productos del procesador.
 	 * @type {Primitives<ProcessorProductCollection>}
-	 */	get productCollectionValue(): Primitives<ProcessorProductCollection> {
+	 */ get productCollectionValue(): Primitives<ProcessorProductCollection> {
 		return this.productCollection.value
 	}
 	/**
 	 * Obtiene el valor primitivo del número de modelo del procesador.
 	 * @type {Primitives<ProcessorNumberModel>}
-	 */	get numberModelValue(): Primitives<ProcessorNumberModel> {
+	 */ get numberModelValue(): Primitives<ProcessorNumberModel> {
 		return this.numberModel.value
 	}
 	/**
 	 * Obtiene el valor primitivo del número de núcleos del procesador.
 	 * @type {Primitives<ProcessorCores>}
-	 */	get coresValue(): Primitives<ProcessorCores> {
+	 */ get coresValue(): Primitives<ProcessorCores> {
 		return this.cores.value
 	}
 	/**
 	 * Obtiene el valor primitivo de si el procesador tiene hilos.
 	 * @type {Primitives<ProcessorHasThreads>}
-	 */	get hasThreadsValue(): Primitives<ProcessorHasThreads> {
+	 */ get hasThreadsValue(): Primitives<ProcessorHasThreads> {
 		return this.threads.value
 	}
 	/**
 	 * Obtiene el valor primitivo de la frecuencia del procesador.
 	 * @type {Primitives<ProcessorFrequency>}
-	 */	get frequencyValue(): Primitives<ProcessorFrequency> {
+	 */ get frequencyValue(): Primitives<ProcessorFrequency> {
 		return this.frequency.value
 	}
 
 	/**
 	 * Convierte la entidad `Processor` a su representación primitiva.
 	 * @returns {ProcessorPrimitives} La representación primitiva del procesador.
-	 */	toPrimitives(): ProcessorPrimitives {
+	 */ toPrimitives(): ProcessorPrimitives {
 		return {
 			productCollection: this.productCollectionValue,
 			numberModel: this.numberModelValue,

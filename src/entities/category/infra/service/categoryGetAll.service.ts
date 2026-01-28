@@ -16,7 +16,7 @@ export class CategoryGetAllService implements CategoryGetAllRepository {
 	 * Obtiene todas las categorías, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} queryParams - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<CategoryDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las categorías.
-	 */	async getAll(queryParams: string): Promise<Response<CategoryDto>> {
+	 */ async getAll(queryParams: string): Promise<Response<CategoryDto>> {
 		return await fetching({ url: `${categoryUrl}?${queryParams}`, method: 'GET' })
 	}
 }

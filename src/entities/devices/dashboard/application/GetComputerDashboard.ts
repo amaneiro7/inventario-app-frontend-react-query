@@ -8,12 +8,12 @@ import { type ComputerDashboardRepository } from '../domain/repository/ComputerD
 export class GetComputerDashboard {
 	/**
 	 * @param {ComputerDashboardRepository} computerDashboardRepository - The repository to fetch dashboard data.
-	 */	constructor(private readonly computerDashboardRepository: ComputerDashboardRepository) {}
+	 */ constructor(private readonly computerDashboardRepository: ComputerDashboardRepository) {}
 
 	/**
 	 * @description Executes the data fetching process.
 	 * @returns {Promise<ComputerDashboardDto>} A promise that resolves to the computer dashboard DTO.
-	 */	async execute(): Promise<ComputerDashboardDto> {
+	 */ async execute(): Promise<ComputerDashboardDto> {
 		return await this.computerDashboardRepository.get()
 	}
 }

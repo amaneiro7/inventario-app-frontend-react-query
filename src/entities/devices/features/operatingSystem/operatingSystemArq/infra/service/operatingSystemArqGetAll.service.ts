@@ -15,7 +15,7 @@ export class OperatingSystemArqGetAllService implements OperatingSystemArqGetAll
 	 * Obtiene todas las arquitecturas de sistema operativo, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} queryParams - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<OperatingSystemArqDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las arquitecturas de sistema operativo.
-	 */	async getAll(queryParams: string): Promise<Response<OperatingSystemArqDto>> {
+	 */ async getAll(queryParams: string): Promise<Response<OperatingSystemArqDto>> {
 		return await fetching({
 			url: `${operatingSystemArqUrl}?${queryParams}`,
 			method: 'GET'

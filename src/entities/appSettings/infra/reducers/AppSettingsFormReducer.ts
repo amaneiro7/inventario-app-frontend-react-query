@@ -14,7 +14,7 @@ export const initialAppSettingsState: State = {
 	errors: {}
 }
 
-export type Action = 
+export type Action =
 	| { type: 'init'; payload: { settings: AppSettingsForm[] } }
 	| { type: 'reset'; payload: { settings: AppSettingsForm[] } }
 	| {

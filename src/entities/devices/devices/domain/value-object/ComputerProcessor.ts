@@ -18,7 +18,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 	 * @param {Primitives<ProcessorId> | null} value - El valor del ID del procesador.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */	constructor(
+	 */ constructor(
 		value: Primitives<ProcessorId> | null,
 		private readonly status: Primitives<StatusId>
 	) {
@@ -33,7 +33,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */	private static updateError(error: string): void {
+	 */ private static updateError(error: string): void {
 		ComputerProcessor.errors = error
 	}
 
@@ -41,7 +41,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */	private static get errorsValue(): string {
+	 */ private static get errorsValue(): string {
 		return ComputerProcessor.errors
 	}
 
@@ -52,7 +52,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 	 * @param {Primitives<ComputerProcessor>} props.value - El valor del procesador.
 	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
 	 * @returns {boolean} `true` si el procesador es válido, `false` en caso contrario.
-	 */	public static isValid({
+	 */ public static isValid({
 		value,
 		status
 	}: {
@@ -89,7 +89,7 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */	public static invalidMessage(): string {
+	 */ public static invalidMessage(): string {
 		return ComputerProcessor.errorsValue
 	}
 }

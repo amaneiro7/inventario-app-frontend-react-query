@@ -82,8 +82,8 @@ export class Criteria {
 			pageSize && pageNumber
 				? `pageSize=${pageSize}&pageNumber=${pageNumber}`
 				: pageSize
-				? `pageSize=${pageSize}`
-				: undefined
+					? `pageSize=${pageSize}`
+					: undefined
 
 		/**
 		 * Build a query string for the order by and order type
