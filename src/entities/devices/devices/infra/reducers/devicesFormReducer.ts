@@ -380,9 +380,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					? ''
 					: state.formData.employeeId
 			const locationId =
-				statusId === StatusOptions.INALMACEN ||
-				statusId === StatusOptions.PORDESINCORPORAR ||
-				statusId === StatusOptions.DESINCORPORADO
+				statusId === StatusOptions.INALMACEN || statusId === StatusOptions.DESINCORPORADO
 					? ''
 					: state.formData.locationId
 			const computerName =

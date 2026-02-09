@@ -61,8 +61,11 @@ function getTypeOfSiteFilter(
 		case StatusOptions.JORNADA:
 		case StatusOptions.DISPONIBLE:
 			return [TypeOfSiteOptions.AGENCY, TypeOfSiteOptions.ADMINISTRATIVE]
-		default:
+		case StatusOptions.INALMACEN:
+		case StatusOptions.DESINCORPORADO:
 			return TypeOfSiteOptions.ALMACEN
+		default:
+			return undefined
 	}
 }
 

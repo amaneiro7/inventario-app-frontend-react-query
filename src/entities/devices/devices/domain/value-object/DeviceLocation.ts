@@ -21,7 +21,8 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @param {Primitives<TypeOfSiteId>} [typeOfSite] - El ID del tipo de sitio de la ubicación.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: Primitives<LocationId> | null,
 		private readonly status: Primitives<StatusId>,
 		private readonly typeOfSite?: Primitives<TypeOfSiteId>
@@ -41,7 +42,8 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 	 * Actualiza el mensaje de error estático.
 	 * @private
 	 * @param {string} error - El mensaje de error a establecer.
-	 */ private static updateError(error: string): void {
+	 */
+	private static updateError(error: string): void {
 		DeviceLocation.errors = error
 	}
 
@@ -49,7 +51,8 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 	 * Obtiene el mensaje de error estático.
 	 * @private
 	 * @type {string}
-	 */ private static get errorsValue(): string {
+	 */
+	private static get errorsValue(): string {
 		return DeviceLocation.errors
 	}
 
@@ -60,7 +63,8 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 	 * @param {Primitives<StatusId>} [props.status] - El ID del estado del dispositivo.
 	 * @param {Primitives<TypeOfSiteId>} [props.typeOfSite] - El ID del tipo de sitio de la ubicación.
 	 * @returns {boolean} `true` si la ubicación es válida, `false` en caso contrario.
-	 */ public static isValid({
+	 */
+	public static isValid({
 		status,
 		typeOfSite
 	}: {
@@ -82,7 +86,6 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 				}
 				break
 			case StatusOptions.INALMACEN:
-			case StatusOptions.PORDESINCORPORAR:
 				if (typeOfSite !== TypeOfSiteOptions.ALMACEN) {
 					this.updateError('Si no esta en uso, solo puede estar ubicado en el almacen.')
 					return false
@@ -102,7 +105,8 @@ export class DeviceLocation extends AcceptedNullValueObject<Primitives<LocationI
 	 * Obtiene el mensaje de error de validación.
 	 * @static
 	 * @returns {string} El mensaje de error.
-	 */ public static invalidMessage(): string {
+	 */
+	public static invalidMessage(): string {
 		return this.errorsValue
 	}
 }
