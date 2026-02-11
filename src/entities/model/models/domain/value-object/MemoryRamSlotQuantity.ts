@@ -3,7 +3,7 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 
 export class MemoryRamSlotQuantity extends NumberValueObject {
 	static readonly MIN = 1
-	static readonly MAX = 8
+	static readonly MAX = 16
 	static readonly STEPS = 2
 
 	constructor(value: number) {
