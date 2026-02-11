@@ -46,18 +46,23 @@ export class EmployeeDirectiva extends AcceptedNullValueObject<Primitives<Direct
 	}): boolean {
 		EmployeeDirectiva.error = '' // Clear the error message
 
-		if (type === EmployeeTypes.GENERIC) {
-			if (value !== null) {
-				// If it's generic, directiva must be null
-				EmployeeDirectiva.error = 'Si es genérico no puede tener una directiva.'
-				return false
-			}
-		} else {
+		const typeRequiredDirectiva = [
+			EmployeeTypes.REGULAR,
+			EmployeeTypes.CONTRACTOR,
+			EmployeeTypes.APPRENTICE
+		]
+		const typesForbiddenDirectiva = [EmployeeTypes.GENERIC]
+
+		if (typesForbiddenDirectiva.includes(type) && value !== null) {
+			// If it's generic, directiva must be null
+			EmployeeDirectiva.error = 'Si es genérico o aprendiz no puede tener una directiva.'
+			return false
+		}
+		if (typeRequiredDirectiva.includes(type) && value === null) {
 			// If it's not generic, directiva is mandatory
-			if (value === null) {
-				EmployeeDirectiva.error = 'La directiva es obligatoria.'
-				return false
-			}
+
+			EmployeeDirectiva.error = 'La directiva es obligatoria.'
+			return false
 		}
 		return true
 	}

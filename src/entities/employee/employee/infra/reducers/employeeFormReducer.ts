@@ -355,7 +355,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 			const isContractor = type === EmployeeTypes.CONTRACTOR
 
 			// Tipos que NO manejan estructura organizacional (VP, Directiva, etc)
-			const hasNoHierarchy = isGeneric || isApprentice
+			const hasNoHierarchy = isGeneric
 			// Tipos que si deberían tener código de empleado
 			const hasEmployeeCode = isRegular
 
