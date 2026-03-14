@@ -15,7 +15,7 @@ import { formatDateMedium } from '@/shared/lib/utils/formatDate'
 import { getHistoryActionVariant } from '@/entities/history/infra/ui/getHistoryActionVariant'
 import { getHistoryActionTitle } from '@/entities/history/infra/ui/getHistoryActionTitle'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint_disable-next-line @typescript-eslint/no-explicit-any
 export interface DeviceAssignmentEvent {
 	type: HistoryActionTypes
 	deviceId: string
@@ -24,7 +24,7 @@ export interface DeviceAssignmentEvent {
 	date: string
 	timestamp: Date
 	changeBy?: string
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint_disable-next-line @typescript-eslint/no-explicit-any
 	details?: Record<string, { oldValue: any; newValue: any }>
 }
 

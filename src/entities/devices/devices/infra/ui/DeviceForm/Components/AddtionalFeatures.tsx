@@ -29,7 +29,7 @@ interface AddtionalFeaturesProps {
 	disabled: DevicesDisabled
 	isLoading: boolean
 	canEdit: boolean
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint_disable-next-line @typescript-eslint/no-explicit-any
 	handleChange: (name: Action['type'], value: any) => Promise<void>
 	handleMemory: (value: string, index: number) => Promise<void>
 }
@@ -133,7 +133,7 @@ export function AddtionalFeatures({
 			default:
 				return null
 		}
-	}, [formData, errors, disabled, required, handleChange, handleMemory])
+	}, [formData, errors, disabled, isLoading, required, canEdit, handleChange, handleMemory])
 	return (
 		<>
 			{additionalFeatures !== null && (

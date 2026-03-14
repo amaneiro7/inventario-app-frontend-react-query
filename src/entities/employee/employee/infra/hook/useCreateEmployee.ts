@@ -93,7 +93,7 @@ export function useCreateEmployee(defaultState?: DefaultEmployee) {
 	 * @param name - The name of the action/field to update.
 	 * @param value - The new value for the field.
 	 */
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint_disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback((name: Action['type'], value: any) => {
 		const ignoredActions =
 			name === 'init' ||

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 import { lazy, memo } from 'react'
 import { Checkbox } from '@/shared/ui/Checkbox'
 

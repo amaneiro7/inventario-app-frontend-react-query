@@ -36,7 +36,10 @@ export function StateCombobox({
 	}, [value, regionId, administrativeRegionId])
 	const { data, isLoading: loading } = useGetAllState(query)
 
-	const options = useMemo(() => data?.data ?? [], [data])
+	const options = useMemo(
+		() => data?.data.sort((a, b) => a.name.localeCompare(b.name)) ?? [],
+		[data]
+	)
 
 	const filteredOptions = useFilterOptions({ options, inputValue })
 

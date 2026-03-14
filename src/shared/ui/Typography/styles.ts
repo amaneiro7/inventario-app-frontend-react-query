@@ -2,7 +2,7 @@ export const typography: Record<
 	'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | 'p',
 	{
 		classes: string
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// eslint_disable-next-line @typescript-eslint/no-explicit-any
 		options?: Record<string, any>
 	}
 > = {

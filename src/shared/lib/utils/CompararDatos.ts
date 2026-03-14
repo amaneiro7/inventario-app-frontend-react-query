@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 interface Cambio {
 	oldValue: any
 	newValue: any

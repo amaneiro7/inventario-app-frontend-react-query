@@ -1,32 +1,21 @@
 import { useMemo } from 'react'
 import { HistoryActionTypes } from '@/entities/history/domain/value-object/HistoryAction'
-import Typography from '@/shared/ui/Typography'
-import { Icon } from '@/shared/ui/icon/Icon'
-import { TimelineItem, type DeviceAssignmentEvent } from './TimelineItem'
-import { type EmployeeDto } from '../../entities/employee/employee/domain/dto/Employee.dto'
+import { type DeviceAssignmentEvent } from '../ui/TimelineItem'
+import type { HistoryDto } from '@/entities/history/domain/dto/History.dto'
+import type { DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
-interface EmployeeHistoryProps {
-	history?: EmployeeDto['history']
-	currentDevices?: EmployeeDto['devices']
+interface UseEmployeeHistoryProps {
+	history: HistoryDto[]
+	currentDevices: DeviceDto[]
 }
 
-export const EmployeeHistoryTimeline = ({
+export const useEmployeeHistoryTimeline = ({
 	history = [],
 	currentDevices = []
-}: EmployeeHistoryProps) => {
-	if (history === null || (history && history.length === 0)) {
-		return (
-			<div className="flex h-40 flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50">
-				<Typography variant="p" className="text-gray-500">
-					No hay historial de asiganciones para este usuario.
-				</Typography>
-			</div>
-		)
-	}
-
+}: UseEmployeeHistoryProps) => {
 	const events = useMemo<DeviceAssignmentEvent[]>(() => {
 		//const currentDeviceIds = currentDevices.map(d => d.id)
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		// eslint_disable-next-line @typescript-eslint/no-explicit-any
 		const getDeviceInfo = (deviceId: string, data?: any): string => {
 			const currentDevice = currentDevices.find(d => d.id === deviceId)
 			if (currentDevice) {
@@ -92,20 +81,5 @@ export const EmployeeHistoryTimeline = ({
 		return allEvents.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
 	}, [history, currentDevices])
 
-	if (events.length === 0) {
-		return (
-			<div className="text-muted-foreground py-8 text-center">
-				<Icon name="clock" className="mx-auto mb-2 h-12 w-12 opacity-50" />
-				<Typography variant="p">No hay historial de equipos</Typography>
-			</div>
-		)
-	}
-
-	return (
-		<div className="before:bg-border relative space-y-6 pl-8 before:absolute before:top-2 before:left-2.75 before:h-[calc(100%-16px)] before:w-0.5">
-			{events.map((entry, index) => (
-				<TimelineItem key={`${entry.deviceId}-${index}`} event={entry} />
-			))}
-		</div>
-	)
+	return { events }
 }

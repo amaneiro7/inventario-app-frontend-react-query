@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 import { useMemo } from 'react'
 
 interface UseFilterOptionsProps<T extends Record<string, any>> {

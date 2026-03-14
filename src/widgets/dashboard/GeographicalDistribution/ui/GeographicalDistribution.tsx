@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 import { lazy, memo, Suspense } from 'react'
 import { useGeographicalDistribution } from '../model/useGeographicalDistribution'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'

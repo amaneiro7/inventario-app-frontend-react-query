@@ -53,7 +53,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 		const locationMap = new Map<string, DistributionItem>()
 
 		filteredHierarchy.forEach(admRegion => {
-			let dataToAggregate: any[] = [] // eslint-disable-line @typescript-eslint/no-explicit-any
+			let dataToAggregate: any[] = [] // eslint_disable-line @typescript-eslint/no-explicit-any
 
 			if (viewBy === 'admRegion') {
 				dataToAggregate = [admRegion]
@@ -81,7 +81,7 @@ export function useGeographicalDistribution({ data }: UseGeographicalDistributio
 				const name = item.name
 				const count = item.count
 				const agenciaCount = (item.typeOfSiteCount as { Agencia?: number })?.Agencia
-				const sedeCount = (item.typeOfSiteCount as { 'Sede Administrativa'?: number })?.[ // eslint-disable-line
+				const sedeCount = (item.typeOfSiteCount as { 'Sede Administrativa'?: number })?.[ // eslint_disable-line
 					'Sede Administrativa'
 				]
 

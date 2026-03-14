@@ -80,7 +80,7 @@ export function useCreateDevice(defaultState?: DefaultDevice) {
 		return !isDeepEqual(formData, initialData)
 	}, [formData, initialData, isDeepEqual])
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	// eslint_disable-next-line @typescript-eslint/no-explicit-any
 	const handleChange = useCallback(async (name: Action['type'], value: any) => {
 		if (
 			name === 'init' ||

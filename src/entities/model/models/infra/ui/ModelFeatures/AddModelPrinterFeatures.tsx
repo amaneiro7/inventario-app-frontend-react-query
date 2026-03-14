@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 import { memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
 // Types

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 import Typography from '@/shared/ui/Typography'
 import { memo } from 'react'
 import { cn } from '@/shared/lib/utils'

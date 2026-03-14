@@ -9,7 +9,7 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
-import { HistoryTimelineSkeleton } from '@/widgets/HistoryTimeline/HistoryTimelineSkeleton'
+import { HistoryTimelineSkeleton } from '@/widgets/HistoryTimeline/ui/HistoryTimelineSkeleton'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -42,7 +42,7 @@ const SignatureGenerator = lazy(() =>
 	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
 )
 const EmployeeHistoryTimeline = lazy(() =>
-	import('@/widgets/HistoryTimeline/EmployeeHistoryTimeline').then(m => ({
+	import('@/widgets/HistoryTimeline/ui/EmployeeHistoryTimeline').then(m => ({
 		default: m.EmployeeHistoryTimeline
 	}))
 )

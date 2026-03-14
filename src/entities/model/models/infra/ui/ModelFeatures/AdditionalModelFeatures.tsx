@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint_disable @typescript-eslint/no-explicit-any */
 import { lazy, Suspense, useMemo } from 'react'
 import { MainCategoryOptions } from '@/entities/mainCategory/domain/entity/MainCategoryOptions'
 import { CategoryOptions } from '@/entities/category/domain/entity/CategoryOptions'
@@ -49,7 +49,6 @@ export function AddtionalModelFeatures({
 	handleChange
 }: AddtionalModelFeaturesProps) {
 	const additionalFeatures = useMemo(() => {
-		// Condición adicional para teclados basada en categoryId
 		if (formData.categoryId === CategoryOptions.KEYBOARD) {
 			return (
 				<Suspense fallback={<ModelSkeleton type="keyboard" />}>
@@ -112,7 +111,7 @@ export function AddtionalModelFeatures({
 			default:
 				return null
 		}
-	}, [formData, errors, disabled, required, handleChange])
+	}, [formData, errors, disabled, required, handleChange, isLoading, canEdit])
 	return (
 		<>
 			{additionalFeatures !== null && (

@@ -7,7 +7,7 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { useHasPermission } from '@/features/auth/hook/useHasPermission'
 import { PERMISSIONS } from '@/shared/config/permissions'
-import { HistoryTimelineSkeleton } from '@/widgets/HistoryTimeline/HistoryTimelineSkeleton'
+import { HistoryTimelineSkeleton } from '@/widgets/HistoryTimeline/ui/HistoryTimelineSkeleton'
 
 const Tabs = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.Tabs })))
 const TabsContent = lazy(() => import('@/shared/ui/Tabs').then(m => ({ default: m.TabsContent })))
@@ -35,7 +35,7 @@ const SerialSearch = lazy(() =>
 )
 
 const DeviceHistoryTimeline = lazy(() =>
-	import('@/widgets/HistoryTimeline/DeviceHistoryTimeline').then(m => ({
+	import('@/widgets/HistoryTimeline/ui/DeviceHistoryTimeline').then(m => ({
 		default: m.DeviceHistoryTimeline
 	}))
 )
