@@ -1,5 +1,5 @@
 import { DeviceMonitoringStatuses } from '@/entities/devices/deviceMonitoring/domain/value-object/Status'
-import { BadgeProps } from '@/shared/ui/Badge'
+import { type BadgeProps } from '@/shared/ui/Badge'
 import { type IconName } from '@/shared/ui/icon/Icon'
 import { type BackgroundType, type ColorType } from '@/shared/ui/Typography/types'
 

@@ -1,6 +1,6 @@
 import { LocationGetAll } from './LocationGetAll'
 import { LocationGetAllRepository } from '../domain/repository/LocationGetAllRepository'
-import { createLocationParams, LocationFilters } from './CreateLocationQueryParams'
+import { createLocationParams, type LocationFilters } from './CreateLocationQueryParams'
 
 export class LocationGetByCriteria {
 	static readonly pageSizeOptions = [10, 25, 50, 100]

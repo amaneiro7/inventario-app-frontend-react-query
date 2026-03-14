@@ -1,7 +1,7 @@
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
-import { LocationDto, LocationParams } from '../../domain/dto/Location.dto'
 import { LocationName } from '../../domain/value-object/LocationName'
 import { LocationSubnet } from '../../domain/value-object/LocationSubnet'
+import { type LocationDto, type LocationParams } from '../../domain/dto/Location.dto'
 
 export interface DefaultLocation extends LocationParams {
 	regionId: LocationDto['site']['city']['state']['regionId']

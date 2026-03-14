@@ -1,4 +1,4 @@
-import { Link, LinkProps } from 'react-router-dom'
+import { Link, type LinkProps } from 'react-router-dom'
 import cn from 'classnames'
 import { twMerge } from 'tailwind-merge'
 

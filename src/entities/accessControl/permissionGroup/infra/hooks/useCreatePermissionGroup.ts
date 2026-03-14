@@ -1,14 +1,14 @@
 import { useCallback } from 'react'
 import { usePermissionGroupInitialData } from './usePermissionGroupInitialData'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
 import {
 	initialPermissionGroupState,
 	permissionGroupFormReducer
 } from '../reducers/permissionGroupFormReducer'
-import { PermissionGroupParams } from '../../domain/dto/PermissionGroup.dto'
 import { PermissionGroupSaveService } from '../service/permissionGroupSave.service'
 import { PermissionGroupCreator } from '../../application/PermissionGroupCreator'
-import { useFormHandler } from '@/shared/lib/hooks/useFormHandler'
+import { type PermissionGroupParams } from '../../domain/dto/PermissionGroup.dto'
 
 const repository = new PermissionGroupSaveService()
 const permissionGroupCreator = new PermissionGroupCreator(

@@ -1,5 +1,5 @@
 import { api } from '@/shared/api/axios.config'
-import { Permission } from '@/shared/config/permissions'
+import { type Permission } from '@/shared/config/permissions'
 /**
  * Fetches the permissions for the currently authenticated user.
  * @returns A promise that resolves to an array of permission strings.

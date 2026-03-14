@@ -1,9 +1,10 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { useGetAllCentroCosto } from '@/entities/employee/centroCosto/infra/hook/useGetAllCentroCosto'
-import { CentroCostoDto } from '@/entities/employee/centroCosto/domain/dto/CentroCosto.dto'
 import { Combobox } from '@/shared/ui/Input/Combobox'
+import { type CentroCostoDto } from '@/entities/employee/centroCosto/domain/dto/CentroCosto.dto'
 import { type CentroCostoFilters } from '@/entities/employee/centroCosto/application/createCentroCostoQueryParams'
+
 export function CentroCostoCombobox({
 	value = '',
 	name,

@@ -1,0 +1,15 @@
+# Ignorar dependencias locales
+node_modules
+
+# Ignorar artefactos de build
+dist
+
+# Ignorar archivos de Git y Docker
+.git
+.gitignore
+Dockerfile
+.dockerignore
+
+# Ignorar archivos de entorno y logs
+.env*
+npm-debug.log*

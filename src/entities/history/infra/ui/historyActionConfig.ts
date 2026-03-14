@@ -1,4 +1,4 @@
-import { BadgeProps } from '@/shared/ui/Badge'
+import { type BadgeProps } from '@/shared/ui/Badge'
 import { HistoryActionTypes } from '../../domain/value-object/HistoryAction'
 import { type BackgroundType } from '@/shared/ui/Typography/types'
 import { type IconName } from '@/shared/ui/icon/Icon'

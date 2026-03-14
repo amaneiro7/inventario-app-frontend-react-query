@@ -1,4 +1,4 @@
-import React, { ElementType, createElement, forwardRef } from 'react'
+import React, { type ElementType, createElement, forwardRef } from 'react'
 import cn from 'classnames'
 import { twMerge } from 'tailwind-merge'
 import {

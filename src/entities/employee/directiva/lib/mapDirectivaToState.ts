@@ -1,5 +1,5 @@
-import { DirectivaDto } from '../domain/dto/Directiva.dto'
-import { DefaultDirectiva } from '../infra/reducers/directivaFormReducer'
+import { type DirectivaDto } from '../domain/dto/Directiva.dto'
+import { type DefaultDirectiva } from '../infra/reducers/directivaFormReducer'
 
 /**
  * Mapea un objeto `DirectivaDto` a la estructura `DefaultDirectiva` para el estado del formulario.

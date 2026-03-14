@@ -1,7 +1,7 @@
-import { UserParams, UserPrimitives } from '../dto/LoginUser.dto'
 import { RoleId } from '@/entities/role/domain/value-object/RoleId'
 import { RoleOptions } from '@/entities/role/domain/entity/RoleOptions'
 import { EmployeeId } from '@/entities/employee/employee/domain/value-object/EmployeeId'
+import { type UserParams, type UserPrimitives } from '../dto/LoginUser.dto'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
 /**

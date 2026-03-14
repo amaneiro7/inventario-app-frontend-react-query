@@ -1,10 +1,12 @@
 import { memo } from 'react'
 import { cn } from '@/shared/lib/utils'
-import { ColorType } from '@/shared/ui/Typography/types'
 import Typography from '@/shared/ui/Typography'
+import { type ColorType } from '@/shared/ui/Typography/types'
 
-interface DetailsPanelCardProps
-	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface DetailsPanelCardProps extends React.DetailedHTMLProps<
+	React.HTMLAttributes<HTMLDivElement>,
+	HTMLDivElement
+> {
 	value: string
 	color: ColorType
 }

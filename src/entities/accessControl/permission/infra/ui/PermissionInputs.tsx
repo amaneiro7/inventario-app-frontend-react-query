@@ -4,8 +4,8 @@ import {
 	type PermissionErrors,
 	type Action,
 	type DefaultPermission,
-	PermissionRequired,
-	PermissionDisaled
+	type PermissionRequired,
+	type PermissionDisaled
 } from '@/entities/accessControl/permission/infra/reducers/permissionFormReducer'
 
 interface PermissionInputsProps {

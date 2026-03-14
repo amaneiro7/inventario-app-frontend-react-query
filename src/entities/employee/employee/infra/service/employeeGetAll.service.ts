@@ -1,8 +1,8 @@
 import { fetching } from '@/shared/api/api'
+import { employeeUrl } from '../../domain/entity/baseUrl'
 import { type EmployeeGetAllRepository } from '../../domain/repository/EmployeeGetAllRepository'
 import { type EmployeeDto } from '../../domain/dto/Employee.dto'
-import { employeeUrl } from '../../domain/entity/baseUrl'
-import { Response } from '@/entities/shared/domain/methods/Response'
+import { type Response } from '@/entities/shared/domain/methods/Response'
 
 /**
  * Implementation of the EmployeeGetAllRepository interface using the fetching utility.

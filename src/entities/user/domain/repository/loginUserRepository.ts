@@ -1,4 +1,4 @@
-import { UserAuthDTO, type LoginParams } from '../dto/LoginAuth.dto'
+import { type UserAuthDTO, type LoginParams } from '../dto/LoginAuth.dto'
 
 /**
  * Abstract class for a repository that provides methods for user login.

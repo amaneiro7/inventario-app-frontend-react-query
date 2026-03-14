@@ -1,5 +1,5 @@
-import { ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { useMemo } from 'react'
+import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 /**
  * Props for the useBrandDistribution hook.

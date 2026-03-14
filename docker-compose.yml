@@ -1,0 +1,13 @@
+services:
+    frontend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: inventario-frontend # ¡Importante! Debe coincidir con lo que pusimos en nginx.conf
+        restart: unless-stopped
+        networks:
+            - inventory-net
+
+networks:
+    inventory-net:
+        external: true

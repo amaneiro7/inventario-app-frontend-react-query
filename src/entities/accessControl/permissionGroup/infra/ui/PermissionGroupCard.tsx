@@ -1,10 +1,10 @@
 import { memo, useCallback, useMemo } from 'react'
+import { useDeletePermissionGroup } from '../hooks/useDeletePermissionGroup'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { ActionMenu } from '@/widgets/ActionMenu'
 import { Badge } from '@/shared/ui/Badge'
-import { PermissionGroupDto } from '../../domain/dto/PermissionGroup.dto'
 import { useNavigate } from 'react-router-dom'
-import { useDeletePermissionGroup } from '../hooks/useDeletePermissionGroup'
+import { type PermissionGroupDto } from '../../domain/dto/PermissionGroup.dto'
 
 interface PermissionGroupCardProps {
 	permissionGroup: PermissionGroupDto

@@ -1,5 +1,5 @@
 import { GetAllRepository } from '@/entities/shared/domain/repository/GetAllRepository.abstract'
-import { OperatingSystemArqDto } from '../dto/OperatingSystemArq.dto'
+import { type OperatingSystemArqDto } from '../dto/OperatingSystemArq.dto'
 
 /**
  * @abstract

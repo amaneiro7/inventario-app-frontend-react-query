@@ -2,7 +2,7 @@ import { memo } from 'react'
 import Typography from '@/shared/ui/Typography'
 import { LastUpdated } from '@/shared/ui/LastUpdated'
 import { UpdatedBy } from '@/shared/ui/UpdatedBy'
-import { HistoryDto } from '@/entities/history/domain/dto/History.dto'
+import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 
 interface FormFooterProps {
 	lastUpdated?: string

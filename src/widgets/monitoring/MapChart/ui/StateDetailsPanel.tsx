@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { StateData } from '../Model/useMapChart'
+import { type StateData } from '../Model/useMapChart'
 import { DetailsPanel } from '../../../../shared/ui/DetailsPanel'
 import { NetworkStateLinkMonitoring } from './NetworkStateLinkMonitoring'
 

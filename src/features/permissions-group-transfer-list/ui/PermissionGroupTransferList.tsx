@@ -1,9 +1,9 @@
-import { PermissionGroupDto } from '@/entities/accessControl/permissionGroup/domain/dto/PermissionGroup.dto'
 import { memo } from 'react'
 import { usePermissionsGroupsTransferList } from '../model/usePermissionGroupTransferList'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import Typography from '@/shared/ui/Typography'
 import { TransferListItem } from '@/shared/ui/TransferList/TransferListItem'
+import { type PermissionGroupDto } from '@/entities/accessControl/permissionGroup/domain/dto/PermissionGroup.dto'
 
 interface PermissionGroupTransferListProps {
 	value?: PermissionGroupDto['id'][]

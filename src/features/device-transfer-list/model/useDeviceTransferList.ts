@@ -1,8 +1,8 @@
-import { DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
-import { DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
-import { useGetAllDevicesInputSearch } from '@/entities/devices/devices/infra/hook/useGetAllDevicesInputSearch'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { useGetAllDevicesInputSearch } from '@/entities/devices/devices/infra/hook/useGetAllDevicesInputSearch'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceDto } from '@/entities/devices/devices/domain/dto/Device.dto'
 
 interface UseDeviceTransferList {
 	devices: DeviceDto['id'][]

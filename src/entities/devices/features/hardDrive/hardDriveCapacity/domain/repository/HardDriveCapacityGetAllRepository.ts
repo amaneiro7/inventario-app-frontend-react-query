@@ -1,5 +1,5 @@
 import { GetAllRepository } from '@/entities/shared/domain/repository/GetAllRepository.abstract'
-import { HardDriveCapacityDto } from '../dto/HardDriveCapacity.dto'
+import { type HardDriveCapacityDto } from '../dto/HardDriveCapacity.dto'
 
 /**
  * @abstract

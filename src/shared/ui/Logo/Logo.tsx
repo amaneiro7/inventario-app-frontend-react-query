@@ -2,7 +2,7 @@ import { lazy, memo } from 'react'
 import { Link } from 'react-router-dom'
 import { titleLogo } from '@/shared/config'
 import { cn } from '@/shared/lib/utils'
-import './Logo.css'
+import './logo-style.css'
 
 const LazyLogoImage = lazy(() =>
 	import('../Images/LazyLogoImage').then(m => ({ default: m.LazyLogoImage }))

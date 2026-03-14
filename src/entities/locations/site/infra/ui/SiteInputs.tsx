@@ -1,6 +1,6 @@
 import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 import {
 	type Action,
 	type SiteErrors,

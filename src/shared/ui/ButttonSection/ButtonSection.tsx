@@ -1,4 +1,4 @@
-import { memo, MouseEventHandler } from 'react'
+import { memo, type MouseEventHandler } from 'react'
 import Button from '@/shared/ui/Button'
 import { AddIcon } from '@/shared/ui/icon/AddIcon'
 import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
@@ -26,7 +26,7 @@ export const ButtonSection = memo(
 		children
 	}: React.PropsWithChildren<ButtonSectionProps>) => {
 		return (
-			<section className="my-4 flex min-h-[60px] w-full items-start justify-start gap-2">
+			<section className="my-4 flex min-h-15 w-full items-start justify-start gap-2">
 				{handleExportToExcel && (
 					<Button
 						type="button"

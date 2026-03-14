@@ -1,6 +1,6 @@
-import { type EventManager } from '@/entities/shared/domain/Observer/EventManager'
 import { ChangePasswordRepository } from '../domain/repository/changePasswordRepository'
-import { ChangePasswordParams } from '../domain/dto/ChangePasword.dto'
+import { type EventManager } from '@/entities/shared/domain/Observer/EventManager'
+import { type ChangePasswordParams } from '../domain/dto/ChangePasword.dto'
 
 /**
  * Service class responsible for handling user password changes.

@@ -1,5 +1,5 @@
 import { memo, lazy } from 'react'
-import { StateData } from '../Model/useMapChart'
+import { type StateData } from '../Model/useMapChart'
 import {
 	Tooltip,
 	TooltipContent,

@@ -15,10 +15,14 @@ export class AccessPolicyCreator {
 	 * Crea una instancia de `AccessPolicyCreator`.
 	 * @param {AccessPolicySaveRepository} repository - El repositorio para guardar o actualizar la marca.
 	 * @param {EventManager} events - El gestor de eventos para notificar el estado de la operación.
-	 */ constructor(
-		readonly repository: AccessPolicySaveRepository,
-		private readonly events: EventManager
-	) {}
+	 */
+	readonly repository: AccessPolicySaveRepository
+	private readonly events: EventManager
+
+	constructor(repository: AccessPolicySaveRepository, events: EventManager) {
+		this.repository = repository
+		this.events = events
+	}
 
 	/**
 	 * Ejecuta la creación o actualización de una marca.
@@ -27,7 +31,8 @@ export class AccessPolicyCreator {
 	 * @param {AccessPolicyParams} params - Los parámetros de la marca a crear o actualizar.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
 	 * @throws {Error} Si ocurre un error durante la operación, se notifica y se lanza una excepción.
-	 */ async create(params: AccessPolicyParams): Promise<{ message: string }> {
+	 */
+	async create(params: AccessPolicyParams): Promise<{ message: string }> {
 		// Notificar que ha empezado el proceso de creación o actualización
 		this.events.notify({ type: 'loading' })
 		try {

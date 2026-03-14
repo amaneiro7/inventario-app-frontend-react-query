@@ -3,7 +3,7 @@ import {
 	DeviceFinantialPrinterFilter,
 	defaultMainCategoryValue
 } from '@/entities/devices/devices/application/finantialPrinter/DeviceFinantialPrinterFilter'
-import { DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 /**
  * `useFinantialPrinterFilter`

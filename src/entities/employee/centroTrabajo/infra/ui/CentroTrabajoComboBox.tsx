@@ -1,8 +1,8 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { useGetAllCentroTrabajo } from '@/entities/employee/centroTrabajo/infra/hook/useGetAllCentroTrabajo'
-import { CentroTrabajoDto } from '@/entities/employee/centroTrabajo/domain/dto/CentroTrabajo.dto'
 import { Combobox } from '@/shared/ui/Input/Combobox'
+import { type CentroTrabajoDto } from '@/entities/employee/centroTrabajo/domain/dto/CentroTrabajo.dto'
 import { type CentroTrabajoFilters } from '@/entities/employee/centroTrabajo/application/createCentroTrabajoQueryParams'
 export function CentroTrabajoCombobox({
 	value = '',

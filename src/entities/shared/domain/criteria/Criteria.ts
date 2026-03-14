@@ -1,10 +1,10 @@
-import { FiltersPrimitives, type Filter } from './Filter'
 import { Filters } from './Filters'
 import { Order } from './Order'
+import { InvalidCriteria } from './InvalidCriteria'
 import { type OrderType } from './OrderType'
 import { type OrderBy } from './OrderBy'
 import { type Primitives } from '../value-objects/Primitives'
-import { InvalidCriteria } from './InvalidCriteria'
+import { type FiltersPrimitives, type Filter } from './Filter'
 
 interface CriteriaPrimitives {
 	filters: Filter[]

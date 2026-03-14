@@ -8,8 +8,8 @@ import {
 	MONITORING_ROUTES_METADATA,
 	monitoringIndexPath
 } from './constants/MONITORING_ROUTES_METADATA'
-import { RouterMetadata } from './types/metaData'
 import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
+import { type RouterMetadata } from './types/metaData'
 
 /**
  * `MonitoringWrapper`

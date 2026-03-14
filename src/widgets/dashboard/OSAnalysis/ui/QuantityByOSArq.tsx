@@ -1,6 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
-import { ArqData, OSPrepareGroupedBarData } from '../model/useOperatingSystemAnalysis'
+import { type ArqData, type OSPrepareGroupedBarData } from '../model/useOperatingSystemAnalysis'
 
 const OSAnalysisChart = lazy(() =>
 	import('./OSAnalysisChart').then(m => ({ default: m.OSAnalysisChart }))

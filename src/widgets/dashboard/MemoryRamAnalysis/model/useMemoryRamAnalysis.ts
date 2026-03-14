@@ -1,6 +1,6 @@
 import {
-	ComputerDashboardDto,
-	MemoryRamTotal
+	type ComputerDashboardDto,
+	type MemoryRamTotal
 } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 import { useMemo, useState } from 'react'
 

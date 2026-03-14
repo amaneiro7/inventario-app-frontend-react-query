@@ -2,7 +2,7 @@
 import { lazy } from 'react'
 import Typography from '@/shared/ui/Typography'
 import {
-	Action,
+	type Action,
 	type DefaultDevice,
 	type DeviceRequired,
 	type DevicesDisabled,

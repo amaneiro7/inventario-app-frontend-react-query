@@ -1,12 +1,12 @@
 import Typography from '@/shared/ui/Typography'
 import { Icon } from '@/shared/ui/icon/Icon'
 import { Tag } from '@/shared/ui/Tag'
+import { EmployeeTypes } from '../../domain/value-object/EmployeeType'
+import { employeeTypeTranslations } from './employeeTypeTranslations'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type EmployeeIsStillWorking } from '../../domain/value-object/EmployeeIsStillWorking'
 import { type EmployeeUserName } from '../../domain/value-object/EmployeeUsername'
-import { BackgroundType } from '@/shared/ui/Typography/types'
-import { EmployeeTypes } from '../../domain/value-object/EmployeeType'
-import { employeeTypeTranslations } from './employeeTypeTranslations'
+import { type BackgroundType } from '@/shared/ui/Typography/types'
 
 interface EmployeeModalTitleProps {
 	type: EmployeeTypes

@@ -5,7 +5,7 @@ import {
 	type Action,
 	type DefaultAccessPolicy
 } from '@/entities/accessControl/accessPolicy/infra/reducers/accessPolicyFormReducer'
-import { PermissionGroupTrasnferList } from '@/features/permissions-group-transfer-list/ui/PermissionGroupTrasnferList'
+import { PermissionGroupTrasnferList } from '@/features/permissions-group-transfer-list/ui/PermissionGroupTransferList'
 
 const RoleCombobox = lazy(() =>
 	import('@/entities/role/infra/ui/RoleComboBox').then(m => ({
@@ -30,11 +30,11 @@ const VicepresidenciaCombobox = lazy(() =>
 	}))
 )
 const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import(
-		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-	).then(m => ({
-		default: m.VicepresidenciaEjecutivaCombobox
-	}))
+	import('@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox').then(
+		m => ({
+			default: m.VicepresidenciaEjecutivaCombobox
+		})
+	)
 )
 const DirectivaCombobox = lazy(() =>
 	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({

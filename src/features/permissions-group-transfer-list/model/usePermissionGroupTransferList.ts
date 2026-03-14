@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
-import { PermissionGroupDto } from '@/entities/accessControl/permissionGroup/domain/dto/PermissionGroup.dto'
 import { useGetAllPermissionGroups } from '@/entities/accessControl/permissionGroup/infra/hooks/useGetAllPermissionGroup'
+import { type PermissionGroupDto } from '@/entities/accessControl/permissionGroup/domain/dto/PermissionGroup.dto'
 
 interface UsePermissionsGroupsTransferListProps {
 	permissionsGroups: PermissionGroupDto['id'][]

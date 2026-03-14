@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Link, LinkProps } from 'react-router-dom'
+import { Link, type LinkProps } from 'react-router-dom'
 import { SearchIcon } from '@/shared/ui/icon/SearchIcon'
 import { cn } from '@/shared/lib/utils'
 

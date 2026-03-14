@@ -1,5 +1,5 @@
-import { PermissionDto } from '../domain/dto/Permission.dto'
-import { DefaultPermission } from '../infra/reducers/permissionFormReducer'
+import { type PermissionDto } from '../domain/dto/Permission.dto'
+import { type DefaultPermission } from '../infra/reducers/permissionFormReducer'
 
 /**
  * Mapea un objeto `PermissionDto` a la estructura `DefaultPermission` para el estado del formulario.

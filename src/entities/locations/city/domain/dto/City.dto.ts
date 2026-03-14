@@ -2,7 +2,7 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
 import { type CityId } from '../value-object/CityId'
 import { type CityName } from '../value-object/CityName'
 import { type StateId } from '@/entities/locations/state/domain/value-object/StateId'
-import { StateDto } from '@/entities/locations/state/domain/dto/State.dto'
+import { type StateDto } from '@/entities/locations/state/domain/dto/State.dto'
 
 export interface City {
 	id: Primitives<CityId>

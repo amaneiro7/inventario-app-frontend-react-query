@@ -1,4 +1,4 @@
-import { Listeners } from './Listeners.ts'
+import { type Listeners } from './Listeners.ts'
 import { type Props } from './ListenersProps.ts'
 
 export class EventManager {

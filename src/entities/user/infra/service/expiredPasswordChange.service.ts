@@ -1,6 +1,6 @@
 import { fetching } from '@/shared/api/api'
-import { ChangeExpiredPasswordParams } from '../../domain/dto/ChangePasword.dto'
 import { ForceChangePasswordRepository } from '../../domain/repository/ForceChangePasswordRepository'
+import { type ChangeExpiredPasswordParams } from '../../domain/dto/ChangePasword.dto'
 
 export class ExpiredPasswordChangeService implements ForceChangePasswordRepository {
 	async run({

@@ -1,4 +1,5 @@
 import {
+	type LucideProps,
 	Laptop,
 	Printer,
 	Monitor,
@@ -20,7 +21,6 @@ import {
 	Mic,
 	Antenna,
 	LaptopMinimalCheck,
-	LucideProps,
 	Box,
 	CheckCircle2,
 	Clock,

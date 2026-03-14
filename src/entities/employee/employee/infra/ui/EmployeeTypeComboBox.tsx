@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Combobox } from '@/shared/ui/Input/Combobox'
 import { EmployeeTypes } from '@/entities/employee/employee/domain/value-object/EmployeeType'
 import { employeeTypeTranslations } from './employeeTypeTranslations'
-import { FormMode } from '@/shared/lib/hooks/useGetFormMode'
+import { type FormMode } from '@/shared/lib/hooks/useGetFormMode'
 
 interface EmployeeTypeComboboxProps {
 	mode?: 'form' | 'list'

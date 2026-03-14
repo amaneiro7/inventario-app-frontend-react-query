@@ -3,7 +3,7 @@ import {
 	defaultMainCategoryValue,
 	DeviceScreenFilter
 } from '@/entities/devices/devices/application/screenFilter/DeviceScreenFilter'
-import { DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 /**
  * `useScreenFilter`

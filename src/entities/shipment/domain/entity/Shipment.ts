@@ -10,7 +10,7 @@ import { ShipmentReason } from '../value-object/ShipmentReason'
 import { DeviceId } from '@/entities/devices/devices/domain/value-object/DeviceId'
 import { InvalidArgumentError } from '@/entities/shared/domain/value-objects/InvalidArgumentError'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
-import { ShipmentParams, type ShipmentPrimitives } from '../dto/Shipment.dto'
+import { type ShipmentParams, type ShipmentPrimitives } from '../dto/Shipment.dto'
 
 /**
  * `Shipment`

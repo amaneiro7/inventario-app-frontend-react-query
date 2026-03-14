@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { Combobox } from '@/shared/ui/Input/Combobox'
-import { DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 import { useGetAllDevicesInputSearch } from '@/entities/devices/devices/infra/hook/useGetAllDevicesInputSearch'
 import { DeviceRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/DeviceRenderOption'
+import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
 export function DeviceCombobox({
 	value = '',

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Typography from '@/shared/ui/Typography'
-import { History } from '@/entities/history/domain/dto/History.dto'
 import { memo } from 'react'
 import { cn } from '@/shared/lib/utils'
 import { ASSET_FIELD_LABELS } from '@/entities/devices/devices/domain/constants/assets-labels'
 import { HistoryActionTypes } from '../../domain/value-object/HistoryAction'
 import { formatDisplayValue } from '@/shared/lib/utils/formatDisplayValue'
+import { type History } from '@/entities/history/domain/dto/History.dto'
 
 interface ChangeDisplayProps {
 	className?: HTMLElement['className']
