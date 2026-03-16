@@ -1,7 +1,7 @@
 import { memo } from 'react'
-import CountUp from 'react-countup'
 import { useGetGeneralDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetGeneralDashboard'
 import { StatCard } from '../StatCard'
+import { CountUpComponent } from '@/shared/ui/CountUpComponent'
 
 export const InventorySummary = memo(() => {
 	const { generalDashboard } = useGetGeneralDashboard()
@@ -11,7 +11,7 @@ export const InventorySummary = memo(() => {
 			<StatCard
 				title="Computadoras"
 				value={
-					<CountUp
+					<CountUpComponent
 						end={generalDashboard?.totalComputer ?? 0}
 						duration={countDuration}
 						separator="."
@@ -24,7 +24,7 @@ export const InventorySummary = memo(() => {
 			<StatCard
 				title="Monitores"
 				value={
-					<CountUp
+					<CountUpComponent
 						end={generalDashboard?.totalScreens ?? 0}
 						duration={countDuration}
 						separator="."
@@ -37,7 +37,7 @@ export const InventorySummary = memo(() => {
 			<StatCard
 				title="Usuarios"
 				value={
-					<CountUp
+					<CountUpComponent
 						end={generalDashboard?.totalActiveUsers ?? 0}
 						duration={countDuration}
 						separator="."
@@ -50,7 +50,7 @@ export const InventorySummary = memo(() => {
 			<StatCard
 				title="Agencias"
 				value={
-					<CountUp
+					<CountUpComponent
 						end={generalDashboard?.totalAgencies ?? 0}
 						duration={countDuration}
 						separator="."
@@ -63,7 +63,7 @@ export const InventorySummary = memo(() => {
 			<StatCard
 				title="Torres Administrativas"
 				value={
-					<CountUp
+					<CountUpComponent
 						end={generalDashboard?.totalAdministrativeSites ?? 0}
 						duration={countDuration}
 						separator="."

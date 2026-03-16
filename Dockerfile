@@ -1,24 +1,20 @@
 # --- Etapa 1: Build ---
-# Usamos una imagen de Node para instalar dependencias y construir el proyecto
-FROM node:20-alpine3.20 AS builder
+# Usamos la imagen oficial de Bun. Especificar versión :1 es más seguro que :latest
+FROM oven/bun:1 AS builder
 
 WORKDIR /app
 
-# Instalamos pnpm de forma nativa con Corepack
-RUN corepack enable && corepack prepare pnpm@latest --activate
-
 # Copiamos solo los archivos de dependencias para aprovechar el cache de Docker
-COPY package.json pnpm-lock.yaml ./
+COPY package.json bun.lockb ./
 
-# Instalamos dependencias. --frozen-lockfile es más seguro y rápido para CI/Docker.
-# El fallback `|| pnpm install` es una red de seguridad si el lockfile no está sincronizado.
-RUN pnpm install --frozen-lockfile || pnpm install
+# Instalamos dependencias. --frozen-lockfile asegura que se use el lockfile exacto.
+RUN bun install --frozen-lockfile
 
 # Copiamos el resto del código fuente de la aplicación
 COPY . .
 
 # Construimos la aplicación para producción. Vite leerá automáticamente .env.production aquí.
-RUN pnpm run build
+RUN bun run build
 
 # --- Etapa 2: Runner (Imagen Final) ---
 # Usamos una imagen ligera de Nginx para servir los archivos estáticos

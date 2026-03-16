@@ -1,8 +1,8 @@
 import { memo } from 'react'
-import CountUp from 'react-countup'
 import { formatDateTime } from '@/shared/lib/utils/formatDate'
 import { BasicStatCard } from '@/shared/ui/BasicStatCard'
 import { Icon } from '@/shared/ui/icon/Icon'
+import { CountUpComponent } from '@/shared/ui/CountUpComponent'
 
 interface MonitoringData {
 	total: number
@@ -57,21 +57,21 @@ export const MonitoringSummary = memo(
 					icon={
 						<Icon name="server" className="h-4 w-4 text-gray-600" aria-hidden="true" />
 					}
-					value={<CountUp end={total} duration={1.5} separator="." />}
+					value={<CountUpComponent end={total} duration={1.5} separator="." />}
 					desc="Conexiones de red registradas y monitoreadas."
 					loading={isLoading}
 				/>
 				<BasicStatCard
 					title="Conexiones Activas"
 					icon={<Icon name="wifi" className="text-verde h-4 w-4" aria-hidden="true" />}
-					value={<CountUp end={online} duration={1.5} separator="." />}
+					value={<CountUpComponent end={online} duration={1.5} separator="." />}
 					desc={`${totalOnlinePercentage}% del total`}
 					loading={isLoading}
 				/>
 				<BasicStatCard
 					title="Conexiones Inactivas"
 					icon={<Icon name="wifiOff" className="text-rojo h-4 w-4" aria-hidden="true" />}
-					value={<CountUp end={offline} duration={1.5} separator="." />}
+					value={<CountUpComponent end={offline} duration={1.5} separator="." />}
 					desc={`${totalOfflinePercentage}% del total`}
 					loading={isLoading}
 				/>

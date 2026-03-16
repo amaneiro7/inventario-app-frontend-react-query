@@ -68,7 +68,7 @@ export const StatCard = memo(
 		return (
 			<div
 				className={cn(
-					'hover-scale h-full rounded-xl border border-slate-100/50 bg-gradient-to-br p-4 shadow-sm',
+					'hover-scale h-full rounded-xl border border-slate-100/50 bg-linear-to-br p-4 shadow-sm',
 					colorVariants[color],
 					className
 				)}
@@ -138,7 +138,7 @@ export const StatCard = memo(
 					{title}
 				</Typography>
 				<Typography variant="p" weight="bold" option="large" className="mb-1">
-					{value}
+					<>{value ?? 0}</>
 				</Typography>
 				{description && (
 					<Typography variant="p" option="tiny" className="opacity-70 text-shadow-2xs">
@@ -149,3 +149,5 @@ export const StatCard = memo(
 		)
 	}
 )
+
+StatCard.displayName = 'StatCard'

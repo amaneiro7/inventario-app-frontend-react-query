@@ -12,4 +12,5 @@ Dockerfile
 
 # Ignorar archivos de entorno y logs
 .env*
+!.env.production
 npm-debug.log*

@@ -20,9 +20,11 @@ interface State {
  * registra esos errores y muestra una UI de fallback en lugar del árbol de componentes que se rompió.
  */
 export class ErrorBoundary extends Component<Props, State> {
-	// El estado inicial indica que no hay error
-	public state: State = {
-		hasError: false
+	constructor(props: Props) {
+		super(props)
+		this.state = {
+			hasError: false
+		}
 	}
 
 	/**

@@ -1,6 +1,7 @@
-import { memo } from 'react'
-import ReactPaginate from 'react-paginate'
 import { ArrowRightBadgeIcon } from '@/shared/ui/icon/ArrowRightBadge'
+import { PaginateComponent } from './Paginate'
+import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '../ErrorBoundary/WidgetErrorFallback'
 import './PaginationList.css'
 
 /**
@@ -25,16 +26,29 @@ interface PaginationListProps {
  * @description Renders a pagination component using the `react-paginate` library.
  * It displays a list of page numbers with "previous" and "next" buttons.
  */
-export const PaginationList = memo(
-	({ totalPages = 0, currentPage = 1, handlePageClick }: PaginationListProps) => {
-		/**
-		 * @description If there's only one page or no pages, the pagination component is not rendered.
-		 */
-		if (totalPages <= 1) {
-			return null
-		}
-		return (
-			<ReactPaginate
+
+export const PaginationList = ({
+	totalPages = 0,
+	currentPage = 1,
+	handlePageClick
+}: PaginationListProps) => {
+	/**
+	 * @description If there's only one page or no pages, the pagination component is not rendered.
+	 */
+	if (totalPages <= 1) {
+		return null
+	}
+	return (
+		<ErrorBoundary
+			fallback={({ onReset }) => (
+				<WidgetErrorFallback
+					onReset={onReset}
+					variant="default"
+					message="No se pudo cargar la barra de paginación."
+				/>
+			)}
+		>
+			<PaginateComponent
 				pageCount={totalPages}
 				pageRangeDisplayed={5}
 				marginPagesDisplayed={1}
@@ -50,9 +64,9 @@ export const PaginationList = memo(
 				activeClassName="active"
 				previousClassName="page"
 				nextClassName="page"
-				ariaLabelBuilder={pageNumber => `Go to page ${pageNumber}`}
+				ariaLabelBuilder={(pageNumber: number) => `Go to page ${pageNumber}`}
 				breakLabel="..."
 			/>
-		)
-	}
-)
+		</ErrorBoundary>
+	)
+}
