@@ -5,8 +5,10 @@ import { type Highlight } from './RenderOption/RenderComboboxOption'
 
 const SearchBar = lazy(async () => import('./SearchBar').then(m => ({ default: m.SearchBar })))
 
-interface Props<T extends string | number | readonly string[], O extends { id: string }>
-	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+interface Props<
+	T extends string | number | readonly string[],
+	O extends { id: string }
+> extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	options: O[]
 	value: T
 	name: string
@@ -51,12 +53,18 @@ export function ListBox<O extends { id: string }, T extends string | number | re
 		onSelect: handleOptionClick
 	})
 
+	// Definimos el ID de la lista en una constante para asegurar que ambos coincidan
+	const listboxId = `combo-box-${name}-listbox`
 	return (
 		<>
 			<div
 				id={`combobox-${id}`}
 				key={id}
 				role="combobox"
+				aria-controls={listboxId}
+				aria-expanded={open}
+				aria-haspopup="listbox"
+				aria-labelledby={`combo-box-${name}-label`}
 				className={`div-popover ${open ? 'open' : 'close'}`}
 			>
 				{searchField && onInputChange ? (

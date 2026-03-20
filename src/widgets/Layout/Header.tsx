@@ -5,9 +5,11 @@ import Logo from '@/shared/ui/Logo/Logo'
 import { HamburgerMenu } from './HamburgerMenu'
 import { Icon } from '@/shared/ui/icon/Icon'
 import { PERMISSIONS } from '@/shared/config/permissions'
-import { WelcomeBanner } from './WelcomeBanner'
 import { usePermissionCheck } from '@/features/auth/hook/usePermissionCheck'
 
+const WelcomeBanner = lazy(() =>
+	import('./WelcomeBanner').then(m => ({ default: m.WelcomeBanner }))
+)
 const WrapperBox = lazy(() => import('./WrapperBox').then(m => ({ default: m.WrapperBox })))
 const Nav = lazy(() => import('./Nav').then(m => ({ default: m.Nav })))
 
@@ -21,7 +23,7 @@ export const Header = memo(() => {
 
 	return (
 		<header className="z-50 md:sticky md:top-0">
-			<WelcomeBanner user={user} />
+			{user && <WelcomeBanner user={user} />}
 			<div className="bg-azul flex h-16 min-h-16 w-full items-center justify-between gap-4 overflow-visible px-4 py-2 pl-0 shadow-lg md:text-sm">
 				<div className="rounded-e-full bg-white p-1 pr-4 pl-8">
 					<Logo />

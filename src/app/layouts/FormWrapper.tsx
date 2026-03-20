@@ -7,10 +7,10 @@ import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
 import { useGetFormMode } from '@/shared/lib/hooks/useGetFormMode'
 import { capitalizeFirstLetter } from '@/shared/lib/utils/capitalizeFirstLetter'
 import { FORM_ROUTES_METADATA, formIndexPath } from './constants/FORM_ROUTES_METADATA'
-import { type RouterMetadata } from './types/metaData'
 import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
 import { Loading } from '@/shared/ui/Loading'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { type RouterMetadata } from './types/metaData'
 
 /**
  * `FormWrapper`

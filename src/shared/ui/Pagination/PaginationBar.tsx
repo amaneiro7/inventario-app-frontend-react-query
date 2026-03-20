@@ -26,7 +26,7 @@ export function PaginationBar({
 				registerOptions={registerOptions}
 				handlePageSize={handlePageSize}
 			/>
-			<nav aria-label="Pagination" role="navigation">
+			<nav aria-label="Pagination">
 				<PaginationList
 					totalPages={totalPages}
 					currentPage={currentPage ?? 1}

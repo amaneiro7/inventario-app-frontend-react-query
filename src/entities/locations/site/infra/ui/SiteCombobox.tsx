@@ -30,64 +30,64 @@ interface FormProps extends BaseProps {
 
 type Props = SearchProps | FormProps
 
-export const SiteCombobox = memo(function ({
-	value = '',
-	name,
-	error = '',
-	label = 'Sitios',
-	required = false,
-	disabled = false,
-	readonly = false,
-	isLoading = false,
-	cityId,
-	stateId,
-	regionId,
-	administrativeRegionId,
-	method = 'search',
-	...props
-}: Props) {
-	const [inputValue, setInputValue] = useState('')
-	const [debouncedSearch] = useDebounce(inputValue, 250)
+export const SiteCombobox = memo(
+	({
+		value = '',
+		name,
+		error = '',
+		label = 'Sitios',
+		required = false,
+		disabled = false,
+		readonly = false,
+		isLoading = false,
+		cityId,
+		stateId,
+		regionId,
+		administrativeRegionId,
+		method = 'search',
+		...props
+	}: Props) => {
+		const [inputValue, setInputValue] = useState('')
+		const [debouncedSearch] = useDebounce(inputValue, 250)
 
-	const query: SiteFilters = useMemo(() => {
-		return {
-			...(value ? { id: value } : {}),
-			...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-			cityId,
-			stateId,
-			regionId,
-			administrativeRegionId
-		}
-	}, [debouncedSearch, value, cityId, stateId, regionId])
-
-	const { data, isLoading: loading } = useGetAllSites(query)
-
-	const options = useMemo(() => data?.data ?? [], [data])
-
-	const getSiteData = useCallback(
-		(value: string | number) => {
-			return options.find(site => site.id === value)
-		},
-		[options]
-	)
-
-	const handleChangeValue = useCallback(
-		(name: string, value: string | number) => {
-			if (method === 'form' && 'handleFormChange' in props) {
-				const data = getSiteData(value)
-				props.handleFormChange({
-					value: `${value}`,
-					siteName: data?.name ?? ''
-				})
-			} else if (method === 'search' && 'handleChange' in props) {
-				props.handleChange(name, value)
+		const query: SiteFilters = useMemo(() => {
+			return {
+				...(value ? { id: value } : {}),
+				...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+				cityId,
+				stateId,
+				regionId,
+				administrativeRegionId
 			}
-		},
-		[getSiteData, method, props]
-	)
+		}, [debouncedSearch, value, cityId, stateId, regionId, administrativeRegionId])
 
-	return (
-		<>
+		const { data, isLoading: loading } = useGetAllSites(query)
+
+		const options = useMemo(() => data?.data ?? [], [data])
+
+		const getSiteData = useCallback(
+			(value: string | number) => {
+				return options.find(site => site.id === value)
+			},
+			[options]
+		)
+
+		const handleChangeValue = useCallback(
+			(name: string, value: string | number) => {
+				if (method === 'form' && 'handleFormChange' in props) {
+					const data = getSiteData(value)
+					props.handleFormChange({
+						value: `${value}`,
+						siteName: data?.name ?? ''
+					})
+				} else if (method === 'search' && 'handleChange' in props) {
+					props.handleChange(name, value)
+				}
+			},
+			[getSiteData, method, props]
+		)
+
+		return (
 			<Combobox
 				id="site"
 				label={label}
@@ -105,6 +105,8 @@ export const SiteCombobox = memo(function ({
 				onChangeValue={handleChangeValue}
 				readOnly={readonly}
 			/>
-		</>
-	)
-})
+		)
+	}
+)
+
+SiteCombobox.displayName = 'SiteCombobox'

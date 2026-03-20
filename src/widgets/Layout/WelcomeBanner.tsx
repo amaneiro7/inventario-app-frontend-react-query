@@ -13,7 +13,7 @@ type WelcomeBannerProps = React.DetailedHTMLProps<
 	React.HTMLAttributes<HTMLParagraphElement>,
 	HTMLParagraphElement
 > & {
-	user: LoginUserDto | null
+	user: LoginUserDto
 }
 
 export const WelcomeBanner = memo(({ user }: WelcomeBannerProps) => {
@@ -28,8 +28,6 @@ export const WelcomeBanner = memo(({ user }: WelcomeBannerProps) => {
 		logout()
 		handleClose()
 	}
-
-	if (user === null) return null
 	const { greeting } = useGreetings()
 	return (
 		<>
