@@ -330,7 +330,7 @@
 .tableCellDesc.open {
 	display: table-row;
 	padding: 0;
-	@statirng-style {
+	@starting-style {
 		scale: 0;
 	}
 }
@@ -340,7 +340,7 @@
 	padding: 0;
 	border-bottom-width: 2px;
 
-	@statirng-style {
+	@starting-style {
 		scale: 0;
 	}
 }
