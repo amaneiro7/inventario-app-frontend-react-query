@@ -1,14 +1,15 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllRegion } from '@/entities/locations/region/infra/hook/useGetAllRegion'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
+
+const RegionSearchComponent = createEntitySearch(useGetAllRegion)
 
 export function RegionSearch() {
-    return (
-        <EntitySearch
-            entityName="region"
-            useGetAllEntities={useGetAllRegion}
-            urlPrefix="/form/region/edit"
-            searchField="name"
-            title="Buscar región por nombre"
-        />
-    )
+	return (
+		<RegionSearchComponent
+			entityName="region"
+			urlPrefix="/form/region/edit"
+			searchField="name"
+			title="Buscar región por nombre"
+		/>
+	)
 }

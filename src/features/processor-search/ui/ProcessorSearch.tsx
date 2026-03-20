@@ -1,11 +1,12 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
+
+const ProcessorSearchComponent = createEntitySearch(useGetAllProcessor)
 
 export function ProcessorSearch() {
 	return (
-		<EntitySearch
+		<ProcessorSearchComponent
 			entityName="processor"
-			useGetAllEntities={useGetAllProcessor}
 			urlPrefix="/form/processor/edit"
 			searchField="name"
 			title="Búsqueda por Number Model"

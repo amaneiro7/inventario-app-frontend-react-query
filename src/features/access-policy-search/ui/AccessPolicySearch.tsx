@@ -1,11 +1,12 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllAccessPolicies } from '@/entities/accessControl/accessPolicy/infra/hooks/useGetAllAccessPolicy'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
+
+const AccessPolicySearchComponent = createEntitySearch(useGetAllAccessPolicies)
 
 export function AccessPolicySearch() {
 	return (
-		<EntitySearch
+		<AccessPolicySearchComponent
 			entityName="permission"
-			useGetAllEntities={useGetAllAccessPolicies}
 			urlPrefix="/form/access-policy/edit"
 			searchField="name"
 			title="Búsqueda nombre de la política de acceso"

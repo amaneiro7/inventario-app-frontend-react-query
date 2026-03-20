@@ -1,14 +1,15 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllCargo } from '@/entities/employee/cargo/infra/hook/useGetAllCargo'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
+
+const CargoSearchComponent = createEntitySearch(useGetAllCargo)
 
 export function CargoSearch() {
-    return (
-        <EntitySearch
-            entityName="cargo"
-            useGetAllEntities={useGetAllCargo}
-            urlPrefix="/form/cargo/edit"
-            searchField="name"
-            title="Búsqueda por Cargo"
-        />
-    )
+	return (
+		<CargoSearchComponent
+			entityName="cargo"
+			urlPrefix="/form/cargo/edit"
+			searchField="name"
+			title="Búsqueda por Cargo"
+		/>
+	)
 }

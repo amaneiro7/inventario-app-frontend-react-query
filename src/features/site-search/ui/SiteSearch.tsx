@@ -1,16 +1,17 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllSites } from '@/entities/locations/site/infra/hook/useGetAllSite'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
 import { SiteRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/SiteRenderOption'
 
+const SiteSearchComponent = createEntitySearch(useGetAllSites)
+
 export function SiteSearch() {
-    return (
-        <EntitySearch
-            entityName="site"
-            useGetAllEntities={useGetAllSites}
-            urlPrefix="/form/site/edit"
-            searchField="name"
-            title="Búsqueda por sitio"
-            renderOption={SiteRenderOption}
-        />
-    )
+	return (
+		<SiteSearchComponent
+			entityName="site"
+			urlPrefix="/form/site/edit"
+			searchField="name"
+			title="Búsqueda por sitio"
+			renderOption={SiteRenderOption}
+		/>
+	)
 }

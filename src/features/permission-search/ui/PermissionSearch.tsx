@@ -1,11 +1,12 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllPermissions } from '@/entities/accessControl/permission/infra/hooks/useGetAllPermission'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
+
+const PermissionSearchComponent = createEntitySearch(useGetAllPermissions)
 
 export function PermissionSearch() {
 	return (
-		<EntitySearch
+		<PermissionSearchComponent
 			entityName="permission"
-			useGetAllEntities={useGetAllPermissions}
 			urlPrefix="/form/permission/edit"
 			searchField="name"
 			title="Búsqueda nombre del permiso"

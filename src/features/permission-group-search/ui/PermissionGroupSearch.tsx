@@ -1,11 +1,12 @@
-import { EntitySearch } from '@/shared/ui/EntitySearch'
 import { useGetAllPermissionGroups } from '@/entities/accessControl/permissionGroup/infra/hooks/useGetAllPermissionGroup'
+import { createEntitySearch } from '@/shared/ui/EntitySearch/createEntitySearch'
+
+const PermissionGroupSearchComponent = createEntitySearch(useGetAllPermissionGroups)
 
 export function PermissionGroupSearch() {
 	return (
-		<EntitySearch
+		<PermissionGroupSearchComponent
 			entityName="permissionGroup"
-			useGetAllEntities={useGetAllPermissionGroups}
 			urlPrefix="/form/permission-groups/edit"
 			searchField="name"
 			title="Búsqueda de grupos de permisos"
