@@ -1,4 +1,4 @@
-import { lazy, memo, Suspense, useCallback, useState } from 'react'
+import { lazy, memo, Suspense, useState } from 'react'
 import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { Input } from '@/shared/ui/Input/Input'
@@ -9,25 +9,25 @@ import { SelectOperatorCombobox } from '@/entities/devices/devices/infra/ui/Sele
 import { Operator } from '@/entities/shared/domain/criteria/FilterOperators'
 
 const OperatingSystemCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
-	).then(m => ({
-		default: m.OperatingSystemCombobox
-	}))
+	import('@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox').then(
+		m => ({
+			default: m.OperatingSystemCombobox
+		})
+	)
 )
 const OperatingSystemArqCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
-	).then(m => ({
-		default: m.OperatingSystemArqCombobox
-	}))
+	import('@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox').then(
+		m => ({
+			default: m.OperatingSystemArqCombobox
+		})
+	)
 )
 const HardDriveTypeCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
-	).then(m => ({
-		default: m.HardDriveTypeCombobox
-	}))
+	import('@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox').then(
+		m => ({
+			default: m.HardDriveTypeCombobox
+		})
+	)
 )
 
 export const OtherComputerFilter = memo(
@@ -116,24 +116,24 @@ export const OtherComputerFilter = memo(
 			if (!memoryRamCapacity) setLocalMemoryRamCapacity('')
 		}, [memoryRamCapacity])
 
-		const handleComputerName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const handleComputerName = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalComputerName(value)
-		}, [])
-		const handleProcessor = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		}
+		const handleProcessor = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalProcessor(value)
-		}, [])
-		const handleOperatingSystem = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		}
+		const handleOperatingSystem = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value
 			setLocalOperatingSystem(value)
-		}, [])
+		}
 
-		const handleIPAddress = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		const handleIPAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalIPAddress(value)
-		}, [])
-		const handleMemoryRamCapacity = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		}
+		const handleMemoryRamCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalMemoryRamCapacity(value)
 			if (memoryRamCapacityOperator === '' && value) {
@@ -141,14 +141,14 @@ export const OtherComputerFilter = memo(
 			} else if (!value && memoryRamCapacityOperator) {
 				handleChange('memoryRamCapacityOperator', '')
 			}
-		}, [])
-		const handleHardDriveCapacity = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		}
+		const handleHardDriveCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
 			const value = e.target.value.trim().toUpperCase()
 			setLocalHardDriveCapacity(value)
 			if (memoryRamCapacityOperator === '') {
 				handleChange('memoryRamCapacityOperator', Operator.EQUAL)
 			}
-		}, [])
+		}
 
 		return (
 			<>

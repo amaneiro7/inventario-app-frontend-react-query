@@ -1,7 +1,6 @@
-import { useEffect, useState, type KeyboardEvent } from 'react'
-import { MemoryRamValues } from '../../../../domain/value-object/MemoryRamValues'
+import { MemoryRamValues } from '@/entities/devices/devices/domain/value-object/MemoryRamValues'
 import { Input } from '@/shared/ui/Input/Input'
-import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
+import type { Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
 interface MemoryRamCapacitySlotInputProps {
 	value: Primitives<MemoryRamValues>
@@ -11,29 +10,18 @@ interface MemoryRamCapacitySlotInputProps {
 	onChange: (value: string, index: number) => void
 }
 
-export function MemoryRamCapacitySlotInput({
+export const MemoryRamCapacitySlotInput = ({
 	value,
 	index,
 	isLoading,
 	readOnly,
 	onChange
-}: MemoryRamCapacitySlotInputProps) {
-	const [errorMessage, setErrorMessage] = useState('')
-	const [isError, setIsError] = useState(false)
+}: MemoryRamCapacitySlotInputProps) => {
+	const isValid = MemoryRamValues.isValid(value)
+	const isError = !isValid
+	const errorMessage = isValid ? '' : MemoryRamValues.invalidMessage()
 
-	useEffect(() => {
-		const isValid = MemoryRamValues.isValid(value)
-
-		setIsError(!isValid)
-		setErrorMessage(isValid ? '' : MemoryRamValues.invalidMessage())
-
-		return () => {
-			setErrorMessage('')
-			setIsError(false)
-		}
-	}, [index, value])
-
-	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
 			e.preventDefault()
 			const currentValue = Number(value)
