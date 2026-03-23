@@ -1,7 +1,6 @@
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import { useCloseClickOrEscape } from '@/shared/lib/hooks/useCloseClickOrEscape'
 import { useComboboxFocusInputs } from '../Combobox/hook/useComboboxFocusInputs'
-
 import Typography from '@/shared/ui/Typography'
 import { SearchLink } from '@/shared/ui/Button/SearchLink'
 import { InputBase } from '../InputBase'
@@ -58,29 +57,21 @@ export function SearchInput<
 	})
 	useCloseClickOrEscape({ open, onClose: handlePopoverClose, ref: divRef })
 
-	const completeSearchValueOnClick = useCallback(
-		(option: O) => {
-			return typeof displayAccessor === 'string'
-				? ((option as Record<string, unknown>)[displayAccessor]?.toString() ?? '')
-				: displayAccessor(option)
-		},
-		[displayAccessor]
-	)
-	const handleOptionClick = useCallback(
-		(option: O) => {
-			handleChange(completeSearchValueOnClick(option))
-			onChangeValue(option.id)
-			handlePopoverClose()
-		},
-		[value, onChangeValue, handlePopoverClose, name]
-	)
+	const completeSearchValueOnClick = (option: O) => {
+		return typeof displayAccessor === 'string'
+			? ((option as Record<string, unknown>)[displayAccessor]?.toString() ?? '')
+			: displayAccessor(option)
+	}
 
-	const onHandleChange = useCallback(
-		(event: React.ChangeEvent<HTMLInputElement>) => {
-			handleChange(event.target.value)
-		},
-		[handleChange]
-	)
+	const handleOptionClick = (option: O) => {
+		handleChange(completeSearchValueOnClick(option))
+		onChangeValue(option.id)
+		handlePopoverClose()
+	}
+
+	const onHandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		handleChange(event.target.value)
+	}
 
 	return (
 		<div className="relative flex h-16 w-full items-end md:max-w-sm lg:max-w-md">

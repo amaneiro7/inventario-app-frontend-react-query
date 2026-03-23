@@ -1,15 +1,15 @@
-import { memo, Suspense, useMemo } from 'react'
+import { memo, Suspense } from 'react'
 import { Outlet, type Location } from 'react-router-dom'
-import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
-import { PageTitle } from '@/shared/ui/PageTitle'
-import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
-import { Seo } from '@/shared/ui/Seo'
 import {
 	DASHBOARD_ROUTES_METADATA,
 	dashboardIndexPath
 } from './constants/DASHBOARD_ROUTES_METADATA'
+import { usePermittedSubRoutes } from './model/usePermittedSubRoutes'
+import { PageTitle } from '@/shared/ui/PageTitle'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { Seo } from '@/shared/ui/Seo'
 
-export const DashboardRender = memo(
+export const DashboardWrapperRender = memo(
 	({
 		isDashboardIndex,
 		pathname
@@ -23,29 +23,23 @@ export const DashboardRender = memo(
 			indexPath: dashboardIndexPath
 		})
 		// 3. Determinar Metadatos para SEO y Título de Página
-		const currentMetadata = useMemo(
-			() =>
-				DASHBOARD_ROUTES_METADATA[pathname] ||
-				DASHBOARD_ROUTES_METADATA[dashboardIndexPath],
-			[pathname]
-		)
+		const currentMetadata =
+			DASHBOARD_ROUTES_METADATA[pathname] || DASHBOARD_ROUTES_METADATA[dashboardIndexPath]
 
 		const title = currentMetadata?.title
 		const description = currentMetadata?.description
 
 		// 4. Construir Breadcrumbs
-		const breadcrumbSegments = useMemo(() => {
+		const breadcrumbSegments = (() => {
 			if (isDashboardIndex) {
 				return ['Dashboard']
 			}
-			const segments: (string | { label: string; href?: string })[] = [
+			return [
 				{ label: 'Dashboard', href: dashboardIndexPath },
-				// Tomamos la primera parte del título ('Equipos de Computación')
 				title.split(' | ')[0] || title
 			]
-			return segments
-		}, [isDashboardIndex, title])
-		// 5. Renderizar Layout y Contenido Anidado
+		})()
+
 		return (
 			<>
 				<Seo title={title} description={description} />
@@ -58,3 +52,5 @@ export const DashboardRender = memo(
 		)
 	}
 )
+
+DashboardWrapperRender.displayName = 'DashboardWrapperRender'
