@@ -18,8 +18,10 @@ interface DeviceTransferListProps {
 	onRemoveDevice: (name: 'removeDevice', value: string) => void
 }
 
+const DEVICES_DEFAULT_ITEMS: DeviceDto['id'][] = []
+
 export function DeviceTransferList({
-	value: devices = [],
+	value: devices = DEVICES_DEFAULT_ITEMS,
 	name,
 	error = '',
 	required = false,

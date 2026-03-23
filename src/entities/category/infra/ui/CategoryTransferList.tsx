@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useGetAllCategory } from '@/entities/category/infra/hook/useGetAllCategory'
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
@@ -33,8 +33,11 @@ interface CategoryTransferListProps {
  * @param {(name: 'addCategory', value: string) => void} props.onAddCategory - Función de callback para añadir una categoría.
  * @param {(name: 'removeCategory', value: string) => void} props.onRemoveCategory - Función de callback para eliminar una categoría.
  */
+
+const CATEGORY_DEFAULT_ITEMS: string[] = []
+
 export function CategoryTransferList({
-	value: categories = [],
+	value: categories = CATEGORY_DEFAULT_ITEMS,
 	name,
 	error = '',
 	required = false,
@@ -47,26 +50,18 @@ export function CategoryTransferList({
 	const [inputValue, setInputValue] = useState('')
 	const { data: allCategories, isLoading: loading } = useGetAllCategory({})
 
-	const availableOptions = useMemo(
-		() => allCategories?.data?.filter(category => !categories.includes(category.id)) ?? [],
-		[allCategories, categories]
-	)
+	const availableOptions =
+		allCategories?.data?.filter(category => !categories.includes(category.id)) ?? []
 
 	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
 
-	const handleAddCategory = useCallback(
-		(categoryId: string) => {
-			onAddCategory('addCategory', categoryId)
-		},
-		[onAddCategory]
-	)
+	const handleAddCategory = (categoryId: string) => {
+		onAddCategory('addCategory', categoryId)
+	}
 
-	const handleRemoveCategory = useCallback(
-		(categoryId: string) => {
-			onRemoveCategory('removeCategory', categoryId)
-		},
-		[onRemoveCategory]
-	)
+	const handleRemoveCategory = (categoryId: string) => {
+		onRemoveCategory('removeCategory', categoryId)
+	}
 
 	return (
 		<div className="grid items-start justify-between gap-4 md:grid-cols-2">

@@ -24,8 +24,10 @@ interface OptionListProps<O extends { id: string | number }> {
 	}) => React.ReactNode
 }
 
+const OPTIONS_DEFAULT: never[] = []
+
 export function OptionList<O extends { id: string | number }>({
-	options = [],
+	options = OPTIONS_DEFAULT,
 	inputValue,
 	selectedIndex,
 	onOptionClick,

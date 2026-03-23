@@ -17,13 +17,15 @@ interface CargoTransferListProps {
 	onAddCargo: (name: 'addCargo', value: string) => void
 	onRemoveCargo: (name: 'removeCargo', value: string) => void
 }
+
+const CARGOS_DEFAULT_ITEMS: CargoDto['id'][] = []
 /**
  * `CargoTransferList` is a functional component that provides a dual-list interface
  * for selecting and managing cargos. It allows users to search for available cargos
  * and add/remove them from a selected list.
  */
 export function CargoTransferList({
-	value: cargos = [],
+	value: cargos = CARGOS_DEFAULT_ITEMS,
 	name,
 	error = '',
 	required = false,

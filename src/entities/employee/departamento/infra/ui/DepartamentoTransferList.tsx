@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useGetAllDepartamento } from '@/entities/employee/departamento/infra/hook/useGetAllDepartamento'
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
@@ -7,41 +7,13 @@ import { TransferListItem } from '../../../../../shared/ui/TransferList/Transfer
 import { type DepartamentoDto } from '@/entities/employee/departamento/domain/dto/Departamento.dto'
 
 interface DepartamentoTransferListProps {
-	/**
-	 * An array of selected departamento IDs.
-	 */
 	value?: DepartamentoDto['id'][]
-	/**
-	 * The name of the input field.
-	 */
 	name: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	readonly?: boolean
-	/**
-	 * Callback function triggered when a departamento is added to the list.
-	 * @param name - The name of the action ('addDepartamento').
-	 * @param value - The ID of the departamento to add.
-	 */
 	onAddDepartamento: (name: 'addDepartamento', value: string) => void
-	/**
-	 * Callback function triggered when a departamento is removed from the list.
-	 * @param name - The name of the action ('removeDepartamento').
-	 * @param value - The ID of the departamento to remove.
-	 */
 	onRemoveDepartamento: (name: 'removeDepartamento', value: string) => void
 }
 
@@ -50,8 +22,11 @@ interface DepartamentoTransferListProps {
  * for selecting and managing departamentos. It allows users to search for available departamentos
  * and add/remove them from a selected list.
  */
+
+const DEPARTAMENTO_DEFAULT_ITEMS: string[] = []
+
 export function DepartamentoTransferList({
-	value: departamentos = [],
+	value: departamentos = DEPARTAMENTO_DEFAULT_ITEMS,
 	name,
 	error = '',
 	required = false,
@@ -63,29 +38,17 @@ export function DepartamentoTransferList({
 	const [inputValue, setInputValue] = useState('')
 	const { data: allDepartamento, isLoading } = useGetAllDepartamento({})
 
-	const availableOptions = useMemo(
-		() =>
-			allDepartamento?.data?.filter(
-				Departamento => !departamentos.includes(Departamento.id)
-			) ?? [],
-		[allDepartamento, departamentos]
-	)
+	const availableOptions =
+		allDepartamento?.data?.filter(Departamento => !departamentos.includes(Departamento.id)) ??
+		[]
 
 	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
 
-	const handleAddDepartamento = useCallback(
-		(departamentoId: string) => {
-			onAddDepartamento('addDepartamento', departamentoId)
-		},
-		[onAddDepartamento]
-	)
+	const handleAddDepartamento = (departamentoId: string) =>
+		onAddDepartamento('addDepartamento', departamentoId)
 
-	const handleRemoveDepartamento = useCallback(
-		(departamentoId: string) => {
-			onRemoveDepartamento('removeDepartamento', departamentoId)
-		},
-		[onRemoveDepartamento]
-	)
+	const handleRemoveDepartamento = (departamentoId: string) =>
+		onRemoveDepartamento('removeDepartamento', departamentoId)
 
 	return (
 		<div className="grid items-start justify-between gap-4 md:grid-cols-2">

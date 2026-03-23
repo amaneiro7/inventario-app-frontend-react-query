@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
@@ -17,9 +17,14 @@ interface ProcessorTransferListProps {
 	onAddProcessor: (name: 'addProcessor', value: string) => void
 	onRemoveProcessor: (name: 'removeProcessor', value: string) => void
 }
-
+const PROCESSORS_DEFAULT_ITEMS: ProcessorDto['id'][] = []
+/**
+ * `ProcessorTransferList` is a functional component that provides a dual-list interface
+ * for selecting and managing processors. It allows users to search for available processors
+ * and add/remove them from a selected list.
+ */
 export function ProcessorTransferList({
-	value: processors = [],
+	value: processors = PROCESSORS_DEFAULT_ITEMS,
 	name,
 	error = '',
 	required = false,
@@ -32,26 +37,15 @@ export function ProcessorTransferList({
 	const [inputValue, setInputValue] = useState('')
 	const { data: allProcessors, isLoading: loading } = useGetAllProcessor({})
 
-	const availableOptions = useMemo(
-		() => allProcessors?.data?.filter(processor => !processors.includes(processor.id)) ?? [],
-		[allProcessors, processors]
-	)
+	const availableOptions =
+		allProcessors?.data?.filter(processor => !processors.includes(processor.id)) ?? []
 
 	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
 
-	const handleAddProcessor = useCallback(
-		(processorId: string) => {
-			onAddProcessor('addProcessor', processorId)
-		},
-		[onAddProcessor]
-	)
+	const handleAddProcessor = (processorId: string) => onAddProcessor('addProcessor', processorId)
 
-	const handleRemoveProcessor = useCallback(
-		(processorId: string) => {
-			onRemoveProcessor('removeProcessor', processorId)
-		},
-		[onRemoveProcessor]
-	)
+	const handleRemoveProcessor = (processorId: string) =>
+		onRemoveProcessor('removeProcessor', processorId)
 
 	return (
 		<div className="grid items-start justify-between gap-4 md:grid-cols-2">
