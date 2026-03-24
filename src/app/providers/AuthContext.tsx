@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import { type useAuth } from '@/entities/user/infra/hooks/useAuth'
 
-export interface AuthContextType {
+interface AuthContextType {
 	auth: ReturnType<typeof useAuth>
 }
 

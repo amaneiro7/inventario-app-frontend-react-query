@@ -1,4 +1,4 @@
-export const ModelFormSkeletonLayout = () => (
+const ModelFormSkeletonLayout = () => (
 	<>
 		{/* Inputs */}
 		<div className="flex w-full flex-col gap-4">
@@ -24,7 +24,6 @@ export const ModelFormSkeletonLayout = () => (
 		</div>
 	</>
 )
-
 
 const ComputerFeaturesSkeleton = () => (
 	<>

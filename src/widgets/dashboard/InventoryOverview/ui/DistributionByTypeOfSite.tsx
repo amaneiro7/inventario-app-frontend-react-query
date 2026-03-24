@@ -9,7 +9,7 @@ import {
 	XAxis,
 	YAxis,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 

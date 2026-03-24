@@ -9,7 +9,7 @@ import {
 	XAxis,
 	YAxis,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
