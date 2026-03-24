@@ -9,7 +9,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 	LabelList
-} from '@/shared/ui/Charts'
+} from 'recharts'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type ModelChartData } from '../model/useModelBreakdown'
 

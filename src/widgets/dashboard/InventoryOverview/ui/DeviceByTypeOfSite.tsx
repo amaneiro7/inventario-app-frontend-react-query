@@ -3,17 +3,17 @@ import {
 	Bar,
 	BarChart,
 	CartesianGrid,
-	LabelList,
 	Legend,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,
-	YAxis
-} from '@/shared/ui/Charts'
+	YAxis,
+	LabelList
+} from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
-import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
+import type { ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
 
 interface DeviceByTypeOfSiteProps {
 	categoryData: ComputerDashboardDto['category']
@@ -103,4 +103,5 @@ export const DeviceByTypeOfSite = memo(
 		)
 	}
 )
+
 DeviceByTypeOfSite.displayName = 'DeviceByTypeOfSite'

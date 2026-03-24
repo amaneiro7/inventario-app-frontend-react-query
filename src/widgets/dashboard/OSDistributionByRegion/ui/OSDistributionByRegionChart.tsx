@@ -9,7 +9,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 	LabelList
-} from '@/shared/ui/Charts'
+} from 'recharts'
 import { MapPin } from 'lucide-react'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { CustomLabelList } from '@/shared/ui/CustomLabelList'

@@ -1,5 +1,5 @@
-import { memo } from 'react'
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from '@/shared/ui/Charts'
+import { memo, Suspense } from 'react'
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { PieChartLegend } from './PieChartLegend'
 import type { PieProps } from 'recharts'
 import type { PieChartData } from './PieChart'
@@ -44,66 +44,69 @@ export const PieContent = memo(
 					}}
 				>
 					{data && data.length > 0 && colors ? (
-						<ResponsiveContainer
-							width={500}
-							height={300}
-							minWidth={500}
-							minHeight={300}
-							aspect={1}
-						>
-							<PieChart
-								aria-labelledby={chartTitleId}
-								aria-describedby={chartDescriptionId}
+						<Suspense>
+							<ResponsiveContainer
+								width={500}
+								height={300}
+								minWidth={500}
+								minHeight={300}
+								aspect={1}
 							>
-								{/* Hidden title and description for screen readers */}
-								<title id={chartTitleId} className="sr-only">
-									Distribución de elementos por categoría
-								</title>
-								<desc id={chartDescriptionId} className="sr-only">
-									Gráfico de pastel que muestra la distribución de datos.{' '}
-									{chartAccessibilityDescription}. Total de elementos: {total}.
-								</desc>
-								<Pie
-									data={data}
-									cx="50%"
-									cy="50%"
-									labelLine={false}
-									label={({
-										name,
-										percent
-									}: {
-										name?: string
-										percent?: number
-									}) => {
-										const minVisiblePercent = 0.05 // Solo mostrar etiqueta si el trozo es suficientemente grande
-										if (name && percent && percent > minVisiblePercent) {
-											return `${name}: ${(percent * 100).toFixed(0)}%`
-										}
-										return null // No renderizar etiqueta si no cumple las condiciones
-									}}
-									outerRadius={outerRadius}
-									fill="#8884d8"
-									dataKey={dataKey}
-									tabIndex={0}
+								<PieChart
+									aria-labelledby={chartTitleId}
+									aria-describedby={chartDescriptionId}
 								>
-									{data.map((entry, index) => (
-										<Cell
-											key={`cell-${index}`}
-											fill={colors[index % colors.length] ?? '#cccccc'}
-											aria-label={`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`}
-										/>
-									))}
-								</Pie>
-								<Tooltip
-									formatter={(value, name) => [value, name]}
-									contentStyle={{
-										backgroundColor: 'white',
-										borderRadius: '0.5rem',
-										border: '1px solid #e2e8f0'
-									}}
-								/>
-							</PieChart>
-						</ResponsiveContainer>
+									{/* Hidden title and description for screen readers */}
+									<title id={chartTitleId} className="sr-only">
+										Distribución de elementos por categoría
+									</title>
+									<desc id={chartDescriptionId} className="sr-only">
+										Gráfico de pastel que muestra la distribución de datos.{' '}
+										{chartAccessibilityDescription}. Total de elementos: {total}
+										.
+									</desc>
+									<Pie
+										data={data}
+										cx="50%"
+										cy="50%"
+										labelLine={false}
+										label={({
+											name,
+											percent
+										}: {
+											name?: string
+											percent?: number
+										}) => {
+											const minVisiblePercent = 0.05 // Solo mostrar etiqueta si el trozo es suficientemente grande
+											if (name && percent && percent > minVisiblePercent) {
+												return `${name}: ${(percent * 100).toFixed(0)}%`
+											}
+											return null // No renderizar etiqueta si no cumple las condiciones
+										}}
+										outerRadius={outerRadius}
+										fill="#8884d8"
+										dataKey={dataKey}
+										tabIndex={0}
+									>
+										{data.map((entry, index) => (
+											<Cell
+												key={`cell-${index}`}
+												fill={colors[index % colors.length] ?? '#cccccc'}
+												aria-label={`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`}
+											/>
+										))}
+									</Pie>
+									<Tooltip
+										formatter={(value, name) => [value, name]}
+										contentStyle={{
+											backgroundColor: 'white',
+											borderRadius: '0.5rem',
+											border: '1px solid #e2e8f0'
+										}}
+									/>
+								</PieChart>
+							</ResponsiveContainer>
+						</Suspense>
 					) : (
 						<div className="flex h-full items-center justify-center">
 							<div className="text-muted-foreground text-center">

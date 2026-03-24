@@ -9,7 +9,7 @@ import {
 	Tooltip,
 	XAxis,
 	YAxis
-} from '@/shared/ui/Charts'
+} from 'recharts'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type BrandData } from '../model/useBrandDistribution'
 

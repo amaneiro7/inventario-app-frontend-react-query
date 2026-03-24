@@ -8,7 +8,7 @@ import {
 	Tooltip,
 	ResponsiveContainer,
 	Legend
-} from '@/shared/ui/Charts'
+} from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { useGetHistoryDashboard } from '@/entities/history/infra/hook/useGetGeneralDashboard'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'

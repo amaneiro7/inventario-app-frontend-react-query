@@ -9,7 +9,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 	LabelList
-} from '@/shared/ui/Charts'
+} from 'recharts'
 import { Filter } from 'lucide-react'
 import Button from '@/shared/ui/Button'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
