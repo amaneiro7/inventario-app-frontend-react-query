@@ -1,4 +1,4 @@
-import { forwardRef, useMemo } from 'react'
+import { forwardRef } from 'react'
 import { cn } from '@/shared/lib/utils'
 import { TableIcon } from '@/shared/ui/icon/TableIcon'
 import { type OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
@@ -58,19 +58,16 @@ export const TableHead = forwardRef<HTMLTableCellElement, Props>(
 		},
 		ref
 	) => {
-		const IconClasses = useMemo(
-			() =>
-				'group-hover/th:text-azul-500 inline-block aspect-square h-3 w-3 stroke-2 text-inherit opacity-30 transition-transform duration-300 group-hover/th:opacity-100 data-[active=true]:opacity-100 data-[direction=down]:rotate-180',
-			[]
-		)
+		const IconClasses =
+			'group-hover/th:text-azul-500 inline-block aspect-square h-3 w-3 stroke-2 text-inherit opacity-30 transition-transform duration-300 group-hover/th:opacity-100 data-[active=true]:opacity-100 data-[direction=down]:rotate-180'
 
-		const ariaSort: React.AriaAttributes['aria-sort'] = useMemo(() => {
-			return orderType === OrderTypes.ASC
+		const ariaSort: React.AriaAttributes['aria-sort'] =
+			orderType === OrderTypes.ASC
 				? 'ascending'
 				: orderType === OrderTypes.DESC
 					? 'descending'
 					: undefined
-		}, [orderType])
+
 		return (
 			<th
 				data-sortable={handleSort ? 'true' : 'false'}
