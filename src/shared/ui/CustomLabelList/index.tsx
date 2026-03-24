@@ -1,4 +1,4 @@
-import { type LabelListProps } from 'recharts'
+import type { LabelListProps } from 'recharts'
 
 interface CustomLabelListProps extends LabelListProps {
 	value?: number | string

@@ -2,8 +2,8 @@ import { lazy, Suspense } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { PieContentFallback } from './PieContentFallback'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
-import { type PieProps } from 'recharts'
-import { type PieChartData } from './PieChart'
+import type { PieProps } from 'recharts'
+import type { PieChartData } from './PieChart'
 
 interface PieCardProps {
 	data: PieChartData[] | undefined

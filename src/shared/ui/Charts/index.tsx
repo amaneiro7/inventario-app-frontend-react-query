@@ -4,6 +4,11 @@ export const BarChart = lazy(() =>
 	import('recharts').then(module => ({ default: module.BarChart }))
 )
 export const Bar = lazy(() => import('recharts').then(module => ({ default: module.Bar })))
+export const Cell = lazy(() => import('recharts').then(module => ({ default: module.Cell })))
+export const Pie = lazy(() => import('recharts').then(module => ({ default: module.Pie })))
+export const PieChart = lazy(() =>
+	import('recharts').then(module => ({ default: module.PieChart }))
+)
 export const CartesianGrid = lazy(() =>
 	import('recharts').then(module => ({ default: module.CartesianGrid }))
 )

@@ -9,7 +9,7 @@ import {
 	Legend,
 	LabelList,
 	Tooltip
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { type HDDPrepareGroupedBarData, type HDDTypeData } from '../model/useHardDriveAnalysis'
 

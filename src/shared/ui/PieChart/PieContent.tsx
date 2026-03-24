@@ -1,7 +1,8 @@
 import { memo } from 'react'
-import { Cell, Pie, PieChart, type PieProps, ResponsiveContainer, Tooltip } from 'recharts'
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from '@/shared/ui/Charts'
 import { PieChartLegend } from './PieChartLegend'
-import { type PieChartData } from './PieChart'
+import type { PieProps } from 'recharts'
+import type { PieChartData } from './PieChart'
 
 interface PieContentProps {
 	data: PieChartData[] | undefined

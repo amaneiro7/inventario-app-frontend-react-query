@@ -9,7 +9,7 @@ import {
 	XAxis,
 	YAxis,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { type ArqData, type OSPrepareGroupedBarData } from '../model/useOperatingSystemAnalysis'
 

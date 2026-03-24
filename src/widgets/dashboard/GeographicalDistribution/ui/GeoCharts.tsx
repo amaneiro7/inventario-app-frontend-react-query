@@ -9,7 +9,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { Filter } from 'lucide-react'
 import Button from '@/shared/ui/Button'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
@@ -47,13 +47,7 @@ interface GeoChartsProps {
  * It also handles cases where no data is available.
  */
 export const GeoCharts = memo(
-	({
-		distributionData,
-		barName,
-		dynamicHeight,
-		barHeight,
-		clearFilters
-	}: GeoChartsProps) => {
+	({ distributionData, barName, dynamicHeight, barHeight, clearFilters }: GeoChartsProps) => {
 		return (
 			<div style={{ height: dynamicHeight ?? '20rem', minHeight: '20rem' }}>
 				{distributionData.length > 0 ? (
@@ -114,24 +108,25 @@ export const GeoCharts = memo(
 									content={<CustomLabelList dataKey="Sede Administrativa" />}
 								/>
 							</Bar>
-					</BarChart>
-				</ResponsiveContainer>
-			) : (
-				<div className="flex h-full items-center justify-center">
-					<div className="text-muted-foreground text-center">
-						<Filter className="mx-auto mb-2 h-12 w-12 opacity-20" />
-						<p>No hay datos para mostrar</p>
-						<Button
-							text="Limpiar filtros"
-							buttonSize="medium"
-							size="content"
-							color="blanco"
-							onClick={clearFilters}
-							className="mt-2"
-						/>
+						</BarChart>
+					</ResponsiveContainer>
+				) : (
+					<div className="flex h-full items-center justify-center">
+						<div className="text-muted-foreground text-center">
+							<Filter className="mx-auto mb-2 h-12 w-12 opacity-20" />
+							<p>No hay datos para mostrar</p>
+							<Button
+								text="Limpiar filtros"
+								buttonSize="medium"
+								size="content"
+								color="blanco"
+								onClick={clearFilters}
+								className="mt-2"
+							/>
+						</div>
 					</div>
-				</div>
-			)}
-		</div>
-	)
-})
+				)}
+			</div>
+		)
+	}
+)

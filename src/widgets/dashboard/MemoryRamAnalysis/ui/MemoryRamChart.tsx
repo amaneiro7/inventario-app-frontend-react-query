@@ -10,7 +10,7 @@ import {
 	XAxis,
 	YAxis,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 
 interface MemoryRamChartProps {
 	prepareGroupedBarData: Record<string, unknown>[]
