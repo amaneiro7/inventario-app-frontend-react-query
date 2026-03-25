@@ -81,3 +81,224 @@ Este desglose es bastante detallado. Tómate tu tiempo para revisar y realizar l
 dejará tu proyecto con una estructura excepcionalmente limpia y profesional.
 
 Cuando estés listo, avísame y comenzaremos a corregir todas las rutas de importación.
+
+✔ Running lint checks.
+⚠ Array index "index" used as key — causes bugs when list is reordered or filtered (28)
+Use a stable unique identifier: `key={item.id}` or `key={item.slug}` — index keys break on reorder/filter
+src/widgets/monitoring/AdmSiteChart/ui/StatusLegend.tsx: 20
+src/widgets/monitoring/MapChart/ui/MapLegend.tsx: 22
+src/entities/devices/devices/infra/ui/DeviceForm/Components/AddComputerFeatures.tsx: 157
+src/entities/employee/employee/infra/ui/EmployeeForm/Components/PhoneSection/index.tsx: 76
+src/entities/employee/employee/infra/ui/EmployeeForm/Components/ExtensionSection/index.tsx: 77
+src/entities/employee/employee/infra/ui/EmployeeDeviceSummaryCard.tsx: 93, 104, 115
+src/entities/shipment/infra/ui/DeviceSummaryCard.tsx: 85, 96, 107
+src/shared/ui/PieChart/PieContent.tsx: 93
+src/shared/ui/Input/Combobox/RenderOption/UserRenderOption.tsx: 22, 35
+src/shared/ui/Input/Combobox/RenderOption/SiteRenderOption.tsx: 21
+src/widgets/HistoryTimeline/ui/HistoryTimelineSkeleton.tsx: 7
+src/shared/ui/Input/Combobox/RenderOption/EmployeeRenderOption.tsx: 28, 41
+src/widgets/HistoryTimeline/ui/EmployeeHistoryTimelineOutput.tsx: 31
+src/shared/ui/Input/Combobox/RenderOption/DeviceRenderOption.tsx: 21
+src/shared/ui/Input/Combobox/RenderOption/DefaultRenderOption.tsx: 20
+src/widgets/HistoryTimeline/ui/DeviceHistoryTimelineOutput.tsx: 30
+src/widgets/AppSettingsForm/ui/SettingArrayInput.tsx: 35
+src/widgets/AppSettingsForm/ui/AppSettingsSkeleton.tsx: 19
+src/shared/ui/DynamicBreadcrumb/index.tsx: 36
+src/shared/ui/DetailsPanel/DepartmentList.tsx: 24
+src/shared/ui/DescriptionList/DetailItem.tsx: 21
+src/shared/ui/DeparmentDetailsPanel/index.tsx: 17
+
+⚠ "recharts" is a heavy library — use React.lazy() or next/dynamic for code splitting (18)
+Use `const Component = dynamic(() => import('library'), { ssr: false })` from next/dynamic or React.lazy()
+src/widgets/InventoryChart/index.tsx: 2
+src/shared/ui/CustomLabelList/index.tsx: 1
+src/shared/ui/PieChart/PieContent.tsx: 2, 4
+src/shared/ui/PieChart/PieChartLegend.tsx: 3
+src/shared/ui/PieChart/PieCard.tsx: 5
+src/widgets/dashboard/OSDistributionByRegion/ui/OSDistributionByRegionChart.tsx: 2
+src/widgets/dashboard/OSAnalysis/ui/OSAnalysisChart.tsx: 2
+src/widgets/dashboard/ModelBreakdown/ui/ModelBreakdownChart.tsx: 2
+src/widgets/dashboard/MemoryRamAnalysis/ui/MemoryRamChart.tsx: 3
+src/widgets/dashboard/InventoryOverview/ui/DistributionByTypeOfSite.tsx: 2
+src/widgets/dashboard/InventoryOverview/ui/DeviceDistributionByCategory.tsx: 2
+src/widgets/dashboard/InventoryOverview/ui/DeviceByTypeOfSite.tsx: 2
+src/widgets/dashboard/HardDriveAnalysis/ui/HardDriveByType.tsx: 2
+src/widgets/dashboard/GeographicalDistribution/ui/GeoCharts.tsx: 2
+src/widgets/dashboard/BrandDistribution/ui/ModelQuantityByModels.tsx: 2
+src/widgets/dashboard/BrandDistribution/ui/DeviceByBrand.tsx: 2
+src/widgets/dashboard/BrandDistribution/ui/BrandChart.tsx: 2
+
+⚠ Headings must have content and the content must be accessible by a screen reader. (2)
+Provide screen reader accessible content when using heading elements.
+src/shared/ui/Card/index.tsx: 24
+src/shared/ui/Alert/index.tsx: 31
+
+⚠ Component "AppRoutes" is 517 lines — consider breaking it into smaller focused components
+Extract logical sections into focused components: `<UserHeader />`, `<UserActions />`, etc.
+src/app/providers/routes/AppRoutes.tsx: 79
+
+⚠ The `autoFocus` attribute is found here, which can cause usability issues for sighted and non-sighted users.
+Remove the `autoFocus` attribute.
+src/shared/ui/Input/Combobox/SearchBar.tsx: 35
+
+⚠ Enforce a clickable non-interactive element has at least one keyboard event listener.
+Visible, non-interactive elements with click handlers must have one of `keyup`, `keydown`, or `keypress` listener.
+src/shared/ui/Input/Combobox/LiOption.tsx: 17
+
+⚠ Inline render function "renderSettingInput()" — extract to a separate component for proper reconciliation (2)
+Extract to a named component: `const ListItem = ({ item }) => <div>{item.name}</div>`
+src/widgets/AppSettingsForm/ui/AppSettingItem.tsx: 88
+src/shared/ui/GenericMonitoringList/index.tsx: 104
+
+⚠ Unused file (92)
+This file is not imported by any other file in the project.
+src\widgets\TicketManagement\appGerencia.js
+src\widgets\TicketManagement\appGerenciaOriginal.js
+src\entities\appSettings\application\AppSettingsGetter.ts
+src\entities\shared\handlers\ApplicationErrorHandler.ts
+src\shared\lib\hocs\WithButtonStyle.tsx
+src\shared\lib\hooks\useExpendedRows.ts
+src\shared\lib\hooks\useMediaQuery.ts
+src\shared\lib\hooks\usePresetMediaQueries.ts
+src\shared\lib\utils\CompararDatos.ts
+src\shared\ui\Chip\index.tsx
+src\shared\ui\DeparmentDetailsPanel\index.tsx
+src\shared\ui\icon\ArrowLeftBadge.tsx
+src\shared\ui\icon\DangerIcon.tsx
+src\shared\ui\icon\DeleteIcon.tsx
+src\shared\ui\icon\EditIcon.tsx
+src\shared\ui\icon\GearIcon.tsx
+src\shared\ui\icon\index.tsx
+src\shared\ui\icon\MovistarIcon.tsx
+src\shared\ui\icon\RightIcon.tsx
+src\shared\ui\icon\SaveIcon.tsx
+src\shared\ui\icon\ThrashIcon.tsx
+src\shared\ui\icon\UploadIcon.tsx
+src\shared\ui\icon\UserIcon.tsx
+src\shared\ui\Images\Image.tsx
+src\shared\ui\Images\LazyBannerImage.tsx
+src\shared\ui\Images\LazyCodeScreen.tsx
+src\shared\ui\Images\LazyDefaultImg.tsx
+src\shared\ui\Images\LazyFacebookImage.tsx
+src\shared\ui\Images\LazyInstagramImage.tsx
+src\shared\ui\Images\LazyInventoryBoxes.tsx
+src\shared\ui\Images\LazyLinkedInImage.tsx
+src\shared\ui\Images\LazyNotFoundImage.tsx
+src\shared\ui\Images\LazyOffice1Image.tsx
+src\shared\ui\Images\LazyOfficeNoteBookImg.tsx
+src\shared\ui\Images\LazyOfficeTableDeskImg.tsx
+src\shared\ui\Input\InputPasswordStrengthIndicator.tsx
+src\shared\ui\Loading\LoadingProfileSpinner.tsx
+src\shared\ui\Loading\ProfileLoading.tsx
+src\shared\ui\Loading\spinner-sk-circle.css
+src\shared\ui\Loading\spinner-sk-circle.tsx
+src\shared\ui\Table\TableCaption.tsx
+src\shared\ui\Table\TableCellDescEdit.tsx
+src\shared\ui\Table\TableCellDescInfo.tsx
+src\shared\ui\Table\TableCellDescription.tsx
+src\shared\ui\Table\TableCellText.tsx
+src\shared\ui\Table\TableCellWithChildren.tsx
+src\shared\ui\Table\TableCellWithUrl.tsx
+src\shared\ui\Table\TableDescDivider.tsx
+src\shared\ui\Table\TableFooter.tsx
+src\widgets\AppSettingsForm\model\groupConfig.ts
+src\widgets\AppSettingsForm\ui\AppSettingsFormLayoutSkeleton.tsx
+src\widgets\AppSettingsForm\ui\AppSettingsInputs.tsx
+src\widgets\AppSettingsForm\ui\RenderSettingInput.tsx
+src\entities\appSettings\domain\repository\AppSettingsGetRepository.ts
+src\entities\appSettings\infra\hook\useSettingForm.ts
+src\entities\appSettings\infra\service\appSettingsGet.service.ts
+src\entities\brand\infra\hooks\useGetBrand.ts
+src\entities\mainCategory\domain\use-case\isFinantialPrinterCategory.ts
+src\entities\shared\domain\criteria\StringCriteriaValueObject.ts
+src\entities\shared\domain\value-objects\Entity.ts
+src\entities\shared\domain\value-objects\Nullable.ts
+src\entities\shipment\infra\hooks\useGetShipment.ts
+src\entities\shipment\infra\ui\ShipmentDescription.tsx
+src\entities\user\domain\repository\GetPermissionsRepository.ts
+src\entities\user\domain\value-objects\UserLastName.ts
+src\entities\user\domain\value-objects\UserName.ts
+src\shared\ui\Input\Input\index.tsx
+src\shared\ui\Input\Textarea\index.tsx
+src\widgets\dashboard\BrandDistribution\ui\BrandChart.tsx
+src\widgets\monitoring\AdmSiteChart\ui\FloorEquipmentStats.tsx
+src\widgets\monitoring\LocationMonitoring\Model\useLocationMonitoringContainer.ts
+src\widgets\monitoring\LocationMonitoring\ui\LocationCardSkeleton.tsx
+src\widgets\monitoring\LocationMonitoring\ui\TableMapWrapper.tsx
+src\widgets\monitoring\MapChart\ui\NetworkLinkMonitoring.tsx
+src\entities\accessControl\accessPolicy\infra\hooks\useGetAccessPolicy.ts
+src\entities\accessControl\accessPolicy\infra\ui\AccessPolicyComboBox.tsx
+src\entities\accessControl\permission\infra\hooks\useGetPermission.ts
+src\entities\accessControl\permissionGroup\infra\hooks\useGetPermissionGroup.ts
+src\entities\accessControl\permissionGroup\infra\ui\PermissionGroupComboBox.tsx
+src\entities\devices\devices\infra\hook\useDefaultDeviceHeader.ts
+src\entities\employee\departamento\infra\ui\DepartamentoTransferList.tsx
+src\entities\employee\employee\infra\ui\EmployeesDescription.tsx
+src\entities\locations\administrativeRegion\domain\entity\AdministrativeRegionOptions.ts
+src\entities\locations\administrativeRegion\infra\ui\RegionAdministrativeComboBox.tsx
+src\entities\locations\city\infra\hook\useGetCity.ts
+src\entities\locations\locationStatus\domain\entity\LocationStatusOptions.ts
+src\entities\locations\site\infra\hook\useGetSite.ts
+src\entities\locations\state\domain\entity\StatesOptions.ts
+src\entities\model\memoryRamType\domain\entity\MemoryRamOptions.ts
+src\entities\model\models\infra\ui\ModelsDescription.tsx
+src\entities\devices\devices\infra\ui\DeviceTable\PartsInformation.tsx
+src\entities\devices\features\processor\infra\hooks\useGetProcessor.ts
+
+⚠ Unused export: categoryIconMap (27)
+src\widgets\RecentActivities\index.tsx
+src\shared\ui\Card\index.tsx
+src\shared\ui\Select\index.tsx
+src\features\auth\model\useAuthStore.ts
+src\shared\config\index.ts
+src\shared\ui\Button\AuxiliarButton.tsx
+src\shared\ui\DropdownMenu\index.tsx
+src\shared\ui\Images\LazyLogoImage.tsx
+src\shared\ui\Breadcrumb\index.tsx
+src\shared\ui\Images\LazyWhiteLogoImage.tsx
+src\shared\ui\Images\LazyXImage.tsx
+src\shared\ui\Images\LazyYoutubeImage.tsx
+src\shared\ui\skeletons\SkeletonInfoBox.tsx
+src\entities\history\domain\value-object\HistoryAction.ts
+
+⚠ Unused type: ButtonProps (65)
+src\shared\ui\Button\AuxiliarButton.tsx
+src\entities\history\domain\dto\History.dto.ts
+src\entities\brand\infra\reducers\brandFormReducer.ts
+src\entities\category\domain\dto\Category.dto.ts
+src\entities\mainCategory\domain\dto\MainCategory.dto.ts
+src\entities\shipment\infra\reducers\shipmentFormReducers.ts
+src\shared\ui\EntitySearch\createEntitySearch.tsx
+src\entities\user\infra\reducers\forceChangePassword.reducers.ts
+src\entities\user\infra\reducers\changePassword.reducers.ts
+src\entities\user\infra\reducers\usersFormReducer.ts
+src\shared\ui\Table\TableHeader.tsx
+src\entities\accessControl\accessPolicy\infra\reducers\accessPolicyFormReducer.ts
+src\entities\accessControl\permission\infra\reducers\permissionFormReducer.ts
+src\entities\accessControl\permissionGroup\infra\reducers\permissionGroupFormReducer.ts
+src\entities\appSettings\infra\reducers\AppSettingsFormReducer.ts
+src\entities\shared\domain\repository\SaveRepository.ts
+src\entities\devices\dashboard\domain\dto\ComputerDashboard.dto.ts
+src\entities\devices\deviceMonitoring\domain\dto\DeviceMonitoring.dto.ts
+src\entities\devices\devices\infra\reducers\devicesFormReducer.ts
+src\entities\employee\cargo\infra\reducers\cargoFormReducer.ts
+src\entities\employee\departamento\infra\reducers\departamentoFormReducer.ts
+src\entities\employee\directiva\infra\reducers\directivaFormReducer.ts
+src\entities\employee\employee\infra\reducers\employeeFormReducer.ts
+src\entities\employee\vicepresidencia\infra\reducers\vicepresidenciaFormReducer.ts
+src\entities\employee\vicepresidenciaEjecutiva\infra\reducers\vicepresidenciaEjecutivaFormReducer.ts
+src\entities\locations\administrativeRegion\domain\dto\administrativeRegion.dto.ts
+src\entities\locations\city\infra\reducers\cityFormReducer.ts
+src\entities\locations\locationMonitoring\domain\dto\LocationMonitoring.dto.ts
+src\entities\locations\locations\infra\reducers\locationFormReducer.ts
+src\entities\locations\locationStatus\domain\dto\LocationStatus.dto.ts
+src\entities\locations\region\infra\reducers\regionFormReducer.ts
+src\entities\locations\site\infra\reducers\siteFormReducer.ts
+src\entities\locations\state\domain\dto\State.dto.ts
+src\entities\locations\typeOfSites\domain\dto\TypeOfSites.dto.ts
+src\entities\model\models\domain\dto\Model.dto.ts
+src\entities\model\models\infra\reducers\modelFormReducer.ts
+src\entities\status\status\domain\dto\Status.dto.ts
+src\widgets\dashboard\MemoryRamAnalysis\model\useMemoryRamTypeAnalysis.ts
+src\widgets\dashboard\OSDistributionByRegion\model\useOperatingSystemByRegion.ts
+src\entities\devices\features\processor\infra\reducers\processorFormReducer.ts
