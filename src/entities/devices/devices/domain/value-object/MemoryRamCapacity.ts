@@ -10,32 +10,11 @@ import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOpti
  * Incluye validación de rango y reglas de negocio basadas en el estado del dispositivo.
  */
 export class MemoryRamCapacity extends NumberValueObject {
-	/**
-	 * Paso mínimo para la capacidad de memoria RAM.
-	 * @static
-	 * @type {number}
-	 */
 	static readonly minStep: number = 0.25
-	/**
-	 * Valor mínimo permitido para la capacidad de memoria RAM.
-	 * @static
-	 * @type {number}
-	 */
 	static readonly min: number = 0
-	/**
-	 * Valor máximo permitido para la capacidad de memoria RAM.
-	 * @static
-	 * @type {number}
-	 */
 	static readonly max: number = 32 * this.minStep
 	private static errors = ''
 
-	/**
-	 * Crea una instancia de `MemoryRamCapacity`.
-	 * @param {number} value - El valor de la capacidad de memoria RAM.
-	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
-	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */
 	constructor(
 		value: number,
 		private readonly status: Primitives<StatusId>
