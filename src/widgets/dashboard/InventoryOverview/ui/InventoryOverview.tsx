@@ -43,33 +43,33 @@ export const InventoryOverview = ({ categoryData, statusData }: InventoryOvervie
 		return statusData.reduce((sum, cat) => sum + cat.count, 0)
 	}, [statusData])
 	return (
-		<Suspense fallback={<InventoryOverviewSkeleton />}>
-			<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
-				<ErrorBoundary
-					fallback={({ onReset }) => (
-						<WidgetErrorFallback
-							message="No se pudo cargar la distribución por tipo de sitio."
-							onReset={onReset}
-						/>
-					)}
-				>
-					<DeviceByTypeOfSite
-						categoryData={categoryData}
-						selectedCategory={selectedCategory}
-						getTotalCount={getTotalCount}
-						barHeight={barHeight}
-						getSelectedCategoryData={getSelectedCategoryData}
-						handleCategorySelect={handleCategorySelect}
+		<div className="grid grid-cols-[repeat(auto-fit,minmax(450px,1fr))] gap-4">
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						message="No se pudo cargar la distribución por tipo de sitio."
+						onReset={onReset}
 					/>
-				</ErrorBoundary>
-				<ErrorBoundary
-					fallback={({ onReset }) => (
-						<WidgetErrorFallback
-							message="No se pudo cargar la distribución por estatus."
-							onReset={onReset}
-						/>
-					)}
-				>
+				)}
+			>
+				<DeviceByTypeOfSite
+					categoryData={categoryData}
+					selectedCategory={selectedCategory}
+					getTotalCount={getTotalCount}
+					barHeight={barHeight}
+					getSelectedCategoryData={getSelectedCategoryData}
+					handleCategorySelect={handleCategorySelect}
+				/>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						message="No se pudo cargar la distribución por estatus."
+						onReset={onReset}
+					/>
+				)}
+			>
+				<Suspense fallback={<InventoryOverviewSkeleton />}>
 					<PieCard
 						data={statusData}
 						title="Distribución por estatus de equipos"
@@ -78,32 +78,36 @@ export const InventoryOverview = ({ categoryData, statusData }: InventoryOvervie
 						dataKey="count"
 						total={totalStatus}
 					/>
-				</ErrorBoundary>
-				<ErrorBoundary
-					fallback={({ onReset }) => (
-						<WidgetErrorFallback
-							message="No se pudo cargar la distribución por categoría."
-							onReset={onReset}
-						/>
-					)}
-				>
+				</Suspense>
+			</ErrorBoundary>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						message="No se pudo cargar la distribución por categoría."
+						onReset={onReset}
+					/>
+				)}
+			>
+				<Suspense fallback={<InventoryOverviewSkeleton />}>
 					<DeviceDistributionByCategory categoryData={categoryData} />
-				</ErrorBoundary>
-				{/* New Triple Bar Chart showing all equipment by category and site type */}
-				<ErrorBoundary
-					fallback={({ onReset }) => (
-						<WidgetErrorFallback
-							message="No se pudo cargar la distribución detallada por sitio."
-							onReset={onReset}
-						/>
-					)}
-				>
+				</Suspense>
+			</ErrorBoundary>
+			{/* New Triple Bar Chart showing all equipment by category and site type */}
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						message="No se pudo cargar la distribución detallada por sitio."
+						onReset={onReset}
+					/>
+				)}
+			>
+				<Suspense fallback={<InventoryOverviewSkeleton />}>
 					<DistributionByTypeOfSite
 						barHeight={barHeight}
 						prepareGroupedBarData={prepareGroupedBarData}
 					/>
-				</ErrorBoundary>
-			</div>
-		</Suspense>
+				</Suspense>
+			</ErrorBoundary>
+		</div>
 	)
 }

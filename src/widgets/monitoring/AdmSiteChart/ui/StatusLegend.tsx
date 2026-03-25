@@ -1,7 +1,7 @@
+import { memo } from 'react'
 import { COLOR_THRESHOLDS, NO_DATA_COLOR } from '../../../../shared/lib/constants/map-colors'
 import Typography from '@/shared/ui/Typography'
 import { MapLegendList } from '../../MapChart/ui/MapLegend'
-import { memo } from 'react'
 
 export const StatusLegend = memo(() => {
 	return (
@@ -17,7 +17,11 @@ export const StatusLegend = memo(() => {
 			</Typography>
 			<ul className="flex gap-2 space-y-1 text-xs" role="list">
 				{COLOR_THRESHOLDS.map((item, index) => (
-					<MapLegendList key={index} color={item.color} label={item.label} />
+					<MapLegendList
+						key={`legend-${index}-${item.color}`}
+						color={item.color}
+						label={item.label}
+					/>
 				))}
 				<MapLegendList color={NO_DATA_COLOR} label="Sin datos" />
 			</ul>

@@ -19,7 +19,11 @@ export const MapLegend = memo(() => {
 			</Typography>
 			<ul className="space-y-1 text-xs" role="list">
 				{COLOR_THRESHOLDS.map((item, index) => (
-					<MapLegendList key={index} color={item.color} label={item.label} />
+					<MapLegendList
+						key={`legend-${index}-${item.color}`}
+						color={item.color}
+						label={item.label}
+					/>
 				))}
 				<MapLegendList color={NO_DATA_COLOR} label="Sin datos" />
 			</ul>

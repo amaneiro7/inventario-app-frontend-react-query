@@ -8,24 +8,24 @@ import {
 	type DevicesErrors
 } from '@/entities/devices/devices/infra/reducers/devicesFormReducer'
 const OperatingSystemArqCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox'
-	).then(m => ({ default: m.OperatingSystemArqCombobox }))
+	import('@/entities/devices/features/operatingSystem/operatingSystemArq/infra/ui/OperatingSystemArqComboBox').then(
+		m => ({ default: m.OperatingSystemArqCombobox })
+	)
 )
 const OperatingSystemCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox'
-	).then(m => ({ default: m.OperatingSystemCombobox }))
+	import('@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox').then(
+		m => ({ default: m.OperatingSystemCombobox })
+	)
 )
 const HardDriveTypeCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox'
-	).then(m => ({ default: m.HardDriveTypeCombobox }))
+	import('@/entities/devices/features/hardDrive/hardDriveType/infra/ui/HardDriveTypeComboBox').then(
+		m => ({ default: m.HardDriveTypeCombobox })
+	)
 )
 const HardDriveCapacityCombobox = lazy(() =>
-	import(
-		'@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox'
-	).then(m => ({ default: m.HardDriveCapacityCombobox }))
+	import('@/entities/devices/features/hardDrive/hardDriveCapacity/infra/ui/HardDriveCapacityComboBox').then(
+		m => ({ default: m.HardDriveCapacityCombobox })
+	)
 )
 const MemoryRamCapacitySlotInput = lazy(() =>
 	import('./MemoryRamCapacitySlotInput').then(m => ({ default: m.MemoryRamCapacitySlotInput }))
@@ -154,7 +154,8 @@ export const AddComputerFeatures = memo(
 						{props.memoryRam.length > 0
 							? props.memoryRam?.map((_, index) => (
 									<MemoryRamCapacitySlotInput
-										key={`memRam-${index}`}
+										// eslint-disable-next-line react/no-array-index-key
+										key={`slot-${index}`}
 										index={index}
 										readOnly={!canEdit}
 										onChange={handleMemory}
