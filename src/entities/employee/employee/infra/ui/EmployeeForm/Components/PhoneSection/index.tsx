@@ -57,11 +57,11 @@ export const PhoneSection = ({
 	const removePhoneButtonTitle = 'Eliminar el teléfono'
 	const clearPhoneButtonTitle = 'Limpiar teléfono'
 	const PhoneSectionWithKeys = useMemo(() => {
-		return phoneSegments.map(segment => ({
+		return phoneSegments.map((segment, index) => ({
 			...segment,
-			id: self.crypto.randomUUID()
+			id: index
 		}))
-	}, [phoneSegments.length])
+	}, [phoneSegments])
 	return (
 		<>
 			<div className="flex justify-between">

@@ -57,12 +57,14 @@ export const ExtensionSection = ({
 	const addPhoneButtonText = 'Agregar otra extensión'
 	const removePhoneButtonTitle = 'Eliminar extensión'
 	const clearPhoneButtonTitle = 'Limpiar extensión'
+
 	const ExtensionSectionWithKeys = useMemo(() => {
-		return extensionSegments.map(segment => ({
+		return extensionSegments.map((segment, index) => ({
 			...segment,
-			id: self.crypto.randomUUID()
+			id: index
 		}))
-	}, [extensionSegments.length])
+	}, [extensionSegments])
+
 	return (
 		<>
 			<div className="flex justify-between">
