@@ -6,19 +6,19 @@ interface DefaultProps {
 	isSubmitting: boolean
 }
 
-export interface FormData {
+interface FormData {
 	newPassword: string
 	reTypePassword: string
 }
-export interface Errors {
+interface Errors {
 	newPassword: string
 	reTypePassword: string
 }
-export interface Valid {
+interface Valid {
 	newPassword: boolean
 	reTypePassword: boolean
 }
-export interface ToggleInputs {
+interface ToggleInputs {
 	newPassword: boolean
 	reTypePassword: boolean
 }
