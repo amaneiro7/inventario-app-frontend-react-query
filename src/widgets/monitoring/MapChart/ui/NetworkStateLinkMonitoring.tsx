@@ -75,10 +75,7 @@ export const NetworkStateLinkMonitoring = memo(
 			return (
 				<>
 					<div className="flex min-w-0 flex-1 items-center gap-1 truncate">
-						<MapPin
-							className="h-5 w-5 flex-shrink-0 text-gray-500"
-							aria-hidden="true"
-						/>
+						<MapPin className="h-5 w-5 shrink-0 text-gray-500" aria-hidden="true" />
 						<Typography
 							variant="span"
 							option="tiny"
@@ -113,7 +110,7 @@ export const NetworkStateLinkMonitoring = memo(
 				emptySubMessage="Intenta seleccionar otro estado o verifica la disponibilidad."
 				listTitle={selectedState ? `Enlaces de red en ${selectedState}` : 'Enlaces de red'}
 				listAriaLabel={`Lista de enlaces de red en ${selectedState || 'el estado seleccionado'}`}
-				renderItem={renderNetworkLinkItem}
+				RenderItem={renderNetworkLinkItem}
 				// If you have a specific skeleton for this type, you could pass it here:
 				// LoadingSkeleton={NetworkLinkListSkeleton} // It's the default anyway
 			/>

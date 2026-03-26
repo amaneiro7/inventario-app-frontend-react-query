@@ -98,7 +98,7 @@ export const NetworkLinkMonitoring = memo(({ selectedState }: NetworkLinkSelecte
 							>
 								<div className="flex min-w-0 flex-1 items-center gap-1 truncate">
 									<MapPin
-										className="h-6 w-6 flex-shrink-0 text-gray-500"
+										className="h-6 w-6 shrink-0 text-gray-500"
 										aria-hidden="true"
 									/>
 									<Typography

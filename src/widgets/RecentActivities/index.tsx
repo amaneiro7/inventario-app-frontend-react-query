@@ -123,7 +123,7 @@ const categoryIconMap: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> =
 }
 
 // Función para obtener el componente de icono basado en el categoryId
-export const getCategoryIcon = (
+const getCategoryIcon = (
 	categoryId: string | undefined
 ): React.FC<React.SVGProps<SVGSVGElement>> => {
 	if (!categoryId) {

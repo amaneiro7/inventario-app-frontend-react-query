@@ -34,7 +34,7 @@ export const NetworkSiteLinkMonitoring = memo(({ selectedFloor }: NetworkLinkSel
 			listAriaLabel={`Lista de enlaces de red en ${
 				selectedFloor || 'el estado seleccionado'
 			}`}
-			renderItem={link => <NetworkLinkItemCard link={link} />}
+			RenderItem={link => <NetworkLinkItemCard link={link} />}
 		/>
 	)
 })
