@@ -7,6 +7,7 @@ import {
 	type Helpers,
 	type DefaultEmployee
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
+import { useMemo } from 'react'
 
 interface ExtensionSectionProps {
 	extension: DefaultEmployee['extension']
@@ -56,6 +57,12 @@ export const ExtensionSection = ({
 	const addPhoneButtonText = 'Agregar otra extensión'
 	const removePhoneButtonTitle = 'Eliminar extensión'
 	const clearPhoneButtonTitle = 'Limpiar extensión'
+	const ExtensionSectionWithKeys = useMemo(() => {
+		return extensionSegments.map(segment => ({
+			...segment,
+			id: self.crypto.randomUUID()
+		}))
+	}, [extensionSegments.length])
 	return (
 		<>
 			<div className="flex justify-between">
@@ -73,13 +80,13 @@ export const ExtensionSection = ({
 					onClick={() => handleAddPhones({ type: 'addExtension' })}
 				/>
 			</div>
-			{extensionSegments.map(({ numero, operadora }, index) => (
-				<div key={index} className="flex items-center gap-2">
+			{ExtensionSectionWithKeys.map(({ id }, index) => (
+				<div key={id} className="flex items-center gap-2">
 					<ExtensionInput
 						index={index}
-						numero={numero}
+						numero={extensionSegments[index]?.numero}
 						isLoading={isLoading}
-						operadora={operadora}
+						operadora={extensionSegments[index]?.operadora}
 						readonly={readOnly}
 						handlePhoneChange={handlePhoneChange}
 					/>

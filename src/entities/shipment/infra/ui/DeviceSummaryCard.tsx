@@ -15,7 +15,7 @@ export const DeviceSummaryCard = memo(({ shipmentDevice, className }: ShippedDev
 
 	if (!device) {
 		return (
-			<div className="flex w-full items-center gap-4 rounded-lg border border-red-300 bg-red-50 p-3 shadow-lg sm:w-auto md:min-w-[350px]">
+			<div className="flex w-full items-center gap-4 rounded-lg border border-red-300 bg-red-50 p-3 shadow-lg sm:w-auto md:min-w-87.5">
 				<Typography color="rojo">
 					Error: No se pudieron cargar los datos de este dispositivo.
 				</Typography>
@@ -62,9 +62,15 @@ export const DeviceSummaryCard = memo(({ shipmentDevice, className }: ShippedDev
 		{ label: 'Tipo de Disco', value: device.hardDriveType }
 	]
 
+	const allDetails = [
+		...baseDetails,
+		...(isComputer ? computerDetails : []),
+		...(isHardDrive ? hardDriveDetails : [])
+	].filter(detail => detail.value !== null && detail.value !== undefined && detail.value !== '')
+
 	return (
 		<div className={cn('rounded-lg border p-3 shadow-lg', className)}>
-			<div className="flex-grow">
+			<div className="grow">
 				<Typography
 					variant="p"
 					option="small"
@@ -78,38 +84,13 @@ export const DeviceSummaryCard = memo(({ shipmentDevice, className }: ShippedDev
 					{device.categoryName ?? 'Categoría'} - {device.modelName}
 				</Typography>
 				<div className="grid grid-cols-1 gap-x-4">
-					{baseDetails.map(
-						(device, index) =>
-							device.value && (
-								<DeviceSummaryCardDetails
-									key={`device-summary-card-detail-${index}`}
-									label={device.label}
-									value={device.value}
-								/>
-							)
-					)}
-					{isComputer &&
-						computerDetails.map(
-							(device, index) =>
-								device.value && (
-									<DeviceSummaryCardDetails
-										key={`device-summary-card-detail-${index}`}
-										label={device.label}
-										value={device.value}
-									/>
-								)
-						)}
-					{isHardDrive &&
-						hardDriveDetails.map(
-							(device, index) =>
-								device.value && (
-									<DeviceSummaryCardDetails
-										key={`device-summary-card-detail-${index}`}
-										label={device.label}
-										value={device.value}
-									/>
-								)
-						)}
+					{allDetails.map(detail => (
+						<DeviceSummaryCardDetails
+							key={detail.label}
+							label={detail.label}
+							value={detail.value}
+						/>
+					))}
 				</div>
 			</div>
 		</div>

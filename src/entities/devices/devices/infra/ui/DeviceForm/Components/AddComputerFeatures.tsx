@@ -27,8 +27,8 @@ const HardDriveCapacityCombobox = lazy(() =>
 		m => ({ default: m.HardDriveCapacityCombobox })
 	)
 )
-const MemoryRamCapacitySlotInput = lazy(() =>
-	import('./MemoryRamCapacitySlotInput').then(m => ({ default: m.MemoryRamCapacitySlotInput }))
+const MemoryRamCapacitySlot = lazy(() =>
+	import('./MemoryRamCapacitySlot').then(m => ({ default: m.MemoryRamCapacitySlot }))
 )
 const ProcessorCombobox = lazy(() =>
 	import('@/entities/devices/features/processor/infra/ui/ProcessorComboBox').then(m => ({
@@ -150,21 +150,12 @@ export const AddComputerFeatures = memo(
 				/>
 
 				<div className="grid gap-4 md:grid-cols-2">
-					<div className="grid grid-cols-2 gap-4">
-						{props.memoryRam.length > 0
-							? props.memoryRam?.map((_, index) => (
-									<MemoryRamCapacitySlotInput
-										// eslint-disable-next-line react/no-array-index-key
-										key={`slot-${index}`}
-										index={index}
-										readOnly={!canEdit}
-										onChange={handleMemory}
-										value={props.memoryRam[index]}
-										isLoading={isLoading}
-									/>
-								))
-							: null}
-					</div>
+					<MemoryRamCapacitySlot
+						canEdit={canEdit}
+						handleMemory={handleMemory}
+						isLoading={isLoading}
+						memoryRam={props.memoryRam}
+					/>
 					<div className="flex gap-4">
 						<Input
 							id="computer-memoryRamCapacity"

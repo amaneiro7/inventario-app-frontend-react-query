@@ -7,6 +7,7 @@ import {
 	type Helpers,
 	type DefaultEmployee
 } from '@/entities/employee/employee/infra/reducers/employeeFormReducer'
+import { useMemo } from 'react'
 
 interface PhoneSectionProps {
 	isLoading: boolean
@@ -55,6 +56,12 @@ export const PhoneSection = ({
 	const addPhoneButtonText = 'Agregar otro teléfono'
 	const removePhoneButtonTitle = 'Eliminar el teléfono'
 	const clearPhoneButtonTitle = 'Limpiar teléfono'
+	const PhoneSectionWithKeys = useMemo(() => {
+		return phoneSegments.map(segment => ({
+			...segment,
+			id: self.crypto.randomUUID()
+		}))
+	}, [phoneSegments.length])
 	return (
 		<>
 			<div className="flex justify-between">
@@ -72,14 +79,14 @@ export const PhoneSection = ({
 					onClick={() => handleAddPhones({ type: 'addPhone' })}
 				/>
 			</div>
-			{phoneSegments.map(({ numero, operadora }, index) => (
-				<div key={index} className="flex items-center gap-2">
+			{PhoneSectionWithKeys.map(({ id }, index) => (
+				<div key={id} className="flex items-center gap-2">
 					<PhoneInput
 						isLoading={isLoading}
 						index={index}
-						numero={numero}
+						numero={phoneSegments[index]?.numero}
 						readonly={readOnly}
-						operadora={operadora}
+						operadora={phoneSegments[index]?.operadora}
 						handlePhoneChange={handlePhoneChange}
 					/>
 

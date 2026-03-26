@@ -644,6 +644,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 				state.formData.memoryRam?.length === memoryRamSlotQuantity
 					? state.formData.memoryRam
 					: new Array(memoryRamSlotQuantity).fill(0)
+			const memoryRamCapacity = MemoryRam.totalAmount(memoryRam)
 
 			return {
 				...state,
@@ -653,6 +654,7 @@ export const devicesFormReducer = (state: State, action: Action): State => {
 					memoryRamSlotQuantity,
 					memoryRamType: memoryRamType ?? '',
 					memoryRam,
+					memoryRamCapacity,
 					genericModel: generic
 				},
 				required: {
