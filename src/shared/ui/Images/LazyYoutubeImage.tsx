@@ -3,8 +3,6 @@ import Img from '@/shared/assets/img-youtube.png'
 
 type Props = React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement>
 
-export function YoutubeImage({ ...props }: Props) {
+export const LazyYoutubeImage = memo(({ ...props }: Props) => {
 	return <img {...props} src={Img} alt="Logo en blanco y negro de un globo" />
-}
-
-export const LazyYoutubeImage = memo(YoutubeImage)
+})

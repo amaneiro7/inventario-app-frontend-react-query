@@ -6,22 +6,22 @@ interface DefaultProps {
 	loading: boolean
 }
 
-export interface FormData {
+interface FormData {
 	password: string
 	newPassword: string
 	reTypePassword: string
 }
-export interface Errors {
+interface Errors {
 	password: string
 	newPassword: string
 	reTypePassword: string
 }
-export interface Valid {
+interface Valid {
 	password: boolean
 	newPassword: boolean
 	reTypePassword: boolean
 }
-export interface ToggleInputs {
+interface ToggleInputs {
 	password: boolean
 	newPassword: boolean
 	reTypePassword: boolean

@@ -21,11 +21,11 @@ export interface PermissionGroupErrors extends Record<string, string> {
 	name: string
 	description: string
 }
-export interface PermissionGroupRequired extends Record<string, boolean> {
+interface PermissionGroupRequired extends Record<string, boolean> {
 	name: boolean
 	description: boolean
 }
-export interface PermissionGroupDisabled extends Record<string, boolean> {
+interface PermissionGroupDisabled extends Record<string, boolean> {
 	name: boolean
 	description: boolean
 }
@@ -36,7 +36,7 @@ export interface PermissionGroupDisabled extends Record<string, boolean> {
  * @property {DefaultPermission} formData - Los datos del formulario de la marca.
  * @property {PermissionErrors} errors - Los errores de validación asociados a los campos del formulario.
  */
-export interface State {
+interface State {
 	formData: DefaultPermissionGroup
 	errors: PermissionGroupErrors
 	required: PermissionGroupRequired

@@ -4,8 +4,8 @@ import { IconContainer } from './IconContainer'
 import { GlobeIcon } from '@/shared/ui/icon/GlobeIcon'
 import { InstagramIcon } from '@/shared/ui/icon/InstagramIcon'
 import { FacebookIcon } from '@/shared/ui/icon/FacebookIcon'
-import { XImage } from '@/shared/ui/Images/LazyXImage'
-import { YoutubeImage } from '@/shared/ui/Images/LazyYoutubeImage'
+import { LazyXImage } from '@/shared/ui/Images/LazyXImage'
+import { LazyYoutubeImage } from '@/shared/ui/Images/LazyYoutubeImage'
 import { LinkedInIcon } from '@/shared/ui/icon/LinkedInIcon'
 
 export const SignatureSocialMedia = memo(() => {
@@ -29,10 +29,10 @@ export const SignatureSocialMedia = memo(() => {
 							<FacebookIcon className="h-4 w-4 fill-white stroke-1 text-white" />
 						</IconContainer>
 						<IconContainer>
-							<XImage className="h-3 w-3 text-white" />
+							<LazyXImage className="h-3 w-3 text-white" />
 						</IconContainer>
 						<IconContainer>
-							<YoutubeImage className="h-3 w-3 text-white" />
+							<LazyYoutubeImage className="h-3 w-3 text-white" />
 						</IconContainer>
 						<IconContainer>
 							<LinkedInIcon className="h-3 w-3 fill-white stroke-white stroke-1" />

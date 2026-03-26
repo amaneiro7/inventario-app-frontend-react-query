@@ -1,10 +1,10 @@
-import { type AppSettingsDto } from '../../domain/dto/AppSettings.dto'
 import { AppSettingsValue } from '../../domain/value-object/AppSettingsValue'
-import { type SettingsTypeEnum } from '../../domain/value-object/AppSettingsType'
+import type { AppSettingsDto } from '../../domain/dto/AppSettings.dto'
+import type { SettingsTypeEnum } from '../../domain/value-object/AppSettingsType'
 
-export type AppSettingsForm = AppSettingsDto
+type AppSettingsForm = AppSettingsDto
 
-export interface State {
+interface State {
 	settings: AppSettingsForm[]
 	errors: Record<string, string> // key: error message
 }
@@ -14,7 +14,7 @@ export const initialAppSettingsState: State = {
 	errors: {}
 }
 
-export type Action =
+type Action =
 	| { type: 'init'; payload: { settings: AppSettingsForm[] } }
 	| { type: 'reset'; payload: { settings: AppSettingsForm[] } }
 	| {

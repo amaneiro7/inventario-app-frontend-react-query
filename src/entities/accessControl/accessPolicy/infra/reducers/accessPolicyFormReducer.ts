@@ -11,16 +11,16 @@ export interface AccessPolicyErrors extends Record<string, string> {
 	priority: string
 }
 
-export interface AccessPolicyRequired extends Record<string, boolean> {
+interface AccessPolicyRequired extends Record<string, boolean> {
 	name: boolean
 	priority: boolean
 }
-export interface AccessPolicyDisabled extends Record<string, boolean> {
+interface AccessPolicyDisabled extends Record<string, boolean> {
 	name: boolean
 	priority: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultAccessPolicy
 	errors: AccessPolicyErrors
 	required: AccessPolicyRequired

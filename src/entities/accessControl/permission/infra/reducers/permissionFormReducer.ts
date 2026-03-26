@@ -36,7 +36,7 @@ export interface PermissionDisaled extends Record<string, boolean> {
  * @property {DefaultPermission} formData - Los datos del formulario de la marca.
  * @property {PermissionErrors} errors - Los errores de validación asociados a los campos del formulario.
  */
-export interface State {
+interface State {
 	formData: DefaultPermission
 	errors: PermissionErrors
 	required: PermissionRequired

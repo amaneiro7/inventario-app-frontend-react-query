@@ -1,15 +1,5 @@
 import { forwardRef } from 'react'
 import { cn } from '@/shared/lib/utils'
-import { type TableHeadSize } from './TableHead'
-
-export interface Headers {
-	key: string
-	label: string
-	hasOrder: boolean
-	size: keyof typeof TableHeadSize
-	isTab: boolean
-	visible: boolean
-}
 
 export const TableHeader = forwardRef<
 	HTMLTableSectionElement,

@@ -4,7 +4,7 @@ import { InfoBoxTitle } from '@/shared/ui/InfoBox/InfoBoxTitle'
 import { cn } from '@/shared/lib/utils'
 
 // Simple skeleton text component
-export const SkeletonText = ({
+const SkeletonText = ({
 	className,
 	...props
 }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (

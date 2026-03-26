@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-interface Props
-	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+interface Props extends React.DetailedHTMLProps<
+	React.InputHTMLAttributes<HTMLInputElement>,
+	HTMLInputElement
+> {
 	onInputChange: (value: string) => void
 	open?: boolean
 }
@@ -13,7 +15,7 @@ export function SearchBar({ id, value, onInputChange, open }: Props) {
 		}
 	}, [open])
 	return (
-		<div className="sticky top-0 bg-white flex items-center border-b px-3">
+		<div className="sticky top-0 flex items-center border-b bg-white px-3">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="24"
@@ -30,9 +32,8 @@ export function SearchBar({ id, value, onInputChange, open }: Props) {
 				<path d="m21 21-4.3-4.3"></path>
 			</svg>
 			<input
-				className="flex w-full rounded-md bg-transparent py-3 outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 h-9"
+				className="placeholder:text-muted-foreground flex h-9 w-full rounded-md bg-transparent py-3 outline-hidden disabled:cursor-not-allowed disabled:opacity-50"
 				placeholder="Buscar"
-				autoFocus
 				ref={inputRef}
 				autoComplete="off"
 				autoCorrect="off"

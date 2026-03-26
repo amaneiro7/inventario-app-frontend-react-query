@@ -5,21 +5,14 @@ import { type OrderBy } from '@/entities/shared/domain/criteria/OrderBy'
 import { type OrderType, OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
-export const TableHeadSize = {
+const TableHeadSize = {
 	xxSmall: 'w-8' /* 32px */,
-
 	xSmall: 'w-20' /* 80px */,
-
 	small: 'w-28' /* 112px */,
-
 	medium: 'w-36' /* 144px */,
-
 	large: 'w-44' /* 176px */,
-
 	xLarge: 'w-52' /* 224px */,
-
 	xxLarge: 'w-64' /* 256px */,
-
 	auto: 'w-auto' /* 224px */
 } as const
 type BaseProps = React.ThHTMLAttributes<HTMLTableCellElement> & {

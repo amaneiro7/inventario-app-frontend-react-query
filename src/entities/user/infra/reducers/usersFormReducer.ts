@@ -17,7 +17,7 @@ export interface DefaultUsers {
 	updatedAt?: string
 }
 
-export interface State {
+interface State {
 	formData: DefaultUsers
 }
 
