@@ -19,8 +19,8 @@ const CardHeader = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
 )
 CardHeader.displayName = 'CardHeader'
 
-const CardTitle = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHeadingElement>>(
-	({ className, ...props }, ref) => (
+const CardTitle = forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+	({ className, children, ...props }, ref) => (
 		<h3
 			ref={ref}
 			className={cn(
@@ -28,7 +28,9 @@ const CardTitle = forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLHead
 				className
 			)}
 			{...props}
-		/>
+		>
+			{children || <span className="sr-only">Título de tarjeta sin definir</span>}
+		</h3>
 	)
 )
 CardTitle.displayName = 'CardTitle'
