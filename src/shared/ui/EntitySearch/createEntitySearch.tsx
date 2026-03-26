@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
 import { useDebounce } from '@/shared/lib/hooks/useDebounce'
 import { SearchInput } from '@/shared/ui/Input/Search'
-import { type Highlight } from '../Input/Combobox/RenderOption/RenderComboboxOption'
+import type { Highlight } from '../Input/Combobox/RenderOption/RenderComboboxOption'
 
-export interface EntitySearchProps<T extends { id: string; name: string }> {
+interface EntitySearchProps<T extends { id: string; name: string }> {
 	entityName: string
 	queryHook: (query: any) => { data: { data: T[] } | undefined; isLoading: boolean }
 	urlPrefix: string

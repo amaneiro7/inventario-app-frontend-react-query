@@ -18,15 +18,6 @@ export interface Category {
 }
 
 /**
- * @typedef {Object} CategoryPrimitives
- * @description Representa la forma primitiva de una entidad `Category` para la persistencia.
- * Excluye el `id` ya que puede ser generado por el sistema de persistencia.
- * @property {Primitives<CategoryName>} name - El nombre de la categoría.
- * @property {Primitives<MainCategoryId>} mainCategoryId - El identificador de la categoría principal a la que pertenece.
- */
-export type CategoryPrimitives = Omit<Category, 'id'>
-
-/**
  * @interface CategoryDto
  * @description Representa el Data Transfer Object (DTO) de una entidad `Category`.
  * Incluye todas las propiedades de `Category` más el objeto `MainCategory` completo.

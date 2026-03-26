@@ -158,16 +158,3 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 		return get().refreshTokenPromise as Promise<string | void>
 	}
 }))
-
-// Helper para obtener solo la parte 'auth' del store (si lo prefieres)
-export const getAuthState = () =>
-	useAuthStore(state => ({
-		user: state.user,
-		token: state.token,
-		// permissions: state.permissions,
-		setUser: state.setUser,
-		setToken: state.setToken,
-		logout: state.logout,
-		deleteTempToken: state.deleteTempToken,
-		refreshTokenValidity: state.refreshTokenValidity
-	}))

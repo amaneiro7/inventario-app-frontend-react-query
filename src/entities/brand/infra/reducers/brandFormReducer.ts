@@ -8,14 +8,14 @@ export type DefaultBrand = BrandParams & {
 export interface BrandErrors extends Record<string, string> {
 	name: string
 }
-export interface BrandRequired extends Record<string, boolean> {
+interface BrandRequired extends Record<string, boolean> {
 	name: boolean
 }
-export interface BrandDisabled extends Record<string, boolean> {
+interface BrandDisabled extends Record<string, boolean> {
 	name: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultBrand
 	errors: BrandErrors
 	required: BrandRequired

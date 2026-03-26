@@ -72,7 +72,7 @@ export interface ShipmentDisabled extends Record<string, boolean> {
  * @property {DefaultShipment} formData - Los datos del formulario de la marca.
  * @property {ShipmentErrors} errors - Los errores de validación asociados a los campos del formulario.
  */
-export interface State {
+interface State {
 	formData: DefaultShipment
 	errors: ShipmentErrors
 	required: ShipmentRequired

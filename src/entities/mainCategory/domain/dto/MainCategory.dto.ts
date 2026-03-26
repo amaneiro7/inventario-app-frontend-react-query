@@ -11,11 +11,6 @@ export interface MainCategory {
 }
 
 /**
- * Represents the primitive properties of a MainCategory entity, excluding the ID.
- */
-export type MainCategoryPrimitives = Omit<MainCategory, 'id'>
-
-/**
  * Represents the Data Transfer Object (DTO) for a MainCategory entity.
  * In this case, it's identical to the base `MainCategory` interface.
  */

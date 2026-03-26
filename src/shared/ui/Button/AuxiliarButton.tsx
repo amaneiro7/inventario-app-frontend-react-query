@@ -35,7 +35,7 @@ interface ButtonProps
 	asChild?: boolean
 }
 
-const AuxiliarButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+export const AuxiliarButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	({ className, variant, size, asChild = false, ...props }, ref) => {
 		const Comp = asChild ? Slot : 'button'
 		return (
@@ -48,5 +48,3 @@ const AuxiliarButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
 	}
 )
 AuxiliarButton.displayName = 'AuxiliarButton'
-
-export { AuxiliarButton, buttonVariants }

@@ -34,11 +34,6 @@ export interface History {
 }
 
 /**
- * Represents the primitive properties of a History entity, excluding the ID.
- */
-export type HistoryPrimitives = Omit<History, 'id'>
-
-/**
  * Represents the Data Transfer Object (DTO) for a History entity,
  * including full details of the associated device, user, and employee.
  */
