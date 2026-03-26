@@ -94,7 +94,7 @@ export const RecentActivities = memo(() => {
 })
 
 // Objeto que mapea categoryId a un componente de icono de Lucide React
-export const categoryIconMap: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
+const categoryIconMap: Record<string, React.FC<React.SVGProps<SVGSVGElement>>> = {
 	[CategoryOptions.COMPUTER]: Computer,
 	[CategoryOptions.SERVER]: Server,
 	[CategoryOptions.LAPTOP]: Laptop,

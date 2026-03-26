@@ -11,21 +11,13 @@ export interface GenericMonitorableItem {
 }
 
 interface GenericMonitoringListProps<T extends GenericMonitorableItem> {
-	/** The array of items to display in the list. */
 	items: T[]
-	/** Whether the data is currently loading. */
 	isLoading: boolean
-	/** Message to display when the list is empty. */
 	emptyMessage: string
-	/** Optional detailed message for empty state. */
 	emptySubMessage?: string
-	/** Optional title to display above the list. */
 	listTitle?: string
-	/** ARIA label for the main list element. */
 	listAriaLabel: string
-	/** A function that takes an item and returns the JSX to render for that item. */
-	renderItem: (item: T) => React.ReactNode
-	/** Optional component to render as a skeleton when loading. Defaults to NetworkLinkListSkeleton. */
+	RenderItem: (item: T) => React.ReactNode
 	LoadingSkeleton?: React.ComponentType | React.ElementType // Could be a function component or element
 }
 
@@ -36,7 +28,7 @@ export function GenericMonitoringList<T extends GenericMonitorableItem>({
 	emptySubMessage,
 	listTitle,
 	listAriaLabel,
-	renderItem,
+	RenderItem,
 	LoadingSkeleton = NetworkLinkListSkeleton // Default skeleton
 }: GenericMonitoringListProps<T>) {
 	if (isLoading) {
@@ -99,9 +91,9 @@ export function GenericMonitoringList<T extends GenericMonitorableItem>({
 						key={item.id} // Ensure 'id' is always present in T
 						className="flex items-center justify-between gap-3 rounded-md border bg-white p-3 shadow-sm transition-shadow duration-200 hover:shadow-md" // Enhanced styling
 						role="listitem"
-						aria-label={`${item.name}, estado: ${item.status}`} // Basic ARIA label, can be refined by renderItem if needed
+						aria-label={`${item.name}, estado: ${item.status}`} // Basic ARIA label, can be refined by RenderItem if needed
 					>
-						{renderItem(item)}
+						{RenderItem(item)}
 					</li>
 				))}
 			</ul>
