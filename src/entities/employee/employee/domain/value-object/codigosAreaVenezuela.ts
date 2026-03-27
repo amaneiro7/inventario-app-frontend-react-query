@@ -17,6 +17,7 @@ export const codigosAreaVenezuela = [
 	{ ciudad: 'Puerto Cabello', codigo: '0242', estado: 'Carabobo' },
 	{ ciudad: 'Punto Fijo', codigo: '0269', estado: 'Falcón' },
 	{ ciudad: 'Mérida', codigo: '0274', estado: 'Mérida' },
+	{ ciudad: 'La Puerta', codigo: '0271', estado: 'Trujillo' },
 	{ ciudad: 'Cabimas', codigo: '0264', estado: 'Zulia' },
 	{ ciudad: 'Coro', codigo: '0268', estado: 'Falcón' },
 	{ ciudad: 'Los Teques', codigo: '0212', estado: 'Miranda' },
