@@ -1,4 +1,4 @@
-export interface RepositoryResponse<T> {
+interface RepositoryResponse<T> {
 	message: string
 	data?: T // El campo de datos es opcional
 }

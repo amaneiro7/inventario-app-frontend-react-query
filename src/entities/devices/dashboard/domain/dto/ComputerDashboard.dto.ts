@@ -50,7 +50,7 @@ export interface Status {
  * @property {number} count - Cantidad de dispositivos de ese modelo.
  * @property {TypeOfSite[]} typeOfSite - Tipos de sitio asociados al modelo.
  */
-export interface Model {
+interface Model {
 	name: string
 	category: string
 	count: number
@@ -76,7 +76,7 @@ export interface Category {
  * @property {string} name - Nombre del tipo de sitio.
  * @property {number} count - Cantidad de dispositivos en ese tipo de sitio.
  */
-export interface TypeOfSite {
+interface TypeOfSite {
 	name: string
 	count: number
 }
@@ -199,7 +199,7 @@ export interface OperatingSystem {
  * @property {string} name - Nombre de la arquitectura.
  * @property {number} count - Cantidad de dispositivos con esta arquitectura.
  */
-export interface OperatingSystemArq {
+interface OperatingSystemArq {
 	name: string
 	count: number
 }
@@ -223,7 +223,7 @@ export interface HardDrive {
  * @property {string} name - Nombre del tipo de disco duro.
  * @property {number} count - Cantidad de discos duros de este tipo.
  */
-export interface HardDriveType {
+interface HardDriveType {
 	name: string
 	count: number
 }
@@ -282,7 +282,7 @@ export interface ModulosMemoryRam {
  * @property {string} name - Nombre del tipo de memoria RAM.
  * @property {MemoryRamValues[]} memoryRamValues - Valores de memoria RAM asociados al tipo.
  */
-export interface MemoryRamType {
+interface MemoryRamType {
 	name: string
 	memoryRamValues: MemoryRamValues[]
 }
@@ -293,7 +293,7 @@ export interface MemoryRamType {
  * @property {string} name - Nombre del valor de memoria RAM.
  * @property {number} count - Cantidad de memoria RAM con este valor.
  */
-export interface MemoryRamValues {
+interface MemoryRamValues {
 	name: string
 	count: number
 }
