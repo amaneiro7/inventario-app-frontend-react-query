@@ -23,6 +23,4 @@ export interface DeviceMonitoring {
 	lastFailed: Primitives<DeviceMonitoringLastFailed>
 }
 
-export type DeviceMonitoringPrimitives = Omit<DeviceMonitoring, 'id'>
-
 export type DeviceMonitoringDto = DeviceMonitoring

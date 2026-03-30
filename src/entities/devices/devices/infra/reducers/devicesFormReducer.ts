@@ -132,7 +132,7 @@ export interface DeviceRequired extends Record<string, boolean> {
 	health: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultDevice
 	errors: DevicesErrors
 	disabled: DevicesDisabled
