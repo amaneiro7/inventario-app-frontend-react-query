@@ -19,6 +19,7 @@ interface Props<
 	required?: boolean
 	onInputChange?: (value: string) => void
 	handleOptionClick: (option: O) => void
+	handleClose?: () => void
 	// Props para reutilizar el componente de listbox
 	displayAccessor?: string | ((option: O) => string)
 	highlightFunction?: (option: O, inputValue?: string) => { text: string; highlight: boolean }[]
@@ -45,7 +46,8 @@ export function ListBox<O extends { id: string }, T extends string | number | re
 	highlightFunction,
 	renderOption,
 	onInputChange,
-	handleOptionClick
+	handleOptionClick,
+	handleClose
 }: Props<T, O>) {
 	const { listRef, selectedIndex } = useListBoxNavigation({
 		options,
@@ -87,6 +89,7 @@ export function ListBox<O extends { id: string }, T extends string | number | re
 						inputValue={inputValue}
 						selectedIndex={selectedIndex}
 						onOptionClick={handleOptionClick}
+						onClose={handleClose}
 						loading={loading}
 						displayAccessor={displayAccessor}
 						highlightFunction={highlightFunction}

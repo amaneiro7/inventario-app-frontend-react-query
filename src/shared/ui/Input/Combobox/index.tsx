@@ -7,8 +7,10 @@ import { CircleSpinningIcon } from '@/shared/ui/icon/CircleSpinning'
 import { ButtonOpen } from './ButtonOpen'
 import { ListBox } from './ListBox'
 import { type Highlight } from './RenderOption/RenderComboboxOption'
-interface ComboboxProps<T extends string | number | readonly string[], O extends { id: string }>
-	extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+interface ComboboxProps<
+	T extends string | number | readonly string[],
+	O extends { id: string }
+> extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	label: string
 	value: T
 	name: string
@@ -173,6 +175,16 @@ export const Combobox = memo(function <
 							handlePopoverOpen()
 						}
 					}}
+					onKeyDown={event => {
+						if (event.key === 'ArrowDown' && !open) {
+							event.preventDefault()
+							handlePopoverOpen()
+						}
+						if ((event.key === 'Escape' || event.key === 'ArrowUp') && open) {
+							event.preventDefault()
+							handlePopoverClose()
+						}
+					}}
 					tabIndex={disabled ? -1 : 0}
 					aria-label="Mostrar opciones del combobox"
 					{...props}
@@ -192,6 +204,7 @@ export const Combobox = memo(function <
 					renderOption={renderOption}
 					onInputChange={onInputChange}
 					handleOptionClick={handleOptionClick}
+					handleClose={handlePopoverClose}
 					tabIndex={0}
 				/>
 			</>

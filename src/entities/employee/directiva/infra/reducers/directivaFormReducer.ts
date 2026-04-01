@@ -18,7 +18,7 @@ export interface DirectivaErrors extends Record<string, string> {
 /**
  * Defines which fields in the directiva form are required based on current state.
  */
-interface DirectivaRequired extends Record<string, boolean> {
+export interface DirectivaRequired extends Record<string, boolean> {
 	name: boolean
 	cargos: boolean
 }

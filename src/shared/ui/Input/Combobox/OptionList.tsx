@@ -10,6 +10,7 @@ interface OptionListProps<O extends { id: string | number }> {
 	inputValue?: string
 	selectedIndex: number
 	onOptionClick: (option: O) => void
+	onClose?: () => void
 	loading: boolean
 	displayAccessor?: string | ((option: O) => string)
 	highlightFunction?: (option: O, inputValue?: string) => { text: string; highlight: boolean }[]
@@ -31,6 +32,7 @@ export function OptionList<O extends { id: string | number }>({
 	inputValue,
 	selectedIndex,
 	onOptionClick,
+	onClose,
 	loading,
 	displayAccessor = 'name',
 	highlightFunction,
@@ -89,6 +91,7 @@ export function OptionList<O extends { id: string | number }>({
 					index={index}
 					isSelected={isSelected}
 					onOptionClick={onOptionClick}
+					onClose={onClose}
 				>
 					{
 						<RenderComboboxOption
@@ -108,6 +111,7 @@ export function OptionList<O extends { id: string | number }>({
 		selectedIndex,
 		displayAccessor,
 		onOptionClick,
+		onClose,
 		highlight,
 		renderOption
 	])
