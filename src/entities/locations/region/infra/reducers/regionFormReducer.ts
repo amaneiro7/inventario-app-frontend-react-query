@@ -17,7 +17,7 @@ export interface RegionDisabled extends Record<string, boolean> {
 	administrativeRegionId: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultRegion
 	errors: RegionErrors
 	required: RegionRequired

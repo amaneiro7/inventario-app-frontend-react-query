@@ -90,7 +90,7 @@ export const PieContent = memo(
 									>
 										{data.map((entry, index) => (
 											<Cell
-												key={`cell-${index}`}
+												key={`cell-${entry.name}`}
 												fill={colors[index % colors.length] ?? '#cccccc'}
 												aria-label={`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`}
 											/>

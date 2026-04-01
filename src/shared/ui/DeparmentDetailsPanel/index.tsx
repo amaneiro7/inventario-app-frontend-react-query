@@ -13,8 +13,8 @@ export const DeparmentDetailsPanel = memo(({ deparment }: { deparment?: (string 
 				Departamentos en este piso:
 			</Typography>
 			<div className="flex flex-wrap gap-2 pl-2">
-				{santizedDeparment?.map((dep, index) => (
-					<Badge variant="outline" key={`${index}-${dep}`}>
+				{santizedDeparment?.map(dep => (
+					<Badge variant="outline" key={dep}>
 						{dep}
 					</Badge>
 				))}

@@ -7,11 +7,11 @@ import { type GenericModel } from '../value-object/GenericModel'
 import { type CategoryDto } from '@/entities/category/domain/dto/Category.dto'
 import { type BrandDto } from '@/entities/brand/domain/dto/Brand.dto'
 import { type MainCategoryId } from '@/entities/mainCategory/domain/value-object/MainCategoryId'
-import { type ModelComputerDto, type ModelComputerParams } from './ModelComputer.dto'
-import { type ModelLaptopDto, type ModelLaptopParams } from './ModelLaptop.dto'
-import { type ModelMonitorDto, type ModelMonitorParams } from './ModelMonitor.dto'
-import { type ModelPrinterDto, type ModelPrinterParams } from './ModelPrinter.dto'
-import { type ModelKeyboardDto, type ModelKeyboardParams } from './ModelKeyboard.dto'
+import { type ModelComputerDto } from './ModelComputer.dto'
+import { type ModelLaptopDto } from './ModelLaptop.dto'
+import { type ModelMonitorDto } from './ModelMonitor.dto'
+import { type ModelPrinterDto } from './ModelPrinter.dto'
+import { type ModelKeyboardDto } from './ModelKeyboard.dto'
 import { type ProcessorId } from '@/entities/devices/features/processor/domain/value-object/ProcessorId'
 import { type ProcessorDto } from '@/entities/devices/features/processor/domain/dto/Processor.dto'
 
@@ -36,14 +36,6 @@ export type ModelParams = ModelPrimitives & {
 	categoryId: Primitives<CategoryId>
 	processors: Primitives<ProcessorId>[]
 }
-
-export type Params =
-	| ModelParams
-	| ModelComputerParams
-	| ModelLaptopParams
-	| ModelMonitorParams
-	| ModelPrinterParams
-	| ModelKeyboardParams
 
 export type ModelDto = Model & {
 	createdAt: string

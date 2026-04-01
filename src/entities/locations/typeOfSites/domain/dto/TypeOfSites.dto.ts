@@ -7,6 +7,4 @@ export interface TypeOfSite {
 	name: Primitives<TypeOfSiteName>
 }
 
-export type TypeOfSitePrimitives = Omit<TypeOfSite, 'id'>
-
 export type TypeOfSiteDto = TypeOfSite

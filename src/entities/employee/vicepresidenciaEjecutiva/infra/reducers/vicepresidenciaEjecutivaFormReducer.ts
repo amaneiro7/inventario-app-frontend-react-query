@@ -24,13 +24,13 @@ export interface VicepresidenciaEjecutivaRequired extends Record<string, boolean
 	directivaId: boolean
 	cargos: boolean
 }
-export interface VicepresidenciaEjecutivaDisabled extends Record<string, boolean> {
+interface VicepresidenciaEjecutivaDisabled extends Record<string, boolean> {
 	name: boolean
 	directivaId: boolean
 	cargos: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultVicepresidenciaEjecutiva
 	errors: VicepresidenciaEjecutivaErrors
 	required: VicepresidenciaEjecutivaRequired

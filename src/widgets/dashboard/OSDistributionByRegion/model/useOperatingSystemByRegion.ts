@@ -18,10 +18,6 @@ interface AggregatedData {
 	[locationKey: string]: Record<string, number>
 }
 
-export interface DistributionItem {
-	name: string
-	[osName: string]: string | number
-}
 export function useOperatingSystemByRegion({ data }: UseOperatingSystemByRegionProps) {
 	const [viewBy, setViewBy] = useState<
 		'admRegion' | 'region' | 'state' | 'city' | 'site' | 'location'

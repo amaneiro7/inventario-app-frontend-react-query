@@ -12,7 +12,7 @@ interface SettingsGroupCardProps {
 	description: string
 	iconName: IconName
 	settings: AppSettingsDto[]
-	handleSubmit: (event: React.FormEvent<Element>) => Promise<void>
+	handleSubmit: (event: React.SubmitEvent<Element>) => Promise<void>
 	handleChange: (key: string, value: string, type: SettingsTypeEnum) => void
 }
 
@@ -26,6 +26,7 @@ export const SettingsGroupCard = memo(
 		handleChange,
 		handleSubmit
 	}: SettingsGroupCardProps) => {
+		const settingsOrdered = settings.sort((a, b) => a.name.localeCompare(b.name))
 		return (
 			<Card>
 				<CardHeader>
@@ -44,7 +45,7 @@ export const SettingsGroupCard = memo(
 						className="space-y-6 p-6 pt-0"
 						onSubmit={handleSubmit}
 					>
-						{settings.map(setting => (
+						{settingsOrdered.map(setting => (
 							<AppSettingItem
 								key={setting.key}
 								setting={setting}

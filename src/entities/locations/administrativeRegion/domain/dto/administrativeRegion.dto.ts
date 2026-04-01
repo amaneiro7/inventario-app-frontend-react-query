@@ -7,6 +7,4 @@ export interface AdministrativeRegion {
 	name: Primitives<AdministrativeRegionName>
 }
 
-export type AdministrativeRegionPrimitives = Omit<AdministrativeRegion, 'id'>
-
 export type AdministrativeRegionDto = AdministrativeRegion

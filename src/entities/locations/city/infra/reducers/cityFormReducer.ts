@@ -16,14 +16,14 @@ export interface CityRequired extends Record<string, boolean> {
 	regionId: boolean
 	administrativeRegionId: boolean
 }
-export interface CityDisabled extends Record<string, boolean> {
+interface CityDisabled extends Record<string, boolean> {
 	name: boolean
 	stateId: boolean
 	regionId: boolean
 	administrativeRegionId: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultCity
 	errors: CityErrors
 	required: CityRequired

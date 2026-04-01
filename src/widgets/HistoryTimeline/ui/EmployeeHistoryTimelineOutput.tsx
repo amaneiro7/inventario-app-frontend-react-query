@@ -27,8 +27,8 @@ export const EmployeeHistoryTimelineOutput = ({
 
 	return (
 		<div className="before:bg-border relative space-y-6 pl-8 before:absolute before:top-2 before:left-2.75 before:h-[calc(100%-16px)] before:w-0.5">
-			{events.map((entry, index) => (
-				<TimelineItem key={`${entry.deviceId}-${index}`} event={entry} />
+			{events.map(entry => (
+				<TimelineItem key={entry.deviceId} event={entry} />
 			))}
 		</div>
 	)

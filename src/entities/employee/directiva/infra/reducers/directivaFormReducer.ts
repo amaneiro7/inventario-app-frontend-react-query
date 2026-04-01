@@ -18,16 +18,16 @@ export interface DirectivaErrors extends Record<string, string> {
 /**
  * Defines which fields in the directiva form are required based on current state.
  */
-export interface DirectivaRequired extends Record<string, boolean> {
+interface DirectivaRequired extends Record<string, boolean> {
 	name: boolean
 	cargos: boolean
 }
-export interface DirectivaDisabled extends Record<string, boolean> {
+interface DirectivaDisabled extends Record<string, boolean> {
 	name: boolean
 	cargos: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultDirectiva
 	errors: DirectivaErrors
 	required: DirectivaRequired

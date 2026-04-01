@@ -19,7 +19,7 @@ export function UserRenderOption<O>({ option, inputValue }: { option: O; inputVa
 			<Typography variant="p">
 				{parts.map((part, index) => (
 					<Typography
-						key={index}
+						key={`username-part-${index}-${part.text}`}
 						variant="span"
 						option="tiny"
 						transform="uppercase"
@@ -32,7 +32,7 @@ export function UserRenderOption<O>({ option, inputValue }: { option: O; inputVa
 			<Typography variant="p" color={'gris'}>
 				{fullNameParts.map((part, index) => (
 					<Typography
-						key={index}
+						key={`fullname-part-${index}-${part.text}`}
 						variant="span"
 						weight={part.highlight ? 'extrabold' : 'light'}
 					>

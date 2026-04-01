@@ -16,13 +16,18 @@ import { Loading } from '@/shared/ui/Loading'
  */
 export function ProtectedRoute(Component: React.ComponentType): React.ComponentType {
 	return () => {
-		const {
-			auth: { isLogged }
-		} = use(AuthContext)
+		const context = use(AuthContext)
+		const auth = context?.auth
 
 		const { data, isLoading } = useUserPermissions()
 
-		if (!isLogged) {
+		// Si auth es undefined (contexto no listo) o isLogged es undefined (cargando estado),
+		// mostramos el loader en lugar de redirigir al login inmediatamente.
+		if (!auth || auth.isLogged === undefined) {
+			return <Loading />
+		}
+
+		if (!auth.isLogged) {
 			return <Navigate to="/login" replace={true} />
 		}
 
@@ -31,7 +36,7 @@ export function ProtectedRoute(Component: React.ComponentType): React.ComponentT
 			return <Loading />
 		}
 
-		if (isLogged && (!data || data.permissions.length === 0)) {
+		if (auth.isLogged && (!data || data.permissions.length === 0)) {
 			return <Navigate to="/no-permissions" replace={true} />
 		}
 

@@ -33,7 +33,9 @@ export const DynamicBreadcrumb: React.FC<DynamicBreadcrumbProps> = ({ segments }
 				</BreadcrumbItem>
 				<BreadcrumbSeparator />
 				{segments.map((segment, index) => (
-					<React.Fragment key={index}>
+					<React.Fragment
+						key={typeof segment === 'string' ? segment : segment.href || segment.label}
+					>
 						<BreadcrumbItem>
 							{typeof segment === 'string' ? (
 								<BreadcrumbPage>{segment}</BreadcrumbPage>

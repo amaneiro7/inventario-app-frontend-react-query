@@ -19,7 +19,7 @@ export interface SiteRequired extends Record<string, boolean> {
 	address: boolean
 	name: boolean
 }
-export interface SiteDisabled extends Record<string, boolean> {
+interface SiteDisabled extends Record<string, boolean> {
 	regionId: boolean
 	stateId: boolean
 	cityId: boolean
@@ -27,7 +27,7 @@ export interface SiteDisabled extends Record<string, boolean> {
 	name: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultSite
 	errors: SiteErrors
 	required: SiteRequired

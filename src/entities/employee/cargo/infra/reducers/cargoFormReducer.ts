@@ -19,7 +19,7 @@ export interface CargoDisabled extends Record<string, boolean> {
 	departamentos: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultCargo
 	errors: CargoErrors
 	required: CargoRequired

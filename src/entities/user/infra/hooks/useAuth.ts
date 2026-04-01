@@ -35,13 +35,15 @@ export function useAuth() {
 		checkTokenValidity()
 	}, [checkTokenValidity, location])
 
+	const isLogged = Boolean(token)
+
 	return {
 		login,
 		logout,
 		tempToken,
 		deleteTempToken,
 		user,
-		isLogged: Boolean(token),
+		isLogged,
 		isPasswordExpired: Boolean(tempToken),
 		isLoginLoading: loading,
 		refreshTokenValidity

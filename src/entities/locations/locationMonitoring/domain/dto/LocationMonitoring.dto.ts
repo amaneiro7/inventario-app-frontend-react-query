@@ -21,6 +21,4 @@ export interface LocationMonitoring {
 	lastFailed: Primitives<LocationMonitoringLastFailed>
 }
 
-export type LocationMonitoringPrimitives = Omit<LocationMonitoring, 'id'>
-
 export type LocationMonitoringDto = LocationMonitoring

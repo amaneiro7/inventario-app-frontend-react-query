@@ -43,7 +43,7 @@ export interface LocationDisabled extends Record<string, boolean> {
 	subnet: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultLocation
 	errors: LocationErrors
 	required: LocationRequired

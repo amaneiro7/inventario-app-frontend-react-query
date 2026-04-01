@@ -7,6 +7,4 @@ export interface LocationStatus {
 	name: Primitives<LocationStatusName>
 }
 
-export type LocationStatusPrimitives = Omit<LocationStatus, 'id'>
-
 export type LocationStatusDto = LocationStatus

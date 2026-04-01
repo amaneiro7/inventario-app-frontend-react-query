@@ -100,7 +100,7 @@ export interface Helpers {
 /**
  * Represents the entire state managed by the employee form reducer.
  */
-export interface State {
+interface State {
 	formData: DefaultEmployee
 	errors: EmployeeErrors
 	required: EmployeeRequired

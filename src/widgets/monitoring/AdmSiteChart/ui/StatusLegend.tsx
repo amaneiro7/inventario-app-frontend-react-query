@@ -16,9 +16,9 @@ export const StatusLegend = memo(() => {
 				Estado de Equipos Online
 			</Typography>
 			<ul className="flex gap-2 space-y-1 text-xs" role="list">
-				{COLOR_THRESHOLDS.map((item, index) => (
+				{COLOR_THRESHOLDS.map(item => (
 					<MapLegendList
-						key={`legend-${index}-${item.color}`}
+						key={`legend-${item.color}`}
 						color={item.color}
 						label={item.label}
 					/>

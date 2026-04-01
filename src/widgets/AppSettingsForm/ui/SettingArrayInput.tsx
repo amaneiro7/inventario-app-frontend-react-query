@@ -31,11 +31,11 @@ export const SettingArrayInput = memo(({ onChange, value }: SettingArrayInputPro
 	return (
 		<div className="max-w-md space-y-3">
 			<div className="flex flex-wrap gap-2">
-				{arrayItems.map((item, index) => (
-					<Badge key={`${index}-${item}`} variant="secondary" className="gap-1">
+				{arrayItems.map(item => (
+					<Badge key={item} variant="secondary" className="gap-1">
 						{item}
 						<button
-							onClick={() => handleRemoveItem(index)}
+							onClick={() => handleRemoveItem(arrayItems.indexOf(item))}
 							className="hover:text-destructive ml-1 transition-colors"
 							type="button"
 						>

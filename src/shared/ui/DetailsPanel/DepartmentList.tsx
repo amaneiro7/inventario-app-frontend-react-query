@@ -19,9 +19,9 @@ export const DepartmentList = memo(({ departments }: DepartmentListProps) => {
 				<AccordionContent>
 					<div className="flex flex-wrap gap-2 p-1">
 						{filterNotNull.map(
-							(deparment, index) =>
+							deparment =>
 								deparment && (
-									<Badge key={index} variant="outline">
+									<Badge key={deparment} variant="outline">
 										{deparment}
 									</Badge>
 								)

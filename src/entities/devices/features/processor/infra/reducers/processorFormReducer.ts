@@ -20,20 +20,20 @@ export interface ProcessorsErrors extends Record<string, string> {
 	cores: string
 	frequency: string
 }
-export interface ProcessorsRequired extends Record<string, boolean> {
+interface ProcessorsRequired extends Record<string, boolean> {
 	productCollection: boolean
 	numberModel: boolean
 	cores: boolean
 	frequency: boolean
 }
-export interface ProcessorsDisabled extends Record<string, boolean> {
+interface ProcessorsDisabled extends Record<string, boolean> {
 	productCollection: boolean
 	numberModel: boolean
 	cores: boolean
 	frequency: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultProcessor
 	errors: ProcessorsErrors
 	required: ProcessorsRequired

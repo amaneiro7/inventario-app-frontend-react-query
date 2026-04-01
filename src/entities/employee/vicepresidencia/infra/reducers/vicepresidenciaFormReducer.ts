@@ -39,7 +39,7 @@ export interface VicepresidenciaDisabled extends Record<string, boolean> {
 	cargos: boolean
 }
 
-export interface State {
+interface State {
 	formData: DefaultVicepresidencia
 	errors: VicepresidenciaErrors
 	required: VicepresidenciaRequired

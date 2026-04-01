@@ -17,8 +17,8 @@ export const DetailItem = ({
 			{label}:
 		</Typography>
 		{Array.isArray(value) ? (
-			value.map((text, index) => (
-				<DetailText key={`detailItem-${index}`} value={text} className={classNameText} />
+			value.map(text => (
+				<DetailText key={`detailItem-${text}`} value={text} className={classNameText} />
 			))
 		) : (
 			<DetailText value={value} className={classNameText} />

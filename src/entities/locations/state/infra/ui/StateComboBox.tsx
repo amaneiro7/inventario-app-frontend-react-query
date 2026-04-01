@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import { useGetAllState } from '@/entities/locations/state/infra/hook/useGetAllState'
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
-import { type StateFilters } from '@/entities/locations/state/application/createStateQueryParams'
 import { Combobox } from '@/shared/ui/Input/Combobox'
+import type { StateFilters } from '@/entities/locations/state/application/createStateQueryParams'
 
 export function StateCombobox({
 	value = '',

@@ -5,7 +5,8 @@ interface UseMemoryRamTypeAnalysisProps {
 	data: ComputerDashboardDto['modulosMemoryRam']
 }
 
-export type RamPrepareGroupedBarData = Record<string, unknown>
+type RamPrepareGroupedBarData = Record<string, unknown>
+
 export function useMemoryRamTypeAnalysys({ data }: UseMemoryRamTypeAnalysisProps) {
 	const [selectedRamType, setSelectedRamType] = useState<string>('All')
 	const [selectedTypeOfSite, setSelectedTypeOfSite] = useState<string>('All')

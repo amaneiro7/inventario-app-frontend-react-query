@@ -42,7 +42,7 @@ export interface DepartamentoDisabled extends Record<string, boolean> {
 /**
  * Represents the entire state managed by the departamento form reducer.
  */
-export interface State {
+interface State {
 	formData: DefaultDepartamento
 	errors: DepartamentoErrors
 	required: DepartamentoRequired

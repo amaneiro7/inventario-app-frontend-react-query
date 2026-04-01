@@ -72,7 +72,7 @@ export interface ModelDisabled extends Record<string, boolean> {
 /**
  * Represents the entire state managed by the model form reducer.
  */
-export interface State {
+interface State {
 	formData: DefaultModel
 	errors: ModelErrors
 	required: ModelRequired
