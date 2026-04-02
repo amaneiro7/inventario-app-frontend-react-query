@@ -5,11 +5,10 @@ import {
 	CartesianGrid,
 	LabelList,
 	Legend,
-	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type BrandData } from '../model/useBrandDistribution'
 
@@ -19,18 +18,44 @@ interface ModelQuantityByModelsProps {
 
 export const ModelQuantityByModels = memo(({ brandData }: ModelQuantityByModelsProps) => {
 	return (
-		<ResponsiveContainer width="100%" height="100%">
-			<BarChart data={brandData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-				<CartesianGrid strokeDasharray="3 3" />
-				<XAxis dataKey="name" />
-				<YAxis />
-				<Tooltip />
-				<Legend />
-				<Bar dataKey="models" fill={BASIC_COLORS.verde} name="Model Count" barSize={45}>
-					<LabelList dataKey="models" position="top" style={{ fontSize: '0.65rem' }} />
-				</Bar>
-			</BarChart>
-		</ResponsiveContainer>
+		<BarChart
+			style={{
+				width: '100%',
+				maxWidth: '800px',
+				maxHeight: '80vh',
+				aspectRatio: 1.618
+			}}
+			responsive
+			data={brandData}
+		>
+			<CartesianGrid strokeDasharray="3 3" />
+			<XAxis
+				dataKey="name"
+				intercept={0}
+				angle={-45}
+				textAnchor="end"
+				height={80}
+				tickMargin={10}
+				style={{
+					fontSize: '0.75rem'
+				}}
+			/>
+			<YAxis
+				width="auto"
+				label={{
+					value: 'Cantidad de modelos',
+					angle: -90,
+					position: 'insideLeft',
+					dx: 0,
+					dy: 90
+				}}
+			/>
+			<Tooltip />
+			<Legend />
+			<Bar dataKey="models" fill={BASIC_COLORS.verde} name="Modelos" barSize={30}>
+				<LabelList dataKey="models" position="top" style={{ fontSize: '0.65rem' }} />
+			</Bar>
+		</BarChart>
 	)
 })
 

@@ -4,12 +4,11 @@ import {
 	BarChart,
 	CartesianGrid,
 	Legend,
-	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
@@ -27,39 +26,43 @@ export const DeviceDistributionByCategory = memo(
 					<CardDescription>Cantidad de equipos por categoría</CardDescription>
 				</CardHeader>
 				<CardContent className="h-96">
-					<ResponsiveContainer
-						width={500}
-						height={300}
-						minWidth={500}
-						minHeight={300}
-						aspect={1.5}
+					<BarChart
+						data={categoryData}
+						style={{
+							width: '100%',
+							maxWidth: '800px',
+							maxHeight: '80vh',
+							aspectRatio: 1.618
+						}}
+						responsive
 					>
-						<BarChart
-							data={categoryData}
-							margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
-						>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" aria-label="Categoría de equipo" />{' '}
-							{/* Accesibilidad */}
-							<YAxis aria-label="Cantidad de equipos" /> {/* Accesibilidad */}
-							<Tooltip
-								formatter={value => [`${value} equipos`, 'Cantidad']}
-								labelFormatter={label => `Categoría: ${label}`}
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis
+							dataKey="name"
+							aria-label="Categoría de equipo"
+							intercept={0}
+							angle={15}
+							textAnchor="middle"
+							height={60}
+							tickMargin={20}
+							style={{
+								fontSize: '1rem'
+							}}
+						/>
+						<YAxis aria-label="Cantidad de equipos" />
+						<Tooltip
+							formatter={value => [`${value} equipos`, 'Cantidad']}
+							labelFormatter={label => `Categoría: ${label}`}
+						/>
+						<Legend aria-label="Leyenda de la gráfica" />
+						<Bar dataKey={'count'} name="Cantidad de equipos" fill={BASIC_COLORS.azul}>
+							<LabelList
+								dataKey="count"
+								position="top"
+								style={{ fontSize: '0.65rem' }}
 							/>
-							<Legend aria-label="Leyenda de la gráfica" /> {/* Accesibilidad */}
-							<Bar
-								dataKey={'count'}
-								name="Cantidad de equipos"
-								fill={BASIC_COLORS.azul}
-							>
-								<LabelList
-									dataKey="count"
-									position="top"
-									style={{ fontSize: '0.65rem' }}
-								/>
-							</Bar>
-						</BarChart>
-					</ResponsiveContainer>
+						</Bar>
+					</BarChart>
 				</CardContent>
 			</Card>
 		)

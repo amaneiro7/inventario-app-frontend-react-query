@@ -77,7 +77,7 @@ function transformData(data: ComputerDashboardDto['brand']): ModelData[] {
 				0
 			)
 			result.push({
-				id: `${brand.name}-${brand.name}`,
+				id: `${model.category}-${brand.name}-${model.name}`,
 				name: model.name,
 				category: model.category,
 				brand: brand.name,

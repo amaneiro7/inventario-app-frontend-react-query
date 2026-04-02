@@ -4,12 +4,11 @@ import {
 	BarChart,
 	CartesianGrid,
 	Legend,
-	ResponsiveContainer,
 	Tooltip,
 	XAxis,
 	YAxis,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 
@@ -29,61 +28,69 @@ export const DistributionByTypeOfSite = memo(
 					</CardDescription>{' '}
 				</CardHeader>
 				<CardContent className="h-96">
-					<ResponsiveContainer
-						width={500}
-						height={300}
-						minWidth={500}
-						minHeight={300}
-						aspect={1.25}
+					<BarChart
+						data={prepareGroupedBarData}
+						style={{
+							width: '100%',
+							maxWidth: '800px',
+							maxHeight: '80vh',
+							aspectRatio: 1.618
+						}}
+						responsive
 					>
-						<BarChart
-							data={prepareGroupedBarData}
-							margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis
+							dataKey="name"
+							aria-label="Tipo de sitio"
+							intercept={0}
+							angle={15}
+							textAnchor="middle"
+							height={60}
+							tickMargin={20}
+							style={{
+								fontSize: '1rem'
+							}}
+						/>
+						<YAxis aria-label="Cantidad de equipos" />
+						<Tooltip formatter={(value, name) => [`${value} equipos`, name]} />
+						<Legend aria-label="Leyenda de la gráfica" />
+						<Bar
+							dataKey="Agencia"
+							name="Agencia"
+							fill={BASIC_COLORS.azul}
+							barSize={barHeight}
 						>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis dataKey="name" aria-label="Tipo de sitio" />{' '}
-							{/* Accesibilidad */}
-							<YAxis aria-label="Cantidad de equipos" /> {/* Accesibilidad */}
-							<Tooltip formatter={(value, name) => [`${value} equipos`, name]} />
-							<Legend aria-label="Leyenda de la gráfica" /> {/* Accesibilidad */}
-							<Bar
+							<LabelList
 								dataKey="Agencia"
-								name="Agencia"
-								fill={BASIC_COLORS.azul}
-								barSize={barHeight}
-							>
-								<LabelList
-									dataKey="Agencia"
-									position="top"
-									style={{ fontSize: '0.65rem' }}
-								/>
-							</Bar>
-							<Bar
+								position="top"
+								style={{ fontSize: '0.75rem' }}
+							/>
+						</Bar>
+						<Bar
+							dataKey="Almacén"
+							name="Almacén"
+							fill={BASIC_COLORS.naranja}
+							barSize={barHeight}
+						>
+							<LabelList
 								dataKey="Almacén"
-								name="Almacén"
-								fill={BASIC_COLORS.naranja}
-								barSize={barHeight}
-							>
-								<LabelList
-									dataKey="Almacén"
-									position="top"
-									style={{ fontSize: '0.65rem' }}
-								/>
-							</Bar>
-							<Bar
+								position="top"
+								style={{ fontSize: '0.75rem' }}
+							/>
+						</Bar>
+						<Bar
+							dataKey="Sede Administrativa"
+							name="Sede Administrativa"
+							fill={BASIC_COLORS.verde}
+							barSize={barHeight}
+						>
+							<LabelList
 								dataKey="Sede Administrativa"
-								name="Sede Administrativa"
-								fill={BASIC_COLORS.verde}
-								barSize={barHeight}
-							>
-								<LabelList
-									dataKey="Sede Administrativa"
-									position="top"
-									style={{ fontSize: '0.65rem' }}
-								/>
-							</Bar>
-						</BarChart>
-					</ResponsiveContainer>
+								position="top"
+								style={{ fontSize: '0.75rem' }}
+							/>
+						</Bar>
+					</BarChart>
 				</CardContent>
 			</Card>
 		)

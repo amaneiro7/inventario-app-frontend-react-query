@@ -1,14 +1,5 @@
 import { memo } from 'react'
-import {
-	BarChart,
-	Bar,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	ResponsiveContainer,
-	Legend
-} from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from '@/shared/ui/Charts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { useGetHistoryDashboard } from '@/entities/history/infra/hook/useGetGeneralDashboard'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
@@ -26,47 +17,41 @@ export const InventoryChart = memo(() => {
 			</CardHeader>
 			<CardContent>
 				<div className="h-96 w-full">
-					<ResponsiveContainer
-						width={500}
-						height={300}
-						minWidth={500}
-						minHeight={300}
-						aspect={2}
+					<BarChart
+						data={historyDashboard.lastThreeMonths}
+						style={{
+							flex: '1 1 0%',
+							width: '100%',
+							maxHeight: '100%',
+							aspectRatio: 1
+						}}
+						responsive
 					>
-						<BarChart
-							data={historyDashboard.lastThreeMonths}
-							margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
-						>
-							<CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-							<XAxis dataKey="name" tick={{ fontSize: 12 }} />
-							<YAxis tick={{ fontSize: 12 }} />
-							<Tooltip
-								contentStyle={{
-									backgroundColor: 'white',
-									borderRadius: '8px',
-									boxShadow:
-										'0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-									border: '1px solid #e2e8f0'
-								}}
-							/>
-							<Legend />
-							<Bar
-								dataKey="Computadoras"
-								fill={BASIC_COLORS.azul}
-								radius={[4, 4, 0, 0]}
-							/>
-							<Bar
-								dataKey="Laptops"
-								fill={BASIC_COLORS.verde}
-								radius={[4, 4, 0, 0]}
-							/>
-							<Bar
-								dataKey="All in One"
-								fill={BASIC_COLORS.naranja}
-								radius={[4, 4, 0, 0]}
-							/>
-						</BarChart>
-					</ResponsiveContainer>
+						<CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+						<XAxis dataKey="name" tick={{ fontSize: 12 }} />
+						<YAxis tick={{ fontSize: 12 }} />
+						<Tooltip
+							contentStyle={{
+								backgroundColor: 'white',
+								borderRadius: '8px',
+								boxShadow:
+									'0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+								border: '1px solid #e2e8f0'
+							}}
+						/>
+						<Legend />
+						<Bar
+							dataKey="Computadoras"
+							fill={BASIC_COLORS.azul}
+							radius={[4, 4, 0, 0]}
+						/>
+						<Bar dataKey="Laptops" fill={BASIC_COLORS.verde} radius={[4, 4, 0, 0]} />
+						<Bar
+							dataKey="All in One"
+							fill={BASIC_COLORS.naranja}
+							radius={[4, 4, 0, 0]}
+						/>
+					</BarChart>
 				</div>
 			</CardContent>
 		</Card>

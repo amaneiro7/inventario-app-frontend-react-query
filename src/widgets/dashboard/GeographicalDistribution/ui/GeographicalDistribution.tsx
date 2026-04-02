@@ -50,64 +50,68 @@ export const GeographicalDistribution = memo(({ data }: GeographicalDistribution
 	} = useGeographicalDistribution({ data })
 
 	return (
-		<Card className="fade-in-5 col-span-12">
-			<CardHeader>
-				<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-					<div>
-						<CardTitle>Distribución geográfica</CardTitle>
-						<CardDescription>
-							Distribución de equipos por regiones, estados y ciudades
-						</CardDescription>
+		<div className="space-y-4">
+			<Card className="fade-in-5 col-span-12">
+				<CardHeader>
+					<div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+						<div>
+							<CardTitle>Distribución geográfica</CardTitle>
+							<CardDescription>
+								Distribución de equipos por regiones, estados y ciudades
+							</CardDescription>
+						</div>
+						<Select value={viewBy} onValueChange={value => setViewBy(value as any)}>
+							<SelectTrigger className="w-45">
+								<SelectValue placeholder="Ver por..." />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="admRegion">Por zona</SelectItem>
+								<SelectItem value="region">Por región</SelectItem>
+								<SelectItem value="state">Por estado</SelectItem>
+								<SelectItem value="city">Por ciudad</SelectItem>
+								<SelectItem value="sites">Por sitio</SelectItem>
+								<SelectItem value="location">Por ubicación</SelectItem>
+							</SelectContent>
+						</Select>
 					</div>
-					<Select value={viewBy} onValueChange={value => setViewBy(value as any)}>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="Ver por..." />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="admRegion">Por zona</SelectItem>
-							<SelectItem value="region">Por región</SelectItem>
-							<SelectItem value="state">Por estado</SelectItem>
-							<SelectItem value="city">Por ciudad</SelectItem>
-							<SelectItem value="sites">Por sitio</SelectItem>
-							<SelectItem value="location">Por ubicación</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
-			</CardHeader>
-			<CardContent>
-				<FilterSection
-					viewBy={viewBy}
-					hasActiveFilters={hasActiveFilters}
-					uniqueAdmRegions={uniqueAdmRegions}
-					uniqueRegions={uniqueRegions}
-					uniqueStates={uniqueStates}
-					uniqueCities={uniqueCities}
-					uniqueSites={uniqueSites}
-					admRegionFilter={admRegionFilter}
-					regionFilter={regionFilter}
-					stateFilter={stateFilter}
-					cityFilter={cityFilter}
-					searchFilter={searchFilter}
-					siteFilter={siteFilter}
-					setAdmRegionFilter={setAdmRegionFilter}
-					setRegionFilter={setRegionFilter}
-					setStateFilter={setStateFilter}
-					setCityFilter={setCityFilter}
-					setSiteFilter={setSiteFilter}
-					setSearchFilter={setSearchFilter}
-					clearFilters={clearFilters}
-				/>
-				<Suspense fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}>
-					<GeoCharts
+				</CardHeader>
+				<CardContent>
+					<FilterSection
+						viewBy={viewBy}
+						hasActiveFilters={hasActiveFilters}
+						uniqueAdmRegions={uniqueAdmRegions}
+						uniqueRegions={uniqueRegions}
+						uniqueStates={uniqueStates}
+						uniqueCities={uniqueCities}
+						uniqueSites={uniqueSites}
+						admRegionFilter={admRegionFilter}
+						regionFilter={regionFilter}
+						stateFilter={stateFilter}
+						cityFilter={cityFilter}
+						searchFilter={searchFilter}
+						siteFilter={siteFilter}
+						setAdmRegionFilter={setAdmRegionFilter}
+						setRegionFilter={setRegionFilter}
+						setStateFilter={setStateFilter}
+						setCityFilter={setCityFilter}
+						setSiteFilter={setSiteFilter}
+						setSearchFilter={setSearchFilter}
 						clearFilters={clearFilters}
-						distributionData={distributionData}
-						barName={barName}
-						dynamicHeight={dynamicHeight}
-						barHeight={barHeight}
 					/>
-				</Suspense>
-			</CardContent>
-		</Card>
+					<Suspense
+						fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
+					>
+						<GeoCharts
+							clearFilters={clearFilters}
+							distributionData={distributionData}
+							barName={barName}
+							dynamicHeight={dynamicHeight}
+							barHeight={barHeight}
+						/>
+					</Suspense>
+				</CardContent>
+			</Card>
+		</div>
 	)
 })
 

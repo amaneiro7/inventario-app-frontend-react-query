@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import Typography from '@/shared/ui/Typography'
-import { type PieProps } from 'recharts'
+import type { PieProps } from '@/shared/ui/Charts'
 
 interface PieChartLegendProps {
 	data: PieProps['data']

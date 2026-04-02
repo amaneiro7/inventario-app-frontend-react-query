@@ -1,7 +1,8 @@
 import { memo, Suspense } from 'react'
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { Pie, PieChart, ResponsiveContainer, Tooltip } from '@/shared/ui/Charts'
 import { PieChartLegend } from './PieChartLegend'
-import type { PieProps } from 'recharts'
+import { MyCustomPie } from './MyCustomPie'
+import type { PieProps } from '@/shared/ui/Charts'
 import type { PieChartData } from './PieChart'
 
 interface PieContentProps {
@@ -14,6 +15,7 @@ interface PieContentProps {
 	chartTitleId?: string
 	chartDescriptionId?: string
 	height?: number
+	isAnimationActive?: boolean
 }
 
 export const PieContent = memo(
@@ -22,9 +24,10 @@ export const PieContent = memo(
 		total,
 		icon,
 		height = 320, // Altura por defecto del contenedor del gráfico
-		colors, // Los colores se obtienen del PieCard que usa BASIC_COLORS_MAP por defecto
+		colors, // Los colores se obtienen del PieCard que usa c por defecto
 		dataKey = 'count', // Coincide con la propiedad 'count' de los datos
 		outerRadius = 100,
+		isAnimationActive = true,
 		chartTitleId = 'pie-chart-title',
 		chartDescriptionId = 'pie-chart-description'
 	}: PieContentProps) => {
@@ -65,6 +68,31 @@ export const PieContent = memo(
 										{chartAccessibilityDescription}. Total de elementos: {total}
 										.
 									</desc>
+									<defs>
+										<pattern
+											id="pattern-checkers"
+											x="0"
+											y="0"
+											width="10"
+											height="10"
+											patternUnits="userSpaceOnUse"
+										>
+											<rect
+												className="checker"
+												x="0"
+												width="5"
+												height="5"
+												y="0"
+											/>
+											<rect
+												className="checker"
+												x="10"
+												width="5"
+												height="5"
+												y="10"
+											/>
+										</pattern>
+									</defs>
 									<Pie
 										data={data}
 										cx="50%"
@@ -87,15 +115,9 @@ export const PieContent = memo(
 										fill="#8884d8"
 										dataKey={dataKey}
 										tabIndex={0}
-									>
-										{data.map((entry, index) => (
-											<Cell
-												key={`cell-${entry.name}`}
-												fill={colors[index % colors.length] ?? '#cccccc'}
-												aria-label={`${entry.name}: ${entry.count} (${total > 0 ? ((entry.count / total) * 100).toFixed(0) : 0}%)`}
-											/>
-										))}
-									</Pie>
+										isAnimationActive={isAnimationActive}
+										shape={MyCustomPie}
+									></Pie>
 									<Tooltip
 										formatter={(value, name) => [value, name]}
 										contentStyle={{

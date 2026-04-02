@@ -7,36 +7,20 @@ import {
 	CartesianGrid,
 	Tooltip,
 	Legend,
-	ResponsiveContainer,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { Filter } from 'lucide-react'
 import Button from '@/shared/ui/Button'
 import { BASIC_COLORS } from '@/shared/lib/utils/colores'
-import { CustomLabelList } from '../../../../shared/ui/CustomLabelList'
+import { CustomLabelList } from '@/shared/ui/CustomLabelList'
+import { CustomTooltip } from '@/shared/ui/CustomTooltip'
 import { type DistributionItem } from '../model/useGeographicalDistribution'
-import { CustomTooltip } from '../../../../shared/ui/CustomTooltip'
 
 interface GeoChartsProps {
-	/**
-	 * The data to be displayed in the bar chart.
-	 */
 	distributionData: DistributionItem[]
-	/**
-	 * The name to display for the main bar series.
-	 */
 	barName: string
-	/**
-	 * The dynamic height of the chart container.
-	 */
 	dynamicHeight: string
-	/**
-	 * The height of each individual bar in the chart.
-	 */
 	barHeight: number
-	/**
-	 * Callback function to clear all filters.
-	 */
 	clearFilters: () => void
 }
 
@@ -49,67 +33,73 @@ interface GeoChartsProps {
 export const GeoCharts = memo(
 	({ distributionData, barName, dynamicHeight, barHeight, clearFilters }: GeoChartsProps) => {
 		return (
-			<div style={{ height: dynamicHeight ?? '20rem', minHeight: '20rem' }}>
+			<>
 				{distributionData.length > 0 ? (
-					<ResponsiveContainer width="100%" height="100%">
-						<BarChart
-							layout="vertical"
-							data={distributionData}
-							margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+					<BarChart
+						layout="vertical"
+						data={distributionData}
+						style={{
+							flex: '1 1 0%',
+							width: '100%',
+							maxHeight: '100%',
+							height: dynamicHeight ?? '20rem',
+							minHeight: '20rem',
+							aspectRatio: 1.618
+						}}
+						responsive
+					>
+						<CartesianGrid strokeDasharray="3 3" />
+						<XAxis type="number" />
+						<YAxis
+							dataKey="name"
+							type="category"
+							axisLine={false}
+							width={200}
+							scale="auto"
+							tick={{ fontSize: '0.65rem' }}
+						/>
+						<Tooltip content={<CustomTooltip />} />
+						<Legend />
+						<Bar
+							dataKey="value"
+							barSize={barHeight}
+							name={barName}
+							fill={BASIC_COLORS.azul}
 						>
-							<CartesianGrid strokeDasharray="3 3" />
-							<XAxis type="number" />
-							<YAxis
-								dataKey="name"
-								type="category"
-								axisLine={false}
-								width={200}
-								scale="auto"
-								tick={{ fontSize: '0.65rem' }}
-							/>
-							<Tooltip content={<CustomTooltip />} />
-							<Legend />
-							<Bar
+							<LabelList
 								dataKey="value"
-								barSize={barHeight}
-								name={barName}
-								fill={BASIC_COLORS.azul}
-							>
-								<LabelList
-									dataKey="value"
-									position="right"
-									style={{ fontSize: '0.65rem' }}
-									content={<CustomLabelList dataKey="Total" />}
-								/>
-							</Bar>
-							<Bar
+								position="right"
+								style={{ fontSize: '0.65rem' }}
+								content={<CustomLabelList dataKey="Total" />}
+							/>
+						</Bar>
+						<Bar
+							dataKey="Agencia"
+							barSize={barHeight}
+							name="Agencia"
+							fill={BASIC_COLORS.naranja}
+						>
+							<LabelList
 								dataKey="Agencia"
-								barSize={barHeight}
-								name="Agencia"
-								fill={BASIC_COLORS.naranja}
-							>
-								<LabelList
-									dataKey="Agencia"
-									position="right"
-									style={{ fontSize: '0.65rem' }}
-									content={<CustomLabelList dataKey="Agencia" />}
-								/>
-							</Bar>
-							<Bar
+								position="right"
+								style={{ fontSize: '0.65rem' }}
+								content={<CustomLabelList dataKey="Agencia" />}
+							/>
+						</Bar>
+						<Bar
+							dataKey="Sede Administrativa"
+							barSize={barHeight}
+							name="Sede Administrativas"
+							fill={BASIC_COLORS.verde}
+						>
+							<LabelList
 								dataKey="Sede Administrativa"
-								barSize={barHeight}
-								name="Sede Administrativas"
-								fill={BASIC_COLORS.verde}
-							>
-								<LabelList
-									dataKey="Sede Administrativa"
-									position="right"
-									style={{ fontSize: '0.65rem' }}
-									content={<CustomLabelList dataKey="Sede Administrativa" />}
-								/>
-							</Bar>
-						</BarChart>
-					</ResponsiveContainer>
+								position="right"
+								style={{ fontSize: '0.65rem' }}
+								content={<CustomLabelList dataKey="Sede Administrativa" />}
+							/>
+						</Bar>
+					</BarChart>
 				) : (
 					<div className="flex h-full items-center justify-center">
 						<div className="text-muted-foreground text-center">
@@ -126,7 +116,7 @@ export const GeoCharts = memo(
 						</div>
 					</div>
 				)}
-			</div>
+			</>
 		)
 	}
 )

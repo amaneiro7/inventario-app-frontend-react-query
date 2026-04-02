@@ -7,9 +7,8 @@ import {
 	CartesianGrid,
 	Tooltip,
 	Legend,
-	ResponsiveContainer,
 	LabelList
-} from 'recharts'
+} from '@/shared/ui/Charts'
 import { MapPin } from 'lucide-react'
 import { BASIC_COLORS_MAP } from '@/shared/lib/utils/colores'
 import { CustomLabelList } from '@/shared/ui/CustomLabelList'
@@ -28,83 +27,88 @@ interface DistributionDataItem {
 export const OSDistributionByRegionChart = memo(
 	({ distributionData, uniqueOperatingSystem, barHeight }: OSDistributionByRegionChartProps) => {
 		return (
-			<ResponsiveContainer width="100%" height="100%">
-				<BarChart
-					layout="vertical"
-					data={distributionData}
-					margin={{ top: 5, right: 100, left: 0, bottom: 5 }}
-				>
-					<CartesianGrid strokeDasharray="3 3" />
-					<XAxis type="number" />
-					<YAxis
-						dataKey="name"
-						type="category"
-						axisLine={false}
-						width={200}
-						scale="auto"
-						tick={{ fontSize: '0.65rem' }}
-					/>
-					<Tooltip
-						content={({ active, payload }) => {
-							if (active && payload && payload.length) {
-								const dataItem = payload[0].payload as DistributionDataItem
-								return (
-									<div className="bg-background rounded-lg border p-2 text-wrap shadow-md">
-										<div className="flex items-center gap-2">
-											<MapPin className="h-4 w-4" />
-											<span className="font-medium">
-												Ubicación: {dataItem.name}
-											</span>
-										</div>
-										<div className="mt-1 text-sm">
-											{Object.keys(dataItem)
-												.filter(key => key !== 'name')
-												.map((key, index) => (
-													<p key={key} className="flex gap-2">
-														{/* Use BASIC_COLORS_MAP for consistent coloring with the bars */}
-														<span
-															className="font-semibold"
-															style={{
-																color: BASIC_COLORS_MAP[
-																	index % BASIC_COLORS_MAP.length
-																]
-															}}
-														>
-															{dataItem[key]}
-														</span>
-														<span className="text-muted-foreground">
-															{key}
-														</span>
-													</p>
-												))}
-										</div>
+			<BarChart
+				layout="vertical"
+				data={distributionData}
+				style={{
+					flex: '1 1 0%',
+					width: '100%',
+					maxHeight: '100%',
+					minHeight: '0',
+					aspectRatio: 1
+				}}
+				responsive
+			>
+				<CartesianGrid strokeDasharray="3 3" />
+				<XAxis type="number" />
+				<YAxis
+					dataKey="name"
+					type="category"
+					axisLine={false}
+					width={200}
+					scale="auto"
+					tick={{ fontSize: '0.65rem' }}
+				/>
+				<Tooltip
+					content={({ active, payload }) => {
+						if (active && payload && payload.length) {
+							const dataItem = payload[0].payload as DistributionDataItem
+							return (
+								<div className="bg-background rounded-lg border p-2 text-wrap shadow-md">
+									<div className="flex items-center gap-2">
+										<MapPin className="h-4 w-4" />
+										<span className="font-medium">
+											Ubicación: {dataItem.name}
+										</span>
 									</div>
-								)
-							}
-							return null
-						}}
-					/>
-					<Legend />
-					{/* Render a Bar for each unique operating system */}
-					{uniqueOperatingSystem.length > 0 &&
-						uniqueOperatingSystem.map((item, index) => (
-							<Bar
-								key={item}
+									<div className="mt-1 text-sm">
+										{Object.keys(dataItem)
+											.filter(key => key !== 'name')
+											.map((key, index) => (
+												<p key={key} className="flex gap-2">
+													{/* Use BASIC_COLORS_MAP for consistent coloring with the bars */}
+													<span
+														className="font-semibold"
+														style={{
+															color: BASIC_COLORS_MAP[
+																index % BASIC_COLORS_MAP.length
+															]
+														}}
+													>
+														{dataItem[key]}
+													</span>
+													<span className="text-muted-foreground">
+														{key}
+													</span>
+												</p>
+											))}
+									</div>
+								</div>
+							)
+						}
+						return null
+					}}
+				/>
+				<Legend />
+				{/* Render a Bar for each unique operating system */}
+				{uniqueOperatingSystem.length > 0 &&
+					uniqueOperatingSystem.map((item, index) => (
+						<Bar
+							key={item}
+							dataKey={item}
+							name={item}
+							fill={BASIC_COLORS_MAP[index % BASIC_COLORS_MAP.length]}
+							barSize={barHeight}
+						>
+							<LabelList
 								dataKey={item}
-								name={item}
-								fill={BASIC_COLORS_MAP[index % BASIC_COLORS_MAP.length]}
-								barSize={barHeight}
-							>
-								<LabelList
-									dataKey={item}
-									position="right"
-									style={{ fontSize: '0.65rem' }}
-									content={<CustomLabelList dataKey={item} />}
-								/>
-							</Bar>
-						))}
-				</BarChart>
-			</ResponsiveContainer>
+								position="right"
+								style={{ fontSize: '0.65rem' }}
+								content={<CustomLabelList dataKey={item} />}
+							/>
+						</Bar>
+					))}
+			</BarChart>
 		)
 	}
 )

@@ -33,11 +33,13 @@ export interface BrandData {
 export function useBrandDistribution({ data }: UseBrandDistributionProps) {
 	const brandData: BrandData[] = useMemo(
 		() =>
-			data.map(brand => ({
-				name: brand.name.replace('-', ' '), // Replaces hyphen with a space for better display
-				count: brand.count,
-				models: brand.model.length
-			})),
+			data
+				.map(brand => ({
+					name: brand.name.replace('-', ' '), // Replaces hyphen with a space for better display
+					count: brand.count,
+					models: brand.model.length
+				}))
+				.sort((a, b) => b.count - a.count), // Sorts brands by count in descending order
 		[data]
 	)
 	const total = useMemo(() => data.reduce((sum, item) => sum + item.count, 0), [data])
