@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
-import cn from 'classnames'
-import { twMerge } from 'tailwind-merge'
+import { Color, Size, ButtonSize } from './styles'
+import { cn } from '@/shared/lib/utils'
 
 interface Props extends LinkProps {
 	text: string
@@ -13,44 +14,46 @@ interface Props extends LinkProps {
 	hoverTranslate?: boolean
 }
 
-import { Color, Size, ButtonSize } from './styles'
-
 const hoverStyle = 'hover:shadow-lg disabled:translate-y-0 hover:-translate-y-1'
 
-export function LinkAsButton({
-	text,
-	state,
-	hoverTranslate,
-	className,
-	icon,
-	to,
-	color,
-	size = 'content',
-	buttonSize,
-	...props
-}: Props) {
-	const classes = twMerge(
-		'flex justify-center text-b items-center gap-2 font-medium rounded-md cursor-pointer border border-solid transition-all duration-200 ease-in disabled:opacity-70 disabled:cursor-not-allowed',
-		cn({
-			[`${Color[color]}`]: color,
-			[`${ButtonSize[buttonSize]}`]: buttonSize,
-			[`${Size[size]}`]: size,
-			[hoverStyle]: hoverTranslate
-		}),
-		className
-	)
-	return (
-		<Link
-			className={classes}
-			aria-label={`${text}`}
-			title={`${text}`}
-			state={{ state }}
-			to={to}
-			replace
-			{...props}
-		>
-			{icon}
-			{text}
-		</Link>
-	)
-}
+export const LinkAsButton = memo(
+	({
+		text,
+		state,
+		hoverTranslate,
+		className,
+		icon,
+		to,
+		color,
+		size = 'content',
+		buttonSize,
+		replace = false, // Ahora es opcional y por defecto es false
+		...props
+	}: Props) => {
+		return (
+			<Link
+				className={cn(
+					'flex cursor-pointer items-center justify-center gap-2 rounded-md border border-solid font-medium transition-all duration-200 ease-in disabled:cursor-not-allowed disabled:opacity-70',
+					{
+						[`${Color[color]}`]: color,
+						[`${ButtonSize[buttonSize]}`]: buttonSize,
+						[`${Size[size]}`]: size,
+						[hoverStyle]: hoverTranslate
+					},
+					className
+				)}
+				aria-label={`${text}`}
+				title={`${text}`}
+				state={state} // Corregido el anidamiento del objeto
+				to={to}
+				replace={replace}
+				{...props}
+			>
+				{icon}
+				{text}
+			</Link>
+		)
+	}
+)
+
+LinkAsButton.displayName = 'LinkAsButton'
