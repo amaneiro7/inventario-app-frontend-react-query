@@ -66,10 +66,11 @@ export const DeviceByTypeOfSite = memo(
 					<BarChart
 						data={getSelectedCategoryData}
 						style={{
+							flex: '1 1 0%',
 							width: '100%',
-							maxWidth: '800px',
-							maxHeight: '80vh',
-							aspectRatio: 1.618
+							maxHeight: '100%',
+							minHeight: '0',
+							aspectRatio: 1
 						}}
 						responsive
 					>

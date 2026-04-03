@@ -12,12 +12,15 @@ export function DefaultRenderOption<O>({
 	inputValue,
 	highlight
 }: DefaultRenderOptionProps<O>) {
-	const parts = highlight(option, inputValue)
+	const parts = highlight(option, inputValue).map((part, index) => ({
+		...part,
+		id: index
+	}))
 	return (
 		<Typography variant="p">
-			{parts.map((part, index) => (
+			{parts.map(part => (
 				<Typography
-					key={index}
+					key={part.id}
 					variant="span"
 					option="tiny"
 					weight={part.highlight ? 'extrabold' : 'light'}

@@ -1,5 +1,5 @@
 import { memo, Suspense } from 'react'
-import { Pie, PieChart, ResponsiveContainer, Tooltip } from '@/shared/ui/Charts'
+import { Pie, PieChart, Tooltip } from '@/shared/ui/Charts'
 import { PieChartLegend } from './PieChartLegend'
 import { MyCustomPie } from './MyCustomPie'
 import type { PieProps } from '@/shared/ui/Charts'
@@ -48,86 +48,85 @@ export const PieContent = memo(
 				>
 					{data && data.length > 0 && colors ? (
 						<Suspense>
-							<ResponsiveContainer
-								width={500}
-								height={300}
-								minWidth={500}
-								minHeight={300}
-								aspect={1}
+							<PieChart
+								aria-labelledby={chartTitleId}
+								aria-describedby={chartDescriptionId}
+								style={{
+									flex: '1 1 0%',
+									width: '100%',
+									maxHeight: '100%',
+									minHeight: '0',
+									aspectRatio: 1
+								}}
+								responsive
 							>
-								<PieChart
-									aria-labelledby={chartTitleId}
-									aria-describedby={chartDescriptionId}
-								>
-									{/* Hidden title and description for screen readers */}
-									<title id={chartTitleId} className="sr-only">
-										Distribución de elementos por categoría
-									</title>
-									<desc id={chartDescriptionId} className="sr-only">
-										Gráfico de pastel que muestra la distribución de datos.{' '}
-										{chartAccessibilityDescription}. Total de elementos: {total}
-										.
-									</desc>
-									<defs>
-										<pattern
-											id="pattern-checkers"
+								{/* Hidden title and description for screen readers */}
+								<title id={chartTitleId} className="sr-only">
+									Distribución de elementos por categoría
+								</title>
+								<desc id={chartDescriptionId} className="sr-only">
+									Gráfico de pastel que muestra la distribución de datos.{' '}
+									{chartAccessibilityDescription}. Total de elementos: {total}.
+								</desc>
+								<defs>
+									<pattern
+										id="pattern-checkers"
+										x="0"
+										y="0"
+										width="10"
+										height="10"
+										patternUnits="userSpaceOnUse"
+									>
+										<rect
+											className="checker"
 											x="0"
+											width="5"
+											height="5"
 											y="0"
-											width="10"
-											height="10"
-											patternUnits="userSpaceOnUse"
-										>
-											<rect
-												className="checker"
-												x="0"
-												width="5"
-												height="5"
-												y="0"
-											/>
-											<rect
-												className="checker"
-												x="10"
-												width="5"
-												height="5"
-												y="10"
-											/>
-										</pattern>
-									</defs>
-									<Pie
-										data={data}
-										cx="50%"
-										cy="50%"
-										labelLine={false}
-										label={({
-											name,
-											percent
-										}: {
-											name?: string
-											percent?: number
-										}) => {
-											const minVisiblePercent = 0.05 // Solo mostrar etiqueta si el trozo es suficientemente grande
-											if (name && percent && percent > minVisiblePercent) {
-												return `${name}: ${(percent * 100).toFixed(0)}%`
-											}
-											return null // No renderizar etiqueta si no cumple las condiciones
-										}}
-										outerRadius={outerRadius}
-										fill="#8884d8"
-										dataKey={dataKey}
-										tabIndex={0}
-										isAnimationActive={isAnimationActive}
-										shape={MyCustomPie}
-									></Pie>
-									<Tooltip
-										formatter={(value, name) => [value, name]}
-										contentStyle={{
-											backgroundColor: 'white',
-											borderRadius: '0.5rem',
-											border: '1px solid #e2e8f0'
-										}}
-									/>
-								</PieChart>
-							</ResponsiveContainer>
+										/>
+										<rect
+											className="checker"
+											x="10"
+											width="5"
+											height="5"
+											y="10"
+										/>
+									</pattern>
+								</defs>
+								<Pie
+									data={data}
+									cx="50%"
+									cy="50%"
+									labelLine={false}
+									label={({
+										name,
+										percent
+									}: {
+										name?: string
+										percent?: number
+									}) => {
+										const minVisiblePercent = 0.05 // Solo mostrar etiqueta si el trozo es suficientemente grande
+										if (name && percent && percent > minVisiblePercent) {
+											return `${name}: ${(percent * 100).toFixed(0)}%`
+										}
+										return null // No renderizar etiqueta si no cumple las condiciones
+									}}
+									outerRadius={outerRadius}
+									fill="#8884d8"
+									dataKey={dataKey}
+									tabIndex={0}
+									isAnimationActive={isAnimationActive}
+									shape={MyCustomPie}
+								></Pie>
+								<Tooltip
+									formatter={(value, name) => [value, name]}
+									contentStyle={{
+										backgroundColor: 'white',
+										borderRadius: '0.5rem',
+										border: '1px solid #e2e8f0'
+									}}
+								/>
+							</PieChart>
 						</Suspense>
 					) : (
 						<div className="flex h-full items-center justify-center">

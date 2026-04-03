@@ -14,18 +14,24 @@ export function EmployeeRenderOption<O>({
 	const matches = match(opt.userName, inputValue ?? '', {
 		insideWords: true
 	})
-	const parts = parse(opt.userName, matches)
+	const parts = parse(opt.userName, matches).map((part, index) => ({
+		...part,
+		id: index
+	}))
 	const fullName = `${opt?.name ? opt?.name : ''} ${opt?.lastName ? opt?.lastName : ''}`
 	const fullNameMatch = match(fullName, inputValue ?? '', {
 		insideWords: true
 	})
-	const fullNameParts = parse(fullName, fullNameMatch)
+	const fullNameParts = parse(fullName, fullNameMatch).map((part, index) => ({
+		...part,
+		id: index
+	}))
 	return (
 		<div>
 			<Typography variant="p">
-				{parts.map((part, index) => (
+				{parts.map(part => (
 					<Typography
-						key={index}
+						key={part.id}
 						variant="span"
 						option="tiny"
 						transform="uppercase"
@@ -36,9 +42,9 @@ export function EmployeeRenderOption<O>({
 				))}
 			</Typography>
 			<Typography variant="p" color={'gris'}>
-				{fullNameParts.map((part, index) => (
+				{fullNameParts.map(part => (
 					<Typography
-						key={index}
+						key={part.id}
 						variant="span"
 						weight={part.highlight ? 'extrabold' : 'light'}
 					>

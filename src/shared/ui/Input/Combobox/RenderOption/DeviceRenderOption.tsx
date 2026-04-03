@@ -11,14 +11,17 @@ export function DeviceRenderOption<O>({
 	inputValue?: string
 	highlight: Highlight<O>
 }) {
-	const parts = highlight(option, inputValue)
+	const parts = highlight(option, inputValue).map((part, index) => ({
+		...part,
+		id: index
+	}))
 	const opt = option as unknown as DeviceDto
 	return (
 		<div>
 			<Typography variant="p">
-				{parts.map((part, index) => (
+				{parts.map(part => (
 					<Typography
-						key={index}
+						key={part.id}
 						variant="span"
 						option="tiny"
 						transform="uppercase"

@@ -8,18 +8,24 @@ export function UserRenderOption<O>({ option, inputValue }: { option: O; inputVa
 	const matches = match(opt?.employee?.userName, inputValue ?? '', {
 		insideWords: true
 	})
-	const parts = parse(opt?.employee?.userName, matches)
+	const parts = parse(opt?.employee?.userName, matches).map((part, index) => ({
+		...part,
+		id: index
+	}))
 	const fullName = `${opt?.employee?.name ? opt?.employee?.name : ''} ${opt?.employee?.lastName ? opt?.employee?.lastName : ''}`
 	const fullNameMatch = match(fullName, inputValue ?? '', {
 		insideWords: true
 	})
-	const fullNameParts = parse(fullName, fullNameMatch)
+	const fullNameParts = parse(fullName, fullNameMatch).map((part, index) => ({
+		...part,
+		id: index
+	}))
 	return (
 		<div>
 			<Typography variant="p">
-				{parts.map((part, index) => (
+				{parts.map(part => (
 					<Typography
-						key={`username-part-${index}-${part.text}`}
+						key={part.id}
 						variant="span"
 						option="tiny"
 						transform="uppercase"
@@ -30,9 +36,9 @@ export function UserRenderOption<O>({ option, inputValue }: { option: O; inputVa
 				))}
 			</Typography>
 			<Typography variant="p" color={'gris'}>
-				{fullNameParts.map((part, index) => (
+				{fullNameParts.map(part => (
 					<Typography
-						key={`fullname-part-${index}-${part.text}`}
+						key={part.id}
 						variant="span"
 						weight={part.highlight ? 'extrabold' : 'light'}
 					>
