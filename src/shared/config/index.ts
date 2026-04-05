@@ -1,12 +1,10 @@
-import { z } from 'zod'
+import './trusted-policy.ts'
 
-const ennVars = z.object({
-	VITE_URL_API: z.string(),
-	VITE_TITLE_LOGO: z.string()
-})
+const { VITE_URL_API: baseURL, VITE_TITLE_LOGO: titleLogo } = import.meta.env
 
-const config = ennVars.parse(import.meta.env)
-
-const { VITE_URL_API: baseURL, VITE_TITLE_LOGO: titleLogo } = config
+// Validación manual simple
+if (!import.meta.env.VITE_URL_API || !import.meta.env.VITE_TITLE_LOGO) {
+	throw new Error('Faltan variables de entorno críticas: VITE_URL_API o VITE_TITLE_LOGO')
+}
 
 export { baseURL, titleLogo }

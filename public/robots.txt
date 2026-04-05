@@ -1,0 +1,24 @@
+# Bloqueo específico para bots de IA (Scrapers de entrenamiento)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+# Permitir el rastreo para buscadores estándar (Google, Bing, etc.)
+# Configuración habilitada para fines de aprendizaje y pruebas técnicas.
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
