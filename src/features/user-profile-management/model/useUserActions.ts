@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useRef } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 import { ResetPasswordService } from '../../../entities/user/infra/service/ResetPassword.service'
 import { UnlockAccountService } from '../../../entities/user/infra/service/UnlockAccount.service'
 import { UnlockAccount } from '../../../entities/user/application/UnlockAccount'

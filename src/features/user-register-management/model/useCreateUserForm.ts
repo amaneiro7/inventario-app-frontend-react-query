@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useReducer, useRef, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 import { UserSaveService } from '../../../entities/user/infra/service/userSave.service'
 import { UserCreator } from '../../../entities/user/application/UserCreator'
 import { useNavigate } from 'react-router-dom'

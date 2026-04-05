@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { AccessPolicyRemover } from '../../application/AccessPolicyRemover'
 import { AccessPolicyDeleteService } from '../service/accessPolicyDelete.service'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 
 const repository = new AccessPolicyDeleteService()
 const accessPolicyRemover = new AccessPolicyRemover(repository, useAuthStore.getState().events)

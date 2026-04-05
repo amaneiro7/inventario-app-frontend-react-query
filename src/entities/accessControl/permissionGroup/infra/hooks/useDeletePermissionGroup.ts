@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { PermissionGroupRemover } from '../../application/PermissionGroupRemover'
 import { PermissionGroupDeleteService } from '../service/permissionGroupDelete.service'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 
 const repository = new PermissionGroupDeleteService()
 const permissionGroupRemover = new PermissionGroupRemover(

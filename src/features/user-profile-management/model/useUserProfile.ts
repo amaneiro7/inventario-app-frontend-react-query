@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 import { useUserInitialState } from '../../../entities/user/infra/hooks/useUsersInitialState'
 import { UserCreator } from '../../../entities/user/application/UserCreator'
 import { UserSaveService } from '../../../entities/user/infra/service/userSave.service'

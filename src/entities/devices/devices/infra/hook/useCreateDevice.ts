@@ -2,7 +2,7 @@ import { useCallback, useLayoutEffect, useMemo, useReducer, useState } from 'rea
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
 import { isDeepEqual } from '@/shared/lib/utils/isDeepEqual'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 import {
 	type Action,
 	type DefaultDevice,

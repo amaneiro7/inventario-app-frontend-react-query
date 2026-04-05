@@ -41,12 +41,9 @@ export const CategoryCombobox = memo(function ({
 	handleChange: (name: string, value: string | number) => void
 }) {
 	const [inputValue, setInputValue] = useState('')
-	const query: CategoryFilters = useMemo(
-		() => ({
-			mainCategoryId
-		}),
-		[value, mainCategoryId]
-	)
+	// Optimización: Eliminamos 'value' de las dependencias.
+	// No necesitamos re-crear el objeto de la query solo porque cambió la selección actual.
+	const query: CategoryFilters = useMemo(() => ({ mainCategoryId }), [mainCategoryId])
 
 	const { data, isLoading: loading } = useGetAllCategory(query)
 

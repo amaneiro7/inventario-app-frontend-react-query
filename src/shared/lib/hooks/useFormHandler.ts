@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { queryClient } from '../queryCliente'
+import { queryClient } from '../queryClient'
 import {
 	type InitialFormState,
 	type TStateWithId,

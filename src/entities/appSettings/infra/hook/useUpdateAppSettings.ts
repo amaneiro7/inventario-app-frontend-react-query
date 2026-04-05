@@ -1,7 +1,7 @@
 import { useCallback, useLayoutEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
 import { usePrevious } from '@/shared/lib/hooks/usePrevious'
-import { queryClient } from '@/shared/lib/queryCliente'
+import { queryClient } from '@/shared/lib/queryClient'
 import { useGetAllAppSettings } from './useGetAllAppSettings'
 import { initialAppSettingsState, appSettingsFormReducer } from '../reducers/AppSettingsFormReducer'
 import { AppSettingsSaveService } from '../service/appSettingsSave.service'
