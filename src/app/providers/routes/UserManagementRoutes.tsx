@@ -14,14 +14,19 @@ export default function UserManagementRoutes() {
 			<Route
 				element={<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.READ_LIST} />}
 			>
-				<Route index element={suspended(UserManagement)} />
-				<Route
-					element={<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.CREATE} />}
-				>
-					<Route path="register" element={suspended(UserManagementRegister)} />
-				</Route>
-				<Route element={<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.READ} />}>
-					<Route path="profile/:id" element={suspended(ManagementProfile)} />
+				<Route path="/" element={suspended(UserManagement)}>
+					<Route
+						element={
+							<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.CREATE} />
+						}
+					>
+						<Route path="register" element={suspended(UserManagementRegister)} />
+					</Route>
+					<Route
+						element={<ProtectedByPermissionRoute permission={PERMISSIONS.USERS.READ} />}
+					>
+						<Route path="profile/:id" element={suspended(ManagementProfile)} />
+					</Route>
 				</Route>
 			</Route>
 		</Routes>
