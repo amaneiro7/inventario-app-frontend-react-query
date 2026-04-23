@@ -81,7 +81,7 @@ export const LocationDataWrapper = memo(
 							<LocationInfoBoxSkeleton key={`location-skeleton-${index}`} />
 						))
 					) : displayLocations.length === 0 ? (
-						<div className="col-span-full py-8 text-center text-gray-500" role="status">
+						<div className="col-span-full py-8 text-center text-gray-600" role="status">
 							<MapPin
 								className="mx-auto mb-4 h-12 w-12 text-gray-400"
 								aria-hidden="true"

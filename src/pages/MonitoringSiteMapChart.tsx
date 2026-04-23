@@ -54,7 +54,7 @@ const MonitoringSiteMapChart = () => {
 			</CardHeader>
 			<CardContent className="space-y-6">
 				<div className="flex flex-col flex-wrap">
-					<div className="max-w-sm flex-grow">
+					<div className="max-w-sm grow">
 						<Select
 							onValueChange={value => setSelectedAdmRegion(value)}
 							value={selectedAdmRegion ?? ''}
@@ -74,7 +74,7 @@ const MonitoringSiteMapChart = () => {
 							</SelectContent>
 						</Select>
 					</div>
-					<div className="flex-shrink-0 pt-7">
+					<div className="shrink-0 pt-7">
 						<StatusLegend />
 					</div>
 				</div>
@@ -85,14 +85,14 @@ const MonitoringSiteMapChart = () => {
 						aria-labelledby="sites-title"
 						className="flex flex-wrap items-start gap-6"
 					>
-						<h2 id="sites-title" className="sr-only">
+						<h3 id="sites-title" className="sr-only">
 							Sedes en {selectedAdmRegion}
-						</h2>
+						</h3>
 						{selectedRegionData?.sites.map(site => (
 							<article key={site.name} aria-labelledby={`site-title-${site.name}`}>
 								<Typography
 									id={`site-title-${site.name}`}
-									variant="h3"
+									variant="h4"
 									align="center"
 									weight="semibold"
 									color="azul"

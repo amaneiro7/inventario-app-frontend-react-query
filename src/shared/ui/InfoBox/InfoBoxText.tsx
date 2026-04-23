@@ -21,7 +21,7 @@ export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) =>
 	return (
 		<Typography
 			variant="p"
-			color="gris"
+			color="gray-600"
 			align="left"
 			weight="normal"
 			option="small"

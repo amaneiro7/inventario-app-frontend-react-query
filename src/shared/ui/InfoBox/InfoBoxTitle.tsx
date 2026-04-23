@@ -13,7 +13,7 @@ export const InfoBoxTitle = memo(({ title, url, state }: InfoBoxTitleProps) => {
 	const isTitleString = typeof title === 'string'
 	return (
 		<Typography
-			variant="h5"
+			variant="p"
 			weight="bold"
 			color="azul"
 			align="left"

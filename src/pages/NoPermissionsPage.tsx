@@ -62,7 +62,7 @@ const NoPermissionsPage = (): JSX.Element => {
 							</p>
 						)}
 					</div>
-					<p className="mt-6 text-sm text-gray-500">
+					<p className="mt-6 text-sm text-gray-600">
 						Si crees que esto es un error o necesitas acceso inmediato,
 						<br />
 						por favor contacta a tu supervisor o al administrador de TI.

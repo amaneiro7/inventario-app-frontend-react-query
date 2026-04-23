@@ -13,31 +13,31 @@ export const LOCATION_STATUS_CONFIG: Record<
 > = {
 	[LocationStatusByName.OPERATIONAL]: {
 		colorClass: 'border-azul',
-		textColorClass: 'text-verde-700',
+		textColorClass: 'text-verde-800',
 		icon: CheckCircle,
 		displayName: 'Operativa'
 	},
 	[LocationStatusByName.TEMPORARILY_CLOSED]: {
 		colorClass: 'bg-amarillo-50 border-amarillo-300',
-		textColorClass: 'text-amarillo-700',
+		textColorClass: 'text-amarillo-800',
 		icon: Clock,
 		displayName: 'Cerrada Temporalmente'
 	},
 	[LocationStatusByName.CLOSED_PERMANENTLY]: {
 		colorClass: 'bg-rojo-50 border-rojo-300',
-		textColorClass: 'text-rojo-700',
+		textColorClass: 'text-rojo-800',
 		icon: XCircle,
 		displayName: 'Cerrada Permanentemente'
 	},
 	[LocationStatusByName.PLANNED_CLOSURE]: {
 		colorClass: 'bg-naranja-50 border-naranja-300',
-		textColorClass: 'text-naranja-700',
+		textColorClass: 'text-naranja-800',
 		icon: Hammer,
 		displayName: 'Cierre Planificado'
 	},
 	[LocationStatusByName.UNDER_CONSTRUCTION]: {
 		colorClass: 'bg-blue-50 border-blue-300',
-		textColorClass: 'text-blue-700',
+		textColorClass: 'text-blue-800',
 		icon: Construction,
 		displayName: 'En Construcción'
 	}

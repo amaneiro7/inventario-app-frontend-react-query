@@ -64,7 +64,9 @@ export const PaginationList = ({
 				activeClassName="active"
 				previousClassName="page"
 				nextClassName="page"
-				ariaLabelBuilder={(pageNumber: number) => `Go to page ${pageNumber}`}
+				ariaLabelBuilder={(pageNumber: number) => `Ir a la página ${pageNumber}`}
+				previousAriaLabel="Página anterior"
+				nextAriaLabel="Página siguiente"
 				breakLabel="..."
 			/>
 		</ErrorBoundary>

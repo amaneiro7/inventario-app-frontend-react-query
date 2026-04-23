@@ -34,7 +34,7 @@ export default function Home() {
 			<WelcomeHero />
 			{/* Seccion de los cuadros del balance del inventario */}
 			<section className="fade-in">
-				<Typography variant="h2" weight="semibold" className="mb-4">
+				<Typography variant="h1" weight="semibold" className="mb-4">
 					Resumen de inventario
 				</Typography>
 				<ErrorBoundary
