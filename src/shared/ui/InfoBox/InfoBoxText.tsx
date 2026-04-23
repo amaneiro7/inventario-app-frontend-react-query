@@ -25,7 +25,7 @@ export const InfoBoxText = memo(({ desc, text, className }: InfoBoxTextProps) =>
 			align="left"
 			weight="normal"
 			option="small"
-			className={cn(className)}
+			className={cn('text-pretty', className)}
 		>
 			<b>{`${desc}: `}</b>
 			{text}

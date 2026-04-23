@@ -50,7 +50,7 @@ const NoPermissionsPage = (): JSX.Element => {
 					<h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
 						Acceso Denegado
 					</h1>
-					<div className="mt-6 text-base leading-7 text-gray-600">
+					<div className="mt-6 text-base leading-7 text-pretty text-gray-600">
 						<p>
 							Tu cuenta ha sido creada, pero aún no tienes{' '}
 							<strong>roles ni permisos</strong> asignados en el sistema.

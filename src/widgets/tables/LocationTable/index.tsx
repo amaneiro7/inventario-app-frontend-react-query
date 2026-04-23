@@ -40,7 +40,7 @@ export const LocationDataWrapper = memo(
 		if (isError) {
 			return (
 				<div
-					className="text-rojo-600 p-8 text-center font-medium"
+					className="text-rojo-600 p-8 text-center font-medium text-pretty"
 					role="alert"
 					aria-live="assertive"
 				>

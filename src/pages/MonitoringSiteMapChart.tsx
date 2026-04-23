@@ -48,7 +48,7 @@ const MonitoringSiteMapChart = () => {
 		<Card>
 			<CardHeader>
 				<CardTitle>Visualización de Sedes por Región Administrativa</CardTitle>
-				<CardDescription>
+				<CardDescription className="text-pretty">
 					Seleccione una región para ver el estado de los equipos en cada sede.
 				</CardDescription>
 			</CardHeader>
