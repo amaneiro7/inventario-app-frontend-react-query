@@ -31,28 +31,30 @@ export const useInventoryBrandTable = ({
 
 	// Obtener categorías únicas de todos los modelos
 	const uniqueCategories = useMemo(() => {
-		const categories = new Set<string>()
-		data.forEach(brand => {
-			brand.model.forEach(model => {
-				categories.add(model.category)
-			})
-		})
-		return [...Array.from(categories)].sort()
+		// const categories = new Set<string>()
+		// data.forEach(brand => {
+		// 	brand.model.forEach(model => {
+		// 		categories.add(model.category)
+		// 	})
+		// })
+		// return [...Array.from(categories)].sort()
+		const categories = data.flatMap(brand => brand.model.map(m => m.category))
+		return [...new Set(categories)].sort()
 	}, [data])
 
-	const dataMapped = useMemo(() => {
-		return transformData(data)
-	}, [data])
+	const dataMapped = useMemo(() => transformData(data), [data])
 
 	const filteredData = useMemo(() => {
-		return dataMapped.filter(brand => {
-			const matchesBrand = filterBrand === 'All' || brand.name === filterBrand
+		const search = searchTerm.trim().toLowerCase()
+		return dataMapped.filter(device => {
+			const matchesBrand = filterBrand === 'All' || device.brand === filterBrand
 
-			const matchesCategory = filterCategory === 'All' || brand.category === filterCategory
+			const matchesCategory = filterCategory === 'All' || device.category === filterCategory
 
 			const matchesSearch =
-				brand.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				brand.name.toLowerCase().includes(searchTerm.toLowerCase())
+				!search ||
+				device.brand.toLowerCase().includes(search) ||
+				device.name.toLowerCase().includes(search)
 
 			return matchesBrand && matchesCategory && matchesSearch
 		})
@@ -62,32 +64,33 @@ export const useInventoryBrandTable = ({
 }
 
 function transformData(data: ComputerDashboardDto['brand']): ModelData[] {
-	const LOW_STOCK_THRESHOLD = 10
-	const result: ModelData[] = []
-	data.forEach(brand => {
-		brand.model.forEach(model => {
-			const inAlmacen = model.typeOfSite.reduce(
-				(acc, site) =>
-					site.name === TypeOfSiteOptionsByName.ALMACEN ? (acc += site.count) : acc,
-				0
+	const THRESHOLD = 10
+	const result = data.flatMap(brand =>
+		brand.model.map(model => {
+			const { inAlmacen, inUse } = model.typeOfSite.reduce(
+				(acc, site) => {
+					if (site.name === TypeOfSiteOptionsByName.ALMACEN) {
+						acc.inAlmacen += site.count
+					} else {
+						acc.inUse += site.count
+					}
+					return acc
+				},
+				{ inAlmacen: 0, inUse: 0 }
 			)
-			const inUse = model.typeOfSite.reduce(
-				(acc, site) =>
-					site.name !== TypeOfSiteOptionsByName.ALMACEN ? (acc += site.count) : acc,
-				0
-			)
-			result.push({
-				id: `${model.category}-${brand.name}-${model.name}`,
+
+			return {
+				id: `${brand.name}-${model.name}-${model.category}`,
 				name: model.name,
 				category: model.category,
 				brand: brand.name,
 				count: model.count,
 				inUse,
 				inAlmacen,
-				status: calculateStatus(inAlmacen, LOW_STOCK_THRESHOLD)
-			})
+				status: calculateStatus(inAlmacen, THRESHOLD)
+			}
 		})
-	})
+	)
 
 	return result.sort((a, b) => b.count - a.count)
 }
