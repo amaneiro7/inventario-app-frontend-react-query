@@ -22,8 +22,17 @@ export const RecordPerPage = memo(function ({
 	}
 
 	// Filter options once to avoid repeated calculations in the map function
-	// Only show options that are less than or equal to the total number of records
-	const availableOptions = registerOptions.filter(option => option <= total)
+	// Only show options that are less than the total number of records
+	const availableOptions = registerOptions.filter((option, index) => {
+		if (option <= total) return true
+
+		const previousOption = registerOptions[index - 1]
+		// If the current option exceeds total but the previous option does not, include the previous option as the last available option
+		if (previousOption && previousOption <= total) {
+			return true
+		}
+		return false
+	})
 
 	// If, after filtering, there's only one option left (which would be the minOption),
 	// there's no point in showing a dropdown to select page size, so return null.
