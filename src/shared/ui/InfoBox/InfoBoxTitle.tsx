@@ -13,7 +13,7 @@ export const InfoBoxTitle = memo(({ title, url, state }: InfoBoxTitleProps) => {
 	const isTitleString = typeof title === 'string'
 	return (
 		<Typography
-			variant="h6"
+			variant="h5"
 			weight="bold"
 			color="azul"
 			align="left"
@@ -21,7 +21,7 @@ export const InfoBoxTitle = memo(({ title, url, state }: InfoBoxTitleProps) => {
 		>
 			{isTitleString ? <span>{title}</span> : title}
 			{url && isTitleString && (
-				<span className="group relative ml-4 h-8 w-8 flex-shrink-0">
+				<span className="group relative ml-4 h-8 w-8 shrink-0">
 					<Link
 						className="absolute inset-0 z-10 h-8 w-8"
 						state={state}
