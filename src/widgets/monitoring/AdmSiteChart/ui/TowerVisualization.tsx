@@ -31,7 +31,7 @@ export const TowerVisualization = ({
 					<div className="h-3 rounded-t-md bg-slate-600 shadow-inner" />
 
 					<div className="rounded-b-md border-2 border-slate-500 bg-slate-200">
-						{locations.map(location => {
+						{locations.toReversed().map(location => {
 							const { color, onlinePercentage } = getLocationStatus(location)
 							const isSelected = selectedLocationName === location.name
 
