@@ -7,8 +7,8 @@ import { cn } from '@/shared/lib/utils'
 const SkeletonText = ({
 	className,
 	...props
-}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => (
-	<div className={cn('h-5 animate-pulse rounded-md bg-gray-200', className)} {...props} />
+}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>) => (
+	<span className={cn('h-5 animate-pulse rounded-md bg-gray-200', className)} {...props} />
 )
 
 // Skeleton for a single InfoBox
