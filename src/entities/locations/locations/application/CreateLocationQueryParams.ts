@@ -16,6 +16,8 @@ export interface LocationFilters {
 	stateId?: string
 	regionId?: string
 	administrativeRegionId?: string
+	agencyClassification?: string
+	ispLinkId?: string
 	pageNumber?: number
 	pageSize?: number
 	orderBy?: Primitives<OrderBy>
@@ -57,7 +59,7 @@ export async function createLocationParams({
 				query.filters.push({
 					field: key,
 					operator:
-						key === 'name' || key === 'subnet'
+						key === 'name' || key === 'subnet' || key === 'agencyClassification'
 							? Operator.CONTAINS
 							: key === 'typeOfSiteId'
 								? Operator.OR

@@ -26,7 +26,7 @@ export function SerialSearch() {
 	}
 	return (
 		<SearchInput
-			id="serial-serach-form"
+			id="serial-search-form"
 			search={searchValue}
 			handleChange={value => {
 				setSearchValue(value.toUpperCase().trim())

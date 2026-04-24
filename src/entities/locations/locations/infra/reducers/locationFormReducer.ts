@@ -15,6 +15,7 @@ export interface DefaultLocation extends LocationParams {
 export interface LocationErrors extends Record<string, string> {
 	subnet: string
 	name: string
+	agencyClassification: string
 	codeAgency: string
 }
 export interface LocationRequired extends Record<string, boolean> {
@@ -28,6 +29,7 @@ export interface LocationRequired extends Record<string, boolean> {
 	codeAgency: boolean
 	name: boolean
 	subnet: boolean
+	agencyClassification: boolean
 }
 
 export interface LocationDisabled extends Record<string, boolean> {
@@ -41,6 +43,7 @@ export interface LocationDisabled extends Record<string, boolean> {
 	codeAgency: boolean
 	name: boolean
 	subnet: boolean
+	agencyClassification: boolean
 }
 
 interface State {
@@ -63,12 +66,15 @@ export const initialLocationState: State = {
 		siteName: '',
 		subnet: '',
 		name: '',
+		agencyClassification: '',
+		isplinks: [],
 		updatedAt: undefined
 	},
 	errors: {
 		name: '',
 		codeAgency: '',
-		subnet: ''
+		subnet: '',
+		agencyClassification: ''
 	},
 	required: {
 		typeOfSiteId: true,
@@ -80,6 +86,7 @@ export const initialLocationState: State = {
 		siteName: false,
 		subnet: false,
 		codeAgency: false,
+		agencyClassification: false,
 		name: true
 	},
 	disabled: {
@@ -92,7 +99,8 @@ export const initialLocationState: State = {
 		siteName: false,
 		subnet: true,
 		codeAgency: false,
-		name: false
+		name: false,
+		agencyClassification: false
 	}
 }
 
@@ -111,6 +119,10 @@ export type Action =
 	| { type: 'name'; payload: { value: DefaultLocation['name'] } }
 	| { type: 'codeAgency'; payload: { value: DefaultLocation['codeAgency'] } }
 	| { type: 'subnet'; payload: { value: DefaultLocation['subnet'] } }
+	| { type: 'agencyClassification'; payload: { value: DefaultLocation['agencyClassification'] } }
+	| { type: 'addISPLink'; payload: { value: string } }
+	| { type: 'removeISPLink'; payload: { value: string } }
+
 
 export const locationFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {

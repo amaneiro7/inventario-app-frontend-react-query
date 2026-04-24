@@ -15,9 +15,11 @@ export function useLocationFilter() {
 			'orderBy',
 			'orderType',
 			'name',
+			'agencyClassification',
 			'typeOfSiteId',
 			'locationStatusId',
-			'administrativeRegionId'
+			'administrativeRegionId',
+			'ispLinkId'
 		]
 	})
 }

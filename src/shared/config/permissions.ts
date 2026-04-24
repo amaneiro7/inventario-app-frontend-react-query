@@ -189,6 +189,12 @@ export const PERMISSIONS = {
 		CREATE: 'sites:create',
 		UPDATE: 'sites:update'
 	},
+	ISP_LINKS: {
+		READ_LIST: 'isp-links:read-list',
+		READ: 'isp-links:read',
+		CREATE: 'isp-links:create',
+		UPDATE: 'isp-links:update'
+	},
 	SHIPMENTS: {
 		READ_LIST: 'shipments:read-list',
 		READ: 'shipments:read',

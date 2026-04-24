@@ -59,10 +59,7 @@ export const TimelineItem = memo(({ event }: TimelineItemProps) => {
 							</Badge>
 						</div>
 						<div className="flex items-center gap-2 text-sm">
-							{GetDeviceIcon({
-								categoryName: categoryName,
-								className: 'h-4 w-4'
-							})}
+							<GetDeviceIcon categoryName={categoryName} className="h-4 w-4" />
 							<Typography>
 								{deviceInfo}
 								{<span className="text-gray-600"> - {categoryName}</span>}

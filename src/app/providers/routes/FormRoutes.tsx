@@ -13,6 +13,7 @@ const FormEmployee = lazy(() => import('@/pages/FormEmployee'))
 const FormModel = lazy(() => import('@/pages/FormModel'))
 const FormRegion = lazy(() => import('@/pages/FormRegion'))
 const FormCity = lazy(() => import('@/pages/FormCity'))
+const FormISPLink = lazy(() => import('@/pages/FormISPLink'))
 const FormSite = lazy(() => import('@/pages/FormSite'))
 const FormDepartamento = lazy(() => import('@/pages/FormDepartamento'))
 const FormCargo = lazy(() => import('@/pages/FormCargo'))
@@ -248,6 +249,19 @@ export default function FormRoutes() {
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.CITIES.READ} />}
 				>
 					<Route path="city/edit/:id" element={suspended(FormCity)} />
+				</Route>
+
+				<Route
+					element={
+						<ProtectedByPermissionRoute permission={PERMISSIONS.ISP_LINKS.CREATE} />
+					}
+				>
+					<Route path="isplink/add" element={suspended(FormISPLink)} />
+				</Route>
+				<Route
+					element={<ProtectedByPermissionRoute permission={PERMISSIONS.ISP_LINKS.READ} />}
+				>
+					<Route path="isplink/edit/:id" element={suspended(FormISPLink)} />
 				</Route>
 
 				<Route

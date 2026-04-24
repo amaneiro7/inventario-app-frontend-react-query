@@ -12,5 +12,7 @@ export const mapLocationFromState = (location: LocationDto): DefaultLocation => 
 	name: location.name,
 	subnet: location.subnet,
 	locationStatusId: location.locationStatusId,
+	agencyClassification: location.agencyClassification,
+	isplinks: location.ispLinks.map(ispLink => ispLink.id),
 	updatedAt: location?.updatedAt
 })

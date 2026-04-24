@@ -198,6 +198,12 @@ export const navigation: Navigation[] = [
 				permission: PERMISSIONS.LOCATIONS.CREATE
 			},
 			{
+				title: 'Agregar Nuevo Proveedor de servicio ISP',
+				path: '/form/isplink/add',
+				desc: 'Registra un nuev proveedor de servicio ISP.',
+				permission: PERMISSIONS.ISP_LINKS.CREATE
+			},
+			{
 				title: 'Agregar Nuevo Sitio', // Distinción clara de Ubicación
 				path: '/form/site/add',
 				desc: 'Crea un nuevo sitio específico (ej. un piso, un área) dentro de una ubicación registrada.',
