@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
-import Typography from '../Typography'
 import { cn } from '@/shared/lib/utils'
+import Typography from '../Typography'
 
 interface InfoBoxTextProps {
 	text: string | React.ReactNode

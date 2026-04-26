@@ -46,7 +46,7 @@ export const DetailsPanel = memo(
 
 		return (
 			<section
-				className="h-withoutHeader flex flex-col space-y-2 overflow-y-auto p-1"
+				className="flex h-screen flex-col space-y-2 overflow-y-auto p-1"
 				aria-labelledby={panelTitleId}
 				aria-describedby={panelDescriptionId}
 				role="region"
