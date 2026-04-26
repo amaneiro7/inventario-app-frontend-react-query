@@ -123,7 +123,6 @@ export type Action =
 	| { type: 'addISPLink'; payload: { value: string } }
 	| { type: 'removeISPLink'; payload: { value: string } }
 
-
 export const locationFormReducer = (state: State, action: Action): State => {
 	switch (action.type) {
 		case 'reset':
@@ -294,6 +293,39 @@ export const locationFormReducer = (state: State, action: Action): State => {
 			return {
 				...state,
 				formData: { ...state.formData, locationStatusId }
+			}
+		}
+		case 'agencyClassification': {
+			const agencyClassification = action.payload.value
+			return {
+				...state,
+				formData: { ...state.formData, agencyClassification },
+				errors: {
+					...state.errors,
+					agencyClassification: agencyClassification
+						? ''
+						: 'La clasificación de agencia es requerida para este tipo de sitio'
+				}
+			}
+		}
+		case 'addISPLink': {
+			const value = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					isplinks: [...state.formData.isplinks, value]
+				}
+			}
+		}
+		case 'removeISPLink': {
+			const value = action.payload.value
+			return {
+				...state,
+				formData: {
+					...state.formData,
+					isplinks: state.formData.isplinks.filter(link => link !== value)
+				}
 			}
 		}
 		default:

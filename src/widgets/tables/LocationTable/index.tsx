@@ -139,10 +139,36 @@ export const LocationDataWrapper = memo(
 										text={location?.site?.address}
 									/>
 									<InfoBoxText
+										desc="Región Administrativa"
+										text={
+											location?.site?.city?.state?.region
+												?.administrativeRegion?.name
+										}
+									/>
+									<InfoBoxText
+										desc="Región"
+										text={location?.site?.city?.state?.region?.name}
+									/>
+									<InfoBoxText
 										desc="Estado"
 										text={location?.site?.city?.state?.name}
 									/>
 									<InfoBoxText desc="Ciudad" text={location?.site?.city?.name} />
+									{location?.agencyClassification && (
+										<InfoBoxText
+											desc="Clasificación de la Agencia"
+											text={location.agencyClassification}
+										/>
+									)}
+									{location.ispLinks.length > 0 && (
+										<InfoBoxText
+											desc="Enlaces ISP"
+											text={location.ispLinks
+												.map(link => link.name)
+												.join(', ')}
+										/>
+									)}
+
 									<InfoBoxText desc="Subnet" text={location?.subnet ?? 'N/A'} />
 								</InfoBox>
 							)
