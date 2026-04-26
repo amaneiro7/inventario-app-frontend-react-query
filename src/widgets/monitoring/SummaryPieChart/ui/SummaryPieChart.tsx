@@ -34,7 +34,7 @@ export const SummaryPieChart = memo(
 		return (
 			<section
 				id={sectionId}
-				className="h-[400px] rounded-lg border bg-slate-100 shadow-lg"
+				className="h-100 rounded-lg border bg-slate-100 shadow-lg"
 				role="region"
 				aria-labelledby={chartElementTitleId}
 				aria-describedby={chartElementDescriptionId}

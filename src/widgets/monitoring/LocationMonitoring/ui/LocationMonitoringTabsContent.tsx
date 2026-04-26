@@ -75,7 +75,7 @@ export const LocationMonitoringTabsContent = memo(
 							/>
 						)}
 					>
-						<section className="bg-muted/20 relative flex min-h-[400px] flex-col justify-between rounded-lg border p-4">
+						<section className="bg-muted/20 relative flex min-h-100 flex-col justify-between rounded-lg border p-4">
 							<Suspense
 								fallback={<MonitoringMapSkeleton pageSize={query.pageSize} />}
 							>

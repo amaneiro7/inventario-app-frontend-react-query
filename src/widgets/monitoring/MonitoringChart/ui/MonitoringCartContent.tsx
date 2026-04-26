@@ -62,7 +62,7 @@ export const MonitoringCartContent = ({
 
 const ListSkeleton = () => (
 	<section
-		className="animate-pulse-medium flex h-[400px] flex-col gap-4 rounded-lg border bg-slate-100 p-6 pb-0.5 shadow-lg"
+		className="animate-pulse-medium flex h-100 flex-col gap-4 rounded-lg border bg-slate-100 p-6 pb-0.5 shadow-lg"
 		aria-labelledby="state-details-title"
 	>
 		<div className="h-7 w-4/6 rounded bg-gray-300" />
