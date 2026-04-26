@@ -116,8 +116,8 @@ export const PieContent = memo(
 									dataKey={dataKey}
 									tabIndex={0}
 									isAnimationActive={isAnimationActive}
-									shape={MyCustomPie}
-								></Pie>
+									shape={props => <MyCustomPie {...props} colors={colors} />}
+								/>
 								<Tooltip
 									formatter={(value, name) => [value, name]}
 									contentStyle={{
