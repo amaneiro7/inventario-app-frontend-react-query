@@ -1,16 +1,27 @@
 import { lazy, Suspense } from 'react'
 import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 import { useLocationMonitoringFilter } from '@/entities/locations/locationMonitoring/infra/hook/useLocationMonitoringFilters'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/shared/ui/FilterSection'
-import { LocationMonitoringSummary } from '@/widgets/monitoring/MonitoringSummary/ui/LocationMonitoringSummary'
-import { LocationMonitoringTabsContent } from '@/widgets/monitoring/LocationMonitoring/ui/LocationMonitoringTabsContent'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
+import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 
-const PrimaryFilterSkeleton = lazy(() =>
-	import('@/widgets/tables/PrimaryFilterSkeleton').then(m => ({
-		default: m.PrimaryFilterSkeleton
+const DetailsBoxWrapper = lazy(() =>
+	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
+		default: m.DetailsBoxWrapper
+	}))
+)
+const FilterSection = lazy(() =>
+	import('@/shared/ui/FilterSection').then(m => ({ default: m.FilterSection }))
+)
+const LocationMonitoringSummary = lazy(() =>
+	import('@/widgets/monitoring/MonitoringSummary/ui/LocationMonitoringSummary').then(m => ({
+		default: m.LocationMonitoringSummary
+	}))
+)
+const LocationMonitoringTabsContent = lazy(() =>
+	import('@/widgets/monitoring/LocationMonitoring/ui/LocationMonitoringTabsContent').then(m => ({
+		default: m.LocationMonitoringTabsContent
 	}))
 )
 
@@ -46,22 +57,24 @@ export default function MonitoringLocation() {
 						/>
 					)}
 				>
-					<FilterSection>
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
 						<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={8} />}>
-							<MainLocationMonitoringFilter
-								subnet={query.subnet}
-								status={query.status}
-								locationId={query.locationId}
-								typeOfSiteId={query.typeOfSiteId}
-								cityId={query.cityId}
-								stateId={query.stateId}
-								regionId={query.regionId}
-								siteId={query.siteId}
-								administrativeRegionId={query.administrativeRegionId}
-								handleChange={handleChange}
-							/>
+							<FilterSection>
+								<MainLocationMonitoringFilter
+									subnet={query.subnet}
+									status={query.status}
+									locationId={query.locationId}
+									typeOfSiteId={query.typeOfSiteId}
+									cityId={query.cityId}
+									stateId={query.stateId}
+									regionId={query.regionId}
+									siteId={query.siteId}
+									administrativeRegionId={query.administrativeRegionId}
+									handleChange={handleChange}
+								/>
+							</FilterSection>
 						</Suspense>
-					</FilterSection>
+					</CollapsableBoxWrapper>
 				</ErrorBoundary>
 			</DetailsBoxWrapper>
 

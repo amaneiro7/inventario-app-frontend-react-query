@@ -13,7 +13,7 @@ interface StateMonitoringListProps {
 export const StateMonitoringList = memo(({ statesData }: StateMonitoringListProps) => {
 	return (
 		<section
-			className="flex h-[400px] flex-col gap-1.5 rounded-lg border bg-slate-100 p-6 pb-0.5 shadow-lg"
+			className="flex h-100 flex-col gap-1.5 rounded-lg border bg-slate-100 p-6 pb-0.5 shadow-lg"
 			aria-labelledby="state-details-title"
 		>
 			<Typography variant="h4" color="azul" id="state-details-title">

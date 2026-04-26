@@ -4,8 +4,10 @@ import { cn } from '@/shared/lib/utils'
 import Typography from '../Typography'
 
 // 1. Se actualiza la interfaz de las props
-interface BasicStatCardProps
-	extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface BasicStatCardProps extends React.DetailedHTMLProps<
+	React.HTMLAttributes<HTMLDivElement>,
+	HTMLDivElement
+> {
 	title: string
 	icon?: ReactNode
 	value?: ReactNode // Se cambia de 'string' a 'ReactNode' para aceptar componentes
@@ -47,7 +49,7 @@ export const BasicStatCard = memo(
 					</CardTitle>
 					{icon}
 				</CardHeader>
-				<CardContent className="flex-grow p-0">
+				<CardContent className="grow p-0">
 					{loading ? (
 						<SkeletonText className="my-1 h-8 w-1/2" />
 					) : (

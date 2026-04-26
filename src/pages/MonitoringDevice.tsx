@@ -1,22 +1,33 @@
 import { lazy, Suspense } from 'react'
 import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 import { useDeviceMonitoringFilter } from '@/entities/devices/deviceMonitoring/infra/hook/useDeviceMonitoringFilters'
-import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
-import { FilterSection } from '@/shared/ui/FilterSection'
-import { DeviceMonitoringSummary } from '@/widgets/monitoring/MonitoringSummary/ui/DeviceMonitoringSummary'
-import { DeviceMonitoringTabsContent } from '@/widgets/monitoring/DeviceMonitoring/ui/DeviceMonitoringTabsContent'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
-
-const PrimaryFilterSkeleton = lazy(() =>
-	import('@/widgets/tables/PrimaryFilterSkeleton').then(m => ({
-		default: m.PrimaryFilterSkeleton
-	}))
-)
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
+import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 
 const MainDeviceMonitoringFilter = lazy(() =>
 	import('@/widgets/monitoring/DeviceMonitoring/ui/MainDeviceMonitoringFilter').then(m => ({
 		default: m.MainDeviceMonitoringFilter
+	}))
+)
+
+const DetailsBoxWrapper = lazy(() =>
+	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
+		default: m.DetailsBoxWrapper
+	}))
+)
+const FilterSection = lazy(() =>
+	import('@/shared/ui/FilterSection').then(m => ({ default: m.FilterSection }))
+)
+const DeviceMonitoringSummary = lazy(() =>
+	import('@/widgets/monitoring/MonitoringSummary/ui/DeviceMonitoringSummary').then(m => ({
+		default: m.DeviceMonitoringSummary
+	}))
+)
+const DeviceMonitoringTabsContent = lazy(() =>
+	import('@/widgets/monitoring/DeviceMonitoring/ui/DeviceMonitoringTabsContent').then(m => ({
+		default: m.DeviceMonitoringTabsContent
 	}))
 )
 
@@ -30,7 +41,7 @@ export default function MonitoringDevice() {
 					<WidgetErrorFallback
 						onReset={onReset}
 						variant="compact"
-						message="Los datos Totaloes no estan disponibles."
+						message="Los datos Totales no estan disponibles."
 					/>
 				)}
 			>
@@ -46,22 +57,24 @@ export default function MonitoringDevice() {
 						/>
 					)}
 				>
-					<FilterSection>
-						<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={8} />}>
-							<MainDeviceMonitoringFilter
-								ipAddress={query.ipAddress}
-								status={query.status}
-								computerName={query.computerName}
-								locationId={query.locationId}
-								cityId={query.cityId}
-								stateId={query.stateId}
-								regionId={query.regionId}
-								siteId={query.siteId}
-								administrativeRegionId={query.administrativeRegionId}
-								handleChange={handleChange}
-							/>
-						</Suspense>
-					</FilterSection>
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
+						<FilterSection>
+							<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={9} />}>
+								<MainDeviceMonitoringFilter
+									ipAddress={query.ipAddress}
+									status={query.status}
+									computerName={query.computerName}
+									locationId={query.locationId}
+									cityId={query.cityId}
+									stateId={query.stateId}
+									regionId={query.regionId}
+									siteId={query.siteId}
+									administrativeRegionId={query.administrativeRegionId}
+									handleChange={handleChange}
+								/>
+							</Suspense>
+						</FilterSection>
+					</CollapsableBoxWrapper>
 				</ErrorBoundary>
 			</DetailsBoxWrapper>
 

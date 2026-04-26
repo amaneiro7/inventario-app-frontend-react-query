@@ -48,12 +48,13 @@ export const MonitoringSummary = memo(
 
 		return (
 			<section
-				className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+				className="flex gap-4"
 				aria-label="Resumen del Estado de la Conectividad de la Red"
 				role="region"
 			>
 				<BasicStatCard
 					title="Total de Conexiones"
+					className="min-w-fit flex-2"
 					icon={
 						<Icon name="server" className="h-4 w-4 text-gray-600" aria-hidden="true" />
 					}
@@ -63,6 +64,7 @@ export const MonitoringSummary = memo(
 				/>
 				<BasicStatCard
 					title="Conexiones Activas"
+					className="min-w-fit flex-2"
 					icon={<Icon name="wifi" className="text-verde h-4 w-4" aria-hidden="true" />}
 					value={<CountUpComponent end={online} duration={1.5} separator="." />}
 					desc={`${totalOnlinePercentage}% del total`}
@@ -70,6 +72,7 @@ export const MonitoringSummary = memo(
 				/>
 				<BasicStatCard
 					title="Conexiones Inactivas"
+					className="min-w-fit flex-2"
 					icon={<Icon name="wifiOff" className="text-rojo h-4 w-4" aria-hidden="true" />}
 					value={<CountUpComponent end={offline} duration={1.5} separator="." />}
 					desc={`${totalOfflinePercentage}% del total`}
@@ -77,6 +80,7 @@ export const MonitoringSummary = memo(
 				/>
 				<BasicStatCard
 					title="Última Actualización"
+					className="min-w-fit flex-3"
 					icon={
 						<Icon
 							name="activity"
