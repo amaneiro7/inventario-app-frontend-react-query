@@ -8,6 +8,7 @@ import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelServ
 import { type FilterAsideRef } from '@/widgets/FilterAside'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
 
 const DetailsBoxWrapper = lazy(() =>
 	import('@/shared/ui/DetailsWrapper/DetailsBoxWrapper').then(m => ({
@@ -63,53 +64,64 @@ export default function ListEmployee() {
 				)}
 			>
 				<DetailsBoxWrapper>
-					<FilterSection>
-						<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={6} />}>
-							<EmployeePrimaryFilter
-								cargoId={query.cargoId}
-								isStillWorking={query.isStillWorking}
-								locationId={query.locationId}
-								departamentoId={query.departamentoId}
-								vicepresidenciaId={query.vicepresidenciaId}
-								type={query.type}
-								cityId={query.cityId}
-								stateId={query.stateId}
-								regionId={query.regionId}
-								userName={query.userName}
-								handleChange={handleChange}
-							/>
-						</Suspense>
-						<Suspense fallback={null}>
-							<FilterAside ref={filterAsideRef}>
-								<EmployeeOtherFilter
-									name={query.name}
-									lastName={query.lastName}
-									email={query.email}
-									cedula={query.cedula}
-									employeeCode={query.employeeCode}
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
+						<Suspense
+							fallback={
+								<>
+									<PrimaryFilterSkeleton inputQuantity={6} />
+									<ButtonSectionSkeleton />
+								</>
+							}
+						>
+							<FilterSection>
+								<EmployeePrimaryFilter
+									cargoId={query.cargoId}
+									isStillWorking={query.isStillWorking}
+									locationId={query.locationId}
+									departamentoId={query.departamentoId}
 									vicepresidenciaId={query.vicepresidenciaId}
-									directivaId={query.directivaId}
-									vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-									regionId={query.regionId}
-									stateId={query.stateId}
+									type={query.type}
 									cityId={query.cityId}
+									stateId={query.stateId}
+									regionId={query.regionId}
+									userName={query.userName}
 									handleChange={handleChange}
 								/>
-							</FilterAside>
+
+								<Suspense fallback={null}>
+									<FilterAside ref={filterAsideRef}>
+										<EmployeeOtherFilter
+											name={query.name}
+											lastName={query.lastName}
+											email={query.email}
+											cedula={query.cedula}
+											employeeCode={query.employeeCode}
+											vicepresidenciaId={query.vicepresidenciaId}
+											directivaId={query.directivaId}
+											vicepresidenciaEjecutivaId={
+												query.vicepresidenciaEjecutivaId
+											}
+											regionId={query.regionId}
+											stateId={query.stateId}
+											cityId={query.cityId}
+											handleChange={handleChange}
+										/>
+									</FilterAside>
+								</Suspense>
+							</FilterSection>
+
+							<ButtonSection
+								handleExportToExcel={handleDownloadToExcel}
+								loading={isDownloading}
+								filterButton
+								handleClear={cleanFilters}
+								handleAdd={() => {
+									navigate('/form/employee/add')
+								}}
+								handleFilter={() => filterAsideRef.current?.handleOpen()}
+							/>
 						</Suspense>
-					</FilterSection>
-					<Suspense fallback={<ButtonSectionSkeleton />}>
-						<ButtonSection
-							handleExportToExcel={handleDownloadToExcel}
-							loading={isDownloading}
-							filterButton
-							handleClear={cleanFilters}
-							handleAdd={() => {
-								navigate('/form/employee/add')
-							}}
-							handleFilter={() => filterAsideRef.current?.handleOpen()}
-						/>
-					</Suspense>
+					</CollapsableBoxWrapper>
 				</DetailsBoxWrapper>
 			</ErrorBoundary>
 			<ErrorBoundary

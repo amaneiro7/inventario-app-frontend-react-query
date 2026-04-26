@@ -7,6 +7,7 @@ import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 import { type FilterAsideRef } from '@/widgets/FilterAside'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
 // import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
 const DetailsBoxWrapper = lazy(() =>
@@ -64,42 +65,51 @@ export default function ListShipment() {
 				)}
 			>
 				<DetailsBoxWrapper>
-					<FilterSection>
-						<Suspense fallback={<PrimaryFilterSkeleton />}>
-							<ShipmentPrimaryFilter
-								handleChange={handleChange}
-								shipmentCode={query.shipmentCode}
-								status={query.status}
-								destination={query.destination}
-								shipmentDate={query.shipmentDate}
-								deliveryDate={query.deliveryDate}
-								sentBy={query.sentBy}
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
+						<Suspense
+							fallback={
+								<>
+									<PrimaryFilterSkeleton inputQuantity={6} />
+									<ButtonSectionSkeleton hasDownloadButton={false} />
+								</>
+							}
+						>
+							<FilterSection>
+								<ShipmentPrimaryFilter
+									handleChange={handleChange}
+									shipmentCode={query.shipmentCode}
+									status={query.status}
+									destination={query.destination}
+									shipmentDate={query.shipmentDate}
+									deliveryDate={query.deliveryDate}
+									sentBy={query.sentBy}
+								/>
+
+								<Suspense fallback={null}>
+									<FilterAside ref={filterAsideRef}>
+										<ShipmentOtherFilter
+											reason={query.reason}
+											origin={query.origin}
+											receivedBy={query.receivedBy}
+											trackingNumber={query.trackingNumber}
+											observation={query.observation}
+											deviceId={query.deviceId}
+											handleChange={handleChange}
+										/>
+									</FilterAside>
+								</Suspense>
+							</FilterSection>
+
+							<ButtonSection
+								handleClear={cleanFilters}
+								filterButton
+								handleAdd={() => {
+									navigate('/form/shipment/add')
+								}}
+								handleFilter={() => filterAsideRef.current?.handleOpen()}
 							/>
 						</Suspense>
-						<Suspense fallback={null}>
-							<FilterAside ref={filterAsideRef}>
-								<ShipmentOtherFilter
-									reason={query.reason}
-									origin={query.origin}
-									receivedBy={query.receivedBy}
-									trackingNumber={query.trackingNumber}
-									observation={query.observation}
-									deviceId={query.deviceId}
-									handleChange={handleChange}
-								/>
-							</FilterAside>
-						</Suspense>
-					</FilterSection>
-					<Suspense fallback={<ButtonSectionSkeleton />}>
-						<ButtonSection
-							handleClear={cleanFilters}
-							filterButton
-							handleAdd={() => {
-								navigate('/form/shipment/add')
-							}}
-							handleFilter={() => filterAsideRef.current?.handleOpen()}
-						/>
-					</Suspense>
+					</CollapsableBoxWrapper>
 				</DetailsBoxWrapper>
 			</ErrorBoundary>
 			<ErrorBoundary

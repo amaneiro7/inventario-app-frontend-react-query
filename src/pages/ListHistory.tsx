@@ -6,6 +6,7 @@ import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionS
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
 // import { useDownloadExcelService } from '@/hooks/useDownloadExcelService'
 //components
 const TableHistoryWrapper = lazy(() =>
@@ -53,27 +54,38 @@ export default function ListHstory() {
 				)}
 			>
 				<DetailsBoxWrapper>
-					<FilterSection>
-						<Suspense fallback={<PrimaryFilterSkeleton />}>
-							<HistoryPrimaryFilter
-								employeeId={query.employeeId}
-								deviceId={query.deviceId}
-								userId={query.userId}
-								action={query.action}
-								startDate={query.startDate}
-								endDate={query.endDate}
-								handleChange={handleChange}
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
+						<Suspense
+							fallback={
+								<>
+									<PrimaryFilterSkeleton inputQuantity={6} />
+									<ButtonSectionSkeleton
+										hasDownloadButton={false}
+										hasFilterButton={false}
+									/>
+								</>
+							}
+						>
+							<FilterSection>
+								<HistoryPrimaryFilter
+									employeeId={query.employeeId}
+									deviceId={query.deviceId}
+									userId={query.userId}
+									action={query.action}
+									startDate={query.startDate}
+									endDate={query.endDate}
+									handleChange={handleChange}
+								/>
+							</FilterSection>
+
+							<ButtonSection
+								handleClear={cleanFilters}
+								handleAdd={() => {
+									navigate('/form/device/add')
+								}}
 							/>
 						</Suspense>
-					</FilterSection>
-					<Suspense fallback={<ButtonSectionSkeleton />}>
-						<ButtonSection
-							handleClear={cleanFilters}
-							handleAdd={() => {
-								navigate('/form/device/add')
-							}}
-						/>
-					</Suspense>
+					</CollapsableBoxWrapper>
 				</DetailsBoxWrapper>
 			</ErrorBoundary>
 			<ErrorBoundary

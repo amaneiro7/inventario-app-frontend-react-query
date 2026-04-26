@@ -8,6 +8,7 @@ import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 import { type FilterAsideRef } from '@/widgets/FilterAside'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
 
 const TableScreenWrapper = lazy(() =>
 	import('@/widgets/tables/ScreenTable').then(m => ({ default: m.TableScreenWrapper }))
@@ -71,56 +72,63 @@ export default function ListMonitor() {
 				)}
 			>
 				<DetailsBoxWrapper>
-					<FilterSection>
-						<Suspense fallback={<PrimaryFilterSkeleton />}>
-							<ComputerPrimaryFilter
-								categoryId={query.categoryId}
-								employeeId={query.employeeId}
-								serial={query.serial}
-								locationId={query.locationId}
-								regionId={query.regionId}
-								administrativeRegionId={query.administrativeRegionId}
-								mainCategoryId={mainCategoryId}
-								typeOfSiteId={query.typeOfSiteId}
-								directivaId={query.directivaId}
-								vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-								vicepresidenciaId={query.vicepresidenciaId}
-								departamentoId={query.departamentoId}
-								handleChange={handleChange}
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
+						<Suspense
+							fallback={
+								<>
+									<PrimaryFilterSkeleton inputQuantity={7} />
+									<ButtonSectionSkeleton />
+								</>
+							}
+						>
+							<FilterSection>
+								<ComputerPrimaryFilter
+									categoryId={query.categoryId}
+									employeeId={query.employeeId}
+									serial={query.serial}
+									locationId={query.locationId}
+									regionId={query.regionId}
+									administrativeRegionId={query.administrativeRegionId}
+									mainCategoryId={mainCategoryId}
+									typeOfSiteId={query.typeOfSiteId}
+									directivaId={query.directivaId}
+									vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
+									vicepresidenciaId={query.vicepresidenciaId}
+									departamentoId={query.departamentoId}
+									handleChange={handleChange}
+								/>
+
+								<Suspense fallback={null}>
+									<FilterAside ref={filterAsideRef}>
+										<DevicePrimaryFilter
+											activo={query.activo}
+											statusId={query.statusId}
+											brandId={query.brandId}
+											modelId={query.modelId}
+											categoryId={query.categoryId}
+											mainCategoryId={mainCategoryId}
+											stateId={query.stateId}
+											regionId={query.regionId}
+											administrativeRegionId={query.administrativeRegionId}
+											cityId={query.cityId}
+											handleChange={handleChange}
+										/>
+									</FilterAside>
+								</Suspense>
+							</FilterSection>
+
+							<ButtonSection
+								handleExportToExcel={handleDownloadToExcel}
+								loading={isDownloading}
+								handleClear={cleanFilters}
+								handleAdd={() => {
+									navigate('/form/device/add')
+								}}
+								filterButton
+								handleFilter={() => filterAsideRef.current?.handleOpen()}
 							/>
 						</Suspense>
-						<Suspense fallback={null}>
-							<FilterAside ref={filterAsideRef}>
-								<Suspense>
-									<DevicePrimaryFilter
-										activo={query.activo}
-										statusId={query.statusId}
-										brandId={query.brandId}
-										modelId={query.modelId}
-										categoryId={query.categoryId}
-										mainCategoryId={mainCategoryId}
-										stateId={query.stateId}
-										regionId={query.regionId}
-										administrativeRegionId={query.administrativeRegionId}
-										cityId={query.cityId}
-										handleChange={handleChange}
-									/>
-								</Suspense>
-							</FilterAside>
-						</Suspense>
-					</FilterSection>
-					<Suspense fallback={<ButtonSectionSkeleton />}>
-						<ButtonSection
-							handleExportToExcel={handleDownloadToExcel}
-							loading={isDownloading}
-							handleClear={cleanFilters}
-							handleAdd={() => {
-								navigate('/form/device/add')
-							}}
-							filterButton
-							handleFilter={() => filterAsideRef.current?.handleOpen()}
-						/>
-					</Suspense>
+					</CollapsableBoxWrapper>
 				</DetailsBoxWrapper>
 			</ErrorBoundary>
 			<ErrorBoundary

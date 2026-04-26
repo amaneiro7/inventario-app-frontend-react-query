@@ -8,6 +8,7 @@ import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionS
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
 
 const TableModelWrapper = lazy(() =>
 	import('@/widgets/tables/ModelTable').then(m => ({ default: m.TableModelWrapper }))
@@ -54,27 +55,35 @@ export default function ListModel() {
 				)}
 			>
 				<DetailsBoxWrapper>
-					<FilterSection>
-						<Suspense fallback={<PrimaryFilterSkeleton />}>
-							<ModelPrimaryFilter
-								handleChange={handleChange}
-								categoryId={query.categoryId}
-								mainCategoryId={query.mainCategoryId}
-								brandId={query.brandId}
-								id={query.id}
+					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
+						<Suspense
+							fallback={
+								<>
+									<PrimaryFilterSkeleton inputQuantity={4} />
+									<ButtonSectionSkeleton hasFilterButton={false} />
+								</>
+							}
+						>
+							<FilterSection>
+								<ModelPrimaryFilter
+									handleChange={handleChange}
+									categoryId={query.categoryId}
+									mainCategoryId={query.mainCategoryId}
+									brandId={query.brandId}
+									id={query.id}
+								/>
+							</FilterSection>
+
+							<ButtonSection
+								handleExportToExcel={handleDownloadToExcel}
+								loading={isDownloading}
+								handleClear={cleanFilters}
+								handleAdd={() => {
+									navigate('/form/model/add')
+								}}
 							/>
 						</Suspense>
-					</FilterSection>
-					<Suspense fallback={<ButtonSectionSkeleton />}>
-						<ButtonSection
-							handleExportToExcel={handleDownloadToExcel}
-							loading={isDownloading}
-							handleClear={cleanFilters}
-							handleAdd={() => {
-								navigate('/form/model/add')
-							}}
-						/>
-					</Suspense>
+					</CollapsableBoxWrapper>
 				</DetailsBoxWrapper>
 			</ErrorBoundary>
 			<ErrorBoundary
