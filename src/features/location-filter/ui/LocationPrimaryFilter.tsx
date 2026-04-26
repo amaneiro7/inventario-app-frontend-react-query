@@ -1,26 +1,7 @@
-import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { lazy, memo } from 'react'
+import { useLocationPrimaryFilter } from '../model/useLocationPrimaryFilter'
 import { Input } from '@/shared/ui/Input/Input'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
-const RegionCombobox = lazy(() =>
-	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
-		default: m.RegionCombobox
-	}))
-)
-const AdministrativeRegionCombobox = lazy(() =>
-	import('@/entities/locations/administrativeRegion/infra/ui/AdministrativeRegionComboBox').then(
-		m => ({
-			default: m.AdministrativeRegionCombobox
-		})
-	)
-)
-const LocationStatusComboBox = lazy(() =>
-	import('@/entities/locations/locationStatus/infra/ui/LocationStatusComboBox').then(m => ({
-		default: m.LocationStatusCombobox
-	}))
-)
 const StateCombobox = lazy(() =>
 	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
 		default: m.StateCombobox
@@ -36,9 +17,9 @@ const TypeOfSiteCombobox = lazy(() =>
 		default: m.TypeOfSiteCombobox
 	}))
 )
+
 interface LocationPrimaryFilterProps {
 	name?: string
-	locationStatusId?: string
 	subnet?: string
 	typeOfSiteId?: string | string[]
 	cityId?: string
@@ -54,112 +35,56 @@ export const LocationPrimaryFilter = memo(
 		subnet,
 		typeOfSiteId,
 		cityId,
-		locationStatusId,
 		stateId,
 		regionId,
 		administrativeRegionId,
 		handleChange
 	}: LocationPrimaryFilterProps) => {
-		const [localName, setLocalName] = useState(name ?? '')
-		const [localSubnet, setLocalSubnet] = useState(subnet ?? '')
-		const [debouncedName] = useDebounce(localName)
-		const [debouncedSubnet] = useDebounce(localSubnet)
-
-		useEffectAfterMount(() => {
-			handleChange('name', debouncedName)
-		}, [debouncedName])
-
-		useEffectAfterMount(() => {
-			handleChange('subnet', debouncedSubnet)
-		}, [debouncedSubnet])
-
-		useEffectAfterMount(() => {
-			if (!name) {
-				setLocalName('')
-			}
-		}, [name])
-
-		useEffectAfterMount(() => {
-			if (!subnet) {
-				setLocalSubnet('')
-			}
-		}, [subnet])
-
-		const handleName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toLowerCase()
-			setLocalName(value)
-		}, [])
-
-		const handleSubnet = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toLowerCase()
-			setLocalSubnet(value)
-		}, [])
+		const { handleName, handleSubnet, localName, localSubnet } = useLocationPrimaryFilter({
+			handleChange,
+			name,
+			subnet
+		})
 
 		return (
 			<>
+				{/* Grupo 1: Búsqueda y Estado */}
 				<Input
 					id="siteName-search"
 					value={localName}
 					name="name"
-					label="Nombre del sitio"
+					label="Nombre de la ubicación"
 					type="search"
 					onChange={handleName}
 				/>
-				<Suspense fallback={<InputFallback />}>
-					<LocationStatusComboBox
-						handleChange={handleChange}
-						name="locationStatusId"
-						value={locationStatusId}
-					/>
-				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<AdministrativeRegionCombobox
-						handleChange={handleChange}
-						name="administrativeRegionId"
-						value={administrativeRegionId}
-					/>
-				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<RegionCombobox
-						handleChange={handleChange}
-						name="regionId"
-						value={regionId}
-						administrativeRegionId={administrativeRegionId}
-					/>
-				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<StateCombobox
-						handleChange={handleChange}
-						name="stateId"
-						value={stateId}
-						regionId={regionId}
-						administrativeRegionId={administrativeRegionId}
-					/>
-				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<CityCombobox
-						handleChange={handleChange}
-						name="cityId"
-						value={cityId}
-						regionId={regionId}
-						stateId={stateId}
-						administrativeRegionId={administrativeRegionId}
-					/>
-				</Suspense>
 
-				<Suspense fallback={<InputFallback />}>
-					<TypeOfSiteCombobox
-						name="typeOfSiteId"
-						value={typeof typeOfSiteId === 'string' ? typeOfSiteId : ''}
-						handleChange={handleChange}
-					/>
-				</Suspense>
+				<TypeOfSiteCombobox
+					name="typeOfSiteId"
+					value={typeof typeOfSiteId === 'string' ? typeOfSiteId : ''}
+					handleChange={handleChange}
+				/>
+
+				<StateCombobox
+					handleChange={handleChange}
+					name="stateId"
+					value={stateId}
+					regionId={regionId}
+					administrativeRegionId={administrativeRegionId}
+				/>
+				<CityCombobox
+					handleChange={handleChange}
+					name="cityId"
+					value={cityId}
+					regionId={regionId}
+					stateId={stateId}
+					administrativeRegionId={administrativeRegionId}
+				/>
 
 				<Input
 					id="site-subnet-search"
 					value={localSubnet}
 					name="subnet"
-					label="Subnet del sitio"
+					label="Subnet"
 					type="search"
 					onChange={handleSubnet}
 				/>

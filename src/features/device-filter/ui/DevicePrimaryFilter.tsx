@@ -1,9 +1,7 @@
-import { lazy, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { lazy } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
-import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { Divider } from '../../../shared/ui/Divider'
+import { useDevicePrimaryFilter } from '../model/useDevicePrimaryFilter'
 
 const CityCombobox = lazy(() =>
 	import('@/entities/locations/city/infra/ui/CityComboBox').then(m => ({
@@ -41,11 +39,11 @@ const DirectivaCombobox = lazy(() =>
 	}))
 )
 const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import(
-		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-	).then(m => ({
-		default: m.VicepresidenciaEjecutivaCombobox
-	}))
+	import('@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox').then(
+		m => ({
+			default: m.VicepresidenciaEjecutivaCombobox
+		})
+	)
 )
 const VicepresidenciaCombobox = lazy(() =>
 	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
@@ -88,23 +86,10 @@ export function DevicePrimaryFilter({
 	cityId?: string
 	handleChange: (name: string, value: string | number) => void
 }) {
-	const [localActivo, setLocalActivo] = useState(activo ?? '')
-	const [debounceActivo] = useDebounce(localActivo)
-
-	useEffectAfterMount(() => {
-		handleChange('activo', debounceActivo)
-	}, [debounceActivo])
-
-	useEffectAfterMount(() => {
-		if (!activo) {
-			setLocalActivo('')
-		}
-	}, [activo])
-
-	const handleActivo = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.value.trim().toUpperCase()
-		setLocalActivo(value)
-	}, [])
+	const { handleActivo, localActivo } = useDevicePrimaryFilter({
+		activo,
+		handleChange
+	})
 	return (
 		<>
 			<Input
@@ -116,87 +101,71 @@ export function DevicePrimaryFilter({
 				onChange={handleActivo}
 			/>
 
-			<Suspense fallback={<InputFallback />}>
-				<StatusCombobox handleChange={handleChange} name="statusId" value={statusId} />
-			</Suspense>
+			<StatusCombobox handleChange={handleChange} name="statusId" value={statusId} />
 
-			<Suspense fallback={<InputFallback />}>
-				<BrandCombobox
-					handleChange={handleChange}
-					name="brandId"
-					value={brandId}
-					mainCategoryId={mainCategoryId}
-				/>
-			</Suspense>
+			<BrandCombobox
+				handleChange={handleChange}
+				name="brandId"
+				value={brandId}
+				mainCategoryId={mainCategoryId}
+			/>
 
-			<Suspense fallback={<InputFallback />}>
-				<ModelCombobox
-					handleChange={handleChange}
-					brandId={brandId}
-					categoryId={categoryId}
-					mainCategoryId={mainCategoryId}
-					name="modelId"
-					value={modelId}
-				/>
-			</Suspense>
+			<ModelCombobox
+				handleChange={handleChange}
+				brandId={brandId}
+				categoryId={categoryId}
+				mainCategoryId={mainCategoryId}
+				name="modelId"
+				value={modelId}
+			/>
 
 			<Divider />
-			<Suspense fallback={<InputFallback />}>
-				<StateCombobox
-					handleChange={handleChange}
-					name="stateId"
-					regionId={regionId}
-					administrativeRegionId={administrativeRegionId}
-					value={stateId}
-				/>
-			</Suspense>
 
-			<Suspense fallback={<InputFallback />}>
-				<CityCombobox
-					handleChange={handleChange}
-					name="cityId"
-					stateId={stateId}
-					regionId={regionId}
-					administrativeRegionId={administrativeRegionId}
-					value={cityId}
-				/>
-			</Suspense>
+			<StateCombobox
+				handleChange={handleChange}
+				name="stateId"
+				regionId={regionId}
+				administrativeRegionId={administrativeRegionId}
+				value={stateId}
+			/>
+
+			<CityCombobox
+				handleChange={handleChange}
+				name="cityId"
+				stateId={stateId}
+				regionId={regionId}
+				administrativeRegionId={administrativeRegionId}
+				value={cityId}
+			/>
+
 			<Divider />
-			<Suspense fallback={<InputFallback />}>
-				<DirectivaCombobox
-					name="directivaId"
-					handleChange={handleChange}
-					value={directivaId}
-				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
-				<VicepresidenciaEjecutivaCombobox
-					name="vicepresidenciaEjecutivaId"
-					handleChange={handleChange}
-					value={vicepresidenciaEjecutivaId}
-					directivaId={directivaId}
-				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
-				<VicepresidenciaCombobox
-					name="vicepresidenciaId"
-					handleChange={handleChange}
-					value={vicepresidenciaId}
-					directivaId={directivaId}
-					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
-				/>
-			</Suspense>
-			<Suspense fallback={<InputFallback />}>
-				<CargoCombobox
-					name="cargoId"
-					handleChange={handleChange}
-					value={cargoId}
-					directivaId={directivaId}
-					departamentoId={departamentoId}
-					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
-					vicepresidenciaId={vicepresidenciaId}
-				/>
-			</Suspense>
+
+			<DirectivaCombobox name="directivaId" handleChange={handleChange} value={directivaId} />
+
+			<VicepresidenciaEjecutivaCombobox
+				name="vicepresidenciaEjecutivaId"
+				handleChange={handleChange}
+				value={vicepresidenciaEjecutivaId}
+				directivaId={directivaId}
+			/>
+
+			<VicepresidenciaCombobox
+				name="vicepresidenciaId"
+				handleChange={handleChange}
+				value={vicepresidenciaId}
+				directivaId={directivaId}
+				vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+			/>
+
+			<CargoCombobox
+				name="cargoId"
+				handleChange={handleChange}
+				value={cargoId}
+				directivaId={directivaId}
+				departamentoId={departamentoId}
+				vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+				vicepresidenciaId={vicepresidenciaId}
+			/>
 		</>
 	)
 }

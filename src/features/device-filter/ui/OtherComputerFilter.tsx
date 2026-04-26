@@ -1,12 +1,10 @@
-import { lazy, memo, Suspense, useState } from 'react'
-import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { lazy, memo, Suspense } from 'react'
+import { useOtherComputerFilter } from '../model/useOtherComputerFilter'
 import { Input } from '@/shared/ui/Input/Input'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
-import { Divider } from '../../../shared/ui/Divider'
 import { MemoryRamTypeCombobox } from '@/entities/model/memoryRamType/infra/ui/MemoryRamTypeComboBox'
 import { SelectOperatorCombobox } from '@/entities/devices/devices/infra/ui/SelectOperator'
-import { Operator } from '@/entities/shared/domain/criteria/FilterOperators'
+import { Divider } from '@/shared/ui/Divider'
 
 const OperatingSystemCombobox = lazy(() =>
 	import('@/entities/devices/features/operatingSystem/operatingSystem/infra/ui/OperatingSystemComboBox').then(
@@ -60,95 +58,29 @@ export const OtherComputerFilter = memo(
 		ipAddress?: string
 		handleChange: (name: string, value: string | number) => void
 	}) => {
-		const [localComputerName, setLocalComputerName] = useState(computerName ?? '')
-		const [localProcessor, setLocalProcessor] = useState(processor ?? '')
-		const [localOperatingSystem, setLocalOperatingSystem] = useState(operatingSystem ?? '')
-		const [localIPAddress, setLocalIPAddress] = useState(ipAddress ?? '')
-		const [localMemoryRamCapacity, setLocalMemoryRamCapacity] = useState(
-			memoryRamCapacity ?? ''
-		)
-		const [localHardDriveCapacity, setLocalHardDriveCapacity] = useState(
-			hardDriveCapacity ?? ''
-		)
-
-		const [debounceComputerName] = useDebounce(localComputerName)
-		const [debounceProcessor] = useDebounce(localProcessor)
-		const [debounceOperatingSystem] = useDebounce(localOperatingSystem)
-		const [debounceIPAddress] = useDebounce(localIPAddress)
-		const [debounceMemoryRamCapacity] = useDebounce(localMemoryRamCapacity, 100)
-		const [debounceHardDriveCapacity] = useDebounce(localHardDriveCapacity, 100)
-
-		useEffectAfterMount(() => {
-			handleChange('computerName', debounceComputerName)
-		}, [debounceComputerName])
-		useEffectAfterMount(() => {
-			handleChange('processor', debounceProcessor)
-		}, [debounceProcessor])
-		useEffectAfterMount(() => {
-			handleChange('operatingSystem', debounceOperatingSystem)
-		}, [debounceOperatingSystem])
-		useEffectAfterMount(() => {
-			handleChange('ipAddress', debounceIPAddress)
-		}, [debounceIPAddress])
-		useEffectAfterMount(() => {
-			handleChange('memoryRamCapacity', debounceMemoryRamCapacity)
-		}, [debounceMemoryRamCapacity])
-		useEffectAfterMount(() => {
-			handleChange('hardDriveCapacity', debounceHardDriveCapacity)
-		}, [debounceHardDriveCapacity])
-
-		useEffectAfterMount(() => {
-			if (!computerName) setLocalComputerName('')
-		}, [computerName])
-		useEffectAfterMount(() => {
-			if (!processor) setLocalProcessor('')
-		}, [processor])
-		useEffectAfterMount(() => {
-			if (!operatingSystem) setLocalOperatingSystem('')
-		}, [operatingSystem])
-		useEffectAfterMount(() => {
-			if (!ipAddress) setLocalIPAddress('')
-		}, [ipAddress])
-		useEffectAfterMount(() => {
-			if (!hardDriveCapacity) setLocalHardDriveCapacity('')
-		}, [hardDriveCapacity])
-		useEffectAfterMount(() => {
-			if (!memoryRamCapacity) setLocalMemoryRamCapacity('')
-		}, [memoryRamCapacity])
-
-		const handleComputerName = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalComputerName(value)
-		}
-		const handleProcessor = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalProcessor(value)
-		}
-		const handleOperatingSystem = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value
-			setLocalOperatingSystem(value)
-		}
-
-		const handleIPAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalIPAddress(value)
-		}
-		const handleMemoryRamCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalMemoryRamCapacity(value)
-			if (memoryRamCapacityOperator === '' && value) {
-				handleChange('memoryRamCapacityOperator', Operator.EQUAL)
-			} else if (!value && memoryRamCapacityOperator) {
-				handleChange('memoryRamCapacityOperator', '')
-			}
-		}
-		const handleHardDriveCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalHardDriveCapacity(value)
-			if (memoryRamCapacityOperator === '') {
-				handleChange('memoryRamCapacityOperator', Operator.EQUAL)
-			}
-		}
+		const {
+			handleComputerName,
+			localComputerName,
+			handleOperatingSystem,
+			localOperatingSystem,
+			handleMemoryRamCapacity,
+			localMemoryRamCapacity,
+			handleHardDriveCapacity,
+			localHardDriveCapacity,
+			handleProcessor,
+			localProcessor,
+			handleIPAddress,
+			localIPAddress
+		} = useOtherComputerFilter({
+			computerName,
+			operatingSystem,
+			processor,
+			ipAddress,
+			memoryRamCapacity,
+			memoryRamCapacityOperator,
+			hardDriveCapacity,
+			handleChange
+		})
 
 		return (
 			<>
