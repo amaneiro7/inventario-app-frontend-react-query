@@ -7,14 +7,6 @@ const FormWrapperRender = lazy(() =>
 	import('./FormWrapperRender').then(m => ({ default: m.FormWrapperRender }))
 )
 
-/**
- * `FormWrapper`
- * @component
- * @description Componente de layout que envuelve las páginas de formularios.
- * Proporciona un título de página dinámico, breadcrumbs, optimización SEO y un contenedor de estilo (`DetailsWrapper`).
- * Determina el modo del formulario (añadir/editar) y ajusta el título y la descripción en consecuencia.
- * @returns {JSX.Element} El layout del formulario con el contenido de la ruta anidada.
- */
 const FormWrapper = memo(() => {
 	const location = useLocation()
 	const isFormIndex = location.pathname === formIndexPath
@@ -27,8 +19,6 @@ const FormWrapper = memo(() => {
 		return `/${form}${entity}`
 	}, [location.pathname])
 
-	// 2. Lógica de Redirección/Acceso Denegado
-	// Si está en /dashboard (índice) Y no tiene permisos para ninguna sub-ruta.
 	if (isFormIndex && availableSubRoutesMetadata?.length === 0) {
 		return <Navigate to="/403" replace />
 	}

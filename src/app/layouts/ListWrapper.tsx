@@ -7,10 +7,6 @@ const ListWrapperRender = lazy(() =>
 	import('./ListWrapperRender').then(m => ({ default: m.ListWrapperRender }))
 )
 
-/**
- * @component ListWrapper
- * @description Layout principal que aplica control de acceso y pasa el contexto de rutas permitidas.
- */
 const ListWrapper = memo(() => {
 	const { pathname } = useLocation()
 	const isListIndex = pathname === listIndexPath
@@ -20,7 +16,7 @@ const ListWrapper = memo(() => {
 		return <Navigate to="/403" replace />
 	}
 
-	return <ListWrapperRender isListIndex={isListIndex} pathname={location.pathname} />
+	return <ListWrapperRender isListIndex={isListIndex} pathname={pathname} />
 })
 
 ListWrapper.displayName = 'ListWrapper'
