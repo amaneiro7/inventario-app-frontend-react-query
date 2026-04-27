@@ -72,7 +72,7 @@ export function useISPLinkInitialData(defaultState: DefaultISPLink): {
 	const [state, setState] = useState<DefaultISPLink>(initialDataFromState || defaultState)
 
 	useEffect(() => {
-		if (mode === 'add' || !location.pathname.includes('isp-link')) {
+		if (mode === 'add' || !location.pathname.includes('isplink')) {
 			setState(defaultState)
 			return
 		}
@@ -94,7 +94,7 @@ export function useISPLinkInitialData(defaultState: DefaultISPLink): {
 	}, [mode, ispLinkData, location.state, defaultState, navigate, id])
 
 	const refreshInitialData = useCallback(async () => {
-		if (!location.pathname.includes('isp-link')) return
+		if (!location.pathname.includes('isplink')) return
 
 		if (mode === 'add') {
 			setState({ id: undefined, ...defaultState })

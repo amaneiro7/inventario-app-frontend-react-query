@@ -1,5 +1,5 @@
 .AccordionContent {
-	overflow: hidden;
+	overflow: visible;
 }
 .AccordionContent[data-state='open'] {
 	animation: slideDown 300ms ease-out;
