@@ -31,13 +31,6 @@ export const useInventoryBrandTable = ({
 
 	// Obtener categorías únicas de todos los modelos
 	const uniqueCategories = useMemo(() => {
-		// const categories = new Set<string>()
-		// data.forEach(brand => {
-		// 	brand.model.forEach(model => {
-		// 		categories.add(model.category)
-		// 	})
-		// })
-		// return [...Array.from(categories)].sort()
 		const categories = data.flatMap(brand => brand.model.map(m => m.category))
 		return [...new Set(categories)].sort()
 	}, [data])
