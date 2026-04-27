@@ -9,7 +9,14 @@ const Footer = lazy(() => import('./Footer').then(m => ({ default: m.Footer })))
 const Layout = memo(() => {
 	return (
 		<>
-			<Suspense fallback={<header className="bg-azul min-h-16" />}>
+			<Suspense
+				fallback={
+					<header>
+						<section className="border-naranja min-h-10 bg-gray-200" />
+						<section className="bg-azul min-h-16" />
+					</header>
+				}
+			>
 				<Header />
 			</Suspense>
 			<Suspense fallback={<main className="flex flex-1 bg-gray-100" />}>
