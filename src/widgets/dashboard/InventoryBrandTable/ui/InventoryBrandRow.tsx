@@ -2,11 +2,11 @@ import { lazy, memo } from 'react'
 import { TableRow } from '@/shared/ui/Table/TableRow'
 import { TableCell } from '@/shared/ui/Table/TableCell'
 import { Tag } from '@/shared/ui/Tag'
-import { type ModelData } from '../model/useInventoryBrandTable'
 import {
 	getStatusTagBackGroundColor,
 	getStatusTagColor
 } from '../model/getInventaroyBrandStatusTag'
+import type { ModelData } from '@/entities/devices/dashboard/infra/lib/transformData'
 
 const TableCellError = lazy(() =>
 	import('@/shared/ui/Table/TableCellError').then(m => ({ default: m.TableCellError }))
