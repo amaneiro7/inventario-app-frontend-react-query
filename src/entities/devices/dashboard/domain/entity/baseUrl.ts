@@ -4,6 +4,11 @@
  */
 export const computerDashboardUrl = 'devices/dashboard/computer'
 /**
+ * @constant {string} computerDashboardUrl
+ * @description URL base para obtener los datos del dashboard de computadoras.
+ */
+export const computerCountBrandDashboardUrl = 'devices/dashboard/computer-count-brand'
+/**
  * @constant {string} generalDashboardUrl
  * @description URL base para obtener los datos del dashboard general.
  */

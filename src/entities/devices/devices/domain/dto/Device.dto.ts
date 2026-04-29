@@ -21,7 +21,7 @@ import { type DeviceComputerParams, type DeviceComputerDto } from './DeviceCompu
 import { type DeviceHardDriveParams, type DeviceHardDriveDto } from './DeviceHardDrive.dto'
 import { type DevicePrinterParams, type DevicePrinterDto } from './DevicePrinterParams'
 import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
-import { TypeOfSiteId } from '@/entities/locations/typeOfSites/domain/value-object/TypeOfSiteId'
+import { type TypeOfSiteId } from '@/entities/locations/typeOfSites/domain/value-object/TypeOfSiteId'
 
 /**
  * @interface Device
