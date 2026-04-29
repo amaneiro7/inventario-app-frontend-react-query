@@ -1,51 +1,15 @@
-import { lazy, memo, Suspense, useMemo, useState } from 'react'
-import { useInventoryBrandTable } from '../model/useInventoryBrandTable'
+import { memo, Suspense } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
-import { Input } from '@/shared/ui/Input/Input'
-import { InventoryBrandTableLoading } from './InventoryBrandTableLoading'
-import { type ComputerDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerDashboard.dto'
-
-const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
-const TableHeader = lazy(() =>
-	import('@/shared/ui/Table/TableHeader').then(m => ({ default: m.TableHeader }))
-)
-const TableRow = lazy(() =>
-	import('@/shared/ui/Table/TableRow').then(m => ({ default: m.TableRow }))
-)
-const TableHead = lazy(() =>
-	import('@/shared/ui/Table/TableHead').then(m => ({ default: m.TableHead }))
-)
-const TableBody = lazy(() =>
-	import('@/shared/ui/Table/TableBody').then(m => ({ default: m.TableBody }))
-)
-const TableCellEmpty = lazy(() =>
-	import('@/shared/ui/Table/TableCellEmpty').then(m => ({ default: m.TableCellEmpty }))
-)
-
-const InventoryBrandRow = lazy(() =>
-	import('./InventoryBrandRow').then(m => ({ default: m.InventoryBrandRow }))
-)
-interface InventoryTableProps {
-	data: ComputerDashboardDto['brand']
-}
-export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
-	const [searchTerm, setSearchTerm] = useState('')
-	const [filterBrand, setFilterBrand] = useState('All')
-	const [filterCategory, setFilterCategory] = useState('All')
-
-	const { filteredData, uniqueBrands, uniqueCategories } = useInventoryBrandTable({
-		data,
-		filterBrand,
-		filterCategory,
-		searchTerm
-	})
-
-	const SkeletonFallback = useMemo(() => {
-		return Array.from({
-			length: 25
-		}).map((_, index) => <InventoryBrandTableLoading key={`loader-${index}`} />)
-	}, [])
+import { useComputerCountBrandDashboardFilter } from '@/entities/devices/dashboard/infra/hooks/useComputerCountBrandDashboardFilters'
+import { MainInventoryBrandTableFilter } from './MainInventoryBrandTableFilter'
+import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
+import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
+import { FilterSection } from '@/shared/ui/FilterSection'
+import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
+import { InventoryBrandContainer } from './InventoryBrandContainer'
+export const InventoryBrandTable = memo(() => {
+	const { cleanFilters, handlePageSize, handlePageClick, handleSort, handleChange, ...query } =
+		useComputerCountBrandDashboardFilter()
 
 	return (
 		<Card>
@@ -56,90 +20,28 @@ export const InventoryBrandTable = memo(({ data }: InventoryTableProps) => {
 				</CardDescription>
 			</CardHeader>
 			<CardContent className="flex flex-col justify-center">
-				<div className="mt-2 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
-					<div className="relative w-full sm:max-w-75">
-						<Input
-							id="brand-model-search-name"
-							placeholder="Buscar por marca o modelo..."
-							transform
-							value={searchTerm}
-							onChange={e => setSearchTerm(e.target.value)}
-							className="md:w-1/3"
-							label="Búsqueda"
-							name="name"
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							onReset={onReset}
+							variant="default"
+							message="No se pudieron cargar los filrtros."
 						/>
-					</div>
-					<label htmlFor="brand-filter" className="sr-only">
-						Filtrar por marca
-					</label>
-					<Select value={filterBrand} onValueChange={setFilterBrand}>
-						<SelectTrigger id="brand-filter" className="md:w-1/4">
-							<SelectValue placeholder="Filtro por marca" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value={'All'}>Todas las marcas</SelectItem>
-							{uniqueBrands.map(brand => (
-								<SelectItem key={brand} value={brand}>
-									{brand}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-					<label htmlFor="category-filter" className="sr-only">
-						Filtrar por categoria
-					</label>
-					<Select value={filterCategory} onValueChange={setFilterCategory}>
-						<SelectTrigger id="category-filter" className="md:w-1/4">
-							<SelectValue placeholder="Filtro por categoria" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value={'All'}>Todas las categorias</SelectItem>
-							{uniqueCategories.map(category => (
-								<SelectItem key={category} value={category}>
-									{category}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-				</div>
-				<Table className="table-fixed">
-					<TableHeader>
-						<TableRow>
-							<TableHead aria-colindex={1} size="xxLarge">
-								Modelo
-							</TableHead>
-							<TableHead aria-colindex={2} size="xLarge">
-								Marca
-							</TableHead>
-							<TableHead aria-colindex={3} size="medium">
-								Categoria
-							</TableHead>
-							<TableHead aria-colindex={4} size="small" className="text-center">
-								Cantidad
-							</TableHead>
-							<TableHead aria-colindex={5} size="small" className="text-center">
-								En uso
-							</TableHead>
-							<TableHead aria-colindex={6} size="small" className="text-center">
-								En almacen
-							</TableHead>
-							<TableHead aria-colindex={7} size="medium">
-								Estatus
-							</TableHead>
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						<Suspense fallback={SkeletonFallback}>
-							{filteredData.length > 0 ? (
-								filteredData.map(item => (
-									<InventoryBrandRow key={item.id} item={item} />
-								))
-							) : (
-								<TableCellEmpty />
-							)}
+					)}
+				>
+					<FilterSection>
+						<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={4} />}>
+							<MainInventoryBrandTableFilter
+								handleChange={handleChange}
+								brandId={query.brandId}
+								categoryId={query.categoryId}
+								modelName={query.modelName}
+								siteId={query.siteId}
+							/>
 						</Suspense>
-					</TableBody>
-				</Table>
+					</FilterSection>
+					<InventoryBrandContainer query={query} />
+				</ErrorBoundary>
 			</CardContent>
 		</Card>
 	)

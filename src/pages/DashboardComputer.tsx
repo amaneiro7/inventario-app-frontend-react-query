@@ -270,7 +270,7 @@ export default function DashboardComputer() {
 						<Suspense
 							fallback={<div className="min-h-80 w-full animate-pulse bg-gray-200" />}
 						>
-							<InventoryBrandTable data={computerDashboard.brand} />
+							<InventoryBrandTable />
 						</Suspense>
 					</ErrorBoundary>
 				</TabsContent>

@@ -1,15 +1,11 @@
-export interface ComputerCountBrandDashboardDto {
-	data: Brand[]
-}
-
 /**
- * @interface Brand
+ * @interface ComputerCountBrandDashboardDto
  * @description Representa los datos de una marca en el dashboard de computadoras.
  * @property {string} name - Nombre de la marca.
  * @property {number} count - Cantidad de dispositivos de esa marca.
  * @property {Model[]} model - Modelos asociados a la marca.
  */
-export interface Brand {
+export interface ComputerCountBrandDashboardDto {
 	name: string
 	count: number
 	model: Model[]

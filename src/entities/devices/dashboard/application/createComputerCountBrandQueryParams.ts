@@ -11,6 +11,7 @@ import { type Primitives } from '@/entities/shared/domain/value-objects/Primitiv
  * Cada propiedad es opcional y representa un criterio de filtrado específico.
  */
 export interface ComputerCountBrandDashboardFilters {
+	modelName?: string
 	categoryId?: string
 	brandId?: string
 	statusId?: string
@@ -18,6 +19,7 @@ export interface ComputerCountBrandDashboardFilters {
 	locationId?: string
 	typeOfSiteId?: string
 	cityId?: string
+	siteId?: string
 	stateId?: string
 	regionId?: string
 	administrativeRegionId?: string
@@ -66,7 +68,7 @@ export async function createComputerCountBrandQueryParams({
 			} else {
 				query.filters.push({
 					field: key,
-					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
+					operator: key === 'modelName' ? Operator.CONTAINS : Operator.EQUAL,
 					value
 				})
 			}

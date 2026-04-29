@@ -13,7 +13,8 @@ import type { Response } from '@/entities/shared/domain/methods/Response'
 export class ComputerCountBrandDashboardService implements ComputerCountBrandDashboardRepository {
 	/**
 	 * Obtiene los datos del dashboard de computadoras.
-	 * @returns {Promise<ComputerCountBrandDashboardDto>} Una promesa que se resuelve con el DTO del dashboard de computadoras.
+	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
+	 * @returns {Promise<Response<ComputerCountBrandDashboardDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las monitorizaciones de dispositivos.
 	 */
 	async getAll(queryParams: string): Promise<Response<ComputerCountBrandDashboardDto>> {
 		return await fetching({

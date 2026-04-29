@@ -10,13 +10,23 @@ import { OrderTypes } from '@/entities/shared/domain/criteria/OrderType'
  * @property {(keyof T)[]} filterKeys - An array of keys from the generic type `T` that represent filterable fields.
  */
 interface UseFilterConfig<T> {
-	defaultPageSize: number
+	defaultPageSize?: number
 	filterKeys: (keyof T)[]
+}
+
+interface UseGenericFilterOutput {
+	pageSize: number | undefined
+	pageNumber: number | undefined
+	handleSort: (field: string) => Promise<void>
+	cleanFilters: () => void
+	handleChange: (name: string, value: string | number) => void
+	handlePageSize: (pageSize: number) => void
+	handlePageClick: ({ selected }: { selected: number }) => void
 }
 /**
  * @template T
  * @param {UseFilterConfig<T>} config - The configuration object for the filter.
- * @returns {object} An object containing filter values, pagination state, and handler functions.
+ * @returns {T & UseGenericFilterOutput} An object containing filter values, pagination state, and handler functions.
  * @property {T} filters - An object containing the current filter values derived from the URL query parameters.
  * @property {number} pageSize - The current page size, either from the URL or the {@link UseFilterConfig.defaultPageSize}.
  * @property {number | undefined} pageNumber - The current page number from the URL, or undefined if not present.
@@ -26,7 +36,7 @@ interface UseFilterConfig<T> {
  * @property {function(pageSize: number): void} handlePageSize - A function to set the page size in the URL and reset the page number to 1.
  * @property {function({ selected: number }): void} handlePageClick - A function to handle page clicks from a pagination component, updating the page number in the URL.
  */
-export function useGenericFilter<T>(config: UseFilterConfig<T>) {
+export function useGenericFilter<T>(config: UseFilterConfig<T>): T & UseGenericFilterOutput {
 	const [searchParams, setSearchParams] = useSearchParams()
 	/**
 	 * @function getFilterValue
@@ -181,7 +191,7 @@ export function useGenericFilter<T>(config: UseFilterConfig<T>) {
 	 * @type {number | undefined}
 	 * @description The current page number from the URL, or undefined if not present.
 	 */
-	const pageNumber = searchParams.get('pageNumber')
+	const pageNumber: number | undefined = searchParams.get('pageNumber')
 		? parseInt(searchParams.get('pageNumber') as string)
 		: undefined
 
@@ -189,9 +199,9 @@ export function useGenericFilter<T>(config: UseFilterConfig<T>) {
 	 * @type {number}
 	 * @description The current page size, either from the URL or the {@link UseFilterConfig.defaultPageSize}.
 	 */
-	const pageSize = searchParams.get('pageSize')
+	const pageSize: number | undefined = searchParams.get('pageSize')
 		? parseInt(searchParams.get('pageSize') as string)
-		: config.defaultPageSize
+		: (config?.defaultPageSize ?? undefined)
 
 	return {
 		...filters,
