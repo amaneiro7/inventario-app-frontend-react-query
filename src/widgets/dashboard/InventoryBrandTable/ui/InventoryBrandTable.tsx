@@ -40,7 +40,7 @@ export const InventoryBrandTable = memo(() => {
 							/>
 						</Suspense>
 					</FilterSection>
-					<InventoryBrandContainer query={query} />
+					<InventoryBrandContainer query={query} handleSort={handleSort} />
 				</ErrorBoundary>
 			</CardContent>
 		</Card>

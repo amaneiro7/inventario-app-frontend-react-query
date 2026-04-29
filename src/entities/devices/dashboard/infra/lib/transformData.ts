@@ -42,5 +42,5 @@ export function transformData(data: ComputerCountBrandDashboardDto[]): ModelData
 		})
 	)
 
-	return result.sort((a, b) => b.count - a.count)
+	return result
 }

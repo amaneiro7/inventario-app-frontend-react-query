@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { useGetComputerCountBrandDashboard } from '@/entities/devices/dashboard/infra/hooks/useGetComputerCountBrandDashboard'
 import { InventoryBrandTableLoading } from './InventoryBrandTableLoading'
 import { InventoryBrandRow } from './InventoryBrandRow'
+import { eventManager } from '@/shared/lib/utils/eventManager'
 import type { ComputerCountBrandDashboardFilters } from '@/entities/devices/dashboard/application/createComputerCountBrandQueryParams'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
@@ -23,21 +24,50 @@ const SkeletonFallback = Array.from({
 	length: 25
 }).map((_, index) => <InventoryBrandTableLoading key={`loader-${index}`} />)
 
-export function InventoryBrandContainer({ query }: { query: ComputerCountBrandDashboardFilters }) {
+export function InventoryBrandContainer({
+	query,
+	handleSort
+}: {
+	query: ComputerCountBrandDashboardFilters
+	handleSort: (field: string) => Promise<void>
+}) {
 	const { computerDashboard, isError, isLoading } = useGetComputerCountBrandDashboard(query)
+
+	console.log(computerDashboard)
 
 	return (
 		<>
 			<Table className="table-fixed">
 				<TableHeader>
 					<TableRow>
-						<TableHead aria-colindex={1} size="xxLarge">
+						<TableHead
+							aria-colindex={1}
+							size="xxLarge"
+							orderByField="modelName"
+							orderBy={query.orderBy}
+							orderType={query.orderType}
+							handleSort={eventManager(handleSort)}
+						>
 							Modelo
 						</TableHead>
-						<TableHead aria-colindex={2} size="xLarge">
+						<TableHead
+							aria-colindex={2}
+							size="xLarge"
+							orderByField="brandId"
+							orderBy={query.orderBy}
+							orderType={query.orderType}
+							handleSort={eventManager(handleSort)}
+						>
 							Marca
 						</TableHead>
-						<TableHead aria-colindex={3} size="medium">
+						<TableHead
+							aria-colindex={3}
+							size="medium"
+							orderByField="categoryId"
+							orderBy={query.orderBy}
+							orderType={query.orderType}
+							handleSort={eventManager(handleSort)}
+						>
 							Categoria
 						</TableHead>
 						<TableHead aria-colindex={4} size="small" className="text-center">

@@ -57,11 +57,11 @@ export const MainInventoryBrandTableFilter = memo(
 				<Input
 					id="modelName-search"
 					value={localModelName}
-					label="Nombre de equipo"
+					label="Modelo"
 					name="modelName"
 					type="search"
 					transform
-					placeholder="Buscar por nombre de equipo"
+					placeholder="Buscar por nombre del modelo"
 					onChange={handleModelName}
 				/>
 				<BrandCombobox
