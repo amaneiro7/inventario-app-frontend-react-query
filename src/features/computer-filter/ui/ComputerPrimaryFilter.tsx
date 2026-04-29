@@ -1,7 +1,6 @@
-import { lazy, memo, useCallback, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { lazy, memo } from 'react'
 import { Input } from '@/shared/ui/Input/Input'
+import { useComputerPrimaryFilter } from '../model/useComputerPrimaryFilter'
 
 const CategoryCombobox = lazy(() =>
 	import('@/entities/category/infra/ui/CategoryComboBox').then(m => ({
@@ -44,6 +43,8 @@ export const ComputerPrimaryFilter = memo(
 		mainCategoryId,
 		locationId,
 		regionId,
+		cityId,
+		stateId,
 		administrativeRegionId,
 		directivaId,
 		vicepresidenciaEjecutivaId,
@@ -55,6 +56,8 @@ export const ComputerPrimaryFilter = memo(
 		employeeId?: string
 		categoryId?: string
 		mainCategoryId?: string
+		cityId?: string
+		stateId?: string
 		regionId?: string
 		administrativeRegionId?: string
 		locationId?: string
@@ -66,23 +69,10 @@ export const ComputerPrimaryFilter = memo(
 		typeOfSiteId?: string
 		handleChange: (name: string, value: string | number) => void
 	}) => {
-		const [localSerial, setLocalSerial] = useState(serial ?? '')
-		const [debounceSerial] = useDebounce(localSerial)
-
-		useEffectAfterMount(() => {
-			handleChange('serial', debounceSerial)
-		}, [debounceSerial])
-
-		useEffectAfterMount(() => {
-			if (!serial) {
-				setLocalSerial('')
-			}
-		}, [serial])
-
-		const handleSerial = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalSerial(value)
-		}, [])
+		const { handleSerial, localSerial } = useComputerPrimaryFilter({
+			serial,
+			handleChange
+		})
 
 		return (
 			<>
@@ -114,6 +104,10 @@ export const ComputerPrimaryFilter = memo(
 					value={locationId}
 					method="search"
 					typeOfSiteId={typeOfSiteId}
+					cityId={cityId}
+					stateId={stateId}
+					regionId={regionId}
+					administrativeRegionId={administrativeRegionId}
 				/>
 
 				<AdministrativeRegionCombobox

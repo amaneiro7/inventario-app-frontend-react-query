@@ -1,10 +1,9 @@
-.AccordionContent {
-	overflow: visible;
-}
 .AccordionContent[data-state='open'] {
+	overflow: visible;
 	animation: slideDown 300ms ease-out;
 }
 .AccordionContent[data-state='closed'] {
+	overflow: hidden;
 	animation: slideUp 300ms ease-out;
 }
 

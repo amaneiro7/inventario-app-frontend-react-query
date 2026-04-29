@@ -91,6 +91,8 @@ export default function ListParts() {
 									employeeId={query.employeeId}
 									serial={query.serial}
 									locationId={query.locationId}
+									cityId={query.cityId}
+									stateId={query.stateId}
 									regionId={query.regionId}
 									administrativeRegionId={query.administrativeRegionId}
 									mainCategoryId={mainCategoryId}
