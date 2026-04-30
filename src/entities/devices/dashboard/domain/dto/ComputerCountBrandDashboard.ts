@@ -6,9 +6,28 @@
  * @property {Model[]} model - Modelos asociados a la marca.
  */
 export interface ComputerCountBrandDashboardDto {
+	// name: string
+	// count: number
+	// model: Model[]
+	id: string
 	name: string
+	category: string
+	brand: string
 	count: number
-	model: Model[]
+	inUse: number
+	inAlmacen: number
+	status: 'In Stock' | 'Low Stock' | 'Out of Stock'
+}
+
+export interface ModelData {
+	id: string
+	name: string
+	category: string
+	brand: string
+	count: number
+	inUse: number
+	inAlmacen: number
+	status: 'In Stock' | 'Low Stock' | 'Out of Stock'
 }
 
 /**

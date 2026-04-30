@@ -6,7 +6,7 @@ import {
 	getStatusTagBackGroundColor,
 	getStatusTagColor
 } from '../model/getInventaroyBrandStatusTag'
-import type { ModelData } from '@/entities/devices/dashboard/infra/lib/transformData'
+import type { ComputerCountBrandDashboardDto } from '@/entities/devices/dashboard/domain/dto/ComputerCountBrandDashboard'
 
 const TableCellError = lazy(() =>
 	import('@/shared/ui/Table/TableCellError').then(m => ({ default: m.TableCellError }))
@@ -16,7 +16,7 @@ const TableCellEmpty = lazy(() =>
 )
 
 interface InventoryBrandRowProps {
-	data?: ModelData[]
+	data?: ComputerCountBrandDashboardDto[]
 	isError: boolean
 }
 

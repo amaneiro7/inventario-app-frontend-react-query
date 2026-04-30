@@ -33,8 +33,6 @@ export function InventoryBrandContainer({
 }) {
 	const { computerDashboard, isError, isLoading } = useGetComputerCountBrandDashboard(query)
 
-	console.log(computerDashboard)
-
 	return (
 		<>
 			<Table className="table-fixed">
@@ -70,13 +68,37 @@ export function InventoryBrandContainer({
 						>
 							Categoria
 						</TableHead>
-						<TableHead aria-colindex={4} size="small" className="text-center">
+						<TableHead
+							aria-colindex={4}
+							size="small"
+							className="text-center"
+							orderByField="count"
+							orderBy={query.orderBy}
+							orderType={query.orderType}
+							handleSort={eventManager(handleSort)}
+						>
 							Cantidad
 						</TableHead>
-						<TableHead aria-colindex={5} size="small" className="text-center">
+						<TableHead
+							aria-colindex={5}
+							size="small"
+							className="text-center"
+							orderByField="inUse"
+							orderBy={query.orderBy}
+							orderType={query.orderType}
+							handleSort={eventManager(handleSort)}
+						>
 							En uso
 						</TableHead>
-						<TableHead aria-colindex={6} size="small" className="text-center">
+						<TableHead
+							aria-colindex={6}
+							size="small"
+							className="text-center"
+							orderByField="inAlmacen"
+							orderBy={query.orderBy}
+							orderType={query.orderType}
+							handleSort={eventManager(handleSort)}
+						>
 							En almacen
 						</TableHead>
 						<TableHead aria-colindex={7} size="medium">
@@ -90,8 +112,8 @@ export function InventoryBrandContainer({
 						{computerDashboard !== undefined && (
 							<Suspense fallback={SkeletonFallback}>
 								<InventoryBrandRow
+									data={computerDashboard?.data}
 									isError={isError}
-									data={computerDashboard.data}
 								/>
 							</Suspense>
 						)}

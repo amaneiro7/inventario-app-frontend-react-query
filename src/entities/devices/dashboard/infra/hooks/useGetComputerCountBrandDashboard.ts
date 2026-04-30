@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query'
 import { ComputerCountBrandDashboardService } from '../service/computerCountBrandGetDashboard.service'
 import { ComputerCountBrandGetByCriteria } from '../../application/ComputerCountBrandGetByCriteria'
 import { REFETCH_INTERVAL_IN_MS } from '@/entities/devices/devices/domain/entity/refetchIntervalInMs'
-import { transformData } from '../lib/transformData'
 import type { ComputerCountBrandDashboardFilters } from '../../application/createComputerCountBrandQueryParams'
 
 const repository = new ComputerCountBrandDashboardService()
@@ -30,13 +29,7 @@ export const useGetComputerCountBrandDashboard = (query: ComputerCountBrandDashb
 		queryFn: () => get.search(query),
 		staleTime: 30 * 1000,
 		refetchOnMount: true,
-		refetchInterval: REFETCH_INTERVAL_IN_MS,
-		select(res) {
-			return {
-				info: res.info,
-				data: transformData(res?.data)
-			}
-		}
+		refetchInterval: REFETCH_INTERVAL_IN_MS
 	})
 
 	return {
