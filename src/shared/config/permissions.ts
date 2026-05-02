@@ -13,6 +13,9 @@ export const PERMISSIONS = {
 		ASSIGN: 'access-policies:assign',
 		UNASSIGN: 'access-policies:unassign'
 	},
+	ADMIN: {
+		CLEAR_CACHE: 'admin:clear-cache'
+	},
 	PERMISSION_GROUPS: {
 		CREATE: 'permission-groups:create',
 		READ: 'permission-groups:read',

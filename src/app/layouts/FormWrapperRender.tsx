@@ -33,7 +33,7 @@ export const FormWrapperRender = ({
 		} else if (mode === 'edit') {
 			return `Editar ${capitalizeFirstLetter(entityName)} | Formulario`
 		} else if (mode === 'unknown') {
-			return `Getsión de ${capitalizeFirstLetter(entityName)} | Formulario`
+			return `Gestión de ${capitalizeFirstLetter(entityName)} | Formulario`
 		} else {
 			return entityName || 'Formulario'
 		}

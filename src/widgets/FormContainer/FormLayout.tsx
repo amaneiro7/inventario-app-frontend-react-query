@@ -30,8 +30,10 @@ interface FormLayoutProps {
 	title?: string
 	subtitle?: string
 	readOnlyMessage?: string
+	submitLabel?: string
+	cancelLabel?: string
 	submitError?: string | null
-	handleSubmit: (event: React.FormEvent) => Promise<void>
+	handleSubmit: (event: React.SubmitEvent) => Promise<void>
 	handleClose?: () => void
 	reset?: () => void
 	onRetry?: () => void
@@ -57,6 +59,8 @@ export const FormLayout = memo(
 		title,
 		subtitle,
 		canEdit,
+		submitLabel,
+		cancelLabel,
 		submitError,
 		readOnlyMessage,
 		handleSubmit,
@@ -106,6 +110,8 @@ export const FormLayout = memo(
 							isReadOnly={isReadOnly}
 							handleSubmit={handleSubmit}
 							handleClose={handleClose}
+							submitLabel={submitLabel}
+							cancelLabel={cancelLabel}
 							reset={reset}
 							onRetry={onRetry}
 						>

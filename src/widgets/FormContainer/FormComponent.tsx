@@ -1,6 +1,7 @@
 import { memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { cn } from '@/shared/lib/utils'
+import Typography from '@/shared/ui/Typography'
 import Button from '@/shared/ui/Button'
 import { ResetIcon } from '@/shared/ui/icon/ResetIcon'
 import { CancelIcon } from '@/shared/ui/icon/CancelIcon'
@@ -11,9 +12,11 @@ import { type HistoryDto } from '@/entities/history/domain/dto/History.dto'
 import { NotFoundState } from './NotFoundState'
 import { FormErrorState } from './FormErrorState'
 
-interface FormComponentProps
-	extends React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement> {
-	handleSubmit: (event: React.FormEvent) => Promise<void>
+interface FormComponentProps extends React.DetailedHTMLProps<
+	React.FormHTMLAttributes<HTMLFormElement>,
+	HTMLFormElement
+> {
+	handleSubmit: (event: React.SubmitEvent) => Promise<void>
 	handleClose?: () => void
 	reset?: () => void
 	onRetry?: () => void
@@ -30,6 +33,8 @@ interface FormComponentProps
 	isReadOnly?: boolean
 	title?: string
 	subtitle?: string
+	submitLabel?: string
+	cancelLabel?: string
 }
 
 const borderStyle = 'flex flex-col gap-4 border border-gray-400 rounded-lg p-8 pt-4'
@@ -47,14 +52,16 @@ export const FormComponent = memo(
 		lastUpdated,
 		children,
 		className,
-		isLoading,
-		isError,
-		isNotFound,
+		isLoading = false,
+		isError = false,
+		isNotFound = false,
 		isSubmitting = false,
-		isDirty,
-		isReadOnly,
+		isDirty = false,
+		isReadOnly = false,
 		title,
 		subtitle,
+		submitLabel,
+		cancelLabel,
 		...props
 	}: FormComponentProps) => {
 		const navigate = useNavigate()
@@ -88,7 +95,7 @@ export const FormComponent = memo(
 				action="submit"
 				onSubmit={handleSubmit}
 				className={cn(
-					'flex w-full justify-center bg-white',
+					'flex w-full flex-col justify-center bg-white',
 					{
 						[borderStyle]: border
 					},
@@ -98,9 +105,13 @@ export const FormComponent = memo(
 			>
 				{/* 💡 RENDERIZAR TÍTULO Y SUBTÍTULO */}
 				{(title || subtitle) && (
-					<header className="mb-4">
-						{title && <h2 className="text-2xl font-bold">{title}</h2>}
-						{subtitle && <p className="text-gray-600">{subtitle}</p>}
+					<header className="mb-6 flex flex-col gap-1 text-center">
+						{title && (
+							<Typography variant="h2" weight="bold" color="azul">
+								{title}
+							</Typography>
+						)}
+						{subtitle && <Typography color="naranja">{subtitle}</Typography>}
 					</header>
 				)}
 				<fieldset className="relative grid min-h-64 w-full gap-5">
@@ -115,7 +126,7 @@ export const FormComponent = memo(
 									? 'Ver Datos'
 									: isSubmitting
 										? 'Procesando...'
-										: 'Guardar'
+										: submitLabel || 'Guardar'
 							}
 							buttonSize="large"
 							disabled={isSubmitDisabled}
@@ -138,7 +149,7 @@ export const FormComponent = memo(
 							color={method === 'form' ? 'gray' : 'red'}
 							size="full"
 							buttonSize="large"
-							text="Regresar"
+							text={cancelLabel || 'Regresar'}
 							onClick={handleCloseClick}
 							disabled={isSubmitting}
 							hoverTranslation

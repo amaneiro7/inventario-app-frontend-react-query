@@ -53,7 +53,7 @@ export function useFormHandler<
 
 	// 💡 3. Función Submit (Reutilizable)
 	const handleSubmit = useCallback(
-		async (event: React.FormEvent) => {
+		async (event: React.SubmitEvent) => {
 			event.preventDefault()
 			event.stopPropagation()
 

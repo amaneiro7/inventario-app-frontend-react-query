@@ -135,5 +135,13 @@ export const FORM_ROUTES_METADATA: Record<string, RouterMetadata> = {
 		permission: PERMISSIONS.PERMISSION_GROUPS.CREATE,
 		pathSegment: 'permission-groups/add',
 		iconName: 'shield'
+	},
+	[`${formIndexPath}/admin-clear-cache`]: {
+		title: 'Limpiar Caché',
+		description:
+			'Formulario para eliminar datos almacenados en el caché del sistema mediante patrones.',
+		permission: PERMISSIONS.ADMIN.CLEAR_CACHE,
+		pathSegment: 'admin-clear-cache',
+		iconName: 'trash'
 	}
 }

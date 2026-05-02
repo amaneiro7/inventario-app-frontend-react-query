@@ -256,6 +256,12 @@ export const navigation: Navigation[] = [
 				path: '/form/access-policy/add',
 				desc: 'Define y registra una nueva política de acceso para gestionar las reglas de seguridad del sistema.',
 				permission: PERMISSIONS.ACCESS_POLICIES.CREATE
+			},
+			{
+				title: 'Limpiar Caché',
+				path: '/form/admin-clear-cache',
+				desc: 'Limpiar el cache de la aplicación.',
+				permission: PERMISSIONS.ADMIN.CLEAR_CACHE
 			}
 		]
 	}

@@ -4,7 +4,9 @@ import { ProtectedByPermissionRoute } from './ProtectedByPermissionRoute'
 import { suspended } from './suspendedComponent'
 import { PERMISSIONS } from '@/shared/config/permissions'
 
+const Form = lazy(() => import('@/pages/Form'))
 const FormBrand = lazy(() => import('@/pages/FormBrand'))
+const FormClearCache = lazy(() => import('@/pages/FormClearCache'))
 const FormPermission = lazy(() => import('@/pages/FormPermission'))
 const FormPermissionGroup = lazy(() => import('@/pages/FormPermissionGroup'))
 const FormAccessPolicy = lazy(() => import('@/pages/FormAccessPolicy'))
@@ -20,7 +22,6 @@ const FormCargo = lazy(() => import('@/pages/FormCargo'))
 const FormDirectiva = lazy(() => import('@/pages/FormDirectiva'))
 const FormVicepresidenciaEjecutivas = lazy(() => import('@/pages/FormVicepresidenciaEjecutiva'))
 const FormVicepresidencia = lazy(() => import('@/pages/FormVicepresidencia'))
-const Form = lazy(() => import('@/pages/Form'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
 const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
@@ -44,7 +45,6 @@ export default function FormRoutes() {
 				>
 					<Route path="shipment/edit/:id" element={suspended(FormShipment)} />
 				</Route>
-
 				{/* Ruta para actualizacion de dispositivos */}
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.DEVICES.CREATE} />}
@@ -56,7 +56,6 @@ export default function FormRoutes() {
 				>
 					<Route path="device/edit/:id" element={suspended(FormDevice)} />
 				</Route>
-
 				{/* Ruta para actualizacion de empleados */}
 				<Route
 					element={
@@ -70,7 +69,6 @@ export default function FormRoutes() {
 				>
 					<Route path="employee/edit/:id" element={suspended(FormEmployee)} />
 				</Route>
-
 				{/* Ruta para actualizacion de Marca */}
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.BRANDS.CREATE} />}
@@ -82,7 +80,6 @@ export default function FormRoutes() {
 				>
 					<Route path="brand/edit/:id" element={suspended(FormBrand)} />
 				</Route>
-
 				{/* Rutas para Access Control */}
 				<Route
 					element={
@@ -100,7 +97,6 @@ export default function FormRoutes() {
 				>
 					<Route path="access-policy/edit/:id" element={suspended(FormAccessPolicy)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.PERMISSIONS.CREATE} />
@@ -115,7 +111,6 @@ export default function FormRoutes() {
 				>
 					<Route path="permission/edit/:id" element={suspended(FormPermission)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute
@@ -137,7 +132,6 @@ export default function FormRoutes() {
 						element={suspended(FormPermissionGroup)}
 					/>
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.DIRECTIVAS.CREATE} />
@@ -152,7 +146,6 @@ export default function FormRoutes() {
 				>
 					<Route path="directiva/edit/:id" element={suspended(FormDirectiva)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute
@@ -177,7 +170,6 @@ export default function FormRoutes() {
 						element={suspended(FormVicepresidenciaEjecutivas)}
 					/>
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute
@@ -199,7 +191,6 @@ export default function FormRoutes() {
 						element={suspended(FormVicepresidencia)}
 					/>
 				</Route>
-
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.MODELS.CREATE} />}
 				>
@@ -210,14 +201,12 @@ export default function FormRoutes() {
 				>
 					<Route path="model/edit/:id" element={suspended(FormModel)} />
 				</Route>
-
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.REGIONS.READ} />}
 				>
 					<Route path="region" element={suspended(FormRegion)} />
 					<Route path="region/edit/:id" element={suspended(FormRegion)} />
 				</Route>
-
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.SITES.CREATE} />}
 				>
@@ -226,7 +215,6 @@ export default function FormRoutes() {
 				<Route element={<ProtectedByPermissionRoute permission={PERMISSIONS.SITES.READ} />}>
 					<Route path="site/edit/:id" element={suspended(FormSite)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.LOCATIONS.CREATE} />
@@ -239,7 +227,6 @@ export default function FormRoutes() {
 				>
 					<Route path="location/edit/:id" element={suspended(FormLocation)} />
 				</Route>
-
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.CITIES.CREATE} />}
 				>
@@ -250,7 +237,6 @@ export default function FormRoutes() {
 				>
 					<Route path="city/edit/:id" element={suspended(FormCity)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.ISP_LINKS.CREATE} />
@@ -263,7 +249,6 @@ export default function FormRoutes() {
 				>
 					<Route path="isplink/edit/:id" element={suspended(FormISPLink)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.DEPARTAMENTOS.CREATE} />
@@ -278,7 +263,6 @@ export default function FormRoutes() {
 				>
 					<Route path="departamento/edit/:id" element={suspended(FormDepartamento)} />
 				</Route>
-
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.CARGOS.CREATE} />}
 				>
@@ -289,7 +273,6 @@ export default function FormRoutes() {
 				>
 					<Route path="cargo/edit/:id" element={suspended(FormCargo)} />
 				</Route>
-
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.PROCESSORS.CREATE} />
@@ -303,6 +286,14 @@ export default function FormRoutes() {
 					}
 				>
 					<Route path="processor/edit/:id" element={suspended(FormProcessor)} />
+				</Route>
+				// admin
+				<Route
+					element={
+						<ProtectedByPermissionRoute permission={PERMISSIONS.ADMIN.CLEAR_CACHE} />
+					}
+				>
+					<Route path="admin-clear-cache" element={suspended(FormClearCache)} />
 				</Route>
 			</Route>
 		</Routes>
