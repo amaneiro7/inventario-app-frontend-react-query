@@ -30,6 +30,9 @@ interface MainEmployeeInfoProps {
 	lastName: DefaultEmployee['lastName']
 	email: DefaultEmployee['email']
 	employeeCode: DefaultEmployee['employeeCode']
+	isInitialEmployeeCodeEmpty: DefaultEmployee['isInitialEmployeeCodeEmpty']
+	isInitialCedulaEmpty: DefaultEmployee['isInitialCedulaEmpty']
+	isInitialNationalityEmpty: DefaultEmployee['isInitialNationalityEmpty']
 	cedula: DefaultEmployee['cedula']
 	nationality: DefaultEmployee['nationality']
 	allowedDomains?: Helpers['allowedDomains']
@@ -75,6 +78,9 @@ export const MainEmployeeInfo = memo(
 		lastName,
 		email,
 		employeeCode,
+		isInitialEmployeeCodeEmpty,
+		isInitialCedulaEmpty,
+		isInitialNationalityEmpty,
 		cedula,
 		nationality,
 		mode,
@@ -114,6 +120,20 @@ export const MainEmployeeInfo = memo(
 			[allowedDomains]
 		)
 
+		const isModeEdit = mode === 'edit'
+
+		const isEmployeeCodeReadonly = useMemo(() => {
+			return !canEdit || (isModeEdit && !isInitialEmployeeCodeEmpty)
+		}, [isModeEdit, canEdit, isInitialEmployeeCodeEmpty])
+
+		const isCedulaReadonly = useMemo(() => {
+			return !canEdit || (isModeEdit && !isInitialCedulaEmpty)
+		}, [isModeEdit, canEdit, isInitialCedulaEmpty])
+
+		const isNationalityReadonly = useMemo(() => {
+			return !canEdit || nationalityDisabled || (isModeEdit && !isInitialNationalityEmpty)
+		}, [isModeEdit, canEdit, nationalityDisabled, isInitialNationalityEmpty])
+
 		return (
 			<div className="flex flex-col gap-2 rounded-lg border border-gray-400 p-8 pt-4">
 				<Typography color="azul" variant="h5">
@@ -128,7 +148,7 @@ export const MainEmployeeInfo = memo(
 						handleChange('userName', e.target.value)
 					}
 					isLoading={isLoading}
-					readOnly={mode === 'edit' || !canEdit}
+					readOnly={isModeEdit || !canEdit}
 					error={!!userNameError}
 					errorMessage={userNameError}
 					required={userNameRequired}
@@ -143,7 +163,7 @@ export const MainEmployeeInfo = memo(
 					required={typeRequired}
 					disabled={typeDisabled}
 					error={typeError}
-					readonly={mode === 'edit' || !canEdit}
+					readonly={isModeEdit || !canEdit}
 					isLoading={isLoading}
 				/>
 				<Checkbox
@@ -232,7 +252,7 @@ export const MainEmployeeInfo = memo(
 							handleChange('employeeCode', e.target.value)
 						}
 						min={1}
-						readOnly={mode === 'edit' || !canEdit}
+						readOnly={isEmployeeCodeReadonly}
 						error={!!employeeCodeError}
 						errorMessage={employeeCodeError}
 						required={employeeCodeRequired}
@@ -255,7 +275,7 @@ export const MainEmployeeInfo = memo(
 						disabled={cedulaDisabled}
 						min={EmployeeCedula.MIN}
 						max={EmployeeCedula.MAX}
-						readOnly={mode === 'edit' || !canEdit}
+						readOnly={isCedulaReadonly}
 						selectInput={
 							<select
 								value={nationality ?? ''}
@@ -263,9 +283,9 @@ export const MainEmployeeInfo = memo(
 									handleChange('nationality', e.target.value)
 								}
 								className="leftIcon appearance-none focus:outline-hidden"
-								disabled={nationalityDisabled || mode === 'edit' || !canEdit}
+								disabled={isNationalityReadonly}
 							>
-								<option hidden value="default"></option>
+								<option hidden value="default" />
 								{nacionalities.map(op => (
 									<option key={op.id} value={op.id}>
 										{op.id}

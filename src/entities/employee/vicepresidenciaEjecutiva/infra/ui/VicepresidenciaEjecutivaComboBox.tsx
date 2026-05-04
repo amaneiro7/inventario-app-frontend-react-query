@@ -5,43 +5,14 @@ import { Combobox } from '@/shared/ui/Input/Combobox'
 import { type VicepresidenciaEjecutivaFilters } from '@/entities/employee/vicepresidenciaEjecutiva/application/createVicepresidenciaEjecutivaQueryParams'
 
 interface VicepresidenciaEjecutivaComboboxProps {
-	/**
-	 * The currently selected executive vicepresidencia ID.
-	 */
 	value?: string
-	/**
-	 * The name of the input field.
-	 */
 	name: string
-	/**
-	 * The ID of the associated directiva, used for filtering executive vicepresidencias.
-	 */
 	directivaId?: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	isLoading?: boolean
-	/**
-	 * Whether the input is loading.
-	 */
 	readonly?: boolean
-	/**
-	 * Callback function triggered when the selected value changes.
-	 * @param name - The name of the input field.
-	 * @param value - The new selected value (executive vicepresidencia ID).
-	 */
 	handleChange: (name: string, value: string | number) => void
 }
 
@@ -63,10 +34,9 @@ export const VicepresidenciaEjecutivaCombobox = memo(function ({
 	const [inputValue, setInputValue] = useState('')
 	const query: VicepresidenciaEjecutivaFilters = useMemo(
 		() => ({
-			...(value ? { id: value } : {}),
 			directivaId
 		}),
-		[value, directivaId]
+		[directivaId]
 	)
 
 	const { data, isLoading: loading } = useGetAllVicepresidenciaEjecutivas(query)

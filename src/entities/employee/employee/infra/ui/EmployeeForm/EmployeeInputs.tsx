@@ -102,6 +102,9 @@ export const EmployeeInputs = memo(
 						employeeCodeError={errors.employeeCode}
 						cedulaError={errors.cedula}
 						typeError={errors.type}
+						isInitialEmployeeCodeEmpty={formData.isInitialEmployeeCodeEmpty}
+						isInitialCedulaEmpty={formData.isInitialCedulaEmpty}
+						isInitialNationalityEmpty={formData.isInitialNationalityEmpty}
 						handleChange={handleChange}
 					/>
 					<AdditionalEmployeeInfo

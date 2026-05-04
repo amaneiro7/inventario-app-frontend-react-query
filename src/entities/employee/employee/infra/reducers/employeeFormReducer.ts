@@ -20,6 +20,9 @@ export interface DefaultEmployee {
 	email: EmployeeDto['email']
 	isStillWorking: EmployeeDto['isStillWorking']
 	employeeCode: EmployeeDto['employeeCode'] | ''
+	isInitialEmployeeCodeEmpty: boolean
+	isInitialNationalityEmpty: boolean
+	isInitialCedulaEmpty: boolean
 	nationality: EmployeeDto['nationality'] | ''
 	cedula: EmployeeDto['cedula'] | ''
 	locationId: EmployeeDto['locationId']
@@ -121,6 +124,9 @@ export const initialEmployeeState: State = {
 		email: '',
 		isStillWorking: true,
 		employeeCode: '',
+		isInitialEmployeeCodeEmpty: true,
+		isInitialNationalityEmpty: true,
+		isInitialCedulaEmpty: true,
 		nationality: '',
 		cedula: '',
 		locationId: '',
@@ -264,12 +270,13 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 				formData: {
 					...formData,
 					type,
-					employeeCode:
-						// Si es genérico, aprendiz, contratado o no hay un tipo seleccionado
-						// el código de empleado se mantiene vacio, sino el valor que viene
-						// en el initialState o 1 por defecto
-						!hasEmployeeCode || !type ? '' : (formData.employeeCode ?? 1),
+					employeeCode: !hasEmployeeCode || !type ? '' : (formData.employeeCode ?? ''),
 					nationality: isGeneric || !type ? '' : formData.nationality || Nationalities.V,
+					// Capturamos si los campos vienen vacíos del backend
+					isInitialEmployeeCodeEmpty: !formData.employeeCode,
+					isInitialCedulaEmpty: !formData.cedula,
+					isInitialNationalityEmpty: !formData.nationality,
+					cedula: isGeneric || !type ? '' : formData.cedula,
 					phone: phone.length > 0 ? phone : [''],
 					extension: extension.length > 0 ? extension : ['']
 				},
