@@ -32,24 +32,9 @@ export const mapEmployeeToState = (
 		cargoId: employee.cargoId ?? '',
 		extension: extension,
 		phone: phone,
-		// extensionSegments: extension?.map(ext => {
-		// 	const match = ext.match(/(\d{4})(\d{7})/)
-		// 	const operadora = match ? match?.[1] : ''
-		// 	const numero = match ? match?.[2] : ''
-
-		// 	return { operadora, numero }
-		// }) ?? [
-		// 	{
-		// 		operadora: '',
-		// 		numero: ''
-		// 	}
-		// ],
-		// phoneSegments: phone.map(ph => {
-		// 	const match = ph.match(/(\d{4})(\d{7})/)
-		// 	const operadora = match ? match?.[1] : ''
-		// 	const numero = match ? match?.[2] : ''
-		// 	return { operadora, numero }
-		// }),
+		isInitialCedulaEmpty: employee.cedula === null,
+		isInitialEmployeeCodeEmpty: employee.employeeCode === null,
+		isInitialNationalityEmpty: employee.nationality === null,
 		devices: employee.devices ?? [],
 		updatedAt: employee.updatedAt
 	}
