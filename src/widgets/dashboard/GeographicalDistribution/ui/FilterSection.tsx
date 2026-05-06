@@ -5,85 +5,25 @@ import { Input } from '@/shared/ui/Input/Input'
 import { MapPin } from 'lucide-react'
 
 interface FilterSectionProps {
-	/**
-	 * The current level of geographical aggregation being viewed.
-	 */
 	viewBy: 'admRegion' | 'region' | 'state' | 'city' | 'sites' | 'location'
-	/**
-	 * Indicates whether any filters are currently active.
-	 */
 	hasActiveFilters: boolean
-	/**
-	 * List of unique administrative regions available for filtering.
-	 */
 	uniqueAdmRegions: string[]
-	/**
-	 * List of unique regions available for filtering.
-	 */
 	uniqueRegions: string[]
-	/**
-	 * List of unique states available for filtering.
-	 */
 	uniqueStates: string[]
-	/**
-	 * List of unique cities available for filtering.
-	 */
 	uniqueCities: string[]
-	/**
-	 * List of unique sites available for filtering.
-	 */
 	uniqueSites: string[]
-	/**
-	 * The currently selected administrative region filter value.
-	 */
 	admRegionFilter: string
-	/**
-	 * The currently selected region filter value.
-	 */
 	regionFilter: string
-	/**
-	 * The currently selected state filter value.
-	 */
 	stateFilter: string
-	/**
-	 * The currently selected city filter value.
-	 */
 	cityFilter: string
-	/**
-	 * The currently selected site filter value.
-	 */
 	siteFilter: string
-	/**
-	 * The current search filter string.
-	 */
 	searchFilter: string
-	/**
-	 * Setter function for the administrative region filter.
-	 */
 	setAdmRegionFilter: React.Dispatch<React.SetStateAction<string>>
-	/**
-	 * Setter function for the region filter.
-	 */
 	setRegionFilter: React.Dispatch<React.SetStateAction<string>>
-	/**
-	 * Setter function for the state filter.
-	 */
 	setStateFilter: React.Dispatch<React.SetStateAction<string>>
-	/**
-	 * Setter function for the city filter.
-	 */
 	setCityFilter: React.Dispatch<React.SetStateAction<string>>
-	/**
-	 * Setter function for the site filter.
-	 */
 	setSiteFilter: React.Dispatch<React.SetStateAction<string>>
-	/**
-	 * Setter function for the search filter.
-	 */
 	setSearchFilter: React.Dispatch<React.SetStateAction<string>>
-	/**
-	 * Callback function to clear all filters.
-	 */
 	clearFilters: () => void
 }
 
@@ -118,7 +58,7 @@ export const FilterSection = memo(
 		return (
 			<div className="mb-4 flex flex-wrap gap-3">
 				<div className="flex flex-1 flex-col flex-wrap gap-3 sm:flex-row">
-					<div className="relative w-full sm:max-w-[200px]">
+					<div className="relative w-full sm:max-w-50">
 						<Input
 							id="geo-search"
 							transform
@@ -142,7 +82,7 @@ export const FilterSection = memo(
 								setCityFilter('')
 							}}
 						>
-							<SelectTrigger className="w-full sm:w-[180px]">
+							<SelectTrigger className="w-full sm:w-45">
 								<SelectValue placeholder="Todas las zonas" />
 							</SelectTrigger>
 							<SelectContent>
@@ -167,7 +107,7 @@ export const FilterSection = memo(
 								setCityFilter('')
 							}}
 						>
-							<SelectTrigger className="w-full sm:w-[180px]">
+							<SelectTrigger className="w-full sm:w-45">
 								<SelectValue placeholder="Todas las regiones" />
 							</SelectTrigger>
 							<SelectContent>
@@ -190,7 +130,7 @@ export const FilterSection = memo(
 							}}
 							disabled={!regionFilter || !uniqueStates.length}
 						>
-							<SelectTrigger className="w-full sm:w-[180px]">
+							<SelectTrigger className="w-full sm:w-45">
 								<SelectValue placeholder="Todos los estados" />
 							</SelectTrigger>
 							<SelectContent>
@@ -210,7 +150,7 @@ export const FilterSection = memo(
 							onValueChange={value => setCityFilter(value === 'all' ? '' : value)}
 							disabled={!regionFilter || !stateFilter || !uniqueCities.length}
 						>
-							<SelectTrigger className="w-full sm:w-[180px]">
+							<SelectTrigger className="w-full sm:w-45">
 								<SelectValue placeholder="Todas las ciudades" />
 							</SelectTrigger>
 							<SelectContent>
@@ -232,7 +172,7 @@ export const FilterSection = memo(
 								!regionFilter || !stateFilter || !cityFilter || !uniqueSites.length
 							}
 						>
-							<SelectTrigger className="w-full sm:w-[180px]">
+							<SelectTrigger className="w-full sm:w-45">
 								<SelectValue placeholder="Todas los sitios" />
 							</SelectTrigger>
 							<SelectContent>
