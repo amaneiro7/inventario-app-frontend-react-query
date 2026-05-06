@@ -41,18 +41,12 @@ declare global {
 
 if (window.trustedTypes?.createPolicy) {
 	if (!window.trustedTypes.defaultPolicy) {
-		const policy = window.trustedTypes.createPolicy('default', {
-			// We let DOMPurify sanitize the string. The browser will automatically
-			// wrap the returned string into a TrustedHTML object.
-			createHTML: string => DOMPurify.sanitize(string),
+		window.trustedTypes.createPolicy('default', {
+			createHTML: string =>
+				DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }) as unknown as string,
 			createScript: string => string,
 			createStyle: style => style,
 			createScriptURL: url => url
 		})
-
-		// Configure DOMPurify to use our 'default' policy.
-		// This prevents DOMPurify from creating its own 'dompurify' policy internally,
-		// helping you stick to a cleaner CSP: "trusted-types default"
-		DOMPurify.setConfig({ TRUSTED_TYPES_POLICY: policy as any })
 	}
 }
