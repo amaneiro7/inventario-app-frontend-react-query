@@ -26,7 +26,7 @@
 		"class-variance-authority": "0.7.1",
 		"classnames": "2.5.1",
 		"clsx": "2.1.1",
-		"dompurify": "3.4.2",
+		"dompurify": "3.4.1",
 		"file-saver": "2.0.5",
 		"file-server": "2.2.1",
 		"html-to-image": "1.11.13",
