@@ -15,7 +15,7 @@ export default defineConfig({
 	},
 	plugins: [react(), babel({ presets: [reactCompilerPreset()] }), svgr()],
 	optimizeDeps: {
-		include: ['recharts']
+		include: ['recharts', 'd3-scale', 'd3-interpolate', 'd3-shape']
 	},
 	build: {
 		sourcemap: true,
