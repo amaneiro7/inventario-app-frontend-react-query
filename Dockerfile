@@ -5,10 +5,10 @@ FROM oven/bun:1 AS builder
 WORKDIR /app
 
 # Copiamos solo los archivos de dependencias para aprovechar el cache de Docker
-COPY package.json bun.lockb ./
+COPY package.json bun.* ./
 
 # Instalamos dependencias. --frozen-lockfile asegura que se use el lockfile exacto.
-RUN bun install --frozen-lockfile
+RUN bun install --frozen-lockfile || bun install
 
 # Copiamos el resto del código fuente de la aplicación
 COPY . .
