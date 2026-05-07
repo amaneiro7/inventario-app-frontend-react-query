@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
 import svgr from 'vite-plugin-svgr'
-import * as path from 'path'
+import path from 'path'
 
 export default defineConfig({
 	resolve: {
@@ -13,5 +13,14 @@ export default defineConfig({
 			}
 		]
 	},
-	plugins: [react(), babel({ presets: [reactCompilerPreset()] }), svgr()]
+	plugins: [react(), babel({ presets: [reactCompilerPreset()] }), svgr()],
+	optimizeDeps: {
+		include: ['recharts', 'd3-scale', 'd3-interpolate', 'd3-shape']
+	},
+	build: {
+		sourcemap: true,
+		commonjsOptions: {
+			include: [/recharts/, /node_modules/]
+		}
+	}
 })
