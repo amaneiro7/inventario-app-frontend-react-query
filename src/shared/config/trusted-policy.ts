@@ -18,8 +18,8 @@ interface TrustedScriptURL {
 interface TrustedTypePolicy {
 	readonly name: string
 	createHTML(input: string): TrustedHTML | string
-	createScript(input: string): TrustedScript | string
-	createScriptURL(input: string): TrustedScriptURL | string
+	createScript?(input: string): TrustedScript | string
+	createScriptURL?(input: string): TrustedScriptURL | string
 }
 
 declare global {
@@ -35,18 +35,36 @@ declare global {
 				}
 			) => TrustedTypePolicy
 			defaultPolicy?: TrustedTypePolicy
+			getPolicyNames: () => string[]
 		}
 	}
 }
 
-if (window.trustedTypes?.createPolicy) {
-	if (!window.trustedTypes.defaultPolicy) {
-		window.trustedTypes.createPolicy('default', {
-			createHTML: string =>
-				DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }) as unknown as string,
-			createScript: string => string,
-			createStyle: style => style,
-			createScriptURL: url => url
+const setupTrustedTypes = () => {
+	const tt = window.trustedTypes
+	if (!tt?.createPolicy) return
+
+	const activePolicies = tt.getPolicyNames?.() || []
+
+	// 1. Politica 'dompurify': Permitida explicitamente en tu CSP.
+	if (activePolicies.includes('dompurify')) {
+		tt.createPolicy('dompurify', {
+			createHTML: (input: string) =>
+				DOMPurify.sanitize(input, { RETURN_TRUSTED_TYPE: true }) as unknown as TrustedHTML
+		})
+	}
+
+	// 2. Política 'default': Actúa como fallback para todas las inyecciones de HTML.
+	if (!tt.defaultPolicy && !activePolicies.includes('default')) {
+		tt.createPolicy('default', {
+			createHTML: (input: string) =>
+				DOMPurify.sanitize(input, { RETURN_TRUSTED_TYPE: true }) as unknown as TrustedHTML,
+			// Para Scripts y URLs, se suele dejar pasar el string original
+			// a menos que tengas una lógica de validación específica.
+			createScript: (input: string) => input,
+			createScriptURL: (input: string) => input
 		})
 	}
 }
+
+setupTrustedTypes()
