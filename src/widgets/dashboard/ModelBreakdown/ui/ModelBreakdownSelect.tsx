@@ -11,7 +11,7 @@ export const ModelBreakdownSelect = memo(
 	({ selectedBrand, setSelectedBrand, brands }: ModelBreakdownSelectProps) => {
 		return (
 			<Select value={selectedBrand} onValueChange={setSelectedBrand}>
-				<SelectTrigger className="w-[188px]">
+				<SelectTrigger className="w-47">
 					<SelectValue placeholder="Seleccione una marca" />
 				</SelectTrigger>
 				<SelectContent>

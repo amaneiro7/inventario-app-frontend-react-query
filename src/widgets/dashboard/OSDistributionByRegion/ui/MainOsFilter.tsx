@@ -6,41 +6,23 @@ import Button from '@/shared/ui/Button'
  * Props for the MainOsFilter component.
  */
 interface MainOsFilterProps {
-	/** The current view mode for filtering (e.g., 'region', 'state'). */
 	viewBy: 'region' | 'admRegion' | 'state' | 'city' | 'site' | 'location'
-	/** Indicates if any filters are currently active. */
 	hasActiveFilters: boolean
-	/** List of unique administrative regions available for filtering. */
 	uniqueAdmRegions: string[]
-	/** List of unique regions available for filtering. */
 	uniqueRegions: string[]
-	/** List of unique states available for filtering. */
 	uniqueStates: string[]
-	/** List of unique cities available for filtering. */
 	uniqueCities: string[]
-	/** List of unique sites available for filtering. */
 	uniqueSites: string[]
-	/** The currently selected administrative region filter. */
 	admRegionFilter: string
-	/** The currently selected region filter. */
 	regionFilter: string
-	/** The currently selected state filter. */
 	stateFilter: string
-	/** The currently selected city filter. */
 	cityFilter: string
-	/** The currently selected site filter. */
 	siteFilter: string
-	/** Function to set the administrative region filter. */
 	setAdmRegionFilter: React.Dispatch<React.SetStateAction<string>>
-	/** Function to set the region filter. */
 	setRegionFilter: React.Dispatch<React.SetStateAction<string>>
-	/** Function to set the state filter. */
 	setStateFilter: React.Dispatch<React.SetStateAction<string>>
-	/** Function to set the city filter. */
 	setCityFilter: React.Dispatch<React.SetStateAction<string>>
-	/** Function to set the site filter. */
 	setSiteFilter: React.Dispatch<React.SetStateAction<string>>
-	/** Function to clear all active filters. */
 	clearFilters: () => void
 }
 
@@ -89,7 +71,7 @@ export const MainOsFilter = memo(
 							}}
 							aria-label="Filtrar por zona administrativa"
 						>
-							<SelectTrigger className="w-fit sm:min-w-[180px]">
+							<SelectTrigger className="w-fit sm:min-w-45">
 								<SelectValue placeholder="Todas las zonas administrativas" />
 							</SelectTrigger>
 							<SelectContent>
@@ -119,7 +101,7 @@ export const MainOsFilter = memo(
 							disabled={!admRegionFilter || !uniqueStates.length}
 							aria-label="Filtrar por región"
 						>
-							<SelectTrigger className="w-fit sm:min-w-[180px]">
+							<SelectTrigger className="w-fit sm:min-w-45">
 								<SelectValue placeholder="Todas las regiones" />
 							</SelectTrigger>
 							<SelectContent>
@@ -145,7 +127,7 @@ export const MainOsFilter = memo(
 							disabled={!regionFilter || !uniqueStates.length}
 							aria-label="Filtrar por estado"
 						>
-							<SelectTrigger className="w-fit sm:min-w-[180px]">
+							<SelectTrigger className="w-fit sm:min-w-45">
 								<SelectValue placeholder="Todos los estados" />
 							</SelectTrigger>
 							<SelectContent>
@@ -170,7 +152,7 @@ export const MainOsFilter = memo(
 							disabled={!stateFilter || !uniqueCities.length}
 							aria-label="Filtrar por ciudad"
 						>
-							<SelectTrigger className="w-fit sm:min-w-[180px]">
+							<SelectTrigger className="w-fit sm:min-w-45">
 								<SelectValue placeholder="Todas las ciudades" />
 							</SelectTrigger>
 							<SelectContent>
@@ -193,7 +175,7 @@ export const MainOsFilter = memo(
 							disabled={!cityFilter || !uniqueSites.length}
 							aria-label="Filtrar por sitio"
 						>
-							<SelectTrigger className="w-fit sm:min-w-[180px]">
+							<SelectTrigger className="w-fit sm:min-w-45">
 								<SelectValue placeholder="Todos los sitios" />
 							</SelectTrigger>
 							<SelectContent>

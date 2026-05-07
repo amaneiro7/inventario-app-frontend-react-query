@@ -51,7 +51,7 @@ export const SecondaryFIlter = memo(
 		return (
 			<div className="flex flex-wrap gap-4">
 				{/* Search input for location */}
-				<div className="relative w-full sm:max-w-[200px]">
+				<div className="relative w-full sm:max-w-50">
 					<Input
 						id="location-search"
 						transform
@@ -71,7 +71,7 @@ export const SecondaryFIlter = memo(
 					onValueChange={value => setTypeOfSiteFilter(value)}
 					aria-label="Filtrar por tipo de sitio"
 				>
-					<SelectTrigger className="w-fit min-w-[180px]">
+					<SelectTrigger className="w-fit min-w-45">
 						<SelectValue placeholder="FIltrar por tipo de sitio" />
 					</SelectTrigger>
 					<SelectContent>
@@ -89,7 +89,7 @@ export const SecondaryFIlter = memo(
 					onValueChange={value => setSortOrder(value as any)}
 					aria-label="Ordenar los resultados por"
 				>
-					<SelectTrigger className="w-fit min-w-[180px]">
+					<SelectTrigger className="w-fit min-w-45">
 						<SelectValue
 							placeholder={
 								sortOrder === 'name' ? 'Ordenar por nombre' : 'Ordenar por cantidad'
@@ -111,7 +111,7 @@ export const SecondaryFIlter = memo(
 					}
 					aria-label="Ver la distribución por"
 				>
-					<SelectTrigger className="w-fit min-w-[180px]">
+					<SelectTrigger className="w-fit min-w-45">
 						<SelectValue placeholder="Ver distribución por..." />
 					</SelectTrigger>
 					<SelectContent>
