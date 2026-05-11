@@ -1,3 +1,7 @@
+/**
+ * ESTADO GLOBAL (Legacy)
+ * Candidatos a ser convertidos en Contextos de React o estados de Redux/Zustand.
+ */
 var typesCases
 var cases
 var usuarios
@@ -14,11 +18,18 @@ var groupsAll
 
 //carga de casos en pagina principal
 
+/**
+ * UTILERÍA: Trunca textos largos para la vista de tabla.
+ */
 function truncarTexto(texto, maxLongitud) {
 	if (!texto) return ''
 	return texto.length > maxLongitud ? texto.substring(0, maxLongitud) + '...' : texto
 }
 
+/**
+ * LÓGICA DE VISTA: Renderiza la tabla principal.
+ * En React: Esto sería un componente <CaseTable /> que recibe la lista de 'cases' como prop.
+ */
 async function ChargeTables() {
 	// validar campos
 	let prioridad = $('#prioridad').val()
@@ -72,6 +83,11 @@ async function ChargeTables() {
 	textTablesContainer += tableHeader
 	exportTableContainer += tableHeader
 
+	/**
+	 * FILTRADO CLIENT-SIDE (Candidato a refactorizar)
+	 * Actualmente recorre todos los casos y decide si mostrarlos o no mediante 'continue'.
+	 * En React: Usa un .filter() sobre el array de casos antes de mapear al JSX.
+	 */
 	let n = 0
 	for (let i = 0; i < cases.length; i++) {
 		const element = cases[i]
@@ -353,6 +369,10 @@ async function ChargeTables() {
 	})
 }
 
+/**
+ * LÓGICA DE VISTA: Carga casos hijos (sub-tickets).
+ * En React: Podría ser una vista de "Detalle" o una sección colapsable.
+ */
 async function ChargeSubCase() {
 	// validar campos
 	let id = $('#codCaso').val()
@@ -515,12 +535,18 @@ async function ChargeSubCase() {
 	}
 }
 
-//establecer formato de fecha
+/**
+ * FORMATEO: Convierte fechas de SharePoint a formato local.
+ */
 function formatDate(a) {
 	return a == null ? '' : new Date(a).toLocaleDateString()
 }
 
 //??
+/**
+ * NAVEGACIÓN: Redirige a la página de edición.
+ * En React: Se usaría `useNavigate` de React Router.
+ */
 function show(id) {
 	if (!id) {
 		id = $('#parentCode').val()
@@ -529,6 +555,10 @@ function show(id) {
 }
 
 //bloquear modificacion de casos finalizados o anulados
+/**
+ * UI STATE: Deshabilita inputs si el caso ya está cerrado.
+ * En React: Estado booleano `isReadOnly`.
+ */
 async function LockControls() {
 	$('.casos-input').prop('disabled', true)
 	$('.btn').hide()
@@ -561,15 +591,24 @@ async function ChargeUsers() {
 	users = await GetUsers()
 }
 
-//Corrección de los nombre de usuarios
+/**
+ * LOOKUPS: Mapean IDs de SharePoint a nombres legibles.
+ * En React: Estos datos deberían venir de un Custom Hook `useSharePointData`.
+ */
 function getName(userId) {
 	return users.find(x => x.Id == userId)?.Title || 'No asignado'
 }
 
+/**
+ * Mapea el ID del usuario que cerró el caso.
+ */
 function getEjecutado(userId) {
 	return users.find(x => x.Id == userId)?.Title || 'Este caso no ha sido ejecutado'
 }
 
+/**
+ * Mapea IDs de grupos de seguridad a sus nombres.
+ */
 function getGroupsName(groupsId) {
 	for (let i = 0; i < spGroups.length; i++) {
 		const element = spGroups[i]
@@ -581,7 +620,10 @@ function getGroupsName(groupsId) {
 	return 'No asignado'
 }
 
-//carga de tipo de casos segun el id del grupo
+/**
+ * LÓGICA DE NEGOCIO: Filtra qué tipos de casos puede crear un usuario según su grupo.
+ * Crucial para la migración: Separar esta lógica de permisos de la vista.
+ */
 async function ChargeTypeCases() {
 	typesCases = await GetInfoTypeCases()
 	//cases = await  GetInfoCases();
@@ -644,6 +686,10 @@ function getTypeCaseIdGroup(typeCaseId) {
 }
 
 //obtener la informacion de los casos en las listas de sharepoint
+/**
+ * API SERVICE: Llamada REST a SharePoint para obtener ítems.
+ * En React: Mover a un archivo `services/sharepoint.service.js`.
+ */
 async function GetInfoCases(parentId) {
 	let filter = ''
 	if (parentId) filter = `?&$filter=ParentCod eq ${parentId}`
@@ -858,7 +904,10 @@ async function Buscar() {
 	await ChargeTables()
 }
 
-//Creación y actualización de casos
+/**
+ * ACCIÓN: Guarda o actualiza un ticket en SharePoint.
+ * Esta función es muy grande porque mezcla lectura de DOM, validación, lógica de fechas y peticiones AJAX.
+ */
 function CreateOrUpdateCase() {
 	let form = $('#titulo').val()
 	let form2 = $('#nombre').val()
@@ -1092,7 +1141,10 @@ function CreateSubCase() {
 	window.location.href = `CrearCaso.aspx?parentCase=${id}`
 }
 
-//Carga de usuarios de un grupo en los drpdwn
+/**
+ * UI HELPERS: Llenan los <select> del formulario.
+ * En React: Simplemente mapear el array de usuarios/grupos a componentes <option>.
+ */
 async function ChargeUsersForm() {
 	usuarios = await GetAllUsersInMyGroups()
 	gUsers = usuarios.map(x => x.Id)
@@ -1156,7 +1208,11 @@ function linkGroup() {
 	setField('drpdwnGroups', caseGroupid) //3
 }
 
-//Carga del Caso seleccionado desde gestor de tickets
+/**
+ * LÓGICA DE INICIALIZACIÓN DE FORMULARIO:
+ * Lee la URL, trae los datos del caso y aplica reglas de visibilidad/permisos.
+ * Es el "cerebro" de la pantalla de edición.
+ */
 async function LoadCase() {
 	let urlParams = new URLSearchParams(window.location.search)
 	let Id = urlParams.get('codcaso')
@@ -1373,7 +1429,10 @@ async function searchUser(e) {
 	}
 }
 
-//carga inicial para las pantallas
+/**
+ * ENTRY POINT: Punto de entrada principal (similar a un useEffect sin dependencias).
+ * Orquestador de la carga inicial de datos.
+ */
 async function Init() {
 	try {
 		groups = await GetUserGroups()
@@ -1466,6 +1525,10 @@ async function Init2() {
 	}
 }
 
+/**
+ * EXPORTACIÓN: Genera un archivo Excel (.xls) falso mediante HTML/XML.
+ * En React: Puede mantenerse igual o usar librerías como `xlsx`.
+ */
 function htmlExcel(idTabla, nombreArchivo = '') {
 	let tipoDatos = 'application/vnd.ms-excel;charset=utf-8;'
 	let tablaDatos = document.getElementById('exportTableContainer').querySelector('table') // Usa tabla completa
