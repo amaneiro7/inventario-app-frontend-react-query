@@ -20,6 +20,7 @@ const FormSite = lazy(() => import('@/pages/FormSite'))
 const FormDepartamento = lazy(() => import('@/pages/FormDepartamento'))
 const FormCargo = lazy(() => import('@/pages/FormCargo'))
 const FormDirectiva = lazy(() => import('@/pages/FormDirectiva'))
+const FormUnidad = lazy(() => import('@/pages/FormUnidad'))
 const FormVicepresidenciaEjecutivas = lazy(() => import('@/pages/FormVicepresidenciaEjecutiva'))
 const FormVicepresidencia = lazy(() => import('@/pages/FormVicepresidencia'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
@@ -132,6 +133,7 @@ export default function FormRoutes() {
 						element={suspended(FormPermissionGroup)}
 					/>
 				</Route>
+				// Rutas de jerarquia organizacional
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.DIRECTIVAS.CREATE} />
@@ -145,6 +147,18 @@ export default function FormRoutes() {
 					}
 				>
 					<Route path="directiva/edit/:id" element={suspended(FormDirectiva)} />
+				</Route>
+				<Route
+					element={
+						<ProtectedByPermissionRoute permission={PERMISSIONS.UNIDADES.CREATE} />
+					}
+				>
+					<Route path="unidad/add" element={suspended(FormUnidad)} />
+				</Route>
+				<Route
+					element={<ProtectedByPermissionRoute permission={PERMISSIONS.UNIDADES.READ} />}
+				>
+					<Route path="unidad/edit/:id" element={suspended(FormUnidad)} />
 				</Route>
 				<Route
 					element={

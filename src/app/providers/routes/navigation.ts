@@ -150,6 +150,12 @@ export const navigation: Navigation[] = [
 				permission: PERMISSIONS.EMPLOYEES.CREATE
 			},
 			{
+				title: 'Agregar Nueva Unidad',
+				path: '/form/unidad/add',
+				desc: 'Define y registra nuevas unidades organizacionales o equipos de gestión.',
+				permission: PERMISSIONS.UNIDADES.CREATE
+			},
+			{
 				title: 'Agregar Nueva Directiva',
 				path: '/form/directiva/add',
 				desc: 'Define y registra nuevas directivas organizacionales o equipos de gestión.',

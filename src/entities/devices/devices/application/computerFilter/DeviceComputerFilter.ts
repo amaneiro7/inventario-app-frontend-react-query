@@ -16,17 +16,20 @@ export class DeviceComputerFilter {
 	 * Opciones de tamaño de página disponibles para la paginación.
 	 * @static
 	 * @type {number[]}
-	 */ static readonly pageSizeOptions: number[] = [10, 25, 50, 100]
+	 */
+	static readonly pageSizeOptions: number[] = [10, 25, 50, 100]
 	/**
 	 * Tamaño de página por defecto.
 	 * @static
 	 * @type {number}
-	 */ static readonly defaultPageSize: number = 25
+	 */
+	static readonly defaultPageSize: number = 25
 	/**
 	 * Campo de ordenación por defecto.
 	 * @static
 	 * @type {string}
-	 */ static readonly defaultOrderBy: string = 'employeeId'
+	 */
+	static readonly defaultOrderBy: string = 'employeeId'
 	private readonly getAll: DeviceGetAll
 
 	/**

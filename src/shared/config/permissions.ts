@@ -99,6 +99,12 @@ export const PERMISSIONS = {
 		CREATE: 'departamentos:create',
 		UPDATE: 'departamentos:update'
 	},
+	UNIDADES: {
+		READ_LIST: 'unidades:read-list',
+		READ: 'unidades:read',
+		CREATE: 'unidades:create',
+		UPDATE: 'unidades:update'
+	},
 	DIRECTIVAS: {
 		READ_LIST: 'directivas:read-list',
 		READ: 'directivas:read',
