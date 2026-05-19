@@ -94,7 +94,7 @@ export type Action =
 	| { type: 'isUnitActive'; payload: { value: DefaultUnidad['isUnitActive'] } }
 	| {
 			type: 'parentId'
-			payload: { value: DefaultUnidad['parentId']; full_chain: UnidadDto['full_chain'] }
+			payload: { value: DefaultUnidad['parentId']; full_chain?: UnidadDto['full_chain'] }
 	  }
 	| { type: 'addCargo'; payload: { value: string } }
 	| { type: 'removeCargo'; payload: { value: string } }
@@ -183,6 +183,7 @@ export const unidadFormReducer = (state: State, action: Action): State => {
 		case 'parentId': {
 			const parentId = action.payload.value
 			const full_chain = action.payload.full_chain
+
 			return {
 				...state,
 				formData: { ...state.formData, parentId, full_chain }

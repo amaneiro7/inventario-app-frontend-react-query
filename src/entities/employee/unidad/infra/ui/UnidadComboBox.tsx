@@ -27,9 +27,9 @@ interface FormProps extends BaseProps {
 		value,
 		full_chain
 	}: {
-		value: string
+		value: UnidadDto['id']
 		full_chain?: UnidadDto['full_chain']
-	}) => void
+	}) => Promise<void>
 }
 
 type Props = SearchProps | FormProps

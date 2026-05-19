@@ -56,8 +56,8 @@ export function useCreateUnidad(defaultState?: DefaultUnidad) {
 			full_chain
 		}: {
 			value: UnidadDto['id']
-			full_chain: UnidadDto['full_chain']
-		}) => {
+			full_chain?: UnidadDto['full_chain']
+		}): Promise<void> => {
 			dispatch({
 				type: 'parentId',
 				payload: { value, full_chain }
