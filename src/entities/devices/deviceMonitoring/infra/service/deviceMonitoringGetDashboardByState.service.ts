@@ -14,7 +14,8 @@ export class DeviceMonitoringDashboardByStateService implements DeviceMonitoring
 	 * Obtiene los datos del dashboard de monitoreo de dispositivos por estado, opcionalmente filtrados por parámetros de consulta.
 	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<DeviceMonitoringDashboardByStateDto>} Una promesa que se resuelve con el DTO del dashboard de monitoreo de dispositivos por estado.
-	 */ async get(queryParams?: string): Promise<DeviceMonitoringDashboardByStateDto> {
+	 */
+	async get(queryParams?: string): Promise<DeviceMonitoringDashboardByStateDto> {
 		return await fetching({
 			url: `${deviceMonitoringDashboardByStateUrl}?${queryParams}`,
 			method: 'GET'

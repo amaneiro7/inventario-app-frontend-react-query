@@ -53,7 +53,8 @@ export class DeviceComputer extends Device {
 	 * @param {ComputerOsArq} operatingSystemArqId - El ID de la arquitectura del sistema operativo.
 	 * @param {MACAddress} macAddress - La dirección MAC.
 	 * @param {IPAddress} ipAddress - La dirección IP.
-	 */ constructor(
+	 */
+	constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -94,9 +95,8 @@ export class DeviceComputer extends Device {
 	 * @static
 	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
 	 * @returns {boolean} `true` si la categoría es de computadora, `false` en caso contrario.
-	 */ static isComputerCategory(
-		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
-	) {
+	 */
+	static isComputerCategory(categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]) {
 		return categoryId === CategoryOptions.COMPUTER ||
 			categoryId === CategoryOptions.ALLINONE ||
 			categoryId === CategoryOptions.LAPTOP ||

@@ -17,12 +17,8 @@ const FormRegion = lazy(() => import('@/pages/FormRegion'))
 const FormCity = lazy(() => import('@/pages/FormCity'))
 const FormISPLink = lazy(() => import('@/pages/FormISPLink'))
 const FormSite = lazy(() => import('@/pages/FormSite'))
-const FormDepartamento = lazy(() => import('@/pages/FormDepartamento'))
 const FormCargo = lazy(() => import('@/pages/FormCargo'))
-const FormDirectiva = lazy(() => import('@/pages/FormDirectiva'))
 const FormUnidad = lazy(() => import('@/pages/FormUnidad'))
-const FormVicepresidenciaEjecutivas = lazy(() => import('@/pages/FormVicepresidenciaEjecutiva'))
-const FormVicepresidencia = lazy(() => import('@/pages/FormVicepresidencia'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
 const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
@@ -133,21 +129,7 @@ export default function FormRoutes() {
 						element={suspended(FormPermissionGroup)}
 					/>
 				</Route>
-				// Rutas de jerarquia organizacional
-				<Route
-					element={
-						<ProtectedByPermissionRoute permission={PERMISSIONS.DIRECTIVAS.CREATE} />
-					}
-				>
-					<Route path="directiva/add" element={suspended(FormDirectiva)} />
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute permission={PERMISSIONS.DIRECTIVAS.READ} />
-					}
-				>
-					<Route path="directiva/edit/:id" element={suspended(FormDirectiva)} />
-				</Route>
+				// Rutas de jerarquia organizacional // Unidad Organizativa
 				<Route
 					element={
 						<ProtectedByPermissionRoute permission={PERMISSIONS.UNIDADES.CREATE} />
@@ -159,51 +141,6 @@ export default function FormRoutes() {
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.UNIDADES.READ} />}
 				>
 					<Route path="unidad/edit/:id" element={suspended(FormUnidad)} />
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute
-							permission={PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.CREATE}
-						/>
-					}
-				>
-					<Route
-						path="vicepresidenciaEjecutiva/add"
-						element={suspended(FormVicepresidenciaEjecutivas)}
-					/>
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute
-							permission={PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.READ}
-						/>
-					}
-				>
-					<Route
-						path="vicepresidenciaEjecutiva/edit/:id"
-						element={suspended(FormVicepresidenciaEjecutivas)}
-					/>
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute
-							permission={PERMISSIONS.VICEPRESIDENCIAS.CREATE}
-						/>
-					}
-				>
-					<Route path="vicepresidencia/add" element={suspended(FormVicepresidencia)} />
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute
-							permission={PERMISSIONS.VICEPRESIDENCIAS.READ}
-						/>
-					}
-				>
-					<Route
-						path="vicepresidencia/edit/:id"
-						element={suspended(FormVicepresidencia)}
-					/>
 				</Route>
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.MODELS.CREATE} />}
@@ -262,20 +199,6 @@ export default function FormRoutes() {
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.ISP_LINKS.READ} />}
 				>
 					<Route path="isplink/edit/:id" element={suspended(FormISPLink)} />
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute permission={PERMISSIONS.DEPARTAMENTOS.CREATE} />
-					}
-				>
-					<Route path="departamento/add" element={suspended(FormDepartamento)} />
-				</Route>
-				<Route
-					element={
-						<ProtectedByPermissionRoute permission={PERMISSIONS.DEPARTAMENTOS.READ} />
-					}
-				>
-					<Route path="departamento/edit/:id" element={suspended(FormDepartamento)} />
 				</Route>
 				<Route
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.CARGOS.CREATE} />}

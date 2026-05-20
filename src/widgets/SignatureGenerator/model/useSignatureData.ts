@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
 import { TypeOfSiteOptions } from '@/entities/locations/typeOfSites/domain/entity/TypeOfSiteOptions'
 import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
+import { HierarchyLevel } from '@/entities/employee/unidad/infra/ui/hierarchyLevelTranslations'
 
 export interface SignatureData {
 	userName: string
@@ -15,33 +16,52 @@ export interface SignatureData {
 	numbers: string
 	email: string
 	address: string
-	isHasPhoneNumber: boolean
-	isHasEmail: boolean
+	hasPhoneNumber: boolean
+	hasEmail: boolean
 }
 
-export type SignaturePlaceHolders = Omit<SignatureData, 'isHasPhoneNumber' | 'isHasEmail'>
+export type SignaturePlaceHolders = Omit<SignatureData, 'hasPhoneNumber' | 'hasEmail'>
 
 export type SignatureErrors = Partial<Record<keyof SignatureData, string>>
+
+const REQUIRED_FIELD_MESSAGE = 'Este campo es requerido'
+
+/**
+ * Mapea los datos del empleado al formato requerido por la firma.
+ */
+const mapEmployeeToSignature = (employee?: EmployeeDto): SignatureData => {
+	const phoneNumber = [...(employee?.extension ?? []), ...(employee?.phone ?? [])]
+	const phoneNumberText = phoneNumber?.map(tel => `+58 ${formatearTelefono(tel)}`).join(' / ')
+	const levels = employee?.unidad?.full_chain?.levels ?? []
+
+	return {
+		userName: employee?.userName ?? '',
+		name: employee?.name ?? '',
+		lastName: employee?.lastName ?? '',
+		cargo: employee?.cargo?.name ?? '',
+		vicepresidenciaEjecutiva: levels[HierarchyLevel.VPE] ?? '',
+		vicepresidencia: levels[HierarchyLevel.VP] ?? '',
+		siteName: employee?.location?.name ?? '',
+		typeOfSite: employee?.location?.typeOfSiteId ?? '',
+		email: employee?.email ?? '',
+		address: employee?.location?.site?.address ?? '',
+		numbers: phoneNumberText ?? '',
+		hasPhoneNumber: true,
+		hasEmail: true
+	}
+}
+
 export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto | undefined }) => {
-	const [signatureData, setSignatureData] = useState<SignatureData>(() => {
-		const phoneNumber = [...(employeeData?.extension ?? []), ...(employeeData?.phone ?? [])]
-		const phoneNumberText = phoneNumber?.map(tel => `+58 ${formatearTelefono(tel)}`).join(' / ')
-		return {
-			userName: employeeData?.userName ?? '',
-			name: employeeData?.name ?? '',
-			lastName: employeeData?.lastName ?? '',
-			cargo: employeeData?.cargo?.name ?? '',
-			vicepresidencia: employeeData?.vicepresidencia?.name ?? '',
-			vicepresidenciaEjecutiva: employeeData?.vicepresidenciaEjecutiva?.name ?? '',
-			siteName: employeeData?.location?.name ?? '',
-			typeOfSite: employeeData?.location?.typeOfSiteId ?? '',
-			email: employeeData?.email ?? '',
-			address: employeeData?.location?.site?.address ?? '',
-			numbers: phoneNumberText ?? '',
-			isHasPhoneNumber: true,
-			isHasEmail: true
+	const [signatureData, setSignatureData] = useState<SignatureData>(() =>
+		mapEmployeeToSignature(employeeData)
+	)
+
+	// Sincronizar el estado cuando los datos del empleado se carguen o cambien
+	useEffect(() => {
+		if (employeeData) {
+			setSignatureData(mapEmployeeToSignature(employeeData))
 		}
-	})
+	}, [employeeData])
 
 	const placeHolder: SignaturePlaceHolders = useMemo(
 		() => ({
@@ -66,20 +86,21 @@ export const useSignatureData = ({ employeeData }: { employeeData: EmployeeDto |
 
 	const errors: SignatureErrors = useMemo(() => {
 		const newErrors: SignatureErrors = {}
-		const requiredFieldMessage = 'Este campos es requerido'
-		if (!signatureData.name) newErrors.name = requiredFieldMessage
-		if (!signatureData.lastName) newErrors.lastName = requiredFieldMessage
-		if (!signatureData.cargo) newErrors.cargo = requiredFieldMessage
+
+		if (!signatureData.name) newErrors.name = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.lastName) newErrors.lastName = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.cargo) newErrors.cargo = REQUIRED_FIELD_MESSAGE
 		if (!signatureData.vicepresidenciaEjecutiva)
-			newErrors.vicepresidenciaEjecutiva = requiredFieldMessage
-		if (!signatureData.vicepresidencia) newErrors.vicepresidencia = requiredFieldMessage
-		if (!signatureData.numbers && signatureData.isHasPhoneNumber)
-			newErrors.numbers = requiredFieldMessage
-		if (!signatureData.email && signatureData.isHasEmail) newErrors.email = requiredFieldMessage
-		if (!signatureData.address) newErrors.address = requiredFieldMessage
+			newErrors.vicepresidenciaEjecutiva = REQUIRED_FIELD_MESSAGE
+		if (signatureData.typeOfSite !== TypeOfSiteOptions.AGENCY && !signatureData.vicepresidencia)
+			newErrors.vicepresidencia = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.numbers && signatureData.hasPhoneNumber)
+			newErrors.numbers = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.email && signatureData.hasEmail) newErrors.email = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.address) newErrors.address = REQUIRED_FIELD_MESSAGE
 		// Validacion condicional para el campo 'Agencia'
 		if (signatureData.typeOfSite === TypeOfSiteOptions.AGENCY && !signatureData.siteName) {
-			newErrors.siteName = requiredFieldMessage
+			newErrors.siteName = REQUIRED_FIELD_MESSAGE
 		}
 		return newErrors
 	}, [signatureData])

@@ -15,11 +15,8 @@ export class PermissionGroupSaveService implements PermissionGroupSaveRepository
 	 * Guarda una nueva marca.
 	 * @param {{ payload: PermissionGroupPrimitives }} props - Objeto que contiene los datos primitivos de la marca a guardar.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
-	 */ async save({
-		payload
-	}: {
-		payload: PermissionGroupPrimitives
-	}): Promise<{ message: string }> {
+	 */
+	async save({ payload }: { payload: PermissionGroupPrimitives }): Promise<{ message: string }> {
 		return await fetching({ method: 'POST', url: permissionGroupUrl, data: payload })
 	}
 
@@ -27,7 +24,8 @@ export class PermissionGroupSaveService implements PermissionGroupSaveRepository
 	 * Actualiza una marca existente.
 	 * @param {{ id: string; payload: PermissionGroupPrimitives }} props - Objeto que contiene el ID de la marca a actualizar y sus nuevos datos primitivos.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
-	 */ async update({
+	 */
+	async update({
 		id,
 		payload
 	}: {

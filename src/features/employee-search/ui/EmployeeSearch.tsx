@@ -1,28 +1,10 @@
-import { memo, useMemo, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
+import { memo } from 'react'
 import { SearchInput } from '@/shared/ui/Input/Search'
-import { useGetAllEmployees } from '@/entities/employee/employee/infra/hook/useGetAllEmployee'
 import { EmployeeRenderOption } from '@/shared/ui/Input/Combobox/RenderOption/EmployeeRenderOption'
-import { type EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
+import { useEmployeeSearch } from '../model/useEmployeeSearch'
 
 export const EmployeeSearch = memo(() => {
-	const [searchValue, setSearchValue] = useState('')
-	const [debouncedSearch] = useDebounce(searchValue, 250)
-	const [value, setValue] = useState('')
-
-	const query: EmployeeFilters = useMemo(() => {
-		return {
-			...(debouncedSearch
-				? { userName: debouncedSearch, name: debouncedSearch, lastName: debouncedSearch }
-				: { pageSize: 10 }),
-			orderBy: 'userName'
-		}
-	}, [debouncedSearch])
-
-	const { data: employees, isLoading } = useGetAllEmployees(query)
-
-	const options = useMemo(() => employees?.data ?? [], [employees])
-
+	const { isLoading, options, searchValue, setSearchValue, value, setValue } = useEmployeeSearch()
 	return (
 		<SearchInput
 			id="employee-search-username"

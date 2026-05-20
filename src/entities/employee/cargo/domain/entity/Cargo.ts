@@ -1,20 +1,20 @@
-import { DepartamentoId } from '@/entities/employee/departamento/domain/value-object/DepartamentoId'
 import { CargoName } from '../value-object/CargoName'
+import { UnidadId } from '@/entities/employee/unidad/domain/value-object/UnidadId'
 import { type CargoPrimitives } from '../dto/Cargo.dto'
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 
 /**
- * Represents a Cargo entity in the domain. Encapsulates the name and associated departments.
+ * Represents a Cargo entity in the domain. Encapsulates the name and associated units.
  */
 export class Cargo {
 	/**
 	 * Constructs a new Cargo instance.
 	 * @param name - The name of the cargo.
-	 * @param departamentos - An array of DepartamentoId objects associated with this cargo.
+	 * @param unidades - An array of UnidadId objects associated with this cargo.
 	 */
 	constructor(
 		private readonly name: CargoName,
-		private readonly departamentos: DepartamentoId[]
+		private readonly unidades: UnidadId[]
 	) {}
 
 	/**
@@ -23,8 +23,8 @@ export class Cargo {
 	 * @returns A new Cargo instance.
 	 */
 	public static create(params: CargoPrimitives): Cargo {
-		const departamentos = params.departamentos.map(deps => new DepartamentoId(deps))
-		return new Cargo(new CargoName(params.name), departamentos)
+		const unidades = params.unidades.map(deps => new UnidadId(deps))
+		return new Cargo(new CargoName(params.name), unidades)
 	}
 
 	/**
@@ -37,8 +37,8 @@ export class Cargo {
 	/**
 	 * Gets the primitive values of the associated department IDs.
 	 */
-	get departamentosValue(): Primitives<DepartamentoId>[] {
-		return this.departamentos.map(deps => deps.value)
+	get unidadesValue(): Primitives<UnidadId>[] {
+		return this.unidades.map(deps => deps.value)
 	}
 
 	/**
@@ -48,7 +48,7 @@ export class Cargo {
 	toPrimitives(): CargoPrimitives {
 		return {
 			name: this.nameValue,
-			departamentos: this.departamentosValue
+			unidades: this.unidadesValue
 		}
 	}
 }

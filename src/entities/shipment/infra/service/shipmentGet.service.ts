@@ -17,7 +17,8 @@ export class ShipmentGetService implements ShipmentGetRepository {
 	 * Obtiene una marca por su ID.
 	 * @param {{ id: Primitives<ShipmentId> }} props - Objeto que contiene el ID de la marca.
 	 * @returns {Promise<ShipmentDto>} Una promesa que se resuelve con el DTO de la marca encontrada.
-	 */ async getById({ id }: { id: Primitives<ShipmentId> }): Promise<ShipmentDto> {
+	 */
+	async getById({ id }: { id: Primitives<ShipmentId> }): Promise<ShipmentDto> {
 		return await fetching<ShipmentDto>({
 			url: `${shipmentUrl}/${id}`,
 			method: 'GET'

@@ -15,7 +15,8 @@ export class PermissionGroupCreator {
 	 * Crea una instancia de `PermissionGroupCreator`.
 	 * @param {PermissionGroupSaveRepository} repository - El repositorio para guardar o actualizar la marca.
 	 * @param {EventManager} events - El gestor de eventos para notificar el estado de la operación.
-	 */ constructor(
+	 */
+	constructor(
 		readonly repository: PermissionGroupSaveRepository,
 		private readonly events: EventManager
 	) {}
@@ -27,7 +28,8 @@ export class PermissionGroupCreator {
 	 * @param {PermissionGroupParams} params - Los parámetros de la marca a crear o actualizar.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
 	 * @throws {Error} Si ocurre un error durante la operación, se notifica y se lanza una excepción.
-	 */ async create(params: PermissionGroupParams): Promise<{ message: string }> {
+	 */
+	async create(params: PermissionGroupParams): Promise<{ message: string }> {
 		// Notificar que ha empezado el proceso de creación o actualización
 		this.events.notify({ type: 'loading' })
 		try {

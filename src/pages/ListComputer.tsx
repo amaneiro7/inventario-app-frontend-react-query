@@ -107,10 +107,7 @@ export default function ListComputer() {
 									administrativeRegionId={query.administrativeRegionId}
 									mainCategoryId={mainCategoryId}
 									typeOfSiteId={query.typeOfSiteId}
-									directivaId={query.directivaId}
-									vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-									vicepresidenciaId={query.vicepresidenciaId}
-									departamentoId={query.departamentoId}
+									unidadId={query.unidadId}
 									handleChange={handleChange}
 								/>
 
@@ -127,13 +124,8 @@ export default function ListComputer() {
 											regionId={query.regionId}
 											administrativeRegionId={query.administrativeRegionId}
 											cityId={query.cityId}
-											directivaId={query.directivaId}
 											cargoId={query.cargoId}
-											vicepresidenciaEjecutivaId={
-												query.vicepresidenciaEjecutivaId
-											}
-											vicepresidenciaId={query.vicepresidenciaId}
-											departamentoId={query.departamentoId}
+											unidadId={query.unidadId}
 											handleChange={handleChange}
 										/>
 

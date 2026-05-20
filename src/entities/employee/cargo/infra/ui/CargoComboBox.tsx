@@ -5,52 +5,14 @@ import { Combobox } from '@/shared/ui/Input/Combobox'
 import { type CargoFilters } from '@/entities/employee/cargo/application/createCargoQueryParams'
 
 interface CargoComboboxProps {
-	/**
-	 * The currently selected cargo ID.
-	 */
 	value?: string
-	/**
-	 * The ID of the associated department, used for filtering cargos.
-	 */
-	departamentoId?: string
-	/**
-	 * The ID of the associated directiva, used for filtering cargos.
-	 */
-	directivaId?: string
-	/**
-	 * The ID of the associated executive vicepresidencia, used for filtering cargos.
-	 */
-	vicepresidenciaEjecutivaId?: string
-	/**
-	 * The ID of the associated vicepresidencia, used for filtering cargos.
-	 */
-	vicepresidenciaId?: string
-	/**
-	 * The name of the input field.
-	 */
+	unidadId?: string
 	name: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	readonly?: boolean
 	isLoading?: boolean
-	/**
-	 * Callback function triggered when the selected value changes.
-	 * @param name - The name of the input field.
-	 * @param value - The new selected value (cargo ID).
-	 */
 	handleChange: (name: string, value: string | number) => void
 }
 
@@ -66,10 +28,7 @@ export function CargoCombobox({
 	disabled = false,
 	readonly = false,
 	isLoading = false,
-	directivaId = '',
-	vicepresidenciaEjecutivaId = '',
-	vicepresidenciaId = '',
-	departamentoId = '',
+	unidadId = '',
 	handleChange
 }: CargoComboboxProps) {
 	const [inputValue, setInputValue] = useState('')
@@ -79,19 +38,9 @@ export function CargoCombobox({
 		return {
 			...(value ? { id: value } : {}),
 			...(debouncedSearch ? { name: debouncedSearch, id: undefined } : { pageSize: 10 }),
-			directivaId,
-			vicepresidenciaEjecutivaId,
-			vicepresidenciaId,
-			departamentoId
+			unidadId
 		}
-	}, [
-		debouncedSearch,
-		value,
-		departamentoId,
-		directivaId,
-		vicepresidenciaEjecutivaId,
-		vicepresidenciaId
-	])
+	}, [debouncedSearch, value, unidadId])
 
 	const { data, isLoading: loading } = useGetAllCargo(query)
 

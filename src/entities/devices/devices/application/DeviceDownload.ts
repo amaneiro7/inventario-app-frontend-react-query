@@ -14,7 +14,8 @@ export class DeviceDownload {
 	/**
 	 * @param {DeviceDownloadRepository} repository - The repository for downloading device data.
 	 * @param {EventManager} events - The event manager to notify about process status (loading, success, error).
-	 */ constructor(
+	 */
+	constructor(
 		private readonly repository: DeviceDownloadRepository,
 		private readonly events: EventManager
 	) {}
@@ -26,7 +27,8 @@ export class DeviceDownload {
 	 * @param {Source} params.source - The source of the download (e.g., 'computer', 'model').
 	 * @returns {Promise<void>} A promise that resolves when the download is initiated.
 	 * @throws {Error} Throws an error if the download process fails.
-	 */ async run({
+	 */
+	async run({
 		orderBy = 'employeeId',
 		orderType,
 		source,

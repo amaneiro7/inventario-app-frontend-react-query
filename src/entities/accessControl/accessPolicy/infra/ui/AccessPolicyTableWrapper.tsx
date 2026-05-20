@@ -70,7 +70,7 @@ export const AccessPolicyTableWrapper = memo(
 									Nombre
 								</TableHead>
 								<TableHead
-									className="hidden lg:table-cell"
+									// className="hidden lg:table-cell"
 									aria-colindex={2}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
@@ -81,7 +81,7 @@ export const AccessPolicyTableWrapper = memo(
 									Prioridad
 								</TableHead>
 								<TableHead
-									className="1md:table-cell hidden"
+									// className="1md:table-cell hidden"
 									aria-colindex={3}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
@@ -93,49 +93,18 @@ export const AccessPolicyTableWrapper = memo(
 								</TableHead>
 								<TableHead
 									aria-colindex={4}
-									className="4xl:table-cell hidden"
+									// className="4xl:table-cell hidden"
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="directivaId"
+									orderByField="unidadId"
 									size="medium"
 								>
-									Directiva
+									Unidad Organizativa
 								</TableHead>
+
 								<TableHead
-									className="3xl:table-cell hidden"
 									aria-colindex={5}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="vicepresidenciaEjecutivaId"
-									size="medium"
-								>
-									Vicepresidencia Ejecutiva
-								</TableHead>
-								<TableHead
-									className="hidden 2xl:table-cell"
-									aria-colindex={6}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="vicepresidenciaId"
-									size="auto"
-								>
-									Vicepresidencia
-								</TableHead>
-								<TableHead
-									aria-colindex={7}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="departamentoId"
-									size="medium"
-								>
-									Departamento
-								</TableHead>
-								<TableHead
-									aria-colindex={8}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
@@ -145,13 +114,13 @@ export const AccessPolicyTableWrapper = memo(
 									Cargo
 								</TableHead>
 								<TableHead
-									className="1xl:table-cell hidden"
-									aria-colindex={9}
+									// className="1xl:table-cell hidden"
+									aria-colindex={6}
 									size="xxLarge"
 								>
 									Grupo de permisos
 								</TableHead>
-								<TableHead aria-colindex={10} size="xSmall">
+								<TableHead aria-colindex={7} size="xSmall">
 									{/* <span className="sr-only">Acciones</span> */}
 									Acciones
 								</TableHead>

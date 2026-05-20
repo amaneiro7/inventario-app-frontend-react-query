@@ -8,6 +8,6 @@ import { type DefaultCargo } from '../infra/reducers/cargoFormReducer'
 export const mapCargoToState = (cargo: CargoDto): DefaultCargo => ({
 	id: cargo.id,
 	name: cargo.name,
-	departamentos: cargo?.departamentos?.map(departamento => departamento.id) ?? [],
+	unidades: cargo?.unidades?.map(unidad => unidad.id) ?? [],
 	updatedAt: cargo.updatedAt
 })

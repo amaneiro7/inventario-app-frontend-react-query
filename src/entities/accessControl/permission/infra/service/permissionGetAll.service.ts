@@ -16,7 +16,8 @@ export class PermissionGetAllService implements PermissionGetAllRepository {
 	 * Obtiene todas las marcas, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<PermissionDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las marcas.
-	 */ async getAll(queryParams?: string): Promise<Response<PermissionDto>> {
+	 */
+	async getAll(queryParams?: string): Promise<Response<PermissionDto>> {
 		return await fetching({ url: `${permissionUrl}?${queryParams}`, method: 'GET' })
 	}
 }

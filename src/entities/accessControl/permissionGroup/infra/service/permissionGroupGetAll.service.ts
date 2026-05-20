@@ -16,7 +16,8 @@ export class PermissionGroupGetAllService implements PermissionGroupGetAllReposi
 	 * Obtiene todas las marcas, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<PermissionGroupDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las marcas.
-	 */ async getAll(queryParams?: string): Promise<Response<PermissionGroupDto>> {
+	 */
+	async getAll(queryParams?: string): Promise<Response<PermissionGroupDto>> {
 		return await fetching({ url: `${permissionGroupUrl}?${queryParams}`, method: 'GET' })
 	}
 }

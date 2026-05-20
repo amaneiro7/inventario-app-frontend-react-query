@@ -5,41 +5,14 @@ import { Combobox } from '@/shared/ui/Input/Combobox'
 import { type ModelFilters } from '@/entities/model/models/application/CreateModelsQueryParams'
 
 interface BaseProps {
-	/**
-	 * The currently selected model ID.
-	 */
 	value?: string
-	/**
-	 * The name of the input field.
-	 */
 	name: string
-	/**
-	 * The ID of the associated category, used for filtering models.
-	 */
 	categoryId?: string
-	/**
-	 * The ID of the associated main category, used for filtering models.
-	 */
 	mainCategoryId?: string
-	/**
-	 * The ID of the associated brand, used for filtering models.
-	 */
 	brandId?: string
-	/**
-	 * Error message to display, if any.
-	 */
 	error?: string
-	/**
-	 * Whether the input is required.
-	 */
 	required?: boolean
-	/**
-	 * Whether the input is disabled.
-	 */
 	disabled?: boolean
-	/**
-	 * Whether the input is read-only.
-	 */
 	readonly?: boolean
 	isLoading?: boolean
 }

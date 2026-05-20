@@ -96,10 +96,7 @@ export default function ListPrinter() {
 									administrativeRegionId={query.administrativeRegionId}
 									mainCategoryId={mainCategoryId}
 									typeOfSiteId={query.typeOfSiteId}
-									directivaId={query.directivaId}
-									vicepresidenciaEjecutivaId={query.vicepresidenciaEjecutivaId}
-									vicepresidenciaId={query.vicepresidenciaId}
-									departamentoId={query.departamentoId}
+									unidadId={query.unidadId}
 									handleChange={handleChange}
 								/>
 

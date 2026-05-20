@@ -156,30 +156,6 @@ export const navigation: Navigation[] = [
 				permission: PERMISSIONS.UNIDADES.CREATE
 			},
 			{
-				title: 'Agregar Nueva Directiva',
-				path: '/form/directiva/add',
-				desc: 'Define y registra nuevas directivas organizacionales o equipos de gestión.',
-				permission: PERMISSIONS.DIRECTIVAS.CREATE
-			},
-			{
-				title: 'Agregar Nueva V.P. Ejecutiva',
-				path: '/form/vicepresidenciaejecutiva/add',
-				desc: 'Crea un nuevo registro para una Vicepresidencia Ejecutiva dentro de la estructura de la empresa.',
-				permission: PERMISSIONS.VICEPRESIDENCIA_EJECUTIVAS.CREATE
-			},
-			{
-				title: 'Agregar Nueva V.P.',
-				path: '/form/vicepresidencia/add',
-				desc: 'Registra una nueva Vicepresidencia en la jerarquía organizacional.',
-				permission: PERMISSIONS.VICEPRESIDENCIAS.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Departamento',
-				path: '/form/departamento/add',
-				desc: 'Añade un nuevo departamento a la estructura de la organización.',
-				permission: PERMISSIONS.DEPARTAMENTOS.CREATE
-			},
-			{
 				title: 'Agregar Nuevo Cargo',
 				path: '/form/cargo/add',
 				desc: 'Define un nuevo cargo o puesto de trabajo dentro de la empresa.',

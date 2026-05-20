@@ -14,7 +14,8 @@ export class IPAddress extends AcceptedNullValueObject<string> {
 	 * Expresión regular para validar el formato de una dirección IP.
 	 * @static
 	 * @type {RegExp}
-	 */ static readonly IPADRRESS_VALIDATION =
+	 */
+	static readonly IPADRRESS_VALIDATION =
 		/^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\.(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])){3}$/
 	private static errors = ''
 
@@ -23,7 +24,8 @@ export class IPAddress extends AcceptedNullValueObject<string> {
 	 * @param {string | null} value - El valor de la dirección IP.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: string | null,
 		private readonly status: Primitives<StatusId>
 	) {
@@ -38,7 +40,8 @@ export class IPAddress extends AcceptedNullValueObject<string> {
 	 * Actualiza el mensaje de error estático.
 	 * @static
 	 * @param {string} error - El mensaje de error a establecer.
-	 */ static updateError(error: string): void {
+	 */
+	static updateError(error: string): void {
 		IPAddress.errors = error
 	}
 

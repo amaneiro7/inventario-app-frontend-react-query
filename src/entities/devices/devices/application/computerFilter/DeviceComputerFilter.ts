@@ -35,7 +35,8 @@ export class DeviceComputerFilter {
 	/**
 	 * Crea una instancia de `DeviceComputerFilter`.
 	 * @param {DeviceGetAllRepository} repository - El repositorio para obtener todos los dispositivos.
-	 */ constructor(private readonly repository: DeviceGetAllRepository) {
+	 */
+	constructor(private readonly repository: DeviceGetAllRepository) {
 		this.getAll = new DeviceGetAll(this.repository)
 	}
 
@@ -43,7 +44,8 @@ export class DeviceComputerFilter {
 	 * Busca dispositivos de tipo 'computadora' basándose en los filtros proporcionados.
 	 * @param {DeviceBaseFilters} filters - Los filtros a aplicar en la búsqueda.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<import('../../domain/dto/Device.dto').DeviceDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */ async search({
+	 */
+	async search({
 		pageNumber,
 		pageSize = DeviceComputerFilter.defaultPageSize,
 		orderBy = DeviceComputerFilter.defaultOrderBy,

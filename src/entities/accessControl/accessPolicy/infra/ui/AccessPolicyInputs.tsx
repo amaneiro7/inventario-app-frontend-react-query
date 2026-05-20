@@ -18,27 +18,9 @@ const CargoCombobox = lazy(() =>
 		default: m.CargoCombobox
 	}))
 )
-const DepartamentoCombobox = lazy(() =>
-	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
-		default: m.DepartamentoCombobox
-	}))
-)
-
-const VicepresidenciaCombobox = lazy(() =>
-	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
-		default: m.VicepresidenciaCombobox
-	}))
-)
-const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import('@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox').then(
-		m => ({
-			default: m.VicepresidenciaEjecutivaCombobox
-		})
-	)
-)
-const DirectivaCombobox = lazy(() =>
-	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
-		default: m.DirectivaCombobox
+const UnidadCombobox = lazy(() =>
+	import('@/entities/employee/unidad/infra/ui/UnidadComboBox').then(m => ({
+		default: m.UnidadCombobox
 	}))
 )
 
@@ -93,57 +75,22 @@ export const AccessPolicyInputs = memo(
 						isLoading={isLoading}
 						readonly={!canEdit}
 					/>
-					<DirectivaCombobox
-						value={formData.directivaId ?? ''}
-						handleChange={(_name, value) =>
-							handleChange('directivaId', value as string)
-						}
-						name="directivaId"
+					<UnidadCombobox
+						value={formData.unidadId ?? ''}
+						handleChange={(_name, value) => handleChange('unidadId', value as string)}
+						name="unidadId"
+						method="search"
 						isLoading={isLoading}
 						readonly={!canEdit}
 					/>
 				</div>
+
 				<div className="gap-4 md:flex md:flex-row">
-					<VicepresidenciaEjecutivaCombobox
-						value={formData.vicepresidenciaEjecutivaId ?? ''}
-						directivaId={formData.directivaId ?? ''}
-						handleChange={(_name, value) =>
-							handleChange('vicepresidenciaEjecutivaId', value as string)
-						}
-						name="vicepresidenciaEjecutivaId"
-						isLoading={isLoading}
-						readonly={!canEdit}
-					/>
-					<VicepresidenciaCombobox
-						value={formData.vicepresidenciaId ?? ''}
-						directivaId={formData.directivaId ?? ''}
-						vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId ?? ''}
-						handleChange={(_name, value) =>
-							handleChange('vicepresidenciaId', value as string)
-						}
-						name="vicepresidenciaId"
-						isLoading={isLoading}
-						readonly={!canEdit}
-					/>
-				</div>
-				<div className="gap-4 md:flex md:flex-row">
-					<DepartamentoCombobox
-						value={formData.departamentoId ?? ''}
-						handleChange={(_name, value) =>
-							handleChange('departamentoId', value as string)
-						}
-						name="departamentoId"
-						directivaId={formData.directivaId ?? ''}
-						vicepresidenciaId={formData.vicepresidenciaId ?? ''}
-						vicepresidenciaEjecutivaId={formData.vicepresidenciaEjecutivaId ?? ''}
-						isLoading={isLoading}
-						readonly={!canEdit}
-					/>
 					<CargoCombobox
 						value={formData.cargoId ?? ''}
 						handleChange={(_name, value) => handleChange('cargoId', value as string)}
 						name="cargoId"
-						departamentoId={formData.departamentoId ?? ''}
+						unidadId={formData.unidadId ?? ''}
 						isLoading={isLoading}
 						readonly={!canEdit}
 					/>

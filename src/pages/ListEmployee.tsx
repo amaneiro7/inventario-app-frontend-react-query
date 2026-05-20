@@ -78,8 +78,7 @@ export default function ListEmployee() {
 									cargoId={query.cargoId}
 									isStillWorking={query.isStillWorking}
 									locationId={query.locationId}
-									departamentoId={query.departamentoId}
-									vicepresidenciaId={query.vicepresidenciaId}
+									unidadId={query.unidadId}
 									type={query.type}
 									cityId={query.cityId}
 									stateId={query.stateId}
@@ -96,11 +95,6 @@ export default function ListEmployee() {
 											email={query.email}
 											cedula={query.cedula}
 											employeeCode={query.employeeCode}
-											vicepresidenciaId={query.vicepresidenciaId}
-											directivaId={query.directivaId}
-											vicepresidenciaEjecutivaId={
-												query.vicepresidenciaEjecutivaId
-											}
 											regionId={query.regionId}
 											stateId={query.stateId}
 											cityId={query.cityId}

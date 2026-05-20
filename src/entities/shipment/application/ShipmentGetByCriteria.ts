@@ -34,7 +34,8 @@ export class ShipmentGetByCriteria {
 	/**
 	 * Crea una instancia de `ShipmentGetByCriteria`.
 	 * @param {ShipmentGetAllRepository} repository - El repositorio para obtener todas las marcas.
-	 */ constructor(private readonly repository: ShipmentGetAllRepository) {
+	 */
+	constructor(private readonly repository: ShipmentGetAllRepository) {
 		this.getAll = new ShipmentGetAll(this.repository)
 	}
 
@@ -48,7 +49,8 @@ export class ShipmentGetByCriteria {
 	 * @param {import('@/entities/shared/domain/criteria/OrderType').Primitives<import('@/entities/shared/domain/criteria/OrderType').OrderType>} [filters.orderType] - El tipo de ordenación (ascendente/descendente).
 	 * @param {object} [filters.options] - Otros filtros específicos de la marca.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<ShipmentDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */ async search({
+	 */
+	async search({
 		pageNumber,
 		pageSize,
 		orderBy = ShipmentGetByCriteria.defaultOrderBy,

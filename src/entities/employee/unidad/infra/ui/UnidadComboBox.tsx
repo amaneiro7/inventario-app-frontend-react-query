@@ -10,6 +10,7 @@ interface BaseProps {
 	name: string
 	error?: string
 	label?: string
+	level?: number
 	required?: boolean
 	disabled?: boolean
 	isLoading?: boolean
@@ -45,6 +46,7 @@ export const UnidadCombobox = memo(
 		error = '',
 		method = 'search',
 		label = 'Unidad Organizativa',
+		level,
 		required = false,
 		disabled = false,
 		readonly = false,
@@ -57,9 +59,10 @@ export const UnidadCombobox = memo(
 		const query: UnidadFilters = useMemo(() => {
 			return {
 				...(value ? { id: value } : { id: undefined }),
-				...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 })
+				...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
+				level
 			}
-		}, [debouncedSearch, value, name])
+		}, [debouncedSearch, value, name, level])
 		const { data, isLoading: loading } = useGetAllUnidad(query)
 
 		const options = useMemo(() => data?.data ?? [], [data])

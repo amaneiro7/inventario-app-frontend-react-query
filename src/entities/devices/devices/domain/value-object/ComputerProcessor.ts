@@ -18,7 +18,8 @@ export class ComputerProcessor extends AcceptedNullValueObject<Primitives<Proces
 	 * @param {Primitives<ProcessorId> | null} value - El valor del ID del procesador.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: Primitives<ProcessorId> | null,
 		private readonly status: Primitives<StatusId>
 	) {

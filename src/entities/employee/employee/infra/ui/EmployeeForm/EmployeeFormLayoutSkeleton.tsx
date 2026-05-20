@@ -29,12 +29,11 @@ export const EmployeeFormSkeletonLayout = () => (
 
 				<div className="flex flex-col gap-2 rounded-lg border border-gray-400 p-8 pt-4">
 					{/* segundo titulo */}
+					{/* Location */}
 					<div className="h-6 w-1/2 animate-pulse rounded bg-gray-200" />
+					{/* Unidad Organizativa */}
 					<div className="mb-5 h-10 animate-pulse rounded bg-gray-200" />
-					<div className="mb-5 h-10 animate-pulse rounded bg-gray-200" />
-					<div className="mb-5 h-10 animate-pulse rounded bg-gray-200" />
-					<div className="mb-5 h-10 animate-pulse rounded bg-gray-200" />
-					<div className="mb-5 h-10 animate-pulse rounded bg-gray-200" />
+					{/* Cargo */}
 					<div className="mb-5 h-10 animate-pulse rounded bg-gray-200" />
 					{/* Phone */}
 					<div className="flex flex-row justify-between">

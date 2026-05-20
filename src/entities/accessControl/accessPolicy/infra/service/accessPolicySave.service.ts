@@ -15,7 +15,8 @@ export class AccessPolicySaveService implements AccessPolicySaveRepository {
 	 * Guarda una nueva marca.
 	 * @param {{ payload: AccessPolicyPrimitives }} props - Objeto que contiene los datos primitivos de la marca a guardar.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
-	 */ async save({ payload }: { payload: AccessPolicyPrimitives }): Promise<{ message: string }> {
+	 */
+	async save({ payload }: { payload: AccessPolicyPrimitives }): Promise<{ message: string }> {
 		return await fetching({ method: 'POST', url: accessPolicyUrl, data: payload })
 	}
 
@@ -23,7 +24,8 @@ export class AccessPolicySaveService implements AccessPolicySaveRepository {
 	 * Actualiza una marca existente.
 	 * @param {{ id: string; payload: AccessPolicyPrimitives }} props - Objeto que contiene el ID de la marca a actualizar y sus nuevos datos primitivos.
 	 * @returns {Promise<{ message: string }>} Una promesa que se resuelve con un mensaje de éxito.
-	 */ async update({
+	 */
+	async update({
 		id,
 		payload
 	}: {

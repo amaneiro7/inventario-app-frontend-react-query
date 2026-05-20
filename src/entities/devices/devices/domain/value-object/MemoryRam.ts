@@ -12,7 +12,8 @@ export class MemoryRam {
 	/**
 	 * Crea una instancia de `MemoryRam`.
 	 * @param {MemoryRamValues[]} value - Un array de Value Objects `MemoryRamValues`.
-	 */ constructor(readonly value: MemoryRamValues[]) {}
+	 */
+	constructor(readonly value: MemoryRamValues[]) {}
 
 	/**
 	 * Convierte el array de Value Objects `MemoryRamValues` a un array de sus representaciones primitivas.
@@ -28,7 +29,8 @@ export class MemoryRam {
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @returns {MemoryRam} Una nueva instancia de `MemoryRam`.
 	 * @throws {Error} Si la validación falla.
-	 */ static fromPrimitives(
+	 */
+	static fromPrimitives(
 		memoryRamValues: Primitives<MemoryRamValues>[],
 		status: Primitives<StatusId>
 	) {
@@ -94,7 +96,8 @@ export class MemoryRam {
 	 * @static
 	 * @param {Primitives<MemoryRamValues>[]} value - El array de valores primitivos de memoria RAM.
 	 * @returns {number} La cantidad total de memoria RAM.
-	 */ static totalAmount(value: Primitives<MemoryRamValues>[]): number {
+	 */
+	static totalAmount(value: Primitives<MemoryRamValues>[]): number {
 		return value.reduce((acc, val) => acc + Number(val), 0)
 	}
 

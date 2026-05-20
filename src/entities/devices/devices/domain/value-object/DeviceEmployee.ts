@@ -18,7 +18,8 @@ export class DeviceEmployee extends AcceptedNullValueObject<Primitives<EmployeeI
 	 * @param {Primitives<EmployeeId> | null} value - El ID del empleado asignado.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: Primitives<EmployeeId> | null,
 		private readonly status: Primitives<StatusId>
 	) {

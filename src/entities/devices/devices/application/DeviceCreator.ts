@@ -17,7 +17,8 @@ export class DeviceCreator {
 	/**
 	 * @param {DeviceSaveRepository} repository - The repository for saving/updating device data.
 	 * @param {EventManager} events - The event manager to notify about process status (loading, success, error).
-	 */ constructor(
+	 */
+	constructor(
 		private readonly repository: DeviceSaveRepository,
 		private readonly events: EventManager
 	) {}
@@ -27,7 +28,8 @@ export class DeviceCreator {
 	 * @param {Params} params - The device data.
 	 * @returns {Promise<{ message: string }>} A promise that resolves with a success message.
 	 * @throws {Error} Throws an error if the creation/update process fails.
-	 */ async create(params: Params): Promise<{ message: string }> {
+	 */
+	async create(params: Params): Promise<{ message: string }> {
 		this.events.notify({ type: 'loading' })
 		try {
 			let device: Device | DeviceComputer | DeviceHardDrive | DevicePrinter

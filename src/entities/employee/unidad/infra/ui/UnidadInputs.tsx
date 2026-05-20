@@ -57,7 +57,7 @@ export const UnidadInputs = memo(
 		handleParentChange
 	}: UnidadInputsProps) => {
 		return (
-			<div className="flex flex-col gap-6">
+			<div className="flex flex-col gap-4">
 				<div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
 					{formData.full_chain && (
 						<div className="flex items-center gap-2 rounded-md border border-blue-100 bg-blue-50/50 p-3 text-sm text-blue-700 md:col-span-2">
@@ -152,7 +152,7 @@ export const UnidadInputs = memo(
 						required={required.centroDeCosto}
 					/>
 
-					<div className="flex h-full items-center pt-6">
+					<div className="flex h-full items-center pb-4">
 						<Checkbox
 							value={formData.isUnitActive}
 							name="isUnitActive"

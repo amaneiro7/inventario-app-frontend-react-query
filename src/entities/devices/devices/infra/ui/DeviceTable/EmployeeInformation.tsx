@@ -5,6 +5,7 @@ import { convertNumberMiles } from '@/shared/lib/utils/convertNumberMiles'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
 import { type DeviceDto } from '../../../domain/dto/Device.dto'
 import { LinkAsButton } from '@/shared/ui/Button/LinkAsButton'
+import { hierarchyLevelTranslations } from '@/entities/employee/unidad/infra/ui/hierarchyLevelTranslations'
 
 export const EmployeeInformation = ({ employee }: { employee: DeviceDto['employee'] }) => {
 	const employeeFullName = employee ? `${employee.name} ${employee.lastName}`.trim() : ''
@@ -12,6 +13,9 @@ export const EmployeeInformation = ({ employee }: { employee: DeviceDto['employe
 		employee?.cedula && employee?.nationality
 			? `${employee.nationality}-${convertNumberMiles(employee.cedula)}`
 			: ''
+	const unidadOrganizativaChain = employee.unidad?.full_chain?.levels
+		? employee.unidad.full_chain.levels
+		: null
 	return (
 		<CardDetail
 			title="Usuario Asignado"
@@ -34,18 +38,18 @@ export const EmployeeInformation = ({ employee }: { employee: DeviceDto['employe
 				)}
 				{employee.cedula && <DetailItem label="Cédula" value={cedula} />}
 			</div>
-			{employee.directiva && (
-				<DetailItem label="Directiva" value={employee.directiva?.name} />
+			{employee.unidad && (
+				<DetailItem label="Unidad Específica" value={employee.unidad?.name} />
 			)}
-			{employee.vicepresidenciaEjecutiva && (
-				<DetailItem label="V.P.E" value={employee.vicepresidenciaEjecutiva?.name} />
-			)}
-			{employee.vicepresidencia && (
-				<DetailItem label="V.P." value={employee.vicepresidencia?.name} />
-			)}
-			{employee.departamento && (
-				<DetailItem label="Departamento" value={employee.departamento?.name} />
-			)}
+			{unidadOrganizativaChain &&
+				unidadOrganizativaChain.length > 0 &&
+				unidadOrganizativaChain.map((level, index) => {
+					const levelNum = index + 1
+					const levelName = hierarchyLevelTranslations[levelNum]
+					const label = `Jerarquía Nivel ${levelNum}${levelName ? ` (${levelName})` : ''}`
+
+					return <DetailItem key={`${level}-${index}`} label={label} value={level} />
+				})}
 			{employee.cargo && <DetailItem label="Cargo" value={employee.cargo?.name} />}
 			<DetailItem
 				label="Extensiones"

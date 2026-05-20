@@ -17,7 +17,8 @@ export class PermissionGroupGetService implements PermissionGroupGetRepository {
 	 * Obtiene una marca por su ID.
 	 * @param {{ id: Primitives<PermissionGroupId> }} props - Objeto que contiene el ID de la marca.
 	 * @returns {Promise<PermissionGroupDto>} Una promesa que se resuelve con el DTO de la marca encontrada.
-	 */ async getById({ id }: { id: Primitives<PermissionGroupId> }): Promise<PermissionGroupDto> {
+	 */
+	async getById({ id }: { id: Primitives<PermissionGroupId> }): Promise<PermissionGroupDto> {
 		return await fetching<PermissionGroupDto>({
 			url: `${permissionGroupUrl}/${id}`,
 			method: 'GET'

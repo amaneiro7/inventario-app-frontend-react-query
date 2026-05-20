@@ -19,7 +19,8 @@ export class Processor {
 	 * @param {ProcessorCores} cores - El número de núcleos del procesador.
 	 * @param {ProcessorHasThreads} threads - Indica si el procesador tiene hilos.
 	 * @param {ProcessorFrequency} frequency - La frecuencia del procesador.
-	 */ constructor(
+	 */
+	constructor(
 		private productCollection: ProcessorProductCollection,
 		private numberModel: ProcessorNumberModel,
 		private cores: ProcessorCores,
@@ -32,7 +33,8 @@ export class Processor {
 	 * @static
 	 * @param {ProcessorPrimitives} params - Las propiedades primitivas del procesador.
 	 * @returns {Processor} Una nueva instancia de `Processor`.
-	 */ static create(params: ProcessorPrimitives): Processor {
+	 */
+	static create(params: ProcessorPrimitives): Processor {
 		return new Processor(
 			new ProcessorProductCollection(params.productCollection),
 			new ProcessorNumberModel(params.numberModel),

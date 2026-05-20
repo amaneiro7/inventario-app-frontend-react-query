@@ -16,7 +16,8 @@ export class PermissionDeleteService implements PermissionDeleteRepository {
 	 * Obtiene una marca por su ID.
 	 * @param {{ id: Primitives<PermissionId> }} props - Objeto que contiene el ID de la marca.
 	 * @returns {Promise<PermissionDto>} Una promesa que se resuelve con el DTO de la marca encontrada.
-	 */ async deleteById({ id }: { id: Primitives<PermissionId> }): Promise<void> {
+	 */
+	async deleteById({ id }: { id: Primitives<PermissionId> }): Promise<void> {
 		return await fetching<void>({
 			url: `${permissionUrl}/${id}`,
 			method: 'DELETE'

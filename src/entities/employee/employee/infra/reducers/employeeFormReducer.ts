@@ -26,10 +26,7 @@ export interface DefaultEmployee {
 	nationality: EmployeeDto['nationality'] | ''
 	cedula: EmployeeDto['cedula'] | ''
 	locationId: EmployeeDto['locationId']
-	directivaId: EmployeeDto['directivaId']
-	vicepresidenciaEjecutivaId: EmployeeDto['vicepresidenciaEjecutivaId']
-	vicepresidenciaId: EmployeeDto['vicepresidenciaId']
-	departamentoId: EmployeeDto['departamentoId']
+	unidadId: EmployeeDto['unidadId']
 	cargoId: EmployeeDto['cargoId']
 	extension: EmployeeDto['extension']
 	phone: EmployeeDto['phone']
@@ -48,9 +45,7 @@ export interface EmployeeErrors {
 	email: string
 	employeeCode: string
 	nationality: string
-	directivaId: string
-	vicepresidenciaEjecutivaId: string
-	vicepresidenciaId: string
+	unidadId: string
 	cedula: string
 }
 
@@ -67,10 +62,7 @@ export interface EmployeeRequired {
 	nationality: boolean
 	cedula: boolean
 	locationId: boolean
-	departamentoId: boolean
-	directivaId: boolean
-	vicepresidenciaEjecutivaId: boolean
-	vicepresidenciaId: boolean
+	unidadId: boolean
 	cargoId: boolean
 }
 
@@ -87,10 +79,7 @@ export interface EmployeeDisabled {
 	nationality: boolean
 	cedula: boolean
 	locationId: boolean
-	departamentoId: boolean
-	directivaId: boolean
-	vicepresidenciaEjecutivaId: boolean
-	vicepresidenciaId: boolean
+	unidadId: boolean
 	cargoId: boolean
 }
 
@@ -130,10 +119,7 @@ export const initialEmployeeState: State = {
 		nationality: '',
 		cedula: '',
 		locationId: '',
-		directivaId: '',
-		vicepresidenciaEjecutivaId: '',
-		vicepresidenciaId: '',
-		departamentoId: '',
+		unidadId: '',
 		cargoId: '',
 		extension: [''],
 		phone: [''],
@@ -149,9 +135,7 @@ export const initialEmployeeState: State = {
 		employeeCode: '',
 		nationality: '',
 		cedula: '',
-		directivaId: '',
-		vicepresidenciaEjecutivaId: '',
-		vicepresidenciaId: ''
+		unidadId: ''
 	},
 	required: {
 		userName: true,
@@ -163,10 +147,7 @@ export const initialEmployeeState: State = {
 		nationality: true,
 		cedula: true,
 		locationId: false,
-		directivaId: false,
-		vicepresidenciaEjecutivaId: false,
-		vicepresidenciaId: false,
-		departamentoId: false,
+		unidadId: false,
 		cargoId: true
 	},
 	disabled: {
@@ -179,10 +160,7 @@ export const initialEmployeeState: State = {
 		nationality: false,
 		cedula: false,
 		locationId: false,
-		departamentoId: false,
-		directivaId: false,
-		vicepresidenciaEjecutivaId: false,
-		vicepresidenciaId: false,
+		unidadId: false,
 		cargoId: false
 	},
 	helpers: {
@@ -208,13 +186,7 @@ export type Action =
 	| { type: 'nationality'; payload: { value: DefaultEmployee['nationality'] } }
 	| { type: 'cedula'; payload: { value: DefaultEmployee['cedula'] } }
 	| { type: 'locationId'; payload: { value: DefaultEmployee['locationId'] } }
-	| { type: 'directivaId'; payload: { value: DefaultEmployee['directivaId'] } }
-	| {
-			type: 'vicepresidenciaEjecutivaId'
-			payload: { value: DefaultEmployee['vicepresidenciaEjecutivaId'] }
-	  }
-	| { type: 'vicepresidenciaId'; payload: { value: DefaultEmployee['vicepresidenciaId'] } }
-	| { type: 'departamentoId'; payload: { value: DefaultEmployee['departamentoId'] } }
+	| { type: 'unidadId'; payload: { value: DefaultEmployee['unidadId'] } }
 	| { type: 'cargoId'; payload: { value: DefaultEmployee['cargoId'] } }
 	| { type: 'addPhone' }
 	| { type: 'addExtension' }
@@ -290,11 +262,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					cedula: !type || isGeneric,
 					locationId: !type || isGeneric,
 					// Habilitación en cascada de la jerarquia
-					directivaId: !type || hasNoHierarchy,
-					vicepresidenciaEjecutivaId: !type || hasNoHierarchy || !formData.directivaId,
-					vicepresidenciaId:
-						!type || hasNoHierarchy || !formData.vicepresidenciaEjecutivaId,
-					departamentoId: !type || hasNoHierarchy || !formData.vicepresidenciaId,
+					unidadId: !type || hasNoHierarchy,
 					cargoId: !type || hasNoHierarchy
 				},
 				required: {
@@ -305,12 +273,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					nationality: !isGeneric,
 					cedula: !isGeneric,
 					// Reglas organizacionales
-					directivaId: isRegular || isContractor,
-					cargoId: isRegular || isContractor,
-					// Requeridos dinámicos por dependencia de jerarquía
-					vicepresidenciaEjecutivaId: !hasNoHierarchy && !!formData.vicepresidenciaId,
-					vicepresidenciaId: !hasNoHierarchy && !!formData.departamentoId,
-					departamentoId: false
+					unidadId: isRegular || isContractor,
+					cargoId: isRegular || isContractor
 				},
 				helpers: {
 					...state.helpers,
@@ -378,13 +342,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					nationality: isGeneric ? '' : state.formData.nationality || Nationalities.V,
 					cedula: isGeneric ? '' : state.formData.cedula,
 					locationId: isGeneric ? '' : state.formData.locationId,
-					directivaId: isGeneric || isApprentice ? '' : state.formData.directivaId,
-					// Si es genérico o aprendiz, limpieamos toda la jerarquia
-					vicepresidenciaEjecutivaId: hasNoHierarchy
-						? ''
-						: state.formData.vicepresidenciaEjecutivaId,
-					vicepresidenciaId: hasNoHierarchy ? '' : state.formData.vicepresidenciaId,
-					departamentoId: hasNoHierarchy ? '' : state.formData.departamentoId,
+					unidadId: isGeneric || isApprentice ? '' : state.formData.unidadId,
 					cargoId: hasNoHierarchy ? '' : state.formData.cargoId,
 					extension: [],
 					phone: []
@@ -400,17 +358,7 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					locationId: !type || isGeneric,
 					// Jerarquía: Se habilitan en cadena.
 					// Si no hay Directiva, no hay VP Ejecutiva, etc.
-					directivaId: !type || hasNoHierarchy,
-					vicepresidenciaEjecutivaId:
-						!type || hasNoHierarchy || (!hasNoHierarchy && !state.formData.directivaId),
-					vicepresidenciaId:
-						!type ||
-						hasNoHierarchy ||
-						(!hasNoHierarchy && !state.formData.vicepresidenciaEjecutivaId),
-					departamentoId:
-						!type ||
-						hasNoHierarchy ||
-						(!hasNoHierarchy && !state.formData.vicepresidenciaId),
+					unidadId: !type || hasNoHierarchy,
 					cargoId: !type || hasNoHierarchy
 				},
 				required: {
@@ -422,16 +370,8 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 					cedula: !isGeneric,
 					// LOGICA DE REQUERIDOS:
 					// 1. Directiva y Cargo son base para empleados normales
-					directivaId: isContractor || isRegular,
-					cargoId: isContractor || isRegular,
-
-					// 2. VP Ejecutiva es requerida SOLO si no es restringido Y se seleccionó una VP (Hijo)
-					// Esto asegura integridad: No puedes tener VP sin tener VP Ejecutiva.
-					vicepresidenciaEjecutivaId:
-						!hasNoHierarchy && !!state.formData.vicepresidenciaId,
-
-					// 3. VP es requerida si hay un Departamento seleccionado
-					vicepresidenciaId: !hasNoHierarchy && !!state.formData.departamentoId
+					unidadId: isContractor || isRegular,
+					cargoId: isContractor || isRegular
 				}
 			}
 		}
@@ -572,78 +512,16 @@ export const employeeFormReducer = (state: State, action: Action): State => {
 		 * Updates the directivaId field and resets related fields (vicepresidenciaEjecutivaId, vicepresidenciaId, departamentoId, cargoId).
 		 * Also updates disabled states for dependent fields.
 		 */
-		case 'directivaId': {
-			const { value: directivaId } = action.payload
+		case 'unidadId': {
+			const { value: unidadId } = action.payload
 
 			return {
 				...state,
 				formData: {
 					...state.formData,
-					directivaId,
-					vicepresidenciaEjecutivaId: '',
-					vicepresidenciaId: '',
-					departamentoId: '',
+					unidadId,
 					cargoId: ''
-				},
-				disabled: {
-					...state.disabled,
-					vicepresidenciaEjecutivaId: !directivaId,
-					vicepresidenciaId: true,
-					departamentoId: true
 				}
-			}
-		}
-
-		/**
-		 * Updates the vicepresidenciaEjecutivaId field and resets related fields (vicepresidenciaId, departamentoId, cargoId).
-		 * Also updates disabled states for dependent fields.
-		 */
-		case 'vicepresidenciaEjecutivaId': {
-			const { value: vicepresidenciaEjecutivaId } = action.payload
-
-			return {
-				...state,
-				formData: {
-					...state.formData,
-					vicepresidenciaEjecutivaId,
-					vicepresidenciaId: '',
-					departamentoId: '',
-					cargoId: ''
-				},
-				disabled: {
-					...state.disabled,
-					vicepresidenciaId: !vicepresidenciaEjecutivaId,
-					departamentoId: true
-				}
-			}
-		}
-
-		/**
-		 * Updates the vicepresidenciaId field and resets related fields (departamentoId, cargoId).
-		 * Also updates disabled states for dependent fields.
-		 */
-		case 'vicepresidenciaId': {
-			const { value: vicepresidenciaId } = action.payload
-
-			return {
-				...state,
-				formData: { ...state.formData, vicepresidenciaId, departamentoId: '', cargoId: '' },
-				disabled: {
-					...state.disabled,
-					departamentoId: !vicepresidenciaId
-				}
-			}
-		}
-
-		/**
-		 * Updates the departamentoId field and resets the cargoId field.
-		 */
-		case 'departamentoId': {
-			const { value: departamentoId } = action.payload
-
-			return {
-				...state,
-				formData: { ...state.formData, departamentoId, cargoId: '' }
 			}
 		}
 

@@ -33,23 +33,6 @@ const CargoCombobox = lazy(() =>
 		default: m.CargoCombobox
 	}))
 )
-const DirectivaCombobox = lazy(() =>
-	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
-		default: m.DirectivaCombobox
-	}))
-)
-const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import('@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox').then(
-		m => ({
-			default: m.VicepresidenciaEjecutivaCombobox
-		})
-	)
-)
-const VicepresidenciaCombobox = lazy(() =>
-	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
-		default: m.VicepresidenciaCombobox
-	}))
-)
 
 export function DevicePrimaryFilter({
 	activo,
@@ -62,11 +45,8 @@ export function DevicePrimaryFilter({
 	mainCategoryId,
 	regionId,
 	administrativeRegionId,
-	directivaId,
-	departamentoId,
+	unidadId,
 	cargoId,
-	vicepresidenciaEjecutivaId,
-	vicepresidenciaId,
 	handleChange
 }: {
 	activo?: string
@@ -77,9 +57,7 @@ export function DevicePrimaryFilter({
 	cargoId?: string
 	departamentoId?: string
 	mainCategoryId?: string
-	directivaId?: string
-	vicepresidenciaEjecutivaId?: string
-	vicepresidenciaId?: string
+	unidadId?: string
 	stateId?: string
 	administrativeRegionId?: string
 	regionId?: string
@@ -140,31 +118,11 @@ export function DevicePrimaryFilter({
 
 			<Divider />
 
-			<DirectivaCombobox name="directivaId" handleChange={handleChange} value={directivaId} />
-
-			<VicepresidenciaEjecutivaCombobox
-				name="vicepresidenciaEjecutivaId"
-				handleChange={handleChange}
-				value={vicepresidenciaEjecutivaId}
-				directivaId={directivaId}
-			/>
-
-			<VicepresidenciaCombobox
-				name="vicepresidenciaId"
-				handleChange={handleChange}
-				value={vicepresidenciaId}
-				directivaId={directivaId}
-				vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
-			/>
-
 			<CargoCombobox
 				name="cargoId"
 				handleChange={handleChange}
 				value={cargoId}
-				directivaId={directivaId}
-				departamentoId={departamentoId}
-				vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
-				vicepresidenciaId={vicepresidenciaId}
+				unidadId={unidadId}
 			/>
 		</>
 	)

@@ -21,6 +21,7 @@ interface SignatureFormProps {
 
 export const SignatureForm = memo(
 	({ data, isFormValid, placeHolder, errors, onChange }: SignatureFormProps) => {
+		const isAgencySite = data.typeOfSite === TypeOfSiteOptions.AGENCY
 		return (
 			<DetailsBoxWrapper>
 				<Typography color="azul" variant="h3">
@@ -83,20 +84,22 @@ export const SignatureForm = memo(
 						error={!!errors.vicepresidenciaEjecutiva}
 						errorMessage={errors.vicepresidenciaEjecutiva}
 					/>
-					<Input
-						id="signature-vicepresidencia"
-						label="Vicepresidencia"
-						name="vicepresidencia"
-						required
-						transform
-						value={data.vicepresidencia}
-						placeholder={placeHolder.vicepresidencia}
-						onChange={e => onChange('vicepresidencia', e.target.value)}
-						error={!!errors.vicepresidencia}
-						errorMessage={errors.vicepresidencia}
-					/>
+					{!isAgencySite && (
+						<Input
+							id="signature-vicepresidencia"
+							label="Vicepresidencia"
+							name="vicepresidencia"
+							required
+							transform
+							value={data.vicepresidencia}
+							placeholder={placeHolder.vicepresidencia}
+							onChange={e => onChange('vicepresidencia', e.target.value)}
+							error={!!errors.vicepresidencia}
+							errorMessage={errors.vicepresidencia}
+						/>
+					)}
 
-					{data.typeOfSite === TypeOfSiteOptions.AGENCY && (
+					{isAgencySite && (
 						<Input
 							id="signature-siteName"
 							label="Agencia"
@@ -130,9 +133,9 @@ export const SignatureForm = memo(
 							errorMessage={errors.numbers}
 						/>
 						<Switch
-							checked={data.isHasPhoneNumber}
+							checked={data.hasPhoneNumber}
 							className="data-[state=checked]:bg-naranja"
-							onCheckedChange={checked => onChange('isHasPhoneNumber', checked)}
+							onCheckedChange={checked => onChange('hasPhoneNumber', checked)}
 						/>
 					</div>
 					<div className="flex flex-row gap-4">
@@ -149,9 +152,9 @@ export const SignatureForm = memo(
 							errorMessage={errors.email}
 						/>
 						<Switch
-							checked={data.isHasEmail}
+							checked={data.hasEmail}
 							className="data-[state=checked]:bg-naranja"
-							onCheckedChange={checked => onChange('isHasEmail', checked)}
+							onCheckedChange={checked => onChange('hasEmail', checked)}
 						/>
 					</div>
 					<Input

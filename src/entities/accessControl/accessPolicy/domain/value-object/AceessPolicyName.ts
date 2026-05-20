@@ -5,18 +5,21 @@ export class AccessPolicyName extends StringValueObject {
 	 * Longitud mínima permitida para el nombre de la marca.
 	 * @static
 	 * @type {number}
-	 */ static readonly NAME_MIN_LENGTH = 2
+	 */
+	static readonly NAME_MIN_LENGTH = 2
 	/**
 	 * Longitud máxima permitida para el nombre de la marca.
 	 * @static
 	 * @type {number}
-	 */ static readonly NAME_MAX_LENGTH = 100
+	 */
+	static readonly NAME_MAX_LENGTH = 100
 
 	/**
 	 * Crea una instancia de `AccessPolicyName`.
 	 * @param {string} value - El valor del nombre de la marca.
 	 * @throws {Error} Si el valor no es válido según las reglas definidas.
-	 */ constructor(value: string) {
+	 */
+	constructor(value: string) {
 		super(value)
 		if (!AccessPolicyName.isValid(value)) {
 			throw new Error(AccessPolicyName.invalidMessage(value))

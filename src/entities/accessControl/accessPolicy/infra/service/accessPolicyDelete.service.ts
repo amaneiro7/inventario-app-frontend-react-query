@@ -16,7 +16,8 @@ export class AccessPolicyDeleteService implements AccessPolicyDeleteRepository {
 	 * Obtiene una marca por su ID.
 	 * @param {{ id: Primitives<AccessPolicyId> }} props - Objeto que contiene el ID de la marca.
 	 * @returns {Promise<AccessPolicyDto>} Una promesa que se resuelve con el DTO de la marca encontrada.
-	 */ async deleteById({ id }: { id: Primitives<AccessPolicyId> }): Promise<void> {
+	 */
+	async deleteById({ id }: { id: Primitives<AccessPolicyId> }): Promise<void> {
 		return await fetching<void>({
 			url: `${accessPolicyUrl}/${id}`,
 			method: 'DELETE'

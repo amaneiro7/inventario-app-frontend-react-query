@@ -81,9 +81,9 @@ export const TableEmployees = memo(({ employees, isError }: TableEmployeesProps)
 						className="hidden lg:table-cell"
 						aria-colindex={5}
 						size="xLarge"
-						value={employee?.departamento?.name ?? ''}
+						value={employee?.unidad?.name ?? ''}
 					>
-						{employee?.departamento?.name ?? ''}
+						{employee?.unidad?.name ?? ''}
 					</TableCell>
 
 					<TableCell

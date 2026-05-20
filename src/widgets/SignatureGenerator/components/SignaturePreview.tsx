@@ -4,7 +4,7 @@ import { DetailsBoxWrapper } from '@/shared/ui/DetailsWrapper/DetailsBoxWrapper'
 import { SignatureSocialMedia } from './SignatureSocialMedia'
 import { LazyLogoImage } from '@/shared/ui/Images/LazyLogoImage'
 import Typography from '@/shared/ui/Typography'
-import { type SignaturePlaceHolders, type SignatureData } from '../model/useSignatureData'
+import type { SignaturePlaceHolders, SignatureData } from '../model/useSignatureData'
 
 interface SignaturePreviewProps {
 	data: SignatureData
@@ -89,12 +89,12 @@ export const SignaturePreview = memo(({ data, placeHolder, ref }: SignaturePrevi
 										</p>
 									</>
 								)}
-								{data.isHasPhoneNumber && (
+								{data.hasPhoneNumber && (
 									<p className={!data?.numbers ? 'text-gray-400 italic' : ''}>
 										{data?.numbers || placeHolder.numbers}
 									</p>
 								)}
-								{data.isHasEmail && (
+								{data.hasEmail && (
 									<p
 										className={`underline underline-offset-1 ${!data?.email ? 'text-gray-400 italic' : ''}`}
 									>

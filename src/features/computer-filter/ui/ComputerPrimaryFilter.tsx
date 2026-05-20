@@ -29,9 +29,9 @@ const AdministrativeRegionCombobox = lazy(() =>
 		})
 	)
 )
-const DepartamentoCombobox = lazy(() =>
-	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
-		default: m.DepartamentoCombobox
+const UnidadCombobox = lazy(() =>
+	import('@/entities/employee/unidad/infra/ui/UnidadComboBox').then(m => ({
+		default: m.UnidadCombobox
 	}))
 )
 
@@ -46,12 +46,9 @@ export const ComputerPrimaryFilter = memo(
 		cityId,
 		stateId,
 		administrativeRegionId,
-		directivaId,
-		vicepresidenciaEjecutivaId,
 		typeOfSiteId,
 		serial,
-		departamentoId,
-		vicepresidenciaId
+		unidadId
 	}: {
 		employeeId?: string
 		categoryId?: string
@@ -62,10 +59,7 @@ export const ComputerPrimaryFilter = memo(
 		administrativeRegionId?: string
 		locationId?: string
 		serial?: string
-		departamentoId?: string
-		directivaId?: string
-		vicepresidenciaEjecutivaId?: string
-		vicepresidenciaId?: string
+		unidadId?: string
 		typeOfSiteId?: string
 		handleChange: (name: string, value: string | number) => void
 	}) => {
@@ -123,13 +117,11 @@ export const ComputerPrimaryFilter = memo(
 					value={regionId}
 				/>
 
-				<DepartamentoCombobox
-					name="departamentoId"
+				<UnidadCombobox
+					name="unidadId"
+					method="search"
 					handleChange={handleChange}
-					value={departamentoId}
-					vicepresidenciaId={vicepresidenciaId}
-					directivaId={directivaId}
-					vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
+					value={unidadId}
 				/>
 			</>
 		)

@@ -42,7 +42,8 @@ export class DeviceHardDrive extends Device {
 	 * @param {HardDriveHealth} health - El estado de salud del disco duro.
 	 * @param {HardDriveCapacityId} hardDriveCapacityId - El ID de la capacidad del disco duro.
 	 * @param {HardDriveTypeId} hardDriveTypeId - El ID del tipo de disco duro.
-	 */ constructor(
+	 */
+	constructor(
 		serial: DeviceSerial,
 		activo: DeviceActivo,
 		statusId: StatusId,
@@ -76,7 +77,8 @@ export class DeviceHardDrive extends Device {
 	 * @static
 	 * @param {CategoryOptions[keyof CategoryOptions]} categoryId - El ID de la categoría a verificar.
 	 * @returns {boolean} `true` si la categoría es de disco duro, `false` en caso contrario.
-	 */ static isHardDriveCategory(
+	 */
+	static isHardDriveCategory(
 		categoryId: (typeof CategoryOptions)[keyof typeof CategoryOptions]
 	): boolean {
 		const allowedComputerCategories = [CategoryOptions.HARDDRIVE]

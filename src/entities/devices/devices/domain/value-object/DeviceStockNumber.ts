@@ -14,12 +14,14 @@ export class DeviceStockNumber extends AcceptedNullValueObject<string> {
 	 * Longitud mínima permitida para el número de stock.
 	 * @static
 	 * @type {number}
-	 */ static readonly NAME_MIN_LENGTH = 2
+	 */
+	static readonly NAME_MIN_LENGTH = 2
 	/**
 	 * Longitud máxima permitida para el número de stock.
 	 * @static
 	 * @type {number}
-	 */ static readonly NAME_MAX_LENGTH = 10
+	 */
+	static readonly NAME_MAX_LENGTH = 10
 	private static errors = ''
 
 	/**
@@ -27,7 +29,8 @@ export class DeviceStockNumber extends AcceptedNullValueObject<string> {
 	 * @param {string | null} value - El valor del número de stock.
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: string | null,
 		private readonly status: Primitives<StatusId>
 	) {

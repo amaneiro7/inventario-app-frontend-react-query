@@ -116,11 +116,11 @@ export const TableEmployeeWrapper = memo(function ({
 								handleSort={eventManager(handleSort)}
 								orderBy={query.orderBy}
 								orderType={query.orderType}
-								orderByField="departamentoId"
+								orderByField="unidadId"
 								size="xLarge"
 								className="hidden lg:table-cell"
 							>
-								Departamento
+								Unidad Organizativa
 							</TableHead>
 							<TableHead
 								aria-colindex={6}

@@ -26,7 +26,7 @@ export const AsignDevices = ({ data }: AsignDevicesProps) => {
 						</strong>
 					</Typography>
 					<Typography color="gris" option="small" variant="p">
-						Departamento: <strong>{data?.departamento?.name}</strong>
+						Unidad Organizativa: <strong>{data?.unidad?.name}</strong>
 					</Typography>
 				</div>
 

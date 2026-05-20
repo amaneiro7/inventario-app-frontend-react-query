@@ -11,13 +11,15 @@ export class MACAddress extends AcceptedNullValueObject<string> {
 	 * Expresión regular para validar el formato de una dirección MAC.
 	 * @static
 	 * @type {RegExp}
-	 */ static readonly macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
+	 */
+	static readonly macAddressRegex = /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/
 
 	/**
 	 * Crea una instancia de `MACAddress`.
 	 * @param {string | null} value - El valor de la dirección MAC.
 	 * @throws {Error} Si el valor no es válido según las reglas definidas.
-	 */ constructor(value: string | null) {
+	 */
+	constructor(value: string | null) {
 		super(value)
 
 		if (!MACAddress.isValid({ value: this.value })) {

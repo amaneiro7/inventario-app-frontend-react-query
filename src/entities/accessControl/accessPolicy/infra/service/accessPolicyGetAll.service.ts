@@ -16,7 +16,8 @@ export class AccessPolicyGetAllService implements AccessPolicyGetAllRepository {
 	 * Obtiene todas las marcas, opcionalmente filtradas por parámetros de consulta.
 	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<Response<AccessPolicyDto>>} Una promesa que se resuelve con un objeto de respuesta que contiene las marcas.
-	 */ async getAll(queryParams?: string): Promise<Response<AccessPolicyDto>> {
+	 */
+	async getAll(queryParams?: string): Promise<Response<AccessPolicyDto>> {
 		return await fetching({ url: `${accessPolicyUrl}?${queryParams}`, method: 'GET' })
 	}
 }

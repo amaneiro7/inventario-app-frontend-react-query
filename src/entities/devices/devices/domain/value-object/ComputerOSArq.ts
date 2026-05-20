@@ -17,7 +17,8 @@ export class ComputerOsArq extends AcceptedNullValueObject<Primitives<OperatingS
 	 * @param {Primitives<OperatingSystemId> | null} value - El valor del ID de la arquitectura del sistema operativo.
 	 * @param {Primitives<OperatingSystemId> | null} operatingSystem - El ID del sistema operativo asociado.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: Primitives<OperatingSystemId> | null,
 		private readonly operatingSystem: Primitives<OperatingSystemId> | null
 	) {

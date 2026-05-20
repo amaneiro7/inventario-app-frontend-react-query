@@ -16,7 +16,8 @@ export class PermissionGroupDeleteService implements PermissionGroupDeleteReposi
 	 * Obtiene una marca por su ID.
 	 * @param {{ id: Primitives<PermissionGroupId> }} props - Objeto que contiene el ID de la marca.
 	 * @returns {Promise<PermissionGroupDto>} Una promesa que se resuelve con el DTO de la marca encontrada.
-	 */ async deleteById({ id }: { id: Primitives<PermissionGroupId> }): Promise<void> {
+	 */
+	async deleteById({ id }: { id: Primitives<PermissionGroupId> }): Promise<void> {
 		return await fetching<void>({
 			url: `${permissionGroupUrl}/${id}`,
 			method: 'DELETE'

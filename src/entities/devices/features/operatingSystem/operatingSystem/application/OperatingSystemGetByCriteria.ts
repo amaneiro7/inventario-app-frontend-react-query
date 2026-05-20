@@ -16,7 +16,8 @@ export class OperatingSystemGetByCriteria {
 	/**
 	 * Crea una instancia de `OperatingSystemGetByCriteria`.
 	 * @param {OperatingSystemGetAllRepository} repository - El repositorio para obtener todos los sistemas operativos.
-	 */ constructor(private readonly repository: OperatingSystemGetAllRepository) {
+	 */
+	constructor(private readonly repository: OperatingSystemGetAllRepository) {
 		this.getAll = new OperatingSystemGetAll(this.repository)
 	}
 
@@ -25,13 +26,8 @@ export class OperatingSystemGetByCriteria {
 	 * Construye los parámetros de la consulta y delega la ejecución a `OperatingSystemGetAll`.
 	 * @param {OperatingSystemFilters} filters - Los filtros a aplicar en la búsqueda.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<import('../domain/dto/OperatingSystem.dto').OperatingSystemDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */ async search({
-		pageNumber,
-		pageSize,
-		orderBy,
-		orderType,
-		...options
-	}: OperatingSystemFilters) {
+	 */
+	async search({ pageNumber, pageSize, orderBy, orderType, ...options }: OperatingSystemFilters) {
 		const queryParams = await createOperatingSystemParams({
 			...options,
 			pageNumber,

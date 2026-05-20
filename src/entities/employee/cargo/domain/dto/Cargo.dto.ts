@@ -1,8 +1,8 @@
 import { type Primitives } from '@/entities/shared/domain/value-objects/Primitives'
 import { type CargoId } from '../value-object/CargoId'
 import { type CargoName } from '../value-object/CargoName'
-import { type DepartamentoId } from '@/entities/employee/departamento/domain/value-object/DepartamentoId'
-import { type Departamento } from '@/entities/employee/departamento/domain/dto/Departamento.dto'
+import type { UnidadId } from '@/entities/employee/unidad/domain/value-object/UnidadId'
+import type { UnidadDto } from '@/entities/employee/unidad/domain/dto/Unidad.dto'
 
 /**
  * Represents the core properties of a Cargo entity.
@@ -13,10 +13,10 @@ export interface Cargo {
 }
 
 /**
- * Represents the primitive properties of a Cargo entity, excluding the ID but including associated department IDs.
+ * Represents the primitive properties of a Cargo entity, excluding the ID but including associated unit IDs.
  */
 export type CargoPrimitives = Omit<Cargo, 'id'> & {
-	departamentos: Primitives<DepartamentoId>[]
+	unidades: Primitives<UnidadId>[]
 }
 
 /**
@@ -25,13 +25,13 @@ export type CargoPrimitives = Omit<Cargo, 'id'> & {
  */
 export type CargoParams = CargoPrimitives & {
 	id?: Primitives<CargoId>
-	departamentos: Primitives<DepartamentoId>[]
+	unidades: Primitives<UnidadId>[]
 }
 
 /**
- * Represents the Data Transfer Object (DTO) for a Cargo entity, including full Department details and update timestamp.
+ * Represents the Data Transfer Object (DTO) for a Cargo entity, including full Unit details and update timestamp.
  */
 export type CargoDto = Cargo & {
-	departamentos: Departamento[]
+	unidades: UnidadDto[]
 	updatedAt: string
 }

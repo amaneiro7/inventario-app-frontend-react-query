@@ -17,7 +17,8 @@ export class ComputerHDDType extends AcceptedNullValueObject<Primitives<HardDriv
 	 * @param {Primitives<HardDriveTypeId> | null} value - El valor del tipo de disco duro.
 	 * @param {Primitives<ComputerHDDCapacity>} hardDriveCapacity - La capacidad del disco duro asociada.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: Primitives<HardDriveTypeId> | null,
 		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity>
 	) {

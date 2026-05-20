@@ -20,7 +20,8 @@ export class ComputerOs extends AcceptedNullValueObject<Primitives<OperatingSyst
 	 * @param {Primitives<StatusId>} status - El ID del estado del dispositivo asociado.
 	 * @param {Primitives<ComputerHDDCapacity> | null} hardDriveCapacity - La capacidad del disco duro asociada.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: Primitives<OperatingSystemId> | null,
 		private readonly status: Primitives<StatusId>,
 		private readonly hardDriveCapacity: Primitives<ComputerHDDCapacity> | null

@@ -14,12 +14,14 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 	 * Longitud mínima permitida para el número de serie.
 	 * @static
 	 * @type {number}
-	 */ static readonly NAME_MIN_LENGTH = 5
+	 */
+	static readonly NAME_MIN_LENGTH = 5
 	/**
 	 * Longitud máxima permitida para el número de serie.
 	 * @static
 	 * @type {number}
-	 */ static readonly NAME_MAX_LENGTH = 100
+	 */
+	static readonly NAME_MAX_LENGTH = 100
 	private static readonly notLowerCase = /^[^a-z]*$/
 	private static readonly notSpecialCharacterOnlyGuiones = /^[^\W_]*-?[^\W_]*$/
 	private static errors = ''
@@ -29,7 +31,8 @@ export class DeviceSerial extends AcceptedNullValueObject<string> {
 	 * @param {string | null} value - El valor del número de serie.
 	 * @param {boolean} [genericModel] - Indica si el modelo asociado es genérico.
 	 * @throws {Error} Si el valor no es válido según las reglas de negocio.
-	 */ constructor(
+	 */
+	constructor(
 		value: string | null,
 		readonly genericModel?: boolean
 	) {

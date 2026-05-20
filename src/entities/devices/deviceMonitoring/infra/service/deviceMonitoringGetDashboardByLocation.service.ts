@@ -14,7 +14,8 @@ export class DeviceMonitoringDashboardByLocationService implements DeviceMonitor
 	 * Obtiene los datos del dashboard de monitoreo de dispositivos por ubicación, opcionalmente filtrados por parámetros de consulta.
 	 * @param {string} [queryParams] - Cadena de parámetros de consulta para filtrar los resultados.
 	 * @returns {Promise<DeviceMonitoringDashboardByLocationDto[]>} Una promesa que se resuelve con un array de DTOs del dashboard de monitoreo de dispositivos por ubicación.
-	 */ async get(queryParams?: string): Promise<DeviceMonitoringDashboardByLocationDto[]> {
+	 */
+	async get(queryParams?: string): Promise<DeviceMonitoringDashboardByLocationDto[]> {
 		return await fetching({
 			url: `${deviceMonitoringDashboardByLocationUrl}?${queryParams}`,
 			method: 'GET'

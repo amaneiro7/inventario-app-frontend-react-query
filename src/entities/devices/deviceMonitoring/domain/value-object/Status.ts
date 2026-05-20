@@ -23,7 +23,8 @@ export class DeviceMonitoringStatus extends EnumValueObject<DeviceMonitoringStat
 	 * Crea una instancia de `DeviceMonitoringStatus`.
 	 * @param {DeviceMonitoringStatuses} value - El valor del estado de monitoreo.
 	 * @throws {InvalidArgumentError} Si el valor proporcionado no es un estado de monitoreo válido.
-	 */ constructor(value: DeviceMonitoringStatuses) {
+	 */
+	constructor(value: DeviceMonitoringStatuses) {
 		super(value, Object.values(DeviceMonitoringStatuses))
 	}
 

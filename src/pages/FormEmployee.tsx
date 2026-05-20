@@ -91,7 +91,8 @@ export default function FormEmployee() {
 					)}
 				</TabsList>
 			</DetailsBoxWrapper>
-
+			{/* El contenido de cada pestaña se carga de forma condicional para optimizar el
+			rendimiento y evitar cargar componentes innecesarios. // Formulario */}
 			<TabsContent value="form" className="space-y-4">
 				<Suspense
 					fallback={
@@ -152,7 +153,7 @@ export default function FormEmployee() {
 					</ErrorBoundary>
 				</Suspense>
 			</TabsContent>
-
+			{/* Contenido de la pestaña "Dispositivos asignados" */}
 			<TabsContent value="asignDevice" className="space-y-4">
 				<DetailsBoxWrapper className="h-full">
 					<ErrorBoundary
@@ -170,6 +171,7 @@ export default function FormEmployee() {
 					</ErrorBoundary>
 				</DetailsBoxWrapper>
 			</TabsContent>
+			{/* Contenido de la pestaña "Generador de firma" */}
 			<TabsContent value="signatureGenerator" className="space-y-4">
 				<ErrorBoundary
 					fallback={({ onReset }) => (
@@ -185,6 +187,7 @@ export default function FormEmployee() {
 					</Suspense>
 				</ErrorBoundary>
 			</TabsContent>
+			{/* Contenido de la pestaña "Historial" */}
 			<TabsContent value="history" className="space-y-4">
 				<DetailsBoxWrapper className="h-full">
 					<ErrorBoundary

@@ -21,10 +21,7 @@ export interface DeviceBaseFilters {
 	employeeId?: string
 	locationId?: string
 	typeOfSiteId?: string
-	vicepresidenciaEjecutivaId?: string
-	vicepresidenciaId?: string
-	directivaId?: string
-	departamentoId?: string
+	unidadId?: string
 	cargoId?: string
 	cityId?: string
 	stateId?: string

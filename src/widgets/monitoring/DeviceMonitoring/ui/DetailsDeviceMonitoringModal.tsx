@@ -1,6 +1,7 @@
 import { lazy, memo } from 'react'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 import { type DeviceMonitoringDto } from '@/entities/devices/deviceMonitoring/domain/dto/DeviceMonitoring.dto'
+import { hierarchyLevelTranslations } from '@/entities/employee/unidad/infra/ui/hierarchyLevelTranslations'
 
 const Icon = lazy(() => import('@/shared/ui/icon/Icon').then(m => ({ default: m.Icon })))
 const DeviceMonitoringModalTitle = lazy(() =>
@@ -48,6 +49,10 @@ export const DetailsDeviceMonitoringModal = memo(
 			status
 		} = device
 
+		const unidadOrganizativaChain = employee?.unidad?.full_chain?.levels
+			? employee.unidad.full_chain.levels
+			: null
+
 		return (
 			<DetailModalWrapper>
 				<DetailModalHeader onClose={onClose} url={`/form/device/edit/${deviceId}`}>
@@ -92,27 +97,28 @@ export const DetailsDeviceMonitoringModal = memo(
 								value={`${employee.name} ${employee.lastName}`}
 							/>
 							{employee.email && <DetailItem label="Email" value={employee.email} />}
+							<DetailItem
+								label="Unidad Específica"
+								value={employee?.unidad?.name || 'N/A'}
+							/>
 							{employee.cargo && (
 								<DetailItem label="Cargo" value={employee.cargo?.name} />
 							)}
-							{employee.departamento && (
-								<DetailItem
-									label="Departamento"
-									value={employee.departamento?.name}
-								/>
-							)}
-							{employee.vicepresidencia && (
-								<DetailItem
-									label="Vicepresidencia"
-									value={employee.vicepresidencia?.name}
-								/>
-							)}
-							{employee.vicepresidenciaEjecutiva && (
-								<DetailItem
-									label="V.P. Ejecutiva"
-									value={employee.vicepresidenciaEjecutiva?.name}
-								/>
-							)}
+							{unidadOrganizativaChain &&
+								unidadOrganizativaChain.length > 0 &&
+								unidadOrganizativaChain.map((level, index) => {
+									const levelNum = index + 1
+									const levelName = hierarchyLevelTranslations[levelNum]
+									const label = `Jerarquía Nivel ${levelNum}${levelName ? ` (${levelName})` : ''}`
+
+									return (
+										<DetailItem
+											key={`${level}-${index}`}
+											label={label}
+											value={level}
+										/>
+									)
+								})}
 						</CardDetail>
 					)}
 					{/* --- Tarjeta de Ubicación --- */}

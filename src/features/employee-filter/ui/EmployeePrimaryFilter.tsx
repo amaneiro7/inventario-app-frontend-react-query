@@ -9,9 +9,9 @@ const IsStillWorkingCombobox = lazy(() =>
 		default: m.IsStillWorkingCombobox
 	}))
 )
-const DepartamentoCombobox = lazy(() =>
-	import('@/entities/employee/departamento/infra/ui/DepartamentoComboBox').then(m => ({
-		default: m.DepartamentoCombobox
+const UnidadCombobox = lazy(() =>
+	import('@/entities/employee/unidad/infra/ui/UnidadComboBox').then(m => ({
+		default: m.UnidadCombobox
 	}))
 )
 const EmployeeTypeCombobox = lazy(() =>
@@ -33,8 +33,7 @@ const LocationCombobox = lazy(() =>
 interface EmployeePrimaryFilterProps {
 	userName?: string
 	isStillWorking?: boolean
-	departamentoId?: string
-	vicepresidenciaId?: string
+	unidadId?: string
 	locationId?: string
 	cargoId?: string
 	type?: string
@@ -47,8 +46,7 @@ interface EmployeePrimaryFilterProps {
 export const EmployeePrimaryFilter = memo(
 	({
 		userName,
-		departamentoId,
-		vicepresidenciaId,
+		unidadId,
 		cargoId,
 		locationId,
 		type,
@@ -107,11 +105,11 @@ export const EmployeePrimaryFilter = memo(
 					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>
-					<DepartamentoCombobox
-						name="departamentoId"
+					<UnidadCombobox
+						name="unidadId"
+						method="search"
 						handleChange={handleChange}
-						value={departamentoId}
-						vicepresidenciaId={vicepresidenciaId}
+						value={unidadId}
 					/>
 				</Suspense>
 				<Suspense fallback={<InputFallback />}>

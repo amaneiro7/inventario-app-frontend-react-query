@@ -37,10 +37,7 @@ export const initialAccessPolicyState: State = {
 		name: '',
 		roleId: '',
 		cargoId: '',
-		departamentoId: '',
-		vicepresidenciaId: '',
-		vicepresidenciaEjecutivaId: '',
-		directivaId: '',
+		unidadId: '',
 		permissionGroupIds: [],
 		priority: 1,
 		updatedAt: undefined
@@ -78,13 +75,7 @@ export type Action =
 	| { type: 'name'; payload: { value: AccessPolicyParams['name'] } }
 	| { type: 'roleId'; payload: { value: AccessPolicyParams['roleId'] } }
 	| { type: 'cargoId'; payload: { value: AccessPolicyParams['cargoId'] } }
-	| { type: 'departamentoId'; payload: { value: AccessPolicyParams['departamentoId'] } }
-	| { type: 'vicepresidenciaId'; payload: { value: AccessPolicyParams['vicepresidenciaId'] } }
-	| {
-			type: 'vicepresidenciaEjecutivaId'
-			payload: { value: AccessPolicyParams['vicepresidenciaEjecutivaId'] }
-	  }
-	| { type: 'directivaId'; payload: { value: AccessPolicyParams['directivaId'] } }
+	| { type: 'unidadId'; payload: { value: AccessPolicyParams['unidadId'] } }
 	| { type: 'priority'; payload: { value: AccessPolicyParams['priority'] } }
 	| { type: 'addPermissionGroup'; payload: { value: string } }
 	| { type: 'removePermissionGroup'; payload: { value: string } }
@@ -148,32 +139,11 @@ export const accessPolicyFormReducer = (state: State, action: Action): State => 
 				formData: { ...state.formData, roleId }
 			}
 		}
-		case 'departamentoId': {
-			const departamentoId = action.payload.value
+		case 'unidadId': {
+			const unidadId = action.payload.value
 			return {
 				...state,
-				formData: { ...state.formData, departamentoId }
-			}
-		}
-		case 'vicepresidenciaId': {
-			const vicepresidenciaId = action.payload.value
-			return {
-				...state,
-				formData: { ...state.formData, vicepresidenciaId }
-			}
-		}
-		case 'vicepresidenciaEjecutivaId': {
-			const vicepresidenciaEjecutivaId = action.payload.value
-			return {
-				...state,
-				formData: { ...state.formData, vicepresidenciaEjecutivaId }
-			}
-		}
-		case 'directivaId': {
-			const directivaId = action.payload.value
-			return {
-				...state,
-				formData: { ...state.formData, directivaId }
+				formData: { ...state.formData, unidadId }
 			}
 		}
 		case 'addPermissionGroup': {

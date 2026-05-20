@@ -20,10 +20,7 @@ export interface EmployeeFilters {
 	nationality?: string
 	cedula?: string
 	locationId?: string
-	departamentoId?: string
-	vicepresidenciaId?: string
-	vicepresidenciaEjecutivaId?: string
-	directivaId?: string
+	unidadId?: string
 	cargoId?: string
 	regionId?: string
 	stateId?: string

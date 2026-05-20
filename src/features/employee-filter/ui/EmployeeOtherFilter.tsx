@@ -4,18 +4,6 @@ import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
 import { Input } from '@/shared/ui/Input/Input'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 
-const DirectivaCombobox = lazy(() =>
-	import('@/entities/employee/directiva/infra/ui/DirectivaComboBox').then(m => ({
-		default: m.DirectivaCombobox
-	}))
-)
-const VicepresidenciaEjecutivaCombobox = lazy(() =>
-	import(
-		'@/entities/employee/vicepresidenciaEjecutiva/infra/ui/VicepresidenciaEjecutivaComboBox'
-	).then(m => ({
-		default: m.VicepresidenciaEjecutivaCombobox
-	}))
-)
 const RegionCombobox = lazy(() =>
 	import('@/entities/locations/region/infra/ui/RegionComboBox').then(m => ({
 		default: m.RegionCombobox
@@ -31,11 +19,6 @@ const CityCombobox = lazy(() =>
 		default: m.CityCombobox
 	}))
 )
-const VicepresidenciaCombobox = lazy(() =>
-	import('@/entities/employee/vicepresidencia/infra/ui/VicepresidenciaComboBox').then(m => ({
-		default: m.VicepresidenciaCombobox
-	}))
-)
 
 interface EmployeeOtherFilterProps {
 	name?: string
@@ -43,9 +26,6 @@ interface EmployeeOtherFilterProps {
 	email?: string
 	cedula?: string
 	employeeCode?: string
-	directivaId?: string
-	vicepresidenciaEjecutivaId?: string
-	vicepresidenciaId?: string
 	regionId?: string
 	stateId?: string
 	cityId?: string
@@ -59,13 +39,10 @@ export const EmployeeOtherFilter = memo(
 		employeeCode,
 		cedula,
 		cityId,
-		directivaId,
 		email,
 		lastName,
 		regionId,
-		stateId,
-		vicepresidenciaEjecutivaId,
-		vicepresidenciaId
+		stateId
 	}: EmployeeOtherFilterProps) => {
 		const [localName, setLocalName] = useState(name ?? '')
 		const [localLastName, setLocalLastName] = useState(lastName ?? '')
@@ -187,29 +164,6 @@ export const EmployeeOtherFilter = memo(
 					type="search"
 					onChange={handleCedula}
 				/>
-				<Suspense fallback={<InputFallback />}>
-					<DirectivaCombobox
-						name="directivaId"
-						handleChange={handleChange}
-						value={directivaId}
-					/>
-				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<VicepresidenciaEjecutivaCombobox
-						name="vicepresidenciaEjecutivaId"
-						handleChange={handleChange}
-						value={vicepresidenciaEjecutivaId}
-						directivaId={directivaId}
-					/>
-				</Suspense>
-				<Suspense fallback={<InputFallback />}>
-					<VicepresidenciaCombobox
-						name="vicepresidenciaId"
-						handleChange={handleChange}
-						value={vicepresidenciaId}
-						vicepresidenciaEjecutivaId={vicepresidenciaEjecutivaId}
-					/>
-				</Suspense>
 				<Suspense fallback={<InputFallback />}>
 					<RegionCombobox name="regionId" handleChange={handleChange} value={regionId} />
 				</Suspense>

@@ -19,23 +19,27 @@ export class DeviceScreenFilter {
 	 * Opciones de tamaño de página disponibles para la paginación.
 	 * @static
 	 * @type {number[]}
-	 */ static readonly pageSizeOptions = [10, 25, 50, 100]
+	 */
+	static readonly pageSizeOptions = [10, 25, 50, 100]
 	/**
 	 * Tamaño de página por defecto.
 	 * @static
 	 * @type {number}
-	 */ static readonly defaultPageSize = 25
+	 */
+	static readonly defaultPageSize = 25
 	/**
 	 * Campo de ordenación por defecto.
 	 * @static
 	 * @type {string}
-	 */ static readonly defaultOrderBy = 'employeeId'
+	 */
+	static readonly defaultOrderBy = 'employeeId'
 	private readonly getAll: DeviceGetAll
 
 	/**
 	 * Crea una instancia de `DeviceScreenFilter`.
 	 * @param {DeviceGetAllRepository} repository - El repositorio para obtener todos los dispositivos.
-	 */ constructor(private readonly repository: DeviceGetAllRepository) {
+	 */
+	constructor(private readonly repository: DeviceGetAllRepository) {
 		this.getAll = new DeviceGetAll(this.repository)
 	}
 
@@ -43,7 +47,8 @@ export class DeviceScreenFilter {
 	 * Busca dispositivos de tipo 'pantalla' basándose en los filtros proporcionados.
 	 * @param {DeviceBaseFilters} filters - Los filtros a aplicar en la búsqueda.
 	 * @returns {Promise<import('@/entities/shared/domain/methods/Response').Response<import('../../domain/dto/Device.dto').DeviceDto>>} Una promesa que se resuelve con la respuesta de la búsqueda.
-	 */ async search({
+	 */
+	async search({
 		pageNumber = 1,
 		pageSize = DeviceScreenFilter.defaultPageSize,
 		orderBy = DeviceScreenFilter.defaultOrderBy,

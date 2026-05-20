@@ -53,7 +53,7 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 							{accessPolicy.name}
 						</TableCell>
 						<TableCell
-							className="hidden lg:table-cell"
+							// className="hidden lg:table-cell"
 							aria-colindex={2}
 							size="small"
 							value={accessPolicy.priority}
@@ -61,7 +61,7 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 							{accessPolicy.priority}
 						</TableCell>
 						<TableCell
-							className="1md:table-cell hidden"
+							// className="1md:table-cell hidden"
 							aria-colindex={3}
 							size="medium"
 							value={accessPolicy.role?.name}
@@ -69,42 +69,19 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 							{accessPolicy.role?.name}
 						</TableCell>
 						<TableCell
-							className="4xl:table-cell hidden"
+							// className="4xl:table-cell hidden"
 							aria-colindex={4}
 							size="medium"
-							value={accessPolicy.directiva?.name}
+							value={accessPolicy.unidad?.name}
 						>
-							{accessPolicy.directiva?.name}
+							{accessPolicy.unidad?.name}
 						</TableCell>
-						<TableCell
-							className="3xl:table-cell hidden"
-							aria-colindex={5}
-							size="medium"
-							value={accessPolicy.vicepresidenciaEjecutiva?.name}
-						>
-							{accessPolicy.vicepresidenciaEjecutiva?.name}
-						</TableCell>
-						<TableCell
-							className="hidden 2xl:table-cell"
-							aria-colindex={6}
-							size="auto"
-							value={accessPolicy.vicepresidencia?.name}
-						>
-							{accessPolicy.vicepresidencia?.name}
-						</TableCell>
-						<TableCell
-							aria-colindex={7}
-							size="medium"
-							value={accessPolicy.departamento?.name}
-						>
-							{accessPolicy.departamento?.name}
-						</TableCell>
-						<TableCell aria-colindex={8} size="large" value={accessPolicy.cargo?.name}>
+						<TableCell aria-colindex={5} size="large" value={accessPolicy.cargo?.name}>
 							{accessPolicy.cargo?.name}
 						</TableCell>
 						<TableCell
-							className="1xl:table-cell hidden"
-							aria-colindex={9}
+							// className="1xl:table-cell hidden"
+							aria-colindex={6}
 							size="xxLarge"
 							value={accessPolicy.permissionsGroups.map(pg => pg.name).join(', ')}
 						>
@@ -128,7 +105,7 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 								)}
 							</div>
 						</TableCell>
-						<TableCell aria-colindex={10} size="xSmall">
+						<TableCell aria-colindex={7} size="xSmall">
 							<div className="flex justify-end pt-1 pr-2">
 								<ActionMenu
 									handleEdit={() => handleEdit(accessPolicy.id)}

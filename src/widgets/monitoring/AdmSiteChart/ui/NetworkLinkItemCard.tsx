@@ -24,10 +24,7 @@ export const NetworkLinkItemCard = memo(({ link }: NetworkLinkItemCardProps) => 
 				? 'rojo'
 				: 'outline'
 
-	const orgUnitName =
-		link.employee?.departamento?.name ||
-		link.employee?.vicepresidencia?.name ||
-		link.employee?.vicepresidenciaEjecutiva?.name
+	const orgUnitName = link.employee?.unidad?.name
 
 	return (
 		<>

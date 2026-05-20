@@ -12,28 +12,33 @@ export class MemoryRamValues extends NumberValueObject {
 	 * Valor mínimo permitido para la memoria RAM.
 	 * @static
 	 * @type {number}
-	 */ static readonly min: number = 0
+	 */
+	static readonly min: number = 0
 	/**
 	 * Valor máximo permitido para la memoria RAM.
 	 * @static
 	 * @type {number}
-	 */ static readonly max: number = 32
+	 */
+	static readonly max: number = 32
 	/**
 	 * Número de pasos para generar la secuencia de valores de memoria RAM.
 	 * @static
 	 * @type {number}
-	 */ static readonly numStep: number = 9
+	 */
+	static readonly numStep: number = 9
 	/**
 	 * Paso mínimo calculado para la secuencia de memoria RAM.
 	 * @static
 	 * @type {number}
-	 */ static readonly minStep: number = this.max / Math.pow(2, this.numStep - 1)
+	 */
+	static readonly minStep: number = this.max / Math.pow(2, this.numStep - 1)
 
 	/**
 	 * Crea una instancia de `MemoryRamValues`.
 	 * @param {number} value - El valor de la memoria RAM.
 	 * @throws {Error} Si el valor no es válido según las reglas definidas.
-	 */ constructor(value: number) {
+	 */
+	constructor(value: number) {
 		super(value)
 		if (!MemoryRamValues.isValid(this.value)) {
 			throw new Error(MemoryRamValues.invalidMessage())
@@ -53,7 +58,8 @@ export class MemoryRamValues extends NumberValueObject {
 	 * Genera una secuencia de valores válidos para la memoria RAM.
 	 * @static
 	 * @returns {number[]} Un array de números que representan los valores válidos de memoria RAM.
-	 */ static generarSecuencia(): number[] {
+	 */
+	static generarSecuencia(): number[] {
 		const secuencia: number[] = [this.min]
 		let valorActual = this.minStep
 		for (let i = 0; i < this.numStep; i++) {

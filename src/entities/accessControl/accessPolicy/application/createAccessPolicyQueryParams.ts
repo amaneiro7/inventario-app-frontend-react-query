@@ -22,10 +22,7 @@ export interface AccessPolicyFilters {
 	priority?: string
 	cargoId?: string
 	roleId?: string
-	departamentoId?: string
-	vicepresidenciaId?: string
-	vicepresidenciaEjecutivaId?: string
-	directivaId?: string
+	unidadId?: string
 	permissionGroupId?: string
 	pageNumber?: number
 	pageSize?: number

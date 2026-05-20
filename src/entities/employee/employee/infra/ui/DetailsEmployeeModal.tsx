@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { getRelativeTime } from '@/shared/lib/utils/getRelativeTime'
 import { convertNumberMiles } from '@/shared/lib/utils/convertNumberMiles'
 import { formatearTelefono } from '@/shared/lib/utils/formatearTelefono'
+import { hierarchyLevelTranslations } from '@/entities/employee/unidad/infra/ui/hierarchyLevelTranslations'
 import { type EmployeeDto } from '../../domain/dto/Employee.dto'
 
 const EmployeeDeviceSummaryCard = lazy(() =>
@@ -38,6 +39,7 @@ interface DetailsEmployeeModalProps {
 	employee: EmployeeDto
 	onClose: () => void
 }
+
 export const DetailsEmployeeModal = ({ employee, onClose }: DetailsEmployeeModalProps) => {
 	const fullName = employee.name ? `${employee?.name} ${employee?.lastName}`.trim() : null
 	const cedula = employee.cedula
@@ -45,6 +47,9 @@ export const DetailsEmployeeModal = ({ employee, onClose }: DetailsEmployeeModal
 		: null
 	const phones = employee.phone?.map(tel => formatearTelefono(tel)).join(' / ')
 	const extensions = employee.extension?.map(ext => formatearTelefono(ext)).join(' / ')
+	const unidadOrganizativaChain = employee.unidad?.full_chain?.levels
+		? employee.unidad.full_chain.levels
+		: null
 
 	return (
 		<DetailModalWrapper>
@@ -90,14 +95,19 @@ export const DetailsEmployeeModal = ({ employee, onClose }: DetailsEmployeeModal
 					title="Info. Organizacional"
 					icon={<Icon name="briefcase" className="h-5 w-5" />}
 				>
-					<DetailItem label="Cargo" value={employee?.cargo?.name} />
-					<DetailItem label="Departamento" value={employee?.departamento?.name} />
-					<DetailItem label="Vicepresidencia" value={employee?.vicepresidencia?.name} />
-					<DetailItem
-						label="V.E. Ejecutiva"
-						value={employee?.vicepresidenciaEjecutiva?.name}
-					/>
-					<DetailItem label="Directiva" value={employee?.directiva?.name} />
+					<DetailItem label="Unidad Específica" value={employee?.unidad?.name || 'N/A'} />
+					<DetailItem label="Cargo" value={employee?.cargo?.name ?? 'N/A'} />
+					{unidadOrganizativaChain &&
+						unidadOrganizativaChain.length > 0 &&
+						unidadOrganizativaChain.map((level, index) => {
+							const levelNum = index + 1
+							const levelName = hierarchyLevelTranslations[levelNum]
+							const label = `Jerarquía Nivel ${levelNum}${levelName ? ` (${levelName})` : ''}`
+
+							return (
+								<DetailItem key={`${level}-${index}`} label={label} value={level} />
+							)
+						})}
 				</CardDetail>
 				{/* --- Tarjeta de Ubicación --- */}
 				{employee.location && (

@@ -11,12 +11,12 @@ export interface CargoErrors extends Record<string, string> {
 
 export interface CargoRequired extends Record<string, boolean> {
 	name: boolean
-	departamentos: boolean
+	unidades: boolean
 }
 
 export interface CargoDisabled extends Record<string, boolean> {
 	name: boolean
-	departamentos: boolean
+	unidades: boolean
 }
 
 interface State {
@@ -30,7 +30,7 @@ export const initialCargoState: State = {
 	formData: {
 		id: '',
 		name: '',
-		departamentos: [],
+		unidades: [],
 		updatedAt: undefined
 	},
 	errors: {
@@ -38,19 +38,19 @@ export const initialCargoState: State = {
 	},
 	required: {
 		name: true,
-		departamentos: false
+		unidades: false
 	},
 	disabled: {
 		name: false,
-		departamentos: false
+		unidades: false
 	}
 }
 
 export type Action =
 	| { type: 'init'; payload: { formData: DefaultCargo } }
 	| { type: 'reset'; payload: { formData: DefaultCargo } }
-	| { type: 'addDepartamento'; payload: { value: string } }
-	| { type: 'removeDepartamento'; payload: { value: string } }
+	| { type: 'addUnidad'; payload: { value: string } }
+	| { type: 'removeUnidad'; payload: { value: string } }
 	| { type: 'name'; payload: { value: DefaultCargo['name'] } }
 
 /**
@@ -80,23 +80,23 @@ export const cargoFormReducer = (state: State, action: Action): State => {
 				}
 			}
 		}
-		case 'addDepartamento': {
-			const departamentos = action.payload.value
+		case 'addUnidad': {
+			const unidades = action.payload.value
 			return {
 				...state,
 				formData: {
 					...state.formData,
-					departamentos: [...state.formData.departamentos, departamentos]
+					unidades: [...state.formData.unidades, unidades]
 				}
 			}
 		}
-		case 'removeDepartamento': {
-			const departamentos = action.payload.value
+		case 'removeUnidad': {
+			const unidades = action.payload.value
 			return {
 				...state,
 				formData: {
 					...state.formData,
-					departamentos: state.formData.departamentos.filter(d => d !== departamentos)
+					unidades: state.formData.unidades.filter(d => d !== unidades)
 				}
 			}
 		}

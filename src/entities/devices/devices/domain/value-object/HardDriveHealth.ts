@@ -11,18 +11,21 @@ export class HardDriveHealth extends NumberValueObject {
 	 * Valor mínimo permitido para el estado de salud.
 	 * @static
 	 * @type {number}
-	 */ static readonly MIN = 0
+	 */
+	static readonly MIN = 0
 	/**
 	 * Valor máximo permitido para el estado de salud.
 	 * @static
 	 * @type {number}
-	 */ static readonly MAX = 100
+	 */
+	static readonly MAX = 100
 
 	/**
 	 * Crea una instancia de `HardDriveHealth`.
 	 * @param {number} value - El valor del estado de salud.
 	 * @throws {Error} Si el valor no es válido según las reglas definidas.
-	 */ constructor(value: number) {
+	 */
+	constructor(value: number) {
 		super(value)
 		if (!HardDriveHealth.isValid({ value })) {
 			throw new Error(HardDriveHealth.invalidMessage())
