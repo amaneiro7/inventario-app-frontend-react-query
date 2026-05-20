@@ -17,6 +17,7 @@ export const mapUnidadToState = (data: UnidadDto): DefaultUnidad => {
 		parentId: data.parentId,
 		cargos: data.cargos.map(cargo => cargo.id),
 		full_chain: data.full_chain,
+		isInitialCodigoInternoEmpty: !data.codigoInterno,
 		updatedAt: data?.updatedAt
 	}
 }

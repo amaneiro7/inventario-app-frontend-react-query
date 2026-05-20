@@ -48,7 +48,8 @@ export async function createUnidadParams({
 	const operatorMap: { [key: string]: Operator } = {
 		name: Operator.CONTAINS,
 		centroDeCosto: Operator.CONTAINS,
-		codigoInterno: Operator.CONTAINS
+		codigoInterno: Operator.CONTAINS,
+		level: Operator.LOWER_THAN
 	}
 
 	Object.entries(options).forEach(([key, value]) => {

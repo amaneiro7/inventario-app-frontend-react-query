@@ -7,16 +7,16 @@ export const AccessPolicyTableLoading = () => (
 		<TableCell aria-colindex={1} size="medium">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell className="hidden lg:table-cell" aria-colindex={2} size="small">
+		<TableCell className="1md:table-cell hidden" aria-colindex={2} size="xxSmall">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell className="1md:table-cell hidden" aria-colindex={3} size="medium">
+		<TableCell className="hidden md:table-cell" aria-colindex={3} size="small">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell className="4xl:table-cell hidden" aria-colindex={4} size="medium">
+		<TableCell className="hidden sm:table-cell" aria-colindex={4} size="large">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
-		<TableCell className="3xl:table-cell hidden" aria-colindex={5} size="large">
+		<TableCell aria-colindex={5} className="1sm:table-cell hidden" size="medium">
 			<Skeleton className="h-4 w-full" />
 		</TableCell>
 		<TableCell className="1xl:table-cell hidden" aria-colindex={6} size="xxLarge">

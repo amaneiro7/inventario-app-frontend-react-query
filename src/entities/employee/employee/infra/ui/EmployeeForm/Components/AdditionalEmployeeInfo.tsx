@@ -118,6 +118,7 @@ export const AdditionalEmployeeInfo = memo(
 					handleChange={(_name, value) => handleChange('unidadId', value)}
 					method="search"
 					name="unidadId"
+					isUnitActive={true}
 					isLoading={isLoading}
 					required={unidadIdRequired}
 					disabled={unidadIdDisabled}

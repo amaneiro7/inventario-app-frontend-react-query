@@ -34,10 +34,12 @@ interface UnidadInputsProps {
 	handleChange: (name: Action['type'], value: any) => void
 	handleParentChange: ({
 		value,
-		full_chain
+		full_chain,
+		parentLevel
 	}: {
 		value: UnidadDto['id']
 		full_chain?: UnidadDto['full_chain']
+		parentLevel?: UnidadDto['level']
 	}) => Promise<void>
 }
 
@@ -95,6 +97,7 @@ export const UnidadInputs = memo(
 							name="parentId"
 							method="form"
 							label="Unidad Superior (Área de dependencia)"
+							level={formData.level}
 							required={required.parentId}
 							disabled={disabled.parentId || !canEdit}
 							error={errors?.parentId}

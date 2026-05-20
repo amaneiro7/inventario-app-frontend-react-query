@@ -8,6 +8,8 @@ import { UnidadName } from '../../domain/value-object/UnidadName'
  */
 export type DefaultUnidad = UnidadParams & {
 	full_chain?: UnidadDto['full_chain'] | null
+	parentLevel?: UnidadDto['level']
+	isInitialCodigoInternoEmpty: boolean
 	updatedAt?: string
 }
 
@@ -15,7 +17,11 @@ export type DefaultUnidad = UnidadParams & {
  * Defines the structure for validation errors in the Unidad form.
  */
 export interface UnidadErrors extends Record<string, string> {
-	name: UnidadDto['name']
+	name: string
+	cargos: string
+	parentId: string
+	centroDeCosto: string
+	codigoInterno: string
 }
 
 /**
@@ -56,12 +62,19 @@ export const initialUnidadState: State = {
 		centroDeCosto: '',
 		codigoInterno: '',
 		isUnitActive: true,
+		isInitialCodigoInternoEmpty: true,
 		parentId: '',
+		parentLevel: undefined,
+		full_chain: null,
 		cargos: [],
 		updatedAt: undefined
 	},
 	errors: {
-		name: ''
+		name: '',
+		cargos: '',
+		centroDeCosto: '',
+		codigoInterno: '',
+		parentId: ''
 	},
 	required: {
 		name: true,
@@ -94,7 +107,11 @@ export type Action =
 	| { type: 'isUnitActive'; payload: { value: DefaultUnidad['isUnitActive'] } }
 	| {
 			type: 'parentId'
-			payload: { value: DefaultUnidad['parentId']; full_chain?: UnidadDto['full_chain'] }
+			payload: {
+				value: DefaultUnidad['parentId']
+				full_chain?: UnidadDto['full_chain']
+				parentLevel?: UnidadDto['level']
+			}
 	  }
 	| { type: 'addCargo'; payload: { value: string } }
 	| { type: 'removeCargo'; payload: { value: string } }
@@ -115,7 +132,10 @@ export const unidadFormReducer = (state: State, action: Action): State => {
 		case 'init': {
 			return {
 				...state,
-				formData: { ...action.payload.formData },
+				formData: {
+					...action.payload.formData,
+					isInitialCodigoInternoEmpty: !action.payload.formData.codigoInterno
+				},
 				disabled: {
 					...state.disabled,
 					parentId: action.payload.formData.level === 1
@@ -145,7 +165,9 @@ export const unidadFormReducer = (state: State, action: Action): State => {
 				formData: { ...state.formData, level, parentId },
 				errors: {
 					...state.errors,
-					centroDeCosto: Level.isValid(level) ? '' : Level.invalidMessage()
+					level: Level.isValid({ value: level, parentLevel: state.formData.parentLevel })
+						? ''
+						: Level.invalidMessage()
 				},
 				disabled: {
 					...state.disabled,
@@ -181,12 +203,21 @@ export const unidadFormReducer = (state: State, action: Action): State => {
 			}
 		}
 		case 'parentId': {
-			const parentId = action.payload.value
-			const full_chain = action.payload.full_chain
+			const { value: parentId, full_chain, parentLevel } = action.payload
 
 			return {
 				...state,
-				formData: { ...state.formData, parentId, full_chain }
+				formData: { ...state.formData, parentId, full_chain, parentLevel },
+				errors: {
+					...state.errors,
+					level: Level.isValid({ value: state.formData.level, parentLevel })
+						? ''
+						: Level.invalidMessage(),
+					parentId:
+						state.formData.level > 2 && !parentId
+							? 'Si el nivel es mayor a 1, el nivel del padre es requerido.'
+							: ''
+				}
 			}
 		}
 

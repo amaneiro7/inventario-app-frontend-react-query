@@ -53,34 +53,39 @@ export const AccessPolicyTable = memo(({ isError, accessPolicies }: AccessPolicy
 							{accessPolicy.name}
 						</TableCell>
 						<TableCell
-							// className="hidden lg:table-cell"
+							className="1md:table-cell hidden"
 							aria-colindex={2}
-							size="small"
+							size="xxSmall"
 							value={accessPolicy.priority}
 						>
 							{accessPolicy.priority}
 						</TableCell>
 						<TableCell
-							// className="1md:table-cell hidden"
+							className="hidden md:table-cell"
 							aria-colindex={3}
-							size="medium"
+							size="small"
 							value={accessPolicy.role?.name}
 						>
 							{accessPolicy.role?.name}
 						</TableCell>
 						<TableCell
-							// className="4xl:table-cell hidden"
+							className="hidden sm:table-cell"
 							aria-colindex={4}
-							size="medium"
+							size="large"
 							value={accessPolicy.unidad?.name}
 						>
 							{accessPolicy.unidad?.name}
 						</TableCell>
-						<TableCell aria-colindex={5} size="large" value={accessPolicy.cargo?.name}>
+						<TableCell
+							aria-colindex={5}
+							className="1sm:table-cell hidden"
+							size="medium"
+							value={accessPolicy.cargo?.name}
+						>
 							{accessPolicy.cargo?.name}
 						</TableCell>
 						<TableCell
-							// className="1xl:table-cell hidden"
+							className="1xl:table-cell hidden"
 							aria-colindex={6}
 							size="xxLarge"
 							value={accessPolicy.permissionsGroups.map(pg => pg.name).join(', ')}

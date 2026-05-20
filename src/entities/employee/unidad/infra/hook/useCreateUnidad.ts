@@ -42,7 +42,7 @@ export function useCreateUnidad(defaultState?: DefaultUnidad) {
 		submitError,
 		dispatch
 	} = useFormHandler({
-		entityName: 'Unidads',
+		entityName: 'Unidades',
 		initialState: initialUnidadState,
 		reducer: unidadFormReducer,
 		initialData,
@@ -53,14 +53,16 @@ export function useCreateUnidad(defaultState?: DefaultUnidad) {
 	const handleParentChange = useCallback(
 		async ({
 			value,
-			full_chain
+			full_chain,
+			parentLevel
 		}: {
 			value: UnidadDto['id']
 			full_chain?: UnidadDto['full_chain']
+			parentLevel?: UnidadDto['level']
 		}): Promise<void> => {
 			dispatch({
 				type: 'parentId',
-				payload: { value, full_chain }
+				payload: { value, full_chain, parentLevel }
 			})
 		},
 		[]

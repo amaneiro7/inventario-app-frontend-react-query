@@ -11,6 +11,7 @@ interface BaseProps {
 	error?: string
 	label?: string
 	level?: number
+	isUnitActive?: boolean
 	required?: boolean
 	disabled?: boolean
 	isLoading?: boolean
@@ -26,10 +27,12 @@ interface FormProps extends BaseProps {
 	method: 'form'
 	handleFormChange: ({
 		value,
-		full_chain
+		full_chain,
+		parentLevel
 	}: {
 		value: UnidadDto['id']
 		full_chain?: UnidadDto['full_chain']
+		parentLevel?: UnidadDto['level']
 	}) => Promise<void>
 }
 
@@ -44,6 +47,7 @@ export const UnidadCombobox = memo(
 		value = '',
 		name,
 		error = '',
+		isUnitActive,
 		method = 'search',
 		label = 'Unidad Organizativa',
 		level,
@@ -60,7 +64,8 @@ export const UnidadCombobox = memo(
 			return {
 				...(value ? { id: value } : { id: undefined }),
 				...(debouncedSearch ? { id: undefined, name: debouncedSearch } : { pageSize: 10 }),
-				level
+				level,
+				isUnitActive
 			}
 		}, [debouncedSearch, value, name, level])
 		const { data, isLoading: loading } = useGetAllUnidad(query)
@@ -70,8 +75,11 @@ export const UnidadCombobox = memo(
 		const handleInternalChange = (name: string, value: string | number) => {
 			if (method === 'form' && 'handleFormChange' in props) {
 				const data = options.find(unidad => unidad.id === value)
-				console.log('Selected Unidad:', data)
-				props.handleFormChange({ value: `${value}`, full_chain: data?.full_chain })
+				props.handleFormChange({
+					value: `${value}`,
+					full_chain: data?.full_chain,
+					parentLevel: data?.level
+				})
 			} else if (method === 'search' && 'handleChange' in props) {
 				props.handleChange(name, value)
 			}

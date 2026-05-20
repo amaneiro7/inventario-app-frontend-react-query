@@ -70,51 +70,52 @@ export const AccessPolicyTableWrapper = memo(
 									Nombre
 								</TableHead>
 								<TableHead
-									// className="hidden lg:table-cell"
+									className="1md:table-cell hidden"
 									aria-colindex={2}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="priority"
-									size="small"
+									size="xxSmall"
 								>
 									Prioridad
 								</TableHead>
 								<TableHead
-									// className="1md:table-cell hidden"
+									className="hidden md:table-cell"
 									aria-colindex={3}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="roleId"
-									size="medium"
+									size="small"
 								>
 									Rol
 								</TableHead>
 								<TableHead
 									aria-colindex={4}
-									// className="4xl:table-cell hidden"
+									className="hidden sm:table-cell"
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="unidadId"
-									size="medium"
+									size="large"
 								>
 									Unidad Organizativa
 								</TableHead>
 
 								<TableHead
+									className="1sm:table-cell hidden"
 									aria-colindex={5}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
 									orderByField="cargoId"
-									size="large"
+									size="medium"
 								>
 									Cargo
 								</TableHead>
 								<TableHead
-									// className="1xl:table-cell hidden"
+									className="1xl:table-cell hidden"
 									aria-colindex={6}
 									size="xxLarge"
 								>
