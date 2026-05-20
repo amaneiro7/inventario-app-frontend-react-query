@@ -20,9 +20,10 @@ export const ModelQuantityByModels = memo(({ brandData }: ModelQuantityByModelsP
 	return (
 		<BarChart
 			style={{
+				flex: '1 1 0%',
 				width: '100%',
-				maxWidth: '800px',
-				maxHeight: '80vh',
+				maxHeight: '100%',
+				minHeight: '20rem',
 				aspectRatio: 1.618
 			}}
 			responsive

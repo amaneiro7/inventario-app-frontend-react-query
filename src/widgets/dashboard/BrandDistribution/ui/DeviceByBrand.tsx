@@ -21,9 +21,10 @@ export const DeviceByBrand = memo(({ brandData }: DeviceByBrandProps) => {
 		<BarChart
 			data={brandData}
 			style={{
+				flex: '1 1 0%',
 				width: '100%',
-				maxWidth: '800px',
-				maxHeight: '80vh',
+				maxHeight: '100%',
+				minHeight: '20rem',
 				aspectRatio: 1.618
 			}}
 			responsive

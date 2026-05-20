@@ -23,7 +23,7 @@ const DistributionByQuantityModels = lazy(() =>
 export const BrandDistribution = memo(({ brandData: data }: BrandDistributionProps) => {
 	const { brandData, total } = useBrandDistribution({ data })
 	return (
-		<div className="grid gap-4 md:grid-cols-2">
+		<div className="grid grid-cols-[repeat(auto-fit,minmax(650px,1fr))] gap-4">
 			<ErrorBoundary
 				fallback={({ onReset }) => (
 					<WidgetErrorFallback
