@@ -71,7 +71,7 @@ export const OtherLocationFilter = memo(
 				{/* Grupo 3: Clasificación y Red */}
 				<Divider />
 				<AgencyClassificationCombobox
-					name="agencyClassificationId"
+					name="agencyClassification"
 					value={typeof agencyClassification === 'string' ? agencyClassification : ''}
 					handleChange={handleChange}
 				/>
