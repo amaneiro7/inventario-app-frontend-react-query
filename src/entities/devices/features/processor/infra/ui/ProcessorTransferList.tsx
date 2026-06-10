@@ -38,7 +38,7 @@ export function ProcessorTransferList({
 	const { data: allProcessors, isLoading: loading } = useGetAllProcessor({})
 
 	const availableOptions =
-		allProcessors?.data?.filter(processor => !processors.includes(processor.id)) ?? []
+		allProcessors?.data.filter(processor => !processors.includes(processor.id)) ?? []
 
 	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
 
@@ -73,12 +73,12 @@ export function ProcessorTransferList({
 				{processors.length > 0 ? (
 					<ul role="options" className="flex w-full flex-col rounded">
 						{processors.map(processorId => {
-							const cargo = allProcessors?.data?.find(c => c.id === processorId)
+							const processor = allProcessors?.data.find(c => c.id === processorId)
 							return (
 								<TransferListItem
 									key={processorId}
 									id={processorId}
-									name={cargo?.name}
+									name={processor?.name}
 									isLoading={isLoading}
 									readOnly={readonly}
 									onRemove={handleRemoveProcessor}

@@ -41,7 +41,7 @@ export default function MonitoringLocation() {
 					<WidgetErrorFallback
 						onReset={onReset}
 						variant="compact"
-						message="Los datos Totaloes no estan disponibles."
+						message="Los datos totales no están disponibles."
 					/>
 				)}
 			>
@@ -53,7 +53,7 @@ export default function MonitoringLocation() {
 						<WidgetErrorFallback
 							onReset={onReset}
 							variant="default"
-							message="No se pudieron cargar los filrtros."
+							message="No se pudieron cargar los filtros."
 						/>
 					)}
 				>

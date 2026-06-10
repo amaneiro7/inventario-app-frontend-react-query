@@ -62,7 +62,7 @@ export default function FormSite() {
 			>
 				<FormLayout
 					id={key}
-					description="Ingrese los datos del sitio el cual desea registar."
+					description="Ingrese los datos del sitio que desea registrar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
 					submitError={submitError}

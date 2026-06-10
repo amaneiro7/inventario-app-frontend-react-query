@@ -1,10 +1,9 @@
-import { lazy, memo, Suspense, useCallback, useState } from 'react'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import { useEffectAfterMount } from '@/shared/lib/hooks/useEffectAfterMount'
+import { lazy, memo, Suspense } from 'react'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 import { Input } from '@/shared/ui/Input/Input'
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import { DeviceMonitoringStatusCombobox } from '@/entities/devices/deviceMonitoring/infra/ui/DeviceMonitoringStatusComboBox'
+import { useMainDeviceMonitoringFilter } from '../Model/useMainDeviceMonitoringFilter'
 
 const StateCombobox = lazy(() =>
 	import('@/entities/locations/state/infra/ui/StateComboBox').then(m => ({
@@ -66,37 +65,12 @@ export const MainDeviceMonitoringFilter = memo(
 		typeOfSiteId?: string
 		handleChange: (name: string, value: string | number) => void
 	}) => {
-		const [localIpAddress, setLocalIpAddress] = useState(ipAddress ?? '')
-		const [localComputerName, setLocalComputerName] = useState(computerName ?? '')
-		const [debounceIpAddress] = useDebounce(localIpAddress)
-		const [debounceComputerName] = useDebounce(localComputerName)
-
-		useEffectAfterMount(() => {
-			handleChange('ipAddress', debounceIpAddress)
-		}, [debounceIpAddress])
-		useEffectAfterMount(() => {
-			handleChange('computerName', debounceComputerName)
-		}, [debounceComputerName])
-
-		useEffectAfterMount(() => {
-			if (!ipAddress) {
-				setLocalIpAddress('')
-			}
-		}, [ipAddress])
-		useEffectAfterMount(() => {
-			if (!computerName) {
-				setLocalComputerName('')
-			}
-		}, [computerName])
-
-		const handleComputerName = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalComputerName(value)
-		}, [])
-		const handleIpAddress = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-			const value = e.target.value.trim().toUpperCase()
-			setLocalIpAddress(value)
-		}, [])
+		const { handleComputerName, handleIpAddress, localComputerName, localIpAddress } =
+			useMainDeviceMonitoringFilter({
+				ipAddress,
+				computerName,
+				handleChange
+			})
 
 		return (
 			<>

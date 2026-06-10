@@ -40,5 +40,13 @@ export const MONITORING_ROUTES_METADATA: Record<string, RouterMetadata> = {
 		permission: PERMISSIONS.LOCATIONS.READ_MONITORING_BY_LOCATION_DASHBOARD,
 		pathSegment: 'administrativesitemap',
 		iconName: 'flag'
+	},
+	[`${monitoringIndexPath}/evaluationhardware`]: {
+		title: 'Dashboard de Evaluación de Hardware',
+		description:
+			'Visualiza el estado de las reglas de migración para la actualización de dispositivos.',
+		permission: PERMISSIONS.MIGRATION_RULES.READ_LIST,
+		pathSegment: 'evaluationhardware',
+		iconName: 'cpu'
 	}
 }

@@ -82,7 +82,7 @@ export default function FormShipment() {
 						>
 							<FormLayout
 								id={key}
-								description="Ingrese los datos de la relación de envios el cual desea registar."
+								description="Ingrese los datos de la relación de envíos que desea registrar."
 								isAddForm={mode === 'add'}
 								isSubmitting={isSubmitting}
 								submitError={submitError}
@@ -126,7 +126,7 @@ export default function FormShipment() {
 								<WidgetErrorFallback
 									onReset={onReset}
 									variant="default"
-									message="Los detalles del envio no estan disponibles."
+									message="Los detalles del envío no están disponibles."
 								/>
 							)}
 						>

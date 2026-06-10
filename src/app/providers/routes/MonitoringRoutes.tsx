@@ -10,12 +10,30 @@ const AdministrativeSiteMapPage = lazy(() => import('@/pages/MonitoringSiteMapCh
 const Monitoring = lazy(() => import('@/pages/Monitoring'))
 const MonitoringDevice = lazy(() => import('@/pages/MonitoringDevice'))
 const MonitoringLocation = lazy(() => import('@/pages/MonitoringLocation'))
+const MonitoringDeviceEvaluationHardware = lazy(
+	() => import('@/pages/MonitoringDeviceEvaluationHardware')
+)
 
 export default function MonitoringRoutes() {
 	return (
 		<Routes>
 			<Route element={suspended(MonitoringWrapper)}>
 				<Route index element={suspended(Monitoring)} />
+				{/* Device Evaluation Hardware */}
+
+				<Route
+					element={
+						<ProtectedByPermissionRoute
+							permission={PERMISSIONS.MIGRATION_RULES.READ_LIST}
+						/>
+					}
+				>
+					<Route
+						path="evaluationhardware"
+						element={suspended(MonitoringDeviceEvaluationHardware)}
+					/>
+				</Route>
+				{/* Device Monitoring */}
 				<Route
 					element={
 						<ProtectedByPermissionRoute
@@ -25,6 +43,7 @@ export default function MonitoringRoutes() {
 				>
 					<Route path="device" element={suspended(MonitoringDevice)} />
 				</Route>
+				{/* Location Monitoring */}
 				<Route
 					element={
 						<ProtectedByPermissionRoute

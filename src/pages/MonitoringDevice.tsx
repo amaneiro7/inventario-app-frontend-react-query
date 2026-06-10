@@ -53,7 +53,7 @@ export default function MonitoringDevice() {
 						<WidgetErrorFallback
 							onReset={onReset}
 							variant="default"
-							message="No se pudieron cargar los filrtros."
+							message="No se pudieron cargar los filtros."
 						/>
 					)}
 				>

@@ -65,6 +65,13 @@ export const PERMISSIONS = {
 		UPDATE: 'devices:update',
 		DELETE: 'devices:delete'
 	},
+	MIGRATION_RULES: {
+		READ_LIST: 'migration-rules:read-list',
+		READ: 'migration-rules:read',
+		CREATE: 'migration-rules:create',
+		UPDATE: 'migration-rules:update',
+		DELETE: 'migration-rules:delete'
+	},
 	CENTRO_TRABAJOS: {
 		READ_LIST: 'centro-trabajos:read-list',
 		READ: 'centro-trabajos:read',

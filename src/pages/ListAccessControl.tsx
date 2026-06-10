@@ -47,7 +47,7 @@ export default function ListAccessControl() {
 					className="w-full space-y-4"
 				>
 					<TabsList className="w-fit">
-						<TabsTrigger value="policies">Politicas de accesso</TabsTrigger>
+						<TabsTrigger value="policies">Políticas de acceso</TabsTrigger>
 						<TabsTrigger value="groups">Grupo de permisos</TabsTrigger>
 						<TabsTrigger value="permissions">Permisos</TabsTrigger>
 					</TabsList>

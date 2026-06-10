@@ -46,6 +46,12 @@ export const navigation: Navigation[] = [
 				path: '/monitoring/administrativesitemap',
 				desc: 'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.',
 				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
+			},
+			{
+				title: 'Dashboard de Evaluación de Hardware',
+				path: '/monitoring/evaluationhardware',
+				desc: 'Visualiza el estado de las reglas de migración para la actualización de dispositivos.',
+				permission: PERMISSIONS.MIGRATION_RULES.READ_LIST
 			}
 		]
 	},
@@ -112,6 +118,12 @@ export const navigation: Navigation[] = [
 				path: '/form/processor/add',
 				desc: 'Define y registra nuevos tipos de procesadores utilizados en los equipos.',
 				permission: PERMISSIONS.PROCESSORS.CREATE
+			},
+			{
+				title: 'Agregar Nueva Regla de Migración',
+				path: '/form/migration-rules/add',
+				desc: 'Crea una nueva regla de migración para gestionar el proceso de actualización de dispositivos.',
+				permission: PERMISSIONS.MIGRATION_RULES.CREATE
 			}
 		]
 	},

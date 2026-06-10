@@ -66,7 +66,7 @@ export default function FormUnidad() {
 			>
 				<FormLayout
 					id={key}
-					description="Ingrese los datos de la Unidad Organizativa el cual desea registar."
+					description="Ingrese los datos de la Unidad Organizativa que desea registrar."
 					isAddForm={mode === 'add'}
 					isSubmitting={isSubmitting}
 					submitError={submitError}

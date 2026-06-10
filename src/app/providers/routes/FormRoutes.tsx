@@ -22,6 +22,7 @@ const FormUnidad = lazy(() => import('@/pages/FormUnidad'))
 const FormLocation = lazy(() => import('@/pages/FormLocation'))
 const FormProcessor = lazy(() => import('@/pages/FormProcessor'))
 const FormDevice = lazy(() => import('@/pages/FormDevice'))
+const FormMigrationRule = lazy(() => import('@/pages/FormMigrationRule'))
 const FormWrapper = lazy(() => import('@/app/layouts/FormWrapper'))
 
 export default function FormRoutes() {
@@ -52,6 +53,23 @@ export default function FormRoutes() {
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.DEVICES.READ} />}
 				>
 					<Route path="device/edit/:id" element={suspended(FormDevice)} />
+				</Route>
+				{/* Ruta para agregar reglas de migración */}
+				<Route
+					element={
+						<ProtectedByPermissionRoute
+							permission={PERMISSIONS.MIGRATION_RULES.CREATE}
+						/>
+					}
+				>
+					<Route path="migration-rules/add" element={suspended(FormMigrationRule)} />
+				</Route>
+				<Route
+					element={
+						<ProtectedByPermissionRoute permission={PERMISSIONS.MIGRATION_RULES.READ} />
+					}
+				>
+					<Route path="migration-rules/edit/:id" element={suspended(FormMigrationRule)} />
 				</Route>
 				{/* Ruta para actualizacion de empleados */}
 				<Route
