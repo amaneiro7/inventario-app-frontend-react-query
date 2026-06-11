@@ -15,6 +15,7 @@ export function useEvaluationHardwareDashboardFilter() {
 			'isRamApto',
 			'isDiskApto',
 			'isProcessorApto',
+			'memoryRamCapacity',
 			'locationId',
 			'categoryId',
 			'brandId',

@@ -1,11 +1,17 @@
 import { useCallback, useState } from 'react'
 import { useAuthStore } from '@/features/auth/model/useAuthStore'
+// Device
 import { DeviceDownload } from '@/entities/devices/devices/application/DeviceDownload'
 import { DeviceDownloadService } from '@/entities/devices/devices/infra/service/deviceDownload.service'
+// Modelos
 import { ModelDownload } from '@/entities/model/models/application/ModelDownload'
 import { ModelDownloadService } from '@/entities/model/models/infra/service/modelDownload.service'
+// Usuario
 import { EmployeeDownload } from '@/entities/employee/employee/application/EmployeeDownload'
 import { EmployeeDownloadService } from '@/entities/employee/employee/infra/service/employeeDownload.service'
+// Evaluation Hardware
+import { EvaluationHardwareDownload } from '@/entities/devices/deviceEvaluation/application/EvaluationHardwareDownload'
+import { EvaluationHardwareDownloadService } from '@/entities/devices/deviceEvaluation/infra/service/evaluationHardwareDownload.service'
 import { type Source } from '@/types/type'
 import { type DeviceBaseFilters } from '@/entities/devices/devices/application/createDeviceQueryParams'
 
@@ -23,6 +29,14 @@ export function useDownloadExcelService() {
 					})
 				} else if (source === 'employee') {
 					await new EmployeeDownload(new EmployeeDownloadService(), events).run({
+						...query,
+						source
+					})
+				} else if (source === 'evaluationHardware') {
+					await new EvaluationHardwareDownload(
+						new EvaluationHardwareDownloadService(),
+						events
+					).run({
 						...query,
 						source
 					})

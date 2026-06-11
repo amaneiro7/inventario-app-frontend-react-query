@@ -39,9 +39,9 @@ export const DetailsEvaluationHardwareModal = memo(
 	({ device, onClose }: DetailsEvaluationHardwareModalProps) => {
 		const {
 			deviceId,
-			employee,
+			employee: { name, lastName, userName },
 			hardware: { computerName, disk, ipAddress, processor, ram },
-			location,
+			location: { administrativeRegion, city, location, region, site, state },
 			reasons,
 			serial,
 			status
@@ -79,17 +79,14 @@ export const DetailsEvaluationHardwareModal = memo(
 						)}
 					</CardDetail>
 					{/* --- Tarjeta de Usuario --- */}
-					{employee && (
+					{userName && (
 						<CardDetail
 							title="Usuario Asignado"
 							icon={<Icon name="user" className="h-5 w-5" />}
 						>
-							<DetailItem label="Usuario" value={employee} />
-							{/* <DetailItem
-								label="Nombre"
-								value={`${employee.name} ${employee.lastName}`}
-							/>
-							{employee.email && <DetailItem label="Email" value={employee.email} />}
+							<DetailItem label="Usuario" value={userName} />
+							<DetailItem label="Nombre" value={`${name} ${lastName}`} />
+							{/* {employee.email && <DetailItem label="Email" value={employee.email} />}
 							<DetailItem
 								label="Unidad Específica"
 								value={employee?.unidad?.name || 'N/A'}
@@ -120,13 +117,14 @@ export const DetailsEvaluationHardwareModal = memo(
 							title="Ubicación"
 							icon={<Icon name="mapPin" className="h-5 w-5" />}
 						>
-							{/* <DetailItem
-								label="Región"
-								value={location?.site?.city?.state?.region?.name}
+							<DetailItem
+								label="Región Administrativa"
+								value={administrativeRegion}
 							/>
-							<DetailItem label="Estado" value={location?.site?.city?.state?.name} />
-							<DetailItem label="Ciudad" value={location?.site?.city?.name} />
-							<DetailItem label="Sitio" value={location.site?.name} /> */}
+							<DetailItem label="Región" value={region} />
+							<DetailItem label="Estado" value={state} />
+							<DetailItem label="Ciudad" value={city} />
+							<DetailItem label="Sitio" value={site} />
 							<DetailItem label="Ubicación Detallada" value={location} />
 						</CardDetail>
 					)}

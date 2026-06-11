@@ -80,7 +80,10 @@ import {
 	Users,
 	Calendar,
 	UserMinus,
-	LogOut
+	LogOut,
+	X,
+	Database,
+	Microchip
 } from 'lucide-react'
 
 const iconMap = {
@@ -164,7 +167,10 @@ const iconMap = {
 	users: Users,
 	calendar: Calendar,
 	userMinus: UserMinus,
-	logOut: LogOut
+	logOut: LogOut,
+	x: X,
+	database: Database,
+	microchip: Microchip
 }
 
 export type IconName = keyof typeof iconMap

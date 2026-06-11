@@ -31,7 +31,7 @@ export class MigrationRule {
 	 * @returns A new MigrationRule instance.
 	 */
 	public static create(params: MigrationRulePrimitives): MigrationRule {
-		const approvedProcessor = params.approvedProcessor.map(id => new ProcessorId(id))
+		const approvedProcessor = params.approvedProcessors.map(id => new ProcessorId(id))
 		return new MigrationRule(
 			new MigrationRuleMinRamGb(params.minRamGb),
 			new MigrationRuleMinDiskGb(params.minDiskGb),
@@ -80,7 +80,7 @@ export class MigrationRule {
 			minRamGb: this.minRamGbValue,
 			minDiskGb: this.minDiskGbValue,
 			isActive: this.isActiveValue,
-			approvedProcessor: this.approvedProcessorValue
+			approvedProcessors: this.approvedProcessorValue
 		}
 	}
 }

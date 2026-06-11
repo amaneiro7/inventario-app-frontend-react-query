@@ -6,8 +6,8 @@ export class MigrationRuleMinDiskGb extends NumberValueObject {
 
 	constructor(value: number) {
 		super(value)
-		if (!MigrationRuleMinDiskGb.isValid(value)) {
-			throw new Error(MigrationRuleMinDiskGb.invalidMessage(value))
+		if (!MigrationRuleMinDiskGb.isValid(this.value)) {
+			throw new Error(MigrationRuleMinDiskGb.invalidMessage(this.value))
 		}
 	}
 

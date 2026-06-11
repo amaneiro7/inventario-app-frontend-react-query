@@ -6,6 +6,8 @@ import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallba
 import { Tabs, TabsTrigger, TabsList } from '@/shared/ui/Tabs'
 import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrapper'
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
+import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
+import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 
 const MainEvaluationHardwareFilter = lazy(() =>
 	import('@/widgets/EvaluationHardwareDashboard/ui/MainEvaluationHardwareFilter').then(m => ({
@@ -21,6 +23,10 @@ const DetailsBoxWrapper = lazy(() =>
 const FilterSection = lazy(() =>
 	import('@/shared/ui/FilterSection').then(m => ({ default: m.FilterSection }))
 )
+const ButtonSection = lazy(() =>
+	import('@/shared/ui/ButttonSection/ButtonSection').then(m => ({ default: m.ButtonSection }))
+)
+
 const EvaluationHardwareDashboardSummary = lazy(() =>
 	import('@/widgets/EvaluationHardwareDashboard/ui/EvaluationHardwareDashboardSummary').then(
 		m => ({
@@ -41,6 +47,12 @@ export default function MonitoringDeviceEvaluationHardware() {
 		useEvaluationHardwareDashboardFilter()
 	const { dataUpdatedAt, isError, isLoading, error, isFetching, data } =
 		useGetEvaluationHardwareDashboard(query)
+
+	const { download, isDownloading } = useDownloadExcelService()
+
+	const handleDownloadToExcel = async () => {
+		await download({ source: 'evaluationHardware', query })
+	}
 	return (
 		<>
 			<ErrorBoundary
@@ -59,20 +71,31 @@ export default function MonitoringDeviceEvaluationHardware() {
 					isLoading={isLoading}
 					isError={isError}
 					summary={data?.summary}
+					rules={data?.migrationRule}
 				/>
 			</ErrorBoundary>
-			<DetailsBoxWrapper>
-				<ErrorBoundary
-					fallback={({ onReset }) => (
-						<WidgetErrorFallback
-							onReset={onReset}
-							variant="default"
-							message="No se pudieron cargar los filtros."
-						/>
-					)}
-				>
+			<ErrorBoundary
+				fallback={({ onReset }) => (
+					<WidgetErrorFallback
+						onReset={onReset}
+						variant="default"
+						message="No se pudieron cargar los filtros."
+					/>
+				)}
+			>
+				<DetailsBoxWrapper>
 					<CollapsableBoxWrapper title="Filtros de búsqueda" isDefaultOpen>
-						<Suspense fallback={<PrimaryFilterSkeleton inputQuantity={5} />}>
+						<Suspense
+							fallback={
+								<>
+									<PrimaryFilterSkeleton inputQuantity={9} />
+									<ButtonSectionSkeleton
+										hasAddButton={false}
+										hasFilterButton={false}
+									/>
+								</>
+							}
+						>
 							<FilterSection>
 								<MainEvaluationHardwareFilter
 									locationId={query.locationId}
@@ -90,10 +113,15 @@ export default function MonitoringDeviceEvaluationHardware() {
 									handleChange={handleChange}
 								/>
 							</FilterSection>
+							<ButtonSection
+								handleExportToExcel={handleDownloadToExcel}
+								loading={isDownloading}
+								handleClear={cleanFilters}
+							/>
 						</Suspense>
 					</CollapsableBoxWrapper>
-				</ErrorBoundary>
-			</DetailsBoxWrapper>
+				</DetailsBoxWrapper>
+			</ErrorBoundary>
 
 			<Tabs defaultValue="chart">
 				{/* <DetailsBoxWrapper> */}

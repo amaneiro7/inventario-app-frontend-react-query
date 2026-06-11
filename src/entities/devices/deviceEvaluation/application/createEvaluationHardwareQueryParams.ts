@@ -27,6 +27,7 @@ export interface EvaluationHardwareDashboardFilters {
 	modelName?: string
 	mainCategoryId?: string
 	categoryId?: string
+	memoryRamCapacity?: string
 	brandId?: string
 	statusId?: string
 	modelId?: string

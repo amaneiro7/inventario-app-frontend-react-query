@@ -6,3 +6,4 @@ export type Source =
 	| 'finantialPrinter'
 	| 'parts'
 	| 'employee'
+	| 'evaluationHardware'

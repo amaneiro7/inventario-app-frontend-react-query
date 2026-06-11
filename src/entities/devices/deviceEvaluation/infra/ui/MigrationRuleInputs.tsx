@@ -47,8 +47,9 @@ export const MigrationRuleInputs = memo(function ({
 		<div className="flex flex-col gap-4">
 			<div className="grid grid-cols-2 gap-5">
 				<Input
-					id="model-name"
+					id="min-ram-gb"
 					value={formData.minRamGb}
+					type="number"
 					name="minRamGb"
 					isLoading={isLoading}
 					label="Memoria RAM Mínima (GB)"
@@ -62,8 +63,9 @@ export const MigrationRuleInputs = memo(function ({
 					readOnly={!canEdit}
 				/>
 				<Input
-					id="model-name"
+					id="min-disk-gb"
 					value={formData.minDiskGb}
+					type="number"
 					name="minDiskGb"
 					isLoading={isLoading}
 					label="Disco Duro Mínimo (GB)"
@@ -91,7 +93,7 @@ export const MigrationRuleInputs = memo(function ({
 			{/* Informacion Adicional */}
 
 			<ProcessorTransferList
-				value={formData.approvedProcessor}
+				value={formData.approvedProcessors}
 				name="processors"
 				readonly={!canEdit}
 				isLoading={isLoading}

@@ -6,13 +6,13 @@ import type { DefaultMigrationRule } from '../reducers/migrationRuleFormReducer'
  * @param {MigrationRuleDto} MigrationRule - El objeto `MigrationRuleDto` a mapear.
  */
 export const mapMigrationRuleToState = (data: MigrationRuleDto): DefaultMigrationRule => {
-	const approvedProcessor = data?.approvedProcessor.map(p => p.id)
+	const approvedProcessors = data?.approvedProcessors.map(p => p.id)
 	return {
 		id: data.id,
 		minRamGb: data.minRamGb,
 		minDiskGb: data.minDiskGb,
 		isActive: data.isActive,
-		approvedProcessor,
+		approvedProcessors,
 		updatedAt: data?.updatedAt
 	}
 }

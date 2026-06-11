@@ -109,7 +109,7 @@ export const EvaluationHardwareDashboardContainer = memo(
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField=""
+									orderByField="memoryRamCapacity"
 									size="small"
 									isTab
 									className="1md:table-cell hidden"

@@ -56,7 +56,7 @@ export const initialMigrationRuleState: State = {
 		minRamGb: 1,
 		minDiskGb: 1,
 		isActive: true,
-		approvedProcessor: [],
+		approvedProcessors: [],
 		updatedAt: undefined
 	},
 	errors: {
@@ -160,7 +160,7 @@ export const migrationRuleFormReducer = (state: State, action: Action): State =>
 				...state,
 				formData: {
 					...state.formData,
-					approvedProcessor: [...state.formData.approvedProcessor, processors]
+					approvedProcessors: [...state.formData.approvedProcessors, processors]
 				}
 			}
 		}
@@ -170,7 +170,7 @@ export const migrationRuleFormReducer = (state: State, action: Action): State =>
 				...state,
 				formData: {
 					...state.formData,
-					approvedProcessor: state.formData.approvedProcessor.filter(
+					approvedProcessors: state.formData.approvedProcessors.filter(
 						c => c !== processors
 					)
 				}

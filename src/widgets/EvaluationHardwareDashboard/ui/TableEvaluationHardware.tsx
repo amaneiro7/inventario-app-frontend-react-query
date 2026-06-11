@@ -60,19 +60,18 @@ export const TableEvaluationHardware = memo(
 						<TableCell
 							aria-colindex={3}
 							size="large"
-							value={device?.location ?? ''}
-							// className="hidden sm:table-cell"
+							value={device?.location?.location ?? ''}
 						>
-							{device?.location ?? ''}
+							{device?.location?.location ?? ''}
 						</TableCell>
 
 						<TableCell
 							aria-colindex={4}
 							size="large"
-							value={device.employee ?? ''}
+							value={device.employee?.userName ?? ''}
 							className="hidden 2xl:table-cell"
 						>
-							{device.employee ?? ''}
+							{device.employee?.userName ?? ''}
 						</TableCell>
 						<TableCell
 							aria-colindex={5}

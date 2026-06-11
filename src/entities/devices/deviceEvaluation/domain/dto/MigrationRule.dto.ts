@@ -25,7 +25,7 @@ export interface EvaluationResult {
  * Represents the primitive properties of a MigrationRule entity, excluding the ID but including associated unit IDs.
  */
 export type MigrationRulePrimitives = Omit<MigrationRule, 'id'> & {
-	approvedProcessor: Primitives<ProcessorId>[]
+	approvedProcessors: Primitives<ProcessorId>[]
 }
 
 /**
@@ -34,13 +34,13 @@ export type MigrationRulePrimitives = Omit<MigrationRule, 'id'> & {
  */
 export type MigrationRuleParams = MigrationRulePrimitives & {
 	id?: Primitives<MigrationRuleId>
-	approvedProcessor: Primitives<ProcessorId>[]
+	approvedProcessors: Primitives<ProcessorId>[]
 }
 
 /**
  * Represents the Data Transfer Object (DTO) for a MigrationRule entity, including full Unit details and update timestamp.
  */
 export type MigrationRuleDto = MigrationRule & {
-	approvedProcessor: ProcessorDto[]
+	approvedProcessors: ProcessorDto[]
 	updatedAt: string
 }

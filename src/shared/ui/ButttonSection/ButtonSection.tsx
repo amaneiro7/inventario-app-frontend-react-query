@@ -8,7 +8,7 @@ import { eventManager } from '@/shared/lib/utils/eventManager'
 
 interface ButtonSectionProps {
 	handleClear?: () => void
-	handleAdd: () => void
+	handleAdd?: () => void
 	handleExportToExcel?: () => Promise<void>
 	loading?: boolean
 	filterButton?: boolean
@@ -46,15 +46,17 @@ export const ButtonSection = memo(
 					/>
 				)}
 
-				<Button
-					type="button"
-					text="Añadir"
-					color="orange"
-					size="content"
-					onClick={handleAdd}
-					buttonSize="medium"
-					icon={<AddIcon width={20} fill="white" className="aspect-square" />}
-				/>
+				{handleAdd && (
+					<Button
+						type="button"
+						text="Añadir"
+						color="orange"
+						size="content"
+						onClick={handleAdd}
+						buttonSize="medium"
+						icon={<AddIcon width={20} fill="white" className="aspect-square" />}
+					/>
+				)}
 
 				<Button
 					color="blanco"

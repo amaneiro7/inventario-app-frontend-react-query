@@ -6,7 +6,7 @@ export abstract class NumberValueObject extends ValueObject<number> {
 		if (isNaN(numercicValue)) {
 			throw new Error(`El valor ${value} no es del tipo number`)
 		}
-		super(value)
+		super(numercicValue)
 	}
 
 	isBiggerThan(other: NumberValueObject): boolean {
