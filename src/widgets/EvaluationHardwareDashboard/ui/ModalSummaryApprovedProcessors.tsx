@@ -26,9 +26,9 @@ export function ModalSummaryApprovedProcessors({
 					</AuxiliarButton>
 				</div>
 				<div className="custom-scrollbar max-h-60 overflow-y-auto rounded-lg border bg-gray-50 p-4">
-					{rules?.approvedProcessor && rules.approvedProcessor.length > 0 ? (
+					{rules?.approvedProcessors && rules.approvedProcessors.length > 0 ? (
 						<ul className="grid grid-cols-1 gap-1">
-							{rules.approvedProcessor
+							{rules.approvedProcessors
 								.sort((a, b) => a.name.localeCompare(b.name))
 								.map((cpu, index) => (
 									<li
