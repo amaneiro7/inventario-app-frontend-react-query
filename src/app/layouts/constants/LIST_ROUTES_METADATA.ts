@@ -52,6 +52,13 @@ export const LIST_ROUTES_METADATA: Record<string, RouterMetadata> = {
 		permission: PERMISSIONS.DEVICES.READ_LIST,
 		pathSegment: 'parts'
 	},
+	[`${listIndexPath}/migration-rules`]: {
+		title: 'Reglas de Migración | Listado',
+		description:
+			'Visualiza y gestiona el listado de reglas configuradas para la migración y actualización de hardware.',
+		permission: PERMISSIONS.MIGRATION_RULES.READ_LIST,
+		pathSegment: 'migration-rules'
+	},
 	[`${listIndexPath}/usuarios`]: {
 		title: 'Gestión de Empleados',
 		description:

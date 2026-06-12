@@ -77,7 +77,7 @@ export default function FormMigrationRule() {
 					isNotFound={isNotFound}
 					onRetry={onRetry}
 					reset={mode === 'edit' ? discardChanges : undefined}
-					url="/form/migration-rule/add"
+					url="/form/migration-rules/add"
 				>
 					<Suspense fallback={<ModelSkeleton type="form" />}>
 						<MigrationRuleInputs

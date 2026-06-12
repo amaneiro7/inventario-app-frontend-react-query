@@ -83,7 +83,8 @@ import {
 	LogOut,
 	X,
 	Database,
-	Microchip
+	Microchip,
+	ClipboardCheck
 } from 'lucide-react'
 
 const iconMap = {
@@ -170,7 +171,8 @@ const iconMap = {
 	logOut: LogOut,
 	x: X,
 	database: Database,
-	microchip: Microchip
+	microchip: Microchip,
+	clipboardCheck: ClipboardCheck
 }
 
 export type IconName = keyof typeof iconMap

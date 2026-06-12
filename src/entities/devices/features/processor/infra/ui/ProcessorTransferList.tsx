@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useGetAllProcessor } from '@/entities/devices/features/processor/infra/hooks/useGetAllProcessors'
 import { useFilterOptions } from '@/shared/lib/hooks/useFilterOptions'
 import { Combobox } from '@/shared/ui/Input/Combobox'
@@ -35,10 +35,12 @@ export function ProcessorTransferList({
 	onRemoveProcessor
 }: ProcessorTransferListProps) {
 	const [inputValue, setInputValue] = useState('')
-	const { data: allProcessors, isLoading: loading } = useGetAllProcessor({})
+	const { data: allProcessors, isLoading: loading } = useGetAllProcessor({
+		orderBy: 'productCollection'
+	})
 
 	const availableOptions =
-		allProcessors?.data.filter(processor => !processors.includes(processor.id)) ?? []
+		allProcessors?.data?.filter(processor => !processors.includes(processor.id)) ?? []
 
 	const filteredOptions = useFilterOptions({ inputValue, options: availableOptions })
 
@@ -46,6 +48,15 @@ export function ProcessorTransferList({
 
 	const handleRemoveProcessor = (processorId: string) =>
 		onRemoveProcessor('removeProcessor', processorId)
+
+	const processorsListName = useMemo(
+		() =>
+			(processors ?? [])
+				.map(id => allProcessors?.data?.find(c => c.id === id))
+				.filter((p): p is ProcessorDto => !!p)
+				.sort((a, b) => a.name.localeCompare(b.name)),
+		[processors, allProcessors?.data]
+	)
 
 	return (
 		<div className="grid items-start justify-between gap-4 md:grid-cols-2">
@@ -72,19 +83,16 @@ export function ProcessorTransferList({
 				</Typography>
 				{processors.length > 0 ? (
 					<ul role="options" className="flex w-full flex-col rounded">
-						{processors.map(processorId => {
-							const processor = allProcessors?.data.find(c => c.id === processorId)
-							return (
-								<TransferListItem
-									key={processorId}
-									id={processorId}
-									name={processor?.name}
-									isLoading={isLoading}
-									readOnly={readonly}
-									onRemove={handleRemoveProcessor}
-								/>
-							)
-						})}
+						{processorsListName.map(processor => (
+							<TransferListItem
+								key={processor.id}
+								id={processor.id}
+								name={processor.name}
+								isLoading={isLoading}
+								readOnly={readonly}
+								onRemove={handleRemoveProcessor}
+							/>
+						))}
 					</ul>
 				) : (
 					<Typography className="p-2" variant="p" color="gris">

@@ -10,6 +10,15 @@ import { MigrationRuleGetByCriteria } from '../../application/MigrationRuleGetBy
 export function useMigrationRuleFilter() {
 	return useGenericFilter<MigrationRuleFilters>({
 		defaultPageSize: MigrationRuleGetByCriteria.defaultPageSize,
-		filterKeys: ['minDiskGb', 'minRamGb', 'processorId', 'isActive', 'orderBy', 'orderType']
+		filterKeys: [
+			'minDiskGb',
+			'minRamGb',
+			'processorId',
+			'isActive',
+			'minRamGbOperator',
+			'minDiskGbOperator',
+			'orderBy',
+			'orderType'
+		]
 	})
 }

@@ -79,8 +79,9 @@ export const MigrationRuleInputs = memo(function ({
 					readOnly={!canEdit}
 				/>
 				<Checkbox
-					text="¿Es un modelo genérico?"
-					name="generic"
+					text="Regla activa"
+					name="isActive"
+					id="is-active"
 					value={formData.isActive}
 					readOnly={!canEdit}
 					disabled={disabled.isActive}

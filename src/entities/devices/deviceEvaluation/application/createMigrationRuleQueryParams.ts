@@ -20,7 +20,9 @@ export interface MigrationRuleFilters {
 	id?: string
 	minRamGb?: string
 	minDiskGb?: string
-	isActive?: string
+	minRamGbOperator?: Operator
+	minDiskGbOperator?: Operator
+	isActive?: boolean
 	processorId?: string
 	pageNumber?: number
 	pageSize?: number
@@ -36,13 +38,10 @@ export interface MigrationRuleFilters {
  * @param {MigrationRuleFilters} filters - El objeto de filtros para construir los parámetros de consulta.
  * @returns {Promise<string>} Una promesa que se resuelve con la cadena de parámetros de consulta.
  */
-export async function createMigrationRuleParams({
-	pageNumber,
-	pageSize,
-	orderBy,
-	orderType,
-	...options
-}: MigrationRuleFilters): Promise<string> {
+export async function createMigrationRuleParams(
+	{ pageNumber, pageSize, orderBy, orderType, ...filters }: MigrationRuleFilters,
+	fieldsToContain: string[] = []
+): Promise<string> {
 	const query: SearchByCriteriaQuery = {
 		filters: [],
 		pageSize,
@@ -51,25 +50,56 @@ export async function createMigrationRuleParams({
 		orderType
 	}
 
-	Object.entries(options).forEach(([key, value]) => {
-		const index = query.filters.findIndex(filter => filter.field === key)
+	// Object.entries(options).forEach(([key, value]) => {
+	// 	const index = query.filters.findIndex(filter => filter.field === key)
 
-		if (!value) {
+	// 	if (!value) {
+	// 		if (index !== -1) {
+	// 			query.filters.splice(index, 1)
+	// 		}
+	// 	} else {
+	// 		if (index !== -1) {
+	// 			query.filters[index].value = value
+	// 		} else {
+	// 			query.filters.push({
+	// 				field: key,
+	// 				operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
+	// 				value
+	// 			})
+	// 		}
+	// 	}
+	// })
+	for (const [key, value] of Object.entries(filters)) {
+		if (value === undefined || value === null || value === '') {
+			const index = query.filters.findIndex(filter => filter.field === key)
 			if (index !== -1) {
 				query.filters.splice(index, 1)
 			}
-		} else {
-			if (index !== -1) {
-				query.filters[index].value = value
-			} else {
-				query.filters.push({
-					field: key,
-					operator: key === 'name' ? Operator.CONTAINS : Operator.EQUAL,
-					value
-				})
-			}
+			continue
 		}
-	})
+
+		const index = query.filters.findIndex(filter => filter.field === key)
+		let operator = Operator.EQUAL
+
+		if (fieldsToContain.includes(key)) {
+			operator = Operator.CONTAINS
+		} else if (key.endsWith('Operator')) {
+			const targetField = key.replace('Operator', '')
+			const targetIndex = query.filters.findIndex(f => f.field === targetField)
+			if (targetIndex !== -1) {
+				query.filters[targetIndex].operator = value as Operator
+				continue
+			}
+			continue
+		}
+
+		const newFilter = { field: key, operator, value }
+		if (index !== -1) {
+			query.filters[index] = newFilter
+		} else {
+			query.filters.push(newFilter)
+		}
+	}
 
 	const criteria = Criteria.fromValues(
 		query.filters,

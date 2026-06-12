@@ -13,9 +13,16 @@ export const FORM_ROUTES_METADATA: Record<string, RouterMetadata> = {
 	[`${formIndexPath}/device`]: {
 		title: 'Dispositivo',
 		description: 'Formulario para registrar o editar información de un dispositivo.',
-		permission: PERMISSIONS.DEVICES.CREATE, // O una combinación de CREATE/UPDATE
+		permission: PERMISSIONS.DEVICES.CREATE,
 		pathSegment: 'device/add',
 		iconName: 'computer'
+	},
+	[`${formIndexPath}/migration-rules`]: {
+		title: 'Regla de Migración',
+		description: 'Formulario para registrar o editar una regla de migración de hardware.',
+		permission: PERMISSIONS.MIGRATION_RULES.CREATE,
+		pathSegment: 'migration-rules/add',
+		iconName: 'clipboardCheck'
 	},
 	[`${formIndexPath}/shipment`]: {
 		title: 'Relación de Envio',

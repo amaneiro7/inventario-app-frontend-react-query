@@ -11,6 +11,7 @@ export const useOtherComputerFilter = ({
 	memoryRamCapacity = '',
 	memoryRamCapacityOperator = '',
 	hardDriveCapacity = '',
+	hardDriveCapacityOperator = '',
 
 	handleChange
 }: {
@@ -21,6 +22,7 @@ export const useOtherComputerFilter = ({
 	memoryRamCapacity?: string
 	memoryRamCapacityOperator?: string
 	hardDriveCapacity?: string
+	hardDriveCapacityOperator?: string
 	handleChange: (name: string, value: string | number) => void
 }) => {
 	const [localComputerName, setLocalComputerName] = useState(computerName ?? '')
@@ -104,8 +106,10 @@ export const useOtherComputerFilter = ({
 	const handleHardDriveCapacity = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const value = e.target.value.trim().toUpperCase()
 		setLocalHardDriveCapacity(value)
-		if (memoryRamCapacityOperator === '') {
-			handleChange('memoryRamCapacityOperator', Operator.EQUAL)
+		if (hardDriveCapacityOperator === '' && value) {
+			handleChange('hardDriveCapacityOperator', Operator.EQUAL)
+		} else if (!value && hardDriveCapacityOperator) {
+			handleChange('hardDriveCapacityOperator', '')
 		}
 	}
 

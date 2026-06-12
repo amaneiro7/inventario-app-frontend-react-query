@@ -5,7 +5,7 @@ import { Input } from '@/shared/ui/Input/Input'
 import { StatusOptions } from '@/entities/status/status/domain/entity/StatusOptions'
 import { InputFallback } from '@/shared/ui/Loading/InputFallback'
 const IsStillWorkingCombobox = lazy(() =>
-	import('@/entities/employee/employee/infra/ui/IsStillWorkinfComboBox').then(m => ({
+	import('@/entities/employee/employee/infra/ui/IsStillWorkingComboBox').then(m => ({
 		default: m.IsStillWorkingCombobox
 	}))
 )

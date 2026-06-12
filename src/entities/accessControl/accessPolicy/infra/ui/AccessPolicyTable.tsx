@@ -2,8 +2,8 @@ import { lazy, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDeleteAccessPolicy } from '../hooks/useDeleteAccessPolicy'
 import { ActionMenu } from '@/widgets/ActionMenu'
-import { type AccessPolicyDto } from '../../domain/dto/AccessPolicy.dto'
 import { Badge } from '@/shared/ui/Badge'
+import { type AccessPolicyDto } from '../../domain/dto/AccessPolicy.dto'
 
 const TableCell = lazy(() =>
 	import('@/shared/ui/Table/TableCell').then(m => ({ default: m.TableCell }))

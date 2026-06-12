@@ -90,6 +90,12 @@ export const navigation: Navigation[] = [
 				permission: PERMISSIONS.DEVICES.READ_LIST
 			},
 			{
+				title: 'Listado de Reglas de Migración',
+				path: '/list/migration-rules',
+				desc: 'Visualiza y gestiona el listado de reglas configuradas para la migración y actualización de hardware.',
+				permission: PERMISSIONS.MIGRATION_RULES.READ_LIST
+			},
+			{
 				title: 'Agregar Nuevo Dispositivo',
 				path: '/form/device/add',
 				desc: 'Registra un nuevo dispositivo en el inventario, especificando sus características y ubicación.',

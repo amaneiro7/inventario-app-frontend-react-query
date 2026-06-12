@@ -17,6 +17,7 @@ const ListSite = lazy(() => import('@/pages/ListSite'))
 const ListHistory = lazy(() => import('@/pages/ListHistory'))
 const ListShipment = lazy(() => import('@/pages/ListShipment'))
 const ListAccessControl = lazy(() => import('@/pages/ListAccessControl'))
+const ListMigrationRules = lazy(() => import('@/pages/ListMigrationRules'))
 
 export default function ListRoutes() {
 	return (
@@ -77,6 +78,15 @@ export default function ListRoutes() {
 					}
 				>
 					<Route path="access-control" element={suspended(ListAccessControl)} />
+				</Route>
+				<Route
+					element={
+						<ProtectedByPermissionRoute
+							permission={PERMISSIONS.MIGRATION_RULES.READ_LIST}
+						/>
+					}
+				>
+					<Route path="migration-rules" element={suspended(ListMigrationRules)} />
 				</Route>
 			</Route>
 		</Routes>

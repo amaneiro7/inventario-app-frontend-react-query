@@ -1,9 +1,9 @@
 import { lazy, memo, Suspense, useMemo } from 'react'
 import { eventManager } from '@/shared/lib/utils/eventManager'
-import { useGetAllAccessPolicies } from '../hooks/useGetAllAccessPolicy'
-import { AccessPolicyGetByCriteria } from '../../application/AccessPolicyGetByCriteria'
-import { AccessPolicyTableLoading } from './AccesspolicyTableLoading'
-import { type AccessPolicyFilters } from '../../application/createAccessPolicyQueryParams'
+import { useGetAllMigrationRules } from '../hook/useGetAllMigrationRule'
+import { MigrationRuleGetByCriteria } from '../../application/MigrationRuleGetByCriteria'
+import { MigrationRuleTableLoading } from './MigrationRuleTableLoading'
+import type { MigrationRuleFilters } from '../../application/createMigrationRuleQueryParams'
 
 const Table = lazy(() => import('@/shared/ui/Table/Table').then(m => ({ default: m.Table })))
 const TableBody = lazy(() =>
@@ -28,34 +28,35 @@ const PaginationBar = lazy(() =>
 	import('@/shared/ui/Pagination/PaginationBar').then(m => ({ default: m.PaginationBar }))
 )
 
-const AccessPolicyTable = lazy(() =>
-	import('./AccessPolicyTable').then(m => ({ default: m.AccessPolicyTable }))
+const MigrationRuleTable = lazy(() =>
+	import('./MigrationRuleTable').then(m => ({ default: m.MigrationRuleTable }))
 )
-interface TableAccessPolicyWrapperProps {
-	query: AccessPolicyFilters
+
+interface MigrationRuleWrapperProps {
+	query: MigrationRuleFilters
 	handlePageSize: (pageSize: number) => void
 	handlePageClick: ({ selected }: { selected: number }) => void
 	handleSort: (field: string) => Promise<void>
 }
 
-export const AccessPolicyTableWrapper = memo(
-	({ handlePageClick, handlePageSize, handleSort, query }: TableAccessPolicyWrapperProps) => {
-		const { data: accessPolicies, isError, isLoading } = useGetAllAccessPolicies(query)
+export const MigrationRuleTableWrapper = memo(
+	({ handlePageClick, handlePageSize, handleSort, query }: MigrationRuleWrapperProps) => {
+		const { data: migrationRules, isError, isLoading } = useGetAllMigrationRules(query)
 
 		const SkeletonFallback = useMemo(() => {
 			return Array.from({
-				length: query.pageSize ?? AccessPolicyGetByCriteria.defaultPageSize
-			}).map((_, index) => <AccessPolicyTableLoading key={`loader-${index}`} />)
-		}, [query.pageSize, AccessPolicyGetByCriteria.defaultPageSize])
+				length: query.pageSize ?? MigrationRuleGetByCriteria.defaultPageSize
+			}).map((_, index) => <MigrationRuleTableLoading key={`loader-${index}`} />)
+		}, [query.pageSize, MigrationRuleGetByCriteria.defaultPageSize])
 		return (
 			<>
 				<TablePageWrapper>
 					<TabsNav
 						isLoading={isLoading}
-						total={accessPolicies?.info?.total}
+						total={migrationRules?.info?.total}
 						pageSize={query.pageSize}
 						pageNumber={query.pageNumber}
-						defaultPageSize={AccessPolicyGetByCriteria.defaultPageSize}
+						defaultPageSize={MigrationRuleGetByCriteria.defaultPageSize}
 					/>
 
 					<Table>
@@ -66,64 +67,35 @@ export const AccessPolicyTableWrapper = memo(
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="name"
-									size="medium"
+									orderByField="isActive"
+									size="small"
 								>
-									Nombre
+									Estado
 								</TableHead>
 								<TableHead
-									className="1md:table-cell hidden"
 									aria-colindex={2}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="priority"
-									size="xxSmall"
+									orderByField="minRamGb"
+									size="small"
 								>
-									Prioridad
+									RAM Mínima
 								</TableHead>
 								<TableHead
-									className="hidden md:table-cell"
 									aria-colindex={3}
 									handleSort={eventManager(handleSort)}
 									orderBy={query.orderBy}
 									orderType={query.orderType}
-									orderByField="roleId"
+									orderByField="minDiskGb"
 									size="small"
 								>
-									Rol
+									Disco Mínimo
 								</TableHead>
-								<TableHead
-									aria-colindex={4}
-									className="hidden sm:table-cell"
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="unidadId"
-									size="large"
-								>
-									Unidad Organizativa
+								<TableHead aria-colindex={4} size="auto">
+									Lista de CPUs Aprobados
 								</TableHead>
-
-								<TableHead
-									className="1sm:table-cell hidden"
-									aria-colindex={5}
-									handleSort={eventManager(handleSort)}
-									orderBy={query.orderBy}
-									orderType={query.orderType}
-									orderByField="cargoId"
-									size="medium"
-								>
-									Cargo
-								</TableHead>
-								<TableHead
-									className="1xl:table-cell hidden"
-									aria-colindex={6}
-									size="xxLarge"
-								>
-									Grupo de permisos
-								</TableHead>
-								<TableHead aria-colindex={7} size="xSmall">
+								<TableHead aria-colindex={5} size="xSmall">
 									{/* <span className="sr-only">Acciones</span> */}
 									Acciones
 								</TableHead>
@@ -132,11 +104,11 @@ export const AccessPolicyTableWrapper = memo(
 						<TableBody>
 							<>
 								{isLoading && SkeletonFallback}
-								{accessPolicies !== undefined && (
+								{migrationRules !== undefined && (
 									<Suspense fallback={SkeletonFallback}>
-										<AccessPolicyTable
+										<MigrationRuleTable
 											isError={isError}
-											accessPolicies={accessPolicies.data}
+											migrationRules={migrationRules.data}
 										/>
 									</Suspense>
 								)}
@@ -144,12 +116,12 @@ export const AccessPolicyTableWrapper = memo(
 						</TableBody>
 					</Table>
 				</TablePageWrapper>
-				{accessPolicies && !isLoading && !isError && (
+				{migrationRules && !isLoading && !isError && (
 					<PaginationBar
-						registerOptions={AccessPolicyGetByCriteria.pageSizeOptions}
-						totalPages={accessPolicies?.info?.totalPage}
-						total={accessPolicies?.info?.total}
-						currentPage={accessPolicies?.info?.page}
+						registerOptions={MigrationRuleGetByCriteria.pageSizeOptions}
+						totalPages={migrationRules?.info?.totalPage}
+						total={migrationRules?.info?.total}
+						currentPage={migrationRules?.info?.page}
 						pageSize={query.pageSize}
 						handlePageClick={handlePageClick}
 						handlePageSize={handlePageSize}
@@ -160,4 +132,4 @@ export const AccessPolicyTableWrapper = memo(
 	}
 )
 
-AccessPolicyTableWrapper.displayName = 'AccessPolicyTableWrapper'
+MigrationRuleTableWrapper.displayName = 'MigrationRuleTableWrapper'

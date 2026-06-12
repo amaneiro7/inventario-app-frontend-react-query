@@ -1,11 +1,14 @@
 import { lazy, Suspense } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAccessPolicyFilter } from '../hooks/useAccessPolicyFilter'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
-import { useAccessPolicyFilter } from '../hooks/useAccessPolicyFilter'
-import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
-import { useNavigate } from 'react-router-dom'
-import { AccessPolicyTableWrapper } from './AccessPolicyTableWrapper'
 import { TableSkeleton } from '@/widgets/tables/TableSkeleton'
+import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
+
+const AccessPolicyTableWrapper = lazy(() =>
+	import('./AccessPolicyTableWrapper').then(m => ({ default: m.AccessPolicyTableWrapper }))
+)
 
 const AccessPolicyFilter = lazy(() =>
 	import('./AccessPolicyFilter').then(m => ({ default: m.AccessPolicyFilter }))
