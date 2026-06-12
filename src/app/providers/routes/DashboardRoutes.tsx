@@ -7,6 +7,9 @@ import { ProtectedByPermissionRoute } from './ProtectedByPermissionRoute'
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const DashboardWrapper = lazy(() => import('@/app/layouts/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
+const MonitoringDeviceEvaluationHardware = lazy(
+	() => import('@/pages/MonitoringDeviceEvaluationHardware')
+)
 
 export default function DashboardRoutes() {
 	return (
@@ -17,6 +20,18 @@ export default function DashboardRoutes() {
 					element={<ProtectedByPermissionRoute permission={PERMISSIONS.DASHBOARD.READ} />}
 				>
 					<Route path="computer" element={suspended(DashboardComputer)} />
+				</Route>
+				<Route
+					element={
+						<ProtectedByPermissionRoute
+							permission={PERMISSIONS.DASHBOARD.READ_HARDWARE_EVALUATION_DASHBOARD}
+						/>
+					}
+				>
+					<Route
+						path="evaluationhardware"
+						element={suspended(MonitoringDeviceEvaluationHardware)}
+					/>
 				</Route>
 			</Route>
 		</Routes>

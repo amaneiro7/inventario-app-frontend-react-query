@@ -49,9 +49,9 @@ export const navigation: Navigation[] = [
 			},
 			{
 				title: 'Dashboard de Evaluación de Hardware',
-				path: '/monitoring/evaluationhardware',
+				path: '/dashboard/evaluationhardware',
 				desc: 'Visualiza el estado de las reglas de migración para la actualización de dispositivos.',
-				permission: PERMISSIONS.MIGRATION_RULES.READ_LIST
+				permission: PERMISSIONS.DASHBOARD.READ_HARDWARE_EVALUATION_DASHBOARD
 			}
 		]
 	},

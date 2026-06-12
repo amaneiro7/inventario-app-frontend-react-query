@@ -17,6 +17,14 @@ export const DASHBOARD_ROUTES_METADATA: Record<string, RouterMetadata> = {
 		permission: PERMISSIONS.DASHBOARD.READ_COMPUTER_DASHBOARD,
 		pathSegment: 'computer',
 		iconName: 'computer'
+	},
+	[`${dashboardIndexPath}/evaluationhardware`]: {
+		title: 'Dashboard de Evaluación de Hardware',
+		description:
+			'Visualiza el estado de las reglas de migración para la actualización de dispositivos.',
+		permission: PERMISSIONS.DASHBOARD.READ_HARDWARE_EVALUATION_DASHBOARD,
+		pathSegment: 'evaluationhardware',
+		iconName: 'cpu'
 	}
 	// [`${dashboardIndexPath}/monitor`]: {
 	// 	title: 'Monitores | Dashboard',

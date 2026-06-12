@@ -69,6 +69,7 @@ export const PermissionTransferList = memo(
 					name={name}
 					required={required}
 					disabled={disabled || readonly}
+					autoClosePopover={false}
 					error={!!error}
 					errorMessage={error}
 					loading={loading}

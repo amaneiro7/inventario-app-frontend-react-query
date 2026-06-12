@@ -52,6 +52,7 @@ export const PermissionGroupTrasnferList = memo(
 					inputValue={inputValue}
 					name={name}
 					required={required}
+					autoClosePopover={false}
 					disabled={disabled || readonly}
 					error={!!error}
 					errorMessage={error}

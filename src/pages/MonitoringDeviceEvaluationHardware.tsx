@@ -8,6 +8,7 @@ import CollapsableBoxWrapper from '@/shared/ui/DetailsWrapper/CollapsableBoxWrap
 import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
+import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
 
 const MainEvaluationHardwareFilter = lazy(() =>
 	import('@/widgets/EvaluationHardwareDashboard/ui/MainEvaluationHardwareFilter').then(m => ({
@@ -54,7 +55,7 @@ export default function MonitoringDeviceEvaluationHardware() {
 		await download({ source: 'evaluationHardware', query })
 	}
 	return (
-		<>
+		<DetailsWrapper>
 			<ErrorBoundary
 				fallback={({ onReset }) => (
 					<WidgetErrorFallback
@@ -148,6 +149,6 @@ export default function MonitoringDeviceEvaluationHardware() {
 					handlePageClick={handlePageClick}
 				/>
 			</Tabs>
-		</>
+		</DetailsWrapper>
 	)
 }

@@ -51,7 +51,8 @@ export const PERMISSIONS = {
 		READ_PRINTER_DASHBOARD: 'dashboard:read-printer-dashboard',
 		READ_PARTS_DASHBOARD: 'dashboard:read-parts-dashboard',
 		READ_FINANTIAL_PRINTER_DASHBOARD: 'dashboard:read-finantial-printer-dashboard',
-		READ_EMPLOYEE_DASHBOARD: 'dashboard:read-employee-dashboard'
+		READ_EMPLOYEE_DASHBOARD: 'dashboard:read-employee-dashboard',
+		READ_HARDWARE_EVALUATION_DASHBOARD: 'dashboard:read-hardware-evaluation-dashboard'
 	},
 	DEVICES: {
 		READ_LIST: 'devices:read-list',
@@ -69,6 +70,7 @@ export const PERMISSIONS = {
 		READ_LIST: 'migration-rules:read-list',
 		READ: 'migration-rules:read',
 		CREATE: 'migration-rules:create',
+		DOWNLOAD: 'migration-rules:download',
 		UPDATE: 'migration-rules:update',
 		DELETE: 'migration-rules:delete'
 	},

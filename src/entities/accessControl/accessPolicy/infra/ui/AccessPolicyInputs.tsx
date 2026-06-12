@@ -5,7 +5,12 @@ import {
 	type Action,
 	type DefaultAccessPolicy
 } from '@/entities/accessControl/accessPolicy/infra/reducers/accessPolicyFormReducer'
-import { PermissionGroupTrasnferList } from '@/features/permissions-group-transfer-list/ui/PermissionGroupTransferList'
+
+const PermissionGroupTrasnferList = lazy(() =>
+	import('@/features/permissions-group-transfer-list/ui/PermissionGroupTransferList').then(m => ({
+		default: m.PermissionGroupTrasnferList
+	}))
+)
 
 const RoleCombobox = lazy(() =>
 	import('@/entities/role/infra/ui/RoleComboBox').then(m => ({
