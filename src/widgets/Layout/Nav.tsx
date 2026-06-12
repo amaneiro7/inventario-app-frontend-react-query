@@ -1,12 +1,17 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePermissionCheck } from '@/features/auth/hook/usePermissionCheck'
-import { navigation } from '@/app/providers/routes/navigation'
+import { navigationByCategory, navigationByType } from '@/app/providers/routes/navigation'
 import { HomeIcon } from '@/shared/ui/icon/HomeIcon'
 import Typography from '@/shared/ui/Typography'
 import { ArrowRightBadgeIcon } from '@/shared/ui/icon/ArrowRightBadge'
 import { Icon } from '@/shared/ui/icon/Icon'
+import { Switch } from '@/shared/ui/Switch'
 
 export function Nav() {
+	const [viewMode, setViewMode] = useState<'category' | 'type'>('category')
+	const currentNav = viewMode === 'category' ? navigationByCategory : navigationByType
+
 	const { hasPermission } = usePermissionCheck()
 
 	return (
@@ -43,9 +48,23 @@ export function Nav() {
 						Calendarios de pagos
 					</Link>
 				</li>
+				{/* View Mode Toggle */}
+				<li className="flex items-center justify-between py-2">
+					<Typography variant="p" weight="semibold" className="text-white">
+						Ver por Tipo
+					</Typography>
+					<Switch
+						checked={viewMode === 'type'}
+						onCheckedChange={checked => {
+							setViewMode(checked ? 'type' : 'category')
+							// Aquí podrías guardar la preferencia en localStorage
+						}}
+						aria-label="Alternar vista del menú por categoría o por tipo"
+					/>
+				</li>
 			</ul>
 			{/* Dynamic Navigation Sections */}
-			{navigation.map((navGroup, groupIndex) => {
+			{currentNav.map((navGroup, groupIndex) => {
 				const visibleNavs = navGroup.navs.filter(
 					item => !item.permission || hasPermission(item.permission)
 				)

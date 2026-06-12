@@ -12,257 +12,348 @@ interface Navs {
 	permission?: Permission
 }
 
-export const navigation: Navigation[] = [
-	// 1. Vistas de alto nivel de primero
+// Helper para no repetir objetos de navegación
+const ITEMS = {
+	// Dashboards & Monitoreo
+	DASH_COMPUTER: {
+		title: 'Dashboard de Equipos',
+		path: '/dashboard/computer',
+		desc: 'Métricas clave sobre los equipos de computación.',
+		permission: PERMISSIONS.DASHBOARD.READ_COMPUTER_DASHBOARD
+	},
+	MON_LOCATION: {
+		title: 'Monitoreo de Ubicaciones',
+		path: '/monitoring/location',
+		desc: 'Estado en tiempo real de la conectividad por ubicación.',
+		permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
+	},
+	MON_DEVICE: {
+		title: 'Monitoreo de Dispositivos',
+		path: '/monitoring/device',
+		desc: 'Estado en tiempo real de todos los dispositivos.',
+		permission: PERMISSIONS.DEVICES.READ_MONITORING_DASHBOARD
+	},
+	MAP_AGENCY: {
+		title: 'Mapa de Conectividad de Agencias',
+		path: '/monitoring/agencymap',
+		desc: 'Visualiza enlaces de agencias a nivel nacional.',
+		permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
+	},
+	MAP_ADMIN: {
+		title: 'Mapa de Conectividad de Torres',
+		path: '/monitoring/administrativesitemap',
+		desc: 'Estado de equipos en torres administrativas.',
+		permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
+	},
+	DASH_HARDWARE: {
+		title: 'Dashboard de Evaluación de Hardware',
+		path: '/dashboard/evaluationhardware',
+		desc: 'Reglas de migración para actualización de dispositivos.',
+		permission: PERMISSIONS.DASHBOARD.READ_HARDWARE_EVALUATION_DASHBOARD
+	},
+
+	// Listas
+	LIST_COMPUTER: {
+		title: 'Lista de Equipos de Computación',
+		path: '/list/computer',
+		desc: 'Inventario completo de equipos.',
+		permission: PERMISSIONS.DEVICES.READ_LIST
+	},
+	LIST_MONITOR: {
+		title: 'Lista de Monitores',
+		path: '/list/monitor',
+		desc: 'Inventario de monitores.',
+		permission: PERMISSIONS.DEVICES.READ_LIST
+	},
+	LIST_PRINTER: {
+		title: 'Lista de Impresoras',
+		path: '/list/printer',
+		desc: 'Inventario de impresoras.',
+		permission: PERMISSIONS.DEVICES.READ_LIST
+	},
+	LIST_FIN_PRINTER: {
+		title: 'Lista de Impresoras Financieras',
+		path: '/list/finantialprinter',
+		desc: 'Impresoras financieras.',
+		permission: PERMISSIONS.DEVICES.READ_LIST
+	},
+	LIST_PARTS: {
+		title: 'Lista de Partes y Piezas',
+		path: '/list/parts',
+		desc: 'Partes de repuesto.',
+		permission: PERMISSIONS.DEVICES.READ_LIST
+	},
+	LIST_MIGRATION: {
+		title: 'Listado de Reglas de Migración',
+		path: '/list/migration-rules',
+		desc: 'Gestión de reglas de migración.',
+		permission: PERMISSIONS.MIGRATION_RULES.READ_LIST
+	},
+	LIST_MODEL: {
+		title: 'Listado de Modelos',
+		path: '/list/model',
+		desc: 'Modelos organizados por marca.',
+		permission: PERMISSIONS.MODELS.READ_LIST
+	},
+	LIST_SHIPMENT: {
+		title: 'Lista de Envíos',
+		path: '/list/shipment',
+		desc: 'Historial y estado de envíos.',
+		permission: PERMISSIONS.SHIPMENTS.READ_LIST
+	},
+	LIST_USERS: {
+		title: 'Listado de Usuarios',
+		path: '/list/usuarios?isStillWorking=true',
+		desc: 'Usuarios activos del sistema.',
+		permission: PERMISSIONS.EMPLOYEES.READ_LIST
+	},
+	LIST_LOCATION: {
+		title: 'Listado de Sitios',
+		path: '/list/location',
+		desc: 'Lista de ubicaciones físicas.',
+		permission: PERMISSIONS.LOCATIONS.READ_LIST
+	},
+	LIST_HISTORY: {
+		title: 'Historial de Modificaciones',
+		path: '/list/history',
+		desc: 'Registro detallado de cambios.',
+		permission: PERMISSIONS.HISTORY.READ_LIST
+	},
+	LIST_ACCESS: {
+		title: 'Gestión de Permisos',
+		path: '/list/access-control',
+		desc: 'Administra políticas de acceso.',
+		permission: PERMISSIONS.ACCESS_POLICIES.READ_LIST
+	},
+
+	// Formularios (Agregar)
+	ADD_DEVICE: {
+		title: 'Agregar Nuevo Dispositivo',
+		path: '/form/device/add',
+		desc: 'Registra nuevo hardware.',
+		permission: PERMISSIONS.DEVICES.CREATE
+	},
+	ADD_MODEL: {
+		title: 'Agregar Nuevo Modelo',
+		path: '/form/model/add',
+		desc: 'Crea categorías de hardware.',
+		permission: PERMISSIONS.MODELS.CREATE
+	},
+	ADD_BRAND: {
+		title: 'Agregar Nueva Marca',
+		path: '/form/brand/add',
+		desc: 'Introduce nueva marca.',
+		permission: PERMISSIONS.BRANDS.CREATE
+	},
+	ADD_PROCESSOR: {
+		title: 'Agregar Nuevo Procesador',
+		path: '/form/processor/add',
+		desc: 'Registra nuevos procesadores.',
+		permission: PERMISSIONS.PROCESSORS.CREATE
+	},
+	ADD_MIGRATION: {
+		title: 'Agregar Nueva Regla de Migración',
+		path: '/form/migration-rules/add',
+		desc: 'Crea regla de migración.',
+		permission: PERMISSIONS.MIGRATION_RULES.CREATE
+	},
+	ADD_SHIPMENT: {
+		title: 'Crear Relación de Envío',
+		path: '/form/shipment/add',
+		desc: 'Genera guía de envío.',
+		permission: PERMISSIONS.SHIPMENTS.CREATE
+	},
+	ADD_EMPLOYEE: {
+		title: 'Agregar Nuevo Usuario',
+		path: '/form/employee/add',
+		desc: 'Registra personal nuevo.',
+		permission: PERMISSIONS.EMPLOYEES.CREATE
+	},
+	ADD_UNIT: {
+		title: 'Agregar Nueva Unidad',
+		path: '/form/unidad/add',
+		desc: 'Define unidades organizacionales.',
+		permission: PERMISSIONS.UNIDADES.CREATE
+	},
+	ADD_CARGO: {
+		title: 'Agregar Nuevo Cargo',
+		path: '/form/cargo/add',
+		desc: 'Define puestos de trabajo.',
+		permission: PERMISSIONS.CARGOS.CREATE
+	},
+	ADD_LOCATION: {
+		title: 'Agregar Nueva Ubicación',
+		path: '/form/location/add',
+		desc: 'Registra sede física.',
+		permission: PERMISSIONS.LOCATIONS.CREATE
+	},
+	ADD_ISP: {
+		title: 'Agregar Nuevo Proveedor ISP',
+		path: '/form/isplink/add',
+		desc: 'Registra proveedores de red.',
+		permission: PERMISSIONS.ISP_LINKS.CREATE
+	},
+	ADD_SITE: {
+		title: 'Agregar Nuevo Sitio',
+		path: '/form/site/add',
+		desc: 'Área específica dentro de una ubicación.',
+		permission: PERMISSIONS.SITES.CREATE
+	},
+	ADD_CITY: {
+		title: 'Agregar Nueva Ciudad',
+		path: '/form/city/add',
+		desc: 'Añade ciudad al catálogo.',
+		permission: PERMISSIONS.CITIES.CREATE
+	},
+	FORM_REGION: {
+		title: 'Asignación de Regiones',
+		path: '/form/region',
+		desc: 'Gestiona regiones por zona.',
+		permission: PERMISSIONS.REGIONS.READ
+	},
+	ADD_PERMISSION: {
+		title: 'Agregar Nuevo Permiso',
+		path: '/form/permission/add',
+		desc: 'Crea permisos individuales.',
+		permission: PERMISSIONS.PERMISSIONS.CREATE
+	},
+	ADD_GROUP: {
+		title: 'Agregar Nuevo Grupo de Permisos',
+		path: '/form/permission-groups/add',
+		desc: 'Agrupa autorizaciones.',
+		permission: PERMISSIONS.PERMISSION_GROUPS.CREATE
+	},
+	ADD_POLICY: {
+		title: 'Agregar Nueva Política',
+		path: '/form/access-policy/add',
+		desc: 'Define reglas de seguridad.',
+		permission: PERMISSIONS.ACCESS_POLICIES.CREATE
+	},
+	ADMIN_CACHE: {
+		title: 'Limpiar Caché',
+		path: '/form/admin-clear-cache',
+		desc: 'Mantenimiento del sistema.',
+		permission: PERMISSIONS.ADMIN.CLEAR_CACHE
+	}
+}
+
+/** Vista actual por Categoría Operativa */
+export const navigationByCategory: Navigation[] = [
 	{
 		label: 'Análisis y Monitoreo',
 		navs: [
-			{
-				title: 'Dashboard de Equipos',
-				path: '/dashboard/computer',
-				desc: 'Accede a un panel de control interactivo con métricas clave y gráficos sobre los equipos de computación.',
-				permission: PERMISSIONS.DASHBOARD.READ_COMPUTER_DASHBOARD
-			},
-			{
-				title: 'Monitoreo de Ubicaciones',
-				path: '/monitoring/location',
-				desc: 'Visualiza el estado en tiempo real de la conectividad de red en todas las ubicaciones registradas.',
-				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
-			},
-			{
-				title: 'Monitoreo de Dispositivos',
-				path: '/monitoring/device',
-				desc: 'Visualiza el estado en tiempo real de todos los dispositivos, incluyendo su conectividad y disponibilidad.',
-				permission: PERMISSIONS.DEVICES.READ_MONITORING_DASHBOARD
-			},
-			{
-				title: 'Mapa de Conectividad de Agencias',
-				path: '/monitoring/agencymap',
-				desc: 'Visualiza el estado de los enlaces y la conectividad de las agencias a nivel nacional.',
-				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
-			},
-			{
-				title: 'Mapa de Conectividad de Torres',
-				path: '/monitoring/administrativesitemap',
-				desc: 'Visualiza el estado de los equipos de red activos en las torres administrativas a nivel nacional.',
-				permission: PERMISSIONS.LOCATIONS.READ_MONITORING_DASHBOARD
-			},
-			{
-				title: 'Dashboard de Evaluación de Hardware',
-				path: '/dashboard/evaluationhardware',
-				desc: 'Visualiza el estado de las reglas de migración para la actualización de dispositivos.',
-				permission: PERMISSIONS.DASHBOARD.READ_HARDWARE_EVALUATION_DASHBOARD
-			}
+			ITEMS.DASH_COMPUTER,
+			ITEMS.DASH_HARDWARE,
+			ITEMS.MON_LOCATION,
+			ITEMS.MON_DEVICE,
+			ITEMS.MAP_AGENCY,
+			ITEMS.MAP_ADMIN
 		]
 	},
-	// 2. El corazón del sistema: la gestión de activos físicos
 	{
 		label: 'Gestión de Activos',
 		navs: [
-			{
-				title: 'Lista de Equipos de Computación',
-				path: '/list/computer',
-				desc: 'Visualiza el inventario completo de equipos de computación y sus detalles.',
-				permission: PERMISSIONS.DEVICES.READ_LIST
-			},
-			{
-				title: 'Lista de Monitores',
-				path: '/list/monitor',
-				desc: 'Explora el inventario de todos los monitores registrados en el sistema.',
-				permission: PERMISSIONS.DEVICES.READ_LIST
-			},
-			{
-				title: 'Lista de Impresoras',
-				path: '/list/printer',
-				desc: 'Accede al listado de todas las impresoras disponibles y su información.',
-				permission: PERMISSIONS.DEVICES.READ_LIST
-			},
-			{
-				title: 'Lista de Impresoras Financieras',
-				path: '/list/finantialprinter',
-				desc: 'Consulta la lista específica de impresoras financieras utilizadas en la organización.',
-				permission: PERMISSIONS.DEVICES.READ_LIST
-			},
-			{
-				title: 'Lista de Partes y Piezas',
-				path: '/list/parts',
-				desc: 'Gestiona y consulta el inventario detallado de partes y piezas de repuesto.',
-				permission: PERMISSIONS.DEVICES.READ_LIST
-			},
-			{
-				title: 'Listado de Reglas de Migración',
-				path: '/list/migration-rules',
-				desc: 'Visualiza y gestiona el listado de reglas configuradas para la migración y actualización de hardware.',
-				permission: PERMISSIONS.MIGRATION_RULES.READ_LIST
-			},
-			{
-				title: 'Agregar Nuevo Dispositivo',
-				path: '/form/device/add',
-				desc: 'Registra un nuevo dispositivo en el inventario, especificando sus características y ubicación.',
-				permission: PERMISSIONS.DEVICES.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Modelo',
-				path: '/form/model/add',
-				desc: 'Crea un nuevo registro de modelo de dispositivo para categorizar el hardware.',
-				permission: PERMISSIONS.MODELS.CREATE
-			},
-			{
-				title: 'Listado de Modelos',
-				path: '/list/model',
-				desc: 'Consulta todos los modelos de dispositivos disponibles, organizados por tipo y marca.',
-				permission: PERMISSIONS.MODELS.READ_LIST
-			},
-			{
-				title: 'Agregar Nueva Marca',
-				path: '/form/brand/add',
-				desc: 'Introduce una nueva marca de dispositivos al catálogo del sistema.',
-				permission: PERMISSIONS.BRANDS.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Procesador',
-				path: '/form/processor/add',
-				desc: 'Define y registra nuevos tipos de procesadores utilizados en los equipos.',
-				permission: PERMISSIONS.PROCESSORS.CREATE
-			},
-			{
-				title: 'Agregar Nueva Regla de Migración',
-				path: '/form/migration-rules/add',
-				desc: 'Crea una nueva regla de migración para gestionar el proceso de actualización de dispositivos.',
-				permission: PERMISSIONS.MIGRATION_RULES.CREATE
-			}
+			ITEMS.LIST_COMPUTER,
+			ITEMS.LIST_MONITOR,
+			ITEMS.LIST_PRINTER,
+			ITEMS.LIST_FIN_PRINTER,
+			ITEMS.LIST_PARTS,
+			ITEMS.LIST_MIGRATION,
+			ITEMS.ADD_DEVICE,
+			ITEMS.ADD_MODEL,
+			ITEMS.LIST_MODEL,
+			ITEMS.ADD_BRAND,
+			ITEMS.ADD_PROCESSOR,
+			ITEMS.ADD_MIGRATION
 		]
 	},
-	// 3. Una tarea específica y muy importante
 	{
 		label: 'Logística y Envíos',
-		navs: [
-			{
-				title: 'Lista de Envíos',
-				path: '/list/shipment',
-				desc: 'Explora el historial y el estado de todos los envíos de dispositivos registrados.',
-				permission: PERMISSIONS.SHIPMENTS.READ_LIST
-			},
-			{
-				title: 'Crear Relación de Envío',
-				path: '/form/shipment/add',
-				desc: 'Genera una nueva guía de envío para el traslado de dispositivos entre ubicaciones.',
-				permission: PERMISSIONS.SHIPMENTS.CREATE
-			}
-		]
+		navs: [ITEMS.LIST_SHIPMENT, ITEMS.ADD_SHIPMENT]
 	},
-	// 4. Todo lo relacionado con la estructura humana y organizativa
 	{
 		label: 'Organización y Personal',
-		navs: [
-			{
-				title: 'Listado de Usuarios',
-				path: '/list/usuarios?isStillWorking=true',
-				desc: 'Visualiza la lista completa de usuarios activos del sistema y su información relevante.',
-				permission: PERMISSIONS.EMPLOYEES.READ_LIST
-			},
-			{
-				title: 'Agregar Nuevo Usuario',
-				path: '/form/employee/add',
-				desc: 'Registra a un nuevo empleado o usuario del sistema, asignando roles y datos personales.',
-				permission: PERMISSIONS.EMPLOYEES.CREATE
-			},
-			{
-				title: 'Agregar Nueva Unidad',
-				path: '/form/unidad/add',
-				desc: 'Define y registra nuevas unidades organizacionales o equipos de gestión.',
-				permission: PERMISSIONS.UNIDADES.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Cargo',
-				path: '/form/cargo/add',
-				desc: 'Define un nuevo cargo o puesto de trabajo dentro de la empresa.',
-				permission: PERMISSIONS.CARGOS.CREATE
-			}
-		]
+		navs: [ITEMS.LIST_USERS, ITEMS.ADD_EMPLOYEE, ITEMS.ADD_UNIT, ITEMS.ADD_CARGO]
 	},
-	// 5. Gestión de lugares físicos
 	{
 		label: 'Ubicaciones y Sitios',
 		navs: [
-			{
-				title: 'Listado de Sitios',
-				path: '/list/location',
-				desc: 'Explora la lista de todas las ubicaciones físicas o sucursales registradas.',
-				permission: PERMISSIONS.LOCATIONS.READ_LIST
-			},
-			{
-				title: 'Agregar Nueva Ubicación',
-				path: '/form/location/add',
-				desc: 'Registra una nueva dirección o sede física de la organización.',
-				permission: PERMISSIONS.LOCATIONS.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Proveedor de servicio ISP',
-				path: '/form/isplink/add',
-				desc: 'Registra un nuev proveedor de servicio ISP.',
-				permission: PERMISSIONS.ISP_LINKS.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Sitio', // Distinción clara de Ubicación
-				path: '/form/site/add',
-				desc: 'Crea un nuevo sitio específico (ej. un piso, un área) dentro de una ubicación registrada.',
-				permission: PERMISSIONS.SITES.CREATE
-			},
-			{
-				title: 'Agregar Nueva Ciudad',
-				path: '/form/city/add',
-				desc: 'Añade una nueva ciudad al catálogo para usar en la gestión de ubicaciones.',
-				permission: PERMISSIONS.CITIES.CREATE
-			},
-			{
-				title: 'Asignación de Regiones por Zona',
-				path: '/form/region',
-				desc: 'Configura y gestiona cómo las regiones geográficas se asignan a zonas operativas.',
-				permission: PERMISSIONS.REGIONS.READ
-			}
+			ITEMS.LIST_LOCATION,
+			ITEMS.ADD_LOCATION,
+			ITEMS.ADD_ISP,
+			ITEMS.ADD_SITE,
+			ITEMS.ADD_CITY,
+			ITEMS.FORM_REGION
 		]
 	},
-	// 6. Auditoría y configuraciones generales
 	{
-		label: 'Sistema', // Coherencia en el plural
+		label: 'Sistema',
 		navs: [
-			{
-				title: 'Historial de Modificaciones',
-				path: '/list/history',
-				desc: 'Revisa un registro detallado de todos los cambios y eventos ocurridos en el sistema.',
-				permission: PERMISSIONS.HISTORY.READ_LIST
-			},
-			{
-				title: 'Gestión de Permisos',
-				path: '/list/access-control',
-				desc: 'Administra los permisos de acceso y las autorizaciones para diferentes roles de usuario.',
-				permission: PERMISSIONS.ACCESS_POLICIES.READ_LIST
-			},
-			{
-				title: 'Agregar Nuevo Permiso',
-				path: '/form/permission/add',
-				desc: 'Crea y define un nuevo permiso para controlar el acceso a funcionalidades del sistema.',
-				permission: PERMISSIONS.PERMISSIONS.CREATE
-			},
-			{
-				title: 'Agregar Nuevo Grupo de Permisos',
-				path: '/form/permission-groups/add',
-				desc: 'Crea un nuevo grupo de permisos para agrupar múltiples autorizaciones bajo un mismo conjunto.',
-				permission: PERMISSIONS.PERMISSION_GROUPS.CREATE
-			},
-			{
-				title: 'Agregar Nueva Política de Acceso',
-				path: '/form/access-policy/add',
-				desc: 'Define y registra una nueva política de acceso para gestionar las reglas de seguridad del sistema.',
-				permission: PERMISSIONS.ACCESS_POLICIES.CREATE
-			},
-			{
-				title: 'Limpiar Caché',
-				path: '/form/admin-clear-cache',
-				desc: 'Limpiar el cache de la aplicación.',
-				permission: PERMISSIONS.ADMIN.CLEAR_CACHE
-			}
+			ITEMS.LIST_HISTORY,
+			ITEMS.LIST_ACCESS,
+			ITEMS.ADD_PERMISSION,
+			ITEMS.ADD_GROUP,
+			ITEMS.ADD_POLICY,
+			ITEMS.ADMIN_CACHE
 		]
 	}
 ]
+
+/** Nueva Vista por Tipo de Acción */
+export const navigationByType: Navigation[] = [
+	{
+		label: 'Paneles y Monitoreo',
+		navs: [
+			ITEMS.DASH_COMPUTER,
+			ITEMS.DASH_HARDWARE,
+			ITEMS.MON_LOCATION,
+			ITEMS.MON_DEVICE,
+			ITEMS.MAP_AGENCY,
+			ITEMS.MAP_ADMIN
+		]
+	},
+	{
+		label: 'Listados e Inventario',
+		navs: [
+			ITEMS.LIST_COMPUTER,
+			ITEMS.LIST_MONITOR,
+			ITEMS.LIST_PRINTER,
+			ITEMS.LIST_FIN_PRINTER,
+			ITEMS.LIST_PARTS,
+			ITEMS.LIST_MODEL,
+			ITEMS.LIST_USERS,
+			ITEMS.LIST_LOCATION,
+			ITEMS.LIST_SHIPMENT,
+			ITEMS.LIST_MIGRATION,
+			ITEMS.LIST_HISTORY,
+			ITEMS.LIST_ACCESS
+		]
+	},
+	{
+		label: 'Registros y Formularios',
+		navs: [
+			ITEMS.ADD_DEVICE,
+			ITEMS.ADD_SHIPMENT,
+			ITEMS.ADD_EMPLOYEE,
+			ITEMS.ADD_LOCATION,
+			ITEMS.ADD_MODEL,
+			ITEMS.ADD_BRAND,
+			ITEMS.ADD_PROCESSOR,
+			ITEMS.ADD_UNIT,
+			ITEMS.ADD_CARGO,
+			ITEMS.ADD_SITE,
+			ITEMS.ADD_ISP,
+			ITEMS.ADD_CITY,
+			ITEMS.ADD_MIGRATION,
+			ITEMS.FORM_REGION
+		]
+	},
+	{
+		label: 'Configuración y Seguridad',
+		navs: [ITEMS.ADD_PERMISSION, ITEMS.ADD_GROUP, ITEMS.ADD_POLICY, ITEMS.ADMIN_CACHE]
+	}
+]
+
+// Exportamos por defecto la versión original para no romper nada,
+// pero ahora tenemos ambas disponibles.
+export const navigation = navigationByCategory
