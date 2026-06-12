@@ -470,7 +470,7 @@
 
     "@radix-ui/rect": ["@radix-ui/rect@1.1.2", "", {}, "sha512-xnXE7wG13PI+cxieVssYXlQJuYVRhH9NBoxt3KNwzghDIA69GMm7d4wXRouHIYjE+KvS6U/MsMO73NdS2MH9ZA=="],
 
-    "@recharts/devtools": ["@recharts/devtools@github:recharts/devtools#f32d0cb", { "peerDependencies": { "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0", "recharts": "3.9.0-canary.0" } }, "recharts-devtools-f32d0cb", "sha512-afjxhM6ycnino/2HfOh704KcaGwuA5EAKUmdotn6PsiMS6KWekUtNmwRbU1B2PbDONqJC4KDt8L9oltwmu0LxQ=="],
+    "@recharts/devtools": ["@recharts/devtools@github:recharts/devtools#624fb22", { "peerDependencies": { "react": "^18.0.0 || ^19.0.0", "react-dom": "^18.0.0 || ^19.0.0", "recharts": "3.9.0-canary.0" } }, "recharts-devtools-624fb22", "sha512-bsKI29bn2J/XqO823Po1xcNY+Hopf0cndhTYDzNvtPMeAUsz0tRPbdJqcal9crOSc3iUm/R9Pk1q/v2MID+iRQ=="],
 
     "@reduxjs/toolkit": ["@reduxjs/toolkit@2.11.2", "", { "dependencies": { "@standard-schema/spec": "^1.0.0", "@standard-schema/utils": "^0.3.0", "immer": "^11.0.0", "redux": "^5.0.1", "redux-thunk": "^3.1.0", "reselect": "^5.1.0" }, "peerDependencies": { "react": "^16.9.0 || ^17.0.0 || ^18 || ^19", "react-redux": "^7.2.1 || ^8.1.3 || ^9.0.0" }, "optionalPeers": ["react", "react-redux"] }, "sha512-Kd6kAHTA6/nUpp8mySPqj3en3dm0tdMIgbttnQ1xFMVpufoj+ADi8pXLBsd4xzTRHQa7t/Jv8W5UnCuW4kuWMQ=="],
 
