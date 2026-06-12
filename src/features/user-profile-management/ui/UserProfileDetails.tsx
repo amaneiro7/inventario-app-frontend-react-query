@@ -132,11 +132,7 @@ export const UserProfileDetails = memo(
 						</div>
 						{formData.status !== UserStatusEnum.SUSPENDED && (
 							<div className="mb-5 flex max-w-min items-center gap-2">
-								<Switch
-									checked={isEditing}
-									className="data-[state=checked]:bg-naranja"
-									onCheckedChange={handleEditToggle}
-								/>
+								<Switch checked={isEditing} onCheckedChange={handleEditToggle} />
 								<Typography
 									variant="span"
 									color="gray-600"

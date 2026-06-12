@@ -24,7 +24,7 @@ export const ProfileStepsToFollow = memo(() => {
 							<span className="h-4 w-4 animate-pulse rounded-full bg-slate-200" />
 						}
 					>
-						<Switch className="data-[state=checked]:bg-naranja pointer-events-none" />
+						<Switch className="pointer-events-none" />
 					</Suspense>
 				}
 				backgroundColor="azul"

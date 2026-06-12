@@ -134,7 +134,6 @@ export const SignatureForm = memo(
 						/>
 						<Switch
 							checked={data.hasPhoneNumber}
-							className="data-[state=checked]:bg-naranja"
 							onCheckedChange={checked => onChange('hasPhoneNumber', checked)}
 						/>
 					</div>
