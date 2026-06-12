@@ -7,8 +7,8 @@ import { ProtectedByPermissionRoute } from './ProtectedByPermissionRoute'
 const Dashboards = lazy(() => import('@/pages/Dashboard'))
 const DashboardWrapper = lazy(() => import('@/app/layouts/DashBoardWrapper'))
 const DashboardComputer = lazy(() => import('@/pages/DashboardComputer'))
-const MonitoringDeviceEvaluationHardware = lazy(
-	() => import('@/pages/MonitoringDeviceEvaluationHardware')
+const DashboardDeviceEvaluationHardware = lazy(
+	() => import('@/pages/DashboardDeviceEvaluationHardware')
 )
 
 export default function DashboardRoutes() {
@@ -30,7 +30,7 @@ export default function DashboardRoutes() {
 				>
 					<Route
 						path="evaluationhardware"
-						element={suspended(MonitoringDeviceEvaluationHardware)}
+						element={suspended(DashboardDeviceEvaluationHardware)}
 					/>
 				</Route>
 			</Route>

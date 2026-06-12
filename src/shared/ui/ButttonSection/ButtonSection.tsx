@@ -12,6 +12,7 @@ interface ButtonSectionProps {
 	handleExportToExcel?: () => Promise<void>
 	loading?: boolean
 	filterButton?: boolean
+	hasDownloadPermission?: boolean
 	handleFilter?: MouseEventHandler<HTMLButtonElement>
 }
 
@@ -23,11 +24,12 @@ export const ButtonSection = memo(
 		handleAdd,
 		handleClear,
 		handleExportToExcel,
+		hasDownloadPermission = true,
 		children
 	}: React.PropsWithChildren<ButtonSectionProps>) => {
 		return (
 			<section className="my-4 flex min-h-15 w-full items-start justify-start gap-2">
-				{handleExportToExcel && (
+				{handleExportToExcel && hasDownloadPermission && (
 					<Button
 						type="button"
 						color="green"
@@ -58,14 +60,16 @@ export const ButtonSection = memo(
 					/>
 				)}
 
-				<Button
-					color="blanco"
-					size="content"
-					type="reset"
-					buttonSize="medium"
-					text="Limpiar"
-					onClick={handleClear}
-				/>
+				{handleClear && (
+					<Button
+						color="blanco"
+						size="content"
+						type="reset"
+						buttonSize="medium"
+						text="Limpiar"
+						onClick={handleClear}
+					/>
+				)}
 
 				{filterButton && (
 					<Button

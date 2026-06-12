@@ -8,6 +8,8 @@ import Typography from '@/shared/ui/Typography'
 import type { EvaluationHardwareDashboardResponse } from '@/entities/devices/deviceEvaluation/domain/dto/EvaluationHardwareDashboard.dto'
 import type { ModalRef } from '@/shared/ui/Modal/Modal'
 import { LinkAsButton } from '@/shared/ui/Button/LinkAsButton'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const ModalSummaryApprovedProcessors = lazy(() =>
 	import('./ModalSummaryApprovedProcessors').then(m => ({
@@ -33,6 +35,7 @@ export function EvaluationHardwareDashboardSummary({
 	error: Error | null
 }) {
 	const dialogRef = useRef<ModalRef>(null)
+	const hasUpdatePermission = useHasPermission(PERMISSIONS.MIGRATION_RULES.UPDATE)
 	// Si hay un error, mostramos un estado de error dentro de las tarjetas para no romper la UI.
 	if (isError) {
 		return (
@@ -245,20 +248,24 @@ export function EvaluationHardwareDashboardSummary({
 								text="Lista de CPUs"
 								onClick={() => dialogRef.current?.handleOpen()}
 							/>
-							<LinkAsButton
-								buttonSize="small"
-								color="blue"
-								size="full"
-								text="Editar Reglas"
-								to={`/form/migration-rules/edit/${rules?.id}`}
-							/>
+							{hasUpdatePermission && (
+								<LinkAsButton
+									buttonSize="small"
+									color="blue"
+									size="full"
+									text="Editar Reglas"
+									to={`/form/migration-rules/edit/${rules?.id}`}
+								/>
+							)}
 						</div>
 					</div>
 				</section>
 			</div>
-			<Suspense fallback={null}>
-				<ModalSummaryApprovedProcessors dialogRef={dialogRef} rules={rules} />
-			</Suspense>
+			{hasUpdatePermission && (
+				<Suspense fallback={null}>
+					<ModalSummaryApprovedProcessors dialogRef={dialogRef} rules={rules} />
+				</Suspense>
+			)}
 		</div>
 	)
 }

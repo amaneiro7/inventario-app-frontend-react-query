@@ -9,6 +9,8 @@ import { PrimaryFilterSkeleton } from '@/widgets/tables/PrimaryFilterSkeleton'
 import { ButtonSectionSkeleton } from '@/shared/ui/ButttonSection/ButtonSectionSkeleton'
 import { useDownloadExcelService } from '@/shared/lib/hooks/useDownloadExcelService'
 import { DetailsWrapper } from '@/shared/ui/DetailsWrapper/DetailsWrapper'
+import { useHasPermission } from '@/features/auth/hook/useHasPermission'
+import { PERMISSIONS } from '@/shared/config/permissions'
 
 const MainEvaluationHardwareFilter = lazy(() =>
 	import('@/widgets/EvaluationHardwareDashboard/ui/MainEvaluationHardwareFilter').then(m => ({
@@ -43,11 +45,15 @@ const EvaluationHardwareDashboardTabsContent = lazy(() =>
 	)
 )
 
-export default function MonitoringDeviceEvaluationHardware() {
+export default function DashboardDeviceEvaluationHardware() {
 	const { cleanFilters, handlePageSize, handlePageClick, handleSort, handleChange, ...query } =
 		useEvaluationHardwareDashboardFilter()
 	const { dataUpdatedAt, isError, isLoading, error, isFetching, data } =
 		useGetEvaluationHardwareDashboard(query)
+
+	const hasDownloadPermission = useHasPermission(
+		PERMISSIONS.DASHBOARD.DOWNLOAD_HARDWARE_EVALUATION_DASHBOARD
+	)
 
 	const { download, isDownloading } = useDownloadExcelService()
 
@@ -91,6 +97,7 @@ export default function MonitoringDeviceEvaluationHardware() {
 								<>
 									<PrimaryFilterSkeleton inputQuantity={9} />
 									<ButtonSectionSkeleton
+										hasDownloadButton={hasDownloadPermission}
 										hasAddButton={false}
 										hasFilterButton={false}
 									/>
@@ -117,6 +124,7 @@ export default function MonitoringDeviceEvaluationHardware() {
 							<ButtonSection
 								handleExportToExcel={handleDownloadToExcel}
 								loading={isDownloading}
+								hasDownloadPermission={hasDownloadPermission}
 								handleClear={cleanFilters}
 							/>
 						</Suspense>
