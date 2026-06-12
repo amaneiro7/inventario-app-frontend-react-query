@@ -27,6 +27,7 @@ interface ComboboxProps<
 	searchField?: boolean
 	leftIcon?: React.ReactNode
 	rightIcon?: React.ReactNode
+	autoClosePopover?: boolean
 	onChangeValue: (name: string, value: string) => void
 	onInputChange?: (value: string) => void
 	onRightIconClick?: () => void
@@ -64,6 +65,7 @@ export const Combobox = memo(function <
 	rightIcon,
 	inputValue,
 	clearButton = true,
+	autoClosePopover = true,
 	onInputChange,
 	onRightIconClick,
 	onChangeValue,
@@ -102,7 +104,9 @@ export const Combobox = memo(function <
 	const handleOptionClick = useCallback(
 		(option: O) => {
 			onChangeValue(name, option.id)
-			handlePopoverClose()
+			if (autoClosePopover) {
+				handlePopoverClose()
+			}
 		},
 		[value, onChangeValue, handlePopoverClose, name]
 	)

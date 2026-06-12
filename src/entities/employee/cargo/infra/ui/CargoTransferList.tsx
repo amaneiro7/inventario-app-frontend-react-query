@@ -70,6 +70,7 @@ export function CargoTransferList({
 				required={required}
 				disabled={disabled}
 				error={!!error}
+				autoClosePopover={false}
 				errorMessage={error}
 				loading={loading}
 				isLoading={isLoading}

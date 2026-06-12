@@ -65,6 +65,7 @@ export function ProcessorTransferList({
 				label="Procesadores"
 				value=""
 				inputValue={inputValue}
+				autoClosePopover={false}
 				name={name}
 				required={required}
 				disabled={disabled}

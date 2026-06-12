@@ -71,6 +71,7 @@ export function ISPLinkTransferList({
 				disabled={disabled}
 				error={!!error}
 				errorMessage={error}
+				autoClosePopover={false}
 				loading={loading}
 				isLoading={isLoading}
 				options={filteredOptions}

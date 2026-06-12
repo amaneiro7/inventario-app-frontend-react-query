@@ -67,6 +67,7 @@ export function DeviceTransferList({
 					loading={loading}
 					isLoading={isLoading}
 					options={availableOptions}
+					autoClosePopover={false}
 					onInputChange={setInputValue}
 					onChangeValue={(_name, value) => handleAddDevice(value)}
 					displayAccessor="serial"
