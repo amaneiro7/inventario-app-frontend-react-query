@@ -9,8 +9,8 @@ import { Icon } from '@/shared/ui/icon/Icon'
 import { Switch } from '@/shared/ui/Switch'
 
 export function Nav() {
-	const [viewMode, setViewMode] = useState<'category' | 'type'>('category')
-	const currentNav = viewMode === 'category' ? navigationByCategory : navigationByType
+	const [viewMode, setViewMode] = useState<'Categoría' | 'Tipo'>('Categoría')
+	const currentNav = viewMode === 'Categoría' ? navigationByCategory : navigationByType
 
 	const { hasPermission } = usePermissionCheck()
 
@@ -51,12 +51,12 @@ export function Nav() {
 				{/* View Mode Toggle */}
 				<li className="flex items-center justify-between py-2">
 					<Typography variant="p" weight="semibold" className="text-white">
-						Ver por Tipo
+						{`Ver por ${viewMode}`}
 					</Typography>
 					<Switch
-						checked={viewMode === 'type'}
+						checked={viewMode === 'Tipo'}
 						onCheckedChange={checked => {
-							setViewMode(checked ? 'type' : 'category')
+							setViewMode(checked ? 'Tipo' : 'Categoría')
 							// Aquí podrías guardar la preferencia en localStorage
 						}}
 						aria-label="Alternar vista del menú por categoría o por tipo"
