@@ -9,8 +9,8 @@ import { BadRequestError } from '@/entities/shared/domain/errors/BadRequestError
 
 type ApiConfig = AxiosRequestConfig & { _retry?: boolean }
 
-// Sobrecarga 1: Para descarga de archivos (cuando 'souerce' está presente)
-export function fetching<T>(config: ApiConfig, source: Source): Promise<void>
+// Sobrecarga 1: Para descarga de archivos (cuando 'source' está presente)
+export function fetching(config: ApiConfig, source: Source): Promise<void>
 
 //Sobrecarga 2: Para obtener datos (cuando 'source' está ausente)
 export function fetching<T>(config: ApiConfig, source?: undefined): Promise<T>

@@ -16,6 +16,8 @@ const DashboardRoutes = lazy(() => import('./DashboardRoutes'))
 const UserManagementRoutes = lazy(() => import('./UserManagementRoutes'))
 
 const Login = lazy(() => import('@/pages/Login'))
+const EmployeeSignature = lazy(() => import('@/pages/EmployeeSignature'))
+
 const Layout = lazy(() => import('@/widgets/Layout/Layout'))
 const Home = lazy(() => import('@/pages/Home'))
 const NoPermissionsPage = lazy(() => import('@/pages/NoPermissionsPage'))
@@ -38,6 +40,7 @@ export function AppRoutes(): JSX.Element {
 				<Route path="/500" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/error" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/login" element={suspended(Login)} />
+				<Route path="/employee-signature" element={suspended(EmployeeSignature)} />
 				<Route path="/no-permissions" element={suspended(NoPermissionsPage)} />
 				<Route path="/" element={suspended(Layout)}>
 					<Route index element={suspended(Home)} />

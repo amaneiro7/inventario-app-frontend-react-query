@@ -8,6 +8,7 @@ import { LoginLogoAndTitle } from './LoginLogoAndTitle'
 import { FormLoginInputs } from './FormLoginInputs'
 import { ExpiredPasswordForm } from './ExpiredPasswordForm'
 import './formLogin.css'
+import { LoginQuickLinks } from './LoginQuickLinks'
 
 export const FormLogin = () => {
 	const {
@@ -39,6 +40,7 @@ export const FormLogin = () => {
 						)}
 					</div>
 				</div>
+				<LoginQuickLinks />
 				<LoginFooter currentDate={currentDate} />
 			</section>
 		</main>

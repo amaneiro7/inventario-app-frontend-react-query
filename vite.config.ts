@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
+import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import path from 'path'
 
@@ -9,11 +8,11 @@ export default defineConfig({
 		alias: [
 			{
 				find: '@',
-				replacement: path.resolve(__dirname, 'src')
+				replacement: path.resolve(import.meta.dirname, 'src')
 			}
 		]
 	},
-	plugins: [react(), babel({ presets: [reactCompilerPreset()] }), svgr()],
+	plugins: [react({ compiler: true }), svgr()],
 	optimizeDeps: {
 		include: ['recharts', 'd3-scale', 'd3-interpolate', 'd3-shape']
 	},

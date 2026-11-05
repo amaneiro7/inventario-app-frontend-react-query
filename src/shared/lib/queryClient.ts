@@ -5,7 +5,6 @@ export const queryClient = new QueryClient({
 		queries: {
 			retry: 5,
 			retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
-			experimental_prefetchInRender: true,
 			refetchOnWindowFocus: true,
 			refetchOnReconnect: true
 		}
