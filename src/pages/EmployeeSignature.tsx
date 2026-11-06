@@ -1,21 +1,21 @@
 import { lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, FileSignature, Info } from 'lucide-react'
+import { ArrowLeft, Info } from 'lucide-react'
 import { LazyLogoImage } from '@/shared/ui/Images/LazyLogoImage'
 import { Seo } from '@/shared/ui/Seo'
 import Typography from '@/shared/ui/Typography'
 import { SignatureGeneratorSkeleton } from '@/widgets/SignatureGenerator/components/SignatureGeneratorSkeleton'
 import { ErrorBoundary } from '@/shared/ui/ErrorBoundary/ErrorBoundary'
 import { WidgetErrorFallback } from '@/shared/ui/ErrorBoundary/WidgetErrorFallback'
-import { EmployeeGetSignatureInfoService } from '@/entities/employee/employee/infra/service/employeeGetSignatureInfo.service'
-import { EmployeeGetSignatureInfo } from '@/entities/employee/employee/application/EmployeeGetSignatureInfo'
+// import { EmployeeGetSignatureInfoService } from '@/entities/employee/employee/infra/service/employeeGetSignatureInfo.service'
+// import { EmployeeGetSignatureInfo } from '@/entities/employee/employee/application/EmployeeGetSignatureInfo'
 
 const SignatureGenerator = lazy(() =>
 	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
 )
 
-const repositroy = new EmployeeGetSignatureInfoService()
-const get = new EmployeeGetSignatureInfo(repositroy)
+// const repositroy = new EmployeeGetSignatureInfoService()
+// const get = new EmployeeGetSignatureInfo(repositroy)
 
 export default function EmployeeSignature() {
 	return (

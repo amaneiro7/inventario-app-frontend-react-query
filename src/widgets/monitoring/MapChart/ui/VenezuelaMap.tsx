@@ -1,5 +1,6 @@
 import { memo, lazy } from 'react'
-import { type StateData } from '../Model/useMapChart'
+import type { StateData } from '../Model/useMapChart'
+import type { GeoJsonObject } from 'geojson'
 import {
 	Tooltip,
 	TooltipContent,
@@ -19,7 +20,7 @@ const Geographies = lazy(() => import('react-simple-maps').then(m => ({ default:
 const Geography = lazy(() => import('react-simple-maps').then(m => ({ default: m.Geography })))
 
 interface VenezuelaMapProps {
-	venezuelaGeo: object // The TopoJSON/GeoJSON data
+	venezuelaGeo: GeoJsonObject // The TopoJSON/GeoJSON data
 	processedStateData: Record<string, StateData>
 	getColor: (stateName: string) => string
 	handleStateClick: (stateName: string) => void
@@ -53,7 +54,7 @@ export const VenezuelaMap = memo(
 						<Geographies geography={venezuelaGeo}>
 							{({ geographies }) =>
 								geographies.map(geo => {
-									const stateName = geo?.properties.NAME_1 // Ensure this matches your GeoJSON
+									const stateName = geo?.properties?.NAME_1 // Ensure this matches your GeoJSON
 									const stateStats = processedStateData[stateName]
 									const percentage = stateStats?.percentage
 									const onlineCount = stateStats?.onlineCount
@@ -77,15 +78,7 @@ export const VenezuelaMap = memo(
 														fill={getColor(stateName)}
 														stroke="#FFFFFF"
 														strokeWidth={0.5}
-														style={{
-															default: { outline: 'none' },
-															hover: {
-																outline: 'none',
-																stroke: '#000000',
-																strokeWidth: 1.0
-															}, // Highlight on hover
-															pressed: { outline: 'none' }
-														}}
+														className="outline-none hover:stroke-black hover:stroke-1 hover:outline-0"
 														onClick={() => handleStateClick(stateName)}
 													/>
 												</TooltipTrigger>
