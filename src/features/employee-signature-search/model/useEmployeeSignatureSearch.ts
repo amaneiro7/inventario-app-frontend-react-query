@@ -1,32 +1,45 @@
-import { useMemo, useState } from 'react'
-import { useGetAllEmployees } from '@/entities/employee/employee/infra/hook/useGetAllEmployee'
-import { useDebounce } from '@/shared/lib/hooks/useDebounce'
-import type { EmployeeFilters } from '@/entities/employee/employee/application/createEmployeeQueryParams'
+import { useState } from 'react'
+import { EmployeeGetSignatureInfo } from '@/entities/employee/employee/application/EmployeeGetSignatureInfo'
+import { EmployeeGetSignatureInfoService } from '@/entities/employee/employee/infra/service/employeeGetSignatureInfo.service'
+import type { EmployeeSignature } from '@/entities/employee/employee/domain/dto/EmployeeSignature.dto'
+
+const repository = new EmployeeGetSignatureInfoService()
+const getSignature = new EmployeeGetSignatureInfo(repository)
 
 export const useSignatureEmployeeSearch = () => {
-	const [searchValue, setSearchValue] = useState('')
-	const [debouncedSearch] = useDebounce(searchValue, 250)
 	const [value, setValue] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+	const [submitError, setSubmitError] = useState<string | null>(null)
+	const [data, setData] = useState<EmployeeSignature>()
 
-	const query: EmployeeFilters = useMemo(() => {
-		return {
-			...(debouncedSearch
-				? { userName: debouncedSearch, name: debouncedSearch, lastName: debouncedSearch }
-				: { pageSize: 10 }),
-			orderBy: 'userName'
+	const handleSearch = async () => {
+		if (!value.trim()) return // Opcional: evita buscar si el input está vacío
+
+		setIsLoading(true)
+		setSubmitError(null)
+
+		try {
+			const { data } = await getSignature.execute({ identifier: value })
+			setData(data)
+		} catch (error) {
+			const message =
+				error instanceof Error ? error.message : 'Ha ocurrido un error inesperado.'
+			setSubmitError(message)
+		} finally {
+			setIsLoading(false)
 		}
-	}, [debouncedSearch])
+	}
 
-	const { data: employees, isLoading } = useGetAllEmployees(query)
-
-	const options = useMemo(() => employees?.data ?? [], [employees])
+	const handleChange = (value: string) => {
+		setValue(value.trim())
+	}
 
 	return {
-		searchValue,
-		setSearchValue,
 		value,
-		setValue,
-		options,
-		isLoading
+		handleChange,
+		isLoading,
+		submitError,
+		data,
+		handleSearch
 	}
 }

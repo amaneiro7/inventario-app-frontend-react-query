@@ -2,14 +2,11 @@ import { useRef } from 'react'
 import { DownloadButtonUI } from './components/DownloadButtonUI'
 import { SignaturePreview } from './components/SignaturePreview'
 import { SignatureForm } from './components/SignatureForm'
-import { useSignatureData } from './model/useSignatureData'
-import { type EmployeeDto } from '@/entities/employee/employee/domain/dto/Employee.dto'
+import { useSignatureData, type UseSignatureDataInput } from './model/useSignatureData'
 
-export const SignatureGenerator = ({ employeeData }: { employeeData: EmployeeDto | undefined }) => {
+export const SignatureGenerator = (input: UseSignatureDataInput) => {
 	const ref = useRef<HTMLDivElement>(null)
-	const { data, handleChange, isFormValid, placeHolder, errors } = useSignatureData({
-		employeeData
-	})
+	const { data, handleChange, isFormValid, placeHolder, errors } = useSignatureData(input)
 	return (
 		<div className="grid gap-4 md:grid-cols-2">
 			<SignatureForm

@@ -1,4 +1,4 @@
-export interface EmployeeSignatureDto {
+export interface EmployeeSignature {
 	userName: string
 	name: string
 	lastName: string
@@ -10,4 +10,8 @@ export interface EmployeeSignatureDto {
 	numbers: string
 	email: string
 	address: string
+}
+export interface EmployeeSignatureDto {
+	status: string
+	data: EmployeeSignature
 }

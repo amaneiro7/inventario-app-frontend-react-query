@@ -1,27 +1,19 @@
 import { memo } from 'react'
 import { Link, type LinkProps } from 'react-router-dom'
 import { SearchIcon } from '@/shared/ui/icon/SearchIcon'
-import { cn } from '@/shared/lib/utils'
+import { useSearchClasses } from './useSearchClasses'
 
 interface Props extends LinkProps {
 	title: string
 	isDisabled?: boolean
 }
-export const SearchLink = memo(function Component({ to, title, isDisabled, ...props }: Props) {
-	const linkClasses = cn('absolute h-10 w-full', {
-		'cursor-not-allowed': isDisabled,
-		'cursor-pointer': !isDisabled
-	})
-
-	const iconClasses = cn('aspect-square stroke-white h-11 stroke-[3px]')
-
-	const spanClasses = cn(
-		'relative -left-1 top-1 grid h-10 place-content-center self-start rounded-e-full px-4 py-2',
-		{
-			'bg-azul hover:bg-azul-900 transition-colors': !isDisabled, // Apply disabled background color
-			'bg-azul/90': isDisabled // Apply disabled background color
-		}
-	)
+export const SearchLink = memo(function Component({
+	to,
+	title,
+	isDisabled = true,
+	...props
+}: Props) {
+	const { iconClasses, linkClasses, spanClasses } = useSearchClasses({ isDisabled })
 	return (
 		<span className={spanClasses}>
 			<Link
@@ -35,3 +27,5 @@ export const SearchLink = memo(function Component({ to, title, isDisabled, ...pr
 		</span>
 	)
 })
+
+SearchLink.displayName = 'SearchLink'
