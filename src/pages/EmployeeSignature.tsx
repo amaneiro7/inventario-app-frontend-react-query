@@ -8,6 +8,8 @@ import { useSignatureEmployeeSearch } from '@/features/employee-signature-search
 import { SignatureInstructions } from '@/widgets/SignatureGenerator/components/SignatureInstructions'
 import { EmployeeSignatureErrorAlert } from '@/features/employee-signature-search/ui/EmployeeSignatureErrorAlert'
 import { AuthContext } from '@/app/providers/AuthContext'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { PageTitle } from '@/shared/ui/PageTitle'
 
 const SignatureGenerator = lazy(() =>
 	import('@/widgets/SignatureGenerator').then(m => ({ default: m.SignatureGenerator }))
@@ -16,8 +18,8 @@ const SignatureGenerator = lazy(() =>
 const PrivateLayout = lazy(() =>
 	import('@/widgets/Layout/PrivateLayout').then(m => ({ default: m.PrivateLayout }))
 )
-const PublicHeader = lazy(() =>
-	import('@/widgets/Layout/PublicHeader').then(m => ({ default: m.PublicHeader }))
+const PublicLayout = lazy(() =>
+	import('@/widgets/Layout/PublicLayout').then(m => ({ default: m.PublicLayout }))
 )
 
 export default function EmployeeSignature() {
@@ -28,6 +30,8 @@ export default function EmployeeSignature() {
 	if (isLogged) {
 		return (
 			<PrivateLayout>
+				<DynamicBreadcrumb segments={['Firma Corporativa']} />
+				<PageTitle title="Plataforma de identidad visual para empleados." />
 				<EmployeeSignatureContent />
 			</PrivateLayout>
 		)
@@ -35,11 +39,12 @@ export default function EmployeeSignature() {
 	return (
 		<>
 			{/* 1. Header público modular */}
-			<PublicHeader
+			<PublicLayout
 				title="Firma Corporativa"
 				subtitle="Plataforma de identidad visual para empleados"
-			/>
-			<EmployeeSignatureContent />
+			>
+				<EmployeeSignatureContent />
+			</PublicLayout>
 		</>
 	)
 }
@@ -48,45 +53,44 @@ const EmployeeSignatureContent = () => {
 	const { data, handleSearch, isLoading, handleChange, submitError, value } =
 		useSignatureEmployeeSearch()
 	return (
-		<div className="min-h-screen bg-gray-50 pb-12">
+		<>
 			<Seo
 				title="Generador de Firma Corporativa | BNC"
 				description="Genera y descarga tu firma oficial de correo corporativo."
 			/>
 
 			{/* Contenido principal */}
-			<main className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-				{/* 2. Banner instructivo modular */}
-				<SignatureInstructions />
 
-				{/* 3. Bloque de búsqueda con feedback de error */}
-				<div className="flex justify-between pb-4">
-					<EmployeeSignatureSearch
-						handleChange={handleChange}
-						value={value}
-						isLoading={isLoading}
-						handleSearch={handleSearch}
-					/>
+			{/* 2. Banner instructivo modular */}
+			<SignatureInstructions />
 
-					{submitError && <EmployeeSignatureErrorAlert message={submitError} />}
-				</div>
+			{/* 3. Bloque de búsqueda con feedback de error */}
+			<div className="flex justify-between pb-4">
+				<EmployeeSignatureSearch
+					handleChange={handleChange}
+					value={value}
+					isLoading={isLoading}
+					handleSearch={handleSearch}
+				/>
 
-				{/* 4. Widget generador */}
-				<div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-					<ErrorBoundary
-						fallback={({ onReset }) => (
-							<WidgetErrorFallback
-								onReset={onReset}
-								message="Error al cargar el generador de firmas."
-							/>
-						)}
-					>
-						<Suspense fallback={<SignatureGeneratorSkeleton />}>
-							<SignatureGenerator signatureData={data} />
-						</Suspense>
-					</ErrorBoundary>
-				</div>
-			</main>
-		</div>
+				{submitError && <EmployeeSignatureErrorAlert message={submitError} />}
+			</div>
+
+			{/* 4. Widget generador */}
+			<div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+				<ErrorBoundary
+					fallback={({ onReset }) => (
+						<WidgetErrorFallback
+							onReset={onReset}
+							message="Error al cargar el generador de firmas."
+						/>
+					)}
+				>
+					<Suspense fallback={<SignatureGeneratorSkeleton />}>
+						<SignatureGenerator signatureData={data} />
+					</Suspense>
+				</ErrorBoundary>
+			</div>
+		</>
 	)
 }

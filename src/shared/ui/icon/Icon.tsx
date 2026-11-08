@@ -84,10 +84,12 @@ import {
 	X,
 	Database,
 	Microchip,
-	ClipboardCheck
+	ClipboardCheck,
+	Signature
 } from 'lucide-react'
 
 const iconMap = {
+	signature: Signature,
 	laptop: Laptop,
 	printer: Printer,
 	monitor: Monitor,

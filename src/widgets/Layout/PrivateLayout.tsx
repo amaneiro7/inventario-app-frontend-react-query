@@ -1,10 +1,10 @@
-import { lazy, memo, Suspense } from 'react'
+import { lazy, memo, Suspense, type PropsWithChildren } from 'react'
 
 const Header = lazy(() => import('./Header').then(m => ({ default: m.Header })))
 const Main = lazy(() => import('./Main').then(m => ({ default: m.Main })))
 const Footer = lazy(() => import('./Footer').then(m => ({ default: m.Footer })))
 
-export const PrivateLayout = memo(({ children }: { children: React.ReactNode }) => {
+export const PrivateLayout = memo(({ children }: PropsWithChildren) => {
 	return (
 		<>
 			<Suspense

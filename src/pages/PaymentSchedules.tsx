@@ -1,5 +1,7 @@
-import { lazy, useContext } from 'react'
+import { lazy, useContext, useState } from 'react'
 import { AuthContext } from '@/app/providers/AuthContext'
+import { DynamicBreadcrumb } from '@/shared/ui/DynamicBreadcrumb'
+import { PageTitle } from '@/shared/ui/PageTitle'
 
 const PaymentSchedulesContent = lazy(() =>
 	import('@/widgets/PaymentSchedule').then(m => ({ default: m.PaymentSchedulesContent }))
@@ -8,8 +10,8 @@ const PaymentSchedulesContent = lazy(() =>
 const PrivateLayout = lazy(() =>
 	import('@/widgets/Layout/PrivateLayout').then(m => ({ default: m.PrivateLayout }))
 )
-const PublicHeader = lazy(() =>
-	import('@/widgets/Layout/PublicHeader').then(m => ({ default: m.PublicHeader }))
+const PublicLayout = lazy(() =>
+	import('@/widgets/Layout/PublicLayout').then(m => ({ default: m.PublicLayout }))
 )
 
 export default function PaymentSchedules() {
@@ -17,18 +19,27 @@ export default function PaymentSchedules() {
 		auth: { isLogged }
 	} = useContext(AuthContext)
 
+	const currentYear = new Date().getFullYear()
+	const [year, setYear] = useState(currentYear)
+
 	if (isLogged) {
 		return (
 			<PrivateLayout>
-				<PaymentSchedulesContent />
+				<DynamicBreadcrumb segments={['Calendario de pagos']} />
+				<PageTitle title={`Calendario de pagos ${year}`} />
+				<PaymentSchedulesContent currentYear={currentYear} year={year} setYear={setYear} />
 			</PrivateLayout>
 		)
 	}
 
 	return (
 		<>
-			<PublicHeader title="" subtitle="" />
-			<PaymentSchedulesContent />
+			<PublicLayout
+				title="Calendario de Pagos"
+				subtitle="Consulta y descarga tu calendario de pagos de manera sencilla y rápida"
+			>
+				<PaymentSchedulesContent currentYear={currentYear} year={year} setYear={setYear} />
+			</PublicLayout>
 		</>
 	)
 }

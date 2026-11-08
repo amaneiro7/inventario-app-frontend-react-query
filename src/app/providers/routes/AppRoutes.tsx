@@ -41,6 +41,7 @@ export function AppRoutes(): JSX.Element {
 				<Route path="/error" element={<ErrorPage onReset={() => {}} />} />
 				<Route path="/login" element={suspended(Login)} />
 				<Route path="/employee-signature" element={suspended(EmployeeSignature)} />
+				<Route path="payment-schedules" element={suspended(PaymentSchedules)} />
 				<Route path="/no-permissions" element={suspended(NoPermissionsPage)} />
 				<Route path="/" element={suspended(Layout)}>
 					<Route index element={suspended(Home)} />
@@ -53,7 +54,6 @@ export function AppRoutes(): JSX.Element {
 						<Route path="settings" element={suspended(Settings)} />
 					</Route>
 
-					<Route path="payment-schedules" element={suspended(PaymentSchedules)} />
 					<Route path="list/*" element={suspended(ListRoutes)} />
 					<Route path="form/*" element={suspended(FormRoutes)} />
 					<Route path="monitoring/*" element={suspended(MonitoringRoutes)} />

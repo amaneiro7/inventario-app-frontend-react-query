@@ -48,6 +48,19 @@ export function Nav() {
 						Calendarios de pagos
 					</Link>
 				</li>
+				{/* Employee Signature Link */}
+				<li>
+					<Link
+						to="/employee-signature"
+						className="group/navli font-body hover:text-naranja flex items-center text-center text-base font-semibold tracking-wide transition-colors"
+					>
+						<Icon
+							name="signature"
+							className="group-hover/navli:text-naranja mr-4 h-4 w-4 stroke-3 text-white transition-colors"
+						/>
+						Generador de firma corporativa
+					</Link>
+				</li>
 				{/* View Mode Toggle */}
 				<li className="flex items-center justify-between py-2">
 					<Typography variant="p" weight="semibold" className="text-white">
