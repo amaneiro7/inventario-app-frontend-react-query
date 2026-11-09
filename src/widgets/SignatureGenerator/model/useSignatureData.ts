@@ -19,11 +19,15 @@ export interface SignatureData {
 	numbers: string
 	email: string
 	address: string
+	isNameBold: boolean
 	hasPhoneNumber: boolean
 	hasEmail: boolean
 }
 
-export type SignaturePlaceHolders = Omit<SignatureData, 'hasPhoneNumber' | 'hasEmail'>
+export type SignaturePlaceHolders = Omit<
+	SignatureData,
+	'hasPhoneNumber' | 'hasEmail' | 'isNameBold'
+>
 
 export type SignatureErrors = Partial<Record<keyof SignatureData, string>>
 
@@ -63,6 +67,7 @@ const EMPTY_SIGNATURE: SignatureData = {
 	numbers: '',
 	email: '',
 	address: '',
+	isNameBold: false,
 	hasPhoneNumber: true,
 	hasEmail: true
 }
@@ -93,6 +98,7 @@ export const mapEmployeeDtoToSignature = (employee?: EmployeeDto): SignatureData
 		email: employee.email ?? '',
 		address: employee.location?.site?.address ?? '',
 		numbers: numbersText,
+		isNameBold: true,
 		hasPhoneNumber: true,
 		hasEmail: true
 	}
@@ -107,6 +113,7 @@ export const mapSignatureDtoToSignature = (dto?: EmployeeSignature): SignatureDa
 	if (!dto) return EMPTY_SIGNATURE
 	return {
 		...dto,
+		isNameBold: false,
 		hasPhoneNumber: Boolean(dto.numbers),
 		hasEmail: Boolean(dto.email)
 	}
@@ -197,10 +204,12 @@ export const useSignatureData = (input: UseSignatureDataInput) => {
 		if (!signatureData.name) e.name = REQUIRED_FIELD_MESSAGE
 		if (!signatureData.lastName) e.lastName = REQUIRED_FIELD_MESSAGE
 		if (!signatureData.cargo) e.cargo = REQUIRED_FIELD_MESSAGE
-		if (!signatureData.vicepresidenciaEjecutiva) e.vicepresidenciaEjecutiva = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.vicepresidenciaEjecutiva)
+			e.vicepresidenciaEjecutiva = REQUIRED_FIELD_MESSAGE
 		if (!isAgency && !signatureData.vicepresidencia) e.vicepresidencia = REQUIRED_FIELD_MESSAGE
 		if (isAgency && !signatureData.siteName) e.siteName = REQUIRED_FIELD_MESSAGE
-		if (!signatureData.numbers && signatureData.hasPhoneNumber) e.numbers = REQUIRED_FIELD_MESSAGE
+		if (!signatureData.numbers && signatureData.hasPhoneNumber)
+			e.numbers = REQUIRED_FIELD_MESSAGE
 		if (!signatureData.email && signatureData.hasEmail) e.email = REQUIRED_FIELD_MESSAGE
 		if (!signatureData.address) e.address = REQUIRED_FIELD_MESSAGE
 

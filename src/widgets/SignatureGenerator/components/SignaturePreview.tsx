@@ -13,6 +13,9 @@ interface SignaturePreviewProps {
 }
 
 export const SignaturePreview = memo(({ data, placeHolder, ref }: SignaturePreviewProps) => {
+	const isBold = data?.isNameBold
+	const currentName = data?.name || placeHolder.name
+	const currentLastName = data?.lastName || placeHolder.lastName
 	return (
 		<DetailsBoxWrapper>
 			<div className="flex flex-col items-center justify-center bg-white">
@@ -43,8 +46,8 @@ export const SignaturePreview = memo(({ data, placeHolder, ref }: SignaturePrevi
 								<p
 									className={`text-sm uppercase ${!data?.name && !data?.lastName ? 'text-gray-400 italic' : ''}`}
 								>
-									{data?.name || placeHolder.name}{' '}
-									<strong>{data?.lastName || placeHolder.lastName}</strong>
+									<span className={isBold ? 'font-bold' : ''}>{currentName}</span>{' '}
+									<span className="font-bold">{currentLastName}</span>
 								</p>
 								<p className={!data?.cargo ? 'text-gray-400 italic' : ''}>
 									{data?.cargo || placeHolder.cargo}

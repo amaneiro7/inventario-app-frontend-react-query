@@ -32,7 +32,7 @@ export const SignatureForm = memo(
 					<Typography color="azul" variant="h5">
 						Información personal
 					</Typography>
-					<div className="m-0 grid grid-cols-2 gap-x-2">
+					<div className="flex flex-row gap-4">
 						<Input
 							id="signature-name"
 							label="Nombre"
@@ -57,6 +57,11 @@ export const SignatureForm = memo(
 							onChange={e => onChange('lastName', e.target.value)}
 							error={!!errors.lastName}
 							errorMessage={errors.lastName}
+						/>
+						<Switch
+							title="Nombre en Negrita"
+							checked={data.isNameBold}
+							onCheckedChange={checked => onChange('isNameBold', checked)}
 						/>
 					</div>
 					<Input
@@ -134,6 +139,7 @@ export const SignatureForm = memo(
 						/>
 						<Switch
 							checked={data.hasPhoneNumber}
+							title="Incluir o excluir el número en la firma"
 							onCheckedChange={checked => onChange('hasPhoneNumber', checked)}
 						/>
 					</div>
@@ -152,7 +158,7 @@ export const SignatureForm = memo(
 						/>
 						<Switch
 							checked={data.hasEmail}
-							className="data-[state=checked]:bg-naranja"
+							title="Incluir o excluir el correo en la firma"
 							onCheckedChange={checked => onChange('hasEmail', checked)}
 						/>
 					</div>
