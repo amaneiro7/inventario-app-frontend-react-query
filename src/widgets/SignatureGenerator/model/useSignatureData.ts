@@ -187,15 +187,20 @@ export const useSignatureData = (input: UseSignatureDataInput) => {
 	 */
 	const [signatureData, setSignatureData] = useState<SignatureData>(mappedData)
 	const [prevMappedData, setPrevMappedData] = useState<SignatureData>(mappedData)
+	const [isTouched, setIsTouched] = useState(false)
 
 	if (prevMappedData !== mappedData) {
 		setPrevMappedData(mappedData)
 		setSignatureData(mappedData)
 	}
 
-	const handleChange = useCallback((field: keyof SignatureData, value: string | boolean) => {
-		setSignatureData(prev => ({ ...prev, [field]: value }))
-	}, [])
+	const handleChange = useCallback(
+		(field: keyof SignatureData, value: string | boolean) => {
+			if (!isTouched) setIsTouched(true)
+			setSignatureData(prev => ({ ...prev, [field]: value }))
+		},
+		[isTouched]
+	)
 
 	const errors: SignatureErrors = useMemo(() => {
 		const e: SignatureErrors = {}
@@ -222,7 +227,7 @@ export const useSignatureData = (input: UseSignatureDataInput) => {
 		data: signatureData,
 		placeHolder: SIGNATURE_PLACEHOLDERS,
 		handleChange,
-		errors,
+		errors: isTouched ? errors : {},
 		isFormValid
 	}
 }
